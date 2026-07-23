@@ -50,12 +50,14 @@ limitations under the License.
 					<p>
 						To use this tool to check names in a Specimen Bulkloader CSV file, save the content of the TAXON_NAME column in a separate CSV file, rename it SCIENTIFIC_NAME, and check that file here.  You do not have to deduplicate the names in the file, this tool will do that for you and produce a report on the matches on unique names in your input file.  
 					</p>
-					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
-						<div class="form-row border rounded p-2">
+					<form name="csvform" method="post" enctype="multipart/form-data" id="searchForm" action="/dataquality/check_names.cfm">
+						<fieldset class="my-0 px-2 border-top border-right border-bottom border-left field-set py-2">
+						<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Check Scientific Names</legend>
+						<div class="form-row">
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to check:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 reqdClr" required>
+								<label for="fileToUpload">File to check:</label> 
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="reqdClr p-0" required>
 							</div>
 							<div class="col-12 col-md-3">
 								<cfset charsetSelect = getCharsetSelectHTML(default="utf-8")>
@@ -64,26 +66,27 @@ limitations under the License.
 								<cfset formatSelect = getFormatSelectHTML()>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="returnAsCSV" class="data-entry-label">Return as:</label>
-								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0 reqdClr">
+								<label for="returnAsCSV" class="">Return as:</label>
+								<select name="returnAsCSV" id="returnAsCSV" class="reqdClr">
 									<option value="html" selected>HTML</option>
 									<option value="csv">CSV</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
-								<label for="remoteLookup" class="data-entry-label">Also Look up in:</label>
-								<select name="remoteLookup" id="remoteLookup" class="data-entry-input p-0 m-0">
+							<div class="col-12 col-md-4 mt-2">
+								<label for="remoteLookup">Also Look up in:</label>
+								<select name="remoteLookup" id="remoteLookup">
 									<option value="" selected></option>
 									<option value="GBIF">GBIF Backbone Taxonomy</option>
 									<option value="WoRMS">WoRMS</option>
 									<option value="ALL">GBIF Backbone Taxonomy and WoRMS</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 mt-2">
 								<label for="submitButton" class="data-entry-label">&nbsp;</label>
 								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
 							</div>
 						</div>
+						</fieldset>
 					</form>
 				</div>
 			</main>

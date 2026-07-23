@@ -1,6 +1,6 @@
-/***********************************************************/
-/** This file contains Various local style customizations **/
-/***********************************************************/
+@charset "utf-8";
+/* CSS Document */
+/* GOOD: smallest → largest */
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
@@ -20,7 +20,7 @@ a:hover {
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
 }
-a:focus { 
+a:focus {
 	color: purple;
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
@@ -67,17 +67,21 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .line90 {
 	line-height: .90rem;
 }
-.onlyfirst span.one{display:none;}
-.onlyfirst span.one:first-child { display:inline-block}
+.onlyfirst span.one {
+	display: none;
+}
+.onlyfirst span.one:first-child {
+	display: inline-block
+}
 .text-muted {
-	color: #6a737b!important;
+	color: #6a737b !important;
 }
 table#t {
 	cursor: pointer;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
-} 
+}
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
@@ -113,17 +117,9 @@ table td .small {
 	font-size: 90%
 }
 .barber_stripes {
-	background: repeating-linear-gradient(
-		45deg,         /* Angle of the diagonal lines */
-		#f5f5f5,       /* Start color */
-		#f5f5f5 5px, /* End color at this pixel distance */
-		white 5px,    /* Start next color at this pixel distance */
-		white 10px     /* End at this pixel distance to create a repeating pattern */
-	)
+	background: repeating-linear-gradient(45deg, /* Angle of the diagonal lines */ #f5f5f5, /* Start color */ #f5f5f5 5px, /* End color at this pixel distance */ white 5px, /* Start next color at this pixel distance */ white 10px /* End at this pixel distance to create a repeating pattern */
+		)
 }
-/*********************************************/
-/* BELOW  Misc. Additions to Bootstrap Styles*/
-/*********************************************/
 .bg-lightgreen {
 	background-color: #CAEAAD;
 }
@@ -137,7 +133,7 @@ table td .small {
 	background-color: #F0F3F7 !important;
 }
 .border-default {
-    border: 1px solid #dee2e6 !important;
+	border: 1px solid #dee2e6 !important;
 }
 .border-white {
 	border: 1px solid white;
@@ -176,32 +172,30 @@ table td .small {
 	background-color: #f2f9ff;
 }
 .bg-med-teal {
-    background-color: #deebec;
+	background-color: #deebec;
 }
-
-.highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
-
+.highlight_media {
+	border: 2px solid #a51c30;
+	background-color: #E2E6EC;
+}
 .part-occurrence-head {
 	background-color: #d4f6f6;
-} 
+}
 .part-occurrence {
 	background-color: #d4f6f685;
 }
 .field-set {
-    background-color: #efeded !important;
+	background-color: #efeded !important;
 }
 .field-set-legend {
-    background-color: #f8f9fa !important;
-    color: #041132 !important;
-    font-weight: 520 !important;
-    text-align: left;
+	background-color: #f8f9fa !important;
+	color: #041132 !important;
+	font-weight: 520 !important;
+	text-align: left;
 }
 .border2 {
-    border: 1px solid #5f9da3;
+	border: 1px solid #5f9da3;
 }
-/*********************************************/
-/* BELOW  Misc. Override of Bootstrap Styles */
-/*********************************************/
 option:hover {
 	font-weight: normal;
 	display: block;
@@ -211,7 +205,7 @@ option:hover {
 	outline: #ccc auto 1px;
 }
 dfn {
-	color:#444;
+	color: #444;
 	font-weight: 510;
 }
 select:focus {
@@ -271,7 +265,7 @@ h1.h4 {
 	margin-top: .5rem;
 }
 .text-dark-gray {
-    color: #4f4b4b;
+	color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
@@ -281,12 +275,6 @@ h1.h4 {
 span.caps {
 	text-transform: capitalize;
 }
-/*span.data-entry-label label {
-    font-weight: 700;
-}
-label.font-weight-lessbold {
-    font-weight: 700;
-}*/
 .line-height-sm {
 	line-height: .9rem;
 }
@@ -383,7 +371,7 @@ label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. 
 	background-color: #F5F5F5;
 }
 .bg-box-header-gray {
-	background-color:#dee2e6;
+	background-color: #dee2e6;
 	background-color: #cccccc47;
 }
 .dotted-border {
@@ -392,13 +380,10 @@ label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. 
 .text-grayish {
 	color: #f5f5f5;
 }
-.rounded-teal {/*used on locality search box*/
-	border-top-left-radius: .65rem !important; 
+.rounded-teal { /*used on locality search box*/
+	border-top-left-radius: .65rem !important;
 	border-top-right-radius: .65rem !important;
 }
-/*********************************/
-/* BELOW:    code for 3 searches */
-/*********************************/
 /************************
 BELOW: Small Form button (bootstrap override)
 ************************/
@@ -598,34 +583,33 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-
 /************************
 BELOW: Cell styles for specimen search results grids
 used by cellclassname functions in the results grids
 ************************/
-.primaryTypeCell { 
+.primaryTypeCell {
 	background-color: #ffe1e1\9;
 }
-.secondaryTypeCell { 
+.secondaryTypeCell {
 	background-color: #e8f1ff\9;
-} 
-.primaryTypeCell.jqx-grid-cell-pinned { 
+}
+.primaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #eedbdb\9;
 }
-.secondaryTypeCell.jqx-grid-cell-pinned { 
+.secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #e1edff\9;
 }
 /** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
-.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #ffe1e1;
 }
-.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e8f1ff;
-} 
-.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+}
+.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #eedbdb;
 }
-.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
+.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e1edff;
 }
 /************************
@@ -895,7 +879,6 @@ a#showLeftPush.hiddenclass {
 	margin-top: 3.5rem;
 	margin-bottom: 2rem;
 }
-
 .shell {
 	background-color: #deedec;
 	padding-top: .13rem;
@@ -938,9 +921,9 @@ a#showLeftPush.hiddenclass {
 	padding: .5rem;
 }
 .redbox {
-	background-color: #f8d7da!important;
+	background-color: #f8d7da !important;
 	padding: 1rem;
-	border: 2px solid #a51c30!important;
+	border: 2px solid #a51c30 !important;
 }
 code {
 	font-size: 80%;
@@ -1032,11 +1015,11 @@ ul.sd li.list-group-item {
 }
 ul.sd li.list-group-item:nth-last-of-type(2) {
 	border-bottom: none;
-	background-color:transparent;
+	background-color: transparent;
 }
 ul.sd li.list-group-item:nth-last-of-type(1) {
 	border-bottom: none;
-	background-color:transparent;
+	background-color: transparent;
 }
 ul.sd li.list-group-item:last-child {
 	margin-bottom: 0;
@@ -1055,7 +1038,7 @@ ul.sd li.list-group-item:last-child {
 	/* odd rows in the basic specimen search form */
 	border-top: 1px solid #e3e3e3;
 	border-bottom: 1px solid #e3e3e3;
-	background-color: #efeded!important;
+	background-color: #efeded !important;
 }
 .jqx-grid-load {
 	background-position: 0% 0%;
@@ -1165,7 +1148,7 @@ table.inputTable tr {
 }
 .add-form {
 	border: 2px solid #C7DADB;
-	margin-top:.1rem;
+	margin-top: .1rem;
 }
 .add-form-header {
 	background-color: #DEEBEC;
@@ -1369,7 +1352,7 @@ table#pairs, th, td {
 	font-weight: 500;
 }
 .mediaTableHeader {
-	border:1px solid #3E6f7d;
+	border: 1px solid #3E6f7d;
 }
 table.mediaTable tr {
 	border-bottom: 1px solid #dee2e6;
@@ -1652,7 +1635,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc!important;
+	color: #3366cc !important;
 	text-decoration: underline;
 }
 .infoLink:hover {
@@ -1740,25 +1723,25 @@ tr.line-top:first-child {
 	float: left !important;
 }
 .card-header h2 button {
-	font-weight:500;
+	font-weight: 500;
 }
-.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before,  h4.collapsebar button[aria-expanded="false"]:before {
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before, h4.collapsebar button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
 	/*content: "\f067";*/
-	content: "\f0fe";/*plus*/
+	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 	padding-right: 6px;
 }
-.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before,  h4.collapsebar button[aria-expanded="true"]:before {
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before, h4.collapsebar button[aria-expanded="true"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	/*content: "\f068";*/
-	content: "\f146";/*minus*/
+	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
@@ -1773,24 +1756,28 @@ tr.line-top:first-child {
 .nav-link.dropdown-toggle:hover:after {
 	transform: rotate(-90deg);
 }
-.card-body li.list-group-item span:last-child {/*changes the last element of the group with the class*/
+.card-body li.list-group-item span:last-child { /*changes the last element of the group with the class*/
 	display: block;
 	margin-bottom: .5rem;
 }
-.card-body li.list-group-item span.sd:last-child {/*changes the last element of the group with the class*/
-	display:none; 
+.card-body li.list-group-item span.sd:last-child { /*changes the last element of the group with the class*/
+	display: none;
 }
 .comma1 span {
-	display:inline;
+	display: inline;
 }
 .comma1 span:last-child {
-	display:none!important;
+	display: none !important;
 }
 input#readMore_check_id {
-	display: none!important;
+	display: none !important;
 }
-.comma2 span{display:inline!important;}
-.comma2 span:last-child {display:none!important;}
+.comma2 span {
+	display: inline !important;
+}
+.comma2 span:last-child {
+	display: none !important;
+}
 .jqx-grid-load {
 	background-image: url("/shared/images/spinner_712_sm.gif");
 	background-position: 50% 50%;
@@ -1818,6 +1805,9 @@ input#readMore_check_id {
 .MediaAccordionShow {
 	display: none;
 }
+/* These styles are for the Specimen Search page. 
+They make the tabs and general tab content areas 
+look the way they do. */
 .tabpanel {
 	margin: 20px;
 	padding: 0;
@@ -1900,14 +1890,14 @@ input#readMore_check_id {
 	border-left: 1px solid #deebec;
 }
 .tab-content h2 {
-    font-size: 80%;
-    font-weight: 700;
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
-    background-color: rgb(199 251 255 / .35)!important;
-    border: 1px solid #dee2e6 !important;
-    margin: 0;
-    display: block !important;
+	font-size: 80%;
+	font-weight: 700;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	background-color: rgb(199 251 255 / .35) !important;
+	border: 1px solid #dee2e6 !important;
+	margin: 0;
+	display: block !important;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
@@ -1916,48 +1906,76 @@ input#readMore_check_id {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label, #searchFormDiv fieldset label {
+.tab-content label, #searchForm fieldset label, #annotationSearchForm fieldset label {
 	font-weight: 400;
-    font-size: 0.85em;
-    border: none;
-    padding: 0 0 0 .25rem;
-    margin-bottom: 0;
+	font-size: 0.85em;
+	border: none;
+	padding: 0 0 0 .25rem;
+	margin-bottom: 0;
 }
-.tab-content input, #searchFormDiv fieldset input {
-    display: block;
-    width: 100%;
-    padding: 1px .5rem 1px .5rem;
-    color: black;
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    vertical-align: middle;
-    font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
-    line-height: 1.15rem;    
+/* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
+The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
+.tab-content input[type="text"], #searchForm fieldset input[type="text"], #searchForm fieldset input[type="file"],#annotationSearchForm fieldset input[type="text"] {
+	display: block;
+	width: 100%;
+	padding: 2px .5rem;
+	color: black;
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: white;
+	vertical-align: middle;
+	font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 1.15rem;
+	border-radius: .2rem;
+	height: 25px;
 }
-.tab-content select, #searchFormDiv fieldset select {
-    display: block;
-    width: 100%!important;
-    font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    padding: 0 .5rem;
-    color: rgba(0, 0, 0, .67);
-    border: 1px solid #ced4da;
-    background-clip: padding-box;
-    background-color: white;
-    vertical-align: middle;
-    border-radius: .2rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    line-height: 0.875rem;
+.tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
+	border: none;
+	padding: 0 .15rem;
 }
-/*#searchFormDiv button {
-    border: none;
-    background-color: transparent !important;
-}*/
-button[tabindex="-1"]:focus {
-	outline: 0 !important;
-	box-shadow: none;
+.tab-content select, #searchForm fieldset select, #annotationSearchForm  fieldset select {
+	display: block;
+	width: 100% !important;
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	padding: 2px .5rem;
+	color: black;
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: white;
+	vertical-align: middle;
+	border-radius: .2rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 0.875rem;
+	height: 25px;
 }
+.jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
+	min-height: 23px !important;
+}
+.jqx-combobox {
+	min-height: 21px !important;
+}
+.tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
+	border: none;
+	padding: 0;
+	color: #0460c1 !important;
+	font-weight: 400;
+	font-size: 0.85em;
+	text-decoration: underline dotted #0460c1;
+}
+#searchForm span.rules, #annotationSearchForm span rules {
+	border: none;
+	padding: 0;
+	color: #212529 !important;
+	font-weight: 400;
+	font-size: 0.85em;
+}
+#searchFormDiv input[type="radio"] {
+	position: absolute;
+	left: 0;
+	top: 0.2rem;
+}
+/* for Specimen Details section headers and cards (e.g., citations)*/
 .headerLnk {
 	color: #212529 !important;
 	text-decoration: none;
@@ -1972,7 +1990,7 @@ button[tabindex="-1"]:focus {
 	box-shadow: none;
 }
 .accordion .card-header h2 button:focus, .accordion .card-header h3 button:focus {
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	box-shadow: none;
 }
 .card-header h1 button.collapsed span:before {
@@ -1990,15 +2008,14 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 }
 .card-header h2 button, .card-header h3 button {
-	font-weight:500;
+	font-weight: 500;
 }
 .card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-/*	content: "\f067";*/
-	content: "\f0fe";/*plus*/
+	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 	padding-right: 6px;
@@ -2007,30 +2024,14 @@ button[tabindex="-1"]:focus {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	/*content: "\f068";*/
-	content: "\f146";/*minus*/
+	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
 }
-.formerID:nth-child(2) {
-	display: block!important;
-}
-.formerID:nth-child(3) {
-	display:none!important;
-}
-.formerID:nth-child(4) {
-	display:none!important;
-}
-.formerID:nth-child(5) {
-	display:none!important;
-}
-.formerID:nth-child(6) {
-	display:none!important;
-}
 .accordion .card-header h3 button:focus {
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	box-shadow: none;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
@@ -2049,8 +2050,8 @@ a.anchorFocus, button.anchorFocus {
 	text-decoration: underline dotted #aaa;
 }
 a.anchorFocus:focus, button.anchorFocus:focus {
-	border: 2px inset rgba(0, 123,255, .25)!important;
-	border: 2px inset rgba(255, 193, 7, .2)!important;
+	border: 2px inset rgba(0, 123, 255, .25) !important;
+	border: 2px inset rgba(255, 193, 7, .2) !important;
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .18rem .67rem;
@@ -2066,6 +2067,15 @@ div[aria-hidden='false'] {
 }
 .show {
 	display: block;
+}
+/* Identification section of specimen details page */
+.currentID {
+	display: block !important;
+	color: #18780b !important;
+}
+.formerID {
+	display: block !important;
+	color: #208738 !important;
 }
 a.btn-outline-primary {
 	background-color: white;
@@ -2160,34 +2170,34 @@ section#mediaSection.accordion {
 	background-color: rgb(233 204 138 / 35%) !important;
 }
 .height1p2 {
-	height: 1.4rem!important;
+	height: 1.4rem !important;
 }
 .height1p8 {
-	height: 1.8rem!important;
+	height: 1.8rem !important;
 }
 .inputHeight {
-	padding-top: 1px!important;
-	padding-bottom: 1px!important;
+	padding-top: 1px !important;
+	padding-bottom: 1px !important;
 }
 .smallselect {
-	font-size: 84%!important;
+	font-size: 84% !important;
 }
 /* controls for divs implementing top and bottom scroll bars */
 .scrollWrapperTop {
-	width: 100%; 
-	overflow-x: scroll; 
+	width: 100%;
+	overflow-x: scroll;
 	overflow-y: hidden;
 	height: 20px;
 }
 .scrollWrapper {
-	width: 100%; 
+	width: 100%;
 	height: auto;
-	overflow-x: scroll; 
+	overflow-x: scroll;
 	overflow-y: hidden;
 }
 .topScrollBar {
-	width: 100%; 
-	height: 20px; 
+	width: 100%;
+	height: 20px;
 }
 #collapseKeyword.collapsing.width {
 	height: auto;
@@ -2199,82 +2209,49 @@ section#mediaSection.accordion {
 	transition: all 1s ease;
 }
 button.help-btnSp-SearchWiki {
-    background-color: #1b1b1b;
-    color: white;
-    float: right;
-    margin-bottom: 15px;
-    top: 2.1rem;
-    right: 1.75rem;
-    z-index: 1; 
-    padding-top: .5rem;
-    padding-bottom: .35rem; 
-    font-size: 13.5px;
-    margin-top: 0;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
-    border-color: black;
-}
-button.help-btnA-SearchWiki {
-    background-color: #1b1b1b;
-    color: white;
-    float: right;
-    margin-bottom: 15px;
-    top: 1.5rem;
-    right: 4rem;
-    z-index: 1; 
-    padding-top: .5rem;
-    padding-bottom: .35rem; 
-    font-size: 13.5px;
-    margin-top: 0;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
-    border-color: black;
-}
-button.help-btnSearchWiki {
-    background-color: #1b1b1b;
-    color: white;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translateX(-98%) rotate(90deg);
-    -webkit-transform-origin: right top;
-    -moz-transform: translateX(-98%) rotate(90deg);
-    -moz-transform-origin: right top;
-    -o-transform: translateX(-98%) rotate(90deg);
-    -o-transform-origin: right top;
-    transform: translateX(-98%) rotate(90deg);
-    transform-origin: right top;
-    margin-bottom: 15px;
-    top: 11.5rem;
-    right: -120px;
-    z-index: 1; 
-    padding-top: .75rem;
-    padding-bottom: .15rem; 
-    font-size: 13.5px;
-    margin-top: 0;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
-    border-color: black;
+	background-color: #1b1b1b;
+	color: white;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(-98%) rotate(90deg);
+	-webkit-transform-origin: right top;
+	-moz-transform: translateX(-98%) rotate(90deg);
+	-moz-transform-origin: right top;
+	-o-transform: translateX(-98%) rotate(90deg);
+	-o-transform-origin: right top;
+	transform: translateX(-98%) rotate(90deg);
+	transform-origin: right top;
+	margin-bottom: 15px;
+	top: 9.5rem;
+	right: -108px;
+	z-index: 1;
+	padding-top: .75rem;
+	padding-bottom: .15rem;
+	font-size: 13.5px;
+	margin-top: 0;
+	position: absolute;
+	overflow: hidden;
+	border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+	border-color: black;
 }
 #wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
 #wikiDrawer dt {
-	float:left;
+	float: left;
 	display: inline-block;
-	min-width: 25px!important;
+	min-width: 25px !important;
 }
 .collapseStyle {
-	z-index: 3000; 
-	position: absolute; 
-	margin-top: -.95rem; 
+	z-index: 3000;
+	position: absolute;
+	margin-top: -.95rem;
 	margin-right: 0rem;
 }
 .current {
 	width: 300px;
-	height: 300px; 
-	border: .5rem solid #fff;;
+	height: 300px;
+	border: .5rem solid #fff;
+	;
 	background-color: #f8f9fa;
 }
 #map {
@@ -2288,7 +2265,7 @@ button.help-btnSearchWiki {
 	padding: 0 0 3px 0;
 	position: relative;
 	line-height: 20px;
-	float:left;
+	float: left;
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
@@ -2320,14 +2297,12 @@ button.help-btnSearchWiki {
 	bottom: 0;
 	-ms-touch-action: none;
 	touch-action: none;
-	transition: z-index 0s,
-	opacity .8s ease-in-out,
-	transform .4s ease-in-out;
+	transition: z-index 0s, opacity .8s ease-in-out, transform .4s ease-in-out;
 	z-index: 20;
 	opacity: 0;
 	transform: translateX(-10%);
 	resize: vertical;
-	overflow:auto;
+	overflow: auto;
 	font-size: 1rem;
 }
 div.vslider-item[aria-hidden='false'] {
@@ -2335,8 +2310,8 @@ div.vslider-item[aria-hidden='false'] {
 	opacity: 1.0;
 	transform: translateX(0);
 }
-div.vslider-item[aria-hidden="true"]{
-	display:block;
+div.vslider-item[aria-hidden="true"] {
+	display: block;
 }
 .vslider {
 	color: #191717;
@@ -2347,9 +2322,9 @@ div.vslider-item[aria-hidden="true"]{
 }
 .custom-input {
 	text-align: center;
-	width:53px; 
+	width: 53px;
 }
-.message { 
+.message {
 	padding-top: 25%;
 	padding-bottom: 25%;
 	font-size: 2rem;
@@ -2358,8 +2333,8 @@ div.vslider-item[aria-hidden="true"]{
 	width: 10px;
 }
 .vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
-	box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
 	background: aliceblue;
 }
 .vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
@@ -2380,7 +2355,7 @@ div.vslider-item[aria-hidden="true"]{
 	cursor: pointer;
 	padding: 15px;
 	border-radius: 4px;
-	}
+}
 #myBtn:hover {
 	background-color: #555;
 }
@@ -2391,7 +2366,7 @@ div.vslider-item[aria-hidden="true"]{
 .text-truncate1 p, .text-truncate1 h3 {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;  
+	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
 #back2Top {
@@ -2476,288 +2451,240 @@ div.vslider-item[aria-hidden="true"]{
 	filter: alpha(opacity=0);
 	cursor: pointer
 }
-.toggle-switch input:checked+.ts-helper:before {
-    left: 20px
+.toggle-switch input:checked + .ts-helper:before {
+	left: 20px
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper {
-    background: rgba(0, 150, 136, .5)
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper {
+	background: rgba(0, 150, 136, .5)
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:before {
-    background: #009688
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper:before {
+	background: #009688
 }
-.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
 }
 .toggle-switch.disabled {
-    opacity: .6;
-    filter: alpha(opacity=60)
+	opacity: .6;
+	filter: alpha(opacity=60)
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper {
-    background: rgba(244, 67, 54, .5)
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper {
+	background: rgba(244, 67, 54, .5)
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:before {
-    background: #F44336
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper:before {
+	background: #F44336
 }
-.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper {
-    background: rgba(33, 150, 243, .5);
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper {
+	background: rgba(33, 150, 243, .5);
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:before {
-    background: #2196F3
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper:before {
+	background: #2196F3
 }
-.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper {
-    background: rgba(255, 193, 7, .5)
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper {
+	background: rgba(255, 193, 7, .5)
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:before {
-    background: #FFC107
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper:before {
+	background: #FFC107
 }
-.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper {
-    background: rgba(186, 104, 200, .5)
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper {
+	background: rgba(186, 104, 200, .5)
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:before {
-    background: #BA68C8
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper:before {
+	background: #BA68C8
 }
-.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper {
-    background: rgba(233, 30, 99, .5)
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper {
+	background: rgba(233, 30, 99, .5)
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:before {
-    background: #E91E63
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper:before {
+	background: #E91E63
 }
-.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper {
-    background: rgba(205, 220, 57, .5)
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper {
+	background: rgba(205, 220, 57, .5)
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:before {
-    background: #CDDC39
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper:before {
+	background: #CDDC39
 }
-.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper {
-    background: rgba(0, 188, 212, .5)
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper {
+	background: rgba(0, 188, 212, .5)
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:before {
-    background: #00BCD4
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper:before {
+	background: #00BCD4
 }
-.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
-    background: rgba(76, 175, 80, .5)
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper {
+	background: rgba(76, 175, 80, .5)
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
-    background: #4CAF50
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper:before {
+	background: #4CAF50
 }
-.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
-}	
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked + .ts-helper:active:before {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
+}
 input[disabled] {
-	color:#9e9e9e;
+	color: #9e9e9e;
 }
-.pt2px {
-    padding-top:2px!important;
+.jqx-grid-cell-alt {
+	background: #f5f5f5 !important;
 }
-.py2px {
-    padding-top: 2px!important;
-    padding-bottom:2px!important;
+.caption-sm {
+	overflow-y: visible;
+	height: auto;
 }
-.py2px {
-	padding-top:2px!important;
-    padding-bottom:2px!important;
+.MediaAccordionHide {
+	display: none;
 }
-.pt3px {
-	padding-top:3px!important;
+.MediaAccordionShow {
+	display: block;
 }
-.mt3px {
-	margin-top: 3px!important;
+.count {
+	display: inline-block;
+	line-height: 1rem;
 }
-.mt5px {
-	margin-top: 5px!important;
-}
-.mb1px {
-	margin-bottom: 1px!important;
-}
-.fixedResults {
-	animation-duration: .5s;
-	animation-name: slideup;
-}
-/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-.flip-card {
-	background-color: transparent;
-	width: 100%;
-	height: 55px;
-	border: 1px solid #f1f1f1;
-	perspective: 1000px; /* Remove this if you don't want the 3D effect */
-}
-/* This container is needed to position the front and back side */
-.flip-card-inner {
-	position: relative;
-	width: 100%;
-	height: 100%;
+.align-left-center {
 	text-align: center;
-	transition: transform 0.8s;
-	transform-style: preserve-3d;
 }
-.flip-card:hover .flip-card-inner,
-.flip-card:focus-within .flip-card-inner,
-.flip-card:active .flip-card-inner,
-.flip-card:focus .flip-card-inner {/* Do an horizontal flip when you move the mouse over the flip box container */
-  transform: rotateY(180deg);
+.align-right-center {
+	text-align: center;
 }
-.flip-card-front, .flip-card-back {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	-webkit-backface-visibility: hidden;	/* Safari */
-	backface-visibility: hidden;
+.col-form-label {
+	padding-bottom: 0;
+	line-height: 1;
 }
-.flip-card-front {/* Style the front side (fallback if image is missing) */
-	background-color: aliceblue;
-	color: black;
+#map {
+	height: 350px;
 }
-.flip-card-back { /* Style the back side */
-	background-color:#dee2e6;
-	color: black;
-	transform: rotateY(180deg);
+.variedHeight {
+	height: 210px;
 }
-.heightFlip {
-	line-height: 3.5rem;
+a.btn-sm {
+	height: calc(1.5rem + .5rem + 1px);
+}
+#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
+	font-size: .78rem;
+	height: 5rem;
 }
 .html_desc {
-	width: 21.5rem!important;
+	width: 100% !important;
 }
-@keyframes slideup {
-	from { top: 700px; }
-	to { top:100px; }
+/* styles for locality maps */
+.uglyGeoSPatData {
+	border: 4px solid red;
 }
-table.tablesection td {
-	border: 1px solid transparent;
+.niceGeoSPatData {
+	border: 3px solid green;
 }
-tr.line-top-sd {
-	border-top: 2px solid #e8eaeb!important;
+.noWKT {
+	border: 3px solid yellow;
 }
-.imageFeatures {
-	width: 100%;
-	border: 2px solid gray;
+/* end styles for locality maps */
+/* styles for geolocate frame */
+.editAppBox {
+	border: 1px solid gray;
+	z-index: 9998;
+	position: fixed;
+	top: 1%;
+	left: 2%;
+	width: 95%;
+	height: 96%;
+	background-color: lightgray;
+	overflow: auto;
 }
-.imagewrapper {
-	position: relative;
-	display: inline-block;
-	font-size: 0;
+.editFrame {
+	border-top: 1px solid gray;
+	position: fixed;
+	top: 40px;
+	left: 2%;
+	width: 95%;
+	height: 90%;
+	z-index: 9998;
 }
-.imagewrapper .close {
+.popDiv {
+	border: 3px solid green;
+	z-index: 9999;
 	position: absolute;
-	top: 2px;
-	right: 18px;
-	z-index: 100;
-	background-color: #FFF;
-	padding: 4px 2px 7px;
-	color: #000;
-	font-weight: bold;
+	background-color: white;
+	overflow: auto;
+}
+.fancybox-close {
+	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
 	cursor: pointer;
-	opacity: .2;
-	text-align: center;
-	font-size: 22px;
-	line-height: 10px;
-	border-radius: 50%;
+	height: 30px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 30px;
+	z-index: 10999;
 }
-.imagewrapper:hover .close {
-	opacity: 1;
+.centeredImage {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -25px;
+	margin-left: -100px;
+	border: 1px solid white;
 }
-.grider:after {
-	content: '';
-	display: block;
-	clear: both;
+input, select, textarea {
+	font-size: 16px;
 }
-.grid-item-1 {
-	height: auto;
-	float: left;
-	background: #a19d9e;
-	border: 1px solid #333;
-	border-color: hsla(0, 0%, 0%, 0.5);
-	border-radius: 5px;
-}
-.grid-item-2 {
-	height: auto;
-	float: left;
-	background: #a19d9e;
-	border: 1px solid #333;
-	border-color: hsla(0, 0%, 0%, 0.5);
-	border-radius: 5px;
-}
-.grid-item-3 {
-	height: auto;
-	float: left;
-	background: #a19d9e;
-	border: 1px solid #333;
-	border-color: hsla(0, 0%, 0%, 0.5);
-	border-radius: 5px;
-}
-form.form-inline.logout-style {
-	margin-bottom: 0;
-	margin-top: 1px;
-}
-
 .wiki-drawer {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 325px;
-	max-width: 90vw;
-	height: 100vh;
+	width: 93vw; /* drawer almost full width */
+	max-width: 93vw;
+	bottom: 0;
+	transform: translateX(-93vw); /* fully hidden when closed */
 	background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
 	z-index: 1051;
 	overflow-y: auto;
-	overflow-x: hidden; 
-	transform: translateX(-325px);
+	overflow-x: hidden;
 	transition: transform 0.3s ease;
 }
 .wiki-drawer.open {
 	transform: translateX(0);
 }
 #content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+/*	transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
 	width: 100%;
 	box-sizing: border-box;
 }
+/* Don’t push content on these sizes */
 #content.pushed {
-	margin-left: 325px;
-	width: calc(100% - 325px);
+	margin-left: 0;
+	width: 100%;
 }
-body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
-    width: auto !important;
-    max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      /* start right after the drawer */
-    right: 0 !important;
-  
-    box-sizing: border-box;   /* ensure it stays within viewport */
-}
-body.wiki-open .ui-dialog {
-    width: auto !important;   /* Override jQuery UI's inline width */
-    max-width: calc(100vw - 325px) !important;
-    left: 325px !important;      /* start right after the drawer */
-    right: 0 !important;
-    box-sizing: border-box;    /* ensure it stays within viewport */
+body.wiki-open .ui-dialog { /* Let dialogs behave normally on these widths */
+	width: auto;
+	max-width: 100vw;
+	left: 0;
+	right: 0;
+	box-sizing: border-box;
 }
 div.mw-parser-output h1 {
 	font-size: 20px;
-	font-weight:bold;
-	border-top:1px solid black;
-	padding-top:36px;
+	font-weight: bold;
+	border-top: 1px solid black;
+	padding-top: 36px;
 }
 div.mw-parser-output h2 {
 	font-size: 16px;
@@ -2773,227 +2700,102 @@ div.mw-parser-output h4 {
 	margin-top: 1rem;
 }
 div.mw-parser-output dt {
-	font-weight:650;
+	font-weight: 650;
 }
 div.toctitle {
-    margin-bottom:0;
+	margin-bottom: 0;
 }
 .thumbinner {
-    display:none;
+	display: none;
 }
 .mw-toc-heading {
 	margin-bottom: 0;
 }
-.tinymap {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-    margin: 0 0; 
-}
-.tinymap-3col, .tinymap-2col {/* Explicit heights per layout */
-    height: 180px;   
-}
-.tinymap .static-map,
-.tinymap .interactive-map {/* Both maps fill the wrapper box */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; 
-}
-.tinymap .static-map {/* Static thumbnail: keep whole map and center it */
-    object-fit: cover;
-    object-position: 50% 50%;
-    margin: 0;
-    padding: 0;
-    border: 3px solid #444;
-    cursor: pointer;
-}
-.tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
-    display: none;
-    z-index: 2;
+.search-radio-buttons {
+	font-size: 0.95em !important;
+	position: relative;
+	padding-left: 1.2rem !important;
 }
 
+.jqx-grid-cell-alt {
+	background: #e9edf2 !important;
+}
+.primaryTypeCell.jqx-grid-cell-alt {
+	background: #f5cad6!important;
+	background: #fbcad7 !important;
+}
+.secondaryTypeCell.jqx-grid-cell-alt {
+	background: #d1e0f3;
+	background: #d3e1f3 !important;
+}
+.jqx-grid-cell-hover {
+	background: #cbced1 !important;
+}
+.eyelash_button {
+	padding: 3px 0.5rem;
+	margin: 4px;
+}
+
+/*******************************
+********************************
+END OF BASE/MOBILE STYLE
+************************
+END END END
+********************************
+*******************************/
+/* ≥ md test */
 @media (min-width: 768px) {
-    #content.pushed {
-        margin-left: 325px;
-        width: calc(100% - 325px);
-    }
-    #content.pushed .ui-dialog {
-        max-width: calc(100vw - 325px);
-    }
-}
-/****************end all screen styles*********************/
-/**********************************************************/
-
-/**************** Device styles below *********************/
-/**********************************************************/
-@media only screen and (min-width: 1599px) {
-	.container-wide {
-		padding-right: 9%;
-		padding-left: 9%;
-	}	
-}
-@media only screen and (min-width: 1499px) {
-	.w-350 {
-		width: 100%;
+	button.help-btnSp-SearchWiki {
+		-webkit-transform: none;
+		-moz-transform: none;
+		-o-transform: none;
+		transform: none;
+		-webkit-transform-origin: center center;
+		-moz-transform-origin: center center;
+		-o-transform-origin: center center;
+		transform-origin: center center;
+		/* optionally reset positioning so it sits in normal flow */
+		position: absolute; /* or relative, depending on layout */
+		right: 1.85rem;
+		margin-bottom: 15px;
+		top: 2.1rem;
+		z-index: 1;
+		padding-top: .5rem;
+		padding-bottom: .25rem;
+		overflow: hidden;
 	}
-/* Styles below are in browse specimens    */
-	ol.flowXXS,ul.flowXXS {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 170px; /* need to specify height */
-		column-count: 4;
+	.btnSp-shim {
+		margin-top: -.5rem !important;
 	}
-	ol.flowXXS li, ul.flowXXS li {
-		width: 25%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
+	.specSearchShim {
+		margin-top: -1rem !important;
 	}
-	ol.flowXXS li a,ul.flowXXS li a {
-		padding-right: 3px;
+	body.wiki-open .ui-dialog { /*Dialog needs to be out of the way when the wiki drawer is open.  */
+		width: auto !important;
+		max-width: calc(100vw - 500px) !important; /*Number should match drawer width.*/
+		left: 500px !important; /*Number should match drawer width.*/
+		right: 0 !important;
+		box-sizing: border-box;
 	}
-	ol.flowXS, ul.flowXS {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 270px; /* need to specify height */
-		column-count: 4;
+	.wiki-drawer {
+		width: 500px;
+		max-width: 90vw;
+		transform: translateX(-500px);
 	}
-	ol.flowXS li,ul.flowXS li {
-		width: 25%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
+	#wikiDrawer h2.headerSm {
+		font-size: 1.25rem;
 	}
-	ol.flowXS li a, ul.flowXS li a {
-		padding-right: 3px;
+	#wikiDrawer dt {
+		float: left;
+		display: inline-block;
+		min-width: 25px !important;
+		margin-right: .5rem;
 	}
-	ol.flowSm, ul.flowSm {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 410px; /* need to specify height */
-		column-count: 4;
-	}
-	ol.flowSm li,ul.flowSm li {
-		width: 25%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowSm li a {
-		padding-right: 3px;
-	}
-	ol.flowMd,ul.flowMd {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 509px; /* need to specify height */
-		column-count: 4;
-	}
-	ol.flowMd li, ul.flowMd li {
-		width: 25%;
-		list-style-position:inside;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-	}
-	ol.flowMd li a,ul.flowMd li a {
-		padding-right: 3px;
-	}	
-	ol.flowLg ,ul.flowLg{
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 660px; /* need to specify height */
-		column-count: 4;
-	}
-	ol.flowLg li,ul.flowLg li {
-		width: 25%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowLg li a,ul.flowLg li a {
-		padding-right: 3px;
-	}	
-	ol.flowXL,ul.flowXL {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 800px; /* need to specify height */
-		column-count: 4;
-	}
-	ol.flowXL li,ul.flowXL li {
-		width: 25%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXL li a,ul.flowXL li a {
-		padding-right: 3px;
-	}
-	ol.flowNone,ul.flowNone {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height */
-		column-count: 1;
-	}
-	ol.flowNone li,ul.flowNone li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowNone li a,ul.flowNone li a {
-		padding-right: 3px;
-	}
-}
-/*******************/
-/*******************/
-/*******************/
-/*******The two styles below lost their 
-************media query and I don't 
-know if they should be removed.  
-If added back to media query, it may not 
-have intented effects************/
-a.wrapurl {
-	overflow-wrap:anywhere;
-}
-ul li.list-unstyled span:last-child {
-	display:none;
-}
-/*fas is for the arrow up and down (more and less on form sections*/
-.fas {
-	font-size: 16px;
-}
-/*for the */
-@media screen and (max-width: 678px) {
-	.animation-element {
-		width: 100%;
-		margin: 0px 0px 30px 0px;
-	}
-}
-/* below is for the basic search width of form fields area inside teal box */
-@media screen and (min-width: 1200px) {
-.col-xxl-1 {max-width: 12%}
-.col-xxl-11 {max-width: 88%; padding-left: .25rem}
-}
-/* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-	.step-arrow {
-		background-color: #deebec;
-		border-bottom: 1px solid #aaa;
-	}
-}
-@media only screen and (max-width: 1498px) {
-	.w-350 {
-		width: 100%;
-	}
+	/*Flow classes are for browse specimen page*/
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 221px; /* need to specify height :-( */
+		height: 275px; /* need to specify height :-( */
 		column-count: 3;
 	}
 	ol.flowXXS li, ul.flowXXS li {
@@ -3008,7 +2810,7 @@ and also iPads specifically.
 	ol.flowXS, ul.flowXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 403px; /* need to specify height :-( */
+		height: 480px; /* need to specify height :-( */
 		column-count: 3;
 	}
 	ol.flowXS li, ul.flowXS li {
@@ -3038,7 +2840,161 @@ and also iPads specifically.
 	ol.flowMd, ul.flowMd {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 627px; /* need to specify height :-( */
+		height: 800px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowMd li,ul.flowMd li{
+		width: 33%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowMd li a,ul.flowMd li a {
+		padding-right: 3px;
+	}	
+	ol.flowLg,ul.flowLg {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 815px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowLg li,ul.flowLg li {
+		width: 33%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowLg li a, ul.flowLg li a {
+		padding-right: 3px;
+	}	
+	ol.flowXL, ul.flowXL {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 900px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowXL li,ul.flowXL li {
+		width: 33%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXL li a,ul.flowXL li a {
+		padding-right: 3px;
+	}
+	ol.flowNone,ul.flowNone {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowNone li,ul.flowNone li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowNone li a,ul.flowNone li a {
+		padding-right: 3px;
+	}
+
+}
+/* ≥ lg test */
+@media (min-width: 992px) {
+	/* Don’t push content on these sizes */
+	#content.pushed {
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on these widths */
+	body.wiki-open .ui-dialog {
+		width: auto;
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+	}
+}
+/* ≥ xl (1200px) test */
+@media (min-width: 1200px) {
+	#content {
+/*		transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
+		width: 100%;
+		box-sizing: border-box;
+	}
+	#content.pushed {
+		margin-left: 325px;
+		width: calc(100% - 325px);
+	}
+	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
+		width: auto !important;
+		max-width: calc(100vw - 325px) !important;
+		left: 325px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	.wiki-drawer {
+		width: 325px;
+		max-width: 90vw;
+		transform: translateX(-325px);
+	}
+	.col-xxl-1 {
+		max-width: 12%;
+	}
+	.col-xxl-11 {
+		max-width: 88%;
+		padding-left: .25rem;
+	}
+	
+	/*Flow classes are for browse specimen page*/
+	ol.flowXXS, ul.flowXXS {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 275px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowXXS li, ul.flowXXS li {
+		width: 33%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXXS li a, ul.flowXXS li a {
+		padding-right: 3px;
+	}
+	ol.flowXS, ul.flowXS {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 480px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowXS li, ul.flowXS li {
+		width: 33%;
+		padding-right: 1rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXS li a, ul.flowXS li a {
+		padding-right: 3px;
+	}
+	ol.flowSm,ul.flowSm {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 550px; /* need to specify height :-( */
+		column-count: 3;
+	}
+	ol.flowSm li,ul.flowSm li {
+		width: 33%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowSm li a,ul.flowSm li a {
+		padding-right: 3px;
+	}
+	ol.flowMd, ul.flowMd {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 640px; /* need to specify height :-( */
 		column-count: 3;
 	}
 	ol.flowMd li,ul.flowMd li{
@@ -3095,19 +3051,29 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-@media only screen and (min-width: 1513px) {
-	.variedHeight {
-		height: 217px;
+/* ≥ xxl (1400px, in BS5) test */
+@media (min-width: 1400px) {
+
+	#content {
+		/*transition: margin-left 0.3s cubic-bezier(.77, 0, .18, 1);*/
+		width: 100%;
+		box-sizing: border-box;
 	}
-}
-@media only screen and (max-width: 1512px) {
-	.variedHeight {
-		height: 250px;
+	#content.pushed {
+		margin-left: 400px;
+		width: calc(100% - 400px);
 	}
-}
-@media only screen and (max-width: 1379px) {
-	.variedHeight {
-		height: 283px;
+	body.wiki-open .ui-dialog { /* Override jQuery UI's inline width */
+		width: auto !important;
+		max-width: calc(100vw - 400px) !important;
+		left: 400px !important; /* start right after the drawer */
+		right: 0 !important;
+		box-sizing: border-box; /* ensure it stays within viewport */
+	}
+	.wiki-drawer {
+		width: 400px;
+		max-width: 90vw;
+		transform: translateX(-400px);
 	}
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
@@ -3212,620 +3178,8 @@ and also iPads specifically.
 	ol.flowNone li a, ul.flowNone li a {
 		padding-right: 3px;
 	}
-}
-@media only screen and (max-width: 1199px) {
-	.variedHeight {
-		height: 250px;
-	}
-}
-@media only screen and (max-width: 991px) {
-	input#searchText.form-control {
-		min-width: auto;
-	}
-	h1 {
-		margin-bottom: 0;
-	}
-	ol.flowXXS,ul.flowXXS {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 390px; /* need to specify height :-( */
-		column-count: 2;
-	}
-	ol.flowXXS li, ul.flowXXS li {
-		width: 50%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXXS li a, ul.flowXXS li a {
-		padding-right: 3px;
-	}
-	ol.flowXS,ul.flowXS {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 543px;
-		column-count: 2;
-	}
-	ol.flowXS li, ul.flowXS li {
-		width: 50%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXS li a, ul.flowXS li a {
-		padding-right: 3px;
-	}
-	ol.flowSm, ul.flowSm {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 825px; /* need to specify height :-( */
-		column-count: 2;
-	}
-	ol.flowSm li, ul.flowSm li{
-		width: 50%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowSm li a, ul.flowSm li a {
-		padding-right: 3px;
-	}
-	ol.flowMd, ul.flowMd {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 992px; /* need to specify height :-( */
-		column-count: 2;
-	}
-	ol.flowMd li, ul.flowMd li {
-		width: 50%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowMd li a, ul.flowMd li a {
-		padding-right: 3px;
-	}	
-	ol.flowLg, ul.flowLg {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 1340px; /* need to specify height :-( */
-		column-count: 2;
-	}
-	ol.flowLg li, ul.flowLg li {
-		width: 50%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowLg li a, ul.flowLg li a {
-		padding-right: 3px;
-	}	
-	ol.flowXL, ul.flowXL {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: 2000px; /* need to specify height :-( */
-		column-count: 2;
-	}
-	ol.flowXL li, ul.flowXL li {
-		width: 50%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXL li a, ul.flowXL li a {
-		padding-right: 3px;
-	}
-	ol.flowNone, ul.flowNone  {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowNone li,ul.flowNone li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowNone li a {
-		padding-right: 3px;
-	}
-	.tab-content {
-		margin-top: 0px;
-	}
-	.html_desc {
-		width: 21.5rem!important;
-	}
-    button.help-btnA-SearchWiki {
-        right: 3rem;
-    }
-}
-@media only screen and (max-width: 800px){
-	ol.flowXXS, ul.flowXXS{
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowXXS li, ul.flowXXS li {
-		width: 100%;
-		padding-right: .5rem;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXXS li a, ul.flowXXS li a {
-		padding-right: 3px;
-	}
-	ol.flowXS, ul.flowXS {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowXS li, ul.flowXS li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXS li a, ul.flowXS li a {
-		padding-right: 3px;
-	}
-	ol.flowSm,ul.flowSm  {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowSm li, ul.flowSm li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowSm li a, ul.flowSm li a {
-
-		padding-right: 3px;
-	}
-	ol.flowMd, ul.flowMd {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowMd li, ul.flowMd li {
-		width: auto;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowMd li a, ul.flowMd li a {
-		padding-right: 3px;
-	}	
-	ol.flowLg, ul.flowLg {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowLg li, ul.flowLg li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowLg li a, ul.flowLg li a {
-		padding-right: 3px;
-	}	
-	ol.flowXL, ul.flowXL {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowXL li, ul.flowXL li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowXL li a, ul.flowXL li a  {
-		padding-right: 3px;
-	}
-	ol.flowNone {
-		display:flex;
-		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
-		column-count: 1;
-	}
-	ol.flowNone li, ul.flowNone li {
-		width: 100%;
-		overflow-wrap: anywhere;
-		list-style-position:inside;
-	}
-	ol.flowNone li a, ul.flowNone li a {
-		padding-right: 3px;
-	}
-	.tab-content {
-		margin-top: -3px;
-	}
-}	
-@media only screen and (max-width: 768px) {
-	.variedHeight {
-		height: 210px;
-	}
-	.tab-content {
-		margin-top: -4px;
-	}
-}
-@media (max-width: 991.98px) {        /* adjust breakpoint as you like */
-	.wiki-drawer {
-		width: 95vw;                  /* drawer almost full width */
-		max-width: 95vw;
-		transform: translateX(-95vw); /* fully hidden when closed */
-	}
-	.wiki-drawer.open {
-		transform: translateX(0);     /* 5vw of page still visible */
-	}
-	/* Don’t push content on these sizes */
-	#content.pushed {
-		margin-left: 0;
-		width: 100%;
-	}
-	/* Let dialogs behave normally on these widths */
-	body.wiki-open .ui-dialog {
-		width: auto;
-		max-width: 100vw;
-		left: 0;
-		right: 0;
-		box-sizing: border-box;
-	}
-}
-@media screen and (max-width: 767.98px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
-	input, select, textarea {
-		font-size: 16px;
-	}
-	.wiki-drawer {
-		width: 90vw;
-		max-width: 90vw;
-		transform: translateX(-90vw);   /* start fully off-screen */
-	}
-	.wiki-drawer.open {
-		transform: translateX(0);
-	}
-	#content.pushed {/* Ignore the "pushed" class on small screens */
-		margin-left: 0;
-		width: 100%;
-	}
-	/* Let dialogs behave normally on small screens */
-	body.wiki-open .ui-dialog {
-		width: auto;        /* remove our large-screen overrides */
-		max-width: 100vw;
-		left: 0;
-		right: 0;
-		box-sizing: border-box;
-	}
-}
-@media only screen and (max-width: 575px) {
-	.tab-content {
-		margin-top: 5px;
-	}
-	.tab-headers button[aria-selected='true'] {
-		color: black;
-		background-color: #f5f5f5;
-		border-top: 3px solid rgb(38 143 255 / 50%);
-		border-bottom: 4px solid #f5f5f5;
-		cursor: pointer;
-		box-shadow: none;
-		border-right: 1px solid #96ECED;
-		border-left: 1px solid #96EcED;
-		outline: 0;
-	}
-	text-truncate1 {
-		background-color: transparent;
-		width: auto;
+	.jqx-combobox > div {
+		overflow: auto;
 	}
 
-	 p.text-truncate1 {
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;  
-		overflow: hidden;
-	}
 }
-@media (min-width:1060px) and (max-width: 1459px) {
-	form#regForm.tab {
-		display: none;
-	}
-}
-@media (min-width:768px) and (max-width: 1059px) {
-	.card_search {
-		padding-right: 0;
-		padding-left: 0;
-	}
-}
-@media(min-width:768px) {
-	.footer-col-4-md {
-		margin: 0 auto;
-	}
-	.hide_button {
-		display: none;
-	}
-	.offset-md-2 {
-		margin-left: 12%;
-	}
-	.data-entry-label {
-		line-height: 1;
-	}
-}
-@media(min-width:576px) {
-	.card-body h5 {
-		margin-top: -0.25rem;
-	}
-	.accn-icons {
-		float: right;
-		margin-top: .25rem;
-	}
-	#col-multi-select, #collmultiselect2, .ui-multiselect-menu {
-		width: 300px;
-	}
-	.html_desc {
-		width: 100%!important;
-	}
-}
-@media(min-width: 1200px) {
-	.container-xl {
-		max-width: 1600px;
-	}
-}
-@media(min-width: 1600px) {
-	.container  {
-		max-width: 1540px;
-	}
-}
-@media(min-width: 1800px) {
-	.container {
-		max-width: 1600px;
-	}
-}
-/* styles below are media queries for the named groups page*/
-@media screen and (min-width: 1501px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 4rem;
-	}
-	.caption-sm {
-		overflow-y: visible;
-		height: 5rem;
-	}
-}
-@media screen and (max-width: 1500px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: auto;
-		height: 5rem;
-	}
-	.caption-sm {
-		overflow-y: auto;
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (min-width: 1325px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: auto;
-		height: 5.5rem;
-	}
-	.caption-sm {
-		overflow-y: auto;
-		height: 6.5rem;
-	}
-}
-@media screen and (max-width: 1324px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: auto;
-		height: 5.75rem;
-	}
-	.caption-sm {
-		overflow-y: auto;
-		height: 6.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
-	.caption-lg {
-		height: 5rem;
-	}
-	.caption-sm {
-		height: 6.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 1024px) {
-	.card-body h5 {
-		margin-top: -0.5rem;
-	}
-	.font-dot-8 {
-		font-size: 0.8rem;
-		text-align: right;
-	}
-}
-@media screen and (max-width: 1023.95px) {
-	.card-body h5 {
-		margin-top: -0.5rem;
-	}
-	.font-dot-8 {
-		font-size: 0.8rem;
-		text-align: right;
-	}
-    button.help-btnA-SearchWiki {
-        background-color: #1b1b1b;
-        color: white;
-        float: right;
-        -webkit-backface-visibility: hidden;
-        -webkit-transform: translateX(-98%) rotate(90deg);
-        -webkit-transform-origin: right top;
-        -moz-transform: translateX(-98%) rotate(90deg);
-        -moz-transform-origin: right top;
-        -o-transform: translateX(-98%) rotate(90deg);
-        -o-transform-origin: right top;
-        transform: translateX(-98%) rotate(90deg);
-        transform-origin: right top;
-        margin-bottom: 15px;
-        top: 9.35rem;
-        right: -8rem;
-        z-index: 1; 
-        padding-top: .35rem;
-        padding-bottom: .5rem; 
-        font-size: 13.5px;
-        margin-top: 0;
-        position: absolute;
-        overflow: hidden;
-        border-radius: 0 0 6px 6px; 
-    }
-    button.help-btnSp-SearchWiki {
-        background-color: #1b1b1b;
-        color: white;
-        float: right;
-        box-sizing: border-box;
-        border: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -webkit-backface-visibility: hidden;
-        transform: translateX(-98%) rotate(90deg);
-        transform-origin: right top;
-        -webkit-transform: translateX(-98%) rotate(90deg);
-        -webkit-transform-origin: right top;
-        -moz-transform: translateX(-98%) rotate(90deg);
-        -moz-transform-origin: right top;
-        -o-transform: translateX(-98%) rotate(90deg);
-        -o-transform-origin: right top;
-        position: absolute;
-        top: 11.5rem;
-        right: -117px;
-        z-index: 1;
-        padding: 0.55rem 0.8rem;
-        line-height: 1;         
-        font-size: 13.5px;
-        margin: 0;
-        overflow: hidden;
-        border-radius: 0 0 6px 6px;
-    }
-}
-@media screen and (max-width: 768px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: auto;
-	}
-}
-@media screen and (max-width: 767px) {
-	.MediaAccordionHide {
-		display: none;
-	}
-	.MediaAccordionShow {
-		display: block;
-	}
-}
-@media screen and (max-width: 576px) {
-	.count {
-		display: inline-block;
-		line-height: 1rem;
-	}
-	.align-left-center {
-		text-align: center;
-	}
-	.align-right-center {
-		text-align: center;
-	}
-	.col-form-label {
-		padding-bottom: 0;
-		line-height: 1;
-	}
-  
-}
-@media screen and (max-width: 480px) {
-	#map {
-		height: 350px;
-	}
-	.variedHeight {
-		height: 210px;
-	}
-}
-@media screen and (max-width: 414px) {
-	a.btn-sm {
-		height: calc(1.5rem + .5rem + 1px);
-	}
-	#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
-		font-size: .78rem;
-		height: 5rem;
-	}
-    .html_desc {
-		width: 100%!important;
-	}   
-}
-/* styles above are media queries for named groups page*/
-/* styles for locality maps */
-.uglyGeoSPatData{
-	border:4px solid red;
-}
-.niceGeoSPatData{
-	border:3px solid green;
-}
-.noWKT{
-	border:3px solid yellow;
-}
-/* end styles for locality maps */
-
-/* styles for geolocate frame */
-.editAppBox {
-	border: 1px solid gray;
-	z-index: 9998;
-	position: fixed;
-	top: 1%;
-	left: 2%;
-	width: 95%;
-	height: 96%;
-	background-color: lightgray;
-	overflow: auto;
-}
-.editFrame {
-	border-top: 1px solid gray;
-	position: fixed;
-	top: 40px;
-	left: 2%;
-	width: 95%;
-	height: 90%;
-	z-index: 9998;
-}
-.popDiv {
-	border: 3px solid green;
-	z-index: 9999;
-	position: absolute;
-	background-color: white;
-	overflow: auto;
-}
-.fancybox-close {
-	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
-	cursor: pointer;
-	height: 30px;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 30px;
-	z-index: 10999;
-}
-.centeredImage {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -25px;
-	margin-left: -100px;
-	border: 1px solid white;
-}
-/* end styles for geolocate frame */
