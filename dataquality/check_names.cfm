@@ -50,7 +50,7 @@ limitations under the License.
 					<p>
 						To use this tool to check names in a Specimen Bulkloader CSV file, save the content of the TAXON_NAME column in a separate CSV file, rename it SCIENTIFIC_NAME, and check that file here.  You do not have to deduplicate the names in the file, this tool will do that for you and produce a report on the matches on unique names in your input file.  
 					</p>
-					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
+					<form name="csvform" method="post" enctype="multipart/form-data" id="searchForm" action="/dataquality/check_names.cfm">
 						<div class="form-row border rounded p-2">
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
