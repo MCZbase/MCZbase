@@ -57,7 +57,7 @@ limitations under the License.
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
 								<label for="fileToUpload">File to check:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="reqdClr" required>
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="reqdClr p-0" required>
 							</div>
 							<div class="col-12 col-md-3">
 								<cfset charsetSelect = getCharsetSelectHTML(default="utf-8")>
@@ -72,9 +72,9 @@ limitations under the License.
 									<option value="csv">CSV</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
-								<label for="remoteLookup" class="data-entry-label">Also Look up in:</label>
-								<select name="remoteLookup" id="remoteLookup" class="">
+							<div class="col-12 col-md-4 mt-2">
+								<label for="remoteLookup">Also Look up in:</label>
+								<select name="remoteLookup" id="remoteLookup">
 									<option value="" selected></option>
 									<option value="GBIF">GBIF Backbone Taxonomy</option>
 									<option value="WoRMS">WoRMS</option>
