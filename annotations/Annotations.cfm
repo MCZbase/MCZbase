@@ -309,7 +309,7 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12 form-row" id="searchForm">
+					<div class="col-12 form-row">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
 						<input type="hidden" name="execute" value="true">
 						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
@@ -318,8 +318,8 @@ limitations under the License.
 							</legend>
 							<div class="form-row">
 								<div class="col-12 col-md-4 col-xl-2">
-									<label for="state" class="data-entry-label">State</label>
-									<select name="state" id="state" class="data-entry-select col-12">
+									<label for="state" class="">State</label>
+									<select name="state" id="state" class="">
 										<option value=""></option>
 										<cfloop query="ctstate">
 											<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
