@@ -81,7 +81,7 @@ limitations under the License.
 									<option value="ALL">GBIF Backbone Taxonomy and WoRMS</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 mt-2">
 								<label for="submitButton" class="data-entry-label">&nbsp;</label>
 								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
 							</div>
