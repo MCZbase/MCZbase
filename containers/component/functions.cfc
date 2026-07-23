@@ -1311,20 +1311,36 @@ details of a container for use in dialogs and page components.
 							FROM container c
 							LEFT JOIN (
 								SELECT
-									coch.container_id,
-									MAX(ci.cat_num) AS cat_num,
-									MAX(ci.collection_cde) AS collection_cde,
-									MAX(col.institution_acronym) AS institution_acronym,
-									MIN(id_sub.scientific_name) AS scientific_name,
-									MAX(sp.part_name) AS part_name,
-									MAX(co.lot_count) AS part_count,
-									MAX(co.lot_count_modifier) AS part_count_modifier,
-									MAX(cor.coll_object_remarks) AS part_remarks,
-									MAX(sp.preserve_method) AS preserve_method
-								FROM coll_obj_cont_hist coch
-								LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
-								LEFT JOIN coll_object co ON co.collection_object_id = sp.collection_object_id
-								LEFT JOIN coll_object_remark cor ON cor.collection_object_id = co.collection_object_id
+									current_co.container_id,
+									ci.cat_num,
+									ci.collection_cde,
+									col.institution_acronym,
+									id_sub.scientific_name,
+									sp.part_name,
+									co.lot_count AS part_count,
+									co.lot_count_modifier AS part_count_modifier,
+									cor.coll_object_remarks AS part_remarks,
+									sp.preserve_method
+								FROM (
+									SELECT
+										coch.container_id,
+										coch.collection_object_id,
+										ROW_NUMBER() OVER (
+											PARTITION BY coch.container_id
+											ORDER BY coch.collection_object_id
+										) AS rn
+									FROM coll_obj_cont_hist coch
+									WHERE coch.current_container_fg = 1
+								) current_co
+								LEFT JOIN specimen_part sp ON sp.collection_object_id = current_co.collection_object_id
+								LEFT JOIN coll_object co ON co.collection_object_id = current_co.collection_object_id
+								LEFT JOIN (
+									SELECT
+										collection_object_id,
+										LISTAGG(coll_object_remarks, '; ') WITHIN GROUP (ORDER BY coll_object_remarks) AS coll_object_remarks
+									FROM coll_object_remark
+									GROUP BY collection_object_id
+								) cor ON cor.collection_object_id = co.collection_object_id
 								LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
 								LEFT JOIN collection col ON col.collection_id = ci.collection_id
 								LEFT JOIN (
@@ -1333,8 +1349,7 @@ details of a container for use in dialogs and page components.
 									WHERE accepted_id_fg = 1
 									GROUP BY collection_object_id
 								) id_sub ON id_sub.collection_object_id = ci.collection_object_id
-								WHERE coch.current_container_fg = 1
-								GROUP BY coch.container_id
+								WHERE current_co.rn = 1
 							) spec ON spec.container_id = c.container_id
 							WHERE c.container_id IN (
 								SELECT container_id
