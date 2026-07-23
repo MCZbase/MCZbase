@@ -309,12 +309,15 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12 px-3 py-3">
+					<div class="">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 							<input type="hidden" name="execute" value="true">
-							<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
-								<h2 class="h5 mb-2">Annotation Metadata</h2>
-								<div class="form-group mb-2">
+							<div class="form-row">
+								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+									Annotation Metadata
+								</legend>
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="state" class="data-entry-label">State</label>
 									<select name="state" id="state" class="data-entry-select col-12">
 										<option value=""></option>
@@ -324,7 +327,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="resolution" class="data-entry-label">Resolution</label>
 									<select name="resolution" id="resolution" class="data-entry-select col-12">
 										<option value=""></option>
@@ -338,7 +341,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="motivation" class="data-entry-label">Motivation</label>
 									<select name="motivation" id="motivation" class="data-entry-select col-12">
 										<option value=""></option>
@@ -348,7 +351,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="has_responses" class="data-entry-label">Has Responses</label>
 									<select name="has_responses" id="has_responses" class="data-entry-select col-12">
 										<option value=""></option>
@@ -365,16 +368,19 @@ limitations under the License.
 							</div>
 	
 							<div class="col-12 col-md-6 col-xl-2 mb-3">
-								<h2 class="h5 mb-2">Annotation Text and Review</h2>
-								<div class="form-group mb-2">
+							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+									Annotation Text and Review
+								</legend>
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="annotator" class="data-entry-label">Annotator Username</label>
 									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type annotator name or username">
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
 									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="data-entry-input col-12">
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
 										<option value=""></option>
@@ -384,7 +390,7 @@ limitations under the License.
 										<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="visibility" class="data-entry-label">Visibility</label>
 									<select name="visibility" id="visibility" class="data-entry-select col-12">
 										<option value=""></option>
@@ -394,10 +400,7 @@ limitations under the License.
 										<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
 									</select>
 								</div>
-							</div>
-	
-							<div class="col-12 col-md-6 col-xl-3 mb-3">
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-4 col-xl-2">
 									<label for="target_type_select" class="data-entry-label">Target Type</label>
 									<select name="target_type" id="target_type_select" class="data-entry-select col-12">
 										<option value="">All Target Types</option>
@@ -418,7 +421,13 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<h2 class="h5 mb-2">Target-Specific Context</h2>
+							</div>
+	
+							<div class="col-12 col-md-6 col-xl-3 mb-3">
+								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+									Target-Specific Context
+								</legend>
 								<h3 class="h6 mb-2">Specimen</h3>
 								<div class="form-group mb-2" data-target-group="specimen">
 									<label for="collection" class="data-entry-label">Collection</label>
@@ -448,28 +457,28 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2" data-target-group="taxon">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
 									<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
 									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
 								</div>
 								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 								<h3 class="h6 mb-2 mt-3">Agent</h3>
-								<div class="form-group mb-2" data-target-group="agent">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="agent">
 									<label for="agent_name" class="data-entry-label">Agent Name</label>
 									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
 									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 								</div>
 							</div>
 	
-							<div class="col-12 col-md-6 col-xl-3 mb-3">
-								<h2 class="h5 mb-2">Publication and Project</h2>
-								<div class="form-group mb-2" data-target-group="publication">
+							<div class="form-row">
+								<h3 class="h6 mb-2">Publication and Project</h3>
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="publication">
 									<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
 									<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
 									<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
 									<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 								</div>
-								<div class="form-group mb-3" data-target-group="project">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="project">
 									<label for="project_lookup" class="data-entry-label">Project Title</label>
 									<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
 									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">

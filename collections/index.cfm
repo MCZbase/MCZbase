@@ -38,7 +38,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container-fluid my-3" id="content">
 		<section class="row" >
-			<div class="col-12 col-xl-10 px-0 mx-auto mt-3">
+			<div class="col-12 col-xl-10 mx-auto mt-3">
 				<h1 class="h2 px-2">MCZbase Holdings</h1>
 				<table class="table table-responsive table-striped d-lg-table" id="t">
 					<thead>
