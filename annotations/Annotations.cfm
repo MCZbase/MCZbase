@@ -309,7 +309,7 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12">
+					<div class="col-12 mt-2">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
 						<input type="hidden" name="execute" value="true">
 						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-0"><span class="bg-light border px-3" style="width: 150px;margin-bottom:2px;">Specimen</span></h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-0 bg-light">Specimen</span></h3>
 										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
@@ -450,7 +450,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100"><span class="bg-light border px-3" style="width: 100px;margin-bottom: 2px;">Taxon</span></h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 bg-light">Taxon</h3>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
 											<label for="family">Family</label>
 											<select name="family" id="family">
@@ -480,7 +480,7 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<div class="form-row">
-										<h3 class="h6 px-2 mt-3 mb-0 w-100">Publication and Project</h3>
+										<h3 class="h6 px-2 mt-2 mb-0 w-100 border-bottom">Publication and Project</h3>
 										<div class="col-12 col-md-6" data-target-group="publication">
 											<label for="publication_lookup" class="">Publication Citation or Title</label>
 											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
