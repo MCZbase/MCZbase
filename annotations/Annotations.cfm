@@ -480,7 +480,7 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<div class="form-row">
-										<h3 class="h6 px-2 mt-2 mb-0 font-weight-bold w-auto"><span class="bg-light border px-3" style="width: 100px;">Publication and Project</span></h3>
+										<h3 class="h6 px-2 mt-2 mb-0 font-weight-bold w-auto"><span class="bg-light border px-3" style="width: 200px;">Publication and Project</span></h3>
 										<div class="col-12 col-md-6" data-target-group="publication">
 											<label for="publication_lookup" class="">Publication Citation or Title</label>
 											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
