@@ -309,8 +309,8 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12 form-row">
-						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
+					<div class="col-12 form-row" id="searchForm">
+						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
 						<input type="hidden" name="execute" value="true">
 						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
