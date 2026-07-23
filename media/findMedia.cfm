@@ -752,7 +752,7 @@ limitations under the License.
 												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';" aria-describedby="showcatitemAny_help" aria-label="use the Any prefix for NOT NULL to find media records with a relationship to another record">
 													Any
 												</button><span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
-												<span class="text-secondary small">accepts comma separated list</span><span class="text-secondary small">)</span>
+												<span class="text-secondary small">comma separated list</span><span class="text-secondary small">)</span>
 												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
 											</div>
 											<div class="col-12 col-md-6 col-xl-4">
