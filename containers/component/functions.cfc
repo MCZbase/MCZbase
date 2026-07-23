@@ -1304,8 +1304,8 @@ details of a container for use in dialogs and page components.
 								spec.institution_acronym,
 								spec.scientific_name,
 								spec.part_name,
-								spec.part_count,
-								spec.part_count_modifier,
+								spec.lot_count,
+								spec.lot_count_modifier,
 								spec.part_remarks,
 								spec.preserve_method
 							FROM container c
@@ -1317,8 +1317,8 @@ details of a container for use in dialogs and page components.
 									col.institution_acronym,
 									id_sub.scientific_name,
 									sp.part_name,
-									co.lot_count AS part_count,
-									co.lot_count_modifier AS part_count_modifier,
+									co.lot_count,
+									co.lot_count_modifier,
 									cor.coll_object_remarks AS part_remarks,
 									sp.preserve_method
 								FROM (
@@ -1337,7 +1337,7 @@ details of a container for use in dialogs and page components.
 								LEFT JOIN (
 									SELECT
 										collection_object_id,
-										LISTAGG(coll_object_remarks, '; ') WITHIN GROUP (ORDER BY coll_object_remarks) AS coll_object_remarks
+										MIN(coll_object_remarks) AS coll_object_remarks
 									FROM coll_object_remark
 									GROUP BY collection_object_id
 								) cor ON cor.collection_object_id = co.collection_object_id
@@ -1566,15 +1566,15 @@ details of a container for use in dialogs and page components.
 													</cfif>
 												</td>
 												<td>
-													<cfif len(trim(part_count)) GT 0>
-														#encodeForHtml(part_count)#
+													<cfif len(trim(lot_count)) GT 0>
+														#encodeForHtml(lot_count)#
 													<cfelse>
 														<span class="text-muted">—</span>
 													</cfif>
 												</td>
 												<td>
-													<cfif len(trim(part_count_modifier)) GT 0>
-														#encodeForHtml(part_count_modifier)#
+													<cfif len(trim(lot_count_modifier)) GT 0>
+														#encodeForHtml(lot_count_modifier)#
 													<cfelse>
 														<span class="text-muted">—</span>
 													</cfif>
