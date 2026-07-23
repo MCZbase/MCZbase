@@ -66,6 +66,7 @@ limitations under the License.
 				<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 				<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				 	SELECT DISTINCT
+						collection.institution_acronym,
 						collection.collection,
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -230,7 +231,7 @@ limitations under the License.
 									</cfif>
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
-											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											<h1 class="col-12 mb-1 h4 font-weight-bold">#collection.institution_acronym# #summary.collection# #summary.cat_num##mixedMarker#</h1>
 											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a href="/name/#encodeForURL(summary.sci_name_no_auth)#" class="text-dark">#summary.sci_name#</a>
 											</h2>
