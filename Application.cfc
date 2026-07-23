@@ -347,11 +347,12 @@ limitations under the License.
 				<cfset Application.old_institution_link_text = "Harvard University Herbaria" />
 				<cfset Application.InstitutionBlurb = "Collections Database Harvard University Herbaria" />
 				<cfset Application.DataProblemReportEmail = "bhaley@oeb.harvard.edu" />
-				<cfset Application.header_image_class = "mcz_logo_krono" />
-				<!--- cfset Application.header_image = "/shared/images/huh_logo_white_left.png" />
+				<!--- cfset Application.header_image_class = "mcz_logo_krono" />
+				<cfset Application.header_image = "/shared/images/huh_logo_white_left.png" />
 				<cfset Application.old_header_image = "/shared/images/huh_logo_white_left.png" / --->
-				<cfset Application.header_image = "/shared/images/HUH_color_4-4-11 copy.jpg" />
-				<cfset Application.old_header_image = "/shared/images/HUH_color_4-4-11 copy.jpg" />
+				<cfset Application.header_image_class = "" />
+				<cfset Application.header_image = "/shared/images/HUH_color_4-4-11.png" />
+				<cfset Application.old_header_image = "/shared/images/HUH_color_4-4-11.png" />
 				<cfif Application.serverrole EQ "production">
 					 <!--- Production HUHbase values --->
 				    <cfset Application.header_color = "##a51c30" />
