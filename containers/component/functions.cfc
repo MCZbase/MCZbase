@@ -1328,7 +1328,7 @@ details of a container for use in dialogs and page components.
 										ROW_NUMBER() OVER (
 											PARTITION BY coch.container_id
 											/* Prefer most recent install_date; use collection_object_id as stable tie-breaker for anomalous duplicates. */
-											ORDER BY coch.install_date DESC NULLS LAST, coch.collection_object_id
+											ORDER BY coch.install_date DESC NULLS LAST, coch.collection_object_id ASC
 										) AS rn
 									FROM coll_obj_cont_hist coch
 									WHERE coch.current_container_fg = 1
@@ -1577,7 +1577,7 @@ details of a container for use in dialogs and page components.
 													</cfif>
 												</td>
 												<td>
-													<cfif len(trim(lot_count)) GT 0>
+													<cfif isNumeric(lot_count)>
 														#encodeForHtml(lot_count)#
 													<cfelse>
 														<span class="text-muted">—</span>
