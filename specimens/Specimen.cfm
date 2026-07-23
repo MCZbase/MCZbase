@@ -32,7 +32,7 @@ limitations under the License.
 
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
-<cfset pageTitle = "MCZbase Specimen not found.">
+<cfset pageTitle = "Specimen not found.">
 
 
 <cfif isdefined("collection_object_id")>
@@ -57,7 +57,7 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
-	<cfset pageTitle = "MCZbase Specimen not found: #guid#">
+	<cfset pageTitle = "Specimen not found: #guid#">
 	<!---  Lookup the GUID, handling several possible variations --->
 
 	<!---  Redirect from explicit Specimen Detail page to  to /guid/ --->
@@ -75,7 +75,7 @@ limitations under the License.
 		<cfabort>
 	</cfif>
 	
-	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
+	<!---  GUID is expected to be in the form institutioncode:collectioncode:catalognumber --->
 	<cfif guid contains ":">
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cresult">
 			select collection_object_id 
@@ -204,9 +204,11 @@ limitations under the License.
 		cataloged_item.collection_cde,
 		cataloged_item.cat_num,
 		cataloged_item.collecting_event_id,
+		collection.institution_acronym,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
 		cataloged_item
+		join collection on cataloged_item.collection_id = collection.collection_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
@@ -220,7 +222,7 @@ limitations under the License.
 	<!--- it shouldn't be possible to reach this check, as it is preceeded by a query on session.flattablename which has the same effect --->
 	<cfthrow message="Record masked.">
 </cfif>
-<cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
+<cfset guid = "#getCatalogedItem.institution_acronym#:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
 <cfif oneOfUs NEQ 1 AND Findnocase("mask parts", getCatalogedItem.encumbranceDetail)>
 	<cfset partCount="">
 <cfelse>

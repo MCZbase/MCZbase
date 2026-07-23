@@ -66,7 +66,9 @@ limitations under the License.
 				<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 				<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				 	SELECT DISTINCT
+						collection.institution_acronym,
 						collection.collection,
+						collection.collection_cde,
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
 						collecting_event.verbatim_date,
@@ -230,7 +232,12 @@ limitations under the License.
 									</cfif>
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
-											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											<cfif summary.institution_acronym EQ summary.collection_cde>
+												<!--- render HUH material in the form GH (Gray Herbarium) nnnnnn **** this may change *** --->
+												<h1 class="col-12 mb-1 h4 font-weight-bold">#summary.institution_acronym# (#summary.collection#) #summary.cat_num##mixedMarker#</h1>
+											<cfelse>	
+												<h1 class="col-12 mb-1 h4 font-weight-bold">#summary.institution_acronym# #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											</cfif>
 											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a href="/name/#encodeForURL(summary.sci_name_no_auth)#" class="text-dark">#summary.sci_name#</a>
 											</h2>
@@ -4328,6 +4335,27 @@ limitations under the License.
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<cfquery name="flatheld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct
+							FROM flat
+							WHERE stale_flag > 1
+								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<cfif flatheld.ct gt 0>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold text-danger">There is a problem updating FLAT for this record:</span></li>
+							<cfif isdefined("session.roles") AND session.roles contains "global_admin">
+								<li class="list-group-item pt-0 pb-1"><span class="small90 text-danger font-weight-bold">Warning: FLAT.STALE_FLAG is greater than 1 for this record.</span></li>
+								<cfquery name="getErrorMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT errmsg 
+									FROM mczbase_flat_update_errors
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									ORDER BY log_date DESC
+								</cfquery>
+								<cfif getErrorMessage.recordcount GT 0>
+									<li class="list-group-item pt-0 pb-1"><span class="small90 text-danger font-weight-bold">Most Recent Error Message: #getErrorMessage.errmsg#</span></li>
+								</cfif>
+							</cfif>
+						</cfif>
 						<li id="show_part_ids_button" class="list-group-item pt-0 pb-1">
 							<button class="btn btn-xs btn-info" onclick=" $('.part_id').removeAttr('hidden');">Show Internal Part collection_object_ids</button>
 						</li>
@@ -4426,16 +4454,31 @@ limitations under the License.
 							WHERE
 								FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="flatpending" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) ct
 							FROM flat
 							WHERE stale_flag = 1
 								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+						<cfquery name="flatheld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct
+							FROM flat
+							WHERE stale_flag > 1
+								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
 						<div class="row mx-0">
-							<cfif flatstatus.ct GT 0>
+							<cfif flatpending.ct GT 0>
 								<div class="col-12 px-2">
 									<span class="small90 text-danger font-weight-bold">Note: Update to the external view for this record is pending. The external data shown are stale.</span>
+								</div>
+							<cfelseif flatheld.ct GT 0>
+								<cfif isdefined("session.roles") AND session.roles contains "global_admin">
+									<div class="col-12 px-2">
+										<span class="small90 text-danger font-weight-bold">Warning: FLAT.STALE_FLAG is greater than 1 for this record. The external data shown are stale.</span>
+									</div>
+								</cfif>
+								<div class="col-12 px-2">
+									<span class="small90 text-danger font-weight-bold">Warning: Update to the external view for this record is <strong>blocked</strong>. The external data shown are stale.</span>
 								</div>
 							</cfif>
 							<div class="col-12 px-2">
