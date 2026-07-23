@@ -309,7 +309,7 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12 form-row">
+					<div class="col-12">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
 						<input type="hidden" name="execute" value="true">
 						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
@@ -317,7 +317,7 @@ limitations under the License.
 								Annotation Metadata
 							</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="state" class="">State</label>
 									<select name="state" id="state" class="">
 										<option value=""></option>
@@ -327,7 +327,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="resolution" class="data-entry-label">Resolution</label>
 									<select name="resolution" id="resolution" class="data-entry-select col-12">
 										<option value=""></option>
@@ -341,7 +341,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="motivation" class="data-entry-label">Motivation</label>
 									<select name="motivation" id="motivation" class="data-entry-select col-12">
 										<option value=""></option>
@@ -351,7 +351,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="has_responses" class="data-entry-label">Has Responses</label>
 									<select name="has_responses" id="has_responses" class="data-entry-select col-12">
 										<option value=""></option>
@@ -370,15 +370,15 @@ limitations under the License.
 								Annotation Text and Review
 							</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="annotator" class="">Annotator Username</label>
 									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="" placeholder="Type annotator name or username">
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3">
 									<label for="annotation_text" class="">Annotation Body Text</label>
 									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="">
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-3 col-xl-2">
 									<label for="reviewed_fg" class="">Reviewed</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="">
 										<option value=""></option>
