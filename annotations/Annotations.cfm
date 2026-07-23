@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-1 font-weight-bold"><span class="bg-light w-auto border">Specimen</span></h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-0 font-weight-bold"><span class="bg-light w-auto border px-3">Specimen</span></h3>
 										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
@@ -450,7 +450,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-auto font-weight-bold bg-light border">Taxon</h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 font-weight-bold"><span class="bg-light border w-auto">Taxon</span></h3>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
 											<label for="family" class="">Family</label>
 											<select name="family" id="family" class="">
@@ -470,7 +470,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-auto font-weight-bold bg-light border">Agent</h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-auto font-weight-bold"><span class="bg-light border w-auto">Agent</span></h3>
 										<div class="col-12" data-target-group="agent">
 											<label for="agent_name" class="">Agent Name</label>
 											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="" placeholder="Type to search by name or pick an agent">
@@ -480,7 +480,7 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<div class="form-row">
-										<h3 class="h6 px-2 mt-2 mb-0 font-weight-bold w-auto bg-light border">Publication and Project</h3>
+										<h3 class="h6 px-2 mt-2 mb-0 font-weight-bold w-auto"><span class="bg-light border">Publication and Project</span></h3>
 										<div class="col-12 col-md-6" data-target-group="publication">
 											<label for="publication_lookup" class="">Publication Citation or Title</label>
 											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
