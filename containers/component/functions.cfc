@@ -1304,6 +1304,9 @@ details of a container for use in dialogs and page components.
 								spec.institution_acronym,
 								spec.scientific_name,
 								spec.part_name,
+								spec.part_count,
+								spec.part_count_modifier,
+								spec.part_remarks,
 								spec.preserve_method
 							FROM container c
 							LEFT JOIN (
@@ -1314,9 +1317,14 @@ details of a container for use in dialogs and page components.
 									MAX(col.institution_acronym) AS institution_acronym,
 									MIN(id_sub.scientific_name) AS scientific_name,
 									MAX(sp.part_name) AS part_name,
+									MAX(co.lot_count) AS part_count,
+									MAX(co.lot_count_modifier) AS part_count_modifier,
+									MAX(cor.coll_object_remarks) AS part_remarks,
 									MAX(sp.preserve_method) AS preserve_method
 								FROM coll_obj_cont_hist coch
 								LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+								LEFT JOIN coll_object co ON co.collection_object_id = sp.collection_object_id
+								LEFT JOIN coll_object_remark cor ON cor.collection_object_id = co.collection_object_id
 								LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
 								LEFT JOIN collection col ON col.collection_id = ci.collection_id
 								LEFT JOIN (
@@ -1506,6 +1514,9 @@ details of a container for use in dialogs and page components.
 											<th scope="col">GUID</th>
 											<th scope="col">Current Identification</th>
 											<th scope="col">Part Type</th>
+											<th scope="col">Part Count</th>
+											<th scope="col">Part Count Modifier</th>
+											<th scope="col">Part Remarks</th>
 											<th scope="col">Preservation</th>
 										</tr>
 									</thead>
@@ -1535,6 +1546,27 @@ details of a container for use in dialogs and page components.
 												<td>
 													<cfif len(trim(part_name)) GT 0>
 														#encodeForHtml(part_name)#
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(part_count)) GT 0>
+														#encodeForHtml(part_count)#
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(part_count_modifier)) GT 0>
+														#encodeForHtml(part_count_modifier)#
+													<cfelse>
+														<span class="text-muted">—</span>
+													</cfif>
+												</td>
+												<td>
+													<cfif len(trim(part_remarks)) GT 0>
+														#encodeForHtml(part_remarks)#
 													<cfelse>
 														<span class="text-muted">—</span>
 													</cfif>
