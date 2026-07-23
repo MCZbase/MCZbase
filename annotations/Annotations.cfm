@@ -312,7 +312,7 @@ limitations under the License.
 					<div class="col-12 my-2">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
 						<input type="hidden" name="execute" value="true">
-						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-0 px-2 pb-2 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Annotation Metadata
 							</legend>
@@ -365,7 +365,7 @@ limitations under the License.
 							</div>
 						</fieldset>
 							
-						<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Annotation Text and Review
 							</legend>
@@ -422,7 +422,7 @@ limitations under the License.
 							</div>
 						</fieldset>
 					
-						<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Target-Specific Context
 							</legend>
