@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-0 bg-light">Specimen</span></h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
 										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
@@ -450,7 +450,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100 bg-light">Taxon</h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 border-bottom">Taxon</h3>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
 											<label for="family">Family</label>
 											<select name="family" id="family">
@@ -470,7 +470,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100 bg-light">Agent</h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 border-bottom">Agent</h3>
 										<div class="col-12" data-target-group="agent">
 											<label for="agent_name">Agent Name</label>
 											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" placeholder="Type to search by name or pick an agent">
