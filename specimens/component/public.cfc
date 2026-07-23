@@ -68,6 +68,7 @@ limitations under the License.
 				 	SELECT DISTINCT
 						collection.institution_acronym,
 						collection.collection,
+						collection.collection_cde,
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
 						collecting_event.verbatim_date,
