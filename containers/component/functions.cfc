@@ -1329,7 +1329,7 @@ details of a container for use in dialogs and page components.
 										ROW_NUMBER() OVER (
 											PARTITION BY coch.container_id
 											/* Defensive tie-breaker: current_container_fg should be unique, but if legacy data has duplicates, prefer latest install_date then lowest collection_object_id. */
-											ORDER BY coch.install_date DESC NULLS LAST, coch.collection_object_id ASC
+											ORDER BY coch.installed_date DESC NULLS LAST, coch.collection_object_id ASC
 										) AS rn
 									FROM coll_obj_cont_hist coch
 									WHERE coch.current_container_fg = 1
