@@ -273,23 +273,28 @@ editing behavior consistent across the application.
 			</div>
 		</div>
 	</section>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<section>
+					<div class="d-flex align-items-center flex-wrap mb-1">
+						<h2 class="h4 mr-2 mb-0">Containers/Storage Locations</h2>
+					</div>
+					<p id="containerBrowseContext" class="text-muted small mb-2"></p>
+					<div id="containerBrowsePanel">
+						<!--- if no search, this will be populated by initContainerBrowse() --->
+						<!--- if executing a search, this will be populated by executeContainerSearch() --->
+						<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>
+					</div>
+					<div id="containerLeafPanel" class="d-none container-leaf-panel mt-2"></div>
+				</section>
 
-	<section>
-		<div class="d-flex align-items-center flex-wrap mb-1">
-			<h2 class="h4 mr-2 mb-0">Containers/Storage Locations</h2>
+				<section class="mb-4">
+					<output id="containerBrowseFeedback">&nbsp;</output>
+				</section>
+			</div>
 		</div>
-		<p id="containerBrowseContext" class="text-muted small mb-2"></p>
-		<div id="containerBrowsePanel">
-			<!--- if no search, this will be populated by initContainerBrowse() --->
-			<!--- if executing a search, this will be populated by executeContainerSearch() --->
-			<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>
-		</div>
-		<div id="containerLeafPanel" class="d-none container-leaf-panel mt-2"></div>
-	</section>
-
-	<section class="mb-4">
-		<output id="containerBrowseFeedback">&nbsp;</output>
-	</section>
+	</div>
 </main>
 
 <div id="containerDetailsDialog"></div>

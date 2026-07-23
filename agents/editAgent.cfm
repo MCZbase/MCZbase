@@ -90,8 +90,8 @@ limitations under the License.
 </cfquery>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%agent.agentguid%'
+	from ctguid_type 
+	where applies_to like '%agent.agentguid%'
 </cfquery>
 
 <cfswitch expression="#action#">
@@ -102,7 +102,7 @@ limitations under the License.
 		</cfoutput>
 	<cfelse>
 		<cfoutput>
-			<main class="container py-3" id="content">
+			<main class="container-fluid py-3" id="content">
 				<script>
 					function getAssembledName() {
 						var result = "";
@@ -191,8 +191,8 @@ limitations under the License.
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
-						<div class="container">
-							<div class="form-row">
+						<div class="row mx-auto">
+							<div class="row col-12 col-xl-10 mx-auto">
 								<div class="col-12">
 									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
@@ -249,7 +249,7 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
+						<section class="col-12 col-xl-10 mx-auto">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
@@ -540,7 +540,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mt-1 mb-1">
 									<div class="form-group col-12">
-										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+										<input type="button" value="Save" class="btn btn-xs btn-primary  mt-2 px-3 mr-2"
 											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
@@ -624,7 +624,7 @@ limitations under the License.
 								</script>
 							</form>
 						</section>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-5 pr-xl-2">
 								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
@@ -671,7 +671,7 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-6 pr-xl-2">
 								<section class="row border rounded mx-0 my-2 px-1 pt-2 pb-3">
 									<div class="col-12">
@@ -775,9 +775,9 @@ limitations under the License.
 			}
 		</script>
 		<main id="content">
-			<section class="container-fluid container-xl mt-2">
+			<section class="container-fluid mt-2">
 				<div class="row">
-					<div class="col-12 mt-2 mb-3">
+					<div class="col-12 col-xl-9 mx-auto mt-2 mb-3">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
 							<h1 class="h2 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
@@ -1216,7 +1216,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
@@ -1318,7 +1318,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">The agent <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">

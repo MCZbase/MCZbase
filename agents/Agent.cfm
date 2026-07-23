@@ -132,8 +132,9 @@ limitations under the License.
 	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 	var currentAgentImage = 1;
 </script>
-	<main class="container-xl px-0" id="content">
+	<main class="container-fluid" id="content">
 		<div class="row mx-0">
+			<div class="col-10 mx-auto px-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-3">
@@ -464,7 +465,7 @@ limitations under the License.
 																function goAgent() { 
 																	currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 																}
-												                $(document).ready(function () {
+																$(document).ready(function () {
 																	$inputAgent.addEventListener('change', function (e) {
 																		goAgent()
 																	}, false)
@@ -681,21 +682,21 @@ limitations under the License.
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
 							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="groupMembership_result">
-									SELECT
-										group_agent_id,
-										member_order,
-										agent_name
-									FROM
-										group_member 
-										join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
-									WHERE
-										member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										<cfif oneOfUs NEQ 1>
-											AND agent_name not like 'MCZ%Data%'
-										</cfif>
-									ORDER BY
-										agent_name
-								</cfquery>
+								SELECT
+									group_agent_id,
+									member_order,
+									agent_name
+								FROM
+									group_member 
+									join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
+								WHERE
+									member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									<cfif oneOfUs NEQ 1>
+										AND agent_name not like 'MCZ%Data%'
+									</cfif>
+								ORDER BY
+									agent_name
+							</cfquery>
 							<cfif groupMembership.recordcount GT 20 OR groupMembership.recordcount EQ 0>
 									<!--- cardState = collapsed --->
 									<cfset bodyClass = "collapse">
@@ -751,15 +752,15 @@ limitations under the License.
 									</cfif>
 							</cfquery>
 							<script type="text/javascript">
-							function reloadAgentAnnotationCardBody() {
-								$.ajax({
-									url: '/annotations/component/public.cfc',
-									data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
-									success: function(result) { $('##agentAnnotationsCardBodyWrap').html(result); },
-									error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
-									dataType: 'html'
-								});
-							}
+								function reloadAgentAnnotationCardBody() {
+									$.ajax({
+										url: '/annotations/component/public.cfc',
+										data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+										success: function(result) { $('##agentAnnotationsCardBodyWrap').html(result); },
+										error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+										dataType: 'html'
+									});
+								}
 							</script>
 							<section class="accordion" id="agentAnnotationsSection">
 								<div class="card mb-2 bg-light">
@@ -883,64 +884,64 @@ limitations under the License.
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								and collector_role='c'
 							</cfquery>
-                            <style>
-                              ##view-mode {
-                                font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
-                                line-height: 1.5;
-                              }
-                            </style>
-				            <cfif points.recordcount gt 0>
+							<style>
+							##view-mode {
+								font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
+								line-height: 1.5;
+							}
+							</style>
+							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
 									<div class="heatmap">
-                                        <script>
-                                          window.MCZ_BOUNDS = {
-                                            minlat: #points2.minlat#,
-                                            minlong: #points2.minlong#,
-                                            maxlat: #points2.maxlat#,
-                                            maxlong: #points2.maxlong#
-                                          };
+										<script>
+											window.MCZ_BOUNDS = {
+												minlat: #points2.minlat#,
+												minlong: #points2.minlong#,
+												maxlat: #points2.maxlat#,
+												maxlong: #points2.maxlong#
+											};
 
-                                          window.MCZ_HEATMAP_DATA = [
-                                            <cfloop query="points">
-                                              {
-                                                latitude: #points.Latitude#,
-                                                longitude: #points.Longitude#,
-                                                weight: #points.record_count#
-                                              }<cfif currentrow LT recordcount>,</cfif>
-                                            </cfloop>
-                                          ];
+											window.MCZ_HEATMAP_DATA = [
+												<cfloop query="points">
+												{
+													latitude: #points.Latitude#,
+													longitude: #points.Longitude#,
+													weight: #points.record_count#
+												}<cfif currentrow LT recordcount>,</cfif>
+												</cfloop>
+											];
 
-                                          window.onload = function () {
-                                            if (typeof initMap === 'function') {
-                                              initMap();
-                                            } else {
-                                              console.error("window.onload: initMap is not defined");
-                                            }
-                                          };
-                                        </script>
-								
-                                     	<div class="p-0 mx-1">
-                                            <h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
-                                          	<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
-                                          	<div id="floating-panel" class="w-100 mx-auto">
-                                                 <div class="float-left">
-                                                    <select id="view-mode"
-                                                            class="mt-1 btn btn-xs btn-secondary text-left"
-                                                            aria-label="Select map view mode">
-                                                      <option value="heatmap">Heatmap</option>
-                                                      <option value="points">Points</option>
-                                                    </select>
+											window.onload = function () {
+												if (typeof initMap === 'function') {
+													initMap();
+												} else {
+													console.error("window.onload: initMap is not defined");
+												}
+											};
+										</script>
 
-                                                    <button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
-                                                      Color
-                                                    </button>  
-                                                </div>
-                                                  <span id="view-description" class="ml-2 small text-muted">
-                                                    Specimen record density per locality
-                                                  </span>
-                                          	</div>
-                                     	</div>
+										<div class="p-0 mx-1">
+											<h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
+											<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
+											<div id="floating-panel" class="w-100 mx-auto">
+												<div class="float-left">
+													<select id="view-mode"
+															class="mt-1 btn btn-xs btn-secondary text-left"
+															aria-label="Select map view mode">
+														<option value="heatmap">Heatmap</option>
+														<option value="points">Points</option>
+													</select>
+
+													<button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+														Color
+													</button>
+												</div>
+												<span id="view-description" class="ml-2 small text-muted">
+													Specimen record density per locality
+												</span>
+											</div>
+										</div>
 										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 									</div>
 								</div>
@@ -2372,6 +2373,7 @@ limitations under the License.
 					</div>
 				</div>
 			</cfloop><!--- getAgent --->
+			</div>
 		</div>
 	</main>
 </cfoutput>

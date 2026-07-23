@@ -309,14 +309,17 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="col-12 px-3 py-3">
-						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
-							<input type="hidden" name="execute" value="true">
-							<div class="col-12 col-md-6 col-xl-2 mb-3 d-flex flex-column">
-								<h2 class="h5 mb-2">Annotation Metadata</h2>
-								<div class="form-group mb-2">
-									<label for="state" class="data-entry-label">State</label>
-									<select name="state" id="state" class="data-entry-select col-12">
+					<div class="col-12 my-2">
+						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm">
+						<input type="hidden" name="execute" value="true">
+						<fieldset class="my-0 px-2 pb-2 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Annotation Metadata
+							</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-3">
+									<label for="state" class="">State</label>
+									<select name="state" id="state" class="">
 										<option value=""></option>
 										<cfloop query="ctstate">
 											<cfif variables.state EQ state><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
@@ -324,7 +327,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-3">
 									<label for="resolution" class="data-entry-label">Resolution</label>
 									<select name="resolution" id="resolution" class="data-entry-select col-12">
 										<option value=""></option>
@@ -338,7 +341,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-3">
 									<label for="motivation" class="data-entry-label">Motivation</label>
 									<select name="motivation" id="motivation" class="data-entry-select col-12">
 										<option value=""></option>
@@ -348,7 +351,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2">
+								<div class="col-12 col-md-3">
 									<label for="has_responses" class="data-entry-label">Has Responses</label>
 									<select name="has_responses" id="has_responses" class="data-entry-select col-12">
 										<option value=""></option>
@@ -358,25 +361,26 @@ limitations under the License.
 										<option value="no" #local.selected#>No</option>
 									</select>
 								</div>
-								<div class="mt-auto pt-2">
-									<button type="submit" class="btn btn-xs btn-primary">Search</button>
-									<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-								</div>
+					
 							</div>
-	
-							<div class="col-12 col-md-6 col-xl-2 mb-3">
-								<h2 class="h5 mb-2">Annotation Text and Review</h2>
-								<div class="form-group mb-2">
-									<label for="annotator" class="data-entry-label">Annotator Username</label>
-									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type annotator name or username">
+						</fieldset>
+							
+						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Annotation Text and Review
+							</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-3">
+									<label for="annotator" class="">Annotator Username</label>
+									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="" placeholder="Type annotator name or username">
 								</div>
-								<div class="form-group mb-2">
-									<label for="annotation_text" class="data-entry-label">Annotation Body Text</label>
-									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="data-entry-input col-12">
+								<div class="col-12 col-md-3">
+									<label for="annotation_text" class="">Annotation Body Text</label>
+									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="">
 								</div>
-								<div class="form-group mb-2">
-									<label for="reviewed_fg" class="data-entry-label">Reviewed</label>
-									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select col-12">
+								<div class="col-12 col-md-2">
+									<label for="reviewed_fg" class="">Reviewed</label>
+									<select name="reviewed_fg" id="reviewed_fg" class="">
 										<option value=""></option>
 										<cfif variables.reviewed_fg EQ "1"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
 										<option value="1" #local.selected#>Reviewed (#variables.reviewedCountReviewed#)</option>
@@ -384,9 +388,9 @@ limitations under the License.
 										<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 									</select>
 								</div>
-								<div class="form-group mb-2">
-									<label for="visibility" class="data-entry-label">Visibility</label>
-									<select name="visibility" id="visibility" class="data-entry-select col-12">
+								<div class="col-12 col-md-2">
+									<label for="visibility" class="">Visibility</label>
+									<select name="visibility" id="visibility" class="">
 										<option value=""></option>
 										<cfif variables.visibility EQ "0"><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
 										<option value="0" #local.selected#>Visible (#variables.visibilityCountVisible#)</option>
@@ -394,12 +398,9 @@ limitations under the License.
 										<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
 									</select>
 								</div>
-							</div>
-	
-							<div class="col-12 col-md-6 col-xl-3 mb-3">
-								<div class="form-group mb-2">
-									<label for="target_type_select" class="data-entry-label">Target Type</label>
-									<select name="target_type" id="target_type_select" class="data-entry-select col-12">
+								<div class="col-12 col-md-2">
+									<label for="target_type_select" class="">Target Type</label>
+									<select name="target_type" id="target_type_select" class="">
 										<option value="">All Target Types</option>
 										<cfloop query="getAnnotatedTargetTypes">
 											<cfset target_type_label = "">
@@ -418,63 +419,87 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<h2 class="h5 mb-2">Target-Specific Context</h2>
-								<h3 class="h6 mb-2">Specimen</h3>
-								<div class="form-group mb-2" data-target-group="specimen">
-									<label for="collection" class="data-entry-label">Collection</label>
-									<select name="collection" id="collection" class="data-entry-select col-12">
-										<option value="">Any Collection</option>
-										<cfloop query="getAnnotatedCollections">
-											<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-											<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="form-group mb-2" data-target-group="specimen">
-									<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
-									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
-								</div>
-								<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 							</div>
-							<div class="col-12 col-md-6 col-xl-2 mb-3">
-								<h3 class="h6 mb-2">Taxon</h3>
-								<div class="form-group mb-2" data-target-group="taxon">
-									<label for="family" class="data-entry-label">Family</label>
-									<select name="family" id="family" class="data-entry-select col-12">
-										<option value="">Any Family</option>
-										<cfloop query="getAnnotatedFamilies">
-											<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-											<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
-										</cfloop>
-									</select>
+						</fieldset>
+					
+						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Target-Specific Context
+							</legend>
+							
+							<div class="form-row">
+								<div class="col-12 col-xl-4">
+									<div class="form-row">
+										<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
+										<div class="col-12 col-md-6" data-target-group="specimen">
+											<label for="collection" class="">Collection</label>
+											<select name="collection" id="collection" class="">
+												<option value="">Any Collection</option>
+												<cfloop query="getAnnotatedCollections">
+													<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+													<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-6" data-target-group="specimen">
+											<label for="specimen_guid">Specimen GUID</label>
+											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
+										</div>
+									</div>
 								</div>
-								<div class="form-group mb-2" data-target-group="taxon">
-									<label for="scientific_name" class="data-entry-label">Scientific Name Contains</label>
-									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="data-entry-input col-12">
+								<div class="col-12 col-xl-4">
+									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
+									<div class="form-row">
+										<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Taxon</h3>
+										<div class="col-12 col-md-6" data-target-group="taxon">
+											<label for="family">Family</label>
+											<select name="family" id="family">
+												<option value="">Any Family</option>
+												<cfloop query="getAnnotatedFamilies">
+													<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+													<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-6" data-target-group="taxon">
+											<label for="scientific_name">Scientific Name Contains</label>
+											<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
+										</div>
+									</div>
 								</div>
-								<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
-								<h3 class="h6 mb-2 mt-3">Agent</h3>
-								<div class="form-group mb-2" data-target-group="agent">
-									<label for="agent_name" class="data-entry-label">Agent Name</label>
-									<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="data-entry-input col-12" placeholder="Type to search by name or pick an agent">
-									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+								<div class="col-12 col-xl-4">
+									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
+									<div class="form-row">
+										<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Agent</h3>
+										<div class="col-12" data-target-group="agent">
+											<label for="agent_name">Agent Name</label>
+											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" placeholder="Type to search by name or pick an agent">
+											<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+										</div>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-row">
+										<h3 class="h6 px-2 mt-2 mb-1 w-100 border-bottom">Publication and Project</h3>
+										<div class="col-12 col-md-6" data-target-group="publication">
+											<label for="publication_lookup" class="">Publication Citation or Title</label>
+											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+											<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+											<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
+										</div>
+										<div class="col-12 col-md-6" data-target-group="project">
+											<label for="project_lookup" class="">Project Title</label>
+											<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+											<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+											<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="" placeholder="Type to search by text or select from list">
+										</div>
+									</div>
 								</div>
 							</div>
-	
-							<div class="col-12 col-md-6 col-xl-3 mb-3">
-								<h2 class="h5 mb-2">Publication and Project</h2>
-								<div class="form-group mb-2" data-target-group="publication">
-									<label for="publication_lookup" class="data-entry-label">Publication Citation or Title</label>
-									<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
-									<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
-									<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
-								</div>
-								<div class="form-group mb-3" data-target-group="project">
-									<label for="project_lookup" class="data-entry-label">Project Title</label>
-									<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
-									<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
-									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
-								</div>
+						</fieldset>
+							<div class="mt-auto pt-2">
+								<button type="submit" class="btn btn-xs btn-primary">Search</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
 							</div>
 						</form>
 						<script>

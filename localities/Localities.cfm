@@ -66,63 +66,60 @@ limitations under the License.
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
-						<div class="row mx-0">
+						<div class="row mx-0 mb-5">
 							<div class="col-12">
-								<div class="mb-5">
-									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> 
-										<span id="resultLink" class="d-block p-2"></span>
-										<div id="showhide"></div>
-										<div id="columnPickDialog" class="row pick-column-width">
-											<div class="col-12 col-md-3">
-												<div id="columnPick" class="px-1"></div>
-											</div>
-											<div class="col-12 col-md-3">
-												<div id="columnPick1" class="px-1"></div>
-											</div>
-											<div class="col-12 col-md-3">
-												<div id="columnPick2" class="px-1"></div>
-											</div>
-											<div class="col-12 col-md-3">
-												<div id="columnPick3" class="px-1"></div>
-											</div>
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h1 class="h4">Results: </h1>
+									<span class="d-block px-3 p-2" id="resultCount"></span> 
+									<span id="resultLink" class="d-block p-2"></span>
+									<div id="showhide"></div>
+									<div id="columnPickDialog" class="row pick-column-width">
+										<div class="col-12 col-md-3">
+											<div id="columnPick" class="px-1"></div>
 										</div>
-										<div id="columnPickDialogButton"></div>
-										<div id="resultDownloadButtonContainer"></div>
-										<div id="selectModeContainer" class="ml-3" style="display: none;" >
-											<script>
-												function changeSelectMode(){
-													var selmode = $("##selectMode").val();
-													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
-													if (selmode=="none") { 
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
-													} else {
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
-													}
-												};
-											</script>
-											<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-											<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
-												<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="none">Text</option>
-												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="singlecell">Single Cell</option>
-												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="singlerow">Single Row</option>
-												<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-												<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-											</select>
+										<div class="col-12 col-md-3">
+											<div id="columnPick1" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-3">
+											<div id="columnPick2" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-3">
+											<div id="columnPick3" class="px-1"></div>
 										</div>
 									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+									<div id="selectModeContainer" class="ml-3" style="display: none;" >
+										<script>
+											function changeSelectMode(){
+												var selmode = $("##selectMode").val();
+												$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+												if (selmode=="none") { 
+													$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+												} else {
+													$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+												}
+											};
+										</script>
+										<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+										<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+											<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="none">Text</option>
+											<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="singlecell">Single Cell</option>
+											<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="singlerow">Single Row</option>
+											<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+											<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+										</select>
 									</div>
-									<div class="row mt-0"> 
-										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-										<div id="enableselection"></div>
-									</div>
+								</div>
+								<div class="row mt-0"> 
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
 								</div>
 							</div>
 						</div>

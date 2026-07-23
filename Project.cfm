@@ -25,7 +25,7 @@
 	}
 </script>
 </cfoutput>
-<div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+<div style="width: 66em; margin: 0 auto;padding:2em 0 5em 0;">
 
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
