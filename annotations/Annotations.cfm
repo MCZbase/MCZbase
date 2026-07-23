@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-auto font-weight-bold bg-light border">Specimen</h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-90 mx-1 font-weight-bold bg-light border ">Specimen</h3>
 										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
