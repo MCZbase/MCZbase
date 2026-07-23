@@ -450,7 +450,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-2">Taxon</h3>
+										<h3 class="h6 mb-2 w-100">Taxon</h3>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
 											<label for="family" class="">Family</label>
 											<select name="family" id="family" class="">
@@ -470,7 +470,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-2 mt-3">Agent</h3>
+										<h3 class="h6 mb-2 mt-3 w-100">Agent</h3>
 										<div class="col-12 col-xl-6" data-target-group="agent">
 											<label for="agent_name" class="">Agent Name</label>
 											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="" placeholder="Type to search by name or pick an agent">
