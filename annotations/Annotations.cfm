@@ -481,19 +481,21 @@ limitations under the License.
 							</div>
 						
 							<div class="form-row">
+								<div class="col-12">
 								<h3 class="h6 mb-2 px-3 py-1 font-weight-bold w-100">Publication and Project</h3>
-								<div class="form-row">
-									<div class="col-12 col-md-4" data-target-group="publication">
-										<label for="publication_lookup" class="">Publication Citation or Title</label>
-										<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
-										<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
-										<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
-									</div>
-									<div class="col-12 col-md-4" data-target-group="project">
-										<label for="project_lookup" class="">Project Title</label>
-										<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
-										<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
-										<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="" placeholder="Type to search by text or select from list">
+									<div class="form-row">
+										<div class="col-12 col-md-6" data-target-group="publication">
+											<label for="publication_lookup" class="">Publication Citation or Title</label>
+											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+											<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+											<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
+										</div>
+										<div class="col-12 col-md-6" data-target-group="project">
+											<label for="project_lookup" class="">Project Title</label>
+											<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+											<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+											<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="" placeholder="Type to search by text or select from list">
+										</div>
 									</div>
 								</div>
 							</div>
