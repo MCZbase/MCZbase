@@ -9,7 +9,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,24 +47,26 @@ limitations under the License.
  and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
 --->
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-	select media_relationship  from ctmedia_relationship
-	where media_relationship not in ('created by agent', 'shows cataloged_item')
+	SELECT media_relationship 
+	FROM ctmedia_relationship
+	WHERE media_relationship not in ('created by agent', 'shows cataloged_item')
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		AND media_relationship is not null
 	<cfelse>
 		AND media_relationship not like 'document%'
 		AND media_relationship not like '%permit'
 	</cfif>
-	union
-	select 'ANY cataloged_item' media_relationship from dual
+	UNION
+	SELECT 'ANY cataloged_item' media_relationship 
+	FROM dual
 </cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-	select trim(auto_extension) as extension, count(*) as ct
-	from media
-	where auto_extension is not null
-	group by trim(auto_extension)
-	order by upper(trim(auto_extension))
+	SELECT trim(auto_extension) as extension, count(*) as ct
+	FROM media
+	WHERE auto_extension is not null
+	GROUP BY trim(auto_extension)
+	ORDER BY upper(trim(auto_extension))
 </cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
@@ -165,6 +167,15 @@ limitations under the License.
 	<cfif not isdefined("media_relationship_id_1")>
 		<cfset media_relationship_id_1="">
 	</cfif>
+	<!---<cfif not isdefined("media_relationship_type_2")>
+		<cfset media_relationship_type_2="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value_2")>
+		<cfset media_relationship_value_2="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id_2")>
+		<cfset media_relationship_id_2="">
+	</cfif>--->
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier' and ctmedia_label.media_label NEQ 'ac:resourceCreationTechnique'>
 			<!--- Some media labels are used as form fields, but their characters may not conform to coldfusion variable name rules, so replace non conforming characters --->
@@ -186,589 +197,698 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
+			<cftry>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+			</cftry>
+			<section class="container-fluid" role="search">
 				<div class="row mx-0 mb-3">
-					<div class="search-box">
+					<div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
+						<div class="search-box mt-4">
 						<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Find Media Records</h1>
+							<h1 class="h3 text-white w-75" id="formheading">Find Media Records</h1>
 						</div>
-						<!--- setup date pickers --->
-						<script>
-							$(document).ready(function() {
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
-									$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
-									$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
-									$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								</cfif>
-								$("##collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
-							});
-						</script>
-
-						<div class="col-12 pt-3 px-4 pb-2" id="searchFormDiv">
-							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getMedia">
-								<div class="form-row">
-									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-									<div class="col-12 col-md-5">
-										<div class="form-group mb-2">
-											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
-											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#encodeForHtml(media_uri)#" aria-labelledby="media_uri_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
-											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" class="data-entry-input" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
-											<select id="media_type" name="media_type" class="data-entry-select">
-												<option></option>
-												<cfloop query="ctmedia_type">
-													<cfif in_media_type EQ ctmedia_type.media_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#ctmedia_type.media_type#" #selected#>#ctmedia_type.media_type#</option>
-												</cfloop>
-												<cfloop query="ctmedia_type">
-													<cfif in_media_type EQ "!#ctmedia_type.media_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
-												</cfloop>
-											</select>
-										</div>
-									</div>
-									<div class="col-12 col-md-3">
-										<div class="form-group mb-2">
-											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
-											<cfset selectedmimetypelist = "">
-											<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
-												<option></option>
-												<cfloop query="ctmime_type">
-													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
-														<cfset selected="selected='true'">
-														<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
-												</cfloop>
-											</select>
-											<script>
-												$(document).ready(function () {
-													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
-													<cfloop list="#selectedmimetypelist#" index="mt">
-														$("##mime_type").jqxComboBox('selectItem', '#mt#');
-													</cfloop>
-												});
-											</script>
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-									<div class="col-12 col-md-1">
-										<div class="form-group mb-2">
-											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
-											<select id="protocol" name="protocol" class="data-entry-select">
-												<option></option>
-												<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="http" #sel#>http://</option>
-												<cfif protocol EQ "https"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="https" #sel#>https://</option>
-												<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="httphttps" #sel#>http or https</option>
-												<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="NULL" #sel#>NULL</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-											<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#encodeForHtml(hostname)#" aria-labelledby="hostname_label" >
-										</div>
-										<script>
-											$(document).ready(function() {
-												makeMediaURIPartAutocomplete("hostname","hostname");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
-											<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
-										</div>
-										<script>
-											$(document).ready(function() {
-												makeMediaURIPartAutocomplete("path","path");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2 col-xl-3">
-										<div class="form-group mb-2">
-											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
-											<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
-										</div>
-										<script>
-											$(document).ready(function() {
-												makeMediaURIPartAutocomplete("filename","filename");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2 col-xl-1">
-										<div class="form-group mb-2">
-											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
-											<cfset selectedextensionlist = "">
-											<select id="extension" name="extension" class="data-entry-select" multiple="true">
-												<option></option>
-												<cfloop query="distinctExtensions">
-													<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
-														<cfset selected="selected='true'">
-														<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
-												</cfloop>
-												<option value="Select All">Select All</option>
-												<option value="NULL">NULL</option>
-												<option value="NOT NULL">NOT NULL</option>
-											</select>
-											<script>
-												$(document).ready(function () {
-													$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
-													<cfloop list="#selectedextensionlist#" index="ext">
-														$("##extension").jqxComboBox('selectItem', '#ext#');
-													</cfloop>
-													$("##extension").jqxComboBox().on('select', function (event) {
-														var args = event.args;
-													   if (args) {
-    														var item = args.item;
-															if (item.label == 'Select All') { 
-																for (i=0;i<args.index;i++) { 
-																	$("##extension").jqxComboBox('selectIndex', i);
-																}
-																$("##extension").jqxComboBox('unselectIndex', args.index);
-															}
-														}
-													});
-												});
-											</script>
-										</div>
-									</div>
-									<div class="col-12 col-md-3 col-xl-3">
-										<div class="form-group mb-2">
-											<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original File
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#encodeForHtml(original_filename)#" aria-labelledby="original_filename_label" >
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+							<!--- setup date pickers --->
+							                            <script>
+								$(document).ready(function() {
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset keycols="2">
-									<cfelse>
-										<cfset keycols="3">
+										$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
 									</cfif>
-									<div class="col-12 col-md-3">
-										<div class="form-group mb-2">
-											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtml(description)#" aria-labelledby="description_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-3">
-										<div class="form-group mb-2">
-											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
-											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#encodeForHtml(keywords)#" aria-labelledby="keywords_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-#keycols#">
-										<div class="form-group mb-2">
-											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="subject" name="subject" class="data-entry-input" value="#encodeForHtml(subject)#" aria-labelledby="subject_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("subject","subject");
-												});
-											</script>
-										</div>
-									</div>
-									<div class="col-12 col-md-#keycols#">
-										<div class="form-group mb-2">
-											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#encodeForHtml(aspect)#" aria-labelledby="aspect_label" >
-											<script>
-												$(document).ready(function() {
-													makeAspectAutocomplete("aspect");
-												});
-											</script>
-										</div>
-									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-2">
-											<div class="form-group mb-2">
-												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
-												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
+									$("##collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+									$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								});
+							</script>
+
+							<div id="searchFormDiv">
+								<form name="searchForm" id="searchForm">
+								<div class="col-12 px-2">
+									<input type="hidden" name="method" value="getMedia">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
+										<div class="form-row">
+											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+											<div class="col-12 col-md-3 col-xl-3">
+												<label for="media_uri">Media URI</label>
+												<input type="text" id="media_uri" name="media_uri" value="#encodeForHtml(media_uri)#">
+											</div>
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="media_id">Media ID</label>
+												<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
+											</div>
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="media_type">Media Type</label>
+												<select id="media_type" name="media_type">
 													<option></option>
-													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="1" #sel#>Hidden</option>
-													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="0" #sel#>Public</option>
+													<cfloop query="ctmedia_type">
+														<cfif in_media_type EQ ctmedia_type.media_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="#ctmedia_type.media_type#" #selected#>#ctmedia_type.media_type#</option>
+													</cfloop>
+													<cfloop query="ctmedia_type">
+														<cfif in_media_type EQ "!#ctmedia_type.media_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+														<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
+													</cfloop>
 												</select>
 											</div>
-										</div>
-									</cfif>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="height" class="data-entry-label mb-0" id="height_label">Height 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-													<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="height" name="height" class="data-entry-input" value="#encodeForHtml(height)#" aria-labelledby="height_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="width" class="data-entry-label mb-0" id="width_label">Width 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-													<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="width" name="width" class="data-entry-input" value="#encodeForHtml(width)#" aria-labelledby="width_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#encodeForHtml(light_source)#" aria-labelledby="light_source_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("light_source","light source");
-												});
-											</script>
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#encodeForHtml(preview_uri)#" aria-labelledby="preview_uri_label" >
-										</div>
-									</div>
-									<cfset remcolm="8">
-									<cfset remcolx="4">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset remcolm="4">
-										<cfset remcolx="2">
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
-												<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#encodeForHtml(internal_remarks)#" aria-labelledby="internal_remarks_label" >
-											</div>
-										</div>
-									</cfif>
-									<div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
-										<div class="form-group mb-2">
-											<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#encodeForHtml(remarks)#" aria-labelledby="remarks_label" >
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-2">
-											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
-												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
-											</div>
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
-										});
-									</script>
-									<!--- setup to hide search for date as text from most users --->
-									<cfset datecolm="2">
-									<cfset datecolx="3">
-									<cfset asdate = "">
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
-										<cfset datecolm="4">
-										<cfset datecolx="2">
-											<cfset asdate = "(as date)">
-									</cfif>
-									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
-										</div>
-									</div>
-									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="to_made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-										</div>
-									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
-										<!--- hide search for date as text from most users, too confusing --->
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date 
-													<span class="small">
-														(as text) (<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#encodeForHtml(text_made_date)#" aria-labelledby="text_made_date_label" >
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("text_made_date","made date");
-													});
-												</script>
-											</div>
-										</div>
-									</cfif>
-									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-row mx-0 mb-2">
-											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
-												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<cfset selectedmedia_label_type= "#media_label_type#">
-											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
-												<option></option>
-												<cfloop query="ctothermedia_label">
-													<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
-														<cfset selected="selected='true'">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#media_label#" #selected#>#media_label#</option>
-												</cfloop>
-											</select>
-											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input col-6" value="#encodeForHtml(media_label_value)#">
-											<script>
-												$(document).ready(function() {
-													makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
-												});
-											</script>
-										</div>
-									</div>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
-													<span class="small">
-														(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="owner" name="owner" class="data-entry-input" value="#encodeForHtml(owner)#" aria-labelledby="owner_label" >
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("owner","owner");
-													});
-												</script>
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
-													<span class="small">
-														(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="credit" name="credit" class="data-entry-input" value="#encodeForHtml(credit)#" aria-labelledby="credit_label" >
-												<script>
-													$(document).ready(function() {
-														makeMediaLabelAutocomplete("credit","credit");
-													});
-												</script>
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
-													<span class="small">
-														(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-														NULL, NOT NULL)
-													</span>
-												</label>
-												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#encodeForHtml(md5hash)#" aria-labelledby="md5hash_label" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mt-2">
-												<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check">
-														<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
-														<label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
-													</div>
-												</cfif>
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mt-2">
-												<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check">
-														<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
-														<label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
-													</div>
-												</cfif>
-											</div>
-										</div>
-										<div class="col-12 col-md-4 col-xl-2">
-											<div class="form-group mt-2">
-												<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<div class="form-check">
-														<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
-														<label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
-													</div>
-												</cfif>
-											</div>
-										</div>
-									</div>
-								</cfif>
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
-										<div class="form-group mb-2">
-											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
-											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
-													select distinct guid 
-													from 
-														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-														left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-													where 
-														specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-													OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-												</cfquery>
-												<cfloop query="guidLookup">
-													<cfif not listContains(related_cataloged_item,guidLookup.guid)>
-														<cfif len(related_cataloged_item) EQ 0>
-															<cfset related_cataloged_item = guidLookup.guid>
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="mime_type">MIME Type</label>
+												<cfset selectedmimetypelist = "">
+												<select id="mime_type" name="mime_type" multiple="true">
+													<option></option>
+													<cfloop query="ctmime_type">
+														<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
+															<cfset selected="selected='true'">
+															<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
 														<cfelse>
-															<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+															<cfset selected="">
 														</cfif>
-													</cfif>
-												</cfloop>
+														<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
+													</cfloop>
+												</select>
+												<script>
+													$(document).ready(function () {
+														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+														<cfloop list="#selectedmimetypelist#" index="mt">
+															$("##mime_type").jqxComboBox('selectItem', '#mt#');
+														</cfloop>
+													});
+												</script>
+											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<div class="col-12 col-md-3 col-xl-2">
+													<label for="mask_media_fg">Visibility</label>
+													<select id="mask_media_fg" name="mask_media_fg">
+														<option></option>
+														<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="1" #sel#>Hidden</option>
+														<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="0" #sel#>Public</option>
+													</select>
+												</div>
 											</cfif>
-											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
-												<span class="small">
-													(NOT NULL, accepts comma separated list)
-												</span>
-											</label>
-											<input type="text" name="related_cataloged_item" 
-												class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
-												onchange="$('##collection_object_id').val('');">
+											
 										</div>
-									</div>
-									<div class="col-12 col-md-6 col-xl-4">
-										<div class="form-row mx-0 mb-2">
-											<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
-												<span class="small">
-													(
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</a><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
-													)
-												</span>
-											</label>
-											<cfset selectedrelationship_type= "#media_relationship_type#">
-											<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
-												<option></option>
-												<cfloop query="ctmedia_relationship">
-													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-														<cfset selected="selected='true'">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#media_relationship#" #selected#>#media_relationship#</option>
-												</cfloop>
-											</select>
-											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
-											<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+									</fieldset>
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Storage/Location</legend> 
+										<div class="form-row">
+											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+											<div class="col-12 col-md-1">
+												<label for="keywords">Protocol</label>
+												<select id="protocol" name="protocol" class="data-entry-select">
+													<option></option>
+													<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="http" #sel#>http://</option>
+													<cfif protocol EQ "https"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="https" #sel#>https://</option>
+													<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="httphttps" #sel#>http or https</option>
+													<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="NULL" #sel#>NULL</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="hostname">Host</label>
+												<input type="text" id="hostname" name="hostname" value="#encodeForHtml(hostname)#">
+												<script>
+													$(document).ready(function() {
+														makeMediaURIPartAutocomplete("hostname","hostname");
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="path">Path</label>
+												<input type="text" id="path" name="path" value="#encodeForHtml(path)#">
+												<script>
+													$(document).ready(function() {
+														makeMediaURIPartAutocomplete("path","path");
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2 col-xl-3">
+												<label for="filename">Filename</label>
+												<input type="text" id="filename" name="filename" value="#encodeForHtml(filename)#">
+												<script>
+													$(document).ready(function() {
+														makeMediaURIPartAutocomplete("filename","filename");
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2 col-xl-1">
+												<label for="extension">Extension</label>
+												<cfset selectedextensionlist = "">
+												<select id="extension" name="extension" multiple="true">
+													<option></option>
+													<cfloop query="distinctExtensions">
+														<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
+															<cfset selected="selected='true'">
+															<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
+													</cfloop>
+													<option value="Select All">Select All</option>
+													<option value="NULL">NULL</option>
+													<option value="NOT NULL">NOT NULL</option>
+												</select>
+												<script>
+													$(document).ready(function () {
+														$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+														<cfloop list="#selectedextensionlist#" index="ext">
+															$("##extension").jqxComboBox('selectItem', '#ext#');
+														</cfloop>
+														$("##extension").jqxComboBox().on('select', function (event) {
+															var args = event.args;
+															if (args) {
+																var item = args.item;
+																if (item.label == 'Select All') { 
+																	for (i=0;i<args.index;i++) { 
+																		$("##extension").jqxComboBox('selectIndex', i);
+																	}
+																	$("##extension").jqxComboBox('unselectIndex', args.index);
+																}
+															}
+														});
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-3 col-xl-3">
+												<label for="original_filename">Original File</label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;" 	aria-label="prefix with equals sign for exact match search">
+													=
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NULL';" 
+													aria-label="set original file to NULL">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('original_filename');e.value='NOT NULL';" 
+													aria-label="set original file to NOT NULL for any value">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="original_filename" name="original_filename" value="#encodeForHtml(original_filename)#">
+											</div>
+										</div>
+									</fieldset>
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Media Metadata</legend> 
+										<div class="form-row">
+											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+											<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+											<div class="col-12 col-md-3 col-xl-3">
+												 <label for="description">Description</label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NULL';" 
+													aria-label="set description to NULL">
+													Null
+												</button><span id="descrNull_help" class="sr-only">Click NULL to find media records without a relationship</span>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('description');e.value='NOT NULL';" 
+													aria-label="set description to NOT NULL to find any records with a description">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="description" name="description" value="#encodeForHtml(keywords)#">
+											</div>
+											
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="keywords">Keywords</label>
+												<span class="text-secondary small">(</span> |, -, *, ""<span class="text-secondary small">) </span>
+												<input type="text" id="keywords" name="keywords" value="#encodeForHtml(keywords)#">
+											</div>
+										
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="subject">Subject</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NULL';" 
+													aria-label="set subject to NULL">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('subject');e.value='NOT NULL';" 
+													aria-label="set subject to NOT NULL for any record with a subject">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="subject" name="subject" value="#encodeForHtml(subject)#">
+												<script>
+													$(document).ready(function() {
+														makeMediaLabelAutocomplete("subject","subject");
+													});
+												</script>
+											</div>
+										
+											<div class="col-12 col-md-3 col-xl-2">
+												<label for="aspect">Aspect</label> 
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='='+e.value;"
+													aria-label="prefix aspect with equals for exact match">
+													=
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NULL';"
+													aria-label="set aspect to NULL">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('aspect');e.value='NOT NULL';"
+													aria-label="set aspect to not null for records with any aspect">Any</button><span class="text-secondary small">)</span>
+												<input type="text" id="aspect" name="aspect" value="#encodeForHtml(aspect)#">
+												<script>
+													$(document).ready(function() {
+														makeAspectAutocomplete("aspect");
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="height">Height </label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='>'+e.value;"
+													aria-label="prefix with greater than to search for larger than provided value">
+													&gt;
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='<'+e.value;"
+													aria-label="prefix with less than sign to search for smaller than provided value">
+													&lt;
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NULL';"
+													aria-label="set height to NULL to find media records without a height">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('height');e.value='NOT NULL';"
+													aria-label="set height to NOT NULL to find media records with any height">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="height" name="height" value="#encodeForHtml(height)#">
+											</div>
+											
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="width">Width </label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='>'+e.value;"
+													aria-label="prefix with greater than to search for larger than provided value">
+													&gt;
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='<'+e.value;"
+													aria-label="prefix with less than to search for smaller than provided value">
+													&lt;
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NULL';"
+													aria-label="set width to NULL to find media records without a width">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('width');e.value='NOT NULL';"
+													aria-label="set width to NOT NULL to find media records with any width">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="width" name="width" value="#encodeForHtml(width)#" >
+											</div>
+											
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="light_source">Light Source </label>
+												<button type="button" class="rules" onclick=" $('##light_source').autocomplete('search','%%%'); return false;" 
+													aria-label="open pick list"> 
+													(&##8595;) 
+												</button>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='='+e.value;" 
+													aria-label="prefix with equals for exact match">
+													=
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='NULL';" 
+													aria-label="set light source to NULL">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('light_source');e.value='NOT NULL';"
+													aria-label="set light source to NOT NULL to find media records with any light source">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="light_source" name="light_source" value="#encodeForHtml(light_source)#">
+												<script>
+													$(document).ready(function() {
+														makeMediaLabelAutocomplete("light_source","light source");
+													});
+												</script>
+											</div>
+											
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="preview_uri">Preview URI</label>
+												<input type="text" id="preview_uri" name="preview_uri" value="#encodeForHtml(preview_uri)#">
+											</div>
+											
+											<div class="col-12 col-md-3 col-xl-3">
+												<label for="remarks">Remarks</label> 
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NULL';"
+													aria-label="set remarks to NULL to find media records without remarks">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('remarks');e.value='NOT NULL';"
+													aria-label="set remarks to NOT NULL to find media records with any remarks">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="remarks" name="remarks" value="#encodeForHtml(remarks)#">
+											</div>
+											
+											<div class="col-12 col-md-5 col-xl-4">
+												<div class="form-row mx-0">
+													<div class="w-100">
+														<label for="media_label_type">Any Other Label </label>
+														<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;" 
+															aria-label="prefix with equals sign for exact match search">
+															=
+														</button>, 
+														<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='NULL';" 
+															aria-label="set any other label to NULL">
+															Null
+														</button>, 
+														<button type="button" class="rules" onclick="var e=document.getElementById('media_label_value');e.value='NOT NULL';" 
+															aria-label="set any other label to not null to find records with the selected label type">
+															Any
+														</button>
+														<span class="text-secondary small">)</span>
+													</div>
+													<cfset selectedmedia_label_type= "#media_label_type#">
+													<select id="media_label_type" name="media_label_type" class="col-6">
+														<option></option>
+														<cfloop query="ctothermedia_label">
+															<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
+																<cfset selected="selected='true'">
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#media_label#" #selected#>#media_label#</option>
+														</cfloop>
+													</select>
+													<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
+													<script>
+														$(document).ready(function() {
+															makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
+														});
+													</script>
+												</div>
+											</div>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="md5hash">MD5 Hash</label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"
+													aria-label="prefix with equals for exact match">
+													=
+												</button>,
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NULL';"
+													aria-label="set MD5 Hash to NULL to find media records without an MD5 hash">
+													Null
+												</button>, 
+												<button type="button" class="rules" onclick="var e=document.getElementById('md5hash');e.value='NOT NULL';"
+													aria-label="set md5 hash to not null to find media records with any md5hash">
+													Any
+												</button><span class="text-secondary small">)</span>
+												<input type="text" id="md5hash" name="md5hash" value="#encodeForHtml(md5hash)#">
+											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="internal_remarks">Internal Remarks </label> 
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NULL';" 
+														aria-label="set internal remarks to null">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('internal_remarks');e.value='NOT NULL';"
+														aria-label="set internal remarks to NOT NULL any remarks">
+														Any
+													</button><span class="text-secondary small">)</span>
+													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
+												</div>
+											</cfif>
+										</div>
+									</fieldset>
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Credit/Ownership</legend> 
+										<div class="form-row mx">
+											<!--- setup to hide search for date as text from most users --->
+											<cfset datecolm="3">
+											<cfset datecolx="2">
+											<cfset asdate = "">
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+												<cfset datecolm="4">
+												<cfset datecolx="2">
+											</cfif>
+											<div class="col-12 col-md-4 col-xl-4">
+												<div class="form-row mx-0">
+												<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+													<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													</div>
+													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+													<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
+												</div>
+												</div>
+											</div>
 											<script>
 												$(document).ready(function() {
-													$('##media_relationship_type').change(function() {
-														makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
-													});
+													$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 												});
 											</script>
+											<div class="col-12 col-md-7 col-xl-5">
+												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
+													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
+														placeholder="start date" 
+														value="#encodeForHtml(made_date)#" 
+														aria-label="start date">
+													
+													<div class=" text-center px-0 px-xl-3" style="width:18px;"><small>to</small></div>
+													<label for="to_made_date" class="sr-only">Made Date</label>	
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
+														class="datetimeinput col-5 w-100 px-1 py-0" 
+														placeholder="end date"
+														aria-label="end date"> 
+												</div>
+											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+												<!--- hide search for date as text from most users, too confusing --->
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="text_made_date">Made Date</label>
+													<span class="text-secondary small"> (as text) (</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
+														aria-label="prefix with equals for exact match">
+														=
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NULL';"
+														aria-label="set made date to NULL to find media records without made date">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='NOT NULL';"
+														aria-label="set made date to NOT NULL to find media records with any made date">
+														Any
+													</button><span class="text-secondary small">)</span>
+													<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("text_made_date","made date");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="owner">Owner </label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
+														aria-label="prefix with equals for exact match">
+														=
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NULL';"
+														aria-label="set owner to NULL to find media records without an owner">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='NOT NULL';"
+														aria-label="set owner to not null to find media records with any owner">
+														Any
+													</button><span class="text-secondary small">)</span>
+													<input type="text" id="owner" name="owner" value="#encodeForHtml(owner)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("owner","owner");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-4 col-xl-3">
+													<label for="credit">Credit</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
+														aria-label="prefix with equals for exact match">
+														=
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NULL';"
+														aria-label="set credit to NULL to find media records without a credit value">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='NOT NULL';"
+														aria-label="set credit to NOT NULL to find media records with any credit">
+														Any
+													</button><span class="text-secondary small">)</span>
+													<input type="text" id="credit" name="credit" value="#encodeForHtml(credit)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("credit","credit");
+														});
+													</script>
+												</div>
+											</cfif>
 										</div>
-									</div>
-									<div class="col-12 col-md-6 col-xl-4">
-										<div class="form-row mx-0 mb-2">
-											<label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
-												<span class="small">
-													(
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">NOT NULL</a><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
-													)
-												</span>
-											</label>
-											<cfset selectedrelationship_type= "#media_relationship_type_1#">
-											<select id="media_relationship_type_1" name="media_relationship_type_1" class="data-entry-select col-6">
-												<option></option>
-												<cfloop query="ctmedia_relationship">
-													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-														<cfset selected="selected='true'">
-													<cfelse>
-														<cfset selected="">
+									</fieldset>
+									<fieldset class="bg-light border-default field-set rounded px-1 pt-1 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
+										<div class="form-row mx-0">
+											<div class="col-12 col-md-6 col-xl-4">
+												<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
+												<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+													<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="guidLookup">
+														select distinct guid 
+														from 
+															<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+															left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+														where 
+															specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+														OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+													</cfquery>
+													<cfloop query="guidLookup">
+														<cfif not listContains(related_cataloged_item,guidLookup.guid)>
+															<cfif len(related_cataloged_item) EQ 0>
+																<cfset related_cataloged_item = guidLookup.guid>
+															<cfelse>
+																<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+															</cfif>
+														</cfif>
+													</cfloop>
+												</cfif>
+												<label for="related_cataloged_item">Shows Cataloged Item</label>
+												<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('related_cataloged_item');e.value='NOT NULL';" aria-describedby="showcatitemAny_help" aria-label="use the Any prefix for NOT NULL to find media records with a relationship to another record">
+													Any
+												</button><span id="showcatitemAny_help" class="sr-only">use the ANY prefix for NOT NULL to find media records with a relationship to another record</span>, 
+												<span class="text-secondary small">comma separated list</span><span class="text-secondary small">)</span>
+												<input type="text" name="related_cataloged_item" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn" onchange="$('##collection_object_id').val('');">
+											</div>
+											<div class="col-12 col-md-6 col-xl-4">
+												<div class="w-100">
+													<label for="media_relationship_type">Relationship</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';"
+														aria-label="set relationship to NULL">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';"
+														aria-label="set relationship to NOT NULL">
+														Any
+													</button><span class="text-secondary small">)</span>
+												</div> 
+												<cfset selectedrelationship_type= "#media_relationship_type#">
+												<select id="media_relationship_type" name="media_relationship_type" class="float-left d-inline col-6">
+													<option></option>
+													<cfloop query="ctmedia_relationship">
+														<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_relationship#" #selected#>#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
+												<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+												<script>
+													$(document).ready(function() {
+														$('##media_relationship_type').change(function() {
+															makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+														});
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-6 col-xl-4">
+												<div class="w-100">
+													<label for="media_relationship_type_1">Relationship</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';"
+														aria-label="set relationship to NULL">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';"
+														aria-label="set relationship to not null for any relationship">
+														Any
+													</button><span class="text-secondary small">)</span>
+												</div>
+												<cfset selectedrelationship_type= "#media_relationship_type_1#">
+												<select id="media_relationship_type_1" name="media_relationship_type_1" class="float-left d-inline col-6">
+													<option></option>
+													<cfloop query="ctmedia_relationship">
+														<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_relationship#" #selected#>#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
+												<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
+												<script>
+													$(document).ready(function() {
+														$('##media_relationship_type_1').change(function() {
+															makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
+														});
+													});
+												</script>
+											</div>
+<!---											<div class="col-12 col-md-6 col-xl-5">
+												<div class="w-100">
+													<label for="media_relationship_type_2">Relationship</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_2');e.value='NULL';"
+														aria-label="set relationship to null">
+														Null
+													</button>, 
+													<button type="button" class="rules" onclick="var e=document.getElementById('media_relationship_value_2');e.value='NOT NULL';"
+														aria-label="set relationship to null for any relationship">
+														Any
+													</button><span class="text-secondary small">)</span>
+												</div>
+												<cfset selectedrelationship_type= "#media_relationship_type_2#">
+												<select id="media_relationship_type_2" name="media_relationship_type_2" class="float-left d-inline col-6">
+													<option></option>
+													<cfloop query="ctmedia_relationship">
+														<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+															<cfset selected="selected='true'">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#media_relationship#" #selected#>#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" id="media_relationship_value_2" name="media_relationship_value_2" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_2)#">
+												<input type="hidden" id="media_relationship_id_2" name="media_relationship_id_2" value="#encodeForHtml(media_relationship_id_2)#">
+												<script>
+													$(document).ready(function() {
+														$('##media_relationship_type_2').change(function() {
+															makeAnyMediaRelationAutocomplete("media_relationship_value_2","media_relationship_type_2","media_relationship_id_2");
+														});
+													});
+												</script>
+											</div>--->
+											<div class="col-12 mr-auto row mx-0">
+												<div class="col-12 col-md-4">
+													<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+														<div class="form-check mt-2 pb-1">
+															<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input mt-1">
+															<label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
+														</div>
 													</cfif>
-													<option value="#media_relationship#" #selected#>#media_relationship#</option>
-												</cfloop>
-											</select>
-											<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value_1)#">
-											<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
-											<script>
-												$(document).ready(function() {
-													$('##media_relationship_type_1').change(function() {
-														makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
-													});
-												});
-											</script>
+												</div>
+												<div class="col-12 col-md-4">
+													<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+														<div class="form-check mt-2 mb-1">
+															<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input mt-1">
+															<label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
+														</div>
+													</cfif>
+												</div>
+												<div class="col-12 col-md-4">
+													<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+													<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+														<div class="form-check mt-2 mb-1">
+															<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input mt-1">
+															<label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
+														</div>
+													</cfif>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-12 pt-0">
+									</fieldset>
+									<div class="col-12 mt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
@@ -777,76 +897,74 @@ limitations under the License.
 										</cfif>
 									</div>
 								</div>
-	
-							</form>
-						</div>
-					</div><!--- search box --->
+								</form>
+							</div>
+						</div><!--- search box --->
+					</div>
 				</div><!--- row --->
 			</section>
 		
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
-				<div class="row mx-0">
-					<div class="col-12">
-						<div class="mb-5">
-							<div class="row my-1 jqx-widget-header border px-2">
-								<h1 class="h4 pt-2 ml-2 ml-md-1 mt-1">Results: 
-									<span class="pr-2 font-weight-normal" id="resultCount"></span> 
-									<span id="resultLink" class="font-weight-normal pr-2"></span>
-								</h1>
-								<div id="showhide" class=""></div>
-								<div id="saveDialogButton" class=""></div>
-								<div id="saveDialog"></div>
-								<div id="columnPickDialog">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-12 col-md-6">
-												<div id="columnPick" class="px-1"></div>
-											</div>
-											<div class="col-12 col-md-6">
-												<div id="columnPick1" class="px-1"></div>
-											</div>
+				<div class="row mx-0 pr-md-3">
+					<div class="col-12 mb-5 px-0 pl-md-0 pl-xl-3 pr-xl-2">
+						<div class="row my-0 jqx-widget-header border p-1 mx-0">
+							<h1 class="h4 pt-0 mb-2 ml-2 ml-md-3">Results: 
+								<span class="pr-2 font-weight-normal" id="resultCount"></span> 
+								<span id="resultLink" class="font-weight-normal pr-2"></span>
+							</h1>
+							<div id="showhide" class=""></div>
+							<div id="saveDialogButton" class=""></div>
+							<div id="saveDialog"></div>
+							<div id="columnPickDialog">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-12 col-md-6">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-6">
+											<div id="columnPick1" class="px-1"></div>
 										</div>
 									</div>
 								</div>
-								<div id="columnPickDialogButton"></div>
-								<cfif Application.serverrole NEQ "production" >
-									<div id="gridCardToggleButton"></div>
-								</cfif>
-								<div id="resultDownloadButtonContainer"></div>
-								<div id="selectModeContainer" class="ml-3" style="display: none;" >
-									<script>
-										function changeSelectMode(){
-											var selmode = $("##selectMode").val();
-											$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
-											if (selmode=="none") { 
-												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
-											} else {
-												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
-											}
-										};
-									</script>
-									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
-										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="none">Text</option>
-										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlecell">Single Cell</option>
-										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="singlerow">Single Row</option>
-										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
-										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
-									</select>
-								</div>
-								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 							</div>
-							<div class="row mt-0"> 
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
+							<div id="columnPickDialogButton"></div>
+			<!---				<cfif Application.serverrole NEQ "production" >
+								<div id="gridCardToggleButton"></div>
+							</cfif>--->
+							<div id="resultDownloadButtonContainer"></div>
+							<div id="selectModeContainer" class="ml-3" style="display: none;" >
+								<script>
+									function changeSelectMode(){
+										var selmode = $("##selectMode").val();
+										$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+										if (selmode=="none") { 
+											$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+										} else {
+											$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+										}
+									};
+								</script>
+								<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+								<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+									<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="none">Text</option>
+									<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="singlecell">Single Cell</option>
+									<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="singlerow">Single Row</option>
+									<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+									<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+								</select>
 							</div>
+							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 mx-1 border-0"></output>
+						</div>
+						<div class="row mx-0 mt-0"> 
+							<!--- Grid Related code is below along with search handlers --->
+							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+							<div id="enableselection"></div>
 						</div>
 					</div>
 				</div>
@@ -957,10 +1075,35 @@ limitations under the License.
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
-			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
-			};
+			// cell renderer for media_uri when size has a width of greater than 50,000 px.
+			function mediaUriCellRenderer(row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+			if (!value) {
+				return "";
+			}
+
+				// Basic escaping to avoid unsafe HTML
+				var safeValue = $('<div/>').text(value).html();
+
+				// If width is not defined or not a number, treat as 0
+				var width = parseInt(rowdata.width, 10) || 0;
+				
+				var linkClass = (width > 50000) ? 'text-dark' : 'btn-link';
+
+				// Base link markup
+				var attrs = 'href="' + safeValue + '" target="_blank" rel="noopener" class="' + linkClass +'"';
+
+				// If very large image, add tooltip + aria-label
+				if (width > 50000) {
+					var tooltipText = 'NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. ' +
+						'However, the pyramidal structure of the file also contains several downsampled versions. ' +
+						'To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution ' +
+						'in the &quot;Bio-Formats Series Options&quot; dialog.';
+
+					attrs += ' title="' + tooltipText + '" aria-label="' + tooltipText + '"';
+				}
+
+				return '<a ' + attrs + '>' + safeValue + '</a>';
+			}
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -1080,21 +1223,7 @@ limitations under the License.
 						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
-						<cfif Application.serverrole NEQ "production" >
-							cardview: false,
-							cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'description' },
-								{ width: 'auto', datafield: 'original_filename' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' },
-								{ width: 'auto', datafield: 'media_uri' }
-							],
-						</cfif>
+
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
@@ -1129,7 +1258,7 @@ limitations under the License.
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
-							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
+							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false), cellsrenderer: mediaUriCellRenderer }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -1308,13 +1437,8 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary my-2 mx-1' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 mx-1 my-2' style='padding-top: 1px !important; padding-bottom: 1px !important;'>Show/Hide Columns</button>"
 				);
-				<cfif Application.serverrole NEQ "production" >
-					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary my-2 mx-1' >Grid/Card View</button>"
-					);
-				</cfif>
 
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
@@ -1355,7 +1479,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mx-1 my-2" >Save Search</button>
+							class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
 					`);
 				</cfif>
 
@@ -1365,7 +1489,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top:1px !important; padding-bottom: 1px !important;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				$('##selectModeContainer').show();
 			}
 		</script> 
@@ -1377,5 +1501,8 @@ limitations under the License.
 		</div>
 	</div>
 </div><!--- overlay container --->
-	
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Search Media">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">

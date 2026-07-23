@@ -939,6 +939,64 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
+									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
+										SELECT DISTINCT flat.TOPTYPESTATUS 
+										FROM
+											underscore_relation 
+											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.TOPTYPESTATUS is not null
+										ORDER BY
+											CASE
+												-- Primary types
+												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype') THEN 1
+												-- Secondary types
+												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')            THEN 2
+												-- Everything else
+												ELSE 3
+											END,
+												flat.TOPTYPESTATUS
+									</cfquery>
+
+									<cfif types.recordcount GT 0>
+										<div class="col-12 pb-3">
+											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
+											
+											<cfif types.recordcount gt 30>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForTypes">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingTypes">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseTypes">
+																#types.recordcount# Types
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseTypes" aria-labelledby="headingTypes" data-parent="##accordionForTypes" class="collapse show">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																	<cfloop query="types">
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.TOPTYPESTATUS#</a> 
+																		</li>
+																	</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="types">
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.TOPTYPESTATUS#</a> 
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
 										SELECT DISTINCT flat.continent_ocean as ocean
 										FROM

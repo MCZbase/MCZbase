@@ -918,8 +918,32 @@ include this function and use it.
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
+						
+							<!-- treat “huge” as > 50000px -->
+							<cfset widthVal = 0> <!--- default, will be overwritten if we find a width label --->
+							<cfloop query="labels">
+								<!-- capture width from labels for later use -->
+								<cfif labels.media_label EQ "width">
+									<cfset widthVal = val(labels.label_value)>
+								</cfif>
+							</cfloop>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+								<!-- treat “huge” as > 50000px based on the width label -->
+								<cfset isHuge = widthVal GT 50000>
+				
+								<tr class="border mt-2 p-2">
+									<th scope="row">Media URI </th>
+									<td>
+										<a target="_blank"
+										href="#encodeForHtmlAttribute(media.media_uri)#"
+										class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
+										<cfif isHuge>
+										title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										</cfif>
+										>#encodeForHtml(media.media_uri)#</a>
+									</td>
+								</tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumbnail for media type used.">
@@ -1148,7 +1172,7 @@ include this function and use it.
 </cffunction>
 
 					
-<!--- Edit Media Metadata Table using media_id --->		
+<!--- Edit Media Metadata Table using media_id ****IS this an extra set of code??? --->		
 <cffunction name="editMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1468,7 +1492,9 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+								<tr class="border mt-2 p-2">
+									<th scope="row">Media URI </th><td>#media.media_uri#</td>
+								</tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumnail for media type used.">
