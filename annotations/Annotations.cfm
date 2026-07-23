@@ -431,7 +431,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
 										<h3 class="h6 mb-2 w-100">Specimen</h3>
-										<div class="col-12" data-target-group="specimen">
+										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
 												<option value="">Any Collection</option>
@@ -441,30 +441,30 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12" data-target-group="specimen">
+										<div class="col-12 col-xl-6" data-target-group="specimen">
 											<label for="specimen_guid" class="">Specimen GUID</label>
 											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="" placeholder="MCZ:Herp:A-12345">
 										</div>
 									</div>
 								</div>
 								<div class="col-12 col-xl-4">
+									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
-										<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 										<h3 class="h6 mb-2">Taxon</h3>
 										<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
-									<label for="family" class="">Family</label>
-									<select name="family" id="family" class="">
-										<option value="">Any Family</option>
-										<cfloop query="getAnnotatedFamilies">
-											<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-											<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
-										</cfloop>
-									</select>
-								</div>
+											<label for="family" class="">Family</label>
+											<select name="family" id="family" class="">
+												<option value="">Any Family</option>
+												<cfloop query="getAnnotatedFamilies">
+													<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+													<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
+												</cfloop>
+											</select>
+										</div>
 										<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
-									<label for="scientific_name" class="">Scientific Name Contains</label>
-									<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="">
-								</div>
+											<label for="scientific_name" class="">Scientific Name Contains</label>
+											<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="">
+										</div>
 									</div>
 								</div>
 								<div class="col-12 col-xl-4">
