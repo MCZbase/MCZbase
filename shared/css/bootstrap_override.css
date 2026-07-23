@@ -1906,7 +1906,7 @@ look the way they do. */
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label, #searchForm fieldset label {
+.tab-content label, #searchForm fieldset label, #annotationSearchForm fieldset label {
 	font-weight: 400;
 	font-size: 0.85em;
 	border: none;
@@ -1915,7 +1915,7 @@ look the way they do. */
 }
 /* These styles are for all search pages (e.g., specimen search, taxonomy, agents). 
 The #searchFormDiv is on all search pages to control form fields, labels, select, and buttons. */
-.tab-content input[type="text"], #searchForm fieldset input[type="text"] {
+.tab-content input[type="text"], #searchForm fieldset input[type="text"], #annotationSearchForm  fieldset input[type="text"] {
 	display: block;
 	width: 100%;
 	padding: 2px .5rem;
@@ -1930,11 +1930,11 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	border-radius: .2rem;
 	height: 25px;
 }
-.tab-content input[type="button"] #searchForm fieldset input[type="button"] {
+.tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
 	border: none;
 	padding: 0 .15rem;
 }
-.tab-content select, #searchForm fieldset select {
+.tab-content select, #searchForm fieldset select, #annotationSearchForm  fieldset select {
 	display: block;
 	width: 100% !important;
 	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1955,7 +1955,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 .jqx-combobox {
 	min-height: 21px !important;
 }
-.tab-content button.rules, #searchForm button.rules[type="button"] {
+.tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;
 	color: #0460c1 !important;
@@ -1963,7 +1963,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	font-size: 0.85em;
 	text-decoration: underline dotted #0460c1;
 }
-#searchForm span.rules {
+#searchForm span.rules, #annotationSearchForm span rules {
 	border: none;
 	padding: 0;
 	color: #212529 !important;
