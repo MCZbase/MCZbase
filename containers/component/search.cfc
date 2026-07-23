@@ -140,12 +140,16 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 @param term container label or barcode to search for.
 @param type container type to limit search to.
 @param ancestor_container_id optional ancestor container_id to limit search to.
+@param label_contains optional case-insensitive substring filter on label.
+@param description_contains optional case-insensitive substring filter on description/container remarks.
 @return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id.
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="type" type="string" required="no" default="">
 	<cfargument name="ancestor_container_id" type="string" required="no" default="">
+	<cfargument name="label_contains" type="string" required="no" default="">
+	<cfargument name="description_contains" type="string" required="no" default="">
 
 	<!--- perform wildcard search anywhere in barcode or label --->
 	<cfset name = "%#term#%"> 
@@ -157,7 +161,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 			SELECT 
 				container_id, label, barcode, container_type
 			FROM (
-				SELECT container_id, label, barcode, container_type
+				SELECT container_id, label, barcode, container_type, description, container_remarks
 				FROM 
 				container
 				<cfif len(arguments.ancestor_container_id) GT 0>
@@ -179,6 +183,15 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 					AND container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">
 				<cfelse>
 					AND rownum < 100
+				</cfif>
+				<cfif len(trim(arguments.label_contains)) GT 0>
+					AND upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.label_contains))#%">
+				</cfif>
+				<cfif len(trim(arguments.description_contains)) GT 0>
+					AND (
+						upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.description_contains))#%">
+						OR upper(container_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.description_contains))#%">
+					)
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -402,7 +415,7 @@ ordered from root to the given node, for use in breadcrumb display.
 Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 
 @param container_id the container_id whose ancestor chain is to be returned.
-@return a JSON array of objects with keys: container_id, container_type, label, barcode;
+@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label, barcode;
   ordered from root (highest level) to the given node.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
@@ -413,6 +426,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 		<cfquery name="queryGetBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				container_id,
+				parent_container_id,
 				container_type,
 				label,
 				barcode
@@ -428,6 +442,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 		<cfloop query="queryGetBreadcrumb">
 			<cfset local.row = StructNew()>
 			<cfset local.row["container_id"] = queryGetBreadcrumb.container_id>
+			<cfset local.row["parent_container_id"] = queryGetBreadcrumb.parent_container_id>
 			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
 			<cfset local.row["label"] = queryGetBreadcrumb.label>
 			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
@@ -679,6 +694,178 @@ a paginated JSON result for display in the browse panel.
 	</cfcatch>
 	</cftry>
 	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+
+<!---
+Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-side placement logic.
+@return a JSON array of ctcontainer_type metadata objects with keys: container_type, role,
+	expects_leaf_child_count, expected_parent_types, force_expected_parent_type, rank_order,
+	variable_rank, description.
+--->
+<cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
+	<cfset local.rows = ArrayNew(1)>
+	<cfset local.i = 1>
+	<cfquery name="queryCtContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			container_type,
+			role,
+			expects_leaf_child_count,
+			expected_parent_types,
+			force_expected_parent_type,
+			rank_order,
+			variable_rank,
+			description
+		FROM
+			ctcontainer_type
+		ORDER BY
+			rank_order,
+			container_type
+	</cfquery>
+	<cfloop query="queryCtContainerType">
+		<cfset local.row = StructNew()>
+		<cfset local.row["container_type"] = queryCtContainerType.container_type>
+		<cfset local.row["role"] = queryCtContainerType.role>
+		<cfset local.row["expects_leaf_child_count"] = queryCtContainerType.expects_leaf_child_count>
+		<cfset local.row["expected_parent_types"] = queryCtContainerType.expected_parent_types>
+		<cfset local.row["force_expected_parent_type"] = queryCtContainerType.force_expected_parent_type>
+		<cfset local.row["rank_order"] = queryCtContainerType.rank_order>
+		<cfset local.row["variable_rank"] = queryCtContainerType.variable_rank>
+		<cfset local.row["description"] = queryCtContainerType.description>
+		<cfset local.rows[local.i] = local.row>
+		<cfset local.i = local.i + 1>
+	</cfloop>
+	<cfreturn serializeJSON(local.rows)>
+</cffunction>
+
+<!---
+Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for parent-container picking.
+@param child_container_id optional child container_id used to preselect expected parent type.
+@param preselect_type optional container_type value to preselect in the type control.
+@param ancestor_container_id optional ancestor container_id to constrain subtree search.
+@param institution_acronym optional institution acronym to constrain dialog searches.
+@param id_suffix optional suffix applied to generated control ids for uniqueness.
+@return HTML fragment string for the parent-container picker dialog controls.
+--->
+<cffunction name="pickContainerDialogHtml" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="child_container_id" type="string" required="no" default="">
+	<cfargument name="preselect_type" type="string" required="no" default="">
+	<cfargument name="ancestor_container_id" type="string" required="no" default="">
+	<cfargument name="institution_acronym" type="string" required="no" default="">
+	<cfargument name="id_suffix" type="string" required="no" default="">
+
+	<cfset local.safeSuffix = REReplace(arguments.id_suffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfset local.typeControlId = "pickContainerType#local.safeSuffix#">
+	<cfset local.ancestorControlId = "pickContainerAncestor#local.safeSuffix#">
+	<cfset local.ancestorIdControlId = "pickContainerAncestorId#local.safeSuffix#">
+	<cfset local.searchControlId = "pickContainerSearch#local.safeSuffix#">
+	<cfset local.searchIdControlId = "pickContainerSearchId#local.safeSuffix#">
+	<cfset local.labelContainsControlId = "pickContainerLabelContains#local.safeSuffix#">
+	<cfset local.descriptionContainsControlId = "pickContainerDescriptionContains#local.safeSuffix#">
+	<cfset local.validationControlId = "pickContainerValidation#local.safeSuffix#">
+	<cfset local.confirmControlId = "pickContainerConfirm#local.safeSuffix#">
+	<cfset local.cancelControlId = "pickContainerCancel#local.safeSuffix#">
+	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
+	<cfset local.selectedType = trim(arguments.preselect_type)>
+
+	<cfquery name="queryAllowedTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			container_type,
+			rank_order
+		FROM
+			ctcontainer_type
+		WHERE
+			role IN ('structural', 'leafbearer')
+		ORDER BY
+			rank_order,
+			container_type
+	</cfquery>
+
+	<cfif len(trim(arguments.child_container_id)) GT 0 AND isNumeric(arguments.child_container_id)>
+		<cfquery name="queryChildExpected" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				NVL(ct.expected_parent_types, 'any') AS expected_parent_types
+			FROM
+				container c
+				LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+			WHERE
+				c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+		</cfquery>
+		<cfif queryChildExpected.recordcount EQ 1 AND len(trim(local.selectedType)) EQ 0>
+			<cfset local.expectedTypeList = trim(queryChildExpected.expected_parent_types)>
+			<cfif local.expectedTypeList NEQ "" AND lCase(local.expectedTypeList) NEQ "any" AND lCase(local.expectedTypeList) NEQ "none">
+				<cfset local.selectedType = trim(listFirst(local.expectedTypeList, ","))>
+			</cfif>
+		</cfif>
+	</cfif>
+
+	<cfsavecontent variable="local.htmlFragment"><cfoutput>
+		<fieldset class="border rounded bg-light p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Filter parent candidates</legend>
+			<div class="form-row mb-2">
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.typeControlId)#" class="data-entry-label">Container Type</label>
+					<select id="#encodeForHtml(local.typeControlId)#" class="data-entry-select col-12">
+						<option value=""></option>
+						<cfloop query="queryAllowedTypes">
+							<cfset local.selectedFlag = "">
+							<cfif queryAllowedTypes.container_type EQ local.selectedType>
+								<cfset local.selectedFlag = " selected">
+							</cfif>
+							<option value="#encodeForHtml(queryAllowedTypes.container_type)#"#local.selectedFlag#>#encodeForHtml(queryAllowedTypes.container_type)#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree (optional)</label>
+					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12" value="">
+					<input type="hidden" id="#encodeForHtml(local.ancestorIdControlId)#" value="#encodeForHtml(arguments.ancestor_container_id)#">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-label">Label contains</label>
+					<input type="text" id="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-input col-12" value="">
+				</div>
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-label">Description contains</label>
+					<input type="text" id="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-input col-12" value="">
+				</div>
+			</div>
+		</fieldset>
+		<fieldset class="border rounded p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Select parent container</legend>
+			<div class="form-row">
+				<div class="col-12 mb-1">
+					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label">Container autocomplete</label>
+					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
+					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
+				</div>
+			</fieldset>
+		</div>
+		<div class="form-row mb-2">
+			<div class="col-12">
+				<div class="small text-muted">Pick from the autocomplete list above after setting any filters.</div>
+			</div>
+		</div>
+		<div class="form-row mb-2">
+			<div class="col-12">
+				<cfif len(trim(arguments.institution_acronym)) GT 0>
+					<div class="small text-muted mb-2">Search limited to institution: #encodeForHtml(arguments.institution_acronym)#</div>
+				</cfif>
+			</div>
+		</div>
+		<div id="#encodeForHtml(local.validationControlId)#" role="status" aria-live="polite" class="mb-2"></div>
+		<div class="form-row">
+			<div class="col-12">
+				<button type="button" id="#encodeForHtml(local.confirmControlId)#" class="btn btn-xs btn-primary" disabled="disabled">Select</button>
+				<button type="button" id="#encodeForHtml(local.cancelControlId)#" class="btn btn-xs btn-warning ml-1">Cancel</button>
+				<output id="#encodeForHtml(local.statusControlId)#" class="ml-2"></output>
+			</div>
+		</div>
+	</cfoutput></cfsavecontent>
+
+	<cfreturn local.htmlFragment>
 </cffunction>
 
 </cfcomponent>

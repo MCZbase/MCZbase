@@ -118,19 +118,43 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
  *  on picklist and value on selection.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected container_id (without a leading # selector).
+ *  @param typeControl the id of a select/input that provides an optional container_type filter.
+ *  @param ancestorControl the id of a hidden input that provides an optional ancestor container_id filter.
+ *  @param labelContainsControl the id of an optional text input for label substring filtering.
+ *  @param descriptionContainsControl the id of an optional text input for description substring filtering.
  *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
  *   is made other than selection from picklist.
  */
-function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
+function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, labelContainsControl, descriptionContainsControl, clear=false) {
+	if (typeof labelContainsControl === 'boolean') {
+		clear = labelContainsControl;
+		labelContainsControl = '';
+		descriptionContainsControl = '';
+	} else if (typeof descriptionContainsControl === 'boolean') {
+		clear = descriptionContainsControl;
+		descriptionContainsControl = '';
+	}
+	labelContainsControl = labelContainsControl || '';
+	descriptionContainsControl = descriptionContainsControl || '';
 	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
+			var labelContainsValue = '';
+			var descriptionContainsValue = '';
+			if (labelContainsControl && $('#' + labelContainsControl).length > 0) {
+				labelContainsValue = $('#' + labelContainsControl).val();
+			}
+			if (descriptionContainsControl && $('#' + descriptionContainsControl).length > 0) {
+				descriptionContainsValue = $('#' + descriptionContainsControl).val();
+			}
 			$.ajax({
 				url: "/containers/component/search.cfc",
 				data: { 
 					term: request.term, 
 					type: $('#'+typeControl).val(),
 					ancestor_container_id: $('#'+ancestorControl).val(),
+					label_contains: labelContainsValue,
+					description_contains: descriptionContainsValue,
 					method: 'getContainerAutocompleteLimited' 
 				},
 				dataType: 'json',
@@ -533,30 +557,29 @@ function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
 		data: { method: 'getContainerBreadcrumb', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
-			var parts = [];
-			$.each(data, function(i, node) {
-				var display = formatContainerDisplay(node.barcode, node.label);
-				parts.push(node.container_type + ': ' + display);
-			});
-			var pathText = parts.join(' \u203a ');
 			$('#containerBrowseContext').text('Location');
 
-			var panel = $('<div></div>');
-			panel.append($('<h2 class="h4 mt-2"></h2>').text('Container Location'));
 			var breadcrumbDiv = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+			var placementBadgeId = 'placementBadgeInBreadcrumb-' + targetPanel;
+			var targetNode = (data && data.length > 0) ? data[data.length - 1] : {};
+			var parentContainerId = parseInt(targetNode.parent_container_id, 10);
+			if (isNaN(parentContainerId)) {
+				parentContainerId = 0;
+			}
 			$.each(data, function(i, node) {
 				var display = formatContainerDisplay(node.barcode, node.label);
 				var crumbText = node.container_type + ': ' + display;
 				var crumbLi = $('<li class="breadcrumb-item"></li>');
 				if (i === data.length - 1) {
 					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
+					crumbLi.append($('<span class="ml-1"></span>').attr('id', placementBadgeId));
 				} else {
 					crumbLi.text(crumbText);
 				}
 				breadcrumbDiv.append(crumbLi);
 			});
-			panel.append(breadcrumbDiv);
-			$('#' + targetPanel).html(panel);
+			$('#' + targetPanel).html(breadcrumbDiv);
+			loadPlacementWarningBadge(containerId, parentContainerId, placementBadgeId);
 			$('#' + feedbackId).text('');
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -898,6 +921,15 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
+				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
+				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
+				if ($legacyPositionsLink.length > 0) {
+					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
+						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
+					} else {
+						$legacyPositionsLink.addClass('d-none');
+					}
+				}
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -2468,4 +2500,377 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 		}
 	});
 	});
+}
+
+
+var CONTAINER_TYPE_META = null;
+
+/**
+ * Load ctcontainer_type metadata used by placement helpers.
+ * @param {function} callback - optional callback invoked after metadata load attempt.
+ * @returns {void}
+ */
+function loadContainerTypeMetadata(callback) {
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'getContainerTypeMetadata',
+			returnformat: 'json'
+		},
+		success: function(data) {
+			CONTAINER_TYPE_META = data;
+			if ($.isFunction(callback)) {
+				callback();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			console.warn('Unable to load container type metadata.', error || textStatus);
+			CONTAINER_TYPE_META = null;
+			if ($.isFunction(callback)) {
+				callback();
+			}
+		}
+	});
+}
+
+/**
+ * Get normalized type metadata for a container type.
+ * @param {string} containerType - container_type name to resolve.
+ * @returns {Object} metadata object with role, parent expectations, and rank fields.
+ */
+function getContainerTypeMeta(containerType) {
+	var normalized = (containerType || '').toLowerCase();
+	var defaults = {
+		container_type: containerType || '',
+		role: 'structural',
+		expects_leaf_child_count: 0,
+		expected_parent_types: 'any',
+		force_expected_parent_type: 0,
+		rank_order: null,
+		variable_rank: 0,
+		description: ''
+	};
+	if (CONTAINER_TYPE_META && $.isArray(CONTAINER_TYPE_META)) {
+		for (var i = 0; i < CONTAINER_TYPE_META.length; i++) {
+			var row = CONTAINER_TYPE_META[i] || {};
+			if (((row.container_type || '').toLowerCase()) === normalized) {
+				return {
+					container_type: row.container_type || containerType || '',
+					role: row.role || 'structural',
+					expects_leaf_child_count: parseInt(row.expects_leaf_child_count, 10) || 0,
+					expected_parent_types: row.expected_parent_types || 'any',
+					force_expected_parent_type: parseInt(row.force_expected_parent_type, 10) || 0,
+					rank_order: row.rank_order,
+					variable_rank: parseInt(row.variable_rank, 10) || 0,
+					description: row.description || ''
+				};
+			}
+		}
+	}
+	var CONTAINER_ROLE_MAP = {
+		'collection object': 'leaf',
+		'cryovial': 'proxy',
+		'pin': 'proxy',
+		'slide': 'proxy',
+		'envelope': 'proxy',
+		'glass vial': 'proxy',
+		'jar': 'leafbearer',
+		'compartment': 'leafbearer',
+		'tank': 'leafbearer',
+		'institution': 'structural',
+		'campus': 'structural',
+		'cryovat': 'structural',
+		'building': 'structural',
+		'floor': 'structural',
+		'room': 'structural',
+		'freezer': 'structural',
+		'freezer rack': 'structural',
+		'freezer box': 'structural',
+		'grouping': 'structural',
+		'set': 'structural',
+		'fixture': 'structural',
+		'rack slot': 'structural',
+		'position': 'structural'
+	};
+	defaults.role = CONTAINER_ROLE_MAP[normalized] || 'structural';
+	return defaults;
+}
+
+/**
+ * Validate a proposed placement and render severity messages in the dialog.
+ * @param {number|string} childContainerId - container_id being moved.
+ * @param {number|string} proposedParentContainerId - target parent container_id (0 for root).
+ * @param {string} validationDivId - id of the target element for validation output.
+ * @param {string} confirmButtonId - id of the confirm button to enable/disable.
+ * @returns {void}
+ */
+function checkAndRenderPlacementValidation(childContainerId, proposedParentContainerId, validationDivId, confirmButtonId) {
+	var validationDiv = $('#' + validationDivId);
+	var confirmButton = $('#' + confirmButtonId);
+	validationDiv.html('<div class="small text-muted"><img src="/shared/images/indicator.gif"> Checking placement…</div>');
+	if (!childContainerId || parseInt(childContainerId, 10) === 0) {
+		validationDiv.empty();
+		confirmButton.prop('disabled', false);
+		return;
+	}
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'validateContainerPlacement',
+			returnformat: 'json',
+			child_container_id: childContainerId,
+			proposed_parent_container_id: proposedParentContainerId
+		},
+		success: function(result) {
+			var severity = (result && result.severity) ? result.severity : 'ok';
+			if (severity === 'ok') {
+				validationDiv.html('<span class="text-success small">✓ Placement is within expectations</span>');
+			} else if (severity === 'warn') {
+				var warningList = $('<ul class="mb-0"></ul>');
+				$.each(result.warnings || [], function(i, warning) {
+					warningList.append($('<li></li>').text(warning));
+				});
+				validationDiv.html('').append(
+					$('<div class="alert alert-warning py-1 px-2 small mb-0"></div>')
+						.append('<strong>⚠ Placement warning</strong>')
+						.append(warningList)
+				);
+			} else {
+				var blockList = $('<ul class="mb-0"></ul>');
+				$.each(result.blocks || [], function(i, block) {
+					blockList.append($('<li></li>').text(block));
+				});
+				validationDiv.html('').append(
+					$('<div class="alert alert-danger py-1 px-2 small mb-0"></div>')
+						.append('<strong>✗ Placement not allowed</strong>')
+						.append(blockList)
+				);
+			}
+			confirmButton.prop('disabled', !(result && result.allowed === true));
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'validating container placement');
+			confirmButton.prop('disabled', true);
+		}
+	});
+}
+
+/**
+ * Render a compact placement badge (ok/warn/block) for existing placements.
+ * @param {Object} validationResult - response object from validateContainerPlacement.
+ * @param {string} targetDivId - id of the target element to render badge content into.
+ * @returns {void}
+ */
+function renderPlacementWarningBadge(validationResult, targetDivId) {
+	var target = $('#' + targetDivId);
+	var detailId = 'pd-' + targetDivId;
+	var warnings = (validationResult && validationResult.warnings) ? validationResult.warnings : [];
+	var blocks = (validationResult && validationResult.blocks) ? validationResult.blocks : [];
+	var expected = (validationResult && validationResult.expected_parent_types) ? validationResult.expected_parent_types : 'any';
+	var forceExpected = parseInt((validationResult && validationResult.force_expected_parent_type) || 0, 10);
+	var isRoot = !!(validationResult && validationResult.is_root_placement);
+	var rootWarnText = 'Container is being placed at the root level. Containers of type ' + (validationResult.child_type || 'this type') + ' are normally placed inside ' + expected + '.';
+	var buildCollapse = function(className, labelText, items) {
+		var wrapper = $('<span></span>');
+		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')
+			.attr('data-toggle', 'collapse')
+			.attr('data-target', '#' + detailId)
+			.text(labelText);
+		var detail = $('<div class="collapse small mt-1"></div>').attr('id', detailId);
+		var list = $('<ul class="list-unstyled mb-0"></ul>');
+		$.each(items, function(i, item) {
+			list.append($('<li></li>').text(item));
+		});
+		detail.append(list);
+		wrapper.append(badge).append(detail);
+		return wrapper;
+	};
+
+	target.empty();
+	if (isRoot && expected === 'none' && forceExpected === 1) {
+		target.append($('<span class="badge badge-success"></span>').text('✓ Root container (expected)'));
+		return;
+	}
+	if (isRoot && expected === 'none' && forceExpected === 0) {
+		target.append(buildCollapse('badge-warning', '⚠ Root container', ['Containers of this type are expected to be root containers.']));
+		return;
+	}
+	if (isRoot && expected !== 'none' && expected !== 'any') {
+		target.append(buildCollapse('badge-warning', '⚠ placement warning', [rootWarnText]));
+		return;
+	}
+
+	if (validationResult && validationResult.severity === 'ok') {
+		target.append($('<span class="badge badge-success"></span>').text('✓ placement ok'));
+	} else if (validationResult && validationResult.severity === 'warn') {
+		target.append(buildCollapse('badge-warning', '⚠ placement warning', warnings));
+	} else {
+		target.append(buildCollapse('badge-danger', '✗ placement blocked', blocks));
+	}
+}
+
+/**
+ * Load validation for an existing placement and render badge output.
+ * @param {number|string} containerContainerId - child container_id to validate.
+ * @param {number|string} parentContainerId - parent container_id to validate against.
+ * @param {string} targetDivId - id of the target element for badge output.
+ * @returns {void}
+ */
+function loadPlacementWarningBadge(containerContainerId, parentContainerId, targetDivId) {
+	var target = $('#' + targetDivId);
+	target.html('<span class="small text-muted"><img src="/shared/images/indicator.gif"> Checking…</span>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'validateContainerPlacement',
+			returnformat: 'json',
+			child_container_id: containerContainerId,
+			proposed_parent_container_id: parentContainerId
+		},
+		success: function(result) {
+			renderPlacementWarningBadge(result, targetDivId);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading placement warning badge');
+			target.empty();
+		}
+	});
+}
+
+/**
+ * Open the constrained parent-container selection dialog.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for default filtering.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} targetIdFieldId - id of hidden field to receive selected parent container_id.
+ * @param {string} targetLabelFieldId - id of text field to receive selected parent label.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
+function openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, targetIdFieldId, targetLabelFieldId, feedbackId) {
+	var id_suffix = '_' + Date.now();
+	var wrapper = $('#placementDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="placementDialogWrapper"></div>').appendTo('body');
+	}
+	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	wrapper.dialog({
+		title: 'Select Parent Container',
+		modal: true,
+		width: 540,
+		autoOpen: true
+	});
+	var expected = getContainerTypeMeta(childContainerType).expected_parent_types || '';
+	var preselectType = '';
+	if (expected && expected !== 'any' && expected !== 'none') {
+		preselectType = $.trim((expected + '').split(',')[0]);
+	}
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		type: 'get',
+		dataType: 'html',
+		data: {
+			method: 'pickContainerDialogHtml',
+			returnformat: 'plain',
+			child_container_id: childContainerId,
+			preselect_type: preselectType,
+			institution_acronym: childInstitutionAcronym,
+			id_suffix: id_suffix
+		},
+		success: function(html) {
+			wrapper.html(html);
+			makeContainerAutocompleteMeta('pickContainerAncestor' + id_suffix, 'pickContainerAncestorId' + id_suffix);
+			makeContainerAutocompleteLimitedMeta(
+				'pickContainerSearch' + id_suffix,
+				'pickContainerSearchId' + id_suffix,
+				'pickContainerType' + id_suffix,
+				'pickContainerAncestorId' + id_suffix,
+				'pickContainerLabelContains' + id_suffix,
+				'pickContainerDescriptionContains' + id_suffix
+			);
+
+			$('#pickContainerType' + id_suffix).on('change', function() {
+				makeContainerAutocompleteLimitedMeta(
+					'pickContainerSearch' + id_suffix,
+					'pickContainerSearchId' + id_suffix,
+					'pickContainerType' + id_suffix,
+					'pickContainerAncestorId' + id_suffix,
+					'pickContainerLabelContains' + id_suffix,
+					'pickContainerDescriptionContains' + id_suffix
+				);
+			});
+			var filterInputTimer = null;
+			var filterInputs = $('#pickContainerLabelContains' + id_suffix + ', #pickContainerDescriptionContains' + id_suffix);
+			var refreshDialogAutocomplete = function () {
+				$('#pickContainerSearchId' + id_suffix).val('');
+				makeContainerAutocompleteLimitedMeta(
+					'pickContainerSearch' + id_suffix,
+					'pickContainerSearchId' + id_suffix,
+					'pickContainerType' + id_suffix,
+					'pickContainerAncestorId' + id_suffix,
+					'pickContainerLabelContains' + id_suffix,
+					'pickContainerDescriptionContains' + id_suffix
+				);
+			};
+			filterInputs.on('change', function() {
+				refreshDialogAutocomplete();
+			});
+			filterInputs.on('input', function() {
+				if (filterInputTimer) {
+					window.clearTimeout(filterInputTimer);
+				}
+				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
+			});
+			$('#pickContainerSearch' + id_suffix).on('autocompleteselect', function() {
+				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
+				checkAndRenderPlacementValidation(childContainerId, selectedId, 'pickContainerValidation' + id_suffix, 'pickContainerConfirm' + id_suffix);
+			});
+			$('#pickContainerConfirm' + id_suffix).on('click', function() {
+				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
+				var selectedLabel = $('#pickContainerSearch' + id_suffix).val();
+				$('#' + targetIdFieldId).val(selectedId);
+				$('#' + targetLabelFieldId).val(selectedLabel);
+				setFeedbackControlState(feedbackId, 'saved');
+				wrapper.dialog('close');
+			});
+			$('#pickContainerCancel' + id_suffix).on('click', function() {
+				wrapper.dialog('close');
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
+		}
+	});
+}
+
+/**
+ * Add a dialog-launch button adjacent to a parent-container text field.
+ * @param {string} textFieldId - id of the text field that displays selected parent container.
+ * @param {string} idFieldId - id of the hidden field for selected parent container_id.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for dialog defaults.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
+function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, childContainerType, childInstitutionAcronym, feedbackId) {
+	if ($('#chooseBtn-' + textFieldId).length > 0) {
+		return;
+	}
+	var textField = $('#' + textFieldId);
+	var pickerRow = textField.closest('.parent-container-picker-row');
+	var buttonContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
+	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
+		.attr('id', 'chooseBtn-' + textFieldId)
+		.text('Choose…')
+		.on('click', function() {
+			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
+		})
+		.appendTo(buttonContainer);
 }

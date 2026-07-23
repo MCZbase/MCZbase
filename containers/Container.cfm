@@ -57,10 +57,13 @@ limitations under the License.
 
 <cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
-		container_type
+		container_type,
+		rank_order,
+		variable_rank
 	FROM
 		ctcontainer_type
 	ORDER BY
+		rank_order,
 		container_type
 </cfquery>
 <cfquery name="getInstitutionAcronyms" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
@@ -85,6 +88,8 @@ limitations under the License.
 <cfset variables.formData["locked_position"] = 0>
 <cfset variables.formData["institution_acronym"] = "MCZ">
 <cfset variables.parentContainerText = "">
+<cfset variables.parent_container_type = "">
+<cfset variables.parentRankOrder = "">
 <cfset variables.hasChildren = false>
 
 <cfif variables.action EQ "edit">
@@ -178,6 +183,15 @@ limitations under the License.
 		<cfset variables.parent_container_type = getPresetParent.container_type>
 	</cfif>
 </cfif>
+<cfif variables.action EQ "new" AND len(trim(variables.parent_container_type)) GT 0>
+	<cfloop query="ctcontainer_type">
+		<cfif ctcontainer_type.container_type EQ variables.parent_container_type>
+			<cfset variables.parentRankOrder = val(ctcontainer_type.rank_order)>
+			<cfbreak>
+		</cfif>
+	</cfloop>
+</cfif>
+<cfset variables.limitTypesByParent = (variables.action EQ "new" AND isNumeric(variables.parentContainerId) AND val(variables.parentRankOrder) GT 0)>
 
 <cfif variables.action EQ "edit">
 	<cfset pageTitle = "Edit Container">
@@ -237,12 +251,22 @@ limitations under the License.
 								<option value=""></option>
 								<cfloop query="ctcontainer_type">
 									<cfset variables.selectedType = "">
+									<cfset variables.typeVisibilityClass = "">
+									<cfset variables.isVariableRankType = (val(ctcontainer_type.variable_rank) EQ 1)>
+									<cfset variables.hasLowerRankOrderThanParent = (val(ctcontainer_type.rank_order) LT val(variables.parentRankOrder))>
+									<!--- variable_rank=1 types may be placed at any rank and remain visible in the constrained list. --->
+									<cfif variables.limitTypesByParent AND NOT variables.isVariableRankType AND variables.hasLowerRankOrderThanParent>
+										<cfset variables.typeVisibilityClass = "ct-all-option d-none">
+									</cfif>
 									<cfif ctcontainer_type.container_type EQ variables.formData.container_type>
 										<cfset variables.selectedType = " selected">
 									</cfif>
-									<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+									<option class="#variables.typeVisibilityClass#" value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
 								</cfloop>
 							</select>
+							<cfif variables.limitTypesByParent>
+								<button type="button" class="btn btn-xs btn-secondary mt-1" id="showAllContainerTypesButton">Show all container types</button>
+							</cfif>
 						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
@@ -294,7 +318,10 @@ limitations under the License.
 							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.parentContainerText)#" readonly>
 						<cfelse>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" value="#encodeForHtml(variables.formData.parent_container_id)#">
-							<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+							<div class="parent-container-picker-row d-flex align-items-start">
+								<input type="text" name="parentContainerText" id="parentContainerText" class="data-entry-input reqdClr flex-grow-1" required aria-required="true" value="#encodeForHtml(variables.parentContainerText)#">
+							</div>
+							<div id="parentPlacementValidation" class="mt-1"></div>
 						</cfif>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
@@ -337,13 +364,18 @@ limitations under the License.
 				<div class="form-row mb-4 mt-1">
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
-							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
+							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
 							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
+							<cfset variables.positionsLinkClass = "btn btn-xs btn-secondary ml-1">
+							<cfif val(variables.formData.number_positions) LTE 0>
+								<cfset variables.positionsLinkClass = "#variables.positionsLinkClass# d-none">
+							</cfif>
+							<a class="#variables.positionsLinkClass#" id="legacyContainerPositionsLink" href="/containerPositions.cfm?container_id=#encodeForURL(variables.formData.container_id)#">Container Positions</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
 						<cfelse>
-							<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm', 'createContainer', 'containerSaveStatus')">Create Container</button>
+							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'createContainer', 'containerSaveStatus')">Create Container</button>
 							<a class="btn btn-xs btn-warning ml-1" href="/containers/Containers.cfm">Cancel</a>
 						</cfif>
 						<output id="containerSaveStatus"></output>
@@ -364,6 +396,40 @@ limitations under the License.
 	$(document).ready(function () {
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		<cfoutput>
+		var placementChildContainerId = '#encodeForJavaScript(variables.formData.container_id)#';
+		var placementChildContainerType = '#encodeForJavaScript(variables.formData.container_type)#';
+		var placementChildInstitution = '#encodeForJavaScript(variables.formData.institution_acronym)#';
+		<cfif lockedRoot OR variables.formData.locked_position EQ 1>
+			var parentLocked = 1;
+		<cfelse>
+			var parentLocked = 0;
+		</cfif>
+		</cfoutput>
+		if (!parentLocked) {
+			loadContainerTypeMetadata(function() {
+				addPlacementDialogButton('parentContainerText', 'parent_container_id', placementChildContainerId, placementChildContainerType, placementChildInstitution, 'containerSaveStatus');
+			});
+
+			var runParentPlacementValidation = function() {
+				var parentId = $('#parent_container_id').val() || 0;
+				if ($('#parentPlacementValidation').length > 0 && parentId) {
+					checkAndRenderPlacementValidation(placementChildContainerId, parentId, 'parentPlacementValidation', 'containerSaveActionButton');
+				}
+			};
+			$('#parentContainerText').on('autocompleteselect change', function() {
+				// allow autocomplete selection handlers to populate parent_container_id before validation runs.
+				window.setTimeout(runParentPlacementValidation, 10);
+			});
+			runParentPlacementValidation();
+		}
+		<cfif variables.limitTypesByParent>
+			$('#showAllContainerTypesButton').on('click', function () {
+				$('#container_type .ct-all-option').removeClass('d-none');
+				$(this).addClass('d-none');
+			});
+		</cfif>
+
 		<cfif variables.action EQ "edit">
 			<cfoutput>
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
