@@ -442,8 +442,8 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-xl-6" data-target-group="specimen">
-											<label for="specimen_guid" class="">Specimen GUID</label>
-											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="" placeholder="MCZ:Herp:A-12345">
+											<label for="specimen_guid">Specimen GUID</label>
+											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
 										</div>
 									</div>
 								</div>
@@ -452,8 +452,8 @@ limitations under the License.
 									<div class="form-row">
 										<h3 class="h6 mb-0 px-2 mt-2 w-100"><span class="bg-light border px-3" style="width: 100px;margin-bottom: 2px;">Taxon</span></h3>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
-											<label for="family" class="">Family</label>
-											<select name="family" id="family" class="">
+											<label for="family">Family</label>
+											<select name="family" id="family">
 												<option value="">Any Family</option>
 												<cfloop query="getAnnotatedFamilies">
 													<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
@@ -462,25 +462,25 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-xl-6" data-target-group="taxon">
-											<label for="scientific_name" class="">Scientific Name Contains</label>
-											<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#" class="">
+											<label for="scientific_name">Scientific Name Contains</label>
+											<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
 										</div>
 									</div>
 								</div>
 								<div class="col-12 col-xl-4">
 									<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 									<div class="form-row">
-										<h3 class="h6 mb-0 px-2 mt-2 w-100"><span class="bg-light border px-3" style="width: 150px;">Agent</span></h3>
+										<h3 class="h6 mb-0 px-2 mt-2 w-100 bg-light">Agent</h3>
 										<div class="col-12" data-target-group="agent">
-											<label for="agent_name" class="">Agent Name</label>
-											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" class="" placeholder="Type to search by name or pick an agent">
+											<label for="agent_name">Agent Name</label>
+											<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" placeholder="Type to search by name or pick an agent">
 											<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 										</div>
 									</div>
 								</div>
 								<div class="col-12">
 									<div class="form-row">
-										<h3 class="h6 px-2 mt-2 mb-0 w-100"><span class="bg-light border px-3" style="width: 200px;margin-bottom: 2px;">Publication and Project</span></h3>
+										<h3 class="h6 px-2 mt-3 mb-0 w-100">Publication and Project</h3>
 										<div class="col-12 col-md-6" data-target-group="publication">
 											<label for="publication_lookup" class="">Publication Citation or Title</label>
 											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
