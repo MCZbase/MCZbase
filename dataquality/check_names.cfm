@@ -54,8 +54,8 @@ limitations under the License.
 						<div class="form-row border rounded p-2">
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to check:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 reqdClr" required>
+								<label for="fileToUpload">File to check:</label> 
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="p-0 m-0 reqdClr" required>
 							</div>
 							<div class="col-12 col-md-3">
 								<cfset charsetSelect = getCharsetSelectHTML(default="utf-8")>
@@ -64,7 +64,7 @@ limitations under the License.
 								<cfset formatSelect = getFormatSelectHTML()>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="returnAsCSV" class="data-entry-label">Return as:</label>
+								<label for="returnAsCSV" class="">Return as:</label>
 								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0 reqdClr">
 									<option value="html" selected>HTML</option>
 									<option value="csv">CSV</option>
