@@ -4426,16 +4426,42 @@ limitations under the License.
 							WHERE
 								FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						<cfquery name="flatpending" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) ct
 							FROM flat
 							WHERE stale_flag = 1
 								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+						<cfquery name="flatheld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct
+							FROM flat
+							WHERE stale_flag > 1
+								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
 						<div class="row mx-0">
-							<cfif flatstatus.ct GT 0>
+							<cfif flatpending.ct GT 0>
 								<div class="col-12 px-2">
 									<span class="small90 text-danger font-weight-bold">Note: Update to the external view for this record is pending. The external data shown are stale.</span>
+								</div>
+							<cfelseif flatheld.ct GT 0>
+								<cfif isdefined("session.roles") AND session.roles contains "global_admin">
+									<div class="col-12 px-2">
+										<span class="small90 text-danger font-weight-bold">Warning: FLAT.STALE_FLAG is greater than 1 for this record. The external data shown are stale.</span>
+									</div>
+									<cfquery name="getErrorMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT errmsg 
+										FROM mczbase_flat_update_errors
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+										ORDER BY log_date DESC
+									</cfquery>
+									<cfif getErrorMessage.recordcount GT 0>
+										<div class="col-12 px-2">
+											<span class="small90 text-danger font-weight-bold">Most Recent Error Message: #getErrorMessage.errmsg#</span>
+										</div>
+									</cfif>
+								</cfif>
+								<div class="col-12 px-2">
+									<span class="small90 text-danger font-weight-bold">Warning: Update to the external view for this record is <strong>blocked</strong>. The external data shown are stale.</span>
 								</div>
 							</cfif>
 							<div class="col-12 px-2">
