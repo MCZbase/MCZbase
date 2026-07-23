@@ -317,7 +317,7 @@ limitations under the License.
 								Annotation Metadata
 							</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="state" class="">State</label>
 									<select name="state" id="state" class="">
 										<option value=""></option>
@@ -327,7 +327,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="resolution" class="data-entry-label">Resolution</label>
 									<select name="resolution" id="resolution" class="data-entry-select col-12">
 										<option value=""></option>
@@ -341,7 +341,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="motivation" class="data-entry-label">Motivation</label>
 									<select name="motivation" id="motivation" class="data-entry-select col-12">
 										<option value=""></option>
@@ -351,7 +351,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="has_responses" class="data-entry-label">Has Responses</label>
 									<select name="has_responses" id="has_responses" class="data-entry-select col-12">
 										<option value=""></option>
@@ -361,10 +361,7 @@ limitations under the License.
 										<option value="no" #local.selected#>No</option>
 									</select>
 								</div>
-								<div class="mt-auto pt-2">
-									<button type="submit" class="btn btn-xs btn-primary">Search</button>
-									<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
-								</div>
+					
 							</div>
 						</fieldset>
 							
@@ -373,11 +370,11 @@ limitations under the License.
 								Annotation Text and Review
 							</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="annotator" class="">Annotator Username</label>
 									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="" placeholder="Type annotator name or username">
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-4">
 									<label for="annotation_text" class="">Annotation Body Text</label>
 									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="">
 								</div>
@@ -487,6 +484,10 @@ limitations under the License.
 								</div>
 							</div>
 							</fieldset>
+							<div class="mt-auto pt-2">
+								<button type="submit" class="btn btn-xs btn-primary">Search</button>
+								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
+							</div>
 						</form>
 						<script>
 							var $form = $('##annotationSearchForm');
