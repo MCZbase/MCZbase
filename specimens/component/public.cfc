@@ -231,7 +231,12 @@ limitations under the License.
 									</cfif>
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
-											<h1 class="col-12 mb-1 h4 font-weight-bold">#collection.institution_acronym# #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											<cfif collection.institution_acronym EQ collection.collection_cde>
+												<!--- render HUH material in the form GH (Gray Herbarium) nnnnnn **** this may change *** --->
+												<h1 class="col-12 mb-1 h4 font-weight-bold">#collection.institution_acronym# (#summary.collection#) #summary.cat_num##mixedMarker#</h1>
+											<cfelse>	
+												<h1 class="col-12 mb-1 h4 font-weight-bold">#collection.institution_acronym# #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											</cfif>
 											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a href="/name/#encodeForURL(summary.sci_name_no_auth)#" class="text-dark">#summary.sci_name#</a>
 											</h2>
