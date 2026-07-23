@@ -1317,6 +1317,7 @@ details of a container for use in dialogs and page components.
 									col.institution_acronym,
 									id_sub.scientific_name,
 									sp.part_name,
+									/* coll_object stores count on lot_* columns; expose as part_* to match container details UI labels. */
 									co.lot_count AS part_count,
 									co.lot_count_modifier AS part_count_modifier,
 									cor.coll_object_remarks AS part_remarks,
@@ -1345,7 +1346,7 @@ details of a container for use in dialogs and page components.
 											coll_object_remarks,
 											ROW_NUMBER() OVER (
 												PARTITION BY collection_object_id
-												/* Remarks table lacks chronology/priority metadata; choose deterministic lexical first value when multiples exist. */
+												/* Remarks table lacks chronology/priority metadata; lexical ASC is arbitrary but deterministic, not recency-based. */
 												ORDER BY coll_object_remarks ASC
 											) AS rn
 										FROM coll_object_remark
