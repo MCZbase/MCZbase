@@ -430,21 +430,21 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
-										<h3 class="h6 mb-2">Specimen</h3>
-										<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
-									<label for="collection" class="">Collection</label>
-									<select name="collection" id="collection" class="">
-										<option value="">Any Collection</option>
-										<cfloop query="getAnnotatedCollections">
-											<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-											<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
-										</cfloop>
-									</select>
-								</div>
-										<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
-									<label for="specimen_guid" class="">Specimen GUID</label>
-									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="" placeholder="MCZ:Herp:A-12345">
-								</div>
+										<h3 class="h6 mb-2 w-100">Specimen</h3>
+										<div class="col-12" data-target-group="specimen">
+											<label for="collection" class="">Collection</label>
+											<select name="collection" id="collection" class="">
+												<option value="">Any Collection</option>
+												<cfloop query="getAnnotatedCollections">
+													<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+													<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12" data-target-group="specimen">
+											<label for="specimen_guid" class="">Specimen GUID</label>
+											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="" placeholder="MCZ:Herp:A-12345">
+										</div>
 									</div>
 								</div>
 								<div class="col-12 col-xl-4">
