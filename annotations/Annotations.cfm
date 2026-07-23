@@ -311,8 +311,8 @@ limitations under the License.
 				<cfoutput>
 					<div class="col-12 form-row">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
-							<input type="hidden" name="execute" value="true">
-							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<input type="hidden" name="execute" value="true">
+						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Annotation Metadata
 							</legend>
@@ -366,9 +366,9 @@ limitations under the License.
 									<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
 								</div>
 							</div>
-	
+						</fieldset>
 							
-							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Annotation Text and Review
 							</legend>
@@ -423,8 +423,9 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
+						</fieldset>
 					
-							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+						<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
 							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
 								Target-Specific Context
 							</legend>
@@ -445,8 +446,7 @@ limitations under the License.
 									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
 								</div>
 								<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-							</div>
-							<div class="form-row">
+							
 								<h3 class="h6 mb-2">Taxon</h3>
 								<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
 									<label for="family" class="data-entry-label">Family</label>
@@ -470,7 +470,7 @@ limitations under the License.
 									<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 								</div>
 							</div>
-	
+						
 							<div class="form-row">
 								<h3 class="h6 mb-2">Publication and Project</h3>
 								<div class="col-12 col-md-4 col-xl-2" data-target-group="publication">
@@ -486,6 +486,7 @@ limitations under the License.
 									<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="data-entry-input col-12" placeholder="Type to search by text or select from list">
 								</div>
 							</div>
+							</fieldset>
 						</form>
 						<script>
 							var $form = $('##annotationSearchForm');
