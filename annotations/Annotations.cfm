@@ -378,7 +378,7 @@ limitations under the License.
 									<label for="annotation_text" class="">Annotation Body Text</label>
 									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="">
 								</div>
-								<div class="col-12 col-md-3 col-xl-2">
+								<div class="col-12 col-md-2">
 									<label for="reviewed_fg" class="">Reviewed</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="">
 										<option value=""></option>
@@ -388,7 +388,7 @@ limitations under the License.
 										<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-2">
 									<label for="visibility" class="">Visibility</label>
 									<select name="visibility" id="visibility" class="">
 										<option value=""></option>
@@ -398,7 +398,7 @@ limitations under the License.
 										<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-2">
+								<div class="col-12 col-md-2">
 									<label for="target_type_select" class="">Target Type</label>
 									<select name="target_type" id="target_type_select" class="">
 										<option value="">All Target Types</option>
@@ -431,7 +431,7 @@ limitations under the License.
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
 										<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
-										<div class="col-12 col-xl-6" data-target-group="specimen">
+										<div class="col-12 col-md-6" data-target-group="specimen">
 											<label for="collection" class="">Collection</label>
 											<select name="collection" id="collection" class="">
 												<option value="">Any Collection</option>
@@ -441,7 +441,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-xl-6" data-target-group="specimen">
+										<div class="col-12 col-md-6" data-target-group="specimen">
 											<label for="specimen_guid">Specimen GUID</label>
 											<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
 										</div>
@@ -451,7 +451,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 									<div class="form-row">
 										<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Taxon</h3>
-										<div class="col-12 col-xl-6" data-target-group="taxon">
+										<div class="col-12 col-md-6" data-target-group="taxon">
 											<label for="family">Family</label>
 											<select name="family" id="family">
 												<option value="">Any Family</option>
@@ -461,7 +461,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-xl-6" data-target-group="taxon">
+										<div class="col-12 col-md-6" data-target-group="taxon">
 											<label for="scientific_name">Scientific Name Contains</label>
 											<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
 										</div>
