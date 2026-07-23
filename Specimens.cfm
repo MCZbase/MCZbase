@@ -243,7 +243,7 @@
 				var bc = new BroadcastChannel('resultset_channel');
 			</script>
 		</cfif>
-
+ <!-- we want to keep a gutter on the right side of searches that have the potential for many results so the user can scroll easily ---> 
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content" class="container-fluid">
 

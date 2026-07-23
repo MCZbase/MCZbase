@@ -150,7 +150,7 @@ limitations under the License.
 			padding-bottom: 0.035rem !important;
 		}
 	</style>
-	<!--- Search Form ---> 
+	<!--- Search Form -- we want to keep a gutter on the right side of searches that have the potential for many results so the user can scroll easily ---> 
 	<cfoutput>
 		<main id="content">
 			<section class="container-fluid" role="search">
