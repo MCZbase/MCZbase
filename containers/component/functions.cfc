@@ -1346,7 +1346,7 @@ details of a container for use in dialogs and page components.
 											ROW_NUMBER() OVER (
 												PARTITION BY collection_object_id
 												/* Remarks table lacks a chronology field; choose deterministic lexical first value when multiples exist. */
-												ORDER BY coll_object_remarks
+												ORDER BY coll_object_remarks ASC
 											) AS rn
 										FROM coll_object_remark
 									)
@@ -1577,7 +1577,7 @@ details of a container for use in dialogs and page components.
 													</cfif>
 												</td>
 												<td>
-													<cfif isNumeric(lot_count)>
+													<cfif len(trim(lot_count)) GT 0>
 														#encodeForHtml(lot_count)#
 													<cfelse>
 														<span class="text-muted">—</span>
