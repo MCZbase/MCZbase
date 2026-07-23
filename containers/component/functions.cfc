@@ -1327,7 +1327,7 @@ details of a container for use in dialogs and page components.
 										coch.collection_object_id,
 										ROW_NUMBER() OVER (
 											PARTITION BY coch.container_id
-											ORDER BY coch.collection_object_id
+											ORDER BY coch.install_date DESC NULLS LAST, coch.collection_object_id
 										) AS rn
 									FROM coll_obj_cont_hist coch
 									WHERE coch.current_container_fg = 1
@@ -1337,9 +1337,18 @@ details of a container for use in dialogs and page components.
 								LEFT JOIN (
 									SELECT
 										collection_object_id,
-										MIN(coll_object_remarks) AS coll_object_remarks
-									FROM coll_object_remark
-									GROUP BY collection_object_id
+										coll_object_remarks
+									FROM (
+										SELECT
+											collection_object_id,
+											coll_object_remarks,
+											ROW_NUMBER() OVER (
+												PARTITION BY collection_object_id
+												ORDER BY coll_object_remarks
+											) AS rn
+										FROM coll_object_remark
+									)
+									WHERE rn = 1
 								) cor ON cor.collection_object_id = co.collection_object_id
 								LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
 								LEFT JOIN collection col ON col.collection_id = ci.collection_id
@@ -1566,7 +1575,7 @@ details of a container for use in dialogs and page components.
 													</cfif>
 												</td>
 												<td>
-													<cfif len(trim(lot_count)) GT 0>
+													<cfif isNumeric(lot_count)>
 														#encodeForHtml(lot_count)#
 													<cfelse>
 														<span class="text-muted">—</span>
