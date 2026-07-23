@@ -309,14 +309,14 @@ limitations under the License.
 					<h1 class="h3 text-white">Review Annotations</h1>
 				</div>
 				<cfoutput>
-					<div class="">
+					<div class="col-12 form-row">
 						<form id="annotationSearchForm" method="get" action="/annotations/Annotations.cfm" class="row">
 							<input type="hidden" name="execute" value="true">
+							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Annotation Metadata
+							</legend>
 							<div class="form-row">
-								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
-								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-									Annotation Metadata
-								</legend>
 								<div class="col-12 col-md-4 col-xl-2">
 									<label for="state" class="data-entry-label">State</label>
 									<select name="state" id="state" class="data-entry-select col-12">
@@ -367,11 +367,12 @@ limitations under the License.
 								</div>
 							</div>
 	
-							<div class="col-12 col-md-6 col-xl-2 mb-3">
+							
 							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
-								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-									Annotation Text and Review
-								</legend>
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Annotation Text and Review
+							</legend>
+							<div class="form-row">
 								<div class="col-12 col-md-4 col-xl-2">
 									<label for="annotator" class="data-entry-label">Annotator Username</label>
 									<input type="text" name="annotator" id="annotator" value="#encodeForHTML(variables.annotator)#" class="data-entry-input col-12" placeholder="Type annotator name or username">
@@ -422,14 +423,14 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-	
-							<div class="col-12 col-md-6 col-xl-3 mb-3">
-								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
-								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-									Target-Specific Context
-								</legend>
+					
+							<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Target-Specific Context
+							</legend>
+							<div class="form-row">
 								<h3 class="h6 mb-2">Specimen</h3>
-								<div class="form-group mb-2" data-target-group="specimen">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
 									<label for="collection" class="data-entry-label">Collection</label>
 									<select name="collection" id="collection" class="data-entry-select col-12">
 										<option value="">Any Collection</option>
@@ -439,15 +440,15 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="form-group mb-2" data-target-group="specimen">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="specimen">
 									<label for="specimen_guid" class="data-entry-label">Specimen GUID</label>
 									<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" class="data-entry-input col-12" placeholder="MCZ:Herp:A-12345">
 								</div>
 								<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 							</div>
-							<div class="col-12 col-md-6 col-xl-2 mb-3">
+							<div class="form-row">
 								<h3 class="h6 mb-2">Taxon</h3>
-								<div class="form-group mb-2" data-target-group="taxon">
+								<div class="col-12 col-md-4 col-xl-2" data-target-group="taxon">
 									<label for="family" class="data-entry-label">Family</label>
 									<select name="family" id="family" class="data-entry-select col-12">
 										<option value="">Any Family</option>
