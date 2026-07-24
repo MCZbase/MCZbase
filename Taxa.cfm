@@ -229,7 +229,7 @@ limitations under the License.
 												</div>
 											</div>
 										</fieldset>
-										<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-1 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 py-1 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto py-0 bg-teal font-weight-bold">Scientific Name Search</legend>
 											<div class="form-row">
 												<div class="col-12 col-sm-6 col-md-2">
@@ -301,7 +301,7 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 py-1 mt-1 mx-2">
+										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 py-1 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
 											<div class="form-row">
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
