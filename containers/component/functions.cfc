@@ -2512,7 +2512,7 @@ Returns status JSON and never aborts on trigger errors.
 
 	<cfset local.retval = StructNew()>
 	<cftry>
-		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, container_type, institution_acronym
 			FROM container
 			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
@@ -2524,7 +2524,7 @@ Returns status JSON and never aborts on trigger errors.
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
 
-		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode, container_type, institution_acronym
 			FROM container
 			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">
@@ -2545,7 +2545,7 @@ Returns status JSON and never aborts on trigger errors.
 		</cfif>
 
 		<cftry>
-			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				UPDATE container
 				SET
 					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
