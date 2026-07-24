@@ -750,7 +750,7 @@
 												</div> 
 												<!---END TAXONOMY SECTION--->
 
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-1 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 														OR (isDefined("country") and len(country) GT 0)
@@ -785,7 +785,7 @@
 													<!---GEOGRAPHY SECTION--->
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left pl-xl-0 pr-xl-1">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h3>
+															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Geography</h3>
 															<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 														</div>
 													</div>
@@ -981,7 +981,7 @@
 												<!---END GEOGRAPHY SECTION--->
 
 												<!---COLLECTING EVENT SECTION--->
-												<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 px-0 pb-1 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 														OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
