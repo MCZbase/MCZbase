@@ -167,7 +167,7 @@ editing behavior consistent across the application.
 	FROM ctcontainer_type
 	ORDER BY container_type
 </cfquery>
-<cfquery name="positionCountOptions" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+<cfquery name="positionCountOptions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 	SELECT DISTINCT
 		number_positions
 	FROM
