@@ -455,7 +455,9 @@
 																Enter other ID numbers separated by commas (not spaces); use a dash for ranges, or "=" for an exact match. Example: 10,20–30,=BT-782
 															</small>
 														</div>
-														<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+															<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+														</cfif>
 
 														<!---IDENTIFIER DETAIL--->		
 														<div id="IDDetail" class="col-9 col-md-10 col-xl-12 my-0 px-0 py-0" style="#IDDetailStyle#">
