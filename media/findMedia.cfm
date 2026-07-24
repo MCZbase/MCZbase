@@ -339,7 +339,7 @@ limitations under the License.
 											<div class="col-12 col-md-2 col-xl-1">
 												<label for="extension">Extension</label>
 												<cfset selectedextensionlist = "">
-												<select id="extension" name="extension" multiple="true">
+												<select id="extension" name="extension" multiple="true" style="height: 22px !important;">
 													<option></option>
 													<cfloop query="distinctExtensions">
 														<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
