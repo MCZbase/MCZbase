@@ -439,7 +439,7 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2"> 
-										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 py-1 mt-0 mx-2">
+										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pb-1 mt-0 mx-2">
 											<div class="form-row">
 												<div class="col-12 col-sm-4 col-xl-2">
 													<label for="taxon_habitat">Habitat</label>
