@@ -1045,6 +1045,8 @@ function putContainerBackFromHistory(childContainerId, parentContainerId, parent
 
 /**
  * Toggle a detail row showing breadcrumb location for a historical parent container.
+ * If the detail row already exists, this toggles its visibility; otherwise it creates
+ * the row, asynchronously loads breadcrumb data from search.cfc, and expands the row.
  * @param {HTMLElement} triggerButton - button element that launched the locate action.
  * @param {number|string} parentContainerId - container_id to locate.
  * @param {string} detailRowId - unique id for the inserted detail row.
@@ -1056,33 +1058,39 @@ function toggleHistoryParentLocate(triggerButton, parentContainerId, detailRowId
 	var existingDetail = $('#' + detailRowId);
 	if (existingDetail.length > 0) {
 		existingDetail.toggleClass('d-none');
+		if (existingDetail.hasClass('d-none')) {
+			button.attr('aria-expanded', 'false').text('Locate');
+		} else {
+			button.attr('aria-expanded', 'true').text('Hide Location');
+		}
 		return;
 	}
-	var colspan = currentRow.children('td').length;
+	var colspan = currentRow.children('td,th').length;
 	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
 	var detailCell = $('<td></td>').attr('colspan', colspan).addClass('bg-light p-2 small');
 	detailRow.append(detailCell);
 	currentRow.after(detailRow);
-	detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
+	button.attr('aria-expanded', 'true').text('Hide Location');
+	detailCell.html('<span aria-live="polite"><img src="/shared/images/indicator.gif" alt="Loading"> Loading location…</span>');
 	$.ajax({
 		url: '/containers/component/search.cfc',
 		data: { method: 'getContainerBreadcrumb', container_id: parentContainerId },
 		dataType: 'json',
 		success: function(breadcrumbs) {
+			var breadcrumbNav = $('<nav aria-label="Container location breadcrumb"></nav>');
 			var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
 			$.each(breadcrumbs, function(index, crumb) {
 				var display = formatContainerDisplay(crumb.barcode, crumb.label);
 				var crumbLi = $('<li class="breadcrumb-item small"></li>');
 				if (index === 0) {
 					crumbLi.addClass('arrowprefix');
-					crumbLi.append($('<span class="sr-only">Contained within: </span>'));
 				}
 				crumbLi.append(document.createTextNode(crumb.container_type + ': '));
 				if (index === breadcrumbs.length - 1) {
 					crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
 				} else {
 					var link = document.createElement('a');
-					link.classList.add('pl-1');
+					// execute=true runs the hierarchy search view for the selected breadcrumb container.
 					var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
 					link.href = '/containers/Containers.cfm?' + params.toString();
 					link.appendChild(document.createTextNode(display));
@@ -1090,10 +1098,11 @@ function toggleHistoryParentLocate(triggerButton, parentContainerId, detailRowId
 				}
 				breadcrumbEl.append(crumbLi);
 			});
-			detailCell.html(breadcrumbEl);
+			breadcrumbNav.append(breadcrumbEl);
+			detailCell.html(breadcrumbNav);
 		},
 		error: function(jqXHR, textStatus, error) {
-			detailCell.html('<span class="text-danger">Failed to load location.</span>');
+			detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
 			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
 		}
 	});
@@ -2624,7 +2633,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									detailCell.html(breadcrumbEl);
 								},
 								error: function(jqXHR, textStatus, error) {
-									detailCell.html('<span class="text-danger">Failed to load location.</span>');
+									detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
 									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
 								}
 							});
