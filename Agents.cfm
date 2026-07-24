@@ -355,7 +355,7 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-								<fieldset class="my-1 px-2 border-right border-top border-bottom border-left pb-1 pb-xl-0 field-set">
+								<fieldset class="my-1 px-2 border-right border-top border-bottom border-left pb-1 field-set">
 									<legend class="h6 my-1 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
 									<div class="form-row mx-0">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -406,7 +406,7 @@ limitations under the License.
 
 								<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<fieldset class="my-2 px-2 pb-2 pb-xl-0 field-set border-top border-bottom border-right border-left">
+									<fieldset class="my-2 px-2 pb-1 field-set border-top border-bottom border-right border-left">
 										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
 											<div class="form-row mt-0">
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
