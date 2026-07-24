@@ -1636,7 +1636,7 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 var POSITION_PLACEMENT_DIALOG_COUNTER = 0;
 function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
 	POSITION_PLACEMENT_DIALOG_COUNTER += 1;
-	var idSuffix = '_' + Date.now() + '_' + POSITION_PLACEMENT_DIALOG_COUNTER;
+	var idSuffix = '_' + POSITION_PLACEMENT_DIALOG_COUNTER;
 	var wrapper = $('#positionPlacementDialogWrapper');
 	if (!wrapper.length) {
 		wrapper = $('<div id="positionPlacementDialogWrapper"></div>').appendTo('body');
@@ -1652,7 +1652,7 @@ function openPositionPlacementDialog(positionContainerId, positionLabel, targetD
 			'<input type="text" id="' + searchControlId + '" class="data-entry-input col-12" value="">' +
 			'<input type="hidden" id="' + searchIdControlId + '" value="">' +
 		'</div>' +
-		'<div id="' + validationControlId + '" role="status" aria-live="polite" class="mb-2"></div>' +
+		'<div id="' + validationControlId + '" role="status" aria-live="assertive" class="mb-2"></div>' +
 		'<div>' +
 			'<button type="button" id="' + confirmControlId + '" class="btn btn-xs btn-primary" disabled="disabled">Place</button>' +
 			'<button type="button" id="' + cancelControlId + '" class="btn btn-xs btn-warning ml-1">Cancel</button>' +
@@ -1793,7 +1793,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		if (!position.content_container_id) {
 			cell.addClass('positions-grid-cell-empty');
 			var positionLabelText = position.position_label || 'this position';
-			cell.attr('aria-label', 'Empty position ' + positionLabelText + '. Activate to place a container.');
+			cell.attr('aria-label', 'Empty position ' + positionLabelText);
 			cell.attr('title', 'Place a container into this empty position');
 		}
 		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
