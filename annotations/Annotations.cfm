@@ -398,6 +398,15 @@ limitations under the License.
 										<option value="1" #local.selected#>Masked (#variables.visibilityCountMasked#)</option>
 									</select>
 								</div>
+						
+							</div>
+						</fieldset>
+					
+						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Target-Specific Context
+							</legend>
+							<div class="form-row">
 								<div class="col-12 col-md-2">
 									<label for="target_type_select" class="">Target Type</label>
 									<select name="target_type" id="target_type_select" class="">
@@ -420,13 +429,6 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-						</fieldset>
-					
-						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
-							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-								Target-Specific Context
-							</legend>
-							
 							<div class="form-row">
 								<div class="col-12 col-xl-4">
 									<div class="form-row">
