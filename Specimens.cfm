@@ -2537,7 +2537,7 @@
 																	</div>
 																	<!--- " --->
 																	<div class="col-12 col-md-4">
-																		<select title="Select Field..." name="field#row#" id="field#row#">
+																		<select title="Select Field..." name="field#row#" id="field#row#" style="height:22px !important;">
 																			<cfset category = "">
 																			<cfset optgroupOpen = false>
 																			<cfloop query="fields">
