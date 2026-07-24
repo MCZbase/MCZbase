@@ -643,7 +643,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
 												<div class="col-12 col-md-4 col-xl-2">
-													<label for="text_made_date">Made Date</label>
+													<label for="text_made_date">Made Date (text)</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
 														=
