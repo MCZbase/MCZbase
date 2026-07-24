@@ -639,20 +639,7 @@ limitations under the License.
 													$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 												});
 											</script>
-											<div class="col-12 col-md-5 col-xl-3">
-												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
-													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
-													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
-														placeholder="start date" 
-														value="#encodeForHtml(made_date)#" 
-														aria-label="start date">
-													
-													<div class=" text-center px-0 px-xl-2"><small>to</small></div>
-													<label for="to_made_date" class="sr-only">Made Date</label>	
-													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
-														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
-												</div>
-											</div>
+											
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
 												<div class="col-12 col-md-4 col-xl-2">
@@ -718,6 +705,20 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-5 col-xl-3">
+												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
+													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
+														placeholder="start date" 
+														value="#encodeForHtml(made_date)#" 
+														aria-label="start date">
+													
+													<div class=" text-center px-0 px-xl-2"><small>to</small></div>
+													<label for="to_made_date" class="sr-only">Made Date</label>	
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
+														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
+												</div>
+											</div>
 											</cfif>
 										</div>
 									</fieldset>
