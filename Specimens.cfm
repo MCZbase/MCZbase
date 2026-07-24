@@ -2433,7 +2433,7 @@
 																		searchMode: 'containsignorecase',
 																		width: '100%',
 																		dropDownHeight: 400,
-																		height: '24px'
+																		height: '22px'
 																	});
 																	// bind an autocomplete, if one applies
 																	handleFieldSetup('field1',1);
