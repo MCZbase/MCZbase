@@ -1633,8 +1633,10 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
  * @param {Function} onPlaced - optional callback invoked after a successful placement.
  * @returns {void}
  */
+var POSITION_PLACEMENT_DIALOG_COUNTER = 0;
 function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
-	var idSuffix = '_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
+	POSITION_PLACEMENT_DIALOG_COUNTER += 1;
+	var idSuffix = '_' + Date.now() + '_' + POSITION_PLACEMENT_DIALOG_COUNTER;
 	var wrapper = $('#positionPlacementDialogWrapper');
 	if (!wrapper.length) {
 		wrapper = $('<div id="positionPlacementDialogWrapper"></div>').appendTo('body');
@@ -1743,6 +1745,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			if (isEmptyPosition) {
 				actionCell.append(
 					$('<button class="btn btn-xs btn-primary" type="button"></button>')
+						.attr('aria-label', 'Place a container into this position')
 						.text('Place…')
 						.on('click', function() {
 							openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
