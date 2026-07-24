@@ -1625,7 +1625,7 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 }
 
 /**
- * Open a dialog to pick an existing container and place it into an empty position.
+ * Open the shared rich picker dialog to select a child container and place it into an empty position.
  * @param {number|string} positionContainerId - container_id for the empty position container.
  * @param {string} positionLabel - display label for the position container.
  * @param {string} targetDivId - id of the positions panel to refresh after placement.
@@ -1633,81 +1633,46 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
  * @param {Function} onPlaced - optional callback invoked after a successful placement.
  * @returns {void}
  */
-var POSITION_PLACEMENT_DIALOG_COUNTER = 0;
 function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
-	POSITION_PLACEMENT_DIALOG_COUNTER += 1;
-	var idSuffix = '_' + POSITION_PLACEMENT_DIALOG_COUNTER;
-	var wrapper = $('#positionPlacementDialogWrapper');
-	if (!wrapper.length) {
-		wrapper = $('<div id="positionPlacementDialogWrapper"></div>').appendTo('body');
-	}
-	var searchControlId = 'positionPlacementSearch' + idSuffix;
-	var searchIdControlId = 'positionPlacementSearchId' + idSuffix;
-	var validationControlId = 'positionPlacementValidation' + idSuffix;
-	var confirmControlId = 'positionPlacementConfirm' + idSuffix;
-	var cancelControlId = 'positionPlacementCancel' + idSuffix;
-	wrapper.html(
-		'<div class="border rounded bg-light p-2 mb-2">' +
-			'<label for="' + searchControlId + '" class="data-entry-label">Search for container to place</label>' +
-			'<input type="text" id="' + searchControlId + '" class="data-entry-input col-12" value="">' +
-			'<input type="hidden" id="' + searchIdControlId + '" value="">' +
-		'</div>' +
-		'<div id="' + validationControlId + '" role="status" aria-live="assertive" class="mb-2"></div>' +
-		'<div>' +
-			'<button type="button" id="' + confirmControlId + '" class="btn btn-xs btn-primary" disabled="disabled">Place</button>' +
-			'<button type="button" id="' + cancelControlId + '" class="btn btn-xs btn-warning ml-1">Cancel</button>' +
-		'</div>'
-	);
-	wrapper.dialog({
-		title: 'Place Container into Position ' + (positionLabel || ''),
-		modal: true,
-		width: 540,
-		autoOpen: true
-	});
-	makeContainerAutocompleteMeta(searchControlId, searchIdControlId);
-	$('#' + searchControlId).on('autocompleteselect', function() {
-		var selectedId = $('#' + searchIdControlId).val();
-		checkAndRenderPlacementValidation(selectedId, positionContainerId, validationControlId, confirmControlId);
-	});
-	$('#' + confirmControlId).on('click', function() {
-		var selectedId = $('#' + searchIdControlId).val();
-		if (!selectedId) {
-			return;
-		}
-		$.ajax({
-			url: '/containers/component/functions.cfc',
-			type: 'post',
-			dataType: 'json',
-			data: {
-				method: 'moveContainerById',
-				returnformat: 'json',
-				child_container_id: selectedId,
-				parent_container_id: positionContainerId
-			},
-			success: function(result) {
-				if (result && result.status === 'moved') {
-					if (feedbackId) {
-						setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Container into Position ' + (positionLabel || ''),
+		childContainerIdForValidation: null,
+		parentContainerIdForValidation: positionContainerId,
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: positionContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (onPlaced) {
+							onPlaced();
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
 					}
-					wrapper.dialog('close');
-					if (onPlaced) {
-						onPlaced();
-					}
-				} else {
-					var message = (result && result.message) ? result.message : 'Unable to place selected container.';
-					if (feedbackId) {
-						setFeedbackControlState(feedbackId, 'error', message);
-					}
-					$('#' + validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing container into position');
 				}
-			},
-			error: function(jqXHR, textStatus, error) {
-				handleFail(jqXHR, textStatus, error, 'placing container into position');
-			}
-		});
-	});
-	$('#' + cancelControlId).on('click', function() {
-		wrapper.dialog('close');
+			});
+		}
 	});
 }
 
@@ -2874,6 +2839,147 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
 }
 
 /**
+ * Open the shared rich container picker dialog for parent/child/find contexts.
+ * @param {Object} options - dialog configuration.
+ * @param {string} options.mode - picker mode: parent, child, or find.
+ * @param {string} options.dialogTitle - title for the modal dialog.
+ * @param {number|string} options.childContainerIdForValidation - child id for parent-mode validation.
+ * @param {number|string} options.parentContainerIdForValidation - parent id for child-mode validation.
+ * @param {string} options.childContainerType - child container_type for parent-mode type preselection.
+ * @param {string} options.institutionAcronym - optional institution acronym to scope autocomplete.
+ * @param {string} options.feedbackId - optional feedback output id.
+ * @param {Function} options.onSelect - callback(selectedId, selectedLabel, wrapper, controls) on Select.
+ * @returns {void}
+ */
+function openContainerPickerDialog(options) {
+	options = options || {};
+	var mode = options.mode || 'find';
+	var id_suffix = '_' + Date.now();
+	var wrapper = $('#placementDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="placementDialogWrapper"></div>').appendTo('body');
+	}
+	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	wrapper.dialog({
+		title: options.dialogTitle || 'Select Container',
+		modal: true,
+		width: 540,
+		autoOpen: true
+	});
+
+	var preselectType = '';
+	if (mode === 'parent' && options.childContainerType) {
+		var expected = getContainerTypeMeta(options.childContainerType).expected_parent_types || '';
+		if (expected && expected !== 'any' && expected !== 'none') {
+			preselectType = $.trim((expected + '').split(',')[0]);
+		}
+	}
+
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		type: 'get',
+		dataType: 'html',
+		data: {
+			method: 'pickContainerDialogHtml',
+			returnformat: 'plain',
+			dialog_mode: mode,
+			child_container_id: options.childContainerIdForValidation || '',
+			preselect_type: preselectType,
+			institution_acronym: options.institutionAcronym || '',
+			id_suffix: id_suffix
+		},
+		success: function(html) {
+			var controls = {
+				ancestorControlId: 'pickContainerAncestor' + id_suffix,
+				ancestorIdControlId: 'pickContainerAncestorId' + id_suffix,
+				searchControlId: 'pickContainerSearch' + id_suffix,
+				searchIdControlId: 'pickContainerSearchId' + id_suffix,
+				typeControlId: 'pickContainerType' + id_suffix,
+				labelContainsControlId: 'pickContainerLabelContains' + id_suffix,
+				descriptionContainsControlId: 'pickContainerDescriptionContains' + id_suffix,
+				validationControlId: 'pickContainerValidation' + id_suffix,
+				confirmControlId: 'pickContainerConfirm' + id_suffix,
+				cancelControlId: 'pickContainerCancel' + id_suffix
+			};
+			wrapper.html(html);
+			makeContainerAutocompleteMeta(controls.ancestorControlId, controls.ancestorIdControlId);
+			makeContainerAutocompleteLimitedMeta(
+				controls.searchControlId,
+				controls.searchIdControlId,
+				controls.typeControlId,
+				controls.ancestorIdControlId,
+				controls.labelContainsControlId,
+				controls.descriptionContainsControlId
+			);
+			var refreshDialogAutocomplete = function() {
+				$('#' + controls.searchIdControlId).val('');
+				$('#' + controls.confirmControlId).prop('disabled', true);
+				$('#' + controls.validationControlId).empty();
+				makeContainerAutocompleteLimitedMeta(
+					controls.searchControlId,
+					controls.searchIdControlId,
+					controls.typeControlId,
+					controls.ancestorIdControlId,
+					controls.labelContainsControlId,
+					controls.descriptionContainsControlId
+				);
+			};
+			$('#' + controls.typeControlId).on('change', refreshDialogAutocomplete);
+			var filterInputTimer = null;
+			var filterInputs = $('#' + controls.labelContainsControlId + ', #' + controls.descriptionContainsControlId);
+			filterInputs.on('change', refreshDialogAutocomplete);
+			filterInputs.on('input', function() {
+				if (filterInputTimer) {
+					window.clearTimeout(filterInputTimer);
+				}
+				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
+			});
+
+			var runValidationForSelection = function(selectedId) {
+				if (!selectedId) {
+					$('#' + controls.confirmControlId).prop('disabled', true);
+					$('#' + controls.validationControlId).empty();
+					return;
+				}
+				if (mode === 'parent' && options.childContainerIdForValidation) {
+					checkAndRenderPlacementValidation(options.childContainerIdForValidation, selectedId, controls.validationControlId, controls.confirmControlId);
+				} else if (mode === 'child' && options.parentContainerIdForValidation) {
+					checkAndRenderPlacementValidation(selectedId, options.parentContainerIdForValidation, controls.validationControlId, controls.confirmControlId);
+				} else {
+					$('#' + controls.confirmControlId).prop('disabled', false);
+					$('#' + controls.validationControlId).empty();
+				}
+			};
+			$('#' + controls.searchControlId).on('autocompleteselect', function() {
+				runValidationForSelection($('#' + controls.searchIdControlId).val());
+			});
+			$('#' + controls.searchControlId).on('change input', function() {
+				if (!$('#' + controls.searchIdControlId).val()) {
+					$('#' + controls.confirmControlId).prop('disabled', true);
+					$('#' + controls.validationControlId).empty();
+				}
+			});
+			$('#' + controls.confirmControlId).on('click', function() {
+				var selectedId = $('#' + controls.searchIdControlId).val();
+				var selectedLabel = $('#' + controls.searchControlId).val();
+				if (!selectedId) {
+					return;
+				}
+				if ($.isFunction(options.onSelect)) {
+					options.onSelect(selectedId, selectedLabel, wrapper, controls);
+				}
+			});
+			$('#' + controls.cancelControlId).on('click', function() {
+				wrapper.dialog('close');
+			});
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
+		}
+	});
+}
+
+/**
  * Open the constrained parent-container selection dialog.
  * @param {number|string} childContainerId - child container_id being moved.
  * @param {string} childContainerType - child container_type used for default filtering.
@@ -2884,97 +2990,18 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
  * @returns {void}
  */
 function openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, targetIdFieldId, targetLabelFieldId, feedbackId) {
-	var id_suffix = '_' + Date.now();
-	var wrapper = $('#placementDialogWrapper');
-	if (!wrapper.length) {
-		wrapper = $('<div id="placementDialogWrapper"></div>').appendTo('body');
-	}
-	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
-	wrapper.dialog({
-		title: 'Select Parent Container',
-		modal: true,
-		width: 540,
-		autoOpen: true
-	});
-	var expected = getContainerTypeMeta(childContainerType).expected_parent_types || '';
-	var preselectType = '';
-	if (expected && expected !== 'any' && expected !== 'none') {
-		preselectType = $.trim((expected + '').split(',')[0]);
-	}
-	$.ajax({
-		url: '/containers/component/search.cfc',
-		type: 'get',
-		dataType: 'html',
-		data: {
-			method: 'pickContainerDialogHtml',
-			returnformat: 'plain',
-			child_container_id: childContainerId,
-			preselect_type: preselectType,
-			institution_acronym: childInstitutionAcronym,
-			id_suffix: id_suffix
-		},
-		success: function(html) {
-			wrapper.html(html);
-			makeContainerAutocompleteMeta('pickContainerAncestor' + id_suffix, 'pickContainerAncestorId' + id_suffix);
-			makeContainerAutocompleteLimitedMeta(
-				'pickContainerSearch' + id_suffix,
-				'pickContainerSearchId' + id_suffix,
-				'pickContainerType' + id_suffix,
-				'pickContainerAncestorId' + id_suffix,
-				'pickContainerLabelContains' + id_suffix,
-				'pickContainerDescriptionContains' + id_suffix
-			);
-
-			$('#pickContainerType' + id_suffix).on('change', function() {
-				makeContainerAutocompleteLimitedMeta(
-					'pickContainerSearch' + id_suffix,
-					'pickContainerSearchId' + id_suffix,
-					'pickContainerType' + id_suffix,
-					'pickContainerAncestorId' + id_suffix,
-					'pickContainerLabelContains' + id_suffix,
-					'pickContainerDescriptionContains' + id_suffix
-				);
-			});
-			var filterInputTimer = null;
-			var filterInputs = $('#pickContainerLabelContains' + id_suffix + ', #pickContainerDescriptionContains' + id_suffix);
-			var refreshDialogAutocomplete = function () {
-				$('#pickContainerSearchId' + id_suffix).val('');
-				makeContainerAutocompleteLimitedMeta(
-					'pickContainerSearch' + id_suffix,
-					'pickContainerSearchId' + id_suffix,
-					'pickContainerType' + id_suffix,
-					'pickContainerAncestorId' + id_suffix,
-					'pickContainerLabelContains' + id_suffix,
-					'pickContainerDescriptionContains' + id_suffix
-				);
-			};
-			filterInputs.on('change', function() {
-				refreshDialogAutocomplete();
-			});
-			filterInputs.on('input', function() {
-				if (filterInputTimer) {
-					window.clearTimeout(filterInputTimer);
-				}
-				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
-			});
-			$('#pickContainerSearch' + id_suffix).on('autocompleteselect', function() {
-				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
-				checkAndRenderPlacementValidation(childContainerId, selectedId, 'pickContainerValidation' + id_suffix, 'pickContainerConfirm' + id_suffix);
-			});
-			$('#pickContainerConfirm' + id_suffix).on('click', function() {
-				var selectedId = $('#pickContainerSearchId' + id_suffix).val();
-				var selectedLabel = $('#pickContainerSearch' + id_suffix).val();
-				$('#' + targetIdFieldId).val(selectedId);
-				$('#' + targetLabelFieldId).val(selectedLabel);
-				setFeedbackControlState(feedbackId, 'saved');
-				wrapper.dialog('close');
-			});
-			$('#pickContainerCancel' + id_suffix).on('click', function() {
-				wrapper.dialog('close');
-			});
-		},
-		error: function(jqXHR, textStatus, error) {
-			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
+	openContainerPickerDialog({
+		mode: 'parent',
+		dialogTitle: 'Select Parent Container',
+		childContainerIdForValidation: childContainerId,
+		childContainerType: childContainerType,
+		institutionAcronym: childInstitutionAcronym,
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#' + targetIdFieldId).val(selectedId);
+			$('#' + targetLabelFieldId).val(selectedLabel);
+			setFeedbackControlState(feedbackId, 'saved');
+			wrapper.dialog('close');
 		}
 	});
 }
@@ -3001,6 +3028,36 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 		.text('Choose…')
 		.on('click', function() {
 			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
+		})
+		.appendTo(buttonContainer);
+}
+
+/**
+ * Add a dialog-launch button adjacent to a search target container field.
+ * @param {string} textFieldId - id of the text field that displays the selected container label/barcode.
+ * @param {string} idFieldId - id of the hidden field that stores selected container_id.
+ * @returns {void}
+ */
+function addContainerSearchPickerButton(textFieldId, idFieldId) {
+	if ($('#chooseBtn-' + textFieldId).length > 0) {
+		return;
+	}
+	var textField = $('#' + textFieldId);
+	var pickerRow = textField.closest('.parent-container-picker-row');
+	var buttonContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
+	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
+		.attr('id', 'chooseBtn-' + textFieldId)
+		.text('Choose…')
+		.on('click', function() {
+			openContainerPickerDialog({
+				mode: 'find',
+				dialogTitle: 'Select Container',
+				onSelect: function(selectedId, selectedLabel, wrapper) {
+					$('#' + idFieldId).val(selectedId);
+					$('#' + textFieldId).val(selectedLabel);
+					wrapper.dialog('close');
+				}
+			});
 		})
 		.appendTo(buttonContainer);
 }

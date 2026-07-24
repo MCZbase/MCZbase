@@ -849,15 +849,17 @@ Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-
 </cffunction>
 
 <!---
-Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for parent-container picking.
-@param child_container_id optional child container_id used to preselect expected parent type.
+Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fragment.
+@param dialog_mode picker mode: parent, child, or find.
+@param child_container_id optional child container_id used to preselect expected parent type in parent mode.
 @param preselect_type optional container_type value to preselect in the type control.
 @param ancestor_container_id optional ancestor container_id to constrain subtree search.
 @param institution_acronym optional institution acronym to constrain dialog searches.
 @param id_suffix optional suffix applied to generated control ids for uniqueness.
-@return HTML fragment string for the parent-container picker dialog controls.
+@return HTML fragment string for context-aware container picker dialog controls.
 --->
 <cffunction name="pickContainerDialogHtml" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="dialog_mode" type="string" required="no" default="parent">
 	<cfargument name="child_container_id" type="string" required="no" default="">
 	<cfargument name="preselect_type" type="string" required="no" default="">
 	<cfargument name="ancestor_container_id" type="string" required="no" default="">
@@ -877,6 +879,19 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 	<cfset local.cancelControlId = "pickContainerCancel#local.safeSuffix#">
 	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
 	<cfset local.selectedType = trim(arguments.preselect_type)>
+	<cfset local.dialogMode = lCase(trim(arguments.dialog_mode))>
+	<cfif NOT listFindNoCase("parent,child,find", local.dialogMode)>
+		<cfset local.dialogMode = "find">
+	</cfif>
+	<cfset local.filterLegend = "Filter containers">
+	<cfset local.selectLegend = "Select container">
+	<cfif local.dialogMode EQ "parent">
+		<cfset local.filterLegend = "Filter parent candidates">
+		<cfset local.selectLegend = "Select parent container">
+	<cfelseif local.dialogMode EQ "child">
+		<cfset local.filterLegend = "Filter child candidates">
+		<cfset local.selectLegend = "Select child container">
+	</cfif>
 
 	<cfquery name="queryAllowedTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		SELECT
@@ -884,14 +899,16 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 			rank_order
 		FROM
 			ctcontainer_type
-		WHERE
-			role IN ('structural', 'leafbearer')
+		<cfif local.dialogMode EQ "parent">
+			WHERE
+				role IN ('structural', 'leafbearer')
+		</cfif>
 		ORDER BY
 			rank_order,
 			container_type
 	</cfquery>
 
-	<cfif len(trim(arguments.child_container_id)) GT 0 AND isNumeric(arguments.child_container_id)>
+	<cfif local.dialogMode EQ "parent" AND len(trim(arguments.child_container_id)) GT 0 AND isNumeric(arguments.child_container_id)>
 		<cfquery name="queryChildExpected" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				NVL(ct.expected_parent_types, 'any') AS expected_parent_types
@@ -911,7 +928,7 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 
 	<cfsavecontent variable="local.htmlFragment"><cfoutput>
 		<fieldset class="border rounded bg-light p-2 mb-2">
-			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Filter parent candidates</legend>
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">#encodeForHtml(local.filterLegend)#</legend>
 			<div class="form-row mb-2">
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.typeControlId)#" class="data-entry-label">Container Type</label>
@@ -944,15 +961,15 @@ Function pickContainerDialogHtml. Returns the placement dialog HTML fragment for
 			</div>
 		</fieldset>
 		<fieldset class="border rounded p-2 mb-2">
-			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">Select parent container</legend>
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">#encodeForHtml(local.selectLegend)#</legend>
 			<div class="form-row">
 				<div class="col-12 mb-1">
 					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label">Container autocomplete</label>
 					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
 					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
 				</div>
-			</fieldset>
-		</div>
+			</div>
+		</fieldset>
 		<div class="form-row mb-2">
 			<div class="col-12">
 				<div class="small text-muted">Pick from the autocomplete list above after setting any filters.</div>

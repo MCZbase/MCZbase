@@ -229,10 +229,12 @@ editing behavior consistent across the application.
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
-								<input type="text" id="search_term" name="search_term"
-									class="data-entry-input col-12"
-									placeholder="Label or barcode"
-									value="#encodeForHtml(variables.search_term)#">
+								<div class="parent-container-picker-row d-flex align-items-center">
+									<input type="text" id="search_term" name="search_term"
+										class="data-entry-input col-12"
+										placeholder="Label or barcode"
+										value="#encodeForHtml(variables.search_term)#">
+								</div>
 								<input type="hidden" id="container_id" name="container_id"
 									value="#encodeForHtml(variables.container_id)#">
 							</div>
@@ -361,6 +363,7 @@ editing behavior consistent across the application.
 <script>
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
+	addContainerSearchPickerButton('search_term', 'container_id');
 
 	$('##containerSearchForm').on('submit', function(e) {
 		e.preventDefault();
