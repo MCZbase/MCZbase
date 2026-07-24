@@ -705,6 +705,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
+											</cfif>
 												<div class="col-12 col-md-5 col-xl-3">
 												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-0 justify-content-left" style="padding-top: 1px; padding-bottom: 1px;">
 													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
@@ -719,7 +720,7 @@ limitations under the License.
 														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
 												</div>
 											</div>
-											</cfif>
+											
 										</div>
 									</fieldset>
 									<fieldset class="bg-light border-default field-set rounded px-1 pb-1 mt-1 mx-2">
