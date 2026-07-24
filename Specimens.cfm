@@ -1226,7 +1226,7 @@
 														</button>
 														<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 p-0 my-0 float-left" style="#SpecDetailStyle#">
 															<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="coll_object_remarks">
 																		Collection Object Remarks
 																	</label>
@@ -1238,7 +1238,7 @@
 																	<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																	<input type="text" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="preparator">Preparator</label>
 																	<cfif not isdefined("preparator")>
 																		<cfset preparator="">
@@ -1281,7 +1281,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="lot_count">Lot Count</label>
 																	<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																	<input type="text" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
@@ -1300,7 +1300,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="disposition_remarks">Disposition Remarks</label>
 																	<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																	<input type="text" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
@@ -1319,7 +1319,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_value">Part Attribute Value</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" 
 																		aria-label="set part attribute value to NOT NULL for any part attribute value">
@@ -1328,7 +1328,7 @@
 																	<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																	<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_units">Part Attribute Units</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" 
 																		aria-label="set part attribute units to NOT NULL for any part attribute units">
@@ -1345,7 +1345,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_remarks">Part Attribute Remarks</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" aria-label="set part attribute remarks to not null for any part attribute remarks"> 
 																		(Any) 
@@ -1353,7 +1353,7 @@
 																	<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																	<input type="text" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<!--- TODO: Add an autocomplete when controlled --->
 																	<label for="condition">Condition</label>
 																	<cfif not isdefined("condition")><cfset condition=""></cfif>
@@ -1361,24 +1361,24 @@
 																</div>
 																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																	<!--- TODO: Add when popluated --->
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="condition_remarks">Condition Remarks</label>
 																		<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																		<input type="text" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
 																	</div>
 																</cfif>
 																<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_label">In Container Labeled</label>
 																		<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
 																		<input type="text" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
 																	</div>
-																	<div class="col-12 col-md-3 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_barcode">In Container Barcoded</label>
 																		<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
 																		<input type="text" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
 																	</div>
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_type">In Container of Type</label>
 																		<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
 																		<select title="root_container_type" name="root_container_type" id="root_container_type" class="col-sm-12 pl-2">
@@ -1644,7 +1644,7 @@
 															<!--- TRANSACTION DETAIL --->
 															<div id="TransactionDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
 																<div class="form-row col-12 mb-1 px-0 mx-0">
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																		<label for="permit_num">Permit Number</label>
 																		<input type="text" id="permit_num" name="permit_num" value="#encodeForHtml(permit_num)#">
@@ -1654,7 +1654,7 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 																		<label for="permit_title">Document Title</label>
 																		<input type="text" id="permit_title" name="permit_title" value="#encodeForHtml(permit_title)#">
@@ -1664,14 +1664,14 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 																		<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
 																		<label for="IssuedByAgent">Issued By</label>
 																		<input type="text" id="IssuedByAgent" name="IssuedByAgent" value="#encodeForHtml(IssuedByAgent)#">
 																		<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 																		<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
 																		<label for="IssuedToAgent">Issued To</label>
@@ -1684,7 +1684,7 @@
 																			makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
 																		});
 																	</script>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
 																		<label for="permit_type">Document Category</label>
 																		<button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">(&##8595;)</button>
@@ -1696,7 +1696,7 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 																		<label for="specific_type">Specific Type</label>
 																		<button type="button" class="rules" onclick="$('##specific_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">(&##8595;)</button>
