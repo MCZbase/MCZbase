@@ -1935,22 +1935,40 @@
 							
 								</section><!--- end fixed search tab --->
 								<script type="text/javascript" language="javascript">
-								function toggleIDDetail(onOff) {
-									if (onOff==0) {
-										$("##IDDetail").hide();
-										$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
-										$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
-									} else {
-										$("##IDDetail").show();
-										$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
-										$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
+								/* Sync a section toggle button pair to reflect actual DOM visibility.
+								   Sets button label, caret icon, and aria-expanded based on whether
+								   the section element is currently visible.  Fails gracefully when
+								   any element is absent (e.g. conditionally-rendered sections). */
+								function syncSectionToggle(sectionId, desktopBtnId, mobileBtnId) {
+									var section = $("##" + sectionId);
+									if (!section.length) { return; }
+									var isOpen = section.is(":visible");
+									var label = isOpen ? "show less " : "show more ";
+									var icon  = isOpen ? "fa-caret-down" : "fa-caret-right";
+									var title = isOpen ? "show fewer fields" : "show more fields";
+									var html  = '<span class="btn-link">' + label + '<i class="fas ' + icon + '" style="vertical-align: middle;" title="' + title + '"></i></span>';
+									var ariaVal = isOpen ? "true" : "false";
+									if ($("##" + desktopBtnId).length) {
+										$("##" + desktopBtnId).html(html).attr("aria-expanded", ariaVal);
 									}
+									if ($("##" + mobileBtnId).length) {
+										$("##" + mobileBtnId).html(html).attr("aria-expanded", ariaVal);
+									}
+								}
+								/* Toggle a section and immediately sync button labels/icons to match. */
+								function toggleSectionDetail(sectionId, desktopBtnId, mobileBtnId) {
+									$("##" + sectionId).toggle();
+									syncSectionToggle(sectionId, desktopBtnId, mobileBtnId);
+								}
+								function toggleIDDetail(onOff) {
+									toggleSectionDetail('IDDetail', 'IDDetailCtl', 'IDDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##IDDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'IDDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											}, 
@@ -1963,21 +1981,14 @@
 									</cfif>
 								}
 								function toggleTaxaDetail(onOff) {
-									if (onOff==0) {
-										$("##TaxaDetail").hide();
-										$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##TaxaDetail").show();
-										$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('TaxaDetail', 'TaxaDetailCtl', 'TaxaDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##TaxaDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TaxaDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -1990,21 +2001,14 @@
 									</cfif>
 								}
 								function toggleGeogDetail(onOff) {
-									if (onOff==0) {
-										$("##GeogDetail").hide();
-										$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##GeogDetail").show();
-										$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('GeogDetail', 'GeogDetailCtl', 'GeogDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##GeogDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'GeogDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2017,21 +2021,14 @@
 									</cfif>
 								}
 								function toggleCollDetail(onOff) {
-									if (onOff==0) {
-										$("##CollDetail").hide();
-										$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##CollDetail").show();
-										$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('CollDetail', 'CollDetailCtl', 'CollDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##CollDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'CollDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2044,21 +2041,14 @@
 									</cfif>
 								}
 								function toggleSpecDetail(onOff) {
-									if (onOff==0) {
-										$("##SpecDetail").hide();
-										$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##SpecDetail").show();
-										$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('SpecDetail', 'SpecDetailCtl', 'SpecDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##SpecDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'SpecDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2071,21 +2061,14 @@
 									</cfif>
 								}
 								function toggleTransactionDetail(onOff) {
-									if (onOff==0) {
-										$("##TransactionDetail").hide();
-										$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##TransactionDetail").show();
-										$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('TransactionDetail', 'TransactionDetailCtl', 'TransactionDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##TransactionDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TransactionDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2097,6 +2080,16 @@
 										});
 									</cfif>
 								}
+								/* On page load, sync all section toggle buttons so their labels and
+								   icons match the server-rendered initial visibility of each section. */
+								$(document).ready(function() {
+									syncSectionToggle('IDDetail',          'IDDetailCtl',          'IDDetailCtl1');
+									syncSectionToggle('TaxaDetail',        'TaxaDetailCtl',        'TaxaDetailCtl1');
+									syncSectionToggle('GeogDetail',        'GeogDetailCtl',        'GeogDetailCtl1');
+									syncSectionToggle('CollDetail',        'CollDetailCtl',        'CollDetailCtl1');
+									syncSectionToggle('SpecDetail',        'SpecDetailCtl',        'SpecDetailCtl1');
+									syncSectionToggle('TransactionDetail', 'TransactionDetailCtl', 'TransactionDetailCtl1');
+								});
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
