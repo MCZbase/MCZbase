@@ -131,9 +131,7 @@ limitations under the License.
 							<th scope="col">Parent Container</th>
 							<th scope="col">Type</th>
 							<th scope="col">Placement Check</th>
-							<cfif variables.canEditContainers>
-								<th scope="col">Action</th>
-							</cfif>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -141,6 +139,11 @@ limitations under the License.
 							<cfset variables.historyDisplay = "Unnamed container">
 							<cfset variables.historyParentId = val(getHistory.parent_container_id)>
 							<cfset variables.historyBadgeId = "viewContainerHistoryBadge_#getHistory.currentRow#">
+							<cfset variables.historyLocateRowId = "viewContainerHistoryLocate_#getHistory.currentRow#">
+							<cfset variables.historyParentExists = (variables.historyParentId GT 0 AND len(trim(getHistory.container_type)) GT 0)>
+							<cfset variables.historyParentIsCurrent = (variables.historyParentId GT 0 AND variables.historyParentId EQ val(getContainer.parent_container_id))>
+							<cfset variables.historyParentIsInstitution = (variables.historyParentExists AND compareNoCase(trim(getHistory.container_type), "institution") EQ 0)>
+							<cfset variables.currentContainerCanBeInInstitution = (listFindNoCase("building,campus", getContainer.container_type) GT 0)>
 							<cfif len(trim(getHistory.label)) GT 0>
 								<cfset variables.historyDisplay = getHistory.label>
 							</cfif>
@@ -181,15 +184,28 @@ limitations under the License.
 										<span class="text-muted">n/a</span>
 									</cfif>
 								</td>
-								<cfif variables.canEditContainers>
-									<td>
-										<cfif variables.historyParentId GT 0>
-											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#val(getContainer.container_id)#, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
-										<cfelse>
+								<td>
+									<cfif variables.historyParentExists>
+										<button type="button" class="btn btn-xs btn-outline-secondary mr-1 mb-1" onclick="toggleHistoryParentLocate(this, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyLocateRowId)#');">Locate</button>
+									</cfif>
+									<cfif variables.canEditContainers>
+										<cfif variables.historyParentId LTE 0>
 											<span class="text-muted">n/a</span>
+										<cfelseif NOT variables.historyParentExists>
+											<span class="badge badge-warning">Deleted</span>
+										<cfelseif variables.historyParentIsCurrent>
+											<span class="badge badge-success">Current Parent</span>
+										<cfelseif variables.historyParentIsInstitution AND NOT variables.currentContainerCanBeInInstitution>
+											<span class="badge badge-light border text-muted">Not Eligible</span>
+										<cfelse>
+											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#val(getContainer.container_id)#, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
 										</cfif>
-									</td>
-								</cfif>
+									<cfelseif NOT variables.historyParentExists AND variables.historyParentId GT 0>
+										<span class="badge badge-warning">Deleted</span>
+									<cfelseif NOT variables.historyParentExists>
+										<span class="text-muted">n/a</span>
+									</cfif>
+								</td>
 							</tr>
 						</cfloop>
 					</tbody>
