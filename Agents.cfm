@@ -180,7 +180,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<!--- ========== SECTION 1: Agent / Identifier ========== --->
-								<fieldset class="my-0 px-2 pb-1 pb-xl-0 border-top border-right border-bottom border-left field-set">
+								<fieldset class="my-0 px-2 pb-1 pb-xl-0 border-top border-right border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
 									<div class="form-row pt-1">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0">
@@ -406,9 +406,9 @@ limitations under the License.
 
 								<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<fieldset class="my-2 px-2 pb-2 field-set border-top border-bottom border-right border-left">
+									<fieldset class="my-2 px-2 pb-2 pb-xl-0 field-set border-top border-bottom border-right border-left">
 										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
-											<div class="form-row mt-2">
+											<div class="form-row mt-0">
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 													<div class="mb-1 pb-0">
 														<label for="collector_collection" id="edited_label">Collector in Collection</label>
