@@ -229,12 +229,16 @@ editing behavior consistent across the application.
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
-								<div class="parent-container-picker-row d-flex align-items-center">
-									<input type="text" id="search_term" name="search_term"
-										class="data-entry-input col-12"
-										placeholder="Label or barcode"
-										value="#encodeForHtml(variables.search_term)#">
-									<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+								<div class="parent-container-picker-row d-flex align-items-center form-row">
+									<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+										<input type="text" id="search_term" name="search_term"
+											class="data-entry-input col-12"
+											placeholder="Label or barcode"
+											value="#encodeForHtml(variables.search_term)#">
+									</div>
+									<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+										<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+									</div>
 								</div>
 								<input type="hidden" id="container_id" name="container_id"
 									value="#encodeForHtml(variables.container_id)#">
