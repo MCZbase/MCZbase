@@ -639,8 +639,8 @@ limitations under the License.
 													$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 												});
 											</script>
-											<div class="col-12 col-md-7 col-xl-5">
-												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
+											<div class="col-12 col-md-6 col-xl-4">
+												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
 													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
 														placeholder="start date" 
