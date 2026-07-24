@@ -1789,7 +1789,8 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var cell = $('<button class="positions-grid-cell" type="button"></button>');
 		if (!position.content_container_id) {
 			cell.addClass('positions-grid-cell-empty');
-			cell.attr('aria-label', 'Position ' + (position.position_label || '') + ' is empty. Activate to place a container.');
+			var positionLabelText = position.position_label || 'this position';
+			cell.attr('aria-label', 'Position ' + positionLabelText + ' is empty. Activate to place a container.');
 			cell.attr('title', 'Place a container into this empty position');
 		}
 		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
