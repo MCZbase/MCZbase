@@ -397,7 +397,7 @@
 																			<cfset comma=",">
 																		</cfloop>
 																	];
-																	$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
+																	$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
 																	setFixedCollectionValues();
 																});
 															</script> 
@@ -437,7 +437,7 @@
 																			<cfset comma=",">
 																		</cfloop>
 																	];
-																	$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '20px', width: '100%' });
+																	$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
 																	setOtherIdTypeValues();
 																});
 															</script> 
@@ -484,7 +484,7 @@
 																					<cfset comma=",">
 																				</cfloop>
 																			];
-																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '20px', width: '100%' });
+																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
 																			setOtherIdType_1_Values();
 																		});
 																	</script> 
@@ -2129,7 +2129,7 @@
 																		<cfset comma=",">
 																	</cfloop>
 																];
-																$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
+																$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
 																setKeywordCollectionValues();
 															});
 														</script> 
@@ -2440,7 +2440,7 @@
 																		searchMode: 'containsignorecase',
 																		width: '100%',
 																		dropDownHeight: 400,
-																		height: '21px'
+																		height: '23px'
 																	});
 																	// bind an autocomplete, if one applies
 																	handleFieldSetup('field1',1);
@@ -2571,7 +2571,7 @@
 																					searchMode: 'containsignorecase',
 																					width: '100%',
 																					dropDownHeight: 400,
-																					height: '21px'
+																					height: '23px'
 																				});
 																				// bind an autocomplete, if one applies.
 																				handleFieldSetup('field#row#',#row#);
@@ -2754,7 +2754,7 @@
 															searchMode: 'containsignorecase',
 															width: '100%',
 															dropDownHeight: 400,
-															height: '22px'
+															height: '23px'
 														});
 														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 														$('##field'+row).on("change", function(event) { 
