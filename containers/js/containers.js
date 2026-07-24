@@ -1625,13 +1625,99 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 }
 
 /**
+ * Open a dialog to pick an existing container and place it into an empty position.
+ * @param {number|string} positionContainerId - container_id for the empty position container.
+ * @param {string} positionLabel - display label for the position container.
+ * @param {string} targetDivId - id of the positions panel to refresh after placement.
+ * @param {string} feedbackId - optional feedback element id for status updates.
+ * @param {Function} onPlaced - optional callback invoked after a successful placement.
+ * @returns {void}
+ */
+function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
+	var idSuffix = '_' + Date.now();
+	var wrapper = $('#positionPlacementDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="positionPlacementDialogWrapper"></div>').appendTo('body');
+	}
+	var searchControlId = 'positionPlacementSearch' + idSuffix;
+	var searchIdControlId = 'positionPlacementSearchId' + idSuffix;
+	var validationControlId = 'positionPlacementValidation' + idSuffix;
+	var confirmControlId = 'positionPlacementConfirm' + idSuffix;
+	var cancelControlId = 'positionPlacementCancel' + idSuffix;
+	wrapper.html(
+		'<div class="border rounded bg-light p-2 mb-2">' +
+			'<label for="' + searchControlId + '" class="data-entry-label">Container autocomplete</label>' +
+			'<input type="text" id="' + searchControlId + '" class="data-entry-input col-12" value="">' +
+			'<input type="hidden" id="' + searchIdControlId + '" value="">' +
+		'</div>' +
+		'<div id="' + validationControlId + '" role="status" aria-live="polite" class="mb-2"></div>' +
+		'<div>' +
+			'<button type="button" id="' + confirmControlId + '" class="btn btn-xs btn-primary" disabled="disabled">Place</button>' +
+			'<button type="button" id="' + cancelControlId + '" class="btn btn-xs btn-warning ml-1">Cancel</button>' +
+		'</div>'
+	);
+	wrapper.dialog({
+		title: 'Place Container into Position ' + (positionLabel || ''),
+		modal: true,
+		width: 540,
+		autoOpen: true
+	});
+	makeContainerAutocompleteMeta(searchControlId, searchIdControlId);
+	$('#' + searchControlId).on('autocompleteselect', function() {
+		var selectedId = $('#' + searchIdControlId).val();
+		checkAndRenderPlacementValidation(selectedId, positionContainerId, validationControlId, confirmControlId);
+	});
+	$('#' + confirmControlId).on('click', function() {
+		var selectedId = $('#' + searchIdControlId).val();
+		if (!selectedId) {
+			return;
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'moveContainerById',
+				returnformat: 'json',
+				child_container_id: selectedId,
+				parent_container_id: positionContainerId
+			},
+			success: function(result) {
+				if (result && result.status === 'moved') {
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+					}
+					wrapper.dialog('close');
+					if (onPlaced) {
+						onPlaced();
+					}
+				} else {
+					var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'error', message);
+					}
+					$('#' + validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'placing container into position');
+			}
+		});
+	});
+	$('#' + cancelControlId).on('click', function() {
+		wrapper.dialog('close');
+	});
+}
+
+/**
  * Renders a read-only positions grid or fallback table for one container.
  * @param {Array} positions - ordered position rows returned from getContainerPositionsGrid.
  * @param {number} numPositions - declared position count used to choose a known layout.
  * @param {string} targetDivId - id of the panel that should receive the rendered layout.
  * @param {string} feedbackId - optional feedback element id for details-dialog failures.
+ * @param {number|string} containerId - container_id whose positions are being rendered.
  */
-function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
+function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
 		25: 'positions-grid-5x5',
@@ -1649,19 +1735,42 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 		var tbody = $('<tbody></tbody>');
 		$.each(positions, function(i, position) {
 			var detailContainerId = position.content_container_id || position.position_id;
+			var isEmptyPosition = !position.content_container_id;
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
-			var actionBtn = $('<button class="btn btn-xs btn-outline-info" type="button"></button>')
-				.text('Details')
-				.on('click', function() {
-					openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
-				});
+			var actionCell = $('<td></td>');
+			if (isEmptyPosition) {
+				actionCell.append(
+					$('<button class="btn btn-xs btn-primary" type="button"></button>')
+						.text('Place…')
+						.on('click', function() {
+							openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
+							});
+						})
+				);
+				actionCell.append(
+					$('<button class="btn btn-xs btn-outline-info ml-1" type="button"></button>')
+						.text('Details')
+						.on('click', function() {
+							openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+						})
+				);
+			} else {
+				actionCell.append(
+					$('<button class="btn btn-xs btn-outline-info" type="button"></button>')
+						.text('Details')
+						.on('click', function() {
+							openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+						})
+				);
+			}
 			var tr = $('<tr></tr>');
 			tr.append($('<td></td>').text(position.position_label || ''));
 			tr.append($('<td></td>').text(occupantDisplay));
 			tr.append($('<td></td>').text(position.content_container_type || ''));
-			tr.append($('<td></td>').append(actionBtn));
+			tr.append(actionCell);
 			tbody.append(tr);
 		});
 		var table = $('<table class="table table-sm table-striped positions-grid-fallback"></table>');
@@ -1686,9 +1795,18 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 		if (position.content_container_type) {
 			cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
 		}
-		cell.on('click', function() {
-			openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
-		});
+		if (!position.content_container_id) {
+			cell.append($('<span class="positions-grid-type small"></span>').text('Click to place'));
+			cell.on('click', function() {
+				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
+				});
+			});
+		} else {
+			cell.on('click', function() {
+				openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+			});
+		}
 		grid.append(cell);
 	});
 	wrapper.append(grid);
@@ -1712,7 +1830,7 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 		},
 		dataType: 'json',
 		success: function(data) {
-			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId);
+			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId);
 		},
 		error: function(jqXHR, textStatus, error) {
 			if (feedbackId) {
