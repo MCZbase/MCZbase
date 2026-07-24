@@ -402,10 +402,10 @@ limitations under the License.
 							</div>
 						</fieldset>
 					
-						<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
-							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-								Target-Specific Context
-							</legend>
+							<fieldset class="my-2 px-2 pb-2 border-top border-right border-bottom border-left field-set">
+								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+									Target-Specific Context
+								</legend>
 							<div class="form-row">
 								<div class="col-12 col-md-2">
 									<label for="target_type_select" class="">Target Type</label>
@@ -430,76 +430,76 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-10">
 									<div class="form-row">
-									<div class="col-12 col-xl-4">
-										<div class="form-row">
-											<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
-											<div class="col-12 col-md-6" data-target-group="specimen">
-												<label for="collection" class="">Collection</label>
-												<select name="collection" id="collection" class="">
-													<option value="">Any Collection</option>
-													<cfloop query="getAnnotatedCollections">
-														<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-														<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
-													</cfloop>
-												</select>
+										<div class="col-12 col-xl-3">
+											<div class="">
+												<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
+												<div class="col-12 col-md-6" data-target-group="specimen">
+													<label for="collection" class="">Collection</label>
+													<select name="collection" id="collection" class="">
+														<option value="">Any Collection</option>
+														<cfloop query="getAnnotatedCollections">
+															<cfif variables.collection EQ collection><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+															<option value="#encodeForHTML(collection)#" #local.selected#>#encodeForHTML(collection)# (#ct#)</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-6" data-target-group="specimen">
+													<label for="specimen_guid">Specimen GUID</label>
+													<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
+												</div>
 											</div>
-											<div class="col-12 col-md-6" data-target-group="specimen">
-												<label for="specimen_guid">Specimen GUID</label>
-												<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
+										</div>
+										<div class="col-12 col-xl-3">
+											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
+											<div class="">
+												<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Taxon</h3>
+												<div class="col-12 col-md-6" data-target-group="taxon">
+													<label for="family">Family</label>
+													<select name="family" id="family">
+														<option value="">Any Family</option>
+														<cfloop query="getAnnotatedFamilies">
+															<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
+															<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-6" data-target-group="taxon">
+													<label for="scientific_name">Scientific Name Contains</label>
+													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-xl-3">
+											<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
+											<div class="">
+												<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Agent</h3>
+												<div class="col-12" data-target-group="agent">
+													<label for="agent_name">Agent Name</label>
+													<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" placeholder="Type to search by name or pick an agent">
+													<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-xl-3">
+											<div class="">
+												<h3 class="h6 px-2 mt-2 mb-1 w-100 border-bottom">Publication and Project</h3>
+												<div class="col-12 col-md-6" data-target-group="publication">
+													<label for="publication_lookup" class="">Publication Citation or Title</label>
+													<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
+													<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
+													<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
+												</div>
+												<div class="col-12 col-md-6" data-target-group="project">
+													<label for="project_lookup" class="">Project Title</label>
+													<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
+													<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
+													<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="" placeholder="Type to search by text or select from list">
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class="col-12 col-xl-4">
-										<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
-										<div class="form-row">
-											<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Taxon</h3>
-											<div class="col-12 col-md-6" data-target-group="taxon">
-												<label for="family">Family</label>
-												<select name="family" id="family">
-													<option value="">Any Family</option>
-													<cfloop query="getAnnotatedFamilies">
-														<cfif variables.family EQ family><cfset local.selected = "selected"><cfelse><cfset local.selected = ""></cfif>
-														<option value="#encodeForHTML(family)#" #local.selected#>#encodeForHTML(family)# (#ct#)</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-6" data-target-group="taxon">
-												<label for="scientific_name">Scientific Name Contains</label>
-												<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
-											</div>
-										</div>
-									</div>
-									<div class="col-12 col-xl-4">
-										<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
-										<div class="form-row">
-											<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Agent</h3>
-											<div class="col-12" data-target-group="agent">
-												<label for="agent_name">Agent Name</label>
-												<input type="text" name="agent_name" id="agent_name" value="#encodeForHTML(variables.agent_name)#" placeholder="Type to search by name or pick an agent">
-												<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
-											</div>
-										</div>
-									</div>
-									<div class="col-12 col-xl-8">
-										<div class="form-row">
-											<h3 class="h6 px-2 mt-2 mb-1 w-100 border-bottom">Publication and Project</h3>
-											<div class="col-12 col-md-6" data-target-group="publication">
-												<label for="publication_lookup" class="">Publication Citation or Title</label>
-												<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
-												<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
-												<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
-											</div>
-											<div class="col-12 col-md-6" data-target-group="project">
-												<label for="project_lookup" class="">Project Title</label>
-												<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
-												<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
-												<input type="text" id="project_lookup" value="#encodeForHTML(variables.project_lookup)#" class="" placeholder="Type to search by text or select from list">
-											</div>
-										</div>
-									</div>
-											</div></div>
-							</div>
-						</fieldset>
+								</div>
+							</fieldset>
 							<div class="mt-auto pt-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<a href="/annotations/Annotations.cfm" class="btn btn-xs btn-warning">Reset</a>
