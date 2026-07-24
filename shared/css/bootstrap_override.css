@@ -1938,7 +1938,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	display: block;
 	width: 100% !important;
 	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	padding: 2px .5rem;
+	padding: 0 .5rem 2px .5rem;
 	color: black;
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
