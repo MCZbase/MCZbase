@@ -2403,7 +2403,7 @@
 															</script>
 															<label for="field1">Search Field</label>
 															<cfif not isDefined("field1")><cfset field1=""></cfif>
-															<select title="Select Field to search..." name="field1" id="field1" required>
+															<select title="Select Field to search..." name="field1" id="field1" style="height: 22px !important;" required>
 																<cfif len(field1) EQ 0>
 																	<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 																</cfif>
