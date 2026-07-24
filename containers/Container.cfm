@@ -131,7 +131,7 @@ limitations under the License.
 		WHERE
 			parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
 	</cfquery>
-	<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#"  ******>
+	<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			ch.install_date,
 			ch.parent_container_id,
@@ -468,7 +468,7 @@ limitations under the License.
 										<cfif variables.canEditContainers>
 											<td>
 												<cfif variables.historyParentId GT 0>
-													<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#encodeForHtmlAttribute(variables.formData.container_id)#, #encodeForHtmlAttribute(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerSaveStatus', function(){ window.location.reload(); });">Put Back Here</button>
+													<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#val(variables.formData.container_id)#, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerSaveStatus', function(){ window.location.reload(); });">Put Back Here</button>
 												<cfelse>
 													<span class="text-muted">n/a</span>
 												</cfif>
@@ -534,7 +534,7 @@ limitations under the License.
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
 			<cfloop query="getHistory">
 				<cfif val(getHistory.parent_container_id) GT 0>
-					loadPlacementWarningBadge(#encodeForJavaScript(variables.formData.container_id)#, #encodeForJavaScript(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');
+					loadPlacementWarningBadge(#val(variables.formData.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');
 				</cfif>
 			</cfloop>
 			</cfoutput>

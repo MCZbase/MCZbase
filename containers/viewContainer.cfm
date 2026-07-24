@@ -184,7 +184,7 @@ limitations under the License.
 								<cfif variables.canEditContainers>
 									<td>
 										<cfif variables.historyParentId GT 0>
-											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#encodeForHtmlAttribute(getContainer.container_id)#, #encodeForHtmlAttribute(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
+											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#val(getContainer.container_id)#, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
 										<cfelse>
 											<span class="text-muted">n/a</span>
 										</cfif>
@@ -225,7 +225,7 @@ limitations under the License.
 	$(document).ready(function() {
 		<cfloop query="getHistory">
 			<cfif val(getHistory.parent_container_id) GT 0>
-				loadPlacementWarningBadge(#encodeForJavaScript(getContainer.container_id)#, #encodeForJavaScript(getHistory.parent_container_id)#, '#encodeForJavaScript("viewContainerHistoryBadge_#getHistory.currentRow#")#');
+				loadPlacementWarningBadge(#val(getContainer.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("viewContainerHistoryBadge_#getHistory.currentRow#")#');
 			</cfif>
 		</cfloop>
 	});
