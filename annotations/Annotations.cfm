@@ -433,7 +433,7 @@ limitations under the License.
 										<div class="col-12 col-md-3 col-xl-3">
 											<div class="">
 												<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
-												<div class="col-12 col-md-12 col-xl-6" data-target-group="specimen">
+												<div class="col-12" data-target-group="specimen">
 													<label for="collection" class="">Collection</label>
 													<select name="collection" id="collection" class="">
 														<option value="">Any Collection</option>
@@ -443,7 +443,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-12 col-xl-6" data-target-group="specimen">
+												<div class="col-12" data-target-group="specimen">
 													<label for="specimen_guid">Specimen GUID</label>
 													<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
 												</div>
@@ -453,7 +453,7 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 											<div class="">
 												<h3 class="h6 mb-1 px-2 mt-2 w-100 border-bottom">Taxon</h3>
-												<div class="col-12 col-md-12 col-xl-6" data-target-group="taxon">
+												<div class="col-12" data-target-group="taxon">
 													<label for="family">Family</label>
 													<select name="family" id="family">
 														<option value="">Any Family</option>
@@ -463,7 +463,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-12 col-xl-6" data-target-group="taxon">
+												<div class="col-12" data-target-group="taxon">
 													<label for="scientific_name">Scientific Name Contains</label>
 													<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
 												</div>
@@ -483,13 +483,13 @@ limitations under the License.
 										<div class="col-12 col-md-3 col-xl-3">
 											<div class="">
 												<h3 class="h6 px-2 mt-2 mb-1 w-100 border-bottom">Publication and Project</h3>
-												<div class="col-12 col-md-12 col-xl-6" data-target-group="publication">
+												<div class="col-12" data-target-group="publication">
 													<label for="publication_lookup" class="">Publication Citation or Title</label>
 													<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
 													<input type="hidden" name="publication_text" id="publication_text" value="#encodeForHTML(variables.publication_text)#">
 													<input type="text" id="publication_lookup" value="#encodeForHTML(variables.publication_lookup)#" class="" placeholder="Type to search by text or select from list">
 												</div>
-												<div class="col-12 col-md-3 col-xl-3" data-target-group="project">
+												<div class="col-12" data-target-group="project">
 													<label for="project_lookup" class="">Project Title</label>
 													<input type="hidden" name="project_id" id="project_id" value="#encodeForHTML(variables.project_id)#">
 													<input type="hidden" name="project_text" id="project_text" value="#encodeForHTML(variables.project_text)#">
