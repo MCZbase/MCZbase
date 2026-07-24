@@ -309,8 +309,6 @@ editing behavior consistent across the application.
 									</cfloop>
 								</select>
 							</div>
-						</div>
-						<div class="form-row">
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="position_filter" class="data-entry-label">
 									Container in Position
