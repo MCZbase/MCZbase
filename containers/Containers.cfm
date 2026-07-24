@@ -234,6 +234,7 @@ editing behavior consistent across the application.
 										class="data-entry-input col-12"
 										placeholder="Label or barcode"
 										value="#encodeForHtml(variables.search_term)#">
+									<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
 								</div>
 								<input type="hidden" id="container_id" name="container_id"
 									value="#encodeForHtml(variables.container_id)#">
@@ -363,7 +364,17 @@ editing behavior consistent across the application.
 <script>
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
-	addContainerSearchPickerButton('search_term', 'container_id');
+	$('##chooseSearchContainerBtn').on('click', function() {
+		openContainerPickerDialog({
+			mode: 'find',
+			dialogTitle: 'Select Container',
+			onSelect: function(selectedId, selectedLabel, wrapper) {
+				$('##container_id').val(selectedId);
+				$('##search_term').val(selectedLabel);
+				wrapper.dialog('close');
+			}
+		});
+	});
 
 	$('##containerSearchForm').on('submit', function(e) {
 		e.preventDefault();

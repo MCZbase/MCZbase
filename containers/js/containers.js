@@ -3031,33 +3031,3 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 		})
 		.appendTo(buttonContainer);
 }
-
-/**
- * Add a dialog-launch button adjacent to a search target container field.
- * @param {string} textFieldId - id of the text field that displays the selected container label/barcode.
- * @param {string} idFieldId - id of the hidden field that stores selected container_id.
- * @returns {void}
- */
-function addContainerSearchPickerButton(textFieldId, idFieldId) {
-	if ($('#chooseBtn-' + textFieldId).length > 0) {
-		return;
-	}
-	var textField = $('#' + textFieldId);
-	var pickerRow = textField.closest('.parent-container-picker-row');
-	var buttonContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
-	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
-		.attr('id', 'chooseBtn-' + textFieldId)
-		.text('Choose…')
-		.on('click', function() {
-			openContainerPickerDialog({
-				mode: 'find',
-				dialogTitle: 'Select Container',
-				onSelect: function(selectedId, selectedLabel, wrapper) {
-					$('#' + idFieldId).val(selectedId);
-					$('#' + textFieldId).val(selectedLabel);
-					wrapper.dialog('close');
-				}
-			});
-		})
-		.appendTo(buttonContainer);
-}
