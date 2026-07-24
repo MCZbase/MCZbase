@@ -1634,7 +1634,7 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
  * @returns {void}
  */
 function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
-	var idSuffix = '_' + Date.now();
+	var idSuffix = '_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
 	var wrapper = $('#positionPlacementDialogWrapper');
 	if (!wrapper.length) {
 		wrapper = $('<div id="positionPlacementDialogWrapper"></div>').appendTo('body');
@@ -1790,7 +1790,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		if (!position.content_container_id) {
 			cell.addClass('positions-grid-cell-empty');
 			var positionLabelText = position.position_label || 'this position';
-			cell.attr('aria-label', 'Position ' + positionLabelText + ' is empty. Activate to place a container.');
+			cell.attr('aria-label', 'Empty position ' + positionLabelText + '. Activate to place a container.');
 			cell.attr('title', 'Place a container into this empty position');
 		}
 		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
