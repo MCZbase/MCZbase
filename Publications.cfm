@@ -337,7 +337,7 @@ limitations under the License.
 														<div class="input-group-prepend">
 															<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 														</div>
-														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(author_agent_name)#">
+														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(author_agent_name)#">
 														<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
 													</div>
 												</div>

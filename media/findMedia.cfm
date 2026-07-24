@@ -629,7 +629,7 @@ limitations under the License.
 													<div class="input-group-prepend">
 														<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 													</div>
-													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
 													<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
 												</div>
 												</div>
