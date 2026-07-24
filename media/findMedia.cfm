@@ -639,7 +639,7 @@ limitations under the License.
 													$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 												});
 											</script>
-											<div class="col-12 col-md-6 col-xl-4">
+											<div class="col-12 col-md-5 col-xl-3">
 												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
 													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
@@ -655,9 +655,9 @@ limitations under the License.
 											</div>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
-												<div class="col-12 col-md-4 col-xl-3">
+												<div class="col-12 col-md-4 col-xl-2">
 													<label for="text_made_date">Made Date</label>
-													<span class="text-secondary small"> (as text) (</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
 														=
 													</button>, 
@@ -669,14 +669,14 @@ limitations under the License.
 														aria-label="set made date to NOT NULL to find media records with any made date">
 														Any
 													</button><span class="text-secondary small">)</span>
-													<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+													<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#" placeholder="(as text)" aria-describedby="madeDateText_help"><span id="madeDateText_help" class="sr-only">(as text)</span>
 													<script>
 														$(document).ready(function() {
 															makeMediaLabelAutocomplete("text_made_date","made date");
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-4 col-xl-3">
+												<div class="col-12 col-md-4 col-xl-2">
 													<label for="owner">Owner </label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
@@ -697,7 +697,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-4 col-xl-3">
+												<div class="col-12 col-md-4 col-xl-2">
 													<label for="credit">Credit</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
