@@ -1646,7 +1646,7 @@ function openPositionPlacementDialog(positionContainerId, positionLabel, targetD
 	var cancelControlId = 'positionPlacementCancel' + idSuffix;
 	wrapper.html(
 		'<div class="border rounded bg-light p-2 mb-2">' +
-			'<label for="' + searchControlId + '" class="data-entry-label">Container autocomplete</label>' +
+			'<label for="' + searchControlId + '" class="data-entry-label">Search for container to place</label>' +
 			'<input type="text" id="' + searchControlId + '" class="data-entry-input col-12" value="">' +
 			'<input type="hidden" id="' + searchIdControlId + '" value="">' +
 		'</div>' +
