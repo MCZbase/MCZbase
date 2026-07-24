@@ -430,7 +430,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-10">
 									<div class="form-row">
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-3 px-1 col-xl-3">
 											<h3 class="h6 mb-1 px-2 w-100 mx-0 border-bottom">Specimen</span></h3>
 											<div class="col-12" data-target-group="specimen">
 												<label for="collection" class="">Collection</label>
@@ -447,7 +447,7 @@ limitations under the License.
 												<input type="text" name="specimen_guid" id="specimen_guid" value="#encodeForHTML(variables.specimen_guid)#" placeholder="MCZ:Herp:A-12345">
 											</div>
 										</div>
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-3 px-1 col-xl-3">
 											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(variables.collection_object_id)#">
 											<h3 class="h6 mb-1 px-2 w-100 border-bottom">Taxon</h3>
 											<div class="col-12" data-target-group="taxon">
@@ -465,7 +465,7 @@ limitations under the License.
 												<input type="text" name="scientific_name" id="scientific_name" value="#encodeForHTML(variables.scientific_name)#">
 											</div>
 										</div>
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-3 px-1 col-xl-3">
 											<input type="hidden" name="taxon_name_id" id="taxon_name_id" value="#encodeForHTML(variables.taxon_name_id)#">
 											<h3 class="h6 mb-1 px-2 w-100 border-bottom">Agent</h3>
 											<div class="col-12" data-target-group="agent">
@@ -474,7 +474,7 @@ limitations under the License.
 												<input type="hidden" name="agent_id" id="agent_id" value="#encodeForHTML(variables.agent_id)#">
 											</div>
 										</div>
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-3 px-1 col-xl-3">
 											<h3 class="h6 px-2 mb-1 w-100 border-bottom">Publication and Project</h3>
 											<div class="col-12" data-target-group="publication">
 												<label for="publication_lookup" class="">Publication Citation or Title</label>
