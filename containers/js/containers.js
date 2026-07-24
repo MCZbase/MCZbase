@@ -2294,8 +2294,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var department = $('#department').val() || '';
 	var treeProperty = $('#tree_property').val() || '';
 	var hasPositions = $('#has_positions').val() || '';
-	var inPosition = $('#in_position').val() || '';
-	var positionValue = $('#position_value').val() || '';
+	var positionFilter = $('#position_filter').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2311,8 +2310,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				department: department,
 				tree_property: treeProperty,
 				has_positions: hasPositions,
-				in_position: inPosition,
-				position_value: positionValue,
+				position_filter: positionFilter,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -2332,8 +2330,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (department) { searchLinkParts.push('department=' + encodeURIComponent(department)); }
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
 			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
-			if (inPosition) { searchLinkParts.push('in_position=' + encodeURIComponent(inPosition)); }
-			if (positionValue) { searchLinkParts.push('position_value=' + encodeURIComponent(positionValue)); }
+			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));

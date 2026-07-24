@@ -477,12 +477,14 @@ a paginated JSON result for display in the browse panel.
 @param has_positions optional number_positions filter:
   none          - number_positions is null or 0
   any           - number_positions > 0
+  has_empty     - has positions where at least one position is unoccupied
   [numeric]     - exact number_positions match
-@param in_position optional position-membership filter:
-  any           - parent container is of type position
-  none          - parent container is not a position
-  specific      - parent is a position matching position_value
-@param position_value optional position label/barcode matcher used with in_position=specific.
+@param position_filter optional position-membership filter:
+  NOT NULL      - parent container is of type position
+  NULL          - parent container is not a position
+  [numeric]     - parent position with exact numeric label/barcode match
+  [text]        - parent position label/barcode contains text (case-insensitive)
+  [=text]       - parent position label/barcode exact text match (case-insensitive)
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -497,8 +499,7 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="department" type="string" required="no" default="">
 	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="has_positions" type="string" required="no" default="">
-	<cfargument name="in_position" type="string" required="no" default="">
-	<cfargument name="position_value" type="string" required="no" default="">
+	<cfargument name="position_filter" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -511,11 +512,11 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.deptUpper = ucase(trim(arguments.department))>
 		<cfset local.treeProperty = trim(arguments.tree_property)>
 		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
-		<cfset local.inPositionFilter = lcase(trim(arguments.in_position))>
-		<cfset local.positionValueUpper = ucase(trim(arguments.position_value))>
+		<cfset local.positionFilter = trim(arguments.position_filter)>
+		<cfset local.positionFilterUpper = ucase(local.positionFilter)>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
-		<cfset local.needsParentJoin = listFindNoCase("any,none,specific", local.inPositionFilter) GT 0>
+		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
 		<!--- Total row count --->
 		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
@@ -570,25 +571,45 @@ a paginated JSON result for display in the browse panel.
 				AND NVL(c.number_positions, 0) = 0
 			<cfelseif local.hasPositionsFilter EQ "any">
 				AND NVL(c.number_positions, 0) > 0
+			<cfelseif local.hasPositionsFilter EQ "has_empty">
+				AND NVL(c.number_positions, 0) > 0
+				AND EXISTS (
+					SELECT 1
+					FROM container pos
+					WHERE pos.parent_container_id = c.container_id
+						AND pos.container_type = 'position'
+						AND NOT EXISTS (
+							SELECT 1
+							FROM container occ
+							WHERE occ.parent_container_id = pos.container_id
+						)
+				)
 			<cfelseif isNumeric(local.hasPositionsFilter)>
 				AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
 			</cfif>
-			<cfif local.inPositionFilter EQ "any">
-				AND p.container_type = 'position'
-			<cfelseif local.inPositionFilter EQ "none">
-				AND NVL(p.container_type, ' ') <> 'position'
-			<cfelseif local.inPositionFilter EQ "specific" AND len(local.positionValueUpper) GT 0>
-				AND p.container_type = 'position'
-				<cfif left(local.positionValueUpper,1) EQ "=">
-					AND (
-						UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
-						OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
-					)
+			<cfif len(local.positionFilterUpper) GT 0>
+				<cfif local.positionFilterUpper EQ "NOT NULL">
+					AND p.container_type = 'position'
+				<cfelseif local.positionFilterUpper EQ "NULL">
+					AND NVL(p.container_type, ' ') <> 'position'
 				<cfelse>
-					AND (
-						UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
-						OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
-					)
+					AND p.container_type = 'position'
+					<cfif isNumeric(local.positionFilter)>
+						AND (
+							p.label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+							OR p.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+						)
+					<cfelseif left(local.positionFilterUpper,1) EQ "=">
+						AND (
+							UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+							OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+						)
+					<cfelse>
+						AND (
+							UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+							OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+						)
+					</cfif>
 				</cfif>
 			</cfif>
 			<cfif local.treeProperty EQ "empty">
@@ -688,25 +709,45 @@ a paginated JSON result for display in the browse panel.
 						AND NVL(c.number_positions, 0) = 0
 					<cfelseif local.hasPositionsFilter EQ "any">
 						AND NVL(c.number_positions, 0) > 0
+					<cfelseif local.hasPositionsFilter EQ "has_empty">
+						AND NVL(c.number_positions, 0) > 0
+						AND EXISTS (
+							SELECT 1
+							FROM container pos
+							WHERE pos.parent_container_id = c.container_id
+								AND pos.container_type = 'position'
+								AND NOT EXISTS (
+									SELECT 1
+									FROM container occ
+									WHERE occ.parent_container_id = pos.container_id
+								)
+						)
 					<cfelseif isNumeric(local.hasPositionsFilter)>
 						AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
 					</cfif>
-					<cfif local.inPositionFilter EQ "any">
-						AND p.container_type = 'position'
-					<cfelseif local.inPositionFilter EQ "none">
-						AND NVL(p.container_type, ' ') <> 'position'
-					<cfelseif local.inPositionFilter EQ "specific" AND len(local.positionValueUpper) GT 0>
-						AND p.container_type = 'position'
-						<cfif left(local.positionValueUpper,1) EQ "=">
-							AND (
-								UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
-								OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
-							)
+					<cfif len(local.positionFilterUpper) GT 0>
+						<cfif local.positionFilterUpper EQ "NOT NULL">
+							AND p.container_type = 'position'
+						<cfelseif local.positionFilterUpper EQ "NULL">
+							AND NVL(p.container_type, ' ') <> 'position'
 						<cfelse>
-							AND (
-								UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
-								OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
-							)
+							AND p.container_type = 'position'
+							<cfif isNumeric(local.positionFilter)>
+								AND (
+									p.label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+									OR p.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+								)
+							<cfelseif left(local.positionFilterUpper,1) EQ "=">
+								AND (
+									UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+									OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+								)
+							<cfelse>
+								AND (
+									UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+									OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+								)
+							</cfif>
 						</cfif>
 					</cfif>
 					<cfif local.treeProperty EQ "empty">

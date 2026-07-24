@@ -91,6 +91,7 @@ editing behavior consistent across the application.
 <cfparam name="url.department" default="">
 <cfparam name="url.tree_property" default="">
 <cfparam name="url.has_positions" default="">
+<cfparam name="url.position_filter" default="">
 <cfparam name="url.in_position" default="">
 <cfparam name="url.position_value" default="">
 <cfparam name="url.execute" default="">
@@ -136,15 +137,20 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.has_positions = trim(url.has_positions)>
 </cfif>
-<cfif isDefined("form.in_position")>
-	<cfset variables.in_position = trim(form.in_position)>
+<cfif isDefined("form.position_filter")>
+	<cfset variables.position_filter = trim(form.position_filter)>
+<cfelseif len(trim(url.position_filter)) GT 0>
+	<cfset variables.position_filter = trim(url.position_filter)>
+<cfelseif lcase(trim(url.in_position)) EQ "any">
+	<cfset variables.position_filter = "NOT NULL">
+<cfelseif lcase(trim(url.in_position)) EQ "none">
+	<cfset variables.position_filter = "NULL">
+<cfelseif lcase(trim(url.in_position)) EQ "specific" AND len(trim(url.position_value)) GT 0>
+	<cfset variables.position_filter = trim(url.position_value)>
+<cfelseif len(trim(url.position_value)) GT 0>
+	<cfset variables.position_filter = trim(url.position_value)>
 <cfelse>
-	<cfset variables.in_position = trim(url.in_position)>
-</cfif>
-<cfif isDefined("form.position_value")>
-	<cfset variables.position_value = trim(form.position_value)>
-<cfelse>
-	<cfset variables.position_value = trim(url.position_value)>
+	<cfset variables.position_filter = "">
 </cfif>
 <cfif isDefined("form.execute")>
 	<cfset variables.execute = trim(form.execute)>
@@ -294,6 +300,7 @@ editing behavior consistent across the application.
 									<option value=""></option>
 									<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
 									<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
+									<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
 									<cfloop query="positionCountOptions">
 										<cfset variables.selectedPositionCount = "">
 										<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
@@ -306,20 +313,18 @@ editing behavior consistent across the application.
 						</div>
 						<div class="form-row">
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="in_position" class="data-entry-label">Container in Position</label>
-								<select id="in_position" name="in_position" class="data-entry-select col-12">
-									<option value=""></option>
-									<option value="any"<cfif variables.in_position EQ "any"> selected</cfif>>In any position</option>
-									<option value="none"<cfif variables.in_position EQ "none"> selected</cfif>>Not in any position</option>
-									<option value="specific"<cfif variables.in_position EQ "specific"> selected</cfif>>In specific position</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="position_value" class="data-entry-label">Specific Position (label or barcode)</label>
-								<input type="text" id="position_value" name="position_value"
+								<label for="position_filter" class="data-entry-label">
+									Container in Position
+									<span class="small ml-1">
+										<a href="javascript:void(0);" id="positionFilterAny">any</a>
+										|
+										<a href="javascript:void(0);" id="positionFilterNone">none</a>
+									</span>
+								</label>
+								<input type="text" id="position_filter" name="position_filter"
 									class="data-entry-input col-12"
-									placeholder="Position label or barcode"
-									value="#encodeForHtml(variables.position_value)#">
+									placeholder="NULL, NOT NULL, position number, label, or barcode"
+									value="#encodeForHtml(variables.position_filter)#">
 							</div>
 							<div class="col-12 mb-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
@@ -364,6 +369,12 @@ $(document).ready(function() {
 		e.preventDefault();
 		executeContainerSearch('containerBrowsePanel', 'containerLeafPanel', 'containerBrowseFeedback', 1);
 	});
+	$('##positionFilterAny').on('click', function() {
+		$('##position_filter').val('NOT NULL').focus();
+	});
+	$('##positionFilterNone').on('click', function() {
+		$('##position_filter').val('NULL').focus();
+	});
 
 	<cfset variables.hasSearchParams = (
 		len(variables.search_term) GT 0 OR
@@ -373,8 +384,7 @@ $(document).ready(function() {
 		len(variables.department) GT 0 OR
 		len(variables.tree_property) GT 0 OR
 		len(variables.has_positions) GT 0 OR
-		len(variables.in_position) GT 0 OR
-		len(variables.position_value) GT 0 OR
+		len(variables.position_filter) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>
