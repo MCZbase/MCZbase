@@ -366,7 +366,7 @@
 													</cfif> 
 
 													<!---IDENTIFIER SECTION--->	
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 															<h3 class="h2 small font-weight-bold mx-0 mb-0 mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h3>
 															<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -374,7 +374,7 @@
 															</cfif>
 														</div>
 													</div>		
-													<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
+													<div class="form-row col-12 col-xxl-11 px-1 pt-0 mb-0 mx-0">
 														<div class="col-12 col-md-3 mb-1">
 															<label for="fixedCollection">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -547,13 +547,13 @@
 														<cfset toggleTo = "1">
 														<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!---"--->
 													</cfif>
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h3>
 															<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 px-1 mb-1 mx-0">	
+													<div class="form-row col-12 col-xxl-11 pt-0 px-1 mb-0 mx-0">	
 														<div class="col-9 col-md-9 col-xl-3 mb-1">
 															<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 															<label for="any_taxa_term">Any Taxonomic Element</label>
@@ -783,13 +783,13 @@
 													</cfif>
 
 													<!---GEOGRAPHY SECTION--->
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left pl-xl-0 pr-xl-1">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left pl-xl-0 pr-xl-1">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h3>
 															<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0 mb-1">
+													<div class="form-row col-12 col-xxl-11 pt-0 px-1 mx-0 mb-0">
 														<div class="col-12 col-md-4 mb-1">
 															<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 															<label for="any_geography">Any Geography (keywords)</label>
@@ -997,13 +997,13 @@
 														<cfset toggleTo = "1">
 														<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!--- '" --->
 													</cfif> 
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="p-0 font-weight-bold d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Coll. Event</h3>
 															<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 														</div>
 													</div>				
-													<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
+													<div class="form-row col-12 col-xxl-11 px-1 pt-0 mb-0 mx-0">
 														<div class="col-12 col-md-3 mb-1">
 															<label for="collector">Collector</label>
 															<cfif not isdefined("collector")><cfset collector=""></cfif>
@@ -1150,7 +1150,7 @@
 														<cfset toggleTo = "1">
 														<cfset SpecButton = 'show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!---''--->
 													</cfif> 
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right p-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Specimen</h3>
 															<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
@@ -1159,7 +1159,7 @@
 														</div>
 													</div>
 
-													<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">
+													<div class="form-row col-12 col-xxl-11 pt-0 mx-0 mb-0">
 														<div class="col-12 mb-1 col-md-3 mb-1">
 															<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 															<label for="part_name">Part Name</label>
@@ -1399,12 +1399,12 @@
 
 												<!---GENERAL SECTION---> 
 												<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0 pl-xl-0 pr-xl-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
 															General
 														</h3>
 													</div>
-													<div class="form-row col-12 col-xxl-11 mx-0 pt-1 mb-1">
+													<div class="form-row col-12 col-xxl-11 mx-0 pt-0 mb-0">
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("keyword")><cfset keyword=""></cfif>
 															<label for="keyword">Keyword Search</label>
@@ -1546,7 +1546,7 @@
 																<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 															</div>
 														</div>
-														<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">	
+														<div class="form-row col-12 col-xxl-11 pt-0 mx-0 mb-0">	
 															<div class="col-12 col-md-2 col-xl-2 mb-1">
 																<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 																<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
