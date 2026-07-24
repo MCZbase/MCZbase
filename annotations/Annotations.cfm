@@ -402,10 +402,10 @@ limitations under the License.
 							</div>
 						</fieldset>
 					
-							<fieldset class="my-2 px-2 pb-1 pb-xl-0 border-top border-right border-bottom border-left field-set">
-								<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
-									Target-Specific Context
-								</legend>
+						<fieldset class="my-2 px-2 pb-1 pb-xl-0 border-top border-right border-bottom border-left field-set">
+							<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto" aria-level="2">
+								Target-Specific Context
+							</legend>
 							<div class="form-row">
 								<div class="col-12 col-md-2">
 									<label for="target_type_select" class="">Target Type</label>
@@ -475,7 +475,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-3 col-xl-3">
-											<h3 class="h6 px-2 mt-2 mb-1 w-100 border-bottom">Publication and Project</h3>
+											<h3 class="h6 px-2 mb-1 w-100 border-bottom">Publication and Project</h3>
 											<div class="col-12" data-target-group="publication">
 												<label for="publication_lookup" class="">Publication Citation or Title</label>
 												<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(variables.publication_id)#">
