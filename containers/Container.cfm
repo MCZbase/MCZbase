@@ -91,6 +91,7 @@ limitations under the License.
 <cfset variables.parent_container_type = "">
 <cfset variables.parentRankOrder = "">
 <cfset variables.hasChildren = false>
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
 
 <cfif variables.action EQ "edit">
 	<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
@@ -129,6 +130,21 @@ limitations under the License.
 			container
 		WHERE
 			parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
+	</cfquery>
+	<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#"  ******>
+		SELECT
+			ch.install_date,
+			ch.parent_container_id,
+			p.container_type,
+			p.label,
+			p.barcode
+		FROM
+			container_history ch
+			LEFT JOIN container p ON ch.parent_container_id = p.container_id
+		WHERE
+			ch.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
+		ORDER BY
+			ch.install_date DESC NULLS LAST
 	</cfquery>
 	<cfset variables.hasChildren = (getChildCount.child_count GT 0)>
 	<cfset variables.formData["container_id"] = getContainer.container_id>
@@ -384,6 +400,89 @@ limitations under the License.
 			</form>
 		</div>
 	</section>
+	<cfif variables.action EQ "edit">
+		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerHistoryHeading">
+			<div class="col-12">
+				<h2 class="h4 ml-1 mb-2" id="containerHistoryHeading">Placement History</h2>
+				<cfif getHistory.recordcount EQ 0>
+					<p class="text-muted mb-2">No placement history found.</p>
+				<cfelse>
+					<div class="table-responsive">
+						<table class="table table-sm table-striped">
+							<thead>
+								<tr>
+									<th scope="col">Date</th>
+									<th scope="col">Parent Container</th>
+									<th scope="col">Type</th>
+									<th scope="col">Placement Check</th>
+									<cfif variables.canEditContainers>
+										<th scope="col">Action</th>
+									</cfif>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="getHistory">
+									<cfset variables.historyDisplay = "Unnamed container">
+									<cfset variables.historyParentId = val(getHistory.parent_container_id)>
+									<cfset variables.historyBadgeId = "editContainerHistoryBadge_#getHistory.currentRow#">
+									<cfif len(trim(getHistory.label)) GT 0>
+										<cfset variables.historyDisplay = getHistory.label>
+									</cfif>
+									<cfif len(trim(getHistory.barcode)) GT 0>
+										<cfset variables.historyDisplay = getHistory.barcode>
+										<cfif getHistory.barcode NEQ getHistory.label AND len(trim(getHistory.label)) GT 0>
+											<cfset variables.historyDisplay = "#variables.historyDisplay# (#getHistory.label#)">
+										</cfif>
+									</cfif>
+									<tr>
+										<td>
+											<cfif isDate(getHistory.install_date)>
+												#encodeForHtml(dateFormat(getHistory.install_date, "yyyy-mm-dd"))#
+											<cfelse>
+												Unknown
+											</cfif>
+										</td>
+										<td>
+											<cfif variables.historyParentId GT 0>
+												<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#">
+													#encodeForHtml(variables.historyDisplay)#
+												</a>
+											<cfelse>
+												<span class="text-muted">Root or unplaced</span>
+											</cfif>
+										</td>
+										<td>
+											<cfif len(trim(getHistory.container_type)) GT 0>
+												#encodeForHtml(getHistory.container_type)#
+											<cfelse>
+												Unknown
+											</cfif>
+										</td>
+										<td>
+											<cfif variables.historyParentId GT 0>
+												<div id="#encodeForHtmlAttribute(variables.historyBadgeId)#" class="small text-muted">Checking…</div>
+											<cfelse>
+												<span class="text-muted">n/a</span>
+											</cfif>
+										</td>
+										<cfif variables.canEditContainers>
+											<td>
+												<cfif variables.historyParentId GT 0>
+													<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#encodeForHtmlAttribute(variables.formData.container_id)#, #encodeForHtmlAttribute(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerSaveStatus', function(){ window.location.reload(); });">Put Back Here</button>
+												<cfelse>
+													<span class="text-muted">n/a</span>
+												</cfif>
+											</td>
+										</cfif>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</div>
+				</cfif>
+			</div>
+		</section>
+	</cfif>
 </cfoutput>
 
 <script>
@@ -433,6 +532,11 @@ limitations under the License.
 		<cfif variables.action EQ "edit">
 			<cfoutput>
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
+			<cfloop query="getHistory">
+				<cfif val(getHistory.parent_container_id) GT 0>
+					loadPlacementWarningBadge(#encodeForJavaScript(variables.formData.container_id)#, #encodeForJavaScript(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');
+				</cfif>
+			</cfloop>
 			</cfoutput>
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);

@@ -73,6 +73,7 @@ limitations under the License.
 			c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.container_id#">
 		</cfif>
 </cfquery>
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
 
 <cfif getContainer.recordcount EQ 0>
 	<cfinclude template="/errors/404.cfm">
@@ -129,11 +130,17 @@ limitations under the License.
 							<th scope="col">Date</th>
 							<th scope="col">Parent Container</th>
 							<th scope="col">Type</th>
+							<th scope="col">Placement Check</th>
+							<cfif variables.canEditContainers>
+								<th scope="col">Action</th>
+							</cfif>
 						</tr>
 					</thead>
 					<tbody>
 						<cfloop query="getHistory">
 							<cfset variables.historyDisplay = "Unnamed container">
+							<cfset variables.historyParentId = val(getHistory.parent_container_id)>
+							<cfset variables.historyBadgeId = "viewContainerHistoryBadge_#getHistory.currentRow#">
 							<cfif len(trim(getHistory.label)) GT 0>
 								<cfset variables.historyDisplay = getHistory.label>
 							</cfif>
@@ -152,12 +159,12 @@ limitations under the License.
 									</cfif>
 								</td>
 								<td>
-									<cfif len(trim(getHistory.parent_container_id)) GT 0>
+									<cfif variables.historyParentId GT 0>
 										<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#">
 											#encodeForHtml(variables.historyDisplay)#
 										</a>
 									<cfelse>
-										Unknown
+										<span class="text-muted">Root or unplaced</span>
 									</cfif>
 								</td>
 								<td>
@@ -167,6 +174,22 @@ limitations under the License.
 										Unknown
 									</cfif>
 								</td>
+								<td>
+									<cfif variables.historyParentId GT 0>
+										<div id="#encodeForHtmlAttribute(variables.historyBadgeId)#" class="small text-muted">Checking…</div>
+									<cfelse>
+										<span class="text-muted">n/a</span>
+									</cfif>
+								</td>
+								<cfif variables.canEditContainers>
+									<td>
+										<cfif variables.historyParentId GT 0>
+											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#encodeForHtmlAttribute(getContainer.container_id)#, #encodeForHtmlAttribute(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
+										<cfelse>
+											<span class="text-muted">n/a</span>
+										</cfif>
+									</td>
+								</cfif>
 							</tr>
 						</cfloop>
 					</tbody>
@@ -197,4 +220,15 @@ limitations under the License.
 
 </main>
 <div id="containerDetailsDialog"></div>
+<cfoutput>
+<script>
+	$(document).ready(function() {
+		<cfloop query="getHistory">
+			<cfif val(getHistory.parent_container_id) GT 0>
+				loadPlacementWarningBadge(#encodeForJavaScript(getContainer.container_id)#, #encodeForJavaScript(getHistory.parent_container_id)#, '#encodeForJavaScript("viewContainerHistoryBadge_#getHistory.currentRow#")#');
+			</cfif>
+		</cfloop>
+	});
+</script>
+</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

@@ -994,6 +994,56 @@ function confirmDeleteContainer(containerId, feedbackId) {
 }
 
 /**
+ * Confirm and move a container back into a parent from placement history.
+ * @param {number|string} childContainerId - container_id of the container being moved.
+ * @param {number|string} parentContainerId - historical parent container_id to move into.
+ * @param {string} parentDisplay - user-facing parent container text for confirmation.
+ * @param {string} feedbackId - id of output element for status feedback.
+ * @param {Function} onPlaced - optional callback invoked after a successful move.
+ * @returns {void}
+ */
+function putContainerBackFromHistory(childContainerId, parentContainerId, parentDisplay, feedbackId, onPlaced) {
+	var safeParentDisplay = parentDisplay || 'selected parent container';
+	confirmDialog('Place this container back into ' + safeParentDisplay + '?', 'Put Back Here', function() {
+		if (feedbackId) {
+			setFeedbackControlState(feedbackId, 'saving', 'Moving...');
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'moveContainerById',
+				returnformat: 'json',
+				child_container_id: childContainerId,
+				parent_container_id: parentContainerId
+			},
+			success: function(result) {
+				if (result && result.status === 'moved') {
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'saved', 'Container moved.');
+					}
+					if (onPlaced) {
+						onPlaced(result);
+					}
+				} else {
+					var message = (result && result.message) ? result.message : 'Unable to move container.';
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'error', message);
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				if (feedbackId) {
+					setFeedbackControlState(feedbackId, 'error');
+				}
+				handleFail(jqXHR, textStatus, error, 'moving container from history');
+			}
+		});
+	});
+}
+
+/**
  * Loads the HTML fragment for a container's read-only details into targetDivId.
  * Calls getContainerDetailsHtml in functions.cfc.
  *
