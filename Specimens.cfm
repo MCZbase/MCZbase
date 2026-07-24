@@ -1963,12 +1963,12 @@
 								function toggleIDDetail(onOff) {
 									toggleSectionDetail('IDDetail', 'IDDetailCtl', 'IDDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##IDDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##IDDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'IDDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											}, 
@@ -1983,12 +1983,12 @@
 								function toggleTaxaDetail(onOff) {
 									toggleSectionDetail('TaxaDetail', 'TaxaDetailCtl', 'TaxaDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##TaxaDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##TaxaDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TaxaDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2003,12 +2003,12 @@
 								function toggleGeogDetail(onOff) {
 									toggleSectionDetail('GeogDetail', 'GeogDetailCtl', 'GeogDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##GeogDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##GeogDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'GeogDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2023,12 +2023,12 @@
 								function toggleCollDetail(onOff) {
 									toggleSectionDetail('CollDetail', 'CollDetailCtl', 'CollDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##CollDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##CollDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'CollDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2043,12 +2043,12 @@
 								function toggleSpecDetail(onOff) {
 									toggleSectionDetail('SpecDetail', 'SpecDetailCtl', 'SpecDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##SpecDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##SpecDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'SpecDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2063,12 +2063,12 @@
 								function toggleTransactionDetail(onOff) {
 									toggleSectionDetail('TransactionDetail', 'TransactionDetailCtl', 'TransactionDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
-										var newOnOff = $("##TransactionDetail").is(":visible") ? 1 : 0;
+										var observedOnOff = $("##TransactionDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TransactionDetail',
-												onOff : newOnOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
