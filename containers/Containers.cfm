@@ -90,6 +90,9 @@ editing behavior consistent across the application.
 <cfparam name="url.description" default="">
 <cfparam name="url.department" default="">
 <cfparam name="url.tree_property" default="">
+<cfparam name="url.has_positions" default="">
+<cfparam name="url.in_position" default="">
+<cfparam name="url.position_value" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
@@ -128,6 +131,21 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.tree_property = trim(url.tree_property)>
 </cfif>
+<cfif isDefined("form.has_positions")>
+	<cfset variables.has_positions = trim(form.has_positions)>
+<cfelse>
+	<cfset variables.has_positions = trim(url.has_positions)>
+</cfif>
+<cfif isDefined("form.in_position")>
+	<cfset variables.in_position = trim(form.in_position)>
+<cfelse>
+	<cfset variables.in_position = trim(url.in_position)>
+</cfif>
+<cfif isDefined("form.position_value")>
+	<cfset variables.position_value = trim(form.position_value)>
+<cfelse>
+	<cfset variables.position_value = trim(url.position_value)>
+</cfif>
 <cfif isDefined("form.execute")>
 	<cfset variables.execute = trim(form.execute)>
 <cfelse>
@@ -148,6 +166,17 @@ editing behavior consistent across the application.
 	SELECT container_type
 	FROM ctcontainer_type
 	ORDER BY container_type
+</cfquery>
+<cfquery name="positionCountOptions" datasource="user_login" username="#session.dbuser#" ****** timeout="#Application.query_timeout#">
+	SELECT DISTINCT
+		number_positions
+	FROM
+		container
+	WHERE
+		number_positions IS NOT NULL
+		AND number_positions > 0
+	ORDER BY
+		number_positions
 </cfquery>
 
 <!--- if given a container_id lookup the container label and barcode and set the search_term and barcode to that label or barcode --->
@@ -259,8 +288,39 @@ editing behavior consistent across the application.
 									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
 								</select>
 							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="has_positions" class="data-entry-label">Has Positions</label>
+								<select id="has_positions" name="has_positions" class="data-entry-select col-12">
+									<option value=""></option>
+									<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
+									<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
+									<cfloop query="positionCountOptions">
+										<cfset variables.selectedPositionCount = "">
+										<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
+											<cfset variables.selectedPositionCount = " selected">
+										</cfif>
+										<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
+									</cfloop>
+								</select>
+							</div>
 						</div>
 						<div class="form-row">
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="in_position" class="data-entry-label">Container in Position</label>
+								<select id="in_position" name="in_position" class="data-entry-select col-12">
+									<option value=""></option>
+									<option value="any"<cfif variables.in_position EQ "any"> selected</cfif>>In any position</option>
+									<option value="none"<cfif variables.in_position EQ "none"> selected</cfif>>Not in any position</option>
+									<option value="specific"<cfif variables.in_position EQ "specific"> selected</cfif>>In specific position</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="position_value" class="data-entry-label">Specific Position (label or barcode)</label>
+								<input type="text" id="position_value" name="position_value"
+									class="data-entry-input col-12"
+									placeholder="Position label or barcode"
+									value="#encodeForHtml(variables.position_value)#">
+							</div>
 							<div class="col-12 mb-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<button type="reset" class="btn btn-xs btn-warning">Reset</button>
@@ -312,6 +372,9 @@ $(document).ready(function() {
 		len(variables.description) GT 0 OR
 		len(variables.department) GT 0 OR
 		len(variables.tree_property) GT 0 OR
+		len(variables.has_positions) GT 0 OR
+		len(variables.in_position) GT 0 OR
+		len(variables.position_value) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>

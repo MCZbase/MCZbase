@@ -474,6 +474,15 @@ a paginated JSON result for display in the browse panel.
   misplaced     - container type with expects_leaf_child_count = 1 and more than one leaf child
   mixed         - has both structural children and collection-object children (AB shape)
   unplaced_leaf - collection object with no parent container
+@param has_positions optional number_positions filter:
+  none          - number_positions is null or 0
+  any           - number_positions > 0
+  [numeric]     - exact number_positions match
+@param in_position optional position-membership filter:
+  any           - parent container is of type position
+  none          - parent container is not a position
+  specific      - parent is a position matching position_value
+@param position_value optional position label/barcode matcher used with in_position=specific.
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -487,6 +496,9 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="description" type="string" required="no" default="">
 	<cfargument name="department" type="string" required="no" default="">
 	<cfargument name="tree_property" type="string" required="no" default="">
+	<cfargument name="has_positions" type="string" required="no" default="">
+	<cfargument name="in_position" type="string" required="no" default="">
+	<cfargument name="position_value" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -498,12 +510,19 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.descUpper = ucase(trim(arguments.description))>
 		<cfset local.deptUpper = ucase(trim(arguments.department))>
 		<cfset local.treeProperty = trim(arguments.tree_property)>
+		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
+		<cfset local.inPositionFilter = lcase(trim(arguments.in_position))>
+		<cfset local.positionValueUpper = ucase(trim(arguments.position_value))>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
+		<cfset local.needsParentJoin = listFindNoCase("any,none,specific", local.inPositionFilter) GT 0>
 		<!--- Total row count --->
 		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
 			FROM container c
+			<cfif local.needsParentJoin>
+				LEFT JOIN container p ON p.container_id = c.parent_container_id
+			</cfif>
 			<cfif local.needsChildJoin>
 				LEFT JOIN (
 					SELECT
@@ -546,6 +565,31 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			<cfif len(local.deptUpper) GT 0>
 				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+			</cfif>
+			<cfif local.hasPositionsFilter EQ "none">
+				AND NVL(c.number_positions, 0) = 0
+			<cfelseif local.hasPositionsFilter EQ "any">
+				AND NVL(c.number_positions, 0) > 0
+			<cfelseif isNumeric(local.hasPositionsFilter)>
+				AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
+			</cfif>
+			<cfif local.inPositionFilter EQ "any">
+				AND p.container_type = 'position'
+			<cfelseif local.inPositionFilter EQ "none">
+				AND NVL(p.container_type, ' ') <> 'position'
+			<cfelseif local.inPositionFilter EQ "specific" AND len(local.positionValueUpper) GT 0>
+				AND p.container_type = 'position'
+				<cfif left(local.positionValueUpper,1) EQ "=">
+					AND (
+						UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
+						OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
+					)
+				<cfelse>
+					AND (
+						UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
+						OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
+					)
+				</cfif>
 			</cfif>
 			<cfif local.treeProperty EQ "empty">
 				AND c.container_type <> 'collection object'
@@ -639,6 +683,31 @@ a paginated JSON result for display in the browse panel.
 					</cfif>
 					<cfif len(local.deptUpper) GT 0>
 						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+					</cfif>
+					<cfif local.hasPositionsFilter EQ "none">
+						AND NVL(c.number_positions, 0) = 0
+					<cfelseif local.hasPositionsFilter EQ "any">
+						AND NVL(c.number_positions, 0) > 0
+					<cfelseif isNumeric(local.hasPositionsFilter)>
+						AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
+					</cfif>
+					<cfif local.inPositionFilter EQ "any">
+						AND p.container_type = 'position'
+					<cfelseif local.inPositionFilter EQ "none">
+						AND NVL(p.container_type, ' ') <> 'position'
+					<cfelseif local.inPositionFilter EQ "specific" AND len(local.positionValueUpper) GT 0>
+						AND p.container_type = 'position'
+						<cfif left(local.positionValueUpper,1) EQ "=">
+							AND (
+								UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
+								OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionValueUpper, 1, 1)#">
+							)
+						<cfelse>
+							AND (
+								UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
+								OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionValueUpper#%">
+							)
+						</cfif>
 					</cfif>
 					<cfif local.treeProperty EQ "empty">
 						AND c.container_type <> 'collection object'
