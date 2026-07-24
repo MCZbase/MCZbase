@@ -356,7 +356,7 @@ limitations under the License.
 												</select>
 												<script>
 													$(document).ready(function () {
-														$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+														$("##extension").jqxComboBox({  multiSelect: true, height: '20px', width: '100%', enableBrowserBoundsDetection: true });  
 														<cfloop list="#selectedextensionlist#" index="ext">
 															$("##extension").jqxComboBox('selectItem', '#ext#');
 														</cfloop>
