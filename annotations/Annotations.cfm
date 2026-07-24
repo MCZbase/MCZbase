@@ -429,6 +429,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-10">
+									<div class="form-row">
 									<div class="col-12 col-xl-4">
 										<div class="form-row">
 											<h3 class="h6 mb-1 px-2 mt-2 w-100 mx-0 border-bottom">Specimen</span></h3>
@@ -496,7 +497,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</div>
+											</div></div>
 							</div>
 						</fieldset>
 							<div class="mt-auto pt-2">
