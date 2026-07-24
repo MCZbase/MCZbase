@@ -1789,6 +1789,8 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var cell = $('<button class="positions-grid-cell" type="button"></button>');
 		if (!position.content_container_id) {
 			cell.addClass('positions-grid-cell-empty');
+			cell.attr('aria-label', 'Position ' + (position.position_label || '') + ' is empty. Activate to place a container.');
+			cell.attr('title', 'Place a container into this empty position');
 		}
 		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
 		cell.append($('<span class="positions-grid-occupant small text-muted"></span>').text(occupantDisplay));
@@ -1796,7 +1798,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
 		}
 		if (!position.content_container_id) {
-			cell.append($('<span class="positions-grid-type small"></span>').text('Click to place'));
+			cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
 			cell.on('click', function() {
 				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
 					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
