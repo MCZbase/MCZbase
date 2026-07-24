@@ -378,7 +378,7 @@ limitations under the License.
 									<label for="annotation_text" class="">Annotation Body Text</label>
 									<input type="text" name="annotation_text" id="annotation_text" value="#encodeForHTML(variables.annotation_text)#" class="">
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-3">
 									<label for="reviewed_fg" class="">Reviewed</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="">
 										<option value=""></option>
@@ -388,7 +388,7 @@ limitations under the License.
 										<option value="0" #local.selected#>Not Reviewed (#variables.reviewedCountNotReviewed#)</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-3">
 									<label for="visibility" class="">Visibility</label>
 									<select name="visibility" id="visibility" class="">
 										<option value=""></option>
