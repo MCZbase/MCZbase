@@ -620,7 +620,7 @@
 														<!---TAXONOMY DETAIL--->
 														<div id="TaxaDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 															<div class="form-row col-12 mb-1 px-0 mx-0">
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="phylum">Phylum</label>
 																	<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" aria-label="open pick list">
 																		(&##8595;)
@@ -633,7 +633,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="phylclass">Class</label>
 																	<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																	<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" >
@@ -643,7 +643,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="phylorder">Order</label>
 																	<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																	<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" >
@@ -653,7 +653,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="family">Family</label>
 																	<cfif not isdefined("family")><cfset family=""></cfif>
 																	<input type="text" id="family" name="family" value="#encodeForHtml(family)#" >
@@ -663,7 +663,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="genus">Genus</label>
 																	<cfif not isdefined("genus")><cfset genus=""></cfif>
 																	<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -673,7 +673,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="species">Specific Name</label>
 																	<cfif not isdefined("species")><cfset species=""></cfif>
 																	<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
@@ -684,7 +684,7 @@
 																	</script>
 																</div>
 
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="determiner">Determiner</label>
 																	<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 																	<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
@@ -708,7 +708,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-4 mb-1">
 																	<label for="publication_id">Cited In</label>
 																	<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																	<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -720,7 +720,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="nature_of_id">Nature of ID</label>
 																	<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																	<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
@@ -733,12 +733,12 @@
 																		</cfloop>
 																	</select>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="identification_remarks">ID Remarks</label>
 																	<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																	<input type="text" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-2 mb-1">
 																	<label for="common_name">Common Name</label>
 																	<cfif not isdefined("common_name")><cfset common_name=""></cfif>
 																	<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
