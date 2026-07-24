@@ -706,14 +706,14 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-5 col-xl-3">
-												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
+												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-0 justify-content-left" style="padding-top: 1px; padding-bottom: 1px;">
 													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
 														placeholder="start date" 
 														value="#encodeForHtml(made_date)#" 
 														aria-label="start date">
 													
-													<div class=" text-center px-0 px-xl-2"><small>to</small></div>
+													<div class=" text-center px-3 px-xl-2"><small>to</small></div>
 													<label for="to_made_date" class="sr-only">Made Date</label>	
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
 														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
