@@ -1951,10 +1951,13 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 }
 
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-	min-height: 23px !important;
+	height: 23px !important;
+}
+.jqx-combobox-input, .jqx-combobox-content {
+	height: 23px !important;
 }
 .jqx-combobox {
-	min-height: 23px !important;
+	height: 23px !important;
 }
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
