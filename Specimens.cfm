@@ -1233,7 +1233,7 @@
 																	<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																	<input type="text" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_remarks">Part Remarks</label>
 																	<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																	<input type="text" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
@@ -1286,7 +1286,7 @@
 																	<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																	<input type="text" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="coll_obj_disposition">Disposition</label>
 																	<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" 
 																		aria-label="open pick list">
@@ -1305,7 +1305,7 @@
 																	<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																	<input type="text" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_type">Part Attribute Type</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-label="set part attribute type to not null for any part attribute type"> (Any)</button>
 																	<button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">
