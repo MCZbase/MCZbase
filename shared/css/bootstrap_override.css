@@ -1928,7 +1928,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 	border-radius: .2rem;
-	height: 25px;
+	height: 22px;
 }
 .tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
 	border: none;
@@ -1947,9 +1947,9 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	border-radius: .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 0.875rem;
-	height: 25px;
+	height: 22px;
 }
-
+/*
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
 	height: 23px !important;
 }
@@ -1958,7 +1958,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 }
 .jqx-combobox {
 	height: 23px !important;
-}
+}*/
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;
