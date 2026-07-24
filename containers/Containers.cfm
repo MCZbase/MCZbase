@@ -92,6 +92,7 @@ editing behavior consistent across the application.
 <cfparam name="url.tree_property" default="">
 <cfparam name="url.has_positions" default="">
 <cfparam name="url.position_filter" default="">
+<!--- Legacy params retained for old saved search links; mapped into position_filter below. --->
 <cfparam name="url.in_position" default="">
 <cfparam name="url.position_value" default="">
 <cfparam name="url.execute" default="">
