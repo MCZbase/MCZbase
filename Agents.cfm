@@ -406,7 +406,7 @@ limitations under the License.
 
 								<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<fieldset class="mb-1 mt-2 px-2 pb-1 field-set border-top border-bottom border-right rounded border-left">
+									<fieldset class="mb-2 mt-2 px-2 pb-1 field-set border-top border-bottom border-right rounded border-left">
 										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
 											<div class="form-row mt-0">
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
