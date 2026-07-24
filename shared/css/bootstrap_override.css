@@ -1949,15 +1949,13 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	line-height: 0.875rem;
 	height: 25px;
 }
-.tab-content select[role="combobox"] {
-	height: 23px !important;
-}
-/*.jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
+
+.jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
 	min-height: 23px !important;
 }
 .jqx-combobox {
-	min-height: 21px !important;
-}*/
+	min-height: 23px !important;
+}
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;
