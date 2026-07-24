@@ -162,7 +162,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 pt-2 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 my-1 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
@@ -180,7 +180,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 my-1 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 										<div class="form-row">
 											<div class="col-12 col-md-2">
@@ -411,7 +411,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 pb-xl-1 my-1 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation Details</legend>
 										<div class="form-row">
 											<div class="col-12 col-md-6 col-xl-4">
