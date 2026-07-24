@@ -720,7 +720,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 col-xl-2 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="nature_of_id">Nature of ID</label>
 																	<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																	<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
