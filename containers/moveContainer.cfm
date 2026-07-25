@@ -155,7 +155,7 @@ limitations under the License.
 		if (isScannerMode) {
 			timestampInput.val('');
 		}
-		timestampInput.prop('readonly', isScannerMode).prop('disabled', isScannerMode);
+		timestampInput.prop('disabled', isScannerMode);
 		$('#moveContainerNow').prop('disabled', isScannerMode);
 		$('#moveContainerAutoSubmit').prop('checked', isScannerMode);
 	}
