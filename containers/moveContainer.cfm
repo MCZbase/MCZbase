@@ -77,18 +77,42 @@ limitations under the License.
 </main>
 
 <script>
-	function formatMoveResultContainer(label, barcode) {
-		var display = barcode || label || 'Unnamed container';
-		if (barcode && label && barcode !== label) {
-			display = barcode + ' (' + label + ')';
-		}
-		return display;
-	}
-
 	function appendMoveResult(cssClass, messageHtml) {
 		var container = $('#moveContainerResultList');
 		var item = $('<div></div>').addClass('alert ' + cssClass + ' py-1 px-2 small mb-1').html(messageHtml);
 		container.prepend(item);
+	}
+
+	/** Join placement validation messages into a single sentence.
+	 * @param {Array<string>} messages - warning or block messages from placement validation.
+	 * @returns {string} space-separated non-empty message text.
+	 */
+	function joinPlacementMessages(messages) {
+		var cleanMessages = [];
+		$.each(messages || [], function(i, message) {
+			var text = $.trim(message || '');
+			if (text.length > 0) {
+				cleanMessages.push(text);
+			}
+		});
+		return cleanMessages.join(' ');
+	}
+
+	/** Build warning-confirmation dialog markup for a preflight warning result.
+	 * @param {Object} preflight - response from preflightMoveContainerByBarcode.
+	 * @param {string} childDisplay - formatted child container display text.
+	 * @param {string} parentDisplay - formatted parent container display text.
+	 * @returns {string} html to show in confirmDialog.
+	 */
+	function buildPlacementWarningDialogText(preflight, childDisplay, parentDisplay) {
+		var warningList = $('<ul class="pl-3 mb-2"></ul>');
+		$.each(preflight.warnings || [], function(i, warning) {
+			warningList.append($('<li></li>').text(warning));
+		});
+		var warningListHtml = $('<div></div>').append(warningList).html();
+		return '<p>Place <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>?</p>'
+			+ warningListHtml
+			+ '<p class="mb-0">Proceed with this move?</p>';
 	}
 
 	function setTimestampToNow() {
@@ -100,14 +124,13 @@ limitations under the License.
 		$('#move_timestamp').val(now.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + min + ':00');
 	}
 
-	function submitMoveContainer() {
-		var parentBarcode = $.trim($('#parent_barcode').val());
-		var childBarcode = $.trim($('#child_barcode').val());
-		var moveTimestamp = $.trim($('#move_timestamp').val());
-		if (!parentBarcode || !childBarcode) {
-			setFeedbackControlState('moveContainerStatus', 'error', 'Parent and child barcodes are required.');
-			return;
-		}
+	/** Execute a barcode move after preflight has approved or warning-confirmed it.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {string} childBarcode - child container barcode being moved.
+	 * @param {string} moveTimestamp - optional move timestamp.
+	 * @returns {void}
+	 */
+	function executeMoveContainer(parentBarcode, childBarcode, moveTimestamp) {
 		setFeedbackControlState('moveContainerStatus', 'saving', 'Moving...');
 		$('#moveContainerSubmit').prop('disabled', true);
 		$.ajax({
@@ -124,8 +147,8 @@ limitations under the License.
 			success: function(result) {
 				$('#moveContainerSubmit').prop('disabled', false);
 				if (result.status === 'moved') {
-					var childDisplay = formatMoveResultContainer(result.child_label, childBarcode);
-					var parentDisplay = formatMoveResultContainer(result.parent_label, parentBarcode);
+					var childDisplay = formatContainerDisplay(childBarcode, result.child_label);
+					var parentDisplay = formatContainerDisplay(parentBarcode, result.parent_label);
 					appendMoveResult('alert-success', 'Moved <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>.');
 					var movedCount = parseInt($('#moveContainerCounter').data('count'), 10) || 0;
 					var nextCount = movedCount + 1;
@@ -146,6 +169,82 @@ limitations under the License.
 				handleFail(jqXHR, textStatus, error, 'moving container by barcode');
 			}
 		});
+	}
+
+	/** Run barcode-based preflight validation and handle allow/warn/block outcomes.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {string} childBarcode - child container barcode being moved.
+	 * @param {string} moveTimestamp - optional move timestamp passed through on move.
+	 * @returns {void}
+	 */
+	function runMoveContainerPreflight(parentBarcode, childBarcode, moveTimestamp) {
+		setFeedbackControlState('moveContainerStatus', 'saving', 'Checking placement...');
+		$('#moveContainerSubmit').prop('disabled', true);
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'get',
+			dataType: 'json',
+			data: {
+				method: 'preflightMoveContainerByBarcode',
+				returnformat: 'json',
+				child_barcode: childBarcode,
+				parent_barcode: parentBarcode
+			},
+			success: function(preflight) {
+				if (!preflight || preflight.status === 'error') {
+					var errorMessage = (preflight && preflight.message) ? preflight.message : 'Unable to validate placement.';
+					appendMoveResult('alert-danger', $('<div>').text(errorMessage).html());
+					setFeedbackControlState('moveContainerStatus', 'error', errorMessage);
+					$('#moveContainerSubmit').prop('disabled', false);
+					return;
+				}
+				if (preflight.status === 'notfound') {
+					appendMoveResult('alert-danger', $('<div>').text(preflight.message || 'Container was not found.').html());
+					setFeedbackControlState('moveContainerStatus', 'error', preflight.message || 'Container was not found.');
+					$('#moveContainerSubmit').prop('disabled', false);
+					return;
+				}
+				if (preflight.allowed !== true) {
+					var blockedMessage = joinPlacementMessages(preflight.blocks) || 'Placement is not allowed.';
+					appendMoveResult('alert-danger', $('<div>').text(blockedMessage).html());
+					setFeedbackControlState('moveContainerStatus', 'error', blockedMessage);
+					messageDialog(blockedMessage, 'Placement Not Allowed');
+					$('#moveContainerSubmit').prop('disabled', false);
+					return;
+				}
+				if (preflight.severity === 'warn') {
+					var childDisplay = formatContainerDisplay(childBarcode, preflight.child_label);
+					var parentDisplay = formatContainerDisplay(parentBarcode, preflight.parent_label);
+					var warningDialogText = buildPlacementWarningDialogText(preflight, childDisplay, parentDisplay);
+					setFeedbackControlState('moveContainerStatus', 'warning', 'Placement warning requires confirmation.');
+					$('#moveContainerSubmit').prop('disabled', false);
+					confirmDialog(warningDialogText, 'Placement Warning', function() {
+						executeMoveContainer(parentBarcode, childBarcode, moveTimestamp);
+					});
+					return;
+				}
+				executeMoveContainer(parentBarcode, childBarcode, moveTimestamp);
+			},
+			error: function(jqXHR, textStatus, error) {
+				$('#moveContainerSubmit').prop('disabled', false);
+				setFeedbackControlState('moveContainerStatus', 'error', 'Unable to validate placement.');
+				handleFail(jqXHR, textStatus, error, 'validating move container placement');
+			}
+		});
+	}
+
+	/** Validate required fields and begin preflight validation for a move.
+	 * @returns {void}
+	 */
+	function submitMoveContainer() {
+		var parentBarcode = $.trim($('#parent_barcode').val());
+		var childBarcode = $.trim($('#child_barcode').val());
+		var moveTimestamp = $.trim($('#move_timestamp').val());
+		if (!parentBarcode || !childBarcode) {
+			setFeedbackControlState('moveContainerStatus', 'error', 'Parent and child barcodes are required.');
+			return;
+		}
+		runMoveContainerPreflight(parentBarcode, childBarcode, moveTimestamp);
 	}
 
 	$(document).ready(function() {

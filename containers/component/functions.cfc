@@ -2652,6 +2652,69 @@ Returns status JSON and never aborts on trigger errors.
 </cffunction>
 
 <!---
+Function preflightMoveContainerByBarcode. Resolves barcodes to container ids and runs placement preflight validation.
+@param child_barcode barcode of the container to move.
+@param parent_barcode barcode of the destination parent container.
+@return a JSON object with status (ok|notfound|error), placement validation keys from validateContainerPlacement
+	(allowed, severity, warnings, blocks, child_type, parent_type, etc), and context keys:
+	child_container_id, parent_container_id, child_label, child_barcode, parent_label, parent_barcode.
+--->
+<cffunction name="preflightMoveContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_barcode" type="string" required="yes">
+	<cfargument name="parent_barcode" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.child_barcode)#">
+		</cfquery>
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Child barcode was not found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
+		</cfquery>
+		<cfif queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent barcode was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.validationResult = validateContainerPlacement(
+			child_container_id=queryChild.container_id,
+			proposed_parent_container_id=queryParent.container_id
+		)>
+		<cfif isSimpleValue(local.validationResult)>
+			<cfset local.validationResult = deserializeJSON(local.validationResult)>
+		</cfif>
+
+		<cfset local.validationResult["status"] = "ok">
+		<cfset local.validationResult["child_container_id"] = queryChild.container_id>
+		<cfset local.validationResult["child_label"] = queryChild.label>
+		<cfset local.validationResult["child_barcode"] = queryChild.barcode>
+		<cfset local.validationResult["parent_container_id"] = queryParent.container_id>
+		<cfset local.validationResult["parent_label"] = queryParent.label>
+		<cfset local.validationResult["parent_barcode"] = queryParent.barcode>
+		<cfreturn serializeJSON(local.validationResult)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
 Function moveContainerByBarcode. Moves a child container into a new parent container by barcode.
 Returns status JSON and never aborts on trigger errors.
 @param child_barcode barcode of the container to move.
