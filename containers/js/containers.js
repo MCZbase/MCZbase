@@ -229,9 +229,8 @@ var CONTAINER_PAGE_SIZE = 50;
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
 
-/** Trigger-match message indicating placement is blocked because the child is position-locked. */
-var LOCKED_PLACEMENT_BLOCK_MESSAGE = 'This position is locked and cannot be moved.';
-var LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER = LOCKED_PLACEMENT_BLOCK_MESSAGE.toLowerCase();
+/** Lowercased trigger-match message for locked-position placement blocks. */
+var LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER = 'this position is locked and cannot be moved.';
 
 /** Wildcard token used to force opening full autocomplete suggestions with active filters. */
 var AUTOCOMPLETE_OPEN_WILDCARD = '%%%';
@@ -2917,7 +2916,7 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 	var confirmButton = $('#' + confirmButtonId);
 	var updatePickerSelectVisualState = function(enabled) {
 		if (confirmButton.hasClass('pick-container-select-btn')) {
-			confirmButton.toggleClass('btn-primary', !!enabled);
+			confirmButton.toggleClass('btn-primary', enabled);
 			confirmButton.toggleClass('btn-outline-secondary', !enabled);
 			confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
 		}
@@ -3148,14 +3147,15 @@ function openContainerPickerDialog(options) {
 			var setDialogSelectButtonEnabled = function(enabled) {
 				var confirmButton = $('#' + controls.confirmControlId);
 				confirmButton.prop('disabled', !enabled);
-				confirmButton.toggleClass('btn-primary', !!enabled);
+				confirmButton.toggleClass('btn-primary', enabled);
 				confirmButton.toggleClass('btn-outline-secondary', !enabled);
 				confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
 			};
 			var updateSearchOpenButtonState = function() {
 				var hasAnyFilterValue = false;
 				wrapper.find('.pick-container-filter-control').each(function() {
-					if ($.trim($(this).val()).length > 0) {
+					var control = $(this);
+					if ($.trim(control.val()).length > 0) {
 						hasAnyFilterValue = true;
 						return false;
 					}
