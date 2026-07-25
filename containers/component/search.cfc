@@ -75,8 +75,8 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
   or exact match on container_id, returning json suitable for jquery-ui autocomplete.
 
 @param term container label or barcode or container_id to search for.
-@return a json structure containing id and value, with matching container with matched barcode in value,
-  with matching container type, label, and barcode in meta and container_id in id, plus raw label and barcode keys.
+@return a json structure containing id and value fields. The value contains the matched barcode,
+  meta contains type/label/barcode, id contains container_id, and label/barcode contain raw values.
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -144,8 +144,8 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 @param ancestor_container_id optional ancestor container_id to limit search to.
 @param label_contains optional case-insensitive substring filter on label.
 @param description_contains optional case-insensitive substring filter on description/container remarks.
-@return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id,
-  plus raw label and barcode keys.
+@return a json structure containing id and value fields. The value contains matched barcode,
+  meta contains type/label/barcode, id contains container_id, and label/barcode contain raw values.
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
