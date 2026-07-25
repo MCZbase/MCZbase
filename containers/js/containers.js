@@ -229,6 +229,12 @@ var CONTAINER_PAGE_SIZE = 50;
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
 
+/** Trigger-match message indicating placement is blocked because the child is position-locked. */
+var LOCKED_PLACEMENT_BLOCK_MESSAGE = 'This position is locked and cannot be moved.';
+
+/** Wildcard token used to force opening full autocomplete suggestions with active filters. */
+var AUTOCOMPLETE_OPEN_WILDCARD = '%%%';
+
 /** Shared container-type keys used in search/browse action gating. */
 var ROOT_INSTITUTION_CONTAINER_TYPE = 'institution';
 var COLLECTION_OBJECT_CONTAINER_TYPE = 'collection object';
@@ -3021,7 +3027,7 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var blockedLabel = '✗ placement blocked';
 		var hasLockedBlock = false;
 		$.each(blocks, function(i, item) {
-			if ((item || '').toLowerCase().indexOf('locked') >= 0) {
+			if ($.trim((item || '').toLowerCase()) === LOCKED_PLACEMENT_BLOCK_MESSAGE.toLowerCase()) {
 				hasLockedBlock = true;
 				return false;
 			}
@@ -3188,13 +3194,13 @@ function openContainerPickerDialog(options) {
 			});
 			$('#' + controls.searchOpenControlId).on('click', function() {
 				var searchInput = $('#' + controls.searchControlId);
-				searchInput.val('%%%');
+				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
 				$('#' + controls.searchIdControlId).val('');
 				setDialogSelectButtonEnabled(false);
 				$('#' + controls.validationControlId).empty();
 				searchInput.focus();
 				if (searchInput.autocomplete('instance')) {
-					searchInput.autocomplete('search', '%%%');
+					searchInput.autocomplete('search', AUTOCOMPLETE_OPEN_WILDCARD);
 				}
 			});
 
