@@ -147,12 +147,8 @@ limitations under the License.
 			success: function(result) {
 				$('#moveContainerSubmit').prop('disabled', false);
 				if (result.status === 'moved') {
-					var childDisplay = window.formatContainerDisplay
-						? window.formatContainerDisplay(childBarcode, result.child_label)
-						: (childBarcode || result.child_label || '(unknown container)');
-					var parentDisplay = window.formatContainerDisplay
-						? window.formatContainerDisplay(parentBarcode, result.parent_label)
-						: (parentBarcode || result.parent_label || '(unknown container)');
+					var childDisplay = formatContainerDisplay(childBarcode, result.child_label);
+					var parentDisplay = formatContainerDisplay(parentBarcode, result.parent_label);
 					appendMoveResult('alert-success', 'Moved <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>.');
 					var movedCount = parseInt($('#moveContainerCounter').data('count'), 10) || 0;
 					var nextCount = movedCount + 1;
@@ -217,12 +213,8 @@ limitations under the License.
 					return;
 				}
 				if (preflight.severity === 'warn') {
-					var childDisplay = window.formatContainerDisplay
-						? window.formatContainerDisplay(childBarcode, preflight.child_label)
-						: (childBarcode || preflight.child_label || '(unknown container)');
-					var parentDisplay = window.formatContainerDisplay
-						? window.formatContainerDisplay(parentBarcode, preflight.parent_label)
-						: (parentBarcode || preflight.parent_label || '(unknown container)');
+					var childDisplay = formatContainerDisplay(childBarcode, preflight.child_label);
+					var parentDisplay = formatContainerDisplay(parentBarcode, preflight.parent_label);
 					var warningDialogText = buildPlacementWarningDialogText(preflight, childDisplay, parentDisplay);
 					setFeedbackControlState('moveContainerStatus', 'warning', 'Placement warning requires confirmation.');
 					$('#moveContainerSubmit').prop('disabled', false);
