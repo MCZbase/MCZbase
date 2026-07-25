@@ -2918,7 +2918,6 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 		if (confirmButton.hasClass('pick-container-select-btn')) {
 			confirmButton.toggleClass('btn-primary', enabled);
 			confirmButton.toggleClass('btn-outline-secondary', !enabled);
-			confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
 		}
 	};
 	validationDiv.html('<div class="small text-muted"><img src="/shared/images/indicator.gif"> Checking placement…</div>');
@@ -3149,8 +3148,8 @@ function openContainerPickerDialog(options) {
 				confirmButton.prop('disabled', !enabled);
 				confirmButton.toggleClass('btn-primary', enabled);
 				confirmButton.toggleClass('btn-outline-secondary', !enabled);
-				confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
 			};
+			var searchIdInput = $('#' + controls.searchIdControlId);
 			var updateSearchOpenButtonState = function() {
 				var hasAnyFilterValue = false;
 				wrapper.find('.pick-container-filter-control').each(function() {
@@ -3164,7 +3163,7 @@ function openContainerPickerDialog(options) {
 			};
 			setDialogSelectButtonEnabled(false);
 			var refreshDialogAutocomplete = function() {
-				$('#' + controls.searchIdControlId).val('');
+				searchIdInput.val('');
 				setDialogSelectButtonEnabled(false);
 				$('#' + controls.validationControlId).empty();
 				makeContainerAutocompleteLimitedMeta(
@@ -3197,7 +3196,7 @@ function openContainerPickerDialog(options) {
 				// This codebase uses "%%%" as a broad wildcard term for container autocomplete lookups.
 				// Keep it visible so users can see/edit the seeded search term.
 				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
-				$('#' + controls.searchIdControlId).val('');
+				searchIdInput.val('');
 				setDialogSelectButtonEnabled(false);
 				$('#' + controls.validationControlId).empty();
 				searchInput.focus();
@@ -3225,13 +3224,13 @@ function openContainerPickerDialog(options) {
 				var selectedId = '';
 				if (ui && ui.item) {
 					selectedId = ui.item.id || '';
-					$('#' + controls.searchIdControlId).val(selectedId);
+					searchIdInput.val(selectedId);
 				}
 				if (!selectedId && preserveExistingSelection) {
-					selectedId = $('#' + controls.searchIdControlId).val();
+					selectedId = searchIdInput.val();
 				}
 				if (!selectedId) {
-					$('#' + controls.searchIdControlId).val('');
+					searchIdInput.val('');
 					setDialogSelectButtonEnabled(false);
 					$('#' + controls.validationControlId).empty();
 					return;
@@ -3245,13 +3244,13 @@ function openContainerPickerDialog(options) {
 				applyAutocompleteSelection(ui, false);
 			});
 			$('#' + controls.searchControlId).on('change input', function() {
-				if (!$('#' + controls.searchIdControlId).val()) {
+				if (!searchIdInput.val()) {
 					setDialogSelectButtonEnabled(false);
 					$('#' + controls.validationControlId).empty();
 				}
 			});
 			$('#' + controls.confirmControlId).on('click', function() {
-				var selectedId = $('#' + controls.searchIdControlId).val();
+				var selectedId = searchIdInput.val();
 				var selectedLabel = $('#' + controls.searchControlId).val();
 				if (!selectedId) {
 					return;
