@@ -3258,7 +3258,17 @@ function openContainerPickerDialog(options) {
 					$('#' + controls.validationControlId).empty();
 				}
 			});
-			$('#' + controls.confirmControlId).on('click', function() {
+			var handleConfirmActivation = function(event) {
+				if (event) {
+					if (event.type === 'keydown') {
+						var activateKey = event.key || '';
+						if (activateKey !== 'Enter' && activateKey !== ' ') {
+							return;
+						}
+					}
+					event.preventDefault();
+					event.stopPropagation();
+				}
 				var selectedId = searchIdInput.val();
 				var selectedLabel = $('#' + controls.searchControlId).val();
 				if (!selectedId) {
@@ -3267,7 +3277,10 @@ function openContainerPickerDialog(options) {
 				if ($.isFunction(options.onSelect)) {
 					options.onSelect(selectedId, selectedLabel, wrapper, controls);
 				}
-			});
+				return false;
+			};
+			$('#' + controls.confirmControlId).on('mousedown', handleConfirmActivation);
+			$('#' + controls.confirmControlId).on('keydown', handleConfirmActivation);
 			var handleCancelActivation = function(event) {
 				if (event) {
 					if (event.type === 'keydown') {
