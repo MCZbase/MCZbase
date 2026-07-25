@@ -37,7 +37,7 @@ limitations under the License.
 			<p class="small text-muted">Scan or enter a parent container barcode and child container barcode, then confirm the move.</p>
 			<form class="col-12 px-0" id="moveContainerForm" name="moveContainerForm" method="post" novalidate onsubmit="return false;">
 				<div class="form-row">
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
 						<div class="container-picker-row d-flex align-items-center form-row">
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
@@ -48,7 +48,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
 						<label for="child_barcode" class="data-entry-label">Child Unique Identifier</label>
 						<div class="container-picker-row d-flex align-items-center form-row">
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
@@ -59,7 +59,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 col-xl-4 mb-2">
+					<div class="col-12 col-md-6 col-l-2 col-xl-2 mb-2">
 						<label for="move_timestamp" class="data-entry-label">Timestamp (optional)</label>
 						<input type="text" name="move_timestamp" id="move_timestamp" class="data-entry-input col-12" aria-describedby="moveTimestampHelp" placeholder="yyyy-mm-dd HH:mm:ss">
 						<small id="moveTimestampHelp" class="text-muted">Format: yyyy-mm-dd HH:mm:ss</small>
