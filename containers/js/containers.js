@@ -3151,6 +3151,7 @@ function openContainerPickerDialog(options) {
 			};
 			var searchIdInput = $('#' + controls.searchIdControlId);
 			var updateSearchOpenButtonState = function() {
+				var searchOpenLink = $('#' + controls.searchOpenControlId);
 				var hasAnyFilterValue = false;
 				wrapper.find('.pick-container-filter-control').each(function() {
 					var control = $(this);
@@ -3159,7 +3160,8 @@ function openContainerPickerDialog(options) {
 						return false;
 					}
 				});
-				$('#' + controls.searchOpenControlId).prop('disabled', !hasAnyFilterValue);
+				searchOpenLink.attr('aria-disabled', hasAnyFilterValue ? 'false' : 'true');
+				searchOpenLink.toggleClass('disabled', !hasAnyFilterValue);
 			};
 			setDialogSelectButtonEnabled(false);
 			var refreshDialogAutocomplete = function() {
@@ -3189,7 +3191,11 @@ function openContainerPickerDialog(options) {
 			wrapper.find('.pick-container-filter-control').on('change input autocompleteselect autocompletechange', function() {
 				updateSearchOpenButtonState();
 			});
-			$('#' + controls.searchOpenControlId).on('click', function() {
+			$('#' + controls.searchOpenControlId).on('click', function(event) {
+				if ($(this).hasClass('disabled')) {
+					event.preventDefault();
+					return false;
+				}
 				var searchInput = $('#' + controls.searchControlId);
 				// Use wildcard token to trigger broad autocomplete results with active filters.
 				// This codebase uses "%%%" as a broad wildcard term for container autocomplete lookups.
@@ -3202,6 +3208,8 @@ function openContainerPickerDialog(options) {
 				if (searchInput.autocomplete('instance')) {
 					searchInput.autocomplete('search', AUTOCOMPLETE_OPEN_WILDCARD);
 				}
+				event.preventDefault();
+				return false;
 			});
 
 			var runValidationForSelection = function(selectedId) {
