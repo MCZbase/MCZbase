@@ -23,6 +23,9 @@ limitations under the License.
 <cfparam name="url.action" default="">
 <cfparam name="url.child_barcode" default="">
 <cfparam name="url.parent_barcode" default="">
+<cfparam name="url.barcode_scanner_mode" default="0">
+<cfset variables.scannerModeParam = lcase(trim(url.barcode_scanner_mode))>
+<cfset variables.scannerModeEnabled = listFindNoCase("1,true,yes,on", variables.scannerModeParam) GT 0>
 
 <cfset pageTitle = "Move Container">
 <cfset pageHasContainers = true>
@@ -43,7 +46,7 @@ limitations under the License.
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
 								<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.parent_barcode)#">
 							</div>
-							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0 move-container-chooser">
 								<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose Parent</button>
 							</div>
 						</div>
@@ -54,7 +57,7 @@ limitations under the License.
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
 								<input type="text" name="child_barcode" id="child_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.child_barcode)#">
 							</div>
-							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0 move-container-chooser">
 								<button type="button" id="chooseChildContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose Child</button>
 							</div>
 						</div>
@@ -70,6 +73,9 @@ limitations under the License.
 						<button type="button" class="btn btn-xs btn-primary" id="moveContainerSubmit">Move Container</button>
 						<button type="button" class="btn btn-xs btn-secondary ml-1" id="moveContainerNow">Set Timestamp to Now</button>
 						<button type="reset" class="btn btn-xs btn-warning ml-1" id="moveContainerClear">Clear Form</button>
+						<label class="ml-3 mb-0 small" for="moveContainerScannerMode">
+							<input type="checkbox" id="moveContainerScannerMode"<cfif variables.scannerModeEnabled> checked</cfif>> Barcode Scanner Mode
+						</label>
 						<label class="ml-3 mb-0 small" for="moveContainerAutoSubmit">
 							<input type="checkbox" id="moveContainerAutoSubmit"> Submit on Child Change
 						</label>
@@ -136,6 +142,15 @@ limitations under the License.
 		var hour = String(now.getHours()).padStart(2, '0');
 		var min = String(now.getMinutes()).padStart(2, '0');
 		$('#move_timestamp').val(now.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + min + ':00');
+	}
+
+	/** Toggle barcode scanner mode behavior.
+	 * @param {boolean} isScannerMode - true to hide picker buttons and force submit-on-child-change.
+	 * @returns {void}
+	 */
+	function applyBarcodeScannerModeState(isScannerMode) {
+		$('.move-container-chooser').toggle(!isScannerMode);
+		$('#moveContainerAutoSubmit').prop('checked', !!isScannerMode);
 	}
 
 	/** Execute a barcode move after preflight has approved or warning-confirmed it.
@@ -303,7 +318,16 @@ limitations under the License.
 				submitMoveContainer();
 			}
 		});
+		$('#moveContainerScannerMode').on('change', function() {
+			applyBarcodeScannerModeState($(this).prop('checked'));
+		});
+		$('#moveContainerForm').on('reset', function() {
+			window.setTimeout(function() {
+				applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
+			}, 0);
+		});
 		setTimestampToNow();
+		applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
 		if ($.trim($('#child_barcode').val()).length > 0 && $.trim($('#parent_barcode').val()).length > 0) {
 			submitMoveContainer();
 		}
