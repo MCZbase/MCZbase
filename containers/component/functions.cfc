@@ -2607,7 +2607,7 @@ Returns status JSON and never aborts on trigger errors.
 		</cfif>
 
 		<cftry>
-			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			<cfquery name="queryDoMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				UPDATE container
 				SET
 					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
@@ -2619,6 +2619,9 @@ Returns status JSON and never aborts on trigger errors.
 					</cfif>
 				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryChild.container_id#">
 			</cfquery>
+			<cfif queryDoMove_result.recordCount EQ 0>
+				<cfthrow type="ChildNotFound" message="No rows updated.">
+			</cfif>
 		<cfcatch>
 			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\\s*", "", "one"))>
 			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
@@ -2627,6 +2630,9 @@ Returns status JSON and never aborts on trigger errors.
 			</cfif>
 			<cfif len(trim(local.userMessage)) EQ 0>
 				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ChildNotFound">
+				<cfset local.userMessage = "Query Error: " + cfcatch.message + " Child container was not found. It may have been deleted or moved by another user.">
 			</cfif>
 			<cfset local.retval["status"] = "error">
 			<cfset local.retval["message"] = local.userMessage>
@@ -2763,7 +2769,7 @@ Returns status JSON and never aborts on trigger errors.
 		</cfif>
 
 		<cftry>
-			<cfquery name="queryMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			<cfquery name="queryDoMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="queryDoMove_result"> 
 				UPDATE container
 				SET
 					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
@@ -2775,6 +2781,9 @@ Returns status JSON and never aborts on trigger errors.
 					</cfif>
 				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryChild.container_id#">
 			</cfquery>
+			<cfif queryDoMove_result.recordCount EQ 0>
+				<cfthrow type="ChildNotFound" message="No rows updated;">
+			</cfif>
 		<cfcatch>
 			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\\s*", "", "one"))>
 			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
@@ -2783,6 +2792,9 @@ Returns status JSON and never aborts on trigger errors.
 			</cfif>
 			<cfif len(trim(local.userMessage)) EQ 0>
 				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ChildNotFound">
+				<cfset local.userMessage = "Query Error: " + cfcatch.message + " Child container was not found. It may have been deleted or moved by another user.">
 			</cfif>
 			<cfset local.retval["status"] = "error">
 			<cfset local.retval["message"] = local.userMessage>
