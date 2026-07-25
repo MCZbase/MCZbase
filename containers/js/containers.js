@@ -2908,10 +2908,18 @@ function getContainerTypeMeta(containerType) {
 function checkAndRenderPlacementValidation(childContainerId, proposedParentContainerId, validationDivId, confirmButtonId) {
 	var validationDiv = $('#' + validationDivId);
 	var confirmButton = $('#' + confirmButtonId);
+	var updatePickerSelectVisualState = function(enabled) {
+		if (confirmButton.hasClass('pick-container-select-btn')) {
+			confirmButton.toggleClass('btn-primary', !!enabled);
+			confirmButton.toggleClass('btn-outline-secondary', !enabled);
+			confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
+		}
+	};
 	validationDiv.html('<div class="small text-muted"><img src="/shared/images/indicator.gif"> Checking placement…</div>');
 	if (!childContainerId || parseInt(childContainerId, 10) === 0) {
 		validationDiv.empty();
 		confirmButton.prop('disabled', false);
+		updatePickerSelectVisualState(true);
 		return;
 	}
 	$.ajax({
@@ -2950,10 +2958,12 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 				);
 			}
 			confirmButton.prop('disabled', !(result && result.allowed === true));
+			updatePickerSelectVisualState(result && result.allowed === true);
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'validating container placement');
 			confirmButton.prop('disabled', true);
+			updatePickerSelectVisualState(false);
 		}
 	});
 }
@@ -3008,7 +3018,18 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 	} else if (validationResult && validationResult.severity === 'warn') {
 		target.append(buildCollapse('badge-warning', '⚠ placement warning', warnings));
 	} else {
-		target.append(buildCollapse('badge-danger', '✗ placement blocked', blocks));
+		var blockedLabel = '✗ placement blocked';
+		var hasLockedBlock = false;
+		$.each(blocks, function(i, item) {
+			if ((item || '').toLowerCase().indexOf('locked') >= 0) {
+				hasLockedBlock = true;
+				return false;
+			}
+		});
+		if (hasLockedBlock) {
+			blockedLabel = '✗ placement locked';
+		}
+		target.append(buildCollapse('badge-danger', blockedLabel, blocks));
 	}
 }
 
@@ -3098,6 +3119,7 @@ function openContainerPickerDialog(options) {
 				ancestorIdControlId: 'pickContainerAncestorId' + id_suffix,
 				searchControlId: 'pickContainerSearch' + id_suffix,
 				searchIdControlId: 'pickContainerSearchId' + id_suffix,
+				searchOpenControlId: 'pickContainerSearchOpen' + id_suffix,
 				typeControlId: 'pickContainerType' + id_suffix,
 				labelContainsControlId: 'pickContainerLabelContains' + id_suffix,
 				descriptionContainsControlId: 'pickContainerDescriptionContains' + id_suffix,
@@ -3115,9 +3137,29 @@ function openContainerPickerDialog(options) {
 				controls.labelContainsControlId,
 				controls.descriptionContainsControlId
 			);
+			var setDialogSelectButtonEnabled = function(enabled) {
+				var confirmButton = $('#' + controls.confirmControlId);
+				confirmButton.prop('disabled', !enabled);
+				confirmButton.toggleClass('btn-primary', !!enabled);
+				confirmButton.toggleClass('btn-outline-secondary', !enabled);
+				confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
+			};
+			var hasUserInteractedWithFilters = false;
+			var updateSearchOpenButtonState = function() {
+				var hasAnyFilterValue = false;
+				wrapper.find('.pick-container-filter-control').each(function() {
+					if ($.trim($(this).val()).length > 0) {
+						hasAnyFilterValue = true;
+						return false;
+					}
+				});
+				$('#' + controls.searchOpenControlId).prop('disabled', !(hasUserInteractedWithFilters && hasAnyFilterValue));
+			};
+			setDialogSelectButtonEnabled(false);
+			updateSearchOpenButtonState();
 			var refreshDialogAutocomplete = function() {
 				$('#' + controls.searchIdControlId).val('');
-				$('#' + controls.confirmControlId).prop('disabled', true);
+				setDialogSelectButtonEnabled(false);
 				$('#' + controls.validationControlId).empty();
 				makeContainerAutocompleteLimitedMeta(
 					controls.searchControlId,
@@ -3127,8 +3169,10 @@ function openContainerPickerDialog(options) {
 					controls.labelContainsControlId,
 					controls.descriptionContainsControlId
 				);
+				updateSearchOpenButtonState();
 			};
 			$('#' + controls.typeControlId).on('change', refreshDialogAutocomplete);
+			$('#' + controls.ancestorControlId).on('autocompleteselect autocompletechange', refreshDialogAutocomplete);
 			var filterInputTimer = null;
 			var filterInputs = $('#' + controls.labelContainsControlId + ', #' + controls.descriptionContainsControlId);
 			filterInputs.on('change', refreshDialogAutocomplete);
@@ -3138,10 +3182,25 @@ function openContainerPickerDialog(options) {
 				}
 				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
 			});
+			wrapper.find('.pick-container-filter-control').on('change input autocompleteselect autocompletechange', function() {
+				hasUserInteractedWithFilters = true;
+				updateSearchOpenButtonState();
+			});
+			$('#' + controls.searchOpenControlId).on('click', function() {
+				var searchInput = $('#' + controls.searchControlId);
+				searchInput.val('%%%');
+				$('#' + controls.searchIdControlId).val('');
+				setDialogSelectButtonEnabled(false);
+				$('#' + controls.validationControlId).empty();
+				searchInput.focus();
+				if (searchInput.autocomplete('instance')) {
+					searchInput.autocomplete('search', '%%%');
+				}
+			});
 
 			var runValidationForSelection = function(selectedId) {
 				if (!selectedId) {
-					$('#' + controls.confirmControlId).prop('disabled', true);
+					setDialogSelectButtonEnabled(false);
 					$('#' + controls.validationControlId).empty();
 					return;
 				}
@@ -3150,16 +3209,35 @@ function openContainerPickerDialog(options) {
 				} else if (mode === 'child' && options.parentContainerIdForValidation) {
 					checkAndRenderPlacementValidation(selectedId, options.parentContainerIdForValidation, controls.validationControlId, controls.confirmControlId);
 				} else {
-					$('#' + controls.confirmControlId).prop('disabled', false);
+					setDialogSelectButtonEnabled(true);
 					$('#' + controls.validationControlId).empty();
 				}
 			};
-			$('#' + controls.searchControlId).on('autocompleteselect', function() {
-				runValidationForSelection($('#' + controls.searchIdControlId).val());
+			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
+				var selectedId = '';
+				if (ui && ui.item) {
+					selectedId = ui.item.id || '';
+					$('#' + controls.searchIdControlId).val(selectedId);
+				}
+				if (!selectedId) {
+					selectedId = $('#' + controls.searchIdControlId).val();
+				}
+				runValidationForSelection(selectedId);
+			});
+			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
+				if (ui && ui.item && ui.item.id) {
+					$('#' + controls.searchIdControlId).val(ui.item.id);
+					runValidationForSelection(ui.item.id);
+					return;
+				}
+				if (!$('#' + controls.searchIdControlId).val()) {
+					setDialogSelectButtonEnabled(false);
+					$('#' + controls.validationControlId).empty();
+				}
 			});
 			$('#' + controls.searchControlId).on('change input', function() {
 				if (!$('#' + controls.searchIdControlId).val()) {
-					$('#' + controls.confirmControlId).prop('disabled', true);
+					setDialogSelectButtonEnabled(false);
 					$('#' + controls.validationControlId).empty();
 				}
 			});

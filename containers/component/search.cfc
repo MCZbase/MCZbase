@@ -877,6 +877,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 	<cfset local.validationControlId = "pickContainerValidation#local.safeSuffix#">
 	<cfset local.confirmControlId = "pickContainerConfirm#local.safeSuffix#">
 	<cfset local.cancelControlId = "pickContainerCancel#local.safeSuffix#">
+	<cfset local.searchOpenControlId = "pickContainerSearchOpen#local.safeSuffix#">
 	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
 	<cfset local.selectedType = trim(arguments.preselect_type)>
 	<cfset local.dialogMode = lCase(trim(arguments.dialog_mode))>
@@ -932,7 +933,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 			<div class="form-row mb-2">
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.typeControlId)#" class="data-entry-label">Container Type</label>
-					<select id="#encodeForHtml(local.typeControlId)#" class="data-entry-select col-12">
+					<select id="#encodeForHtml(local.typeControlId)#" class="data-entry-select col-12 pick-container-filter-control">
 						<option value=""></option>
 						<cfloop query="queryAllowedTypes">
 							<cfset local.selectedFlag = "">
@@ -945,18 +946,18 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 				</div>
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree (optional)</label>
-					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12" value="">
+					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
 					<input type="hidden" id="#encodeForHtml(local.ancestorIdControlId)#" value="#encodeForHtml(arguments.ancestor_container_id)#">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-label">Label contains</label>
-					<input type="text" id="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-input col-12" value="">
+					<input type="text" id="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
 				</div>
 				<div class="col-12 col-md-6 mb-1">
 					<label for="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-label">Description contains</label>
-					<input type="text" id="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-input col-12" value="">
+					<input type="text" id="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
 				</div>
 			</div>
 		</fieldset>
@@ -964,7 +965,8 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">#encodeForHtml(local.selectLegend)#</legend>
 			<div class="form-row">
 				<div class="col-12 mb-1">
-					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label">Container autocomplete</label>
+					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label mb-0">Container autocomplete</label>
+					<button type="button" id="#encodeForHtml(local.searchOpenControlId)#" class="btn btn-xs btn-outline-secondary ml-1" disabled="disabled" title="Open autocomplete list">▼</button>
 					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
 					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
 				</div>
@@ -985,7 +987,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 		<div id="#encodeForHtml(local.validationControlId)#" role="status" aria-live="polite" class="mb-2"></div>
 		<div class="form-row">
 			<div class="col-12">
-				<button type="button" id="#encodeForHtml(local.confirmControlId)#" class="btn btn-xs btn-primary" disabled="disabled">Select</button>
+				<button type="button" id="#encodeForHtml(local.confirmControlId)#" class="btn btn-xs btn-outline-secondary pick-container-select-btn" disabled="disabled">Select</button>
 				<button type="button" id="#encodeForHtml(local.cancelControlId)#" class="btn btn-xs btn-warning ml-1">Cancel</button>
 				<output id="#encodeForHtml(local.statusControlId)#" class="ml-2"></output>
 			</div>
