@@ -2972,7 +2972,7 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 	var expected = (validationResult && validationResult.expected_parent_types) ? validationResult.expected_parent_types : 'any';
 	var forceExpected = parseInt((validationResult && validationResult.force_expected_parent_type) || 0, 10);
 	var isRoot = !!(validationResult && validationResult.is_root_placement);
-	var rootWarnText = 'Container is being placed at the root level. Containers of type ' + (validationResult.child_type || 'this type') + ' are normally placed inside ' + expected + '.';
+	var rootWarnText = 'Container is being placed at the root level. Containers of type ' + (validationResult.child_type || 'this type') + ' are normally placed inside a ' + expected + '.';
 	var buildCollapse = function(className, labelText, items) {
 		var wrapper = $('<span></span>');
 		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')

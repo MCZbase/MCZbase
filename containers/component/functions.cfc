@@ -2442,7 +2442,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 				<cfset ArrayAppend(local.retval["blocks"], "A #local.childType# must be placed inside one of: #local.expectedParentTypes#.")>
 				<cfreturn serializeJSON(local.retval)>
 			<cfelse>
-				<cfset ArrayAppend(local.retval["warnings"], "A #local.childType# is normally placed inside #local.expectedParentTypes#. The selected parent is a #local.parentType#.")>
+				<cfset ArrayAppend(local.retval["warnings"], "A #local.childType# is normally placed inside a #local.expectedParentTypes#. The selected parent is a #local.parentType#.")>
 			</cfif>
 		</cfif>
 
