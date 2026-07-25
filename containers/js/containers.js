@@ -3079,7 +3079,7 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
  * @param {string} options.childContainerType - child container_type for parent-mode type preselection.
  * @param {string} options.institutionAcronym - optional institution acronym to scope autocomplete.
  * @param {string} options.feedbackId - optional feedback output id.
- * @param {Function} options.onSelect - callback(selectedId, selectedLabel, wrapper, controls) on Select.
+ * @param {Function} options.onSelect - callback(selectedId, selectedLabel, wrapper, controls, selectedItem) on Select.
  * @returns {void}
  */
 function openContainerPickerDialog(options) {
@@ -3150,6 +3150,7 @@ function openContainerPickerDialog(options) {
 				confirmButton.toggleClass('btn-outline-secondary', !enabled);
 			};
 			var searchIdInput = $('#' + controls.searchIdControlId);
+			var selectedItem = null;
 			var suppressNextAutocompleteChange = false;
 			var suppressAutocompleteChangeForActivation = function() {
 				suppressNextAutocompleteChange = true;
@@ -3243,7 +3244,11 @@ function openContainerPickerDialog(options) {
 				var selectedId = '';
 				if (ui && ui.item) {
 					selectedId = ui.item.id || '';
+					selectedItem = ui.item;
 					searchIdInput.val(selectedId);
+				}
+				if (!ui || !ui.item) {
+					selectedItem = null;
 				}
 				if (!selectedId && preserveExistingSelection) {
 					selectedId = searchIdInput.val();
@@ -3283,7 +3288,7 @@ function openContainerPickerDialog(options) {
 					return;
 				}
 				if ($.isFunction(options.onSelect)) {
-					options.onSelect(selectedId, selectedLabel, wrapper, controls);
+					options.onSelect(selectedId, selectedLabel, wrapper, controls, selectedItem);
 				}
 			});
 			bindActivationSuppression(controls.cancelControlId);

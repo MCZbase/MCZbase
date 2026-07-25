@@ -39,11 +39,25 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
-						<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.parent_barcode)#">
+						<div class="parent-container-picker-row d-flex align-items-center form-row">
+							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+								<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.parent_barcode)#">
+							</div>
+							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+								<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose Parent</button>
+							</div>
+						</div>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="child_barcode" class="data-entry-label">Child Unique Identifier</label>
-						<input type="text" name="child_barcode" id="child_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.child_barcode)#">
+						<div class="parent-container-picker-row d-flex align-items-center form-row">
+							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+								<input type="text" name="child_barcode" id="child_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.child_barcode)#">
+							</div>
+							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+								<button type="button" id="chooseChildContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose Child</button>
+							</div>
+						</div>
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="move_timestamp" class="data-entry-label">Timestamp (optional)</label>
@@ -247,10 +261,43 @@ limitations under the License.
 		runMoveContainerPreflight(parentBarcode, childBarcode, moveTimestamp);
 	}
 
+	/** Copy selected container identifier into a move barcode input.
+	 * @param {string} targetInputId - input control id to populate.
+	 * @param {Object} selectedItem - selected autocomplete item containing barcode and label keys.
+	 * @param {string} selectedLabel - selected text fallback from autocomplete.
+	 * @returns {void}
+	 */
+	function applyPickedContainerToMoveInput(targetInputId, selectedItem, selectedLabel) {
+		var barcode = $.trim((selectedItem && selectedItem.barcode) ? selectedItem.barcode : '');
+		var label = $.trim((selectedItem && selectedItem.label) ? selectedItem.label : '');
+		var valueToSet = barcode || label || $.trim(selectedLabel || '');
+		$('#' + targetInputId).val(valueToSet).trigger('change').focus();
+	}
+
 	$(document).ready(function() {
 		$('#move_timestamp').datepicker({ dateFormat: 'yy-mm-dd' });
 		$('#moveContainerSubmit').on('click', submitMoveContainer);
 		$('#moveContainerNow').on('click', setTimestampToNow);
+		$('#chooseParentContainerBtn').on('click', function() {
+			openContainerPickerDialog({
+				mode: 'find',
+				dialogTitle: 'Select Parent Container',
+				onSelect: function(selectedId, selectedLabel, wrapper, controls, selectedItem) {
+					applyPickedContainerToMoveInput('parent_barcode', selectedItem, selectedLabel);
+					wrapper.dialog('close');
+				}
+			});
+		});
+		$('#chooseChildContainerBtn').on('click', function() {
+			openContainerPickerDialog({
+				mode: 'find',
+				dialogTitle: 'Select Child Container',
+				onSelect: function(selectedId, selectedLabel, wrapper, controls, selectedItem) {
+					applyPickedContainerToMoveInput('child_barcode', selectedItem, selectedLabel);
+					wrapper.dialog('close');
+				}
+			});
+		});
 		$('#child_barcode').on('change', function() {
 			if ($('#moveContainerAutoSubmit').prop('checked')) {
 				submitMoveContainer();

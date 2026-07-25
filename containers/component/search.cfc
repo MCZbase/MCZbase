@@ -75,8 +75,8 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
   or exact match on container_id, returning json suitable for jquery-ui autocomplete.
 
 @param term container label or barcode or container_id to search for.
-@return a json structure containing id and value, with matching container with matched barcode in value and  
-  type, label, and barcode in meta and container_id in id.
+@return a json structure containing id and value, with matching container with matched barcode in value,
+  type, label, and barcode in meta and container_id in id, plus raw label and barcode keys.
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -118,6 +118,8 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.container_id#" >
+			<cfset row["label"] = "#search.label#" >
+			<cfset row["barcode"] = "#search.barcode#" >
 			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
@@ -142,7 +144,8 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 @param ancestor_container_id optional ancestor container_id to limit search to.
 @param label_contains optional case-insensitive substring filter on label.
 @param description_contains optional case-insensitive substring filter on description/container remarks.
-@return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id.
+@return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id,
+  plus raw label and barcode keys.
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -199,6 +202,8 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.container_id#" >
+			<cfset row["label"] = "#search.label#" >
+			<cfset row["barcode"] = "#search.barcode#" >
 			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>

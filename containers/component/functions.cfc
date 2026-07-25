@@ -2665,24 +2665,24 @@ Function preflightMoveContainerByBarcode. Resolves barcodes to container ids and
 
 	<cfset local.retval = StructNew()>
 	<cftry>
-		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode
 			FROM container
 			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.child_barcode)#">
 		</cfquery>
-		<cfif queryChild.recordcount EQ 0>
+		<cfif local.queryChild.recordcount EQ 0>
 			<cfset local.retval["status"] = "notfound">
 			<cfset local.retval["message"] = "Child barcode was not found.">
 			<cfset local.retval["missing"] = "child">
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
 
-		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT container_id, label, barcode
 			FROM container
 			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
 		</cfquery>
-		<cfif queryParent.recordcount EQ 0>
+		<cfif local.queryParent.recordcount EQ 0>
 			<cfset local.retval["status"] = "notfound">
 			<cfset local.retval["message"] = "Parent barcode was not found.">
 			<cfset local.retval["missing"] = "parent">
@@ -2690,20 +2690,20 @@ Function preflightMoveContainerByBarcode. Resolves barcodes to container ids and
 		</cfif>
 
 		<cfset local.validationResult = validateContainerPlacement(
-			child_container_id=queryChild.container_id,
-			proposed_parent_container_id=queryParent.container_id
+			child_container_id=local.queryChild.container_id,
+			proposed_parent_container_id=local.queryParent.container_id
 		)>
 		<cfif isSimpleValue(local.validationResult)>
 			<cfset local.validationResult = deserializeJSON(local.validationResult)>
 		</cfif>
 
 		<cfset local.validationResult["status"] = "ok">
-		<cfset local.validationResult["child_container_id"] = queryChild.container_id>
-		<cfset local.validationResult["child_label"] = queryChild.label>
-		<cfset local.validationResult["child_barcode"] = queryChild.barcode>
-		<cfset local.validationResult["parent_container_id"] = queryParent.container_id>
-		<cfset local.validationResult["parent_label"] = queryParent.label>
-		<cfset local.validationResult["parent_barcode"] = queryParent.barcode>
+		<cfset local.validationResult["child_container_id"] = local.queryChild.container_id>
+		<cfset local.validationResult["child_label"] = local.queryChild.label>
+		<cfset local.validationResult["child_barcode"] = local.queryChild.barcode>
+		<cfset local.validationResult["parent_container_id"] = local.queryParent.container_id>
+		<cfset local.validationResult["parent_label"] = local.queryParent.label>
+		<cfset local.validationResult["parent_barcode"] = local.queryParent.barcode>
 		<cfreturn serializeJSON(local.validationResult)>
 	<cfcatch>
 		<cfset local.retval = StructNew()>
