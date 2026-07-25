@@ -39,7 +39,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
-						<div class="parent-container-picker-row d-flex align-items-center form-row">
+						<div class="container-picker-row d-flex align-items-center form-row">
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
 								<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.parent_barcode)#">
 							</div>
@@ -50,7 +50,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="child_barcode" class="data-entry-label">Child Unique Identifier</label>
-						<div class="parent-container-picker-row d-flex align-items-center form-row">
+						<div class="container-picker-row d-flex align-items-center form-row">
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
 								<input type="text" name="child_barcode" id="child_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.child_barcode)#">
 							</div>

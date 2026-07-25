@@ -3246,8 +3246,7 @@ function openContainerPickerDialog(options) {
 					selectedId = ui.item.id || '';
 					selectedItem = ui.item;
 					searchIdInput.val(selectedId);
-				}
-				if (!ui || !ui.item) {
+				} else {
 					selectedItem = null;
 				}
 				if (!selectedId && preserveExistingSelection) {
