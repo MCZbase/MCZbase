@@ -3160,7 +3160,7 @@ function openContainerPickerDialog(options) {
 						return false;
 					}
 				});
-				searchOpenLink.attr('aria-disabled', hasAnyFilterValue ? 'false' : 'true');
+				searchOpenLink.attr('aria-disabled', String(!hasAnyFilterValue));
 				searchOpenLink.attr('tabindex', hasAnyFilterValue ? '0' : '-1');
 				searchOpenLink.toggleClass('disabled', !hasAnyFilterValue);
 			};
