@@ -2461,10 +2461,10 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 		</cfif>
 
 		<!--- GROUP 2 (CT3): proxy as parent --->
-		<cfif NOT local.isRootPlacement AND local.parentRole EQ "proxy">
+		<cfif NOT local.isRootPlacement AND local.parentRole EQ "proxy" AND local.childRole NEQ "leaf">
 			<cfset local.retval["allowed"] = false>
 			<cfset local.retval["severity"] = "block">
-			<cfset ArrayAppend(local.retval["blocks"], "A #local.parentType# is a single-occupant container and cannot contain other containers.")>
+			<cfset ArrayAppend(local.retval["blocks"], "A #local.parentType# is a single-occupant container and can only contain a collection object leaf container.")>
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
 
