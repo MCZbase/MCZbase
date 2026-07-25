@@ -2464,7 +2464,8 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		}
 		li.append(childUl);
 		if (isProxy && leafChildren > 0) {
-			var childContainerId = parseInt(node.single_child_container_id, 10) || 0;
+			var parsedChildContainerId = parseInt(node.single_child_container_id, 10);
+			var hasValidChildContainerId = !isNaN(parsedChildContainerId) && parsedChildContainerId > 0;
 			var childBarcode = node.single_child_barcode || '';
 			var childLabel = node.single_child_label || '';
 			if (childBarcode || childLabel) {
@@ -2476,7 +2477,7 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 					$('<button class="btn btn-outline-info btn-xs p-0 ml-1" type="button"></button>')
 						.text('Details')
 						.on('click', function() {
-							var detailContainerId = childContainerId || cid;
+							var detailContainerId = hasValidChildContainerId ? parsedChildContainerId : cid;
 							openContainerDetailsDialog(detailContainerId, childDisplay, feedbackId, false);
 						})
 				);

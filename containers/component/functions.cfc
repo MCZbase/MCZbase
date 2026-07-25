@@ -1226,7 +1226,6 @@ of container details, loaded separately to avoid delaying initial details render
 				subtree.container_type = 'collection object'
 		</cfquery>
 		<cfset local.browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#&execute=true">
-		<cfset local.leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#">
 		<cfset local.specimenSearchUrl = "">
 		<cfif len(trim(getContainerSummary.barcode)) GT 0>
 			<cfset local.specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerSummary.barcode)#">
@@ -1330,7 +1329,7 @@ of container details, loaded separately to avoid delaying initial details render
 				<div class="col-12 col-lg-4 mb-1">
 					<h3 class="h4">Object Contents:</h3>
 					<cfif val(getContainerSummary.direct_leaf_children) GT 0>
-						<a href="#local.leafNodesUrl#&show=immediate">
+						<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#&show=immediate">
 							<cfif getContainerSummary.direct_leaf_children EQ 1>
 								Browse 1 direct leaf child
 							<cfelse>
@@ -1355,7 +1354,7 @@ of container details, loaded separately to avoid delaying initial details render
 						<cfif len(local.specimenSearchUrl) GT 0>
 							<a href="#local.specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
 						</cfif>
-						<a href="#local.leafNodesUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Leaf Node List</a>
+						<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Leaf Node List</a>
 					</cfif>
 				</div>
 			</div>
