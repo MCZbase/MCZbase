@@ -2628,7 +2628,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
 			headerDiv.append(
-				$('<a class="small ml-1 mt-1 mr-2" target="_blank" rel="noopener noreferrer"></a>')
+				$('<a class="small ml-1 mt-1 mr-2"></a>')
 					.attr('href', searchLinkUrl)
 					.attr('title', 'Link to this search (opens in new tab)')
 					.text('Link to this search')
