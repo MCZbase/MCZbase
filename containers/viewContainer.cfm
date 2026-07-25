@@ -213,7 +213,7 @@ limitations under the License.
 	<section class="mb-4" aria-labelledby="containerActionsHeading">
 		<h2 class="h4" id="containerActionsHeading">Actions</h2>
 		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
-		<cfset variables.isLeafOrBearerType = listFindNoCase("leaf,leafbearer", getContainer.container_role) GT 0>
+		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
 		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
 			<cfif variables.canEditContainers>
 				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
@@ -221,8 +221,8 @@ limitations under the License.
 					<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>	
 				</cfif>
-				<cfif variables.isLeafOrBearerType>
-					<!--- TODO: Button to add a child collection object to this container --->
+				<cfif variables.isProxyOrBearerType>
+					<!--- TODO: Button to add a child container of collection object (leaf, linked to a part) to this (proxy or leaf bearer) container --->
 					<a class="btn btn-xs btn-secondary mr-1 mb-1">Place Part into this Container</a>
 				</cfif>
 			</cfif>
