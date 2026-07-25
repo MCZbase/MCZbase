@@ -2505,6 +2505,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 				WHERE
 					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.proposed_parent_container_id#">
 					AND container_type = 'collection object'
+					AND container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
 			</cfquery>
 			<cfif val(queryLeafChildren.leaf_ct) GT 0>
 				<cfset ArrayAppend(local.retval["warnings"], "This container already holds a collection object. Containers of type #local.parentType# are expected to hold exactly one collection object.")>
