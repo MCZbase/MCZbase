@@ -1583,7 +1583,16 @@ details of a container for use in dialogs and page components.
 														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
 													</cfif>
 													<cfif isProxyOrBearerType>
-														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT currentContainerIsEmpty> disabled</cfif>" <cfif NOT currentContainerIsEmpty>aria-disabled="true" tabindex="-1"<cfelse>onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"</cfif>>Place Part into this Container</a>
+														<a
+															href="##"
+															class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT currentContainerIsEmpty> disabled</cfif>"
+															<cfif NOT currentContainerIsEmpty>
+																aria-disabled="true"
+																tabindex="-1"
+															<cfelse>
+																onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"
+															</cfif>
+														>Place Part into this Container</a>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>

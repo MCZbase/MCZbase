@@ -223,7 +223,16 @@ limitations under the License.
 					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>	
 				</cfif>
 				<cfif variables.isProxyOrBearerType>
-					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>" <cfif NOT variables.currentContainerIsEmpty>aria-disabled="true" tabindex="-1"<cfelse>onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');"</cfif>>Place Part into this Container</a>
+					<a
+						href="##"
+						class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>"
+						<cfif NOT variables.currentContainerIsEmpty>
+							aria-disabled="true"
+							tabindex="-1"
+						<cfelse>
+							onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');"
+						</cfif>
+					>Place Part into this Container</a>
 				</cfif>
 			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
