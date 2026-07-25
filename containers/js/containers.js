@@ -3176,8 +3176,7 @@ function openContainerPickerDialog(options) {
 				);
 				updateSearchOpenButtonState();
 			};
-			$('#' + controls.typeControlId).on('change', refreshDialogAutocomplete);
-			$('#' + controls.ancestorControlId).on('change', refreshDialogAutocomplete);
+			$('#' + controls.typeControlId + ', #' + controls.ancestorControlId).on('change', refreshDialogAutocomplete);
 			var filterInputTimer = null;
 			var filterInputs = $('#' + controls.labelContainsControlId + ', #' + controls.descriptionContainsControlId);
 			filterInputs.on('change', refreshDialogAutocomplete);
@@ -3238,9 +3237,11 @@ function openContainerPickerDialog(options) {
 				runValidationForSelection(selectedId);
 			};
 			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
+				// Keep existing hidden selection as fallback for select events.
 				applyAutocompleteSelection(ui, true);
 			});
 			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
+				// Do not preserve hidden selection after free-text changes.
 				applyAutocompleteSelection(ui, false);
 			});
 			$('#' + controls.searchControlId).on('change input', function() {
