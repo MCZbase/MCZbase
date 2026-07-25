@@ -76,7 +76,7 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
 
 @param term container label or barcode or container_id to search for.
 @return a json structure containing id and value, with matching container with matched barcode in value,
-  type, label, and barcode in meta and container_id in id, plus raw label and barcode keys.
+  with matching container type, label, and barcode in meta and container_id in id, plus raw label and barcode keys.
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
