@@ -3268,16 +3268,22 @@ function openContainerPickerDialog(options) {
 					options.onSelect(selectedId, selectedLabel, wrapper, controls);
 				}
 			});
-			var closePickerDialog = function(event) {
+			var handleCancelActivation = function(event) {
 				if (event) {
+					if (event.type === 'keydown') {
+						var closeKey = event.key || '';
+						if (closeKey !== 'Enter' && closeKey !== ' ') {
+							return;
+						}
+					}
 					event.preventDefault();
 					event.stopPropagation();
 				}
 				wrapper.dialog('close');
 				return false;
 			};
-			$('#' + controls.cancelControlId).on('mousedown', closePickerDialog);
-			$('#' + controls.cancelControlId).on('click', closePickerDialog);
+			$('#' + controls.cancelControlId).on('mousedown', handleCancelActivation);
+			$('#' + controls.cancelControlId).on('keydown', handleCancelActivation);
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
