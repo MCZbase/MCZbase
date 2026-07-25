@@ -3178,7 +3178,7 @@ function openContainerPickerDialog(options) {
 				updateSearchOpenButtonState();
 			};
 			$('#' + controls.typeControlId).on('change', refreshDialogAutocomplete);
-			$('#' + controls.ancestorControlId).on('autocompleteselect autocompletechange', refreshDialogAutocomplete);
+			$('#' + controls.ancestorControlId).on('change', refreshDialogAutocomplete);
 			var filterInputTimer = null;
 			var filterInputs = $('#' + controls.labelContainsControlId + ', #' + controls.descriptionContainsControlId);
 			filterInputs.on('change', refreshDialogAutocomplete);
@@ -3220,28 +3220,28 @@ function openContainerPickerDialog(options) {
 					$('#' + controls.validationControlId).empty();
 				}
 			};
-			var applyAutocompleteSelection = function(ui) {
+			var applyAutocompleteSelection = function(ui, allowExistingHiddenId) {
 				var selectedId = '';
 				if (ui && ui.item) {
 					selectedId = ui.item.id || '';
 					$('#' + controls.searchIdControlId).val(selectedId);
 				}
-				if (!selectedId) {
+				if (!selectedId && allowExistingHiddenId) {
 					selectedId = $('#' + controls.searchIdControlId).val();
+				}
+				if (!selectedId) {
+					$('#' + controls.searchIdControlId).val('');
+					setDialogSelectButtonEnabled(false);
+					$('#' + controls.validationControlId).empty();
+					return;
 				}
 				runValidationForSelection(selectedId);
 			};
 			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
-				applyAutocompleteSelection(ui);
+				applyAutocompleteSelection(ui, true);
 			});
 			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
-				if (ui && ui.item && ui.item.id) {
-					applyAutocompleteSelection(ui);
-					return;
-				}
-				$('#' + controls.searchIdControlId).val('');
-				setDialogSelectButtonEnabled(false);
-				$('#' + controls.validationControlId).empty();
+				applyAutocompleteSelection(ui, false);
 			});
 			$('#' + controls.searchControlId).on('change input', function() {
 				if (!$('#' + controls.searchIdControlId).val()) {
