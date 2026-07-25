@@ -3194,6 +3194,7 @@ function openContainerPickerDialog(options) {
 			$('#' + controls.searchOpenControlId).on('click', function() {
 				var searchInput = $('#' + controls.searchControlId);
 				// Use wildcard token to trigger broad autocomplete results with active filters.
+				// Keep it visible so users can see/edit the seeded search term.
 				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
 				$('#' + controls.searchIdControlId).val('');
 				setDialogSelectButtonEnabled(false);
@@ -3238,10 +3239,9 @@ function openContainerPickerDialog(options) {
 					applyAutocompleteSelection(ui);
 					return;
 				}
-				if (!$('#' + controls.searchIdControlId).val()) {
-					setDialogSelectButtonEnabled(false);
-					$('#' + controls.validationControlId).empty();
-				}
+				$('#' + controls.searchIdControlId).val('');
+				setDialogSelectButtonEnabled(false);
+				$('#' + controls.validationControlId).empty();
 			});
 			$('#' + controls.searchControlId).on('change input', function() {
 				if (!$('#' + controls.searchIdControlId).val()) {
