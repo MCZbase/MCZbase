@@ -43,7 +43,7 @@ limitations under the License.
 					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
 						<div class="container-picker-row d-flex align-items-center form-row">
-							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+							<div class="col-12 col-md-8 col-lg-9 pr-md-0 move-container-input-wrap">
 								<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.parent_barcode)#">
 							</div>
 							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0 move-container-chooser">
@@ -54,7 +54,7 @@ limitations under the License.
 					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
 						<label for="child_barcode" class="data-entry-label">Child Unique Identifier</label>
 						<div class="container-picker-row d-flex align-items-center form-row">
-							<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+							<div class="col-12 col-md-8 col-lg-9 pr-md-0 move-container-input-wrap">
 								<input type="text" name="child_barcode" id="child_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(url.child_barcode)#">
 							</div>
 							<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0 move-container-chooser">
@@ -149,7 +149,14 @@ limitations under the License.
 	 * @returns {void}
 	 */
 	function applyBarcodeScannerModeState(isScannerMode) {
+		var timestampInput = $('#move_timestamp');
 		$('.move-container-chooser').toggle(!isScannerMode);
+		$('.move-container-input-wrap').toggleClass('col-md-12 col-lg-12', !!isScannerMode).toggleClass('col-md-8 col-lg-9', !isScannerMode);
+		if (isScannerMode) {
+			timestampInput.val('');
+		}
+		timestampInput.prop('readonly', !!isScannerMode).prop('disabled', !!isScannerMode);
+		$('#moveContainerNow').prop('disabled', !!isScannerMode);
 		$('#moveContainerAutoSubmit').prop('checked', !!isScannerMode);
 	}
 
