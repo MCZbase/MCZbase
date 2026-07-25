@@ -2464,17 +2464,20 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		}
 		li.append(childUl);
 		if (isProxy && leafChildren > 0) {
+			var childContainerId = parseInt(node.single_child_container_id, 10) || 0;
 			var childBarcode = node.single_child_barcode || '';
 			var childLabel = node.single_child_label || '';
 			if (childBarcode || childLabel) {
 				var childDisplay = formatContainerDisplay(childBarcode, childLabel);
 				var inlineLeafDiv = $('<div class="tree-node-inline-leaf"></div>');
 				inlineLeafDiv.append($('<span class="tree-node-leaf-info small text-muted"></span>').text('⤷ ' + childDisplay));
+				inlineLeafDiv.append($('<span class="badge badge-pill badge-success ml-1 small"></span>').text('leaf'));
 				inlineLeafDiv.append(
 					$('<button class="btn btn-outline-info btn-xs p-0 ml-1" type="button"></button>')
 						.text('Details')
 						.on('click', function() {
-							openContainerDetailsDialog(cid, displayName, feedbackId, false);
+							var detailContainerId = childContainerId || cid;
+							openContainerDetailsDialog(detailContainerId, childDisplay, feedbackId, false);
 						})
 				);
 				var childSpecUrl = specimenSearchUrl(childBarcode);

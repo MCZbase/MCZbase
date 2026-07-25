@@ -97,6 +97,7 @@ children of the given container, suitable for rendering a tree node.
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_container_id,
 				sc.single_child_barcode,
 				sc.single_child_label,
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
@@ -111,9 +112,10 @@ children of the given container, suitable for rendering a tree node.
 					GROUP BY parent_container_id
 				) ch ON ch.parent_container_id = c.container_id
 				LEFT JOIN (
-					SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+					SELECT parent_container_id, container_id AS single_child_container_id, barcode AS single_child_barcode, label AS single_child_label
 					FROM (
 						SELECT
+							container_id,
 							parent_container_id,
 							barcode,
 							label,
@@ -148,6 +150,7 @@ children of the given container, suitable for rendering a tree node.
 			<cfset local.row["description"] = qChildren.description>
 			<cfset local.row["direct_structural_children"] = qChildren.direct_structural_children>
 			<cfset local.row["direct_leaf_children"] = qChildren.direct_leaf_children>
+			<cfset local.row["single_child_container_id"] = qChildren.single_child_container_id>
 			<cfset local.row["single_child_barcode"] = qChildren.single_child_barcode>
 			<cfset local.row["single_child_label"] = qChildren.single_child_label>
 			<cfset local.row["has_leaf_descendants"] = qChildren.has_leaf_descendants>
@@ -658,6 +661,7 @@ that renderTreeNodes can render them unchanged.
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_container_id,
 				sc.single_child_barcode,
 				sc.single_child_label,
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
@@ -671,9 +675,10 @@ that renderTreeNodes can render them unchanged.
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 			LEFT JOIN (
-				SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+				SELECT parent_container_id, container_id AS single_child_container_id, barcode AS single_child_barcode, label AS single_child_label
 				FROM (
 					SELECT
+						container_id,
 						parent_container_id,
 						barcode,
 						label,
@@ -733,6 +738,7 @@ that renderTreeNodes can render them unchanged.
 			<cfset local.row["description"] = queryGetOrphans.description>
 			<cfset local.row["direct_structural_children"] = queryGetOrphans.direct_structural_children>
 			<cfset local.row["direct_leaf_children"] = queryGetOrphans.direct_leaf_children>
+			<cfset local.row["single_child_container_id"] = queryGetOrphans.single_child_container_id>
 			<cfset local.row["single_child_barcode"] = queryGetOrphans.single_child_barcode>
 			<cfset local.row["single_child_label"] = queryGetOrphans.single_child_label>
 			<cfset local.row["has_leaf_descendants"] = queryGetOrphans.has_leaf_descendants>
@@ -1221,6 +1227,7 @@ of container details, loaded separately to avoid delaying initial details render
 		</cfquery>
 		<cfset local.browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#&execute=true">
 		<cfset local.leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#">
+		<cfset local.leafBrowseUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#&execute=true">
 		<cfset local.specimenSearchUrl = "">
 		<cfif len(trim(getContainerSummary.barcode)) GT 0>
 			<cfset local.specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerSummary.barcode)#">
@@ -1349,6 +1356,7 @@ of container details, loaded separately to avoid delaying initial details render
 						<cfif len(local.specimenSearchUrl) GT 0>
 							<a href="#local.specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
 						</cfif>
+						<a href="#local.leafBrowseUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Browse Leaf Containers</a>
 					</cfif>
 				</div>
 			</div>
@@ -1357,6 +1365,7 @@ of container details, loaded separately to avoid delaying initial details render
 					<table class="table table-sm table-striped">
 						<thead>
 							<tr>
+								<th scope="col">Container</th>
 								<th scope="col">GUID</th>
 								<th scope="col">Current Identification</th>
 								<th scope="col">Part Type</th>
@@ -1370,11 +1379,26 @@ of container details, loaded separately to avoid delaying initial details render
 							<cfloop query="queryCollectionObjectDetails">
 								<cfset coGuidText = "">
 								<cfset coGuidUrl = "">
+								<cfset leafContainerDisplay = "Unnamed container">
+								<cfif len(trim(queryCollectionObjectDetails.container_label)) GT 0>
+									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_label>
+								</cfif>
+								<cfif len(trim(queryCollectionObjectDetails.container_barcode)) GT 0>
+									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_barcode>
+									<cfif queryCollectionObjectDetails.container_barcode NEQ queryCollectionObjectDetails.container_label AND len(trim(queryCollectionObjectDetails.container_label)) GT 0>
+										<cfset leafContainerDisplay = "#leafContainerDisplay# (#queryCollectionObjectDetails.container_label#)">
+									</cfif>
+								</cfif>
 								<cfif len(trim(institution_acronym)) GT 0 AND len(trim(collection_cde)) GT 0 AND len(trim(cat_num)) GT 0>
 									<cfset coGuidText = "#institution_acronym#:#collection_cde#:#cat_num#">
 									<cfset coGuidUrl = "/guid/#encodeForURL(institution_acronym)#:#encodeForURL(collection_cde)#:#encodeForURL(cat_num)#">
 								</cfif>
 								<tr>
+									<td>
+										<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(queryCollectionObjectDetails.container_id)#" target="_blank" rel="noopener noreferrer">
+											#encodeForHtml(leafContainerDisplay)#
+										</a>
+									</td>
 									<td>
 										<cfif len(coGuidText) GT 0>
 											<a href="#coGuidUrl#" target="_blank" rel="noopener noreferrer">#encodeForHtml(coGuidText)#</a>
