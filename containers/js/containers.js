@@ -3150,6 +3150,18 @@ function openContainerPickerDialog(options) {
 				confirmButton.toggleClass('btn-outline-secondary', !enabled);
 			};
 			var searchIdInput = $('#' + controls.searchIdControlId);
+			var suppressNextAutocompleteChange = false;
+			var suppressAutocompleteChangeForActivation = function() {
+				suppressNextAutocompleteChange = true;
+			};
+			var resetAutocompleteChangeSuppression = function() {
+				suppressNextAutocompleteChange = false;
+			};
+			var bindActivationSuppression = function(controlId) {
+				var control = $('#' + controlId);
+				control.on('mousedown', suppressAutocompleteChangeForActivation);
+				control.on('mouseup', resetAutocompleteChangeSuppression);
+			};
 			var updateSearchOpenButtonState = function() {
 				var searchOpenLink = $('#' + controls.searchOpenControlId);
 				var hasAnyFilterValue = false;
@@ -3249,6 +3261,10 @@ function openContainerPickerDialog(options) {
 				applyAutocompleteSelection(ui, true);
 			});
 			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
+				if (suppressNextAutocompleteChange) {
+					resetAutocompleteChangeSuppression();
+					return;
+				}
 				// Do not preserve hidden selection after free-text changes.
 				applyAutocompleteSelection(ui, false);
 			});
@@ -3258,17 +3274,9 @@ function openContainerPickerDialog(options) {
 					$('#' + controls.validationControlId).empty();
 				}
 			});
-			var handleConfirmActivation = function(event) {
-				if (event) {
-					if (event.type === 'keydown') {
-						var activateKey = event.key || '';
-						if (activateKey !== 'Enter' && activateKey !== ' ') {
-							return;
-						}
-					}
-					event.preventDefault();
-					event.stopPropagation();
-				}
+			bindActivationSuppression(controls.confirmControlId);
+			$('#' + controls.confirmControlId).on('click', function() {
+				resetAutocompleteChangeSuppression();
 				var selectedId = searchIdInput.val();
 				var selectedLabel = $('#' + controls.searchControlId).val();
 				if (!selectedId) {
@@ -3277,21 +3285,21 @@ function openContainerPickerDialog(options) {
 				if ($.isFunction(options.onSelect)) {
 					options.onSelect(selectedId, selectedLabel, wrapper, controls);
 				}
-				return false;
-			};
-			$('#' + controls.confirmControlId).on('mousedown', handleConfirmActivation);
-			$('#' + controls.confirmControlId).on('keydown', handleConfirmActivation);
+			});
+			bindActivationSuppression(controls.cancelControlId);
 			var handleCancelActivation = function(event) {
 				if (event) {
 					if (event.type === 'keydown') {
 						var closeKey = event.key || '';
-						if (closeKey !== 'Enter' && closeKey !== ' ') {
+						var isCloseKey = closeKey === 'Enter' || closeKey === ' ';
+						if (!isCloseKey) {
 							return;
 						}
 					}
 					event.preventDefault();
 					event.stopPropagation();
 				}
+				resetAutocompleteChangeSuppression();
 				wrapper.dialog('close');
 				return false;
 			};
