@@ -1377,13 +1377,14 @@ of container details, loaded separately to avoid delaying initial details render
 							<cfloop query="queryCollectionObjectDetails">
 								<cfset coGuidText = "">
 								<cfset coGuidUrl = "">
+								<cfset hasLeafLabel = (len(trim(queryCollectionObjectDetails.container_label)) GT 0)>
 								<cfset leafContainerDisplay = "Unnamed container">
-								<cfif len(trim(queryCollectionObjectDetails.container_label)) GT 0>
+								<cfif hasLeafLabel>
 									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_label>
 								</cfif>
 								<cfif len(trim(queryCollectionObjectDetails.container_barcode)) GT 0>
 									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_barcode>
-									<cfif queryCollectionObjectDetails.container_barcode NEQ queryCollectionObjectDetails.container_label AND len(trim(queryCollectionObjectDetails.container_label)) GT 0>
+									<cfif queryCollectionObjectDetails.container_barcode NEQ queryCollectionObjectDetails.container_label AND hasLeafLabel>
 										<cfset leafContainerDisplay = "#leafContainerDisplay# (#queryCollectionObjectDetails.container_label#)">
 									</cfif>
 								</cfif>
