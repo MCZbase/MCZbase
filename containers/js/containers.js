@@ -3028,7 +3028,8 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var blockedLabel = '✗ placement blocked';
 		var hasLockedBlock = false;
 		$.each(blocks, function(i, item) {
-			if ($.trim((item || '').toLowerCase()) === LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER) {
+			var blockMessage = $.trim((item || '').toLowerCase());
+			if (blockMessage === LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER) {
 				hasLockedBlock = true;
 				return false;
 			}
@@ -3151,7 +3152,6 @@ function openContainerPickerDialog(options) {
 				confirmButton.toggleClass('btn-outline-secondary', !enabled);
 				confirmButton.attr('aria-disabled', enabled ? 'false' : 'true');
 			};
-			var hasUserInteractedWithFilters = false;
 			var updateSearchOpenButtonState = function() {
 				var hasAnyFilterValue = false;
 				wrapper.find('.pick-container-filter-control').each(function() {
@@ -3160,10 +3160,9 @@ function openContainerPickerDialog(options) {
 						return false;
 					}
 				});
-				$('#' + controls.searchOpenControlId).prop('disabled', !(hasUserInteractedWithFilters && hasAnyFilterValue));
+				$('#' + controls.searchOpenControlId).prop('disabled', !hasAnyFilterValue);
 			};
 			setDialogSelectButtonEnabled(false);
-			updateSearchOpenButtonState();
 			var refreshDialogAutocomplete = function() {
 				$('#' + controls.searchIdControlId).val('');
 				setDialogSelectButtonEnabled(false);
@@ -3190,11 +3189,11 @@ function openContainerPickerDialog(options) {
 				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
 			});
 			wrapper.find('.pick-container-filter-control').on('change input autocompleteselect autocompletechange', function() {
-				hasUserInteractedWithFilters = true;
 				updateSearchOpenButtonState();
 			});
 			$('#' + controls.searchOpenControlId).on('click', function() {
 				var searchInput = $('#' + controls.searchControlId);
+				// Use wildcard token to trigger broad autocomplete results with active filters.
 				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
 				$('#' + controls.searchIdControlId).val('');
 				setDialogSelectButtonEnabled(false);
@@ -3220,7 +3219,7 @@ function openContainerPickerDialog(options) {
 					$('#' + controls.validationControlId).empty();
 				}
 			};
-			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
+			var applyAutocompleteSelection = function(ui) {
 				var selectedId = '';
 				if (ui && ui.item) {
 					selectedId = ui.item.id || '';
@@ -3230,11 +3229,13 @@ function openContainerPickerDialog(options) {
 					selectedId = $('#' + controls.searchIdControlId).val();
 				}
 				runValidationForSelection(selectedId);
+			};
+			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
+				applyAutocompleteSelection(ui);
 			});
 			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
 				if (ui && ui.item && ui.item.id) {
-					$('#' + controls.searchIdControlId).val(ui.item.id);
-					runValidationForSelection(ui.item.id);
+					applyAutocompleteSelection(ui);
 					return;
 				}
 				if (!$('#' + controls.searchIdControlId).val()) {
