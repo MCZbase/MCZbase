@@ -1434,7 +1434,7 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId, showBr
 	var dialogId = 'containerDetailsDialog';
 	var contentId = 'containerDetailsDialogContent';
 	var dialogEl = $('#' + dialogId);
-	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
+	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1280));
 	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
 	var dialogTitle = 'Container Details';
 	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
