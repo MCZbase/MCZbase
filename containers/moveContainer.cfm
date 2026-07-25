@@ -145,7 +145,7 @@ limitations under the License.
 	}
 
 	/** Toggle barcode scanner mode behavior.
-	 * @param {boolean} isScannerMode - true to hide picker buttons and force submit-on-child-change.
+	 * @param {boolean} isScannerMode - true hides picker buttons and forces submit-on-child-change checked; false shows picker buttons and forces submit-on-child-change unchecked.
 	 * @returns {void}
 	 */
 	function applyBarcodeScannerModeState(isScannerMode) {
@@ -322,9 +322,14 @@ limitations under the License.
 			applyBarcodeScannerModeState($(this).prop('checked'));
 		});
 		$('#moveContainerForm').on('reset', function() {
-			window.setTimeout(function() {
+			var updateScannerState = function() {
 				applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
-			}, 0);
+			};
+			if (window.requestAnimationFrame) {
+				window.requestAnimationFrame(updateScannerState);
+			} else {
+				updateScannerState();
+			}
 		});
 		setTimestampToNow();
 		applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
