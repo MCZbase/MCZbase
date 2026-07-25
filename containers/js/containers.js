@@ -3268,9 +3268,16 @@ function openContainerPickerDialog(options) {
 					options.onSelect(selectedId, selectedLabel, wrapper, controls);
 				}
 			});
-			$('#' + controls.cancelControlId).on('click', function() {
+			var closePickerDialog = function(event) {
+				if (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
 				wrapper.dialog('close');
-			});
+				return false;
+			};
+			$('#' + controls.cancelControlId).on('mousedown', closePickerDialog);
+			$('#' + controls.cancelControlId).on('click', closePickerDialog);
 		},
 		error: function(jqXHR, textStatus, error) {
 			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
