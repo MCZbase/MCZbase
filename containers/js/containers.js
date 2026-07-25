@@ -3194,6 +3194,7 @@ function openContainerPickerDialog(options) {
 			$('#' + controls.searchOpenControlId).on('click', function() {
 				var searchInput = $('#' + controls.searchControlId);
 				// Use wildcard token to trigger broad autocomplete results with active filters.
+				// This codebase uses "%%%" as a broad wildcard term for container autocomplete lookups.
 				// Keep it visible so users can see/edit the seeded search term.
 				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
 				$('#' + controls.searchIdControlId).val('');
@@ -3220,13 +3221,13 @@ function openContainerPickerDialog(options) {
 					$('#' + controls.validationControlId).empty();
 				}
 			};
-			var applyAutocompleteSelection = function(ui, allowExistingHiddenId) {
+			var applyAutocompleteSelection = function(ui, preserveExistingSelection) {
 				var selectedId = '';
 				if (ui && ui.item) {
 					selectedId = ui.item.id || '';
 					$('#' + controls.searchIdControlId).val(selectedId);
 				}
-				if (!selectedId && allowExistingHiddenId) {
+				if (!selectedId && preserveExistingSelection) {
 					selectedId = $('#' + controls.searchIdControlId).val();
 				}
 				if (!selectedId) {
