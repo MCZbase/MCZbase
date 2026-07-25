@@ -966,7 +966,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 			<div class="form-row">
 				<div class="col-12 mb-1">
 					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label mb-0">Container autocomplete
-						<a href="##" id="#encodeForHtml(local.searchOpenControlId)#" class="btn-link disabled ml-1" aria-disabled="true" tabindex="-1">(&##8595;)<span class="sr-only">open filtered autocomplete suggestions</span></a>
+						<a href="javascript:void(0)" id="#encodeForHtml(local.searchOpenControlId)#" class="btn-link disabled ml-1" aria-disabled="true" tabindex="-1">(&##8595;)<span class="sr-only">open filtered autocomplete suggestions</span></a>
 					</label>
 					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
 					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
