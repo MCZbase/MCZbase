@@ -151,13 +151,13 @@ limitations under the License.
 	function applyBarcodeScannerModeState(isScannerMode) {
 		var timestampInput = $('#move_timestamp');
 		$('.move-container-chooser').toggle(!isScannerMode);
-		$('.move-container-input-wrap').toggleClass('col-md-12 col-lg-12', !!isScannerMode).toggleClass('col-md-8 col-lg-9', !isScannerMode);
+		$('.move-container-input-wrap').toggleClass('col-md-12 col-lg-12', isScannerMode).toggleClass('col-md-8 col-lg-9', !isScannerMode);
 		if (isScannerMode) {
 			timestampInput.val('');
 		}
-		timestampInput.prop('readonly', !!isScannerMode).prop('disabled', !!isScannerMode);
-		$('#moveContainerNow').prop('disabled', !!isScannerMode);
-		$('#moveContainerAutoSubmit').prop('checked', !!isScannerMode);
+		timestampInput.prop('readonly', isScannerMode).prop('disabled', isScannerMode);
+		$('#moveContainerNow').prop('disabled', isScannerMode);
+		$('#moveContainerAutoSubmit').prop('checked', isScannerMode);
 	}
 
 	/** Execute a barcode move after preflight has approved or warning-confirmed it.
