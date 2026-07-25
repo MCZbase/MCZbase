@@ -1143,6 +1143,42 @@ function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAc
 	});
 }
 
+/**
+ * Loads the Contents section fragment for one container details rendering.
+ * @param {number|string} containerId - the container_id whose contents should be rendered.
+ * @param {string} targetDivId - id of the container contents target element.
+ * @param {string} feedbackId - optional feedback output element id for AJAX failures.
+ * @returns {void}
+ */
+function loadContainerContentsSection(containerId, targetDivId, feedbackId) {
+	if (!targetDivId) {
+		return;
+	}
+	var target = $('#' + targetDivId);
+	if (!target.length) {
+		return;
+	}
+	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerContentsHtml',
+			returnformat: 'plain',
+			container_id: containerId
+		},
+		success: function(data) {
+			target.html(data);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container contents');
+		}
+	});
+}
+
 
 
 /**
@@ -1785,6 +1821,59 @@ function openPositionPlacementDialog(positionContainerId, positionLabel, targetD
 				},
 				error: function(jqXHR, textStatus, error) {
 					handleFail(jqXHR, textStatus, error, 'placing container into position');
+				}
+			});
+		}
+	});
+}
+
+/**
+ * Opens the shared rich picker dialog and places a selected child into a parent container.
+ * @param {number|string} parentContainerId - destination parent container_id.
+ * @param {string} parentDisplayLabel - display label for dialog title and success feedback.
+ * @param {string} institutionAcronym - optional institution acronym used to scope picker search.
+ * @param {string} feedbackId - optional feedback output element id.
+ * @param {string} contentsTargetDivId - optional contents target to reload after successful placement.
+ * @returns {void}
+ */
+function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel, institutionAcronym, feedbackId, contentsTargetDivId) {
+	var display = parentDisplayLabel || '';
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Child into ' + (display || 'Container'),
+		parentContainerIdForValidation: parentContainerId,
+		institutionAcronym: institutionAcronym || '',
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: parentContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (contentsTargetDivId) {
+							loadContainerContentsSection(parentContainerId, contentsTargetDivId, feedbackId);
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing child container');
 				}
 			});
 		}
