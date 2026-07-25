@@ -149,6 +149,7 @@ limitations under the License.
 	 * @returns {void}
 	 */
 	function applyBarcodeScannerModeState(isScannerMode) {
+		isScannerMode = (isScannerMode === true);
 		var timestampInput = $('#move_timestamp');
 		$('.move-container-chooser').toggle(!isScannerMode);
 		$('.move-container-input-wrap').toggleClass('col-md-12 col-lg-12', isScannerMode).toggleClass('col-md-8 col-lg-9', !isScannerMode);
