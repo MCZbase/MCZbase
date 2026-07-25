@@ -231,6 +231,7 @@ var MAX_DESCRIPTION_LENGTH = 80;
 
 /** Trigger-match message indicating placement is blocked because the child is position-locked. */
 var LOCKED_PLACEMENT_BLOCK_MESSAGE = 'This position is locked and cannot be moved.';
+var LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER = LOCKED_PLACEMENT_BLOCK_MESSAGE.toLowerCase();
 
 /** Wildcard token used to force opening full autocomplete suggestions with active filters. */
 var AUTOCOMPLETE_OPEN_WILDCARD = '%%%';
@@ -3027,7 +3028,7 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var blockedLabel = '✗ placement blocked';
 		var hasLockedBlock = false;
 		$.each(blocks, function(i, item) {
-			if ($.trim((item || '').toLowerCase()) === LOCKED_PLACEMENT_BLOCK_MESSAGE.toLowerCase()) {
+			if ($.trim((item || '').toLowerCase()) === LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER) {
 				hasLockedBlock = true;
 				return false;
 			}
