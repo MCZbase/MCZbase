@@ -3193,8 +3193,8 @@ function openContainerPickerDialog(options) {
 				updateSearchOpenButtonState();
 			});
 			$('#' + controls.searchOpenControlId).on('click', function(event) {
+				event.preventDefault();
 				if ($(this).hasClass('disabled')) {
-					event.preventDefault();
 					return false;
 				}
 				var searchInput = $('#' + controls.searchControlId);
@@ -3209,7 +3209,6 @@ function openContainerPickerDialog(options) {
 				if (searchInput.autocomplete('instance')) {
 					searchInput.autocomplete('search', AUTOCOMPLETE_OPEN_WILDCARD);
 				}
-				event.preventDefault();
 				return false;
 			});
 
