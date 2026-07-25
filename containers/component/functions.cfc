@@ -1533,6 +1533,8 @@ details of a container for use in dialogs and page components.
 					<cfset createChildContainerUrl = "/containers/Container.cfm?action=new&parent_container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
 					<cfset isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainerDetail.container_role) GT 0>
+					<cfset isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainerDetail.container_role) GT 0>
+					<cfset currentContainerIsEmpty = (val(getContainerDetail.direct_structural_children) + val(getContainerDetail.direct_leaf_children)) EQ 0>
 					<cfset currentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.label)) GT 0>
 						<cfset currentDisplay = getContainerDetail.label>
@@ -1579,6 +1581,9 @@ details of a container for use in dialogs and page components.
 													<cfif NOT isProxyOrLeafType>
 														<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
+													</cfif>
+													<cfif isProxyOrBearerType>
+														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT currentContainerIsEmpty> disabled</cfif>" <cfif NOT currentContainerIsEmpty>aria-disabled="true" tabindex="-1"<cfelse>onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"</cfif>>Place Part into this Container</a>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>

@@ -272,6 +272,60 @@ function rebuildSingleOccupantTypes() {
 	});
 }
 
+/**
+ * Opens the shared rich picker dialog, prefiltered to leaf containers, and places a selected leaf into a parent container.
+ * @param {number|string} parentContainerId - destination parent container_id.
+ * @param {string} parentDisplayLabel - display label for dialog title and success feedback.
+ * @param {string} institutionAcronym - optional institution acronym used to scope picker search.
+ * @param {string} feedbackId - optional feedback output element id.
+ * @param {string} contentsTargetDivId - optional contents target to reload after successful placement.
+ * @returns {void}
+ */
+function openPlaceLeafIntoContainerDialog(parentContainerId, parentDisplayLabel, institutionAcronym, feedbackId, contentsTargetDivId) {
+	var display = parentDisplayLabel || '';
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Leaf into ' + (display || 'Container'),
+		parentContainerIdForValidation: parentContainerId,
+		pickLeaves: true,
+		institutionAcronym: institutionAcronym || '',
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: parentContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (contentsTargetDivId) {
+							loadContainerContentsSection(parentContainerId, contentsTargetDivId, feedbackId);
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing leaf container');
+				}
+			});
+		}
+	});
+}
+
 /** function applyContainerTypeMetadata(data) 
  * Applies the container type metadata returned from getContainerTypeMetadata to the 
  * containerTypeMetadataByType map, replacing the fallback values.  Rebuilds the
@@ -3077,6 +3131,8 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
  * @param {number|string} options.childContainerIdForValidation - child id for parent-mode validation.
  * @param {number|string} options.parentContainerIdForValidation - parent id for child-mode validation.
  * @param {string} options.childContainerType - child container_type for parent-mode type preselection.
+ * @param {string} options.preselectType - optional explicit type value to preselect.
+ * @param {boolean} options.pickLeaves - when true in child mode, preselect collection object candidates.
  * @param {string} options.institutionAcronym - optional institution acronym to scope autocomplete.
  * @param {string} options.feedbackId - optional feedback output id.
  * @param {Function} options.onSelect - callback(selectedId, selectedLabel, wrapper, controls, selectedItem) on Select.
@@ -3098,8 +3154,8 @@ function openContainerPickerDialog(options) {
 		autoOpen: true
 	});
 
-	var preselectType = '';
-	if (mode === 'parent' && options.childContainerType) {
+	var preselectType = options.preselectType || '';
+	if (!preselectType && mode === 'parent' && options.childContainerType) {
 		var expected = getContainerTypeMeta(options.childContainerType).expected_parent_types || '';
 		if (expected && expected !== 'any' && expected !== 'none') {
 			preselectType = $.trim((expected + '').split(',')[0]);
@@ -3116,6 +3172,7 @@ function openContainerPickerDialog(options) {
 			dialog_mode: mode,
 			child_container_id: options.childContainerIdForValidation || '',
 			preselect_type: preselectType,
+			pick_leaves: options.pickLeaves ? 1 : 0,
 			institution_acronym: options.institutionAcronym || '',
 			id_suffix: id_suffix
 		},

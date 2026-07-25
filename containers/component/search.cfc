@@ -858,6 +858,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 @param dialog_mode picker mode: parent, child, or find.
 @param child_container_id optional child container_id used to preselect expected parent type in parent mode.
 @param preselect_type optional container_type value to preselect in the type control.
+@param pick_leaves when true, preselect collection object as the child container type.
 @param ancestor_container_id optional ancestor container_id to constrain subtree search.
 @param institution_acronym optional institution acronym to constrain dialog searches.
 @param id_suffix optional suffix applied to generated control ids for uniqueness.
@@ -867,6 +868,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 	<cfargument name="dialog_mode" type="string" required="no" default="parent">
 	<cfargument name="child_container_id" type="string" required="no" default="">
 	<cfargument name="preselect_type" type="string" required="no" default="">
+	<cfargument name="pick_leaves" type="string" required="no" default="0">
 	<cfargument name="ancestor_container_id" type="string" required="no" default="">
 	<cfargument name="institution_acronym" type="string" required="no" default="">
 	<cfargument name="id_suffix" type="string" required="no" default="">
@@ -885,6 +887,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 	<cfset local.searchOpenControlId = "pickContainerSearchOpen#local.safeSuffix#">
 	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
 	<cfset local.selectedType = trim(arguments.preselect_type)>
+	<cfset local.pickLeaves = listFindNoCase("1,true,yes,on", trim(arguments.pick_leaves)) GT 0>
 	<cfset local.dialogMode = lCase(trim(arguments.dialog_mode))>
 	<cfif NOT listFindNoCase("parent,child,find", local.dialogMode)>
 		<cfset local.dialogMode = "find">
@@ -930,6 +933,9 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 				<cfset local.selectedType = trim(listFirst(local.expectedTypeList, ","))>
 			</cfif>
 		</cfif>
+	</cfif>
+	<cfif local.dialogMode EQ "child" AND local.pickLeaves AND len(trim(local.selectedType)) EQ 0>
+		<cfset local.selectedType = "collection object">
 	</cfif>
 
 	<cfsavecontent variable="local.htmlFragment"><cfoutput>
