@@ -90,6 +90,11 @@ editing behavior consistent across the application.
 <cfparam name="url.description" default="">
 <cfparam name="url.department" default="">
 <cfparam name="url.tree_property" default="">
+<cfparam name="url.has_positions" default="">
+<cfparam name="url.position_filter" default="">
+<!--- Legacy params retained for old saved search links; mapped into position_filter below. --->
+<cfparam name="url.in_position" default="">
+<cfparam name="url.position_value" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
@@ -128,6 +133,26 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.tree_property = trim(url.tree_property)>
 </cfif>
+<cfif isDefined("form.has_positions")>
+	<cfset variables.has_positions = trim(form.has_positions)>
+<cfelse>
+	<cfset variables.has_positions = trim(url.has_positions)>
+</cfif>
+<cfif isDefined("form.position_filter")>
+	<cfset variables.position_filter = trim(form.position_filter)>
+<cfelseif len(trim(url.position_filter)) GT 0>
+	<cfset variables.position_filter = trim(url.position_filter)>
+<cfelseif lcase(trim(url.in_position)) EQ "any">
+	<cfset variables.position_filter = "NOT NULL">
+<cfelseif lcase(trim(url.in_position)) EQ "none">
+	<cfset variables.position_filter = "NULL">
+<cfelseif lcase(trim(url.in_position)) EQ "specific" AND len(trim(url.position_value)) GT 0>
+	<cfset variables.position_filter = trim(url.position_value)>
+<cfelseif len(trim(url.position_value)) GT 0>
+	<cfset variables.position_filter = trim(url.position_value)>
+<cfelse>
+	<cfset variables.position_filter = "">
+</cfif>
 <cfif isDefined("form.execute")>
 	<cfset variables.execute = trim(form.execute)>
 <cfelse>
@@ -148,6 +173,17 @@ editing behavior consistent across the application.
 	SELECT container_type
 	FROM ctcontainer_type
 	ORDER BY container_type
+</cfquery>
+<cfquery name="positionCountOptions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+	SELECT DISTINCT
+		number_positions
+	FROM
+		container
+	WHERE
+		number_positions IS NOT NULL
+		AND number_positions > 0
+	ORDER BY
+		number_positions
 </cfquery>
 
 <!--- if given a container_id lookup the container label and barcode and set the search_term and barcode to that label or barcode --->
@@ -193,10 +229,17 @@ editing behavior consistent across the application.
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
-								<input type="text" id="search_term" name="search_term"
-									class="data-entry-input col-12"
-									placeholder="Label or barcode"
-									value="#encodeForHtml(variables.search_term)#">
+								<div class="parent-container-picker-row d-flex align-items-center form-row">
+									<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+										<input type="text" id="search_term" name="search_term"
+											class="data-entry-input col-12"
+											placeholder="Label or barcode"
+											value="#encodeForHtml(variables.search_term)#">
+									</div>
+									<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+										<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+									</div>
+								</div>
 								<input type="hidden" id="container_id" name="container_id"
 									value="#encodeForHtml(variables.container_id)#">
 							</div>
@@ -207,8 +250,6 @@ editing behavior consistent across the application.
 									placeholder="Barcode substring"
 									value="#encodeForHtml(variables.barcode)#">
 							</div>
-						</div>
-						<div class="form-row">
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
 								<label for="description" class="data-entry-label">Description / Remarks</label>
 								<input type="text" id="description" name="description"
@@ -259,12 +300,41 @@ editing behavior consistent across the application.
 									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
 								</select>
 							</div>
-						</div>
-						<div class="form-row">
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="has_positions" class="data-entry-label">Has Positions</label>
+								<select id="has_positions" name="has_positions" class="data-entry-select col-12">
+									<option value=""></option>
+									<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
+									<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
+									<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
+									<cfloop query="positionCountOptions">
+										<cfset variables.selectedPositionCount = "">
+										<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
+											<cfset variables.selectedPositionCount = " selected">
+										</cfif>
+										<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="position_filter" class="data-entry-label">
+									Container in Position
+									<span class="small ml-1">
+										<a href="javascript:void(0);" id="positionFilterAny">any</a>
+										|
+										<a href="javascript:void(0);" id="positionFilterNone">none</a>
+									</span>
+								</label>
+								<input type="text" id="position_filter" name="position_filter"
+									class="data-entry-input col-12"
+									placeholder="NULL, NOT NULL, position number, label, or barcode"
+									value="#encodeForHtml(variables.position_filter)#">
+							</div>
 							<div class="col-12 mb-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
-								<button type="reset" class="btn btn-xs btn-warning">Reset</button>
+								<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
 								<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
+								<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
 							</div>
 						</div>
 					</form>
@@ -298,10 +368,27 @@ editing behavior consistent across the application.
 <script>
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
+	$('##chooseSearchContainerBtn').on('click', function() {
+		openContainerPickerDialog({
+			mode: 'find',
+			dialogTitle: 'Select Container',
+			onSelect: function(selectedId, selectedLabel, wrapper) {
+				$('##container_id').val(selectedId);
+				$('##search_term').val(selectedLabel);
+				wrapper.dialog('close');
+			}
+		});
+	});
 
 	$('##containerSearchForm').on('submit', function(e) {
 		e.preventDefault();
 		executeContainerSearch('containerBrowsePanel', 'containerLeafPanel', 'containerBrowseFeedback', 1);
+	});
+	$('##positionFilterAny').on('click', function() {
+		$('##position_filter').val('NOT NULL').focus();
+	});
+	$('##positionFilterNone').on('click', function() {
+		$('##position_filter').val('NULL').focus();
 	});
 
 	<cfset variables.hasSearchParams = (
@@ -311,6 +398,8 @@ $(document).ready(function() {
 		len(variables.description) GT 0 OR
 		len(variables.department) GT 0 OR
 		len(variables.tree_property) GT 0 OR
+		len(variables.has_positions) GT 0 OR
+		len(variables.position_filter) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>

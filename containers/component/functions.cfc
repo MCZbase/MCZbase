@@ -97,6 +97,7 @@ children of the given container, suitable for rendering a tree node.
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_container_id,
 				sc.single_child_barcode,
 				sc.single_child_label,
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
@@ -111,9 +112,10 @@ children of the given container, suitable for rendering a tree node.
 					GROUP BY parent_container_id
 				) ch ON ch.parent_container_id = c.container_id
 				LEFT JOIN (
-					SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+					SELECT parent_container_id, container_id AS single_child_container_id, barcode AS single_child_barcode, label AS single_child_label
 					FROM (
 						SELECT
+							container_id,
 							parent_container_id,
 							barcode,
 							label,
@@ -148,6 +150,7 @@ children of the given container, suitable for rendering a tree node.
 			<cfset local.row["description"] = qChildren.description>
 			<cfset local.row["direct_structural_children"] = qChildren.direct_structural_children>
 			<cfset local.row["direct_leaf_children"] = qChildren.direct_leaf_children>
+			<cfset local.row["single_child_container_id"] = qChildren.single_child_container_id>
 			<cfset local.row["single_child_barcode"] = qChildren.single_child_barcode>
 			<cfset local.row["single_child_label"] = qChildren.single_child_label>
 			<cfset local.row["has_leaf_descendants"] = qChildren.has_leaf_descendants>
@@ -658,6 +661,7 @@ that renderTreeNodes can render them unchanged.
 				c.description,
 				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
 				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+				sc.single_child_container_id,
 				sc.single_child_barcode,
 				sc.single_child_label,
 				CASE WHEN NVL(ch.direct_structural_children, 0) > 0 OR NVL(ch.direct_leaf_children, 0) > 0 THEN 1 ELSE 0 END AS has_leaf_descendants
@@ -671,9 +675,10 @@ that renderTreeNodes can render them unchanged.
 				GROUP BY parent_container_id
 			) ch ON ch.parent_container_id = c.container_id
 			LEFT JOIN (
-				SELECT parent_container_id, barcode AS single_child_barcode, label AS single_child_label
+				SELECT parent_container_id, container_id AS single_child_container_id, barcode AS single_child_barcode, label AS single_child_label
 				FROM (
 					SELECT
+						container_id,
 						parent_container_id,
 						barcode,
 						label,
@@ -733,6 +738,7 @@ that renderTreeNodes can render them unchanged.
 			<cfset local.row["description"] = queryGetOrphans.description>
 			<cfset local.row["direct_structural_children"] = queryGetOrphans.direct_structural_children>
 			<cfset local.row["direct_leaf_children"] = queryGetOrphans.direct_leaf_children>
+			<cfset local.row["single_child_container_id"] = queryGetOrphans.single_child_container_id>
 			<cfset local.row["single_child_barcode"] = queryGetOrphans.single_child_barcode>
 			<cfset local.row["single_child_label"] = queryGetOrphans.single_child_label>
 			<cfset local.row["has_leaf_descendants"] = queryGetOrphans.has_leaf_descendants>
@@ -1165,6 +1171,301 @@ Function deleteContainer.  Deletes a container record.
 </cffunction>
 
 <!---
+Function getContainerContentsHtml. Returns the HTML fragment for the Contents section
+of container details, loaded separately to avoid delaying initial details render.
+
+@param container_id the container_id whose contents summary should be rendered.
+@return HTML fragment string for the Contents section body, including subtree object summary and optional collection object detail rows.
+--->
+<cffunction name="getContainerContentsHtml" returntype="string" access="remote" returnformat="plain" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.htmlFragment = "">
+	<cftry>
+		<cfset local.maxCollectionObjectDetailRows = 5>
+		<cfquery name="getContainerSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.container_type,
+				c.label,
+				c.barcode,
+				NVL(ch.direct_structural_children, 0) AS direct_structural_children,
+				NVL(ch.direct_leaf_children, 0) AS direct_leaf_children
+			FROM
+				container c
+				LEFT JOIN (
+					SELECT
+						parent_container_id,
+						SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
+						SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
+					FROM
+						container
+					GROUP BY
+						parent_container_id
+				) ch ON ch.parent_container_id = c.container_id
+			WHERE
+				c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif getContainerSummary.recordcount EQ 0>
+			<cfreturn '<p class="text-muted mb-0">Container contents could not be loaded.</p>'>
+		</cfif>
+		<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				COUNT(*) AS leaf_descendants
+			FROM (
+				SELECT
+					container_type
+				FROM
+					container
+				START WITH
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerSummary.container_id#">
+				CONNECT BY NOCYCLE PRIOR
+					container_id = parent_container_id
+			) subtree
+			WHERE
+				subtree.container_type = 'collection object'
+		</cfquery>
+		<cfset local.browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#&execute=true">
+		<cfset local.leafNodesBaseUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerSummary.container_id)#">
+		<cfset local.specimenSearchUrl = "">
+		<cfif len(trim(getContainerSummary.barcode)) GT 0>
+			<cfset local.specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerSummary.barcode)#">
+		</cfif>
+		<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE local.maxCollectionObjectDetailRows>
+			<cfquery name="queryCollectionObjectDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					c.container_id,
+					c.barcode AS container_barcode,
+					c.label AS container_label,
+					spec.cat_num,
+					spec.collection_cde,
+					spec.institution_acronym,
+					spec.scientific_name,
+					spec.part_name,
+					spec.part_count,
+					spec.part_count_modifier,
+					spec.part_remarks,
+					spec.preserve_method
+				FROM container c
+				LEFT JOIN (
+					SELECT
+						current_co.container_id,
+						ci.cat_num,
+						ci.collection_cde,
+						col.institution_acronym,
+						id_sub.scientific_name,
+						sp.part_name,
+						/* coll_object stores count on lot_* columns; expose as part_* to match container details UI labels. */
+						co.lot_count AS part_count,
+						co.lot_count_modifier AS part_count_modifier,
+						cor.coll_object_remarks AS part_remarks,
+						sp.preserve_method
+					FROM (
+						SELECT
+							coch.container_id,
+							coch.collection_object_id,
+							ROW_NUMBER() OVER (
+								PARTITION BY coch.container_id
+								/* Defensive tie-breaker: current_container_fg should be unique, but if legacy data has duplicates, prefer latest install_date then lowest collection_object_id. */
+								ORDER BY coch.installed_date DESC NULLS LAST, coch.collection_object_id ASC
+							) AS rn
+						FROM coll_obj_cont_hist coch
+						WHERE coch.current_container_fg = 1
+					) current_co
+					LEFT JOIN specimen_part sp ON sp.collection_object_id = current_co.collection_object_id
+					LEFT JOIN coll_object co ON co.collection_object_id = current_co.collection_object_id
+					LEFT JOIN (
+						SELECT
+							collection_object_id,
+							coll_object_remarks
+						FROM (
+							SELECT
+								collection_object_id,
+								coll_object_remarks,
+								ROW_NUMBER() OVER (
+									PARTITION BY collection_object_id
+									/* Remarks table lacks chronology/priority metadata; lexical ASC is arbitrary but deterministic, not recency-based. */
+									ORDER BY coll_object_remarks ASC
+								) AS rn
+							FROM coll_object_remark
+						)
+						WHERE rn = 1
+					) cor ON cor.collection_object_id = co.collection_object_id
+					LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+					LEFT JOIN collection col ON col.collection_id = ci.collection_id
+					LEFT JOIN (
+						SELECT collection_object_id, MIN(scientific_name) AS scientific_name
+						FROM identification
+						WHERE accepted_id_fg = 1
+						GROUP BY collection_object_id
+					) id_sub ON id_sub.collection_object_id = ci.collection_object_id
+					WHERE current_co.rn = 1
+				) spec ON spec.container_id = c.container_id
+				WHERE c.container_id IN (
+					SELECT container_id
+					FROM container
+					START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerSummary.container_id#">
+					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				)
+				AND c.container_type = 'collection object'
+				ORDER BY c.label
+			</cfquery>
+		</cfif>
+		<cfsavecontent variable="local.htmlFragment"><cfoutput>
+			<div class="form-row mb-1">
+				<div class="col-12 col-lg-4 mb-1">
+					<h3 class="h4">Structural Contents:</h3>
+					<cfif val(getContainerSummary.direct_structural_children) GT 0>
+						<a href="#local.browseTreeUrl#">
+							<cfif getContainerSummary.direct_structural_children EQ 1>
+								Browse 1 structural child in the tree
+							<cfelse>
+								Browse #encodeForHtml(getContainerSummary.direct_structural_children)# structural children in the tree
+							</cfif>
+						</a>
+					<cfelse>
+						<span class="text-muted">0 structural children</span>
+					</cfif>
+				</div>
+				<div class="col-12 col-lg-4 mb-1">
+					<h3 class="h4">Object Contents:</h3>
+					<cfif val(getContainerSummary.direct_leaf_children) GT 0>
+						<a href="#local.leafNodesBaseUrl#&show=immediate">
+							<cfif getContainerSummary.direct_leaf_children EQ 1>
+								Browse 1 direct leaf child
+							<cfelse>
+								Browse #encodeForHtml(getContainerSummary.direct_leaf_children)# direct leaf children
+							</cfif>
+						</a>
+					<cfelse>
+						<span class="text-muted">0 direct leaf children</span>
+					</cfif>
+				</div>
+				<div class="col-12 col-lg-4 mb-1">
+					<h3 class="h4">Collection Objects:</h3>
+					<cfif queryCountCOChildren.leaf_descendants EQ 0>
+						<span class="text-muted">No Collection Objects in this container or its children</span>
+					<cfelse>
+						<span class="text-muted">
+							#encodeForHtml(queryCountCOChildren.leaf_descendants)#
+							<cfif getContainerSummary.container_type NEQ "collection object">
+								contained
+							</cfif>
+						</span>
+						<cfif len(local.specimenSearchUrl) GT 0>
+							<a href="#local.specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
+						</cfif>
+						<a href="#local.leafNodesBaseUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Leaf Node List</a>
+					</cfif>
+				</div>
+			</div>
+			<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE local.maxCollectionObjectDetailRows>
+				<div class="table-responsive mt-2">
+					<table class="table table-sm table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Container</th>
+								<th scope="col">GUID</th>
+								<th scope="col">Current Identification</th>
+								<th scope="col">Part Type</th>
+								<th scope="col">Part Count</th>
+								<th scope="col">Part Count Modifier</th>
+								<th scope="col">Part Remarks</th>
+								<th scope="col">Preservation</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="queryCollectionObjectDetails">
+								<cfset coGuidText = "">
+								<cfset coGuidUrl = "">
+								<cfset hasLeafLabel = (len(trim(queryCollectionObjectDetails.container_label)) GT 0)>
+								<cfset leafContainerDisplay = "Unnamed container">
+								<cfif hasLeafLabel>
+									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_label>
+								</cfif>
+								<cfif len(trim(queryCollectionObjectDetails.container_barcode)) GT 0>
+									<cfset leafContainerDisplay = queryCollectionObjectDetails.container_barcode>
+									<cfif queryCollectionObjectDetails.container_barcode NEQ queryCollectionObjectDetails.container_label AND hasLeafLabel>
+										<cfset leafContainerDisplay = "#leafContainerDisplay# (#queryCollectionObjectDetails.container_label#)">
+									</cfif>
+								</cfif>
+								<cfif len(trim(institution_acronym)) GT 0 AND len(trim(collection_cde)) GT 0 AND len(trim(cat_num)) GT 0>
+									<cfset coGuidText = "#institution_acronym#:#collection_cde#:#cat_num#">
+									<cfset coGuidUrl = "/guid/#encodeForURL(institution_acronym)#:#encodeForURL(collection_cde)#:#encodeForURL(cat_num)#">
+								</cfif>
+								<tr>
+									<td>
+										<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(queryCollectionObjectDetails.container_id)#" target="_blank" rel="noopener noreferrer">
+											#encodeForHtml(leafContainerDisplay)#
+										</a>
+									</td>
+									<td>
+										<cfif len(coGuidText) GT 0>
+											<a href="#coGuidUrl#" target="_blank" rel="noopener noreferrer">#encodeForHtml(coGuidText)#</a>
+										<cfelse>
+											<span class="text-muted">No specimen linked</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif len(trim(scientific_name)) GT 0>
+											<em>#encodeForHtml(scientific_name)#</em>
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif len(trim(part_name)) GT 0>
+											#encodeForHtml(part_name)#
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif isNumeric(part_count)>
+											#encodeForHtml(part_count)#
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif len(trim(part_count_modifier)) GT 0>
+											#encodeForHtml(part_count_modifier)#
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif len(trim(part_remarks)) GT 0>
+											#encodeForHtml(part_remarks)#
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+									<td>
+										<cfif len(trim(preserve_method)) GT 0>
+											#encodeForHtml(preserve_method)#
+										<cfelse>
+											<span class="text-muted">—</span>
+										</cfif>
+									</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</div>
+			</cfif>
+		</cfoutput></cfsavecontent>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.htmlFragment = '<p class="text-danger mb-0">Unable to load container contents.</p>'>
+	</cfcatch>
+	</cftry>
+	<cfreturn local.htmlFragment>
+</cffunction>
+
+<!---
 Function getContainerDetailsHtml.  Returns an HTML fragment with the read-only
 details of a container for use in dialogs and page components.
 --->
@@ -1238,23 +1539,6 @@ details of a container for use in dialogs and page components.
 				<cfif getContainerDetail.recordcount EQ 0>
 					<p class="text-danger">Container not found.</p>
 				<cfelse>
-					<!--- count the number of collection object leaves in the subtree of this container, including itself if it is a collection object leaf --->
-					<cfquery name="queryCountCOChildren" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT
-							COUNT(*) AS leaf_descendants
-						FROM (
-							SELECT
-								container_type
-							FROM
-								container
-							START WITH
-								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
-							CONNECT BY NOCYCLE PRIOR
-								container_id = parent_container_id
-						) subtree
-						WHERE
-							subtree.container_type = 'collection object'
-					</cfquery>
 					<cfset formattedIdSuffix = "">
 					<cfif len(trim(safeIdSuffix)) GT 0>
 						<cfset formattedIdSuffix = "_#safeIdSuffix#">
@@ -1264,6 +1548,7 @@ details of a container for use in dialogs and page components.
 					<cfset contextHeadingId = "containerContextHeading#formattedIdSuffix#">
 					<cfset detailsHeadingId = "containerDetailsHeading#formattedIdSuffix#">
 					<cfset contentsHeadingId = "containerContentsSummaryHeading#formattedIdSuffix#">
+					<cfset contentsTargetId = "containerContentsSection#formattedIdSuffix#">
 					<cfset positionsHeadingId = "containerPositionsHeading#formattedIdSuffix#">
 					<cfset positionsTargetId = "containerPositionsGrid#formattedIdSuffix#">
 					<cfset roleBadgeId = "containerRoleBadge#formattedIdSuffix#">
@@ -1271,12 +1556,19 @@ details of a container for use in dialogs and page components.
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset createChildContainerUrl = "/containers/Container.cfm?action=new&parent_container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
-					<cfset leafNodesUrl = "/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
-					<cfset specimenSearchUrl = "">
-					<cfif len(trim(getContainerDetail.barcode)) GT 0>
-						<cfset specimenSearchUrl = "/Specimens.cfm?action=fixedSearch&execute=true&root_container_barcode=%3D#encodeForURL(getContainerDetail.barcode)#">
-					</cfif>
 					<cfset isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainerDetail.container_role) GT 0>
+					<cfset isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainerDetail.container_role) GT 0>
+					<cfset currentContainerIsEmpty = (val(getContainerDetail.direct_structural_children) + val(getContainerDetail.direct_leaf_children)) EQ 0>
+					<cfset currentDisplay = "Unnamed container">
+					<cfif len(trim(getContainerDetail.label)) GT 0>
+						<cfset currentDisplay = getContainerDetail.label>
+					</cfif>
+					<cfif len(trim(getContainerDetail.barcode)) GT 0>
+						<cfset currentDisplay = getContainerDetail.barcode>
+						<cfif getContainerDetail.barcode NEQ getContainerDetail.label AND len(trim(getContainerDetail.label)) GT 0>
+							<cfset currentDisplay = "#currentDisplay# (#getContainerDetail.label#)">
+						</cfif>
+					</cfif>
 					<cfset parentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.parent_label)) GT 0>
 						<cfset parentDisplay = getContainerDetail.parent_label>
@@ -1290,53 +1582,6 @@ details of a container for use in dialogs and page components.
 					<cfset lockedPositionText = "No">
 					<cfif val(getContainerDetail.locked_position) EQ 1>
 						<cfset lockedPositionText = "Yes">
-					</cfif>
-					<!--- get the collection object details for this container if it is a collection_object leaf 
-					and, if not, its descendants that are collection object leaves if there are 5 or fewer --->
-					<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE 5>
-						<cfquery name="queryCollectionObjectDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-							SELECT
-								c.container_id,
-								c.barcode AS container_barcode,
-								c.label AS container_label,
-								spec.cat_num,
-								spec.collection_cde,
-								spec.institution_acronym,
-								spec.scientific_name,
-								spec.part_name,
-								spec.preserve_method
-							FROM container c
-							LEFT JOIN (
-								SELECT
-									coch.container_id,
-									MAX(ci.cat_num) AS cat_num,
-									MAX(ci.collection_cde) AS collection_cde,
-									MAX(col.institution_acronym) AS institution_acronym,
-									MIN(id_sub.scientific_name) AS scientific_name,
-									MAX(sp.part_name) AS part_name,
-									MAX(sp.preserve_method) AS preserve_method
-								FROM coll_obj_cont_hist coch
-								LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
-								LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
-								LEFT JOIN collection col ON col.collection_id = ci.collection_id
-								LEFT JOIN (
-									SELECT collection_object_id, MIN(scientific_name) AS scientific_name
-									FROM identification
-									WHERE accepted_id_fg = 1
-									GROUP BY collection_object_id
-								) id_sub ON id_sub.collection_object_id = ci.collection_object_id
-								WHERE coch.current_container_fg = 1
-								GROUP BY coch.container_id
-							) spec ON spec.container_id = c.container_id
-							WHERE c.container_id IN (
-								SELECT container_id
-								FROM container
-								START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainerDetail.container_id#">
-								CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
-							)
-							AND c.container_type = 'collection object'
-							ORDER BY c.label
-						</cfquery>
 					</cfif>
 					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
 						<div class="row">
@@ -1359,6 +1604,19 @@ details of a container for use in dialogs and page components.
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
 													<cfif NOT isProxyOrLeafType>
 														<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
+													</cfif>
+													<cfif isProxyOrBearerType>
+														<a
+															href="##"
+															class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT currentContainerIsEmpty> disabled</cfif>"
+															<cfif NOT currentContainerIsEmpty>
+																aria-disabled="true"
+																tabindex="-1"
+															<cfelse>
+																onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"
+															</cfif>
+														>Place Part into this Container</a>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
 													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
@@ -1387,6 +1645,7 @@ details of a container for use in dialogs and page components.
 									<cfif val(getContainerDetail.number_positions) GT 0>
 										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
 									</cfif>
+									loadContainerContentsSection(#getContainerDetail.container_id#, "#encodeForJavaScript(contentsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
 								});
 							});
 						</script>
@@ -1451,107 +1710,7 @@ details of a container for use in dialogs and page components.
 					</section>
 					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contentsHeadingId)#">
 						<h2 class="h4" id="#encodeForHtmlAttribute(contentsHeadingId)#">Contents</h2>
-						<div class="form-row mb-1">
-							<div class="col-12 col-lg-4 mb-1">
-								<h3 class="h4">Structural Contents:</h3>
-								<cfif val(getContainerDetail.direct_structural_children) GT 0>
-									<a href="#browseTreeUrl#">
-										<cfif getContainerDetail.direct_structural_children EQ 1>
-											Browse 1 structural child in the tree
-										<cfelse>
-											Browse #encodeForHtml(getContainerDetail.direct_structural_children)# structural children in the tree
-										</cfif>
-									</a>
-								<cfelse>
-									<span class="text-muted">0 structural children</span>
-								</cfif>
-							</div>
-							<div class="col-12 col-lg-4 mb-1">
-								<h3 class="h4">Object Contents:</h3>
-								<cfif val(getContainerDetail.direct_leaf_children) GT 0>
-									<a href="#leafNodesUrl#&show=immediate">
-										<cfif getContainerDetail.direct_leaf_children EQ 1>
-											Browse 1 direct leaf child
-										<cfelse>
-											Browse #encodeForHtml(getContainerDetail.direct_leaf_children)# direct leaf children
-										</cfif>
-									</a>
-								<cfelse>
-									<span class="text-muted">0 direct leaf children</span>
-								</cfif>
-							</div>
-							<div class="col-12 col-lg-4 mb-1">
-								<h3 class="h4">Collection Objects:</h3>
-								<cfif queryCountCOChildren.leaf_descendants EQ 0>
-									<span class="text-muted">No Collection Objects in this container or its children</span>
-								<cfelse>
-									<span class="text-muted">
-										#encodeForHtml(queryCountCOChildren.leaf_descendants)# 
-										<!--- if the current node is a collection_object container, leave off the word contained --->
-										<cfif getContainerDetail.container_type NEQ "collection object">
-											contained
-										</cfif>
-									</span>
-									<cfif len(specimenSearchUrl) GT 0>
-										<a href="#specimenSearchUrl#" class="btn btn-xs btn-outline-info ml-1" target="_blank" rel="noopener noreferrer">Specimens</a>
-									</cfif>
-								</cfif>
-							</div>
-						</div>
-						<cfif queryCountCOChildren.leaf_descendants GT 0 AND queryCountCOChildren.leaf_descendants LTE 5>
-							<div class="table-responsive mt-2">
-								<table class="table table-sm table-striped">
-									<thead>
-										<tr>
-											<th scope="col">GUID</th>
-											<th scope="col">Current Identification</th>
-											<th scope="col">Part Type</th>
-											<th scope="col">Preservation</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="queryCollectionObjectDetails">
-											<cfset coGuidText = "">
-											<cfset coGuidUrl = "">
-											<cfif len(trim(institution_acronym)) GT 0 AND len(trim(collection_cde)) GT 0 AND len(trim(cat_num)) GT 0>
-												<cfset coGuidText = "#institution_acronym#:#collection_cde#:#cat_num#">
-												<cfset coGuidUrl = "/guid/#encodeForURL(institution_acronym)#:#encodeForURL(collection_cde)#:#encodeForURL(cat_num)#">
-											</cfif>
-											<tr>
-												<td>
-													<cfif len(coGuidText) GT 0>
-														<a href="#coGuidUrl#" target="_blank" rel="noopener noreferrer">#encodeForHtml(coGuidText)#</a>
-													<cfelse>
-														<span class="text-muted">No specimen linked</span>
-													</cfif>
-												</td>
-												<td>
-													<cfif len(trim(scientific_name)) GT 0>
-														<em>#encodeForHtml(scientific_name)#</em>
-													<cfelse>
-														<span class="text-muted">—</span>
-													</cfif>
-												</td>
-												<td>
-													<cfif len(trim(part_name)) GT 0>
-														#encodeForHtml(part_name)#
-													<cfelse>
-														<span class="text-muted">—</span>
-													</cfif>
-												</td>
-												<td>
-													<cfif len(trim(preserve_method)) GT 0>
-														#encodeForHtml(preserve_method)#
-													<cfelse>
-														<span class="text-muted">—</span>
-													</cfif>
-												</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
-						</cfif>
+						<div id="#encodeForHtmlAttribute(contentsTargetId)#"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
 					</section>
 					<cfif val(getContainerDetail.number_positions) GT 0>
 						<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(positionsHeadingId)#">
@@ -2074,6 +2233,629 @@ contained occupant of each position for rendering a read-only grid.
 	</cfcatch>
 	</cftry>
 	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+
+<!---
+Function validateContainerPlacement. Performs pre-flight placement validation for container moves.
+Returns a JSON structure with allow/block state, messages, and contextual metadata.
+@param child_container_id the container_id for the child container being moved.
+@param proposed_parent_container_id the target parent container_id (use 0 for root placement).
+@return a JSON object with keys: allowed, severity, warnings, blocks, child_type, child_role,
+	child_institution_acronym, child_rank_order, child_variable_rank, parent_type, parent_role,
+	parent_institution_acronym, parent_rank_order, expected_parent_types, force_expected_parent_type,
+	is_root_placement.
+--->
+<cffunction name="validateContainerPlacement" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_container_id" type="numeric" required="yes">
+	<cfargument name="proposed_parent_container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["allowed"] = true>
+	<cfset local.retval["severity"] = "ok">
+	<cfset local.retval["warnings"] = ArrayNew(1)>
+	<cfset local.retval["blocks"] = ArrayNew(1)>
+	<cfset local.retval["child_type"] = "">
+	<cfset local.retval["child_role"] = "">
+	<cfset local.retval["child_institution_acronym"] = "">
+	<cfset local.retval["child_rank_order"] = "">
+	<cfset local.retval["child_variable_rank"] = 0>
+	<cfset local.retval["parent_type"] = "">
+	<cfset local.retval["parent_role"] = "">
+	<cfset local.retval["parent_institution_acronym"] = "">
+	<cfset local.retval["parent_rank_order"] = "">
+	<cfset local.retval["expected_parent_types"] = "any">
+	<cfset local.retval["force_expected_parent_type"] = 0>
+	<cfset local.retval["is_root_placement"] = (val(arguments.proposed_parent_container_id) EQ 0)>
+
+	<cftry>
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				c.container_id,
+				c.container_type,
+				c.height,
+				c.length,
+				c.width,
+				c.locked_position,
+				c.institution_acronym,
+				ct.role,
+				NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count,
+				NVL(ct.expected_parent_types, 'any') AS expected_parent_types,
+				NVL(ct.force_expected_parent_type, 0) AS force_expected_parent_type,
+				ct.rank_order,
+				NVL(ct.variable_rank, 0) AS variable_rank
+			FROM
+				container c
+				LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+			WHERE
+				c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+		</cfquery>
+
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "Child container was not found.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.childType = queryChild.container_type>
+		<cfset local.childRole = lCase(trim(queryChild.role))>
+		<cfset local.childInst = queryChild.institution_acronym>
+		<cfset local.childRank = queryChild.rank_order>
+		<cfset local.childVariableRank = val(queryChild.variable_rank)>
+		<cfset local.expectedParentTypes = lCase(trim(queryChild.expected_parent_types))>
+		<cfset local.forceExpectedParentType = val(queryChild.force_expected_parent_type)>
+		<cfset local.isRootPlacement = (val(arguments.proposed_parent_container_id) EQ 0)>
+
+		<cfset local.parentType = "">
+		<cfset local.parentRole = "">
+		<cfset local.parentInst = "">
+		<cfset local.parentRank = "">
+		<cfset local.parentVariableRank = 0>
+		<cfset local.parentExpectsLeafChildCount = 0>
+		<cfset local.parentHeight = "">
+		<cfset local.parentLength = "">
+		<cfset local.parentWidth = "">
+
+		<cfif NOT local.isRootPlacement>
+			<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					c.container_id,
+					c.container_type,
+					c.height,
+					c.length,
+					c.width,
+					c.institution_acronym,
+					ct.role,
+					NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count,
+					ct.rank_order,
+					NVL(ct.variable_rank, 0) AS variable_rank
+				FROM
+					container c
+					LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+				WHERE
+					c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.proposed_parent_container_id#">
+			</cfquery>
+			<cfif queryParent.recordcount EQ 0>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "Parent container was not found.")>
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+			<cfset local.parentType = queryParent.container_type>
+			<cfset local.parentRole = lCase(trim(queryParent.role))>
+			<cfset local.parentInst = queryParent.institution_acronym>
+			<cfset local.parentRank = queryParent.rank_order>
+			<cfset local.parentVariableRank = val(queryParent.variable_rank)>
+			<cfset local.parentExpectsLeafChildCount = val(queryParent.expects_leaf_child_count)>
+			<cfset local.parentHeight = queryParent.height>
+			<cfset local.parentLength = queryParent.length>
+			<cfset local.parentWidth = queryParent.width>
+		</cfif>
+
+		<cfset local.retval["child_type"] = local.childType>
+		<cfset local.retval["child_role"] = local.childRole>
+		<cfset local.retval["child_institution_acronym"] = local.childInst>
+		<cfset local.retval["child_rank_order"] = local.childRank>
+		<cfset local.retval["child_variable_rank"] = local.childVariableRank>
+		<cfset local.retval["parent_type"] = local.parentType>
+		<cfset local.retval["parent_role"] = local.parentRole>
+		<cfset local.retval["parent_institution_acronym"] = local.parentInst>
+		<cfset local.retval["parent_rank_order"] = local.parentRank>
+		<cfset local.retval["expected_parent_types"] = local.expectedParentTypes>
+		<cfset local.retval["force_expected_parent_type"] = local.forceExpectedParentType>
+		<cfset local.retval["is_root_placement"] = local.isRootPlacement>
+
+		<!--- GROUP 1 — TRIGGER MIRRORS (T1–T9) preflight restrictions imposed in MCZBASE.MOVE_CONTAINER trigger --->
+
+		<!--- GROUP 1 (T1): self-placement --->
+		<cfif val(arguments.child_container_id) EQ val(arguments.proposed_parent_container_id)>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "A container cannot be placed inside itself.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 1 (T4): institution root --->
+		<cfif lCase(local.childType) EQ "institution" AND NOT local.isRootPlacement>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "Institution containers must remain at the root (parent_container_id = 0).")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 1 (T3): collection object as parent --->
+		<cfif NOT local.isRootPlacement AND local.parentRole EQ "leaf">
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "Collection objects cannot contain other containers.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 1 (T5): label container checks --->
+		<cfif findNoCase("label", local.childType) GT 0 OR (NOT local.isRootPlacement AND findNoCase("label", local.parentType) GT 0)>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "Label containers cannot be placed in or contain other containers.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 1 (T7): locked position --->
+		<cfif val(queryChild.locked_position) EQ 1>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "This position is locked and cannot be moved.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 1 (T6): dimension fit --->
+		<cfif NOT local.isRootPlacement
+			AND isNumeric(queryChild.height) AND val(queryChild.height) GT 0
+			AND isNumeric(queryChild.length) AND val(queryChild.length) GT 0
+			AND isNumeric(queryChild.width) AND val(queryChild.width) GT 0
+			AND isNumeric(local.parentHeight) AND val(local.parentHeight) GT 0
+			AND isNumeric(local.parentLength) AND val(local.parentLength) GT 0
+			AND isNumeric(local.parentWidth) AND val(local.parentWidth) GT 0>
+			<cfif val(queryChild.height) GT val(local.parentHeight)
+				OR val(queryChild.length) GT val(local.parentLength)
+				OR val(queryChild.width) GT val(local.parentWidth)>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "The child will not fit in the parent (check height/length/width).")>
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 1 (T8): cycle prevention --->
+		<cfif NOT local.isRootPlacement>
+			<cfquery name="queryCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT COUNT(*) AS cycle_ct
+				FROM (
+					SELECT container_id
+					FROM container
+					START WITH parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+					CONNECT BY NOCYCLE PRIOR container_id = parent_container_id
+				)
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.proposed_parent_container_id#">
+			</cfquery>
+			<cfif val(queryCycle.cycle_ct) GT 0>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "This move would create a cycle in the container hierarchy.")>
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 1 (T9): institution acronym mismatch --->
+		<cfif NOT local.isRootPlacement
+			AND len(trim(local.childInst)) GT 0
+			AND len(trim(local.parentInst)) GT 0
+			AND local.childInst NEQ local.parentInst>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "A container cannot be placed into a container with a different institution acronym (#local.childInst# vs #local.parentInst#).")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 2 — CTCONTAINER_TYPE DATA RULES (CT1–CT7) --->
+
+		<!--- GROUP 2 (CT1): expected root container --->
+		<cfif local.expectedParentTypes EQ "none" AND NOT local.isRootPlacement>
+			<cfif local.forceExpectedParentType EQ 1>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "A #local.childType# must be placed at the root.")>
+				<cfreturn serializeJSON(local.retval)>
+			<cfelse>
+				<cfset ArrayAppend(local.retval["warnings"], "Containers of type #local.childType# are expected to be root containers.")>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 2 (CT2): expected parent type list --->
+		<cfif NOT local.isRootPlacement AND local.expectedParentTypes NEQ "any" AND local.expectedParentTypes NEQ "none"
+			AND NOT listFindNoCase(local.expectedParentTypes, local.parentType)>
+			<cfif local.forceExpectedParentType EQ 1>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "A #local.childType# must be placed inside one of: #local.expectedParentTypes#.")>
+				<cfreturn serializeJSON(local.retval)>
+			<cfelse>
+				<cfset ArrayAppend(local.retval["warnings"], "A #local.childType# is normally placed inside a #local.expectedParentTypes#. The selected parent is a #local.parentType#.")>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 2 (CT3): proxy as parent --->
+		<cfif NOT local.isRootPlacement AND local.parentRole EQ "proxy" AND local.childRole NEQ "leaf">
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "A #local.parentType# is a single-occupant container and can only contain a collection object leaf container.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- GROUP 2 (CT4): placing leaf into parent not expecting direct leaves --->
+		<cfif NOT local.isRootPlacement AND local.childRole EQ "leaf" AND local.parentExpectsLeafChildCount EQ 0>
+			<cfset ArrayAppend(local.retval["warnings"], "Containers of type #local.parentType# are not expected to hold collection objects directly.")>
+		</cfif>
+
+		<!--- GROUP 2 (CT5): single-occupant parent already occupied --->
+		<cfif NOT local.isRootPlacement AND local.childRole EQ "leaf" AND local.parentExpectsLeafChildCount EQ 1>
+			<cfquery name="queryLeafChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT COUNT(*) AS leaf_ct
+				FROM container
+				WHERE
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.proposed_parent_container_id#">
+					AND container_type = 'collection object'
+					AND container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+			</cfquery>
+			<cfif val(queryLeafChildren.leaf_ct) GT 0>
+				<cfset ArrayAppend(local.retval["warnings"], "This container already holds a collection object. Containers of type #local.parentType# are expected to hold exactly one collection object.")>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 2 (CT6): rank order reversal --->
+		<cfif NOT local.isRootPlacement
+			AND local.childVariableRank EQ 0
+			AND local.parentVariableRank EQ 0
+			AND isNumeric(local.childRank)
+			AND isNumeric(local.parentRank)
+			AND val(local.childRank) LTE val(local.parentRank)>
+			<cfset ArrayAppend(local.retval["warnings"], "This placement reverses the expected nesting depth. A #local.childType# (rank #local.childRank#) is being placed inside a #local.parentType# (rank #local.parentRank#).")>
+		</cfif>
+
+		<!--- GROUP 2 (CT7): same-type nesting --->
+		<cfif NOT local.isRootPlacement
+			AND local.childVariableRank EQ 0
+			AND lCase(local.childType) EQ lCase(local.parentType)>
+			<cfset ArrayAppend(local.retval["warnings"], "A #local.childType# is being placed inside another #local.childType#. Containers of the same type are not normally nested.")>
+		</cfif>
+
+		<!--- GROUP 3 — APPLICATION-ONLY CHECKS (AO1–AO3) --->
+
+		<!--- GROUP 3 (AO1): root placement where parent normally expected --->
+		<cfif local.isRootPlacement AND local.expectedParentTypes NEQ "none" AND local.expectedParentTypes NEQ "any">
+			<cfset ArrayAppend(local.retval["warnings"], "Container is being placed at the root level. Containers of type #local.childType# are normally placed inside #local.expectedParentTypes#.")>
+		</cfif>
+
+		<!--- GROUP 3 (AO2): coll_obj_cont_hist dual current placement --->
+		<cfif local.childRole EQ "leaf">
+			<cfquery name="queryDualCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT COUNT(*) AS conflict_ct
+				FROM coll_obj_cont_hist coch
+				WHERE
+					coch.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+					AND coch.current_container_fg = 1
+					AND EXISTS (
+						SELECT 1
+						FROM coll_obj_cont_hist other
+						WHERE
+							other.collection_object_id = coch.collection_object_id
+							AND other.current_container_fg = 1
+							AND other.container_id <> coch.container_id
+					)
+			</cfquery>
+			<cfif val(queryDualCurrent.conflict_ct) GT 0>
+				<cfset ArrayAppend(local.retval["warnings"], "This collection object is already recorded as currently placed in a different container.")>
+			</cfif>
+		</cfif>
+
+		<!--- GROUP 3 (AO3): structural child in leafbearer --->
+		<cfif NOT local.isRootPlacement
+			AND local.parentRole EQ "leafbearer"
+			AND NOT listFindNoCase("leaf,proxy", local.childRole)>
+			<cfset ArrayAppend(local.retval["warnings"], "Containers of type #local.parentType# normally contain collection objects. Placing a #local.childType# container inside it is unusual.")>
+		</cfif>
+
+		<cfif ArrayLen(local.retval["warnings"]) GT 0>
+			<cfset local.retval["severity"] = "warn">
+		</cfif>
+
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.safe = StructNew()>
+		<cfset local.safe["allowed"] = false>
+		<cfset local.safe["severity"] = "block">
+		<cfset local.safe["warnings"] = ArrayNew(1)>
+		<cfset local.safe["blocks"] = ArrayNew(1)>
+		<cfset ArrayAppend(local.safe["blocks"], "Validation error occurred. Please try again.")>
+		<cfset local.safe["child_type"] = "">
+		<cfset local.safe["child_role"] = "">
+		<cfset local.safe["child_institution_acronym"] = "">
+		<cfset local.safe["child_rank_order"] = "">
+		<cfset local.safe["child_variable_rank"] = 0>
+		<cfset local.safe["parent_type"] = "">
+		<cfset local.safe["parent_role"] = "">
+		<cfset local.safe["parent_institution_acronym"] = "">
+		<cfset local.safe["parent_rank_order"] = "">
+		<cfset local.safe["expected_parent_types"] = "any">
+		<cfset local.safe["force_expected_parent_type"] = 0>
+		<cfset local.safe["is_root_placement"] = (val(arguments.proposed_parent_container_id) EQ 0)>
+		<cfreturn serializeJSON(local.safe)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function moveContainerById. Moves a child container into a new parent container by container_id.
+Returns status JSON and never aborts on trigger errors.
+@param child_container_id container_id of the container to move.
+@param parent_container_id container_id of the destination parent container.
+@param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, parent_container_id, child_label, child_type, parent_label, parent_type.
+--->
+<cffunction name="moveContainerById" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_container_id" type="numeric" required="yes">
+	<cfargument name="parent_container_id" type="numeric" required="yes">
+	<cfargument name="move_timestamp" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+		</cfquery>
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Child container was not found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">
+		</cfquery>
+		<cfif queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent container was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfif len(trim(queryChild.institution_acronym)) GT 0
+			AND len(trim(queryParent.institution_acronym)) GT 0
+			AND queryChild.institution_acronym NEQ queryParent.institution_acronym>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "A container cannot be placed into a container with a different institution acronym (#queryChild.institution_acronym# vs #queryParent.institution_acronym#).">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cftry>
+			<cfquery name="queryDoMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="queryDoMove_result">
+				UPDATE container
+				SET
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
+					<cfif len(trim(arguments.move_timestamp)) GT 0>
+						, parent_install_date = TO_DATE(
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.move_timestamp)#">,
+							'YYYY-MM-DD HH24:MI:SS'
+						)
+					</cfif>
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryChild.container_id#">
+			</cfquery>
+			<cfif queryDoMove_result.recordCount EQ 0>
+				<cfthrow type="ChildNotFound" message="No rows updated.">
+			</cfif>
+		<cfcatch>
+			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\\s*", "", "one"))>
+			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
+			<cfif local.matchPos GT 0>
+				<cfset local.userMessage = mid(local.userMessage, local.matchPos, len(local.userMessage) - local.matchPos + 1)>
+			</cfif>
+			<cfif len(trim(local.userMessage)) EQ 0>
+				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ChildNotFound">
+				<cfset local.userMessage = "Query Error: " + cfcatch.message + " Child container was not found. It may have been deleted or moved by another user.">
+			</cfif>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.userMessage>
+			<cfreturn serializeJSON(local.retval)>
+		</cfcatch>
+		</cftry>
+
+		<cfset local.retval["status"] = "moved">
+		<cfset local.retval["child_container_id"] = queryChild.container_id>
+		<cfset local.retval["child_label"] = queryChild.label>
+		<cfset local.retval["child_type"] = queryChild.container_type>
+		<cfset local.retval["parent_container_id"] = queryParent.container_id>
+		<cfset local.retval["parent_label"] = queryParent.label>
+		<cfset local.retval["parent_type"] = queryParent.container_type>
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function preflightMoveContainerByBarcode. Resolves barcodes to container ids and runs placement preflight validation.
+@param child_barcode barcode of the container to move.
+@param parent_barcode barcode of the destination parent container.
+@return a JSON object with status (ok|notfound|error), placement validation keys from validateContainerPlacement
+	(allowed, severity, warnings, blocks, child_type, parent_type, etc), and context keys:
+	child_container_id, parent_container_id, child_label, child_barcode, parent_label, parent_barcode.
+--->
+<cffunction name="preflightMoveContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_barcode" type="string" required="yes">
+	<cfargument name="parent_barcode" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.child_barcode)#">
+		</cfquery>
+		<cfif local.queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Child barcode was not found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
+		</cfquery>
+		<cfif local.queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent barcode was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.validationResult = validateContainerPlacement(
+			child_container_id=local.queryChild.container_id,
+			proposed_parent_container_id=local.queryParent.container_id
+		)>
+		<cfif isSimpleValue(local.validationResult)>
+			<cfset local.validationResult = deserializeJSON(local.validationResult)>
+		</cfif>
+
+		<cfset local.validationResult["status"] = "ok">
+		<cfset local.validationResult["child_container_id"] = local.queryChild.container_id>
+		<cfset local.validationResult["child_label"] = local.queryChild.label>
+		<cfset local.validationResult["child_barcode"] = local.queryChild.barcode>
+		<cfset local.validationResult["parent_container_id"] = local.queryParent.container_id>
+		<cfset local.validationResult["parent_label"] = local.queryParent.label>
+		<cfset local.validationResult["parent_barcode"] = local.queryParent.barcode>
+		<cfreturn serializeJSON(local.validationResult)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function moveContainerByBarcode. Moves a child container into a new parent container by barcode.
+Returns status JSON and never aborts on trigger errors.
+@param child_barcode barcode of the container to move.
+@param parent_barcode barcode of the destination parent container.
+@param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, parent_container_id, child_barcode, parent_barcode, missing (when notfound).
+--->
+<cffunction name="moveContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_barcode" type="string" required="yes">
+	<cfargument name="parent_barcode" type="string" required="yes">
+	<cfargument name="move_timestamp" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.child_barcode)#">
+		</cfquery>
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Child barcode was not found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
+		</cfquery>
+		<cfif queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent barcode was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfif len(trim(queryChild.institution_acronym)) GT 0
+			AND len(trim(queryParent.institution_acronym)) GT 0
+			AND queryChild.institution_acronym NEQ queryParent.institution_acronym>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "A container cannot be placed into a container with a different institution acronym (#queryChild.institution_acronym# vs #queryParent.institution_acronym#).">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cftry>
+			<cfquery name="queryDoMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="queryDoMove_result"> 
+				UPDATE container
+				SET
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
+					<cfif len(trim(arguments.move_timestamp)) GT 0>
+						, parent_install_date = TO_DATE(
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.move_timestamp)#">,
+							'YYYY-MM-DD HH24:MI:SS'
+						)
+					</cfif>
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryChild.container_id#">
+			</cfquery>
+			<cfif queryDoMove_result.recordCount EQ 0>
+				<cfthrow type="ChildNotFound" message="No rows updated;">
+			</cfif>
+		<cfcatch>
+			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\\s*", "", "one"))>
+			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
+			<cfif local.matchPos GT 0>
+				<cfset local.userMessage = mid(local.userMessage, local.matchPos, len(local.userMessage) - local.matchPos + 1)>
+			</cfif>
+			<cfif len(trim(local.userMessage)) EQ 0>
+				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ChildNotFound">
+				<cfset local.userMessage = "Query Error: " + cfcatch.message + " Child container was not found. It may have been deleted or moved by another user.">
+			</cfif>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.userMessage>
+			<cfreturn serializeJSON(local.retval)>
+		</cfcatch>
+		</cftry>
+
+		<cfset local.retval["status"] = "moved">
+		<cfset local.retval["child_container_id"] = queryChild.container_id>
+		<cfset local.retval["child_label"] = queryChild.label>
+		<cfset local.retval["child_type"] = queryChild.container_type>
+		<cfset local.retval["parent_container_id"] = queryParent.container_id>
+		<cfset local.retval["parent_label"] = queryParent.label>
+		<cfset local.retval["parent_type"] = queryParent.container_type>
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 </cfcomponent>
