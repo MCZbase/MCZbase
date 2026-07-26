@@ -229,17 +229,12 @@ limitations under the License.
 									institution_acronym,
 									get_storedas_by_contid(#variables.container_id#) storedAs
 								FROM
-									coll_obj_cont_hist,
-									specimen_part,
-									cataloged_item,
-									identification,
-									collection
+									coll_obj_cont_hist
+									left join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+									left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+									left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND accepted_id_fg=1 
+									left join collection on cataloged_item.collection_id=collection.collection_id
 								WHERE
-									coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
-									specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-									cataloged_item.collection_object_id = identification.collection_object_id AND
-									cataloged_item.collection_id=collection.collection_id AND
-									accepted_id_fg=1 AND
 									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#leaf.container_id#">
 							</cfquery>
 							<cfloop query="specData">

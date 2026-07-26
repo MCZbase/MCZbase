@@ -73,6 +73,7 @@ limitations under the License.
 			c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.container_id#">
 		</cfif>
 </cfquery>
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
 
 <cfif getContainer.recordcount EQ 0>
 	<cfinclude template="/errors/404.cfm">
@@ -129,11 +130,20 @@ limitations under the License.
 							<th scope="col">Date</th>
 							<th scope="col">Parent Container</th>
 							<th scope="col">Type</th>
+							<th scope="col">Placement Check</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfloop query="getHistory">
 							<cfset variables.historyDisplay = "Unnamed container">
+							<cfset variables.historyParentId = val(getHistory.parent_container_id)>
+							<cfset variables.historyBadgeId = "viewContainerHistoryBadge_#getHistory.currentRow#">
+							<cfset variables.historyLocateRowId = "viewContainerHistoryLocate_#getHistory.currentRow#">
+							<cfset variables.historyParentExists = (variables.historyParentId GT 0 AND len(trim(getHistory.container_type)) GT 0)>
+							<cfset variables.historyParentIsCurrent = (variables.historyParentId EQ val(getContainer.parent_container_id))>
+							<cfset variables.historyParentIsInstitutionType = (variables.historyParentExists AND listFindNoCase("institution", getHistory.container_type) GT 0)>
+							<cfset variables.currentContainerCanBeInInstitution = (listFindNoCase("building,campus", getContainer.container_type) GT 0)>
 							<cfif len(trim(getHistory.label)) GT 0>
 								<cfset variables.historyDisplay = getHistory.label>
 							</cfif>
@@ -152,12 +162,12 @@ limitations under the License.
 									</cfif>
 								</td>
 								<td>
-									<cfif len(trim(getHistory.parent_container_id)) GT 0>
+									<cfif variables.historyParentId GT 0>
 										<a href="/containers/viewContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#">
 											#encodeForHtml(variables.historyDisplay)#
 										</a>
 									<cfelse>
-										Unknown
+										<span class="text-muted">Root or unplaced</span>
 									</cfif>
 								</td>
 								<td>
@@ -165,6 +175,31 @@ limitations under the License.
 										#encodeForHtml(getHistory.container_type)#
 									<cfelse>
 										Unknown
+									</cfif>
+								</td>
+								<td>
+									<cfif variables.historyParentId GT 0>
+										<div id="#encodeForHtmlAttribute(variables.historyBadgeId)#" class="small text-muted">Checking…</div>
+									<cfelse>
+										<span class="text-muted">n/a</span>
+									</cfif>
+								</td>
+								<td>
+									<cfif variables.historyParentExists>
+										<button type="button" class="btn btn-xs btn-outline-secondary mr-1 mb-1" aria-expanded="false" onclick="toggleHistoryParentLocate(this, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyLocateRowId)#');">Locate</button>
+									</cfif>
+									<cfif variables.canEditContainers>
+										<cfif variables.historyParentId LTE 0>
+											<span class="text-muted">n/a</span>
+										<cfelseif NOT variables.historyParentExists>
+											<span class="badge badge-warning">Deleted</span>
+										<cfelseif variables.historyParentIsCurrent>
+											<span class="badge badge-success">Current Parent</span>
+										<cfelseif variables.historyParentIsInstitutionType AND NOT variables.currentContainerCanBeInInstitution>
+											<span class="badge badge-light border text-muted">Not Eligible</span>
+										<cfelse>
+											<button type="button" class="btn btn-xs btn-secondary" onclick="putContainerBackFromHistory(#val(getContainer.container_id)#, #val(variables.historyParentId)#, '#encodeForJavaScript(variables.historyDisplay)#', 'containerViewFeedback', function(){ window.location.reload(); });">Put Back Here</button>
+										</cfif>
 									</cfif>
 								</td>
 							</tr>
@@ -178,10 +213,27 @@ limitations under the License.
 	<section class="mb-4" aria-labelledby="containerActionsHeading">
 		<h2 class="h4" id="containerActionsHeading">Actions</h2>
 		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
+		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
+		<cfset variables.currentContainerIsEmpty = (val(getContainer.direct_structural_children) + val(getContainer.direct_leaf_children)) EQ 0>
 		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
-			<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
-			<cfif NOT variables.isProxyOrLeafType>
-				<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+			<cfif variables.canEditContainers>
+				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
+				<cfif NOT variables.isProxyOrLeafType>
+					<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>	
+				</cfif>
+				<cfif variables.isProxyOrBearerType>
+					<a
+						href="##"
+						class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>"
+						<cfif NOT variables.currentContainerIsEmpty>
+							aria-disabled="true"
+							tabindex="-1"
+						<cfelse>
+							onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');"
+						</cfif>
+					>Place Part into this Container</a>
+				</cfif>
 			</cfif>
 			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
 			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
@@ -192,8 +244,20 @@ limitations under the License.
 	<section class="mb-4">
 		<output id="containerViewFeedback" aria-live="polite"></output>
 	</section>
+
 </cfoutput>
 
 </main>
 <div id="containerDetailsDialog"></div>
+<cfoutput>
+<script>
+	$(document).ready(function() {
+		<cfloop query="getHistory">
+			<cfif val(getHistory.parent_container_id) GT 0>
+				loadPlacementWarningBadge(#val(getContainer.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("viewContainerHistoryBadge_#getHistory.currentRow#")#');
+			</cfif>
+		</cfloop>
+	});
+</script>
+</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
