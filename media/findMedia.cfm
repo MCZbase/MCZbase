@@ -226,7 +226,7 @@ limitations under the License.
 								<form name="searchForm" id="searchForm">
 								<div class="col-12 px-2">
 									<input type="hidden" name="method" value="getMedia">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-3 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Media Search Fields</legend> 
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -269,7 +269,7 @@ limitations under the License.
 												</select>
 												<script>
 													$(document).ready(function () {
-														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', height: '20px',enableBrowserBoundsDetection: true });  
 														<cfloop list="#selectedmimetypelist#" index="mt">
 															$("##mime_type").jqxComboBox('selectItem', '#mt#');
 														</cfloop>
@@ -339,7 +339,7 @@ limitations under the License.
 											<div class="col-12 col-md-2 col-xl-1">
 												<label for="extension">Extension</label>
 												<cfset selectedextensionlist = "">
-												<select id="extension" name="extension" multiple="true">
+												<select id="extension" name="extension" multiple="true" style="height: 22px !important;">
 													<option></option>
 													<cfloop query="distinctExtensions">
 														<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
@@ -356,7 +356,7 @@ limitations under the License.
 												</select>
 												<script>
 													$(document).ready(function () {
-														$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+														$("##extension").jqxComboBox({  multiSelect: true, height: '20px', width: '100%', enableBrowserBoundsDetection: true });  
 														<cfloop list="#selectedextensionlist#" index="ext">
 															$("##extension").jqxComboBox('selectItem', '#ext#');
 														</cfloop>
@@ -620,7 +620,7 @@ limitations under the License.
 												<cfset datecolm="4">
 												<cfset datecolx="2">
 											</cfif>
-											<div class="col-12 col-md-4 col-xl-4">
+											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0">
 												<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 													<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -629,7 +629,7 @@ limitations under the License.
 													<div class="input-group-prepend">
 														<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 													</div>
-													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
 													<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
 												</div>
 												</div>
@@ -639,27 +639,12 @@ limitations under the License.
 													$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 												});
 											</script>
-											<div class="col-12 col-md-7 col-xl-5">
-												<div class="date d-flex bg-light flex-wrap border-default mb-0 mb-md-0 rounded px-2 justify-content-left" style="padding-top: 1px; padding-bottom: 5px;">
-													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
-													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5 px-1 py-0" 
-														placeholder="start date" 
-														value="#encodeForHtml(made_date)#" 
-														aria-label="start date">
-													
-													<div class=" text-center px-0 px-xl-3" style="width:18px;"><small>to</small></div>
-													<label for="to_made_date" class="sr-only">Made Date</label>	
-													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
-														class="datetimeinput col-5 w-100 px-1 py-0" 
-														placeholder="end date"
-														aria-label="end date"> 
-												</div>
-											</div>
+											
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 												<!--- hide search for date as text from most users, too confusing --->
-												<div class="col-12 col-md-4 col-xl-3">
-													<label for="text_made_date">Made Date</label>
-													<span class="text-secondary small"> (as text) (</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
+												<div class="col-12 col-md-4 col-xl-2">
+													<label for="text_made_date">Made Date (text)</label>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
 														=
 													</button>, 
@@ -671,14 +656,14 @@ limitations under the License.
 														aria-label="set made date to NOT NULL to find media records with any made date">
 														Any
 													</button><span class="text-secondary small">)</span>
-													<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#">
+													<input type="text" id="text_made_date" name="text_made_date" value="#encodeForHtml(text_made_date)#" placeholder="(as text)" aria-describedby="madeDateText_help"><span id="madeDateText_help" class="sr-only">(as text)</span>
 													<script>
 														$(document).ready(function() {
 															makeMediaLabelAutocomplete("text_made_date","made date");
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-4 col-xl-3">
+												<div class="col-12 col-md-4 col-xl-2">
 													<label for="owner">Owner </label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('owner');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
@@ -699,7 +684,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-4 col-xl-3">
+												<div class="col-12 col-md-4 col-xl-2">
 													<label for="credit">Credit</label>
 													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('credit');e.value='='+e.value;"
 														aria-label="prefix with equals for exact match">
@@ -721,9 +706,24 @@ limitations under the License.
 													</script>
 												</div>
 											</cfif>
+												<div class="col-12 col-md-5 col-xl-3">
+												<div class="date d-flex flex-wrap  mb-0 mb-md-0 rounded px-0 justify-content-left" style="padding-top: 1px; padding-bottom: 1px;">
+													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
+													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
+														placeholder="start date" 
+														value="#encodeForHtml(made_date)#" 
+														aria-label="start date">
+													
+													<div class=" text-center px-3 px-xl-2"><small>to</small></div>
+													<label for="to_made_date" class="sr-only">Made Date</label>	
+													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
+														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
+												</div>
+											</div>
+											
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-1 pt-1 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Relationships to Other Records</legend> 
 										<div class="form-row mx-0">
 											<div class="col-12 col-md-6 col-xl-4">
@@ -888,7 +888,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<div class="col-12 mt-2">
+									<div class="col-12 mt-1">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>

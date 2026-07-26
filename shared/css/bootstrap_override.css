@@ -1928,7 +1928,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 	border-radius: .2rem;
-	height: 25px;
+	height: 22px;
 }
 .tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
 	border: none;
@@ -1938,7 +1938,7 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	display: block;
 	width: 100% !important;
 	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	padding: 2px .5rem;
+	padding: 0 .5rem 2px .5rem;
 	color: black;
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1947,14 +1947,18 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	border-radius: .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 0.875rem;
-	height: 25px;
+	height: 22px;
 }
+/*
 .jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-	min-height: 23px !important;
+	height: 23px !important;
+}
+.jqx-combobox-input, .jqx-combobox-content {
+	height: 23px !important;
 }
 .jqx-combobox {
-	min-height: 21px !important;
-}
+	height: 23px !important;
+}*/
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;

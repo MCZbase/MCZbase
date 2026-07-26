@@ -118,19 +118,43 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
  *  on picklist and value on selection.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected container_id (without a leading # selector).
+ *  @param typeControl the id of a select/input that provides an optional container_type filter.
+ *  @param ancestorControl the id of a hidden input that provides an optional ancestor container_id filter.
+ *  @param labelContainsControl the id of an optional text input for label substring filtering.
+ *  @param descriptionContainsControl the id of an optional text input for description substring filtering.
  *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
  *   is made other than selection from picklist.
  */
-function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
+function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, labelContainsControl, descriptionContainsControl, clear=false) {
+	if (typeof labelContainsControl === 'boolean') {
+		clear = labelContainsControl;
+		labelContainsControl = '';
+		descriptionContainsControl = '';
+	} else if (typeof descriptionContainsControl === 'boolean') {
+		clear = descriptionContainsControl;
+		descriptionContainsControl = '';
+	}
+	labelContainsControl = labelContainsControl || '';
+	descriptionContainsControl = descriptionContainsControl || '';
 	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
+			var labelContainsValue = '';
+			var descriptionContainsValue = '';
+			if (labelContainsControl && $('#' + labelContainsControl).length > 0) {
+				labelContainsValue = $('#' + labelContainsControl).val();
+			}
+			if (descriptionContainsControl && $('#' + descriptionContainsControl).length > 0) {
+				descriptionContainsValue = $('#' + descriptionContainsControl).val();
+			}
 			$.ajax({
 				url: "/containers/component/search.cfc",
 				data: { 
 					term: request.term, 
 					type: $('#'+typeControl).val(),
 					ancestor_container_id: $('#'+ancestorControl).val(),
+					label_contains: labelContainsValue,
+					description_contains: descriptionContainsValue,
 					method: 'getContainerAutocompleteLimited' 
 				},
 				dataType: 'json',
@@ -205,6 +229,12 @@ var CONTAINER_PAGE_SIZE = 50;
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
 
+/** Lowercased trigger-match message for locked-position placement blocks. */
+var LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER = 'this position is locked and cannot be moved.';
+
+/** Wildcard token used to force opening full autocomplete suggestions with active filters. */
+var AUTOCOMPLETE_OPEN_WILDCARD = '%%%';
+
 /** Shared container-type keys used in search/browse action gating. */
 var ROOT_INSTITUTION_CONTAINER_TYPE = 'institution';
 var COLLECTION_OBJECT_CONTAINER_TYPE = 'collection object';
@@ -238,6 +268,60 @@ function rebuildSingleOccupantTypes() {
 	$.each(containerTypeMetadataByType, function(containerType, meta) {
 		if (parseInt(meta.expects_leaf_child_count, 10) === 1) {
 			SINGLE_OCCUPANT_TYPES.push(containerType);
+		}
+	});
+}
+
+/**
+ * Opens the shared rich picker dialog, prefiltered to leaf containers, and places a selected leaf into a parent container.
+ * @param {number|string} parentContainerId - destination parent container_id.
+ * @param {string} parentDisplayLabel - display label for dialog title and success feedback.
+ * @param {string} institutionAcronym - optional institution acronym used to scope picker search.
+ * @param {string} feedbackId - optional feedback output element id.
+ * @param {string} contentsTargetDivId - optional contents target to reload after successful placement.
+ * @returns {void}
+ */
+function openPlaceLeafIntoContainerDialog(parentContainerId, parentDisplayLabel, institutionAcronym, feedbackId, contentsTargetDivId) {
+	var display = parentDisplayLabel || '';
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Leaf into ' + (display || 'Container'),
+		parentContainerIdForValidation: parentContainerId,
+		pickLeaves: true,
+		institutionAcronym: institutionAcronym || '',
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: parentContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (contentsTargetDivId) {
+							loadContainerContentsSection(parentContainerId, contentsTargetDivId, feedbackId);
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing leaf container');
+				}
+			});
 		}
 	});
 }
@@ -533,30 +617,29 @@ function showContainerBreadcrumb(containerId, feedbackId, browsePanel) {
 		data: { method: 'getContainerBreadcrumb', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
-			var parts = [];
-			$.each(data, function(i, node) {
-				var display = formatContainerDisplay(node.barcode, node.label);
-				parts.push(node.container_type + ': ' + display);
-			});
-			var pathText = parts.join(' \u203a ');
 			$('#containerBrowseContext').text('Location');
 
-			var panel = $('<div></div>');
-			panel.append($('<h2 class="h4 mt-2"></h2>').text('Container Location'));
 			var breadcrumbDiv = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+			var placementBadgeId = 'placementBadgeInBreadcrumb-' + targetPanel;
+			var targetNode = (data && data.length > 0) ? data[data.length - 1] : {};
+			var parentContainerId = parseInt(targetNode.parent_container_id, 10);
+			if (isNaN(parentContainerId)) {
+				parentContainerId = 0;
+			}
 			$.each(data, function(i, node) {
 				var display = formatContainerDisplay(node.barcode, node.label);
 				var crumbText = node.container_type + ': ' + display;
 				var crumbLi = $('<li class="breadcrumb-item"></li>');
 				if (i === data.length - 1) {
 					crumbLi.addClass('active').attr('aria-current', 'page').text(crumbText);
+					crumbLi.append($('<span class="ml-1"></span>').attr('id', placementBadgeId));
 				} else {
 					crumbLi.text(crumbText);
 				}
 				breadcrumbDiv.append(crumbLi);
 			});
-			panel.append(breadcrumbDiv);
-			$('#' + targetPanel).html(panel);
+			$('#' + targetPanel).html(breadcrumbDiv);
+			loadPlacementWarningBadge(containerId, parentContainerId, placementBadgeId);
 			$('#' + feedbackId).text('');
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -898,6 +981,15 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
+				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
+				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
+				if ($legacyPositionsLink.length > 0) {
+					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
+						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
+					} else {
+						$legacyPositionsLink.addClass('d-none');
+					}
+				}
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -962,6 +1054,121 @@ function confirmDeleteContainer(containerId, feedbackId) {
 }
 
 /**
+ * Confirm and move a container back into a parent from placement history.
+ * @param {number|string} childContainerId - container_id of the container being moved.
+ * @param {number|string} parentContainerId - historical parent container_id to move into.
+ * @param {string} parentDisplay - user-facing parent container text for confirmation.
+ * @param {string} feedbackId - id of output element for status feedback.
+ * @param {Function} onPlaced - optional callback invoked after a successful move.
+ * @returns {void}
+ */
+function putContainerBackFromHistory(childContainerId, parentContainerId, parentDisplay, feedbackId, onPlaced) {
+	var safeParentDisplay = parentDisplay || 'selected parent container';
+	confirmDialog('Place this container back into ' + safeParentDisplay + '?', 'Put Back Here', function() {
+		if (feedbackId) {
+			setFeedbackControlState(feedbackId, 'saving', 'Moving...');
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'moveContainerById',
+				returnformat: 'json',
+				child_container_id: childContainerId,
+				parent_container_id: parentContainerId
+			},
+			success: function(result) {
+				if (result && result.status === 'moved') {
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'saved', 'Container moved.');
+					}
+					if (onPlaced) {
+						onPlaced(result);
+					}
+				} else {
+					var message = (result && result.message) ? result.message : 'Unable to move container.';
+					if (feedbackId) {
+						setFeedbackControlState(feedbackId, 'error', message);
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				if (feedbackId) {
+					setFeedbackControlState(feedbackId, 'error');
+				}
+				handleFail(jqXHR, textStatus, error, 'moving container from history');
+			}
+		});
+	});
+}
+
+/**
+ * Toggle a detail row showing breadcrumb location for a historical parent container.
+ * If the detail row already exists, this toggles its visibility; otherwise it creates
+ * the row, asynchronously loads breadcrumb data from search.cfc, and expands the row.
+ * @param {HTMLElement} triggerButton - button element that launched the locate action.
+ * @param {number|string} parentContainerId - container_id to locate.
+ * @param {string} detailRowId - unique id for the inserted detail row.
+ * @returns {void}
+ */
+function toggleHistoryParentLocate(triggerButton, parentContainerId, detailRowId) {
+	var button = $(triggerButton);
+	var currentRow = button.closest('tr');
+	var existingDetail = $('#' + detailRowId);
+	if (existingDetail.length > 0) {
+		existingDetail.toggleClass('d-none');
+		if (existingDetail.hasClass('d-none')) {
+			button.attr('aria-expanded', 'false').text('Locate');
+		} else {
+			button.attr('aria-expanded', 'true').text('Hide Location');
+		}
+		return;
+	}
+	var colspan = currentRow.children('td,th').length;
+	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
+	var detailCell = $('<td></td>').attr('colspan', colspan).addClass('bg-light p-2 small');
+	detailRow.append(detailCell);
+	currentRow.after(detailRow);
+	button.attr('aria-expanded', 'true').text('Hide Location');
+	detailCell.html('<span aria-live="polite"><img src="/shared/images/indicator.gif" alt="Loading"> Loading location…</span>');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: parentContainerId },
+		dataType: 'json',
+		success: function(breadcrumbs) {
+			var breadcrumbNav = $('<nav aria-label="Container location breadcrumb"></nav>');
+			var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+			$.each(breadcrumbs, function(index, crumb) {
+				var display = formatContainerDisplay(crumb.barcode, crumb.label);
+				var crumbLi = $('<li class="breadcrumb-item small"></li>');
+				if (index === 0) {
+					crumbLi.addClass('arrowprefix');
+				}
+				crumbLi.append(document.createTextNode(crumb.container_type + ': '));
+				if (index === breadcrumbs.length - 1) {
+					crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
+				} else {
+					var link = document.createElement('a');
+					// execute=true runs the hierarchy search view for the selected breadcrumb container.
+					var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
+					link.href = '/containers/Containers.cfm?' + params.toString();
+					link.appendChild(document.createTextNode(display));
+					crumbLi.append(link);
+				}
+				breadcrumbEl.append(crumbLi);
+			});
+			breadcrumbNav.append(breadcrumbEl);
+			detailCell.html(breadcrumbNav);
+		},
+		error: function(jqXHR, textStatus, error) {
+			detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+		}
+	});
+}
+
+/**
  * Loads the HTML fragment for a container's read-only details into targetDivId.
  * Calls getContainerDetailsHtml in functions.cfc.
  *
@@ -992,6 +1199,42 @@ function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAc
 				setFeedbackControlState(feedbackId, 'error');
 			}
 			handleFail(jqXHR, textStatus, error, 'loading container details');
+		}
+	});
+}
+
+/**
+ * Loads the Contents section fragment for one container details rendering.
+ * @param {number|string} containerId - the container_id whose contents should be rendered.
+ * @param {string} targetDivId - id of the container contents target element.
+ * @param {string} feedbackId - optional feedback output element id for AJAX failures.
+ * @returns {void}
+ */
+function loadContainerContentsSection(containerId, targetDivId, feedbackId) {
+	if (!targetDivId) {
+		return;
+	}
+	var target = $('#' + targetDivId);
+	if (!target.length) {
+		return;
+	}
+	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		data: {
+			method: 'getContainerContentsHtml',
+			returnformat: 'plain',
+			container_id: containerId
+		},
+		success: function(data) {
+			target.html(data);
+		},
+		error: function(jqXHR, textStatus, error) {
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading container contents');
 		}
 	});
 }
@@ -1251,7 +1494,7 @@ function openContainerDetailsDialog(containerId, displayName, feedbackId, showBr
 	var dialogId = 'containerDetailsDialog';
 	var contentId = 'containerDetailsDialogContent';
 	var dialogEl = $('#' + dialogId);
-	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1000));
+	var dialogWidth = Math.max(320, Math.min($(window).width() - 40, 1280));
 	var dialogHeight = Math.max(320, Math.min($(window).height() - 40, 700));
 	var dialogTitle = 'Container Details';
 	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
@@ -1593,13 +1836,119 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 }
 
 /**
+ * Open the shared rich picker dialog to select a child container and place it into an empty position.
+ * @param {number|string} positionContainerId - container_id for the empty position container.
+ * @param {string} positionLabel - display label for the position container.
+ * @param {string} targetDivId - id of the positions panel to refresh after placement.
+ * @param {string} feedbackId - optional feedback element id for status updates.
+ * @param {Function} onPlaced - optional callback invoked after a successful placement.
+ * @returns {void}
+ */
+function openPositionPlacementDialog(positionContainerId, positionLabel, targetDivId, feedbackId, onPlaced) {
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Container into Position ' + (positionLabel || ''),
+		childContainerIdForValidation: null,
+		parentContainerIdForValidation: positionContainerId,
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: positionContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (onPlaced) {
+							onPlaced();
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing container into position');
+				}
+			});
+		}
+	});
+}
+
+/**
+ * Opens the shared rich picker dialog and places a selected child into a parent container.
+ * @param {number|string} parentContainerId - destination parent container_id.
+ * @param {string} parentDisplayLabel - display label for dialog title and success feedback.
+ * @param {string} institutionAcronym - optional institution acronym used to scope picker search.
+ * @param {string} feedbackId - optional feedback output element id.
+ * @param {string} contentsTargetDivId - optional contents target to reload after successful placement.
+ * @returns {void}
+ */
+function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel, institutionAcronym, feedbackId, contentsTargetDivId) {
+	var display = parentDisplayLabel || '';
+	openContainerPickerDialog({
+		mode: 'child',
+		dialogTitle: 'Place Child into ' + (display || 'Container'),
+		parentContainerIdForValidation: parentContainerId,
+		institutionAcronym: institutionAcronym || '',
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'moveContainerById',
+					returnformat: 'json',
+					child_container_id: selectedId,
+					parent_container_id: parentContainerId
+				},
+				success: function(result) {
+					if (result && result.status === 'moved') {
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'saved', 'Container placed.');
+						}
+						wrapper.dialog('close');
+						if (contentsTargetDivId) {
+							loadContainerContentsSection(parentContainerId, contentsTargetDivId, feedbackId);
+						}
+					} else {
+						var message = (result && result.message) ? result.message : 'Unable to place selected container.';
+						if (feedbackId) {
+							setFeedbackControlState(feedbackId, 'error', message);
+						}
+						$('#' + controls.validationControlId).html($('<div class="alert alert-danger py-1 px-2 mb-0"></div>').text(message));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'placing child container');
+				}
+			});
+		}
+	});
+}
+
+/**
  * Renders a read-only positions grid or fallback table for one container.
  * @param {Array} positions - ordered position rows returned from getContainerPositionsGrid.
  * @param {number} numPositions - declared position count used to choose a known layout.
  * @param {string} targetDivId - id of the panel that should receive the rendered layout.
  * @param {string} feedbackId - optional feedback element id for details-dialog failures.
+ * @param {number|string} containerId - container_id whose positions are being rendered.
  */
-function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
+function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
 		25: 'positions-grid-5x5',
@@ -1617,19 +1966,43 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 		var tbody = $('<tbody></tbody>');
 		$.each(positions, function(i, position) {
 			var detailContainerId = position.content_container_id || position.position_id;
+			var isEmptyPosition = !position.content_container_id;
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
-			var actionBtn = $('<button class="btn btn-xs btn-outline-info" type="button"></button>')
-				.text('Details')
-				.on('click', function() {
-					openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
-				});
+			var actionCell = $('<td></td>');
+			if (isEmptyPosition) {
+				actionCell.append(
+					$('<button class="btn btn-xs btn-primary" type="button"></button>')
+						.attr('aria-label', 'Place a container into this position')
+						.text('Place…')
+						.on('click', function() {
+							openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
+							});
+						})
+				);
+				actionCell.append(
+					$('<button class="btn btn-xs btn-outline-info ml-1" type="button"></button>')
+						.text('Details')
+						.on('click', function() {
+							openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+						})
+				);
+			} else {
+				actionCell.append(
+					$('<button class="btn btn-xs btn-outline-info" type="button"></button>')
+						.text('Details')
+						.on('click', function() {
+							openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+						})
+				);
+			}
 			var tr = $('<tr></tr>');
 			tr.append($('<td></td>').text(position.position_label || ''));
 			tr.append($('<td></td>').text(occupantDisplay));
 			tr.append($('<td></td>').text(position.content_container_type || ''));
-			tr.append($('<td></td>').append(actionBtn));
+			tr.append(actionCell);
 			tbody.append(tr);
 		});
 		var table = $('<table class="table table-sm table-striped positions-grid-fallback"></table>');
@@ -1648,15 +2021,27 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId) {
 		var cell = $('<button class="positions-grid-cell" type="button"></button>');
 		if (!position.content_container_id) {
 			cell.addClass('positions-grid-cell-empty');
+			var positionLabelText = position.position_label || 'this position';
+			cell.attr('aria-label', 'Empty position ' + positionLabelText);
+			cell.attr('title', 'Place a container into this empty position');
 		}
 		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
 		cell.append($('<span class="positions-grid-occupant small text-muted"></span>').text(occupantDisplay));
 		if (position.content_container_type) {
 			cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
 		}
-		cell.on('click', function() {
-			openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
-		});
+		if (!position.content_container_id) {
+			cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
+			cell.on('click', function() {
+				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
+				});
+			});
+		} else {
+			cell.on('click', function() {
+				openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+			});
+		}
 		grid.append(cell);
 	});
 	wrapper.append(grid);
@@ -1680,7 +2065,7 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 		},
 		dataType: 'json',
 		success: function(data) {
-			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId);
+			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId);
 		},
 		error: function(jqXHR, textStatus, error) {
 			if (feedbackId) {
@@ -2079,17 +2464,21 @@ function renderTreeNodes(nodes, targetDivId, feedbackId, appendToExisting, paren
 		}
 		li.append(childUl);
 		if (isProxy && leafChildren > 0) {
+			var parsedChildContainerId = parseInt(node.single_child_container_id, 10);
+			var hasValidChildContainerId = !isNaN(parsedChildContainerId) && parsedChildContainerId > 0;
 			var childBarcode = node.single_child_barcode || '';
 			var childLabel = node.single_child_label || '';
 			if (childBarcode || childLabel) {
 				var childDisplay = formatContainerDisplay(childBarcode, childLabel);
 				var inlineLeafDiv = $('<div class="tree-node-inline-leaf"></div>');
 				inlineLeafDiv.append($('<span class="tree-node-leaf-info small text-muted"></span>').text('⤷ ' + childDisplay));
+				inlineLeafDiv.append($('<span class="badge badge-pill badge-success ml-1 small"></span>').text('leaf'));
 				inlineLeafDiv.append(
 					$('<button class="btn btn-outline-info btn-xs p-0 ml-1" type="button"></button>')
 						.text('Details')
 						.on('click', function() {
-							openContainerDetailsDialog(cid, displayName, feedbackId, false);
+							var detailContainerId = hasValidChildContainerId ? parsedChildContainerId : cid;
+							openContainerDetailsDialog(detailContainerId, childDisplay, feedbackId, false);
 						})
 				);
 				var childSpecUrl = specimenSearchUrl(childBarcode);
@@ -2261,6 +2650,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var description = $('#description').val() || '';
 	var department = $('#department').val() || '';
 	var treeProperty = $('#tree_property').val() || '';
+	var hasPositions = $('#has_positions').val() || '';
+	var positionFilter = $('#position_filter').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2275,6 +2666,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				description: description,
 				department: department,
 				tree_property: treeProperty,
+				has_positions: hasPositions,
+				position_filter: positionFilter,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -2293,11 +2686,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (description) { searchLinkParts.push('description=' + encodeURIComponent(description)); }
 			if (department) { searchLinkParts.push('department=' + encodeURIComponent(department)); }
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
+			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
+			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
 			headerDiv.append(
-				$('<a class="small ml-1 mt-1 mr-2" target="_blank" rel="noopener noreferrer"></a>')
+				$('<a class="small ml-1 mt-1 mr-2"></a>')
 					.attr('href', searchLinkUrl)
 					.attr('title', 'Link to this search (opens in new tab)')
 					.text('Link to this search')
@@ -2391,7 +2786,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									detailCell.html(breadcrumbEl);
 								},
 								error: function(jqXHR, textStatus, error) {
-									detailCell.html('<span class="text-danger">Failed to load location.</span>');
+									detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
 									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
 								}
 							});
@@ -2468,4 +2863,569 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 		}
 	});
 	});
+}
+
+
+var CONTAINER_TYPE_META = null;
+
+/**
+ * Load ctcontainer_type metadata used by placement helpers.
+ * @param {function} callback - optional callback invoked after metadata load attempt.
+ * @returns {void}
+ */
+function loadContainerTypeMetadata(callback) {
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'getContainerTypeMetadata',
+			returnformat: 'json'
+		},
+		success: function(data) {
+			CONTAINER_TYPE_META = data;
+			if ($.isFunction(callback)) {
+				callback();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			console.warn('Unable to load container type metadata.', error || textStatus);
+			CONTAINER_TYPE_META = null;
+			if ($.isFunction(callback)) {
+				callback();
+			}
+		}
+	});
+}
+
+/**
+ * Get normalized type metadata for a container type.
+ * @param {string} containerType - container_type name to resolve.
+ * @returns {Object} metadata object with role, parent expectations, and rank fields.
+ */
+function getContainerTypeMeta(containerType) {
+	var normalized = (containerType || '').toLowerCase();
+	var defaults = {
+		container_type: containerType || '',
+		role: 'structural',
+		expects_leaf_child_count: 0,
+		expected_parent_types: 'any',
+		force_expected_parent_type: 0,
+		rank_order: null,
+		variable_rank: 0,
+		description: ''
+	};
+	if (CONTAINER_TYPE_META && $.isArray(CONTAINER_TYPE_META)) {
+		for (var i = 0; i < CONTAINER_TYPE_META.length; i++) {
+			var row = CONTAINER_TYPE_META[i] || {};
+			if (((row.container_type || '').toLowerCase()) === normalized) {
+				return {
+					container_type: row.container_type || containerType || '',
+					role: row.role || 'structural',
+					expects_leaf_child_count: parseInt(row.expects_leaf_child_count, 10) || 0,
+					expected_parent_types: row.expected_parent_types || 'any',
+					force_expected_parent_type: parseInt(row.force_expected_parent_type, 10) || 0,
+					rank_order: row.rank_order,
+					variable_rank: parseInt(row.variable_rank, 10) || 0,
+					description: row.description || ''
+				};
+			}
+		}
+	}
+	var CONTAINER_ROLE_MAP = {
+		'collection object': 'leaf',
+		'cryovial': 'proxy',
+		'pin': 'proxy',
+		'slide': 'proxy',
+		'envelope': 'proxy',
+		'glass vial': 'proxy',
+		'jar': 'leafbearer',
+		'compartment': 'leafbearer',
+		'tank': 'leafbearer',
+		'institution': 'structural',
+		'campus': 'structural',
+		'cryovat': 'structural',
+		'building': 'structural',
+		'floor': 'structural',
+		'room': 'structural',
+		'freezer': 'structural',
+		'freezer rack': 'structural',
+		'freezer box': 'structural',
+		'grouping': 'structural',
+		'set': 'structural',
+		'fixture': 'structural',
+		'rack slot': 'structural',
+		'position': 'structural'
+	};
+	defaults.role = CONTAINER_ROLE_MAP[normalized] || 'structural';
+	return defaults;
+}
+
+/**
+ * Validate a proposed placement and render severity messages in the dialog.
+ * @param {number|string} childContainerId - container_id being moved.
+ * @param {number|string} proposedParentContainerId - target parent container_id (0 for root).
+ * @param {string} validationDivId - id of the target element for validation output.
+ * @param {string} confirmButtonId - id of the confirm button to enable/disable.
+ * @returns {void}
+ */
+function checkAndRenderPlacementValidation(childContainerId, proposedParentContainerId, validationDivId, confirmButtonId) {
+	var validationDiv = $('#' + validationDivId);
+	var confirmButton = $('#' + confirmButtonId);
+	var updatePickerSelectVisualState = function(enabled) {
+		if (confirmButton.hasClass('pick-container-select-btn')) {
+			confirmButton.toggleClass('btn-primary', enabled);
+			confirmButton.toggleClass('btn-outline-secondary', !enabled);
+		}
+	};
+	validationDiv.html('<div class="small text-muted"><img src="/shared/images/indicator.gif"> Checking placement…</div>');
+	if (!childContainerId || parseInt(childContainerId, 10) === 0) {
+		validationDiv.empty();
+		confirmButton.prop('disabled', false);
+		updatePickerSelectVisualState(true);
+		return;
+	}
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'validateContainerPlacement',
+			returnformat: 'json',
+			child_container_id: childContainerId,
+			proposed_parent_container_id: proposedParentContainerId
+		},
+		success: function(result) {
+			var severity = (result && result.severity) ? result.severity : 'ok';
+			if (severity === 'ok') {
+				validationDiv.html('<span class="text-success small">✓ Placement is within expectations</span>');
+			} else if (severity === 'warn') {
+				var warningList = $('<ul class="mb-0"></ul>');
+				$.each(result.warnings || [], function(i, warning) {
+					warningList.append($('<li></li>').text(warning));
+				});
+				validationDiv.html('').append(
+					$('<div class="alert alert-warning py-1 px-2 small mb-0"></div>')
+						.append('<strong>⚠ Placement warning</strong>')
+						.append(warningList)
+				);
+			} else {
+				var blockList = $('<ul class="mb-0"></ul>');
+				$.each(result.blocks || [], function(i, block) {
+					blockList.append($('<li></li>').text(block));
+				});
+				validationDiv.html('').append(
+					$('<div class="alert alert-danger py-1 px-2 small mb-0"></div>')
+						.append('<strong>✗ Placement not allowed</strong>')
+						.append(blockList)
+				);
+			}
+			confirmButton.prop('disabled', !(result && result.allowed === true));
+			updatePickerSelectVisualState(result && result.allowed === true);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'validating container placement');
+			confirmButton.prop('disabled', true);
+			updatePickerSelectVisualState(false);
+		}
+	});
+}
+
+/**
+ * Render a compact placement badge (ok/warn/block) for existing placements.
+ * @param {Object} validationResult - response object from validateContainerPlacement.
+ * @param {string} targetDivId - id of the target element to render badge content into.
+ * @returns {void}
+ */
+function renderPlacementWarningBadge(validationResult, targetDivId) {
+	var target = $('#' + targetDivId);
+	var detailId = 'pd-' + targetDivId;
+	var warnings = (validationResult && validationResult.warnings) ? validationResult.warnings : [];
+	var blocks = (validationResult && validationResult.blocks) ? validationResult.blocks : [];
+	var expected = (validationResult && validationResult.expected_parent_types) ? validationResult.expected_parent_types : 'any';
+	var forceExpected = parseInt((validationResult && validationResult.force_expected_parent_type) || 0, 10);
+	var isRoot = !!(validationResult && validationResult.is_root_placement);
+	var rootWarnText = 'Container is being placed at the root level. Containers of type ' + (validationResult.child_type || 'this type') + ' are normally placed inside a ' + expected + '.';
+	var buildCollapse = function(className, labelText, items) {
+		var wrapper = $('<span></span>');
+		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')
+			.attr('data-toggle', 'collapse')
+			.attr('data-target', '#' + detailId)
+			.text(labelText);
+		var detail = $('<div class="collapse small mt-1"></div>').attr('id', detailId);
+		var list = $('<ul class="list-unstyled mb-0"></ul>');
+		$.each(items, function(i, item) {
+			list.append($('<li></li>').text(item));
+		});
+		detail.append(list);
+		wrapper.append(badge).append(detail);
+		return wrapper;
+	};
+
+	target.empty();
+	if (isRoot && expected === 'none' && forceExpected === 1) {
+		target.append($('<span class="badge badge-success"></span>').text('✓ Root container (expected)'));
+		return;
+	}
+	if (isRoot && expected === 'none' && forceExpected === 0) {
+		target.append(buildCollapse('badge-warning', '⚠ Root container', ['Containers of this type are expected to be root containers.']));
+		return;
+	}
+	if (isRoot && expected !== 'none' && expected !== 'any') {
+		target.append(buildCollapse('badge-warning', '⚠ placement warning', [rootWarnText]));
+		return;
+	}
+
+	if (validationResult && validationResult.severity === 'ok') {
+		target.append($('<span class="badge badge-success"></span>').text('✓ placement ok'));
+	} else if (validationResult && validationResult.severity === 'warn') {
+		target.append(buildCollapse('badge-warning', '⚠ placement warning', warnings));
+	} else {
+		var blockedLabel = '✗ placement blocked';
+		var hasLockedBlock = false;
+		$.each(blocks, function(i, item) {
+			var blockMessage = $.trim((item || '').toLowerCase());
+			if (blockMessage === LOCKED_PLACEMENT_BLOCK_MESSAGE_LOWER) {
+				hasLockedBlock = true;
+				return false;
+			}
+		});
+		if (hasLockedBlock) {
+			blockedLabel = '✗ placement locked';
+		}
+		target.append(buildCollapse('badge-danger', blockedLabel, blocks));
+	}
+}
+
+/**
+ * Load validation for an existing placement and render badge output.
+ * @param {number|string} containerContainerId - child container_id to validate.
+ * @param {number|string} parentContainerId - parent container_id to validate against.
+ * @param {string} targetDivId - id of the target element for badge output.
+ * @returns {void}
+ */
+function loadPlacementWarningBadge(containerContainerId, parentContainerId, targetDivId) {
+	var target = $('#' + targetDivId);
+	target.html('<span class="small text-muted"><img src="/shared/images/indicator.gif"> Checking…</span>');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			method: 'validateContainerPlacement',
+			returnformat: 'json',
+			child_container_id: containerContainerId,
+			proposed_parent_container_id: parentContainerId
+		},
+		success: function(result) {
+			renderPlacementWarningBadge(result, targetDivId);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading placement warning badge');
+			target.empty();
+		}
+	});
+}
+
+/**
+ * Open the shared rich container picker dialog for parent/child/find contexts.
+ * @param {Object} options - dialog configuration.
+ * @param {string} options.mode - picker mode: parent, child, or find.
+ * @param {string} options.dialogTitle - title for the modal dialog.
+ * @param {number|string} options.childContainerIdForValidation - child id for parent-mode validation.
+ * @param {number|string} options.parentContainerIdForValidation - parent id for child-mode validation.
+ * @param {string} options.childContainerType - child container_type for parent-mode type preselection.
+ * @param {string} options.preselectType - optional explicit type value to preselect.
+ * @param {boolean} options.pickLeaves - when true in child mode, preselect collection object candidates.
+ * @param {string} options.institutionAcronym - optional institution acronym to scope autocomplete.
+ * @param {string} options.feedbackId - optional feedback output id.
+ * @param {Function} options.onSelect - callback(selectedId, selectedLabel, wrapper, controls, selectedItem) on Select.
+ * @returns {void}
+ */
+function openContainerPickerDialog(options) {
+	options = options || {};
+	var mode = options.mode || 'find';
+	var id_suffix = '_' + Date.now();
+	var wrapper = $('#placementDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="placementDialogWrapper"></div>').appendTo('body');
+	}
+	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	wrapper.dialog({
+		title: options.dialogTitle || 'Select Container',
+		modal: true,
+		width: 540,
+		autoOpen: true
+	});
+
+	var preselectType = options.preselectType || '';
+	if (!preselectType && mode === 'parent' && options.childContainerType) {
+		var expected = getContainerTypeMeta(options.childContainerType).expected_parent_types || '';
+		if (expected && expected !== 'any' && expected !== 'none') {
+			preselectType = $.trim((expected + '').split(',')[0]);
+		}
+	}
+
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		type: 'get',
+		dataType: 'html',
+		data: {
+			method: 'pickContainerDialogHtml',
+			returnformat: 'plain',
+			dialog_mode: mode,
+			child_container_id: options.childContainerIdForValidation || '',
+			preselect_type: preselectType,
+			pick_leaves: options.pickLeaves ? 1 : 0,
+			institution_acronym: options.institutionAcronym || '',
+			id_suffix: id_suffix
+		},
+		success: function(html) {
+			var controls = {
+				ancestorControlId: 'pickContainerAncestor' + id_suffix,
+				ancestorIdControlId: 'pickContainerAncestorId' + id_suffix,
+				searchControlId: 'pickContainerSearch' + id_suffix,
+				searchIdControlId: 'pickContainerSearchId' + id_suffix,
+				searchOpenControlId: 'pickContainerSearchOpen' + id_suffix,
+				typeControlId: 'pickContainerType' + id_suffix,
+				labelContainsControlId: 'pickContainerLabelContains' + id_suffix,
+				descriptionContainsControlId: 'pickContainerDescriptionContains' + id_suffix,
+				validationControlId: 'pickContainerValidation' + id_suffix,
+				confirmControlId: 'pickContainerConfirm' + id_suffix,
+				cancelControlId: 'pickContainerCancel' + id_suffix
+			};
+			wrapper.html(html);
+			makeContainerAutocompleteMeta(controls.ancestorControlId, controls.ancestorIdControlId);
+			makeContainerAutocompleteLimitedMeta(
+				controls.searchControlId,
+				controls.searchIdControlId,
+				controls.typeControlId,
+				controls.ancestorIdControlId,
+				controls.labelContainsControlId,
+				controls.descriptionContainsControlId
+			);
+			var setDialogSelectButtonEnabled = function(enabled) {
+				var confirmButton = $('#' + controls.confirmControlId);
+				confirmButton.prop('disabled', !enabled);
+				confirmButton.toggleClass('btn-primary', enabled);
+				confirmButton.toggleClass('btn-outline-secondary', !enabled);
+			};
+			var searchIdInput = $('#' + controls.searchIdControlId);
+			var selectedItem = null;
+			var suppressNextAutocompleteChange = false;
+			var suppressAutocompleteChangeForActivation = function() {
+				suppressNextAutocompleteChange = true;
+			};
+			var resetAutocompleteChangeSuppression = function() {
+				suppressNextAutocompleteChange = false;
+			};
+			var bindActivationSuppression = function(controlId) {
+				var control = $('#' + controlId);
+				control.on('mousedown', suppressAutocompleteChangeForActivation);
+				control.on('mouseup', resetAutocompleteChangeSuppression);
+			};
+			var updateSearchOpenButtonState = function() {
+				var searchOpenLink = $('#' + controls.searchOpenControlId);
+				var hasAnyFilterValue = false;
+				wrapper.find('.pick-container-filter-control').each(function() {
+					var control = $(this);
+					if ($.trim(control.val()).length > 0) {
+						hasAnyFilterValue = true;
+						return false;
+					}
+				});
+				searchOpenLink.attr('aria-disabled', !hasAnyFilterValue);
+				searchOpenLink.attr('tabindex', hasAnyFilterValue ? '0' : '-1');
+				searchOpenLink.toggleClass('disabled', !hasAnyFilterValue);
+			};
+			setDialogSelectButtonEnabled(false);
+			var refreshDialogAutocomplete = function() {
+				searchIdInput.val('');
+				setDialogSelectButtonEnabled(false);
+				$('#' + controls.validationControlId).empty();
+				makeContainerAutocompleteLimitedMeta(
+					controls.searchControlId,
+					controls.searchIdControlId,
+					controls.typeControlId,
+					controls.ancestorIdControlId,
+					controls.labelContainsControlId,
+					controls.descriptionContainsControlId
+				);
+				updateSearchOpenButtonState();
+			};
+			$('#' + controls.typeControlId + ', #' + controls.ancestorControlId).on('change', refreshDialogAutocomplete);
+			var filterInputTimer = null;
+			var filterInputs = $('#' + controls.labelContainsControlId + ', #' + controls.descriptionContainsControlId);
+			filterInputs.on('change', refreshDialogAutocomplete);
+			filterInputs.on('input', function() {
+				if (filterInputTimer) {
+					window.clearTimeout(filterInputTimer);
+				}
+				filterInputTimer = window.setTimeout(refreshDialogAutocomplete, 250);
+			});
+			wrapper.find('.pick-container-filter-control').on('change input autocompleteselect autocompletechange', function() {
+				updateSearchOpenButtonState();
+			});
+			$('#' + controls.searchOpenControlId).on('click', function(event) {
+				event.preventDefault();
+				if ($(this).hasClass('disabled')) {
+					return false;
+				}
+				var searchInput = $('#' + controls.searchControlId);
+				// Use wildcard token to trigger broad autocomplete results with active filters.
+				// This codebase uses "%%%" as a broad wildcard term for container autocomplete lookups.
+				// Keep it visible so users can see/edit the seeded search term.
+				searchInput.val(AUTOCOMPLETE_OPEN_WILDCARD);
+				searchIdInput.val('');
+				setDialogSelectButtonEnabled(false);
+				$('#' + controls.validationControlId).empty();
+				searchInput.focus();
+				if (searchInput.autocomplete('instance')) {
+					searchInput.autocomplete('search', AUTOCOMPLETE_OPEN_WILDCARD);
+				}
+				return false;
+			});
+
+			var runValidationForSelection = function(selectedId) {
+				if (!selectedId) {
+					setDialogSelectButtonEnabled(false);
+					$('#' + controls.validationControlId).empty();
+					return;
+				}
+				if (mode === 'parent' && options.childContainerIdForValidation) {
+					checkAndRenderPlacementValidation(options.childContainerIdForValidation, selectedId, controls.validationControlId, controls.confirmControlId);
+				} else if (mode === 'child' && options.parentContainerIdForValidation) {
+					checkAndRenderPlacementValidation(selectedId, options.parentContainerIdForValidation, controls.validationControlId, controls.confirmControlId);
+				} else {
+					setDialogSelectButtonEnabled(true);
+					$('#' + controls.validationControlId).empty();
+				}
+			};
+			var applyAutocompleteSelection = function(ui, preserveExistingSelection) {
+				var selectedId = '';
+				if (ui && ui.item) {
+					selectedId = ui.item.id || '';
+					selectedItem = ui.item;
+					searchIdInput.val(selectedId);
+				} else {
+					selectedItem = null;
+				}
+				if (!selectedId && preserveExistingSelection) {
+					selectedId = searchIdInput.val();
+				}
+				if (!selectedId) {
+					searchIdInput.val('');
+					setDialogSelectButtonEnabled(false);
+					$('#' + controls.validationControlId).empty();
+					return;
+				}
+				runValidationForSelection(selectedId);
+			};
+			$('#' + controls.searchControlId).on('autocompleteselect', function(event, ui) {
+				// Keep existing hidden selection as fallback for select events.
+				applyAutocompleteSelection(ui, true);
+			});
+			$('#' + controls.searchControlId).on('autocompletechange', function(event, ui) {
+				if (suppressNextAutocompleteChange) {
+					resetAutocompleteChangeSuppression();
+					return;
+				}
+				// Do not preserve hidden selection after free-text changes.
+				applyAutocompleteSelection(ui, false);
+			});
+			$('#' + controls.searchControlId).on('change input', function() {
+				if (!searchIdInput.val()) {
+					setDialogSelectButtonEnabled(false);
+					$('#' + controls.validationControlId).empty();
+				}
+			});
+			bindActivationSuppression(controls.confirmControlId);
+			$('#' + controls.confirmControlId).on('click', function() {
+				resetAutocompleteChangeSuppression();
+				var selectedId = searchIdInput.val();
+				var selectedLabel = $('#' + controls.searchControlId).val();
+				if (!selectedId) {
+					return;
+				}
+				if ($.isFunction(options.onSelect)) {
+					options.onSelect(selectedId, selectedLabel, wrapper, controls, selectedItem);
+				}
+			});
+			bindActivationSuppression(controls.cancelControlId);
+			var handleCancelActivation = function(event) {
+				if (event) {
+					if (event.type === 'keydown') {
+						var closeKey = event.key || '';
+						var isCloseKey = closeKey === 'Enter' || closeKey === ' ';
+						if (!isCloseKey) {
+							return;
+						}
+					}
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				resetAutocompleteChangeSuppression();
+				wrapper.dialog('close');
+				return false;
+			};
+			$('#' + controls.cancelControlId).on('mousedown', handleCancelActivation);
+			$('#' + controls.cancelControlId).on('keydown', handleCancelActivation);
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'loading placement dialog');
+		}
+	});
+}
+
+/**
+ * Open the constrained parent-container selection dialog.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for default filtering.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} targetIdFieldId - id of hidden field to receive selected parent container_id.
+ * @param {string} targetLabelFieldId - id of text field to receive selected parent label.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
+function openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, targetIdFieldId, targetLabelFieldId, feedbackId) {
+	openContainerPickerDialog({
+		mode: 'parent',
+		dialogTitle: 'Select Parent Container',
+		childContainerIdForValidation: childContainerId,
+		childContainerType: childContainerType,
+		institutionAcronym: childInstitutionAcronym,
+		feedbackId: feedbackId,
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#' + targetIdFieldId).val(selectedId);
+			$('#' + targetLabelFieldId).val(selectedLabel);
+			setFeedbackControlState(feedbackId, 'saved');
+			wrapper.dialog('close');
+		}
+	});
+}
+
+/**
+ * Add a dialog-launch button adjacent to a parent-container text field.
+ * @param {string} textFieldId - id of the text field that displays selected parent container.
+ * @param {string} idFieldId - id of the hidden field for selected parent container_id.
+ * @param {number|string} childContainerId - child container_id being moved.
+ * @param {string} childContainerType - child container_type used for dialog defaults.
+ * @param {string} childInstitutionAcronym - institution acronym used to scope search.
+ * @param {string} feedbackId - id of feedback output control for status updates.
+ * @returns {void}
+ */
+function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, childContainerType, childInstitutionAcronym, feedbackId) {
+	if ($('#chooseBtn-' + textFieldId).length > 0) {
+		return;
+	}
+	var textField = $('#' + textFieldId);
+	var pickerRow = textField.closest('.parent-container-picker-row');
+	var buttonContainer = pickerRow.length > 0 ? pickerRow : textField.parent();
+	$('<button type="button" class="btn btn-xs btn-secondary ml-1"></button>')
+		.attr('id', 'chooseBtn-' + textFieldId)
+		.text('Choose…')
+		.on('click', function() {
+			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
+		})
+		.appendTo(buttonContainer);
 }

@@ -196,7 +196,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 									<input type="hidden" name="action" value="search">
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-3 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">General Taxonomy Search</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-4">
@@ -301,7 +301,7 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2">
-										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 pt-1 mt-2 mx-2">
+										<fieldset class="bg-light border-right border-left border-top field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal font-weight-bold">Classification and Other Filters </legend>	 
 											<div class="form-row">
 												<div class="col-12 col-lg-2 col-md-3 col-sm-6">
@@ -439,7 +439,7 @@ limitations under the License.
 										</fieldset>
 									</div>
 									<div class="col-12 px-2"> 
-										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pt-0 pb-2 mt-0 mx-2">
+										<fieldset class="bg-light border-right border-bottom border-left field-set rounded px-2 pb-2 mt-0 mx-2">
 											<div class="form-row">
 												<div class="col-12 col-sm-4 col-xl-2">
 													<label for="taxon_habitat">Habitat</label>

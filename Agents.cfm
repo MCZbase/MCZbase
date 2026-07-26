@@ -180,9 +180,9 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<!--- ========== SECTION 1: Agent / Identifier ========== --->
-								<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+								<fieldset class="mt-2 mb-0 px-2 pb-0 pb-xl-0 border-top rounded-top border-right border-left field-set">
 									<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
-									<div class="form-row pt-2">
+									<div class="form-row pt-1">
 										<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0">
 											<label for="anyName" id="anyName_label">Any part of any name</label>
 											<span class="text-secondary small">(match entire name with: </span><button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
@@ -232,10 +232,10 @@ limitations under the License.
 								</fieldset>
 						
 								<!--- ========== SECTION 2: Name components ========== --->
-								<fieldset class="mb-0 px-2 pb-0 border-right border-bottom border-left field-set">
+								<fieldset class="mb-0 px-2 pb-0 mt-0 border-right border-bottom border-left rounded-bottom field-set">
 									<legend class="h6 mt-0 mb-1 px-3 field-set-legend w-auto sr-only">Name Components</legend>
 									<div class="form-row mb-0 pt-0">
-										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-0 mb-md-1 mt-0">
+										<div class="col-12 col-md-3 col-lg-2 col-xl-2 mb-1 mb-md-0 mt-0">
 											<div class="mb-1 pb-0 mt-0">
 												<label for="prefix">Prefix</label>
 												<select id="prefix" name="prefix">
@@ -355,13 +355,13 @@ limitations under the License.
 									<cfset dateWord = "Year">
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
-								<fieldset class="my-2 px-2 border-right border-top border-bottom border-left pb-1 field-set">
-									<legend class="h6 my-0 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
+								<fieldset class="mt-2 px-2 border-right border-top border-bottom border-left rounded pb-1 field-set">
+									<legend class="h6 my-1 px-3 border-top border-right border-bottom border-left field-set-legend w-auto bg-teal font-weight-bold">Dates</legend>
 									<div class="form-row mx-0">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 											<!--- Birth range, internal users only --->
 											<div class="col-12 col-md-4 px-0 mt-0">
-												<div class="pt-2 pb-1 mb-0">
+												<div class="pt-0 pb-1 pb-xl-0 mb-0">
 													<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mt-0 mb-md-0 mr-md-1 pt-1 mx-0 rounded justify-content-center">
 														<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
 														<input type="text" name="birth_date" id="birth_date" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
@@ -374,7 +374,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12 col-md-4 px-0 mt-0">
 											<!--- Death range, always shown --->
-											<div class="pt-2 pb-1 mb-0">
+											<div class="pt-0 pb-1 mb-0">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-md-1 mx-0 rounded justify-content-center">
 													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
 													<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
@@ -386,7 +386,7 @@ limitations under the License.
 										</div>
 										<!--- Dates collected (always) --->
 										<div class="col-12 col-md-4 px-0 mt-0">
-											  <div class="pt-2 mb-0 pb-1">
+											  <div class="pt-0 mb-0 pb-1">
 												<div class="date d-flex flex-wrap bg-light border pb-2 mb-2 mb-md-0 mt-xl-0 mx-md-1 pt-1 mx-0 rounded justify-content-center">
 													<label class="data-entry-label px-3 px-xl-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
 													<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input w-100 col-5 px-1 py-0" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
@@ -406,9 +406,9 @@ limitations under the License.
 
 								<!--- ========== SECTION 4: Internal Collections and Permissions ========== --->
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<fieldset class="my-2 px-2 pb-2 field-set border-top border-bottom border-right border-left">
+									<fieldset class="mb-2 mt-2 px-2 pb-1 field-set border-top border-bottom border-right rounded border-left">
 										<legend class="h6 my-0 px-3 field-set-legend border-top border-right border-bottom border-left w-auto bg-teal font-weight-bold">Role</legend>
-											<div class="form-row mt-2">
+											<div class="form-row mt-0">
 												<div class="col-12 col-md-4 col-xl-2 mt-0 mb-md-1 mb-xl-0">
 													<div class="mb-1 pb-0">
 														<label for="collector_collection" id="edited_label">Collector in Collection</label>

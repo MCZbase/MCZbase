@@ -243,7 +243,7 @@
 				var bc = new BroadcastChannel('resultset_channel');
 			</script>
 		</cfif>
- <!-- we want to keep a gutter on the right side of searches that have the potential for many results so the user can scroll easily ---> 
+		<!--- we want to keep a gutter on the right side of searches that have the potential for many results so the user can scroll easily ---> 
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content" class="container-fluid">
 
@@ -330,9 +330,9 @@
 								</script>
 							</cfif>
 							<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic Specimen Search"><span class="h4 mb-0 font-weight-bold" role="heading" aria-level="2">Basic Search</span></button>
-								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword Search"><span class="h4 mb-0 font-weight-bold" role="heading" aria-level="2">Keyword Search</span></button>
-								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search Builder"><span class="h4 mb-0 font-weight-bold" role="heading" aria-level="2">Search Builder</span></button>
+								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic Specimen Search">Basic Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword Search">Keyword Search</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search Builder">Search Builder</button>
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 								<!---Fixed Search tab panel--->
@@ -349,7 +349,7 @@
 											<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 											<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 											<div class="container-flex" style="display: block;">
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-1 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 														OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -366,7 +366,7 @@
 													</cfif> 
 
 													<!---IDENTIFIER SECTION--->	
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
 															<h3 class="h2 small font-weight-bold mx-0 mb-0 mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h3>
 															<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -374,7 +374,7 @@
 															</cfif>
 														</div>
 													</div>		
-													<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
+													<div class="form-row col-12 col-xxl-11 px-1 pt-0 mb-0 mx-0">
 														<div class="col-12 col-md-3 mb-1">
 															<label for="fixedCollection">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -455,7 +455,9 @@
 																Enter other ID numbers separated by commas (not spaces); use a dash for ranges, or "=" for an exact match. Example: 10,20–30,=BT-782
 															</small>
 														</div>
-														<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+														<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+															<button type="button" id="IDDetailCtl1" class="col-3 col-md-2 px-0 d-block d-xl-none py-0 my-1 btn-xs text-center btn small btn-link" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
+														</cfif>
 
 														<!---IDENTIFIER DETAIL--->		
 														<div id="IDDetail" class="col-9 col-md-10 col-xl-12 my-0 px-0 py-0" style="#IDDetailStyle#">
@@ -520,7 +522,7 @@
 												<!---END IDENTIFIER SECTION--->	
 
 												<!---TAXONOMY SECTION--->	 
-												<div class="col-12 form-row mx-0 px-0 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-even px-0 pb-1 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("phylum") and len(phylum) GT 0)
 														OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -545,13 +547,13 @@
 														<cfset toggleTo = "1">
 														<cfset TaxaButton = "show more <i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!---"--->
 													</cfif>
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h3>
 															<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 px-1 mb-1 mx-0">	
+													<div class="form-row col-12 col-xxl-11 pt-0 px-1 mb-0 mx-0">	
 														<div class="col-9 col-md-9 col-xl-3 mb-1">
 															<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 															<label for="any_taxa_term">Any Taxonomic Element</label>
@@ -618,7 +620,7 @@
 														<!---TAXONOMY DETAIL--->
 														<div id="TaxaDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TaxaDetailStyle#">
 															<div class="form-row col-12 mb-1 px-0 mx-0">
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="phylum">Phylum</label>
 																	<button type="button" class="rules" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" aria-label="open pick list">
 																		(&##8595;)
@@ -631,7 +633,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="phylclass">Class</label>
 																	<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																	<input type="text" id="phylclass" name="phylclass" value="#encodeForHtml(phylclass)#" >
@@ -641,7 +643,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="phylorder">Order</label>
 																	<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																	<input type="text" id="phylorder" name="phylorder" value="#encodeForHtml(phylorder)#" >
@@ -651,7 +653,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="family">Family</label>
 																	<cfif not isdefined("family")><cfset family=""></cfif>
 																	<input type="text" id="family" name="family" value="#encodeForHtml(family)#" >
@@ -661,7 +663,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="genus">Genus</label>
 																	<cfif not isdefined("genus")><cfset genus=""></cfif>
 																	<input type="text" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -671,7 +673,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="species">Specific Name</label>
 																	<cfif not isdefined("species")><cfset species=""></cfif>
 																	<input type="text" id="species" name="species" value="#encodeForHtml(species)#">
@@ -682,7 +684,7 @@
 																	</script>
 																</div>
 
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="determiner">Determiner</label>
 																	<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 																	<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
@@ -706,7 +708,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-4 mb-1">
 																	<label for="publication_id">Cited In</label>
 																	<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																	<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -718,7 +720,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="nature_of_id">Nature of ID</label>
 																	<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																	<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
@@ -731,12 +733,12 @@
 																		</cfloop>
 																	</select>
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="identification_remarks">ID Remarks</label>
 																	<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
 																	<input type="text" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
 																</div>
-																<div class="col-12 col-md-3 mb-1">
+																<div class="col-12 col-md-3 col-xl-2 mb-1">
 																	<label for="common_name">Common Name</label>
 																	<cfif not isdefined("common_name")><cfset common_name=""></cfif>
 																	<input type="text" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
@@ -748,7 +750,7 @@
 												</div> 
 												<!---END TAXONOMY SECTION--->
 
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-1 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 														OR (isDefined("country") and len(country) GT 0)
@@ -781,13 +783,13 @@
 													</cfif>
 
 													<!---GEOGRAPHY SECTION--->
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left pl-xl-0 pr-xl-1">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left pl-xl-0 pr-xl-1">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 py2px border-default d-block bg-teal">Geography</h3>
+															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Geography</h3>
 															<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 														</div>
 													</div>
-													<div class="form-row col-12 col-xxl-11 pt-1 px-1 mx-0 mb-1">
+													<div class="form-row col-12 col-xxl-11 pt-0 px-1 mx-0 mb-0">
 														<div class="col-12 col-md-4 mb-1">
 															<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 															<label for="any_geography">Any Geography (keywords)</label>
@@ -979,7 +981,7 @@
 												<!---END GEOGRAPHY SECTION--->
 
 												<!---COLLECTING EVENT SECTION--->
-												<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-even px-0 pb-1 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = false>
 													<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 														OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
@@ -995,13 +997,13 @@
 														<cfset toggleTo = "1">
 														<cfset CollButton = "<i class='fas fa-caret-right' style='vertical-align:middle;'></i>"><!--- '" --->
 													</cfif> 
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="p-0 font-weight-bold d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Coll. Event</h3>
 															<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 														</div>
 													</div>				
-													<div class="form-row col-12 col-xxl-11 px-1 pt-1 mb-1 mx-0">
+													<div class="form-row col-12 col-xxl-11 px-1 pt-0 mb-0 mx-0">
 														<div class="col-12 col-md-3 mb-1">
 															<label for="collector">Collector</label>
 															<cfif not isdefined("collector")><cfset collector=""></cfif>
@@ -1122,7 +1124,7 @@
 												<!---END COLLECTING EVENT SECTION--->
 
 												<!---SPECIMEN SECTION--->  
-												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-2 pb-xl-0 pl-xl-0 pr-xl-1">
+												<div class="col-12 form-row mx-0 search-form-basic-odd px-0 pb-1 pb-xl-0 pl-xl-0 pr-xl-1">
 													<cfset hiddenHaveValue = "false">
 													<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 														OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
@@ -1148,7 +1150,7 @@
 														<cfset toggleTo = "1">
 														<cfset SpecButton = 'show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>'><!---''--->
 													</cfif> 
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right p-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0">
 															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Specimen</h3>
 															<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
@@ -1157,7 +1159,7 @@
 														</div>
 													</div>
 
-													<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">
+													<div class="form-row col-12 col-xxl-11 pt-0 mx-0 mb-0">
 														<div class="col-12 mb-1 col-md-3 mb-1">
 															<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 															<label for="part_name">Part Name</label>
@@ -1224,19 +1226,19 @@
 														</button>
 														<div id="SpecDetail" class="col-9 col-md-10 col-xl-12 p-0 my-0 float-left" style="#SpecDetailStyle#">
 															<div class="form-row col-12 col-md-12 mb-0 px-0 mx-0">
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="coll_object_remarks">
 																		Collection Object Remarks
 																	</label>
 																	<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																	<input type="text" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_remarks">Part Remarks</label>
 																	<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																	<input type="text" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="preparator">Preparator</label>
 																	<cfif not isdefined("preparator")>
 																		<cfset preparator="">
@@ -1279,12 +1281,12 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="lot_count">Lot Count</label>
 																	<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
 																	<input type="text" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="coll_obj_disposition">Disposition</label>
 																	<button type="button" class="rules" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" 
 																		aria-label="open pick list">
@@ -1298,12 +1300,12 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="disposition_remarks">Disposition Remarks</label>
 																	<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
 																	<input type="text" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_type">Part Attribute Type</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" aria-label="set part attribute type to not null for any part attribute type"> (Any)</button>
 																	<button type="button" class="rules" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">
@@ -1317,7 +1319,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_value">Part Attribute Value</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_value').val('NOT NULL'); return false;" 
 																		aria-label="set part attribute value to NOT NULL for any part attribute value">
@@ -1326,7 +1328,7 @@
 																	<cfif not isdefined("part_attribute_value")><cfset part_attribute_value=""></cfif>
 																	<input type="text" id="part_attribute_value" name="part_attribute_value" value="#encodeForHtml(part_attribute_value)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_units">Part Attribute Units</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_units').val('NOT NULL'); return false;" 
 																		aria-label="set part attribute units to NOT NULL for any part attribute units">
@@ -1343,7 +1345,7 @@
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="part_attribute_remarks">Part Attribute Remarks</label>
 																	<button type="button" class="rules" onclick="$('##part_attribute_remarks').val('NOT NULL'); return false;" aria-label="set part attribute remarks to not null for any part attribute remarks"> 
 																		(Any) 
@@ -1351,7 +1353,7 @@
 																	<cfif not isdefined("part_attribute_remarks")><cfset part_attribute_remarks=""></cfif>
 																	<input type="text" id="part_attribute_remarks" name="part_attribute_remarks" value="#encodeForHtml(part_attribute_remarks)#">
 																</div>
-																<div class="col-12 col-md-4 col-xl-3 mb-1">
+																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<!--- TODO: Add an autocomplete when controlled --->
 																	<label for="condition">Condition</label>
 																	<cfif not isdefined("condition")><cfset condition=""></cfif>
@@ -1359,24 +1361,24 @@
 																</div>
 																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 																	<!--- TODO: Add when popluated --->
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="condition_remarks">Condition Remarks</label>
 																		<cfif not isdefined("condition_remarks_remarks")><cfset condition_remarks=""></cfif>
 																		<input type="text" id="condition_remarks" name="condition_remarks" value="#encodeForHtml(condition_remarks)#">
 																	</div>
 																</cfif>
 																<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_label">In Container Labeled</label>
 																		<cfif not isdefined("root_container_label")><cfset root_container_label=""></cfif>
 																		<input type="text" id="root_container_label" name="root_container_label" value="#encodeForHtml(root_container_label)#">
 																	</div>
-																	<div class="col-12 col-md-3 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_barcode">In Container Barcoded</label>
 																		<cfif not isdefined("root_container_barcode")><cfset root_container_barcode=""></cfif>
 																		<input type="text" id="root_container_barcode" name="root_container_barcode" value="#encodeForHtml(root_container_barcode)#">
 																	</div>
-																	<div class="col-12 col-md-4 col-xl-3 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_type">In Container of Type</label>
 																		<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
 																		<select title="root_container_type" name="root_container_type" id="root_container_type" class="col-sm-12 pl-2">
@@ -1396,13 +1398,13 @@
 												<!---END SPECIMEN SECTION--->
 
 												<!---GENERAL SECTION---> 
-												<div class="col-12 form-row mx-0 search-form-basic-even pb-2 pb-xl-0 px-0 pl-xl-0 pr-xl-1">
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 form-row mx-0 search-form-basic-even pb-1 pb-xl-0 px-0 pl-xl-0 pr-xl-1">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
 															General
 														</h3>
 													</div>
-													<div class="form-row col-12 col-xxl-11 mx-0 pt-1 mb-1">
+													<div class="form-row col-12 col-xxl-11 mx-0 pt-0 mb-0">
 														<div class="col-12 col-md-3 col-xl-2 mb-1">
 															<cfif not isdefined("keyword")><cfset keyword=""></cfif>
 															<label for="keyword">Keyword Search</label>
@@ -1535,7 +1537,7 @@
 														<cfset TransactionButton = "show more <i class='fas fa-caret-right' style='vertical-align: middle;'></i>"><!--- " --->
 													</cfif>
 
-													<div class="col-12 form-row mx-0 search-form-basic-odd pb-0 pb-md-0 px-0 pl-xl-0 pr-xl-1">
+													<div class="col-12 form-row mx-0 search-form-basic-odd pb-1 px-0 pb-xl-0 pl-xl-1 pr-xl-1">
 														<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 															<div class="d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 py-0">
 																<h2 class="px-3 px-xl-2">
@@ -1544,7 +1546,7 @@
 																<button type="button" id="TransactionDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTransactionDetail(#toggleTo#);">#TransactionButton#</button>
 															</div>
 														</div>
-														<div class="form-row col-12 col-xxl-11 pt-1 mx-0 mb-1">	
+														<div class="form-row col-12 col-xxl-11 pt-0 mx-0 mb-0">	
 															<div class="col-12 col-md-2 col-xl-2 mb-1">
 																<cfif not isdefined("accn_number")><cfset accn_number=""></cfif>
 																<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
@@ -1642,7 +1644,7 @@
 															<!--- TRANSACTION DETAIL --->
 															<div id="TransactionDetail" class="col-9 col-md-10 col-xl-12 px-0 my-0 py-0 float-left" style="#TransactionDetailStyle#">
 																<div class="form-row col-12 mb-1 px-0 mx-0">
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
 																		<label for="permit_num">Permit Number</label>
 																		<input type="text" id="permit_num" name="permit_num" value="#encodeForHtml(permit_num)#">
@@ -1652,7 +1654,7 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 																		<label for="permit_title">Document Title</label>
 																		<input type="text" id="permit_title" name="permit_title" value="#encodeForHtml(permit_title)#">
@@ -1662,14 +1664,14 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 																		<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
 																		<label for="IssuedByAgent">Issued By</label>
 																		<input type="text" id="IssuedByAgent" name="IssuedByAgent" value="#encodeForHtml(IssuedByAgent)#">
 																		<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#encodeForHtml(issued_by_agent_id)#">
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 																		<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
 																		<label for="IssuedToAgent">Issued To</label>
@@ -1682,7 +1684,7 @@
 																			makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
 																		});
 																	</script>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
 																		<label for="permit_type">Document Category</label>
 																		<button type="button" class="rules" onclick="$('##permit_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">(&##8595;)</button>
@@ -1694,7 +1696,7 @@
 																			});
 																		</script>
 																	</div>
-																	<div class="col-12 col-md-4 mb-1">
+																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 																		<label for="specific_type">Specific Type</label>
 																		<button type="button" class="rules" onclick="$('##specific_type').autocomplete('search','%%%'); return false;" aria-label="open pick list">(&##8595;)</button>
@@ -1933,22 +1935,40 @@
 							
 								</section><!--- end fixed search tab --->
 								<script type="text/javascript" language="javascript">
-								function toggleIDDetail(onOff) {
-									if (onOff==0) {
-										$("##IDDetail").hide();
-										$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
-										$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
-									} else {
-										$("##IDDetail").show();
-										$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
-										$("##IDDetailCtl1").attr('onCLick','toggleIDDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="fewer fields"></i></span>');
+								/* Sync a section toggle button pair to reflect actual DOM visibility.
+								   Sets button label, caret icon, and aria-expanded based on whether
+								   the section element is currently visible.  Fails gracefully when
+								   any element is absent (e.g. conditionally-rendered sections). */
+								function syncSectionToggle(sectionId, desktopBtnId, mobileBtnId) {
+									var section = $("##" + sectionId);
+									if (!section.length) { return; }
+									var isOpen = section.is(":visible");
+									var label = isOpen ? "show less " : "show more ";
+									var icon  = isOpen ? "fa-caret-down" : "fa-caret-right";
+									var title = isOpen ? "show fewer fields" : "show more fields";
+									var html  = '<span class="btn-link">' + label + '<i class="fas ' + icon + '" style="vertical-align: middle;" title="' + title + '"></i></span>';
+									var ariaVal = isOpen ? "true" : "false";
+									if ($("##" + desktopBtnId).length) {
+										$("##" + desktopBtnId).html(html).attr("aria-expanded", ariaVal);
 									}
+									if ($("##" + mobileBtnId).length) {
+										$("##" + mobileBtnId).html(html).attr("aria-expanded", ariaVal);
+									}
+								}
+								/* Toggle a section and immediately sync button labels/icons to match. */
+								function toggleSectionDetail(sectionId, desktopBtnId, mobileBtnId) {
+									$("##" + sectionId).toggle();
+									syncSectionToggle(sectionId, desktopBtnId, mobileBtnId);
+								}
+								function toggleIDDetail(onOff) {
+									toggleSectionDetail('IDDetail', 'IDDetailCtl', 'IDDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##IDDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'IDDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											}, 
@@ -1961,21 +1981,14 @@
 									</cfif>
 								}
 								function toggleTaxaDetail(onOff) {
-									if (onOff==0) {
-										$("##TaxaDetail").hide();
-										$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##TaxaDetail").show();
-										$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('TaxaDetail', 'TaxaDetailCtl', 'TaxaDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##TaxaDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TaxaDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -1988,21 +2001,14 @@
 									</cfif>
 								}
 								function toggleGeogDetail(onOff) {
-									if (onOff==0) {
-										$("##GeogDetail").hide();
-										$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##GeogDetail").show();
-										$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('GeogDetail', 'GeogDetailCtl', 'GeogDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##GeogDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'GeogDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2015,21 +2021,14 @@
 									</cfif>
 								}
 								function toggleCollDetail(onOff) {
-									if (onOff==0) {
-										$("##CollDetail").hide();
-										$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##CollDetail").show();
-										$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('CollDetail', 'CollDetailCtl', 'CollDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##CollDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'CollDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2042,21 +2041,14 @@
 									</cfif>
 								}
 								function toggleSpecDetail(onOff) {
-									if (onOff==0) {
-										$("##SpecDetail").hide();
-										$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##SpecDetail").show();
-										$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('SpecDetail', 'SpecDetailCtl', 'SpecDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##SpecDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'SpecDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2069,21 +2061,14 @@
 									</cfif>
 								}
 								function toggleTransactionDetail(onOff) {
-									if (onOff==0) {
-										$("##TransactionDetail").hide();
-										$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-										$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(1)').html('<span class="btn-link">show more <i class="fas fa-caret-right" style="vertical-align: middle;" title="show more fields"></i></span>');
-									} else {
-										$("##TransactionDetail").show();
-										$("##TransactionDetailCtl").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-										$("##TransactionDetailCtl1").attr('onCLick','toggleTransactionDetail(0)').html('<span class="btn-link">show less <i class="fas fa-caret-down" style="vertical-align: middle;" title="show fewer fields"></i></span>');
-									}
+									toggleSectionDetail('TransactionDetail', 'TransactionDetailCtl', 'TransactionDetailCtl1');
 									<cfif isdefined("session.username") and len(#session.username#) gt 0>
+										var observedOnOff = $("##TransactionDetail").is(":visible") ? 1 : 0;
 										jQuery.getJSON("/specimens/component/search.cfc",
 											{
 												method : "saveBasicSrchPref",
 												id : 'TransactionDetail',
-												onOff : onOff,
+												onOff : observedOnOff,
 												returnformat : "json",
 												queryformat : 'column'
 											},
@@ -2095,6 +2080,16 @@
 										});
 									</cfif>
 								}
+								/* On page load, sync all section toggle buttons so their labels and
+								   icons match the server-rendered initial visibility of each section. */
+								$(document).ready(function() {
+									syncSectionToggle('IDDetail',          'IDDetailCtl',          'IDDetailCtl1');
+									syncSectionToggle('TaxaDetail',        'TaxaDetailCtl',        'TaxaDetailCtl1');
+									syncSectionToggle('GeogDetail',        'GeogDetailCtl',        'GeogDetailCtl1');
+									syncSectionToggle('CollDetail',        'CollDetailCtl',        'CollDetailCtl1');
+									syncSectionToggle('SpecDetail',        'SpecDetailCtl',        'SpecDetailCtl1');
+									syncSectionToggle('TransactionDetail', 'TransactionDetailCtl', 'TransactionDetailCtl1');
+								});
 							</script>
 								<!---Keyword Search/results tab panel--->
 								<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive# " #keywordTabShow#>
@@ -2408,7 +2403,7 @@
 															</script>
 															<label for="field1">Search Field</label>
 															<cfif not isDefined("field1")><cfset field1=""></cfif>
-															<select title="Select Field to search..." name="field1" id="field1" required>
+															<select title="Select Field to search..." name="field1" id="field1" style="height: 22px !important;" required>
 																<cfif len(field1) EQ 0>
 																	<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 																</cfif>
@@ -2438,7 +2433,7 @@
 																		searchMode: 'containsignorecase',
 																		width: '100%',
 																		dropDownHeight: 400,
-																		height: '21px'
+																		height: '22px'
 																	});
 																	// bind an autocomplete, if one applies
 																	handleFieldSetup('field1',1);
@@ -2542,7 +2537,7 @@
 																	</div>
 																	<!--- " --->
 																	<div class="col-12 col-md-4">
-																		<select title="Select Field..." name="field#row#" id="field#row#">
+																		<select title="Select Field..." name="field#row#" id="field#row#" style="height:22px !important;">
 																			<cfset category = "">
 																			<cfset optgroupOpen = false>
 																			<cfloop query="fields">
@@ -2569,7 +2564,7 @@
 																					searchMode: 'containsignorecase',
 																					width: '100%',
 																					dropDownHeight: 400,
-																					height: '21px'
+																					height: '24px'
 																				});
 																				// bind an autocomplete, if one applies.
 																				handleFieldSetup('field#row#',#row#);
@@ -2752,7 +2747,7 @@
 															searchMode: 'containsignorecase',
 															width: '100%',
 															dropDownHeight: 400,
-															height: '22px'
+															height: '20px'
 														});
 														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 														$('##field'+row).on("change", function(event) { 
