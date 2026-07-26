@@ -75,8 +75,8 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
   or exact match on container_id, returning json suitable for jquery-ui autocomplete.
 
 @param term container label or barcode or container_id to search for.
-@return a json structure containing id and value, with matching container with matched barcode in value and  
-  type, label, and barcode in meta and container_id in id.
+@return a json structure containing id and value fields. The value contains the matched barcode,
+  meta contains type/label/barcode, id contains container_id, and label/barcode contain raw values.
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -118,6 +118,8 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.container_id#" >
+			<cfset row["label"] = "#search.label#" >
+			<cfset row["barcode"] = "#search.barcode#" >
 			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
@@ -140,12 +142,17 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 @param term container label or barcode to search for.
 @param type container type to limit search to.
 @param ancestor_container_id optional ancestor container_id to limit search to.
-@return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id.
+@param label_contains optional case-insensitive substring filter on label.
+@param description_contains optional case-insensitive substring filter on description/container remarks.
+@return a json structure containing id and value fields. The value contains matched barcode,
+  meta contains type/label/barcode, id contains container_id, and label/barcode contain raw values.
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="type" type="string" required="no" default="">
 	<cfargument name="ancestor_container_id" type="string" required="no" default="">
+	<cfargument name="label_contains" type="string" required="no" default="">
+	<cfargument name="description_contains" type="string" required="no" default="">
 
 	<!--- perform wildcard search anywhere in barcode or label --->
 	<cfset name = "%#term#%"> 
@@ -157,7 +164,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 			SELECT 
 				container_id, label, barcode, container_type
 			FROM (
-				SELECT container_id, label, barcode, container_type
+				SELECT container_id, label, barcode, container_type, description, container_remarks
 				FROM 
 				container
 				<cfif len(arguments.ancestor_container_id) GT 0>
@@ -180,12 +187,23 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 				<cfelse>
 					AND rownum < 100
 				</cfif>
+				<cfif len(trim(arguments.label_contains)) GT 0>
+					AND upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.label_contains))#%">
+				</cfif>
+				<cfif len(trim(arguments.description_contains)) GT 0>
+					AND (
+						upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.description_contains))#%">
+						OR upper(container_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.description_contains))#%">
+					)
+				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.container_id#" >
+			<cfset row["label"] = "#search.label#" >
+			<cfset row["barcode"] = "#search.barcode#" >
 			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
@@ -402,7 +420,7 @@ ordered from root to the given node, for use in breadcrumb display.
 Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 
 @param container_id the container_id whose ancestor chain is to be returned.
-@return a JSON array of objects with keys: container_id, container_type, label, barcode;
+@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label, barcode;
   ordered from root (highest level) to the given node.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
@@ -413,6 +431,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 		<cfquery name="queryGetBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT
 				container_id,
+				parent_container_id,
 				container_type,
 				label,
 				barcode
@@ -428,6 +447,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 		<cfloop query="queryGetBreadcrumb">
 			<cfset local.row = StructNew()>
 			<cfset local.row["container_id"] = queryGetBreadcrumb.container_id>
+			<cfset local.row["parent_container_id"] = queryGetBreadcrumb.parent_container_id>
 			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
 			<cfset local.row["label"] = queryGetBreadcrumb.label>
 			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
@@ -459,6 +479,17 @@ a paginated JSON result for display in the browse panel.
   misplaced     - container type with expects_leaf_child_count = 1 and more than one leaf child
   mixed         - has both structural children and collection-object children (AB shape)
   unplaced_leaf - collection object with no parent container
+@param has_positions optional number_positions filter:
+  none          - number_positions is null or 0
+  any           - number_positions > 0
+  has_empty     - has positions where at least one position is unoccupied
+  [numeric]     - exact number_positions match
+@param position_filter optional position-membership filter:
+  NOT NULL      - parent container is of type position
+  NULL          - parent container is not a position
+  [numeric]     - parent position with exact numeric label/barcode match
+  [text]        - parent position label/barcode contains text (case-insensitive)
+  [=text]       - parent position label/barcode exact text match (case-insensitive)
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -472,6 +503,8 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="description" type="string" required="no" default="">
 	<cfargument name="department" type="string" required="no" default="">
 	<cfargument name="tree_property" type="string" required="no" default="">
+	<cfargument name="has_positions" type="string" required="no" default="">
+	<cfargument name="position_filter" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -483,12 +516,19 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.descUpper = ucase(trim(arguments.description))>
 		<cfset local.deptUpper = ucase(trim(arguments.department))>
 		<cfset local.treeProperty = trim(arguments.tree_property)>
+		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
+		<cfset local.positionFilter = trim(arguments.position_filter)>
+		<cfset local.positionFilterUpper = ucase(local.positionFilter)>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
+		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
 		<!--- Total row count --->
 		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
 			FROM container c
+			<cfif local.needsParentJoin>
+				LEFT JOIN container p ON p.container_id = c.parent_container_id
+			</cfif>
 			<cfif local.needsChildJoin>
 				LEFT JOIN (
 					SELECT
@@ -531,6 +571,51 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			<cfif len(local.deptUpper) GT 0>
 				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+			</cfif>
+			<cfif local.hasPositionsFilter EQ "none">
+				AND NVL(c.number_positions, 0) = 0
+			<cfelseif local.hasPositionsFilter EQ "any">
+				AND NVL(c.number_positions, 0) > 0
+			<cfelseif local.hasPositionsFilter EQ "has_empty">
+				AND NVL(c.number_positions, 0) > 0
+				AND EXISTS (
+					SELECT 1
+					FROM container pos
+					WHERE pos.parent_container_id = c.container_id
+						AND pos.container_type = 'position'
+						AND NOT EXISTS (
+							SELECT 1
+							FROM container occ
+							WHERE occ.parent_container_id = pos.container_id
+						)
+				)
+			<cfelseif isNumeric(local.hasPositionsFilter)>
+				AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
+			</cfif>
+			<cfif len(local.positionFilterUpper) GT 0>
+				<cfif local.positionFilterUpper EQ "NOT NULL">
+					AND p.container_type = 'position'
+				<cfelseif local.positionFilterUpper EQ "NULL">
+					AND NVL(p.container_type, ' ') <> 'position'
+				<cfelse>
+					AND p.container_type = 'position'
+					<cfif isNumeric(local.positionFilter)>
+						AND (
+							p.label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+							OR p.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+						)
+					<cfelseif left(local.positionFilterUpper,1) EQ "=">
+						AND (
+							UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+							OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+						)
+					<cfelse>
+						AND (
+							UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+							OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+						)
+					</cfif>
+				</cfif>
 			</cfif>
 			<cfif local.treeProperty EQ "empty">
 				AND c.container_type <> 'collection object'
@@ -625,6 +710,51 @@ a paginated JSON result for display in the browse panel.
 					<cfif len(local.deptUpper) GT 0>
 						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
 					</cfif>
+					<cfif local.hasPositionsFilter EQ "none">
+						AND NVL(c.number_positions, 0) = 0
+					<cfelseif local.hasPositionsFilter EQ "any">
+						AND NVL(c.number_positions, 0) > 0
+					<cfelseif local.hasPositionsFilter EQ "has_empty">
+						AND NVL(c.number_positions, 0) > 0
+						AND EXISTS (
+							SELECT 1
+							FROM container pos
+							WHERE pos.parent_container_id = c.container_id
+								AND pos.container_type = 'position'
+								AND NOT EXISTS (
+									SELECT 1
+									FROM container occ
+									WHERE occ.parent_container_id = pos.container_id
+								)
+						)
+					<cfelseif isNumeric(local.hasPositionsFilter)>
+						AND c.number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.hasPositionsFilter#">
+					</cfif>
+					<cfif len(local.positionFilterUpper) GT 0>
+						<cfif local.positionFilterUpper EQ "NOT NULL">
+							AND p.container_type = 'position'
+						<cfelseif local.positionFilterUpper EQ "NULL">
+							AND NVL(p.container_type, ' ') <> 'position'
+						<cfelse>
+							AND p.container_type = 'position'
+							<cfif isNumeric(local.positionFilter)>
+								AND (
+									p.label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+									OR p.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionFilter#">
+								)
+							<cfelseif left(local.positionFilterUpper,1) EQ "=">
+								AND (
+									UPPER(p.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+									OR UPPER(p.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.positionFilterUpper, 1, 1)#">
+								)
+							<cfelse>
+								AND (
+									UPPER(p.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+									OR UPPER(p.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.positionFilterUpper#%">
+								)
+							</cfif>
+						</cfif>
+					</cfif>
 					<cfif local.treeProperty EQ "empty">
 						AND c.container_type <> 'collection object'
 						AND NVL(ch.direct_structural_children, 0) = 0
@@ -679,6 +809,204 @@ a paginated JSON result for display in the browse panel.
 	</cfcatch>
 	</cftry>
 	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+
+<!---
+Function getContainerTypeMetadata. Returns ctcontainer_type metadata for client-side placement logic.
+@return a JSON array of ctcontainer_type metadata objects with keys: container_type, role,
+	expects_leaf_child_count, expected_parent_types, force_expected_parent_type, rank_order,
+	variable_rank, description.
+--->
+<cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
+	<cfset local.rows = ArrayNew(1)>
+	<cfset local.i = 1>
+	<cfquery name="queryCtContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			container_type,
+			role,
+			expects_leaf_child_count,
+			expected_parent_types,
+			force_expected_parent_type,
+			rank_order,
+			variable_rank,
+			description
+		FROM
+			ctcontainer_type
+		ORDER BY
+			rank_order,
+			container_type
+	</cfquery>
+	<cfloop query="queryCtContainerType">
+		<cfset local.row = StructNew()>
+		<cfset local.row["container_type"] = queryCtContainerType.container_type>
+		<cfset local.row["role"] = queryCtContainerType.role>
+		<cfset local.row["expects_leaf_child_count"] = queryCtContainerType.expects_leaf_child_count>
+		<cfset local.row["expected_parent_types"] = queryCtContainerType.expected_parent_types>
+		<cfset local.row["force_expected_parent_type"] = queryCtContainerType.force_expected_parent_type>
+		<cfset local.row["rank_order"] = queryCtContainerType.rank_order>
+		<cfset local.row["variable_rank"] = queryCtContainerType.variable_rank>
+		<cfset local.row["description"] = queryCtContainerType.description>
+		<cfset local.rows[local.i] = local.row>
+		<cfset local.i = local.i + 1>
+	</cfloop>
+	<cfreturn serializeJSON(local.rows)>
+</cffunction>
+
+<!---
+Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fragment.
+@param dialog_mode picker mode: parent, child, or find.
+@param child_container_id optional child container_id used to preselect expected parent type in parent mode.
+@param preselect_type optional container_type value to preselect in the type control.
+@param pick_leaves when true, preselect collection object as the child container type.
+@param ancestor_container_id optional ancestor container_id to constrain subtree search.
+@param institution_acronym optional institution acronym to constrain dialog searches.
+@param id_suffix optional suffix applied to generated control ids for uniqueness.
+@return HTML fragment string for context-aware container picker dialog controls.
+--->
+<cffunction name="pickContainerDialogHtml" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="dialog_mode" type="string" required="no" default="parent">
+	<cfargument name="child_container_id" type="string" required="no" default="">
+	<cfargument name="preselect_type" type="string" required="no" default="">
+	<cfargument name="pick_leaves" type="string" required="no" default="0">
+	<cfargument name="ancestor_container_id" type="string" required="no" default="">
+	<cfargument name="institution_acronym" type="string" required="no" default="">
+	<cfargument name="id_suffix" type="string" required="no" default="">
+
+	<cfset local.safeSuffix = REReplace(arguments.id_suffix, "[^A-Za-z0-9_-]", "", "all")>
+	<cfset local.typeControlId = "pickContainerType#local.safeSuffix#">
+	<cfset local.ancestorControlId = "pickContainerAncestor#local.safeSuffix#">
+	<cfset local.ancestorIdControlId = "pickContainerAncestorId#local.safeSuffix#">
+	<cfset local.searchControlId = "pickContainerSearch#local.safeSuffix#">
+	<cfset local.searchIdControlId = "pickContainerSearchId#local.safeSuffix#">
+	<cfset local.labelContainsControlId = "pickContainerLabelContains#local.safeSuffix#">
+	<cfset local.descriptionContainsControlId = "pickContainerDescriptionContains#local.safeSuffix#">
+	<cfset local.validationControlId = "pickContainerValidation#local.safeSuffix#">
+	<cfset local.confirmControlId = "pickContainerConfirm#local.safeSuffix#">
+	<cfset local.cancelControlId = "pickContainerCancel#local.safeSuffix#">
+	<cfset local.searchOpenControlId = "pickContainerSearchOpen#local.safeSuffix#">
+	<cfset local.statusControlId = "pickContainerStatus#local.safeSuffix#">
+	<cfset local.selectedType = trim(arguments.preselect_type)>
+	<cfset local.pickLeaves = listFindNoCase("1,true,yes,on", trim(arguments.pick_leaves)) GT 0>
+	<cfset local.dialogMode = lCase(trim(arguments.dialog_mode))>
+	<cfif NOT listFindNoCase("parent,child,find", local.dialogMode)>
+		<cfset local.dialogMode = "find">
+	</cfif>
+	<cfset local.filterLegend = "Filter containers">
+	<cfset local.selectLegend = "Select container">
+	<cfif local.dialogMode EQ "parent">
+		<cfset local.filterLegend = "Filter parent candidates">
+		<cfset local.selectLegend = "Select parent container">
+	<cfelseif local.dialogMode EQ "child">
+		<cfset local.filterLegend = "Filter child candidates">
+		<cfset local.selectLegend = "Select child container">
+	</cfif>
+
+	<cfquery name="queryAllowedTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			container_type,
+			rank_order
+		FROM
+			ctcontainer_type
+		<cfif local.dialogMode EQ "parent">
+			WHERE
+				role IN ('structural', 'leafbearer')
+		</cfif>
+		ORDER BY
+			rank_order,
+			container_type
+	</cfquery>
+
+	<cfif local.dialogMode EQ "parent" AND len(trim(arguments.child_container_id)) GT 0 AND isNumeric(arguments.child_container_id)>
+		<cfquery name="queryChildExpected" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				NVL(ct.expected_parent_types, 'any') AS expected_parent_types
+			FROM
+				container c
+				LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+			WHERE
+				c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+		</cfquery>
+		<cfif queryChildExpected.recordcount EQ 1 AND len(trim(local.selectedType)) EQ 0>
+			<cfset local.expectedTypeList = trim(queryChildExpected.expected_parent_types)>
+			<cfif local.expectedTypeList NEQ "" AND lCase(local.expectedTypeList) NEQ "any" AND lCase(local.expectedTypeList) NEQ "none">
+				<cfset local.selectedType = trim(listFirst(local.expectedTypeList, ","))>
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfif local.dialogMode EQ "child" AND local.pickLeaves AND len(trim(local.selectedType)) EQ 0>
+		<cfset local.selectedType = "collection object">
+	</cfif>
+
+	<cfsavecontent variable="local.htmlFragment"><cfoutput>
+		<fieldset class="border rounded bg-light p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">#encodeForHtml(local.filterLegend)#</legend>
+			<div class="form-row mb-2">
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.typeControlId)#" class="data-entry-label">Container Type</label>
+					<select id="#encodeForHtml(local.typeControlId)#" class="data-entry-select col-12 pick-container-filter-control">
+						<option value=""></option>
+						<cfloop query="queryAllowedTypes">
+							<cfset local.selectedFlag = "">
+							<cfif queryAllowedTypes.container_type EQ local.selectedType>
+								<cfset local.selectedFlag = " selected">
+							</cfif>
+							<option value="#encodeForHtml(queryAllowedTypes.container_type)#"#local.selectedFlag#>#encodeForHtml(queryAllowedTypes.container_type)#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree (optional)</label>
+					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
+					<input type="hidden" id="#encodeForHtml(local.ancestorIdControlId)#" value="#encodeForHtml(arguments.ancestor_container_id)#">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-label">Label contains</label>
+					<input type="text" id="#encodeForHtml(local.labelContainsControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
+				</div>
+				<div class="col-12 col-md-6 mb-1">
+					<label for="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-label">Description contains</label>
+					<input type="text" id="#encodeForHtml(local.descriptionContainsControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
+				</div>
+			</div>
+		</fieldset>
+		<fieldset class="border rounded p-2 mb-2">
+			<legend class="small font-weight-bold text-uppercase w-auto px-1 mb-1">#encodeForHtml(local.selectLegend)#</legend>
+			<div class="form-row">
+				<div class="col-12 mb-1">
+					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label mb-0">Container autocomplete
+						<a href="javascript:void(0)" role="button" id="#encodeForHtml(local.searchOpenControlId)#" class="btn-link disabled ml-1" aria-disabled="true" tabindex="-1">&##8595;<span class="sr-only"> Open filtered autocomplete suggestions</span></a>
+					</label>
+					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
+					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
+				</div>
+			</div>
+		</fieldset>
+		<div class="form-row mb-2">
+			<div class="col-12">
+				<div class="small text-muted">Pick from the autocomplete list above after setting any filters.</div>
+			</div>
+		</div>
+		<div class="form-row mb-2">
+			<div class="col-12">
+				<cfif len(trim(arguments.institution_acronym)) GT 0>
+					<div class="small text-muted mb-2">Search limited to institution: #encodeForHtml(arguments.institution_acronym)#</div>
+				</cfif>
+			</div>
+		</div>
+		<div id="#encodeForHtml(local.validationControlId)#" role="status" aria-live="polite" class="mb-2"></div>
+		<div class="form-row">
+			<div class="col-12">
+				<button type="button" id="#encodeForHtml(local.confirmControlId)#" class="btn btn-xs btn-outline-secondary pick-container-select-btn" disabled="disabled">Select</button>
+				<button type="button" id="#encodeForHtml(local.cancelControlId)#" class="btn btn-xs btn-warning ml-1">Cancel</button>
+				<output id="#encodeForHtml(local.statusControlId)#" class="ml-2"></output>
+			</div>
+		</div>
+	</cfoutput></cfsavecontent>
+
+	<cfreturn local.htmlFragment>
 </cffunction>
 
 </cfcomponent>

@@ -162,7 +162,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 pt-2 px-4 pb-2" id="searchFormDiv">
 								<form name="searchForm" id="searchForm">
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mb-1 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Core Search Data</legend> 
 										<input type="hidden" name="method" value="getPublications">
 										<div class="form-row">
@@ -180,7 +180,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 m-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mb-1 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Publication Details</legend> 
 										<div class="form-row">
 											<div class="col-12 col-md-2">
@@ -337,7 +337,7 @@ limitations under the License.
 														<div class="input-group-prepend">
 															<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 														</div>
-														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(author_agent_name)#">
+														<input type="text" name="author_agent_name" id="author_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(author_agent_name)#">
 														<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
 													</div>
 												</div>
@@ -356,7 +356,7 @@ limitations under the License.
 														<div class="input-group-prepend">
 															<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 														</div>
-														<input type="text" name="editor_agent_name" id="editor_agent_name" class="w-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(editor_agent_name)#">
+														<input type="text" name="editor_agent_name" id="editor_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" value="#encodeForHtml(editor_agent_name)#">
 														<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
 													</div>
 												</div>
@@ -411,7 +411,7 @@ limitations under the License.
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mt-2 mx-2">
+									<fieldset class="bg-light border-default field-set rounded px-2 pb-2 mb-1 mt-2 mx-2">
 										<legend class="h6 mb-0 px-3 border-default field-set-legend w-auto bg-teal">Citation Details</legend>
 										<div class="form-row">
 											<div class="col-12 col-md-6 col-xl-4">
