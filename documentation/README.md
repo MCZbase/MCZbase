@@ -616,7 +616,7 @@ Enforcement of required fields MUST be provided through not null constraints on 
 
 ### Search/Results
 
-MCZbase uses a model where a search form is at the top of a page and search results are loaded by Ajax into a jqxgrid below. These pages MUST support an API that allows the entire search form to be populated with url parameters, with the option to include an execute=true parameter in the url. When the execute=true parameter is present, on page loading, the search form mustMUST be filled in with the provided parameters and the search executed.
+MCZbase uses a model where a search form is at the top of a page and search results are loaded by Ajax into a jqxgrid below. These pages MUST support an API that allows the entire search form to be populated with url parameters, with the option to include an execute=true parameter in the url. When the execute=true parameter is present, on page loading, the search form MUST be filled in with the provided parameters and the search executed.
 
 ### Saving Changes
 
