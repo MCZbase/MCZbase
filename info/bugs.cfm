@@ -455,7 +455,7 @@ limitations under the License.
 				<cfif sentok eq "true">
 					<p align="center">Your report has been successfully submitted.</p>
 					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"coldfusion_user")>
-						<p>Your bug report has been assigned bugID: #bugID#.</p>
+						<p align="center">Your bug report has been assigned bugID: #bugID#.</p>
 					</cfif>
 					<p align="center">Thank you for helping to improve this site!</p>
 				</cfif>
