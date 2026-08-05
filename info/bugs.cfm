@@ -394,6 +394,7 @@ limitations under the License.
 				<cfset human_importance="Submitter Importance = High Priority [#user_priority#]">
 			</cfif>
 			<cfset newline= Chr(13) & Chr(10)>
+			<cfset bugID = "">
 			<cftry>
 				<cfif len(Application.bugzilla_api_key) GT 0>
 					<!--- this should be the api key of bugzilla_user to have the bug attributed to MCZbase --->
@@ -431,6 +432,16 @@ limitations under the License.
 							<cfdump var="#bugzillaResult#">
 						</cfif>
 						<cfthrow message= "Error creating bug, response was: #bugzillaResult.statusCode#" >
+					<cfelse>
+						<!--- check that bugzillaResult.fileContent contains json with a bug id --->
+						<cfif NOT structKeyExists(DeserializeJSON(bugzillaResult.fileContent), "id")>
+							<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
+								<cfdump var="#bugzillaResult#">
+							</cfif>
+							<cfthrow message= "Error creating bug, response did not contain a bugID" >
+						<cfelse>
+							<cfset bugID = DeserializeJSON(bugzillaResult.fileContent).id>
+						</cfif>
 					</cfif>
 				<cfelse>
 					<cfthrow message="Bugzilla integration is not configured. Please contact the system administrator.">
@@ -443,9 +454,12 @@ limitations under the License.
 			<div class="basic_box">
 				<cfif sentok eq "true">
 					<p align="center">Your report has been successfully submitted.</p>
+					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"coldfusion_user")>
+						<p>Your bug report has been assigned bugID: #bugID#.</p>
+					</cfif>
 					<p align="center">Thank you for helping to improve this site!</p>
 				</cfif>
-				<p align="center">Click <a href="/Specimens.cfm">here</a> to search MCZbase.</p>
+				<p align="center">Return to the <a href="/Specimens.cfm">Specimen Search</a>.</p>
 			</div>
 		</main>
 		</cfoutput>
