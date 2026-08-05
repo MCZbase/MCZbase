@@ -738,6 +738,39 @@ li.list-group-item.thethumbs:first-child {
 	margin-left: 10px;
 }
 /************************
+Interactive map styles 
+************************/
+.tinymap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    margin: 0 0;
+}
+.tinymap-3col, .tinymap-2col {/* Explicit heights per layout */
+    height: 180px;
+}
+.tinymap .static-map,
+.tinymap .interactive-map {/* Both maps fill the wrapper box */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.tinymap .static-map {/* Static thumbnail: keep whole map and center it */
+    object-fit: cover;
+    object-position: 50% 50%;
+    margin: 0;
+    padding: 0;
+    border: 3px solid #444;
+    cursor: pointer;
+}
+.tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
+    display: none;
+    z-index: 2;
+}
+/************************
 *************************
 BELOW: SEARCH PAGE STYLES to 
 override Bootstrap styles
