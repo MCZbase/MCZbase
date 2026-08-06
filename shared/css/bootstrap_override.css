@@ -2754,7 +2754,7 @@ div.toctitle {
 	padding-left: 1.2rem !important;
 }
 .jqx-widget .jqx-grid-cell {
-	border-color: #ced4da !important;
+/*	border-color: #ced4da !important;*/
 	color: #2b2b2b !important;
 }
 /* Non-type/voucher — dark rows */
@@ -2767,7 +2767,7 @@ div.toctitle {
 }
 /* Primary type — dark rows */
 .primaryTypeCell.jqx-grid-cell-alt {
-	background: #F6CCD6 !important;
+	background: #F9DDE4 !important;
 }
 /* Secondary type — light rows */
 .secondaryTypeCell.jqx-grid-cell {
@@ -2775,11 +2775,7 @@ div.toctitle {
 }
 /* Secondary type — dark rows */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: #CBE0F3 !important;
-}
-/* Fallback hover (now unreachable — see note below) */
-.jqx-grid-cell-hover {
-	background: #cbced1 !important;
+	background: #D2E4F2 !important;
 }
 /* Primary type — light rows, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
@@ -2787,18 +2783,16 @@ div.toctitle {
 }
 /* Primary type — dark rows, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-  background-color: #E7C0C9 !important;
+  background-color: #EAD0D6 !important;
 }
-
 /* Secondary type — light rows, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
 	background-color: #D7E1EB !important;
 }
 /* Secondary type — dark rows, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-	background-color: #BFD3E4 !important;
+	background-color: #C5D6E3 !important;
 }
-
 /* Non-type/voucher — light rows (white), hover */
 .jqx-grid-cell.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
 	background-color: #F0F0F0 !important;
@@ -2807,7 +2801,6 @@ div.toctitle {
 .jqx-grid-cell.jqx-grid-cell-alt.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
 	background-color: #DBDBDB !important;
 }
-.
 .eyelash_button {
 	padding: 3px 0.5rem;
 	margin: 4px;
