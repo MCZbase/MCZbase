@@ -1664,7 +1664,7 @@ details of a container for use in dialogs and page components.
 										roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
 									}
 									<cfif val(getContainerDetail.number_positions) GT 0>
-										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", #canEditPositionsJs#);
+										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", #canEditPositionsJs#, "#encodeForJavaScript(positionsHeadingId)#");
 									</cfif>
 									loadContainerContentsSection(#getContainerDetail.container_id#, "#encodeForJavaScript(contentsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
 								});
@@ -1735,7 +1735,7 @@ details of a container for use in dialogs and page components.
 					</section>
 					<cfif val(getContainerDetail.number_positions) GT 0>
 						<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(positionsHeadingId)#">
-							<h2 class="h4" id="#encodeForHtmlAttribute(positionsHeadingId)#">Positions</h2>
+							<h2 class="h4" id="#encodeForHtmlAttribute(positionsHeadingId)#" tabindex="-1">Positions</h2>
 							<div id="#encodeForHtmlAttribute(positionsTargetId)#"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
 						</section>
 					</cfif>
