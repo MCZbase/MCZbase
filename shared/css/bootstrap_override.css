@@ -557,7 +557,6 @@ span.data-entry-addon {
 }
 .jqx-grid-cell {
 	border-width: 0px 1px 1px 1px;
-	border-color: buttonface;
 }
 .jqx-grid-cell a {
 	margin-left: .2rem;
@@ -587,7 +586,8 @@ span.data-entry-addon {
 BELOW: Cell styles for specimen search results grids
 used by cellclassname functions in the results grids
 ************************/
-.primaryTypeCell {
+/** base classes  have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
+/*.primaryTypeCell {
 	background-color: #ffe1e1\9;
 }
 .secondaryTypeCell {
@@ -599,7 +599,7 @@ used by cellclassname functions in the results grids
 .secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #e1edff\9;
 }
-/** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
+
 .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #ffe1e1;
 }
@@ -611,7 +611,7 @@ used by cellclassname functions in the results grids
 }
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e1edff;
-}
+}*/
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -2754,28 +2754,28 @@ div.toctitle {
 	padding-left: 1.2rem !important;
 }
 .jqx-widget .jqx-grid-cell {
-/*	border-color: #ced4da !important;*/
+	border-color: #ced4da !important;
 	color: #2b2b2b !important;
 }
 /* Non-type/voucher — dark rows */
 .jqx-grid-cell-alt {
-	background: #E9E9E9 !important;
+	background-color: #E9E9E9 !important;
 }
 /* Primary type — light rows */
 .primaryTypeCell.jqx-grid-cell {
-	background: #FDEEF1 !important;
+	background-color: #FDEEF1 !important;
 }
 /* Primary type — dark rows */
 .primaryTypeCell.jqx-grid-cell-alt {
-	background: #F9DDE4 !important;
+	background-color: #F9DDE4 !important;
 }
 /* Secondary type — light rows */
 .secondaryTypeCell.jqx-grid-cell {
-	background: #E5EFFA !important;
+	background-color: #E5EFFA !important;
 }
 /* Secondary type — dark rows */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: #D2E4F2 !important;
+	background-color: #D2E4F2 !important;
 }
 /* Primary type — light rows, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
@@ -2800,6 +2800,38 @@ div.toctitle {
 /* Non-type/voucher — dark rows (gray), hover */
 .jqx-grid-cell.jqx-grid-cell-alt.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
 	background-color: #DBDBDB !important;
+}
+/* Primary type — light rows, selected */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected-light {
+  background-color: #DFD1D4 !important;
+}
+/* Primary type — dark rows, selected */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+  background-color: #DBC2C9 !important;
+}
+
+/* Secondary type — light rows, selected */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
+  background-color: #CAD2DC !important;
+}
+/* Secondary type — dark rows, selected */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+  background-color: #B9C9D5 !important;
+}
+
+/* Non-type/voucher — light rows (white), selected */
+.jqx-grid-cell.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
+.jqx-grid-cell.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
+  background-color: #E0E0E0 !important;
+}
+/* Non-type/voucher — dark rows (gray), selected */
+.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
+.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
+  background-color: #CDCDCD !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
