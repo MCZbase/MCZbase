@@ -2097,27 +2097,33 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			: 'Empty';
 		var inputId = 'positionsGridBarcodeInput_' + targetDivId + '_' + position.position_id;
 		if (isEmptyPosition && canEditPositions) {
-			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty positions-grid-cell-editable"></div>');
-			cell.append($('<label class="positions-grid-label"></label>').attr('for', inputId).text(position.position_label || ''));
+			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty"></div>');
+			cell.append(
+				$('<label class="positions-grid-label"></label>')
+					.attr('for', inputId)
+					.text(position.position_label || '')
+					.on('click', function(event) {
+						event.stopPropagation();
+					})
+			);
 			cell.append(
 				$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
 					.attr('id', inputId)
 					.attr('placeholder', 'Empty')
+					.on('click', function(event) {
+						event.stopPropagation();
+					})
 					.on('change', function() {
 						handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
 					})
 			);
 			cell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
-			cell.append(
-				$('<button class="btn btn-xs btn-link positions-grid-place-btn" type="button"></button>')
-					.text('Place container')
-					.attr('aria-label', 'Search for a container to place into position ' + (position.position_label || ''))
-					.on('click', function() {
-						openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-							loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
-						});
-					})
-			);
+			cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
+			cell.on('click', function() {
+				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+				});
+			});
 			grid.append(cell);
 		} else {
 			var cell = $('<button class="positions-grid-cell" type="button"></button>');
