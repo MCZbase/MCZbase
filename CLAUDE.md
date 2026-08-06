@@ -154,7 +154,6 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 - Wrap user-provided values in `encodeForHtml()` before rendering into HTML, and `encodeForUrl()` before placing into URLs -- the developer's guide shows this pattern throughout form fields, e.g. `value="#encodeForHtml(anyName)#"`.
 - The "link to this search" URL parameters MUST be wrapped in `urlencode()`/`htmlencode()` as appropriate when re-emitted.
 - Treat every `url.*` and `form.*` value as untrusted until encoded for its output context.
-- This is unconditional -- do not skip encoding because the value's *current* consumer happens to make it seem redundant (e.g. a value that today only reaches the client as JSON rendered via jQuery `.text()`, which auto-escapes). Encode at the point of emission based on what the value *is* (user-provided), not on how it happens to be consumed right now -- that consumption can change without this code changing.
 
 ## Comments
 
@@ -201,14 +200,6 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 | Add relationship / Edit / Create-new-{object} from search page | `btn btn-xs btn-secondary` |
 | Edit link from a results grid | `btn-xs btn-outline-primary` |
 
-This table describes page-level and results-grid-level buttons. Inside a
-small, densely repeated cell (e.g. one cell of a fixed-size positions grid),
-a boxed button can visually overwhelm the cell -- prefer plain text wired up
-with `role="button"`, `tabindex="0"`, and Enter/Space keydown handling (or,
-if the cell has room, a link-styled `btn btn-xs btn-link`) over a filled
-button. Call this out explicitly as a deviation local to that layout, not a
-general pattern change, wherever it's used.
-
 ## CSS
 
 - Prefer Bootstrap classes over inline styles or hand-written CSS wherever a Bootstrap utility covers the need (e.g. `<h1 class="h3">`, not inline `font-size`).
@@ -239,5 +230,5 @@ task's framing made other rules more salient. In particular:
   above.
 - If you deviate from a specific rule (a button color, an ARIA pattern, an
   event-binding style) for a good local reason, say so explicitly in your
-  response and/or commit message, rather than silently matching nearby code
-  and letting the deviation go unstated.
+  response and/or commit message and a comment in the code, rather than 
+  silently matching nearby code and letting the deviation go unstated.
