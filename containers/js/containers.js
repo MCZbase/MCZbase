@@ -2028,19 +2028,22 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
-			var labelId = 'positionsGridFallbackLabel_' + targetDivId + '_' + position.position_id;
+			var inputId = 'positionsGridFallbackInput_' + targetDivId + '_' + position.position_id;
+			var labelCell = $('<td></td>');
 			var occupantCell = $('<td></td>');
 			if (isEmptyPosition && canEditPositions) {
+				labelCell.append($('<label></label>').attr('for', inputId).text(position.position_label || ''));
 				occupantCell.append(
 					$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+						.attr('id', inputId)
 						.attr('placeholder', 'Empty')
-						.attr('aria-labelledby', labelId)
 						.on('change', function() {
 							handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
 						})
 				);
 				occupantCell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
 			} else {
+				labelCell.text(position.position_label || '');
 				occupantCell.text(occupantDisplay);
 			}
 			var actionCell = $('<td></td>');
@@ -2072,7 +2075,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 				);
 			}
 			var tr = $('<tr></tr>');
-			tr.append($('<td></td>').attr('id', labelId).text(position.position_label || ''));
+			tr.append(labelCell);
 			tr.append(occupantCell);
 			tr.append($('<td></td>').text(position.content_container_type || ''));
 			tr.append(actionCell);
@@ -2092,14 +2095,14 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var occupantDisplay = position.content_container_id
 			? formatContainerDisplay(position.content_barcode, position.content_label)
 			: 'Empty';
-		var labelId = 'positionsGridLabel_' + targetDivId + '_' + position.position_id;
+		var inputId = 'positionsGridBarcodeInput_' + targetDivId + '_' + position.position_id;
 		if (isEmptyPosition && canEditPositions) {
 			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty positions-grid-cell-editable"></div>');
-			cell.append($('<span class="positions-grid-label"></span>').attr('id', labelId).text(position.position_label || ''));
+			cell.append($('<label class="positions-grid-label"></label>').attr('for', inputId).text(position.position_label || ''));
 			cell.append(
 				$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+					.attr('id', inputId)
 					.attr('placeholder', 'Empty')
-					.attr('aria-labelledby', labelId)
 					.on('change', function() {
 						handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
 					})
