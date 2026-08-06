@@ -2755,6 +2755,7 @@ div.toctitle {
 }
 .jqx-widget .jqx-grid-cell {
 	border-color: #ced4da !important;
+	color: #2b2b2b !important;
 }
 /* Non-type/voucher — dark rows */
 .jqx-grid-cell-alt {
@@ -2806,6 +2807,7 @@ div.toctitle {
 .jqx-grid-cell.jqx-grid-cell-alt.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
 	background-color: #DBDBDB !important;
 }
+.
 .eyelash_button {
 	padding: 3px 0.5rem;
 	margin: 4px;
