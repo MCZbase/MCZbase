@@ -555,16 +555,16 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.jqx-grid-cell {
+/*.jqx-grid-cell {
 	border-width: 0px 1px 1px 1px;
-}
+}*/
 .jqx-grid-cell a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
-.jqx-item {
+/*.jqx-item {
 	color: black;
-}
+}*/
 .text-success {
 	color: #18780b !important;
 }
@@ -2708,9 +2708,13 @@ div.toctitle {
 	position: relative;
 	padding-left: 1.2rem !important;
 }
+.jqx-widget .jqx-grid-group-cell {
+	border-color: #ced4da !important;
+}
 .jqx-widget .jqx-grid-cell {
 	border-color: #ced4da !important;
 	color: #2b2b2b !important;
+	z-index: 3004;
 }
 /* Non-type/voucher — dark rows */
 .jqx-grid-cell-alt {

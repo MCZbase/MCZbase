@@ -4603,7 +4603,7 @@
 				maxZIndex = getMaxZIndex();
 				try { 
 					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-cell').css({'border-color': '##aaa'});
+					//$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
 					console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");
@@ -4612,7 +4612,7 @@
 				}
 				try { 
 					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+					//$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
 				}
