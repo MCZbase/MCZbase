@@ -2118,12 +2118,25 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 					})
 			);
 			cell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
-			cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
-			cell.on('click', function() {
+			var openPlacementDialog = function() {
 				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
 					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
 				});
-			});
+			};
+			cell.append(
+				$('<span class="positions-grid-type small"></span>')
+					.text('Place container')
+					.attr('role', 'button')
+					.attr('tabindex', '0')
+					.on('keydown', function(event) {
+						if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+							event.preventDefault();
+							event.stopPropagation();
+							openPlacementDialog();
+						}
+					})
+			);
+			cell.on('click', openPlacementDialog);
 			grid.append(cell);
 		} else {
 			var cell = $('<button class="positions-grid-cell" type="button"></button>');
