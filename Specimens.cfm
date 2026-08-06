@@ -4602,7 +4602,7 @@
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				maxZIndex = getMaxZIndex();
 				try { 
-					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 					//$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
@@ -4611,7 +4611,7 @@
 					console.log("Expected consequence is that the sort menus on the grid are not visible.");
 				}
 				try { 
-					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 					//$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
