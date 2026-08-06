@@ -40,6 +40,14 @@ you're only touching legacy code and a full migration isn't in scope, match
 the surrounding legacy conventions instead of mixing patterns in the same
 file.
 
+This "match surrounding conventions" allowance is scoped to genuinely
+**legacy** files (the `/includes/`-pattern files described below) -- it does
+NOT extend to pre-existing quirks or inconsistencies inside files that are
+already part of the target pattern (e.g. `/{concept}/component/*.cfc`,
+`/{concept}/js/*.js`). Those files ARE the standard to match. A pre-existing
+deviation from this guide inside one of them is a bug to flag (or fix, if
+you're already touching that exact code) -- not a precedent for new code.
+
 **Legacy pattern (being phased out):**
 - Pages include `/includes/_header.cfm`
 - Shared JavaScript lives in large monolithic files, e.g. `/includes/ajax.js`
@@ -146,6 +154,7 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 - Wrap user-provided values in `encodeForHtml()` before rendering into HTML, and `encodeForUrl()` before placing into URLs -- the developer's guide shows this pattern throughout form fields, e.g. `value="#encodeForHtml(anyName)#"`.
 - The "link to this search" URL parameters MUST be wrapped in `urlencode()`/`htmlencode()` as appropriate when re-emitted.
 - Treat every `url.*` and `form.*` value as untrusted until encoded for its output context.
+- This is unconditional -- do not skip encoding because the value's *current* consumer happens to make it seem redundant (e.g. a value that today only reaches the client as JSON rendered via jQuery `.text()`, which auto-escapes). Encode at the point of emission based on what the value *is* (user-provided), not on how it happens to be consumed right now -- that consumption can change without this code changing.
 
 ## Comments
 
@@ -155,7 +164,7 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 
 ## JavaScript conventions
 
-- Prefer inline `onClick` handlers over bound click events, to keep the event -> handler path easy to trace.
+- Prefer inline `onClick` handlers over bound click events, to keep the event -> handler path easy to trace. This applies to ColdFusion-templated markup (HTML built as strings/tags in `.cfm`/`.cfc` output). For JS that builds a widget by constructing DOM elements with jQuery (`$('<div>...</div>')`/`.append()` chains, e.g. the redesign's dynamically-rendered grids and tables) rather than templating HTML strings, bind with `.on(...)` instead and match whatever the surrounding function in that same file already does -- don't mix inline-attribute handlers into an otherwise jQuery-constructed element tree.
 - Wrap `<script>` blocks in `<cfoutput>` and **double any `#`** used in jQuery selectors (`$('##someId')`) or ColdFusion will misinterpret them.
 - Pass DOM element IDs as parameters into handler functions rather than hardcoding IDs downstream (avoid "magic" element names buried in function bodies).
 - Prefer jQuery selectors (`$("#id")`) over `document.getElementById()`.
@@ -192,6 +201,14 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 | Add relationship / Edit / Create-new-{object} from search page | `btn btn-xs btn-secondary` |
 | Edit link from a results grid | `btn-xs btn-outline-primary` |
 
+This table describes page-level and results-grid-level buttons. Inside a
+small, densely repeated cell (e.g. one cell of a fixed-size positions grid),
+a boxed button can visually overwhelm the cell -- prefer plain text wired up
+with `role="button"`, `tabindex="0"`, and Enter/Space keydown handling (or,
+if the cell has room, a link-styled `btn btn-xs btn-link`) over a filled
+button. Call this out explicitly as a deviation local to that layout, not a
+general pattern change, wherever it's used.
+
 ## CSS
 
 - Prefer Bootstrap classes over inline styles or hand-written CSS wherever a Bootstrap utility covers the need (e.g. `<h1 class="h3">`, not inline `font-size`).
@@ -203,3 +220,24 @@ If a task isn't clearly covered by this file or the developer's guide, say so
 explicitly and propose an approach consistent with the target architecture
 and security requirements above, rather than silently falling back to
 generic ColdFusion defaults.
+
+## Verifying your work
+
+Before treating a change as finished, re-read the diff against this file and
+the developer's guide's security and accessibility sections specifically --
+adherence should be checked deliberately against the written rules, not
+assumed from having kept them in mind while writing the code. This file is
+dense enough that specific rules (Javadoc completeness, an exact button
+class, an accessible-name mechanism) can go unchecked simply because the
+task's framing made other rules more salient. In particular:
+
+- Don't relax a security-critical rule (`<cfqueryparam>`, `encodeForHtml()`,
+  role checks on a mutating remote method, etc.) because the current call
+  path happens to make it seem redundant -- see Output encoding above.
+- Don't extend the legacy-file "match surrounding conventions" allowance to
+  pre-existing quirks in target-pattern files -- see Redesign in progress
+  above.
+- If you deviate from a specific rule (a button color, an ARIA pattern, an
+  event-binding style) for a good local reason, say so explicitly in your
+  response and/or commit message, rather than silently matching nearby code
+  and letting the deviation go unstated.
