@@ -228,8 +228,14 @@ task's framing made other rules more salient. In particular:
 - Don't extend the legacy-file "match surrounding conventions" allowance to
   pre-existing quirks in target-pattern files -- see Redesign in progress
   above.
-- If you deviate from a specific rule (a button color, an ARIA pattern, an
-  event-binding style) for a good local reason, say so explicitly -- with a
-  comment in the code, and a mention in your response or commit message --
-  rather than silently matching nearby code and letting the deviation go
-  unstated.
+
+## Documenting deviations
+
+If you deviate from a specific *stylistic or presentational* rule in this
+file (a button color, an ARIA pattern, an event-binding style) for a good
+local reason, say so explicitly -- with a comment in the code, and a mention
+in your response or commit message -- rather than silently matching nearby
+code and letting the deviation go unstated. This does not extend to the
+security-critical or non-negotiable rules elsewhere in this file (SQL /
+`cfqueryparam`, output encoding, role checks, the legacy-file scoping above)
+-- those have no "deviate and disclose" exception.
