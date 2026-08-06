@@ -1468,6 +1468,10 @@ of container details, loaded separately to avoid delaying initial details render
 <!---
 Function getContainerDetailsHtml.  Returns an HTML fragment with the read-only
 details of a container for use in dialogs and page components.
+
+Note: whether the positions section renders scan-to-place barcode inputs is decided
+entirely inside this function from session.roles, not from a caller-supplied argument --
+a remote-accessible method must never trust the caller to assert its own edit rights.
 --->
 <cffunction name="getContainerDetailsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -1488,12 +1492,20 @@ details of a container for use in dialogs and page components.
 	<cfelseif listFindNoCase("0,false,no", trim(arguments.showBrowseAction))>
 		<cfset local.showBrowseAction = false>
 	</cfif>
+	<!--- position scan-to-place inputs are only ever offered on the full page, and only when this
+		session itself holds manage_container rights -- never trust a caller-supplied "canEdit" argument,
+		since this method is remote-accessible and could otherwise be called directly to render an
+		editable form for a session that isn't actually permitted to edit. --->
+	<cfset local.canEditPositions = (local.safeDisplayMode EQ "page")
+		AND isdefined("session.roles")
+		AND listfindnocase(session.roles, "manage_container") GT 0>
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
 		showBrowseAction="#local.showBrowseAction#"
+		canEditPositions="#local.canEditPositions#"
 	>
 		<cfoutput>
 			<cftry>
@@ -1552,6 +1564,10 @@ details of a container for use in dialogs and page components.
 					<cfset positionsHeadingId = "containerPositionsHeading#formattedIdSuffix#">
 					<cfset positionsTargetId = "containerPositionsGrid#formattedIdSuffix#">
 					<cfset roleBadgeId = "containerRoleBadge#formattedIdSuffix#">
+					<cfset canEditPositionsJs = "false">
+					<cfif canEditPositions>
+						<cfset canEditPositionsJs = "true">
+					</cfif>
 					<cfset viewContainerUrl = "/containers/viewContainer.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset editContainerUrl = "/containers/Container.cfm?action=edit&container_id=#encodeForURL(getContainerDetail.container_id)#">
 					<cfset createChildContainerUrl = "/containers/Container.cfm?action=new&parent_container_id=#encodeForURL(getContainerDetail.container_id)#">
@@ -1643,7 +1659,7 @@ details of a container for use in dialogs and page components.
 										roleBadgeTarget.innerHTML = getContainerRoleBadgeHtml("#encodeForJavaScript(getContainerDetail.container_type)#");
 									}
 									<cfif val(getContainerDetail.number_positions) GT 0>
-										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
+										loadPositionsGrid(#getContainerDetail.container_id#, #getContainerDetail.number_positions#, "#encodeForJavaScript(positionsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#", #canEditPositionsJs#);
 									</cfif>
 									loadContainerContentsSection(#getContainerDetail.container_id#, "#encodeForJavaScript(contentsTargetId)#", "#encodeForJavaScript(breadcrumbFeedbackId)#");
 								});
@@ -2849,6 +2865,68 @@ Returns status JSON and never aborts on trigger errors.
 		<cfset local.retval["parent_label"] = queryParent.label>
 		<cfset local.retval["parent_type"] = queryParent.container_type>
 		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function placeContainerIntoPositionByBarcode.  Looks up a scanned/typed barcode and, if it
+matches an existing container, places that container into the given position container by
+delegating to moveContainerById.  Supports the positions-grid scan-to-place workflow on
+viewContainer.cfm.  Returns status JSON and never aborts on trigger errors.
+
+Permission to place is checked here, independently, from session.roles -- this is the actual
+mutating action, so it must not rely solely on the calling page having hidden the button/input
+from users without manage_container rights.
+
+@param barcode barcode scanned or typed into the empty position's input.
+@param position_container_id container_id of the empty position container to place into.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, child_label, child_barcode, child_type, parent_container_id (when moved).
+--->
+<cffunction name="placeContainerIntoPositionByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="barcode" type="string" required="yes">
+	<cfargument name="position_container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0)>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "You do not have permission to place containers.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.trimmedBarcode = trim(arguments.barcode)>
+		<cfif len(local.trimmedBarcode) EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Enter or scan a barcode.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.trimmedBarcode#">
+		</cfquery>
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "No container found with barcode '#local.trimmedBarcode#'.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.moveResult = deserializeJSON(moveContainerById(
+			child_container_id=queryChild.container_id,
+			parent_container_id=arguments.position_container_id
+		))>
+		<cfset local.moveResult["child_barcode"] = queryChild.barcode>
+		<cfreturn serializeJSON(local.moveResult)>
 	<cfcatch>
 		<cfset local.retval = StructNew()>
 		<cfset local.retval["status"] = "error">
