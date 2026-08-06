@@ -186,10 +186,6 @@ limitations under the License.
 	background-color: #f8f9fa;
 }
 
-.positions-grid-cell-editable {
-	cursor: default;
-}
-
 .positions-grid-label {
 	font-weight: 600;
 	line-height: 1.2;

@@ -1945,7 +1945,9 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
  * Looks the barcode up server-side and, if it matches an existing container, places that
  * container into the given position, then reloads the grid and moves focus to the next
  * remaining empty position's input so a user can keep scanning without touching the mouse
- * (mirrors the /containerPositions.cfm scanner workflow this feature is modeled on).
+ * (mirrors the /containerPositions.cfm scanner workflow this feature is modeled on). If that
+ * was the last empty position, there is no next input to focus, so focus moves instead to the
+ * positions heading, whose text loadPositionsGrid has already updated to note none remain.
  *
  * @param {jQuery} inputEl - jQuery-wrapped input element that received the scanned barcode.
  * @param {number|string} positionContainerId - container_id of the empty position being filled.
@@ -1954,9 +1956,11 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
  * @param {string} targetDivId - id of the panel the positions grid is rendered into.
  * @param {string} feedbackId - optional feedback element id for transport-failure reporting.
  * @param {boolean} canEditPositions - whether scan-to-place inputs should render after reload.
+ * @param {string} headingId - id of the "Positions" heading, focused as a fallback when no
+ *	empty position remains to receive focus after this scan.
  * @returns {void}
  */
-function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, numPositions, targetDivId, feedbackId, canEditPositions) {
+function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId) {
 	var barcode = $.trim(inputEl.val());
 	var errorTarget = inputEl.closest('td, .positions-grid-cell').find('.positions-grid-barcode-error');
 	errorTarget.text('');
@@ -1976,8 +1980,13 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
 		},
 		success: function(result) {
 			if (result && result.status === 'moved') {
-				loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, function() {
-					$('#' + targetDivId + ' .positions-grid-barcode-input:enabled').first().trigger('focus');
+				loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId, function() {
+					var nextInput = $('#' + targetDivId + ' .positions-grid-barcode-input:enabled').first();
+					if (nextInput.length) {
+						nextInput.trigger('focus');
+					} else if (headingId) {
+						$('#' + headingId).trigger('focus');
+					}
 				});
 			} else {
 				var message = (result && result.message) ? result.message : 'Unable to place scanned container.';
@@ -2005,8 +2014,10 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  * @param {string} feedbackId - optional feedback element id for details-dialog failures.
  * @param {number|string} containerId - container_id whose positions are being rendered.
  * @param {boolean} canEditPositions - whether to render scan-to-place inputs for empty positions.
+ * @param {string} headingId - id of the "Positions" heading, forwarded to reload calls
+ *	triggered from within this grid so its "(all occupied)" text stays current.
  */
-function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions) {
+function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
 		25: 'positions-grid-5x5',
@@ -2028,19 +2039,22 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
-			var labelId = 'positionsGridFallbackLabel_' + targetDivId + '_' + position.position_id;
+			var inputId = 'positionsGridFallbackInput_' + targetDivId + '_' + position.position_id;
+			var labelCell = $('<td></td>');
 			var occupantCell = $('<td></td>');
 			if (isEmptyPosition && canEditPositions) {
+				labelCell.append($('<label></label>').attr('for', inputId).text(position.position_label || ''));
 				occupantCell.append(
 					$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+						.attr('id', inputId)
 						.attr('placeholder', 'Empty')
-						.attr('aria-labelledby', labelId)
 						.on('change', function() {
-							handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+							handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
 						})
 				);
 				occupantCell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
 			} else {
+				labelCell.text(position.position_label || '');
 				occupantCell.text(occupantDisplay);
 			}
 			var actionCell = $('<td></td>');
@@ -2051,7 +2065,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 						.text('Place…')
 						.on('click', function() {
 							openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
 							});
 						})
 				);
@@ -2072,7 +2086,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 				);
 			}
 			var tr = $('<tr></tr>');
-			tr.append($('<td></td>').attr('id', labelId).text(position.position_label || ''));
+			tr.append(labelCell);
 			tr.append(occupantCell);
 			tr.append($('<td></td>').text(position.content_container_type || ''));
 			tr.append(actionCell);
@@ -2092,29 +2106,48 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var occupantDisplay = position.content_container_id
 			? formatContainerDisplay(position.content_barcode, position.content_label)
 			: 'Empty';
-		var labelId = 'positionsGridLabel_' + targetDivId + '_' + position.position_id;
+		var inputId = 'positionsGridBarcodeInput_' + targetDivId + '_' + position.position_id;
 		if (isEmptyPosition && canEditPositions) {
-			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty positions-grid-cell-editable"></div>');
-			cell.append($('<span class="positions-grid-label"></span>').attr('id', labelId).text(position.position_label || ''));
+			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty"></div>');
+			cell.append(
+				$('<label class="positions-grid-label"></label>')
+					.attr('for', inputId)
+					.text(position.position_label || '')
+					.on('click', function(event) {
+						event.stopPropagation();
+					})
+			);
 			cell.append(
 				$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+					.attr('id', inputId)
 					.attr('placeholder', 'Empty')
-					.attr('aria-labelledby', labelId)
+					.on('click', function(event) {
+						event.stopPropagation();
+					})
 					.on('change', function() {
-						handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+						handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
 					})
 			);
 			cell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
+			var openPlacementDialog = function() {
+				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
+				});
+			};
 			cell.append(
-				$('<button class="btn btn-xs btn-primary positions-grid-place-btn" type="button"></button>')
-					.text('Place…')
-					.attr('aria-label', 'Search for a container to place into position ' + (position.position_label || 'this position'))
-					.on('click', function() {
-						openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-							loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
-						});
+				$('<span class="positions-grid-type small"></span>')
+					.text('Place container')
+					.attr('role', 'button')
+					.attr('tabindex', '0')
+					.on('keydown', function(event) {
+						if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+							event.preventDefault();
+							event.stopPropagation();
+							openPlacementDialog();
+						}
 					})
 			);
+			cell.on('click', openPlacementDialog);
 			grid.append(cell);
 		} else {
 			var cell = $('<button class="positions-grid-cell" type="button"></button>');
@@ -2133,7 +2166,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 				cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
 				cell.on('click', function() {
 					openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-						loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+						loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
 					});
 				});
 			} else {
@@ -2149,15 +2182,20 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 }
 
 /**
- * Loads the positions payload for one container and renders the matching grid/table view.
+ * Loads the positions payload for one container and renders the matching grid/table view. Also
+ * updates the "Positions" heading to note when every position is occupied, since this is the
+ * one place that both refetches current occupancy and knows which heading goes with it -- this
+ * runs on every load, regardless of why the grid is loading, so the heading is always accurate.
  * @param {number} containerId - the container_id whose positions should be loaded.
  * @param {number} numPositions - fallback declared position count from the initial page payload.
  * @param {string} targetDivId - id of the panel that should receive the rendered layout.
  * @param {string} feedbackId - optional feedback element id for AJAX failures.
  * @param {boolean} canEditPositions - whether to render scan-to-place inputs for empty positions.
+ * @param {string} headingId - optional id of the "Positions" heading to keep in sync with
+ *	occupancy; when omitted the heading text is left alone.
  * @param {Function} onRendered - optional callback invoked after the grid/table has been rendered.
  */
-function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, onRendered) {
+function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId, onRendered) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
@@ -2167,7 +2205,14 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, c
 		},
 		dataType: 'json',
 		success: function(data) {
-			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId, canEditPositions);
+			var positions = data.positions || [];
+			renderPositionsGrid(positions, parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId);
+			if (headingId) {
+				var allOccupied = positions.length > 0 && positions.every(function(position) {
+					return !!position.content_container_id;
+				});
+				$('#' + headingId).text(allOccupied ? 'Positions (all occupied)' : 'Positions');
+			}
 			if (typeof onRendered === 'function') {
 				onRendered();
 			}
