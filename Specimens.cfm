@@ -4600,6 +4600,8 @@
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				
+				// It seems only the last try on the .jqx-menu-wrapper was fixing the issue.
 				maxZIndex = getMaxZIndex();
 				try { 
 					//$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
@@ -4616,7 +4618,7 @@
 				} catch (error) { 
 					console.log(error);
 				}
-				try { 
+				try { // I went through the issue with Claude and found that this is the fix below. The other two mess up the look of the grid (borders) and don't solve the problem
 					$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				} catch (error) { 
 					console.log(error);
