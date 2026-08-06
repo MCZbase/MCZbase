@@ -2892,10 +2892,6 @@ matches an existing container, places that container into the given position con
 delegating to moveContainerById.  Supports the positions-grid scan-to-place workflow on
 viewContainer.cfm.  Returns status JSON and never aborts on trigger errors.
 
-Permission to place is checked here, independently, from session.roles -- this is the actual
-mutating action, so it must not rely solely on the calling page having hidden the button/input
-from users without manage_container rights.
-
 @param barcode barcode scanned or typed into the empty position's input.
 @param position_container_id container_id of the empty position container to place into.
 @return a JSON object with status (moved|notfound|error) and message, plus context fields:
@@ -2928,7 +2924,8 @@ from users without manage_container rights.
 		</cfquery>
 		<cfif queryChild.recordcount EQ 0>
 			<cfset local.retval["status"] = "notfound">
-			<cfset local.retval["message"] = "No container found with barcode '#local.trimmedBarcode#'.">
+			<!--- encodeForHtml to prevent XSS if barcode contains HTML special characters, which will look ugly, but not for normal inputs --->
+			<cfset local.retval["message"] = "No container found with barcode '#encodeForHTML(local.trimmedBarcode)#'.">
 			<cfset local.retval["missing"] = "child">
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
