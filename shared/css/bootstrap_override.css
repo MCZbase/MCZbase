@@ -583,36 +583,6 @@ span.data-entry-addon {
 	box-shadow: none;
 }
 /************************
-BELOW: Cell styles for specimen search results grids
-used by cellclassname functions in the results grids
-************************/
-/** base classes  have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
-/*.primaryTypeCell {
-	background-color: #ffe1e1\9;
-}
-.secondaryTypeCell {
-	background-color: #e8f1ff\9;
-}
-.primaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #eedbdb\9;
-}
-.secondaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #e1edff\9;
-}
-
-.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #ffe1e1;
-}
-.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #e8f1ff;
-}
-.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #eedbdb;
-}
-.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #e1edff;
-}*/
-/************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
 ************************/
@@ -1763,7 +1733,6 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	/*content: "\f067";*/
 	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -1773,7 +1742,6 @@ tr.line-top:first-child {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	/*content: "\f068";*/
 	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -1982,16 +1950,6 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	line-height: 0.875rem;
 	height: 22px;
 }
-/*
-.jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-	height: 23px !important;
-}
-.jqx-combobox-input, .jqx-combobox-content {
-	height: 23px !important;
-}
-.jqx-combobox {
-	height: 23px !important;
-}*/
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;
@@ -2579,9 +2537,6 @@ div.vslider-item[aria-hidden="true"] {
 input[disabled] {
 	color: #9e9e9e;
 }
-/*.jqx-grid-cell-alt {
-	background-color: #f5f5f5 !important;
-}*/
 .caption-sm {
 	overflow-y: visible;
 	height: auto;
