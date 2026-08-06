@@ -229,6 +229,7 @@ task's framing made other rules more salient. In particular:
   pre-existing quirks in target-pattern files -- see Redesign in progress
   above.
 - If you deviate from a specific rule (a button color, an ARIA pattern, an
-  event-binding style) for a good local reason, say so explicitly in your
-  response and/or commit message and a comment in the code, rather than 
-  silently matching nearby code and letting the deviation go unstated.
+  event-binding style) for a good local reason, say so explicitly -- with a
+  comment in the code, and a mention in your response or commit message --
+  rather than silently matching nearby code and letting the deviation go
+  unstated.
