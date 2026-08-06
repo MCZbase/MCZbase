@@ -1469,9 +1469,16 @@ of container details, loaded separately to avoid delaying initial details render
 Function getContainerDetailsHtml.  Returns an HTML fragment with the read-only
 details of a container for use in dialogs and page components.
 
-Note: whether the positions section renders scan-to-place barcode inputs is decided
-entirely inside this function from session.roles, not from a caller-supplied argument --
-a remote-accessible method must never trust the caller to assert its own edit rights.
+@param container_id the container_id whose details should be rendered.
+@param displayMode optional string, either "page" (default) or "dialog", to 
+  control the layout and styling of the returned HTML fragment.
+@param idSuffix optional string to append to the IDs of elements in the returned 
+  HTML fragment, to avoid collisions when multiple container details are 
+  rendered on the same page.
+@param showBrowseAction optional boolean (or string "true"/"false") to control 
+  whether the "Browse" action is shown in the returned HTML fragment. Defaults to true.
+@return HTML fragment string for the container details section, including
+  breadcrumb navigation, container information, and contents summary.
 --->
 <cffunction name="getContainerDetailsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -1493,12 +1500,11 @@ a remote-accessible method must never trust the caller to assert its own edit ri
 		<cfset local.showBrowseAction = false>
 	</cfif>
 	<!--- position scan-to-place inputs are only ever offered on the full page, and only when this
-		session itself holds manage_container rights -- never trust a caller-supplied "canEdit" argument,
-		since this method is remote-accessible and could otherwise be called directly to render an
-		editable form for a session that isn't actually permitted to edit. --->
-	<cfset local.canEditPositions = (local.safeDisplayMode EQ "page")
-		AND isdefined("session.roles")
-		AND listfindnocase(session.roles, "manage_container") GT 0>
+		session itself holds manage_container rights --->
+	<cfset local.canEditPositions = false>
+	<cfif local.safeDisplayMode EQ "page" AND isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0>
+		<cfset local.canEditPositions = true>
+	</cfif>
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
@@ -1622,10 +1628,9 @@ a remote-accessible method must never trust the caller to assert its own edit ri
 														<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
 													</cfif>
+													<cfif NOT currentContainerIsEmpty><cfset disabledClass="disabled"><cfelse><cfset disabledClass=""></cfif>
 													<cfif isProxyOrBearerType>
-														<a
-															href="##"
-															class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT currentContainerIsEmpty> disabled</cfif>"
+														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1 #disabledClass#"
 															<cfif NOT currentContainerIsEmpty>
 																aria-disabled="true"
 																tabindex="-1"
@@ -1751,6 +1756,13 @@ a remote-accessible method must never trust the caller to assert its own edit ri
 <!---
 Function getContainerEditHtml.  Returns an HTML fragment containing the container
 edit form suitable for rendering in a dialog box or embedded in another page.
+
+@param container_id the container_id whose details should be rendered for editing.
+@param idSuffix optional string to append to the IDs of elements in the returned 
+  HTML fragment, to avoid collisions when multiple container edit forms are 
+  rendered on the same page.
+@return HTML fragment string for the container edit form, including 
+  container type, label, barcode, and other editable fields.
 --->
 <cffunction name="getContainerEditHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="container_id" type="numeric" required="yes">
