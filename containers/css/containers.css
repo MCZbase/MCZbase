@@ -186,6 +186,10 @@ limitations under the License.
 	background-color: #f8f9fa;
 }
 
+.positions-grid-cell-editable {
+	cursor: default;
+}
+
 .positions-grid-label {
 	font-weight: 600;
 	line-height: 1.2;
@@ -195,6 +199,10 @@ limitations under the License.
 .positions-grid-type {
 	line-height: 1.2;
 	word-break: break-word;
+}
+
+.positions-grid-barcode-input {
+	width: 100%;
 }
 
 .positions-grid-fallback td {
