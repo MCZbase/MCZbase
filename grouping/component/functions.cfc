@@ -15,15 +15,16 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- function saveUndColl 
+<!--- function saveUndColl
 Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
 @param collection_name the brief uman readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
+@param link_name value for the /featured/{link_name} permalink (Redmine 1028).  Only actually
+	applied when this session is allowed to change it -- see below -- a submitted value from a
+	session that isn't allowed to change it is silently not applied, rather than trusted.
 @return json structure with status and id or http status 500
 --->
-		
-			
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="underscore_collection_type" type="string" required="yes">
@@ -32,10 +33,47 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="html_description" type="string" required="no">
 	<cfargument name="displayed_media_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
+	<cfargument name="link_name" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>
 			<cfthrow type="Application" message="Name of named group must contain a value.">
+		</cfif>
+		<!--- Whether link_name may be changed is decided here, independently of the caller,
+			from the row's current value and this session's roles -- the edit page's readonly
+			attribute on this field is a UI nicety, not enforcement, so this remote-accessible
+			method must not trust a submitted link_name unless this session is actually allowed
+			to change it. Matches the rule already applied on the edit page: editable only when
+			the current value still equals the record's own id, or the session is global_admin. --->
+		<cfquery name="currentUndColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT link_name
+			FROM underscore_collection
+			WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		</cfquery>
+		<cfif currentUndColl.recordcount EQ 0>
+			<cfthrow type="Application" message="No such named group found.">
+		</cfif>
+		<cfset canChangeLinkName = false>
+		<cfif trim(currentUndColl.link_name) EQ trim(underscore_collection_id)>
+			<cfset canChangeLinkName = true>
+		<cfelseif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+			<cfset canChangeLinkName = true>
+		</cfif>
+		<cfset applyLinkName = false>
+		<cfif canChangeLinkName AND isdefined("link_name") AND trim(link_name) NEQ trim(currentUndColl.link_name)>
+			<cfif len(trim(link_name)) EQ 0>
+				<cfthrow type="Application" message="Link name must contain a value.">
+			</cfif>
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+					AND underscore_collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			</cfquery>
+			<cfif checkLinkNameInUse.recordcount GT 0>
+				<cfthrow type="Application" message="This link name is already used by another named group. Choose a different one.">
+			</cfif>
+			<cfset applyLinkName = true>
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update underscore_collection set
@@ -55,7 +93,10 @@ Update an existing arbitrary collection record (underscore_collection).
 				<cfif isdefined("html_description")>
 					,html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
-			where 
+				<cfif applyLinkName>
+					,link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+				</cfif>
+			where
 				underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 		</cfquery>
 		<cfset row = StructNew()>

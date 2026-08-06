@@ -421,3 +421,39 @@ function removeUndCollCitation(underscore_coll_citation_id, okcallback) {
 		}
 	});
 }
+
+/** --------------------------------------------------------------  **/
+
+/** Builds a link_name value from a named group's collection_name, using the same
+ * transform used to backfill underscore_collection.link_name for existing rows:
+ * trim, collapse runs of spaces to a single underscore, strip anything that isn't
+ * alphanumeric or an underscore, collapse runs of underscores, then truncate to 200
+ * characters (the column's width). Used to auto-populate link_name on the create
+ * named group page (Redmine 1028).
+ * @param collectionName the collection_name value to derive a link_name from.
+ * @return the derived link_name value.
+ */
+function slugifyCollectionNameForLinkName(collectionName) {
+	var result = (collectionName || '').trim();
+	result = result.replace(/ +/g, '_');
+	result = result.replace(/[^A-Za-z0-9_]/g, '');
+	result = result.replace(/_+/g, '_');
+	return result.substring(0, 200);
+}
+
+/** Auto-populates the link_name field from the collection_name field as the user
+ * types, but only while link_name is still empty -- it never overwrites a value
+ * already present, whether auto-filled a moment ago or typed by the user, so a
+ * user can freely override the derived value before saving (Redmine 1028).
+ * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
+ * @param linkNameFieldId id of the link name text input to auto-populate, without a leading # selector.
+ */
+function bindNamedGroupLinkNameAutoPopulate(collectionNameFieldId, linkNameFieldId) {
+	$('#' + collectionNameFieldId).on('input', function() {
+		var linkNameField = $('#' + linkNameFieldId);
+		if (linkNameField.val().length > 0) {
+			return;
+		}
+		linkNameField.val(slugifyCollectionNameForLinkName($(this).val()));
+	});
+}

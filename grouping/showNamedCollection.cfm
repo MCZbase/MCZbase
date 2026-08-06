@@ -105,7 +105,8 @@ limitations under the License.
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg,
-		displayed_media_id
+		displayed_media_id,
+		link_name
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 </cfquery>
@@ -355,8 +356,16 @@ limitations under the License.
 								</h1>
 							</div>
 						</div>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
+							<div class="row mx-0">
+								<div class="col-12 px-1">
+									<span class="small text-muted">Permalink:</span>
+									<a id="featuredPermalink" class="small" href="#Application.serverRootUrl#/featured/#encodeForUrl(getNamedGroup.link_name)#">#Application.serverRootUrl#/featured/#encodeForHtml(getNamedGroup.link_name)#</a>
+								</div>
+							</div>
+						</cfif>
 						<div class="row mx-0">
-							<div class="col-12 px-3 mt-0"> 
+							<div class="col-12 px-3 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content ---> 
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>

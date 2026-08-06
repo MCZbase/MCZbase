@@ -527,12 +527,23 @@ limitations under the License.
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
-										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr"> 
+										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr">
 											<option value="" selected="selected"></option>
 											<option value="0">Public</option>
 											<option value="1">Hidden</option>
 										</select>
 									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-9">
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+										<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
+									</div>
+									<script>
+										$(document).ready(function() {
+											bindNamedGroupLinkNameAutoPopulate('collection_name','link_name');
+										});
+									</script>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
@@ -608,11 +619,25 @@ limitations under the License.
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
 			</cfif>
+			<cfif not isdefined("link_name") OR len(trim(#link_name#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value link_name">
+			</cfif>
+			<!--- link_name has no unique constraint at the database level yet, so check for a
+				collision here rather than letting two named groups resolve to the same /featured/ link --->
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+			</cfquery>
+			<cfif checkLinkNameInUse.recordcount GT 0>
+				<cfthrow type="Application" message="Error: This link name is already used by another named group. Choose a different one.">
+			</cfif>
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into underscore_collection (
 					collection_name,
 					underscore_collection_type,
-					mask_fg
+					mask_fg,
+					link_name
 					<cfif isdefined("description")>
 						,description
 					</cfif>
@@ -625,7 +650,8 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
@@ -657,12 +683,13 @@ limitations under the License.
 		<cfelse>
 			<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="undColl_result">
-				SELECT 
+				SELECT
 					underscore_collection_id, collection_name, underscore_collection_type,
-					underscore_collection.description, 
+					underscore_collection.description,
 					html_description,
 					displayed_media_id,
 					underscore_collection.mask_fg,
+					underscore_collection.link_name,
 					media.auto_filename displayed_media_filename
 				FROM underscore_collection
 					left join media on underscore_collection.displayed_media_id = media.media_id
@@ -671,6 +698,14 @@ limitations under the License.
 			</cfquery>
 			<cfif undColl_result.recordcount EQ 0>
 				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id)#])" >
+			</cfif>
+			<!--- editability of link_name is decided once here, at page load, from the value and role
+				current as of this render -- not re-evaluated reactively in JS as the form is edited --->
+			<cfset linkNameEditable = false>
+			<cfif trim(undColl.link_name) EQ trim(underscore_collection_id)>
+				<cfset linkNameEditable = true>
+			<cfelseif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+				<cfset linkNameEditable = true>
 			</cfif>
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
@@ -703,6 +738,26 @@ limitations under the License.
 												<option value="1">Hidden</option>
 											</cfif>
 										</select>
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-9">
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+										<cfif linkNameEditable>
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
+													required maxlength="200" value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
+										<cfelse>
+											<input type="text" id="link_name" name="link_name" class="data-entry-input bg-light"
+													readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
+													aria-describedby="link_name_readonly_note">
+											<small id="link_name_readonly_note" class="form-text text-muted">Only editable when this is still the default value, or by a global admin.</small>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-3">
+										<span class="data-entry-label d-block">Permalink</span>
+										<cfif len(trim(link_name)) GT 0>
+											<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
+										</cfif>
 									</div>
 								</div>
 								<div class="form-row mb-2">

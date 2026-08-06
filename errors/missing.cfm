@@ -244,6 +244,45 @@
 				<cfinclude template="/errors/500.cfm">
 			</cfcatch>
 		</cftry>
+	<cfelseif listfindnocase(rdurl,'featured',"/")>
+		<!--- Request by underscore_collection.link_name (Redmine 1028), falling back to
+			underscore_collection_id if the segment doesn't match any link_name, so every
+			named group stays addressable even before it has a link_name value. --->
+		<cftry>
+			<cfset gPos=listfindnocase(rdurl,"featured","/")>
+			<cfset rawLinkName = listgetat(rdurl,gPos+1,"/")>
+			<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rawLinkName#">
+			</cfquery>
+			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
+				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT underscore_collection_id
+					FROM underscore_collection
+					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
+				</cfquery>
+			</cfif>
+			<cfif lookupByLinkName.recordcount EQ 0>
+				<cfthrow message="Featured collection link not recognized.">
+			</cfif>
+			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
+			<!--- if provided, get format from url, otherwise default to html --->
+			<cfset requestedformat = "html">
+			<cftry>
+				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
+				<cfcatch>
+					<cfset requestedformat = "html">
+				</cfcatch>
+			</cftry>
+			<cfset variables.loadMapLibraries = true>
+			<cfinclude template="/grouping/showNamedCollection.cfm">
+			<cfcatch>
+				<cfset errorMessage = cfcatch.message>
+				<cfset errorDetail = cfcatch.detail>
+				<cfinclude template="/errors/500.cfm">
+			</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
 		<!--- Request by name API (for taxon record) --->
 		<cftry>
