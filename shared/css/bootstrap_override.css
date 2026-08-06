@@ -557,7 +557,6 @@ span.data-entry-addon {
 }
 .jqx-grid-cell {
 	border-width: 0px 1px 1px 1px;
-	border-color: buttonface;
 }
 .jqx-grid-cell a {
 	margin-left: .2rem;
@@ -587,7 +586,8 @@ span.data-entry-addon {
 BELOW: Cell styles for specimen search results grids
 used by cellclassname functions in the results grids
 ************************/
-.primaryTypeCell {
+/** base classes  have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
+/*.primaryTypeCell {
 	background-color: #ffe1e1\9;
 }
 .secondaryTypeCell {
@@ -599,7 +599,7 @@ used by cellclassname functions in the results grids
 .secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #e1edff\9;
 }
-/** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
+
 .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #ffe1e1;
 }
@@ -611,7 +611,7 @@ used by cellclassname functions in the results grids
 }
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
 	background-color: #e1edff;
-}
+}*/
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -741,34 +741,34 @@ li.list-group-item.thethumbs:first-child {
 Interactive map styles 
 ************************/
 .tinymap {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-    margin: 0 0;
+	position: relative;
+	width: 100%;
+	height: 180px;
+	overflow: hidden;
+	margin: 0 0;
 }
 .tinymap-3col, .tinymap-2col {/* Explicit heights per layout */
-    height: 180px;
+	height: 180px;
 }
 .tinymap .static-map,
 .tinymap .interactive-map {/* Both maps fill the wrapper box */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 .tinymap .static-map {/* Static thumbnail: keep whole map and center it */
-    object-fit: cover;
-    object-position: 50% 50%;
-    margin: 0;
-    padding: 0;
-    border: 3px solid #444;
-    cursor: pointer;
+	object-fit: cover;
+	object-position: 50% 50%;
+	margin: 0;
+	padding: 0;
+	border: 3px solid #444;
+	cursor: pointer;
 }
 .tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
-    display: none;
-    z-index: 2;
+	display: none;
+	z-index: 2;
 }
 /************************
 *************************
@@ -2753,20 +2753,85 @@ div.toctitle {
 	position: relative;
 	padding-left: 1.2rem !important;
 }
-
+.jqx-widget .jqx-grid-cell {
+	border-color: #ced4da !important;
+	color: #2b2b2b !important;
+}
+/* Non-type/voucher — dark rows */
 .jqx-grid-cell-alt {
-	background: #e9edf2 !important;
+	background-color: #E9E9E9 !important;
 }
+/* Primary type — light rows */
+.primaryTypeCell.jqx-grid-cell {
+	background-color: #FDEEF1 !important;
+}
+/* Primary type — dark rows */
 .primaryTypeCell.jqx-grid-cell-alt {
-	background: #f5cad6!important;
-	background: #fbcad7 !important;
+	background-color: #F9DDE4 !important;
 }
+/* Secondary type — light rows */
+.secondaryTypeCell.jqx-grid-cell {
+	background-color: #E5EFFA !important;
+}
+/* Secondary type — dark rows */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: #d1e0f3;
-	background: #d3e1f3 !important;
+	background-color: #D2E4F2 !important;
 }
-.jqx-grid-cell-hover {
-	background: #cbced1 !important;
+/* Primary type — light rows, hover */
+.jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
+	background-color: #EEE0E3 !important;
+}
+/* Primary type — dark rows, hover */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
+  background-color: #EAD0D6 !important;
+}
+/* Secondary type — light rows, hover */
+.jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
+	background-color: #D7E1EB !important;
+}
+/* Secondary type — dark rows, hover */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
+	background-color: #C5D6E3 !important;
+}
+/* Non-type/voucher — light rows (white), hover */
+.jqx-grid-cell.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
+	background-color: #F0F0F0 !important;
+}
+/* Non-type/voucher — dark rows (gray), hover */
+.jqx-grid-cell.jqx-grid-cell-alt.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
+	background-color: #DBDBDB !important;
+}
+/* Primary type — light rows, selected */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected-light {
+  background-color: #DFD1D4 !important;
+}
+/* Primary type — dark rows, selected */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+  background-color: #DBC2C9 !important;
+}
+
+/* Secondary type — light rows, selected */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
+  background-color: #CAD2DC !important;
+}
+/* Secondary type — dark rows, selected */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+  background-color: #B9C9D5 !important;
+}
+
+/* Non-type/voucher — light rows (white), selected */
+.jqx-grid-cell.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
+.jqx-grid-cell.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
+  background-color: #E0E0E0 !important;
+}
+/* Non-type/voucher — dark rows (gray), selected */
+.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
+.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
+  background-color: #CDCDCD !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
