@@ -5916,36 +5916,38 @@ limitations under the License.
 								document.querySelectorAll('button[id^="cit_delete"]').forEach(function(button) {
 									button.addEventListener('click', function(event) {
 										event.preventDefault();
-										// delete a citation record
+										// delete a citation record, once confirmed
 										var id = button.id.replace('cit_delete', '');
-										var feedbackOutput = 'cit_output' + id;
-										setFeedbackControlState(feedbackOutput,"deleting")
-										$.ajax({
-											url: '/publications/component/functions.cfc',
-											type: 'POST',
-											dataType: 'json',
-											data: {
-												method: 'deleteCitation',
-												citation_id: $("##editCitation" + id + " input[name='citation_id']").val(),
-												publication_id: $("##editCitation" + id + " input[name='publication_id']").val(),
-												cited_taxon_name_id: $("##editCitation" + id + " input[name='cited_taxon_name_id']").val(),
-												collection_object_id: $("##editCitation" + id + " input[name='collection_object_id']").val()
-											},
-											success: function(response) {
-												if (response && response[0].status == "deleted") {
-													setFeedbackControlState(feedbackOutput,"deleted");
-													reloadCitations();
-													// remove the form from the DOM
-													$("##editCitation" + id).remove();
-												} else {
-													setFeedbackControlState(feedbackOutput,"error");
-													console.log(response)
+										confirmDialog('Delete this citation? This action cannot be undone.', 'Confirm Delete Citation', function() {
+											var feedbackOutput = 'cit_output' + id;
+											setFeedbackControlState(feedbackOutput,"deleting")
+											$.ajax({
+												url: '/publications/component/functions.cfc',
+												type: 'POST',
+												dataType: 'json',
+												data: {
+													method: 'deleteCitation',
+													citation_id: $("##editCitation" + id + " input[name='citation_id']").val(),
+													publication_id: $("##editCitation" + id + " input[name='publication_id']").val(),
+													cited_taxon_name_id: $("##editCitation" + id + " input[name='cited_taxon_name_id']").val(),
+													collection_object_id: $("##editCitation" + id + " input[name='collection_object_id']").val()
+												},
+												success: function(response) {
+													if (response && response[0].status == "deleted") {
+														setFeedbackControlState(feedbackOutput,"deleted");
+														reloadCitations();
+														// remove the form from the DOM
+														$("##editCitation" + id).remove();
+													} else {
+														setFeedbackControlState(feedbackOutput,"error");
+														console.log(response)
+													}
+												},
+												error: function(xhr, status, error) {
+													setFeedbackControlState(feedbackOutput,"error")
+													handleFail(xhr,status,error,"deleting citation.");
 												}
-											},
-											error: function(xhr, status, error) {
-												setFeedbackControlState(feedbackOutput,"error")
-												handleFail(xhr,status,error,"deleting citation.");
-											}
+											});
 										});
 									});
 								});
