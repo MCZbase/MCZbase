@@ -2111,7 +2111,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			cell.append(
 				$('<button class="btn btn-xs btn-link positions-grid-place-btn" type="button"></button>')
 					.text('Place container')
-					.attr('aria-label', 'Place container into position ' + (position.position_label || ''))
+					.attr('aria-label', 'Search for a container to place into position ' + (position.position_label || ''))
 					.on('click', function() {
 						openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
 							loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
