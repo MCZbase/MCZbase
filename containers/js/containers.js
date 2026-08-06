@@ -1941,14 +1941,72 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
 }
 
 /**
- * Renders a read-only positions grid or fallback table for one container.
+ * Handles a barcode scanned or typed into an empty position's input on the positions grid.
+ * Looks the barcode up server-side and, if it matches an existing container, places that
+ * container into the given position, then reloads the grid and moves focus to the next
+ * remaining empty position's input so a user can keep scanning without touching the mouse
+ * (mirrors the /containerPositions.cfm scanner workflow this feature is modeled on).
+ *
+ * @param {jQuery} inputEl - jQuery-wrapped input element that received the scanned barcode.
+ * @param {number|string} positionContainerId - container_id of the empty position being filled.
+ * @param {number|string} containerId - container_id of the container whose positions are shown.
+ * @param {number} numPositions - declared position count, used to choose the grid layout on reload.
+ * @param {string} targetDivId - id of the panel the positions grid is rendered into.
+ * @param {string} feedbackId - optional feedback element id for transport-failure reporting.
+ * @param {boolean} canEditPositions - whether scan-to-place inputs should render after reload.
+ * @returns {void}
+ */
+function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, numPositions, targetDivId, feedbackId, canEditPositions) {
+	var barcode = $.trim(inputEl.val());
+	var errorTarget = inputEl.closest('td, .positions-grid-cell').find('.positions-grid-barcode-error');
+	errorTarget.text('');
+	if (!barcode) {
+		return;
+	}
+	inputEl.prop('disabled', true);
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			method: 'placeContainerIntoPositionByBarcode',
+			returnformat: 'json',
+			barcode: barcode,
+			position_container_id: positionContainerId
+		},
+		success: function(result) {
+			if (result && result.status === 'moved') {
+				loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, function() {
+					$('#' + targetDivId + ' .positions-grid-barcode-input:enabled').first().trigger('focus');
+				});
+			} else {
+				var message = (result && result.message) ? result.message : 'Unable to place scanned container.';
+				errorTarget.text(message);
+				inputEl.prop('disabled', false);
+				inputEl.trigger('focus');
+				inputEl.trigger('select');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			inputEl.prop('disabled', false);
+			handleFail(jqXHR, textStatus, error, 'placing scanned container into position');
+		}
+	});
+}
+
+/**
+ * Renders a positions grid or fallback table for one container. Empty positions render as a
+ * read-only "Empty" cell with a Place… action, unless canEditPositions is true, in which case
+ * they also render a barcode-scan input bound to handlePositionBarcodeScan (the Place… action
+ * and the bold position number are unchanged either way).
  * @param {Array} positions - ordered position rows returned from getContainerPositionsGrid.
  * @param {number} numPositions - declared position count used to choose a known layout.
  * @param {string} targetDivId - id of the panel that should receive the rendered layout.
  * @param {string} feedbackId - optional feedback element id for details-dialog failures.
  * @param {number|string} containerId - container_id whose positions are being rendered.
+ * @param {boolean} canEditPositions - whether to render scan-to-place inputs for empty positions.
  */
-function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId) {
+function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
 		25: 'positions-grid-5x5',
@@ -1970,6 +2028,21 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 			var occupantDisplay = position.content_container_id
 				? formatContainerDisplay(position.content_barcode, position.content_label)
 				: 'Empty';
+			var labelId = 'positionsGridFallbackLabel_' + targetDivId + '_' + position.position_id;
+			var occupantCell = $('<td></td>');
+			if (isEmptyPosition && canEditPositions) {
+				occupantCell.append(
+					$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+						.attr('placeholder', 'Empty')
+						.attr('aria-labelledby', labelId)
+						.on('change', function() {
+							handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+						})
+				);
+				occupantCell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
+			} else {
+				occupantCell.text(occupantDisplay);
+			}
 			var actionCell = $('<td></td>');
 			if (isEmptyPosition) {
 				actionCell.append(
@@ -1978,7 +2051,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 						.text('Place…')
 						.on('click', function() {
 							openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
+								loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
 							});
 						})
 				);
@@ -1999,8 +2072,8 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 				);
 			}
 			var tr = $('<tr></tr>');
-			tr.append($('<td></td>').text(position.position_label || ''));
-			tr.append($('<td></td>').text(occupantDisplay));
+			tr.append($('<td></td>').attr('id', labelId).text(position.position_label || ''));
+			tr.append(occupantCell);
 			tr.append($('<td></td>').text(position.content_container_type || ''));
 			tr.append(actionCell);
 			tbody.append(tr);
@@ -2015,34 +2088,61 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 	var grid = $('<div class="positions-grid"></div>').addClass(layoutClass);
 	$.each(positions, function(i, position) {
 		var detailContainerId = position.content_container_id || position.position_id;
+		var isEmptyPosition = !position.content_container_id;
 		var occupantDisplay = position.content_container_id
 			? formatContainerDisplay(position.content_barcode, position.content_label)
 			: 'Empty';
-		var cell = $('<button class="positions-grid-cell" type="button"></button>');
-		if (!position.content_container_id) {
-			cell.addClass('positions-grid-cell-empty');
-			var positionLabelText = position.position_label || 'this position';
-			cell.attr('aria-label', 'Empty position ' + positionLabelText);
-			cell.attr('title', 'Place a container into this empty position');
-		}
-		cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
-		cell.append($('<span class="positions-grid-occupant small text-muted"></span>').text(occupantDisplay));
-		if (position.content_container_type) {
-			cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
-		}
-		if (!position.content_container_id) {
-			cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
-			cell.on('click', function() {
-				openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
-					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId);
-				});
-			});
+		var labelId = 'positionsGridLabel_' + targetDivId + '_' + position.position_id;
+		if (isEmptyPosition && canEditPositions) {
+			var cell = $('<div class="positions-grid-cell positions-grid-cell-empty positions-grid-cell-editable"></div>');
+			cell.append($('<span class="positions-grid-label"></span>').attr('id', labelId).text(position.position_label || ''));
+			cell.append(
+				$('<input type="text" class="positions-grid-barcode-input data-entry-input">')
+					.attr('placeholder', 'Empty')
+					.attr('aria-labelledby', labelId)
+					.on('change', function() {
+						handlePositionBarcodeScan($(this), position.position_id, containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+					})
+			);
+			cell.append($('<div class="small text-danger positions-grid-barcode-error" role="alert"></div>'));
+			cell.append(
+				$('<button class="btn btn-xs btn-primary positions-grid-place-btn" type="button"></button>')
+					.text('Place…')
+					.attr('aria-label', 'Search for a container to place into position ' + (position.position_label || 'this position'))
+					.on('click', function() {
+						openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+							loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+						});
+					})
+			);
+			grid.append(cell);
 		} else {
-			cell.on('click', function() {
-				openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
-			});
+			var cell = $('<button class="positions-grid-cell" type="button"></button>');
+			if (isEmptyPosition) {
+				cell.addClass('positions-grid-cell-empty');
+				var positionLabelText = position.position_label || 'this position';
+				cell.attr('aria-label', 'Empty position ' + positionLabelText);
+				cell.attr('title', 'Place a container into this empty position');
+			}
+			cell.append($('<span class="positions-grid-label"></span>').text(position.position_label || ''));
+			cell.append($('<span class="positions-grid-occupant small text-muted"></span>').text(occupantDisplay));
+			if (position.content_container_type) {
+				cell.append($('<span class="positions-grid-type small text-muted"></span>').text(position.content_container_type));
+			}
+			if (isEmptyPosition) {
+				cell.append($('<span class="positions-grid-type small"></span>').text('Place container'));
+				cell.on('click', function() {
+					openPositionPlacementDialog(position.position_id, position.position_label, targetDivId, feedbackId, function() {
+						loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions);
+					});
+				});
+			} else {
+				cell.on('click', function() {
+					openContainerDetailsDialog(detailContainerId, occupantDisplay, feedbackId, false);
+				});
+			}
+			grid.append(cell);
 		}
-		grid.append(cell);
 	});
 	wrapper.append(grid);
 	target.html(wrapper);
@@ -2054,8 +2154,10 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
  * @param {number} numPositions - fallback declared position count from the initial page payload.
  * @param {string} targetDivId - id of the panel that should receive the rendered layout.
  * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {boolean} canEditPositions - whether to render scan-to-place inputs for empty positions.
+ * @param {Function} onRendered - optional callback invoked after the grid/table has been rendered.
  */
-function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
+function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, onRendered) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
 		url: '/containers/component/functions.cfc',
@@ -2065,7 +2167,10 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId) {
 		},
 		dataType: 'json',
 		success: function(data) {
-			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId);
+			renderPositionsGrid(data.positions || [], parseInt(data.number_positions, 10) || numPositions, targetDivId, feedbackId, containerId, canEditPositions);
+			if (typeof onRendered === 'function') {
+				onRendered();
+			}
 		},
 		error: function(jqXHR, textStatus, error) {
 			if (feedbackId) {
