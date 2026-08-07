@@ -617,6 +617,20 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
+		<cfparam name="form.collection_name" default="">
+		<cfparam name="form.link_name" default="">
+		<cfparam name="form.underscore_collection_type" default="">
+		<cfparam name="form.mask_fg" default="">
+		<cfparam name="form.description" default="">
+		<cfparam name="form.html_description" default="">
+		<cfparam name="form.displayed_media_id" default="">
+		<cfset collection_name = form.collection_name>
+		<cfset link_name = form.link_name>
+		<cfset underscore_collection_type = form.underscore_collection_type>
+		<cfset mask_fg = form.mask_fg>
+		<cfset description = form.description>
+		<cfset html_description = form.html_description>
+		<cfset displayed_media_id = form.displayed_media_id>
 		<cftry>
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
