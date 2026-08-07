@@ -441,35 +441,47 @@ function slugifyCollectionNameForLinkName(collectionName) {
 	return result.substring(0, 200);
 }
 
-/** Auto-populates the link_name field from the collection_name field's current value once
- * collection_name loses focus, but only while link_name is still empty. Fires on blur rather
- * than on every keystroke so the whole typed name is used at once -- binding this to an
- * input/keyup event instead would derive link_name from only the first character typed, since
- * link_name stops being empty the moment that first character is written.
+/** Auto-populates the link_name field from the collection_name field's current value on
+ * collection_name's onblur, but only while link_name is still empty. Bound to blur rather
+ * than keyup/input so the whole typed name is used at once -- binding this to every keystroke
+ * instead would derive link_name from only the first character typed, since link_name stops
+ * being empty the moment that first character is written.
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to auto-populate, without a leading # selector.
  */
-function bindNamedGroupLinkNameAutoPopulate(collectionNameFieldId, linkNameFieldId) {
-	$('#' + collectionNameFieldId).on('blur', function() {
-		var linkNameField = $('#' + linkNameFieldId);
-		if (linkNameField.val().length > 0) {
-			return;
-		}
-		linkNameField.val(slugifyCollectionNameForLinkName($(this).val()));
-	});
+function autoPopulateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
+	var linkNameField = $('#' + linkNameFieldId);
+	if (linkNameField.val().length > 0) {
+		return;
+	}
+	linkNameField.val(slugifyCollectionNameForLinkName($('#' + collectionNameFieldId).val()));
 }
 
-/** Wires a button that (re)builds link_name from collection_name's current value, using the
- * same transform as the auto-populate above -- unlike auto-populate, this always overwrites
- * whatever link_name currently holds, letting a user reset it to match the group name on
- * demand.
- * @param generateButtonId id of the button element, without a leading # selector.
+/** (Re)builds link_name from collection_name's current value, using the same transform as
+ * the auto-populate above -- unlike auto-populate, this always overwrites whatever link_name
+ * currently holds, letting a user reset it to match the group name on demand.
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to (re)generate, without a leading # selector.
  */
-function bindNamedGroupLinkNameGenerateButton(generateButtonId, collectionNameFieldId, linkNameFieldId) {
-	$('#' + generateButtonId).on('click', function() {
-		var collectionName = $('#' + collectionNameFieldId).val();
-		$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName));
-	});
+function generateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
+	var collectionName = $('#' + collectionNameFieldId).val();
+	$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName));
+}
+
+/** Toggles a link_name input between disabled and enabled, relabeling the adjacent toggle
+ * button "Edit"/"Lock" to match, so a save made without pressing the button leaves the field
+ * disabled (and so excluded from the submitted form) rather than editable by default.
+ * @param linkNameFieldId id of the link name text input, without a leading # selector.
+ * @param toggleButtonId id of the toggle button, without a leading # selector.
+ */
+function toggleNamedGroupLinkNameEdit(linkNameFieldId, toggleButtonId) {
+	var input = $('#' + linkNameFieldId);
+	var button = $('#' + toggleButtonId);
+	if (input.prop('disabled')) {
+		input.prop('disabled', false).trigger('focus');
+		button.text('Lock').attr('aria-pressed', 'true');
+	} else {
+		input.prop('disabled', true);
+		button.text('Edit').attr('aria-pressed', 'false');
+	}
 }

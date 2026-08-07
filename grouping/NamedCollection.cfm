@@ -523,7 +523,8 @@ limitations under the License.
 								<div class="form-row mt-2 mb-2">
 									<div class="col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label"
+												onblur="autoPopulateNamedGroupLinkName('collection_name','link_name');" >
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
@@ -542,14 +543,9 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
-										<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3">Generate Link Name</button>
+										<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3"
+												onclick="generateNamedGroupLinkName('collection_name','link_name');">Generate Link Name</button>
 									</div>
-									<script>
-										$(document).ready(function() {
-											bindNamedGroupLinkNameAutoPopulate('collection_name','link_name');
-											bindNamedGroupLinkNameGenerateButton('link_name_generate_btn','collection_name','link_name');
-										});
-									</script>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
@@ -763,23 +759,9 @@ limitations under the License.
 									</div>
 									<cfif linkNameEditable>
 										<div class="col-12 col-md-2">
-											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false">Edit</button>
+											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
+													onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn');">Edit</button>
 										</div>
-										<script>
-											$(document).ready(function() {
-												$('##link_name_toggle_btn').on('click', function() {
-													var input = $('##link_name');
-													var button = $(this);
-													if (input.prop('disabled')) {
-														input.prop('disabled', false).trigger('focus');
-														button.text('Lock').attr('aria-pressed', 'true');
-													} else {
-														input.prop('disabled', true);
-														button.text('Edit').attr('aria-pressed', 'false');
-													}
-												});
-											});
-										</script>
 									</cfif>
 									<cfset permalinkColClass = "col-md-9">
 									<cfset linkCharLimit = 30>

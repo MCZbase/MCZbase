@@ -18,8 +18,12 @@ limitations under the License.
 <!--- function saveUndColl
 Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
+@param underscore_collection_type the ctunderscore_collection_type code for this named group
 @param collection_name the brief human readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
+@param html_description rich HTML content shown on the named group's page
+@param displayed_media_id media_id of the image shown for this named group, if any
+@param mask_fg visibility of the record: 0 = public, 1 = hidden (requires coldfusion_user to view)
 @param link_name value for the /namedGroup/{link_name} permalink.
 @return json structure with status and id or http status 500
 --->
@@ -44,7 +48,7 @@ Update an existing arbitrary collection record (underscore_collection).
 			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
-			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
 				SELECT underscore_collection_id
 				FROM underscore_collection
 				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
