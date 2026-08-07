@@ -778,10 +778,10 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfset permalinkColClass = "col-md-8">
-									<cfset linkCharLimit = 30>
+									<cfset linkCharLimit = 100>
 									<cfif linkNameEditable>
 										<cfset permalinkColClass = "col-md-3">
-										<cfset linkCharLimit = 100>
+										<cfset linkCharLimit = 30>
 									</cfif>
 									<div class="col-12 #permalinkColClass#">
 										<span class="data-entry-label d-block">Permalink:</span>
