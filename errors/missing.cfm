@@ -245,7 +245,7 @@
 			</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'featured',"/")>
-		<!--- Request by underscore_collection.link_name (Redmine 1028), falling back to
+		<!--- Request by underscore_collection.link_name, falling back to
 			underscore_collection_id if the segment doesn't match any link_name, so every
 			named group stays addressable even before it has a link_name value. --->
 		<cftry>

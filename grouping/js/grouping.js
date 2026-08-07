@@ -429,7 +429,7 @@ function removeUndCollCitation(underscore_coll_citation_id, okcallback) {
  * trim, collapse runs of spaces to a single underscore, strip anything that isn't
  * alphanumeric or an underscore, collapse runs of underscores, then truncate to 200
  * characters (the column's width). Used to auto-populate link_name on the create
- * named group page (Redmine 1028).
+ * named group page.
  * @param collectionName the collection_name value to derive a link_name from.
  * @return the derived link_name value.
  */
@@ -445,7 +445,7 @@ function slugifyCollectionNameForLinkName(collectionName) {
  * collection_name loses focus, but only while link_name is still empty. Fires on blur rather
  * than on every keystroke so the whole typed name is used at once -- binding this to an
  * input/keyup event instead would derive link_name from only the first character typed, since
- * link_name stops being empty the moment that first character is written (Redmine 1028).
+ * link_name stops being empty the moment that first character is written.
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to auto-populate, without a leading # selector.
  */
@@ -462,7 +462,7 @@ function bindNamedGroupLinkNameAutoPopulate(collectionNameFieldId, linkNameField
 /** Wires a button that (re)builds link_name from collection_name's current value, using the
  * same transform as the auto-populate above -- unlike auto-populate, this always overwrites
  * whatever link_name currently holds, letting a user reset it to match the group name on
- * demand (Redmine 1028).
+ * demand.
  * @param generateButtonId id of the button element, without a leading # selector.
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to (re)generate, without a leading # selector.
