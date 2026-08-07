@@ -767,13 +767,13 @@ limitations under the License.
 								</cfif>
 								<div class="form-row mb-2">
 									<cfif linkNameEditable>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-6 col-l-7">
 											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
 												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
 												oninput="updateNamedGroupPermalinkPreview('link_name','link_name_permalink_display','#encodeForJavaScript(Application.serverRootUrl)#',#linkCharLimit#);" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 col-l-2">
 											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
 												onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn');">Edit</button>
 											<cfif isNumeric(trim(link_name))>
