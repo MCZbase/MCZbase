@@ -485,3 +485,33 @@ function toggleNamedGroupLinkNameEdit(linkNameFieldId, toggleButtonId) {
 		button.text('Edit').attr('aria-pressed', 'false');
 	}
 }
+
+/** Rebuilds the /namedGroup/{link_name} permalink preview to match the link_name field's
+ * current value, choosing between a full text link and an icon-only link with an aria-label
+ * once the value reaches charLimit, matching the same threshold and markup used when the
+ * page was first rendered, so the preview never falls out of sync with a live edit.
+ * @param linkNameFieldId id of the link name text input, without a leading # selector.
+ * @param displayContainerId id of the element whose contents should be replaced with the
+ *	rendered permalink, without a leading # selector.
+ * @param serverRootUrl the application's server root URL to prefix the permalink path with.
+ * @param charLimit link_name length at or above which the icon-only display is used instead
+ *	of the full text link.
+ */
+function updateNamedGroupPermalinkPreview(linkNameFieldId, displayContainerId, serverRootUrl, charLimit) {
+	var linkName = $('#' + linkNameFieldId).val();
+	var container = $('#' + displayContainerId);
+	container.empty();
+	if (!linkName) {
+		return;
+	}
+	var url = serverRootUrl + '/namedGroup/' + encodeURIComponent(linkName);
+	if (linkName.length < charLimit) {
+		container.append($('<a id="link_name_permalink" target="_blank"></a>').attr('href', url).text(url));
+	} else {
+		var link = $('<a id="link_name_permalink" class="px-1 text-muted" target="_blank"></a>')
+			.attr('href', url)
+			.attr('aria-label', 'Permalink: ' + url)
+			.append('<i class="fas fa-link" aria-hidden="true"></i>');
+		container.append(link);
+	}
+}

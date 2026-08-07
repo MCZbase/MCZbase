@@ -759,12 +759,19 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
+								<cfset permalinkColClass = "col-md-8">
+								<cfset linkCharLimit = 100>
+								<cfif linkNameEditable>
+									<cfset permalinkColClass = "col-md-3">
+									<cfset linkCharLimit = 30>
+								</cfif>
 								<div class="form-row mb-2">
 									<cfif linkNameEditable>
 										<div class="col-12 col-md-7">
 											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
-												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
+												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
+												oninput="updateNamedGroupPermalinkPreview('link_name','link_name_permalink_display','#encodeForJavaScript(Application.serverRootUrl)#',#linkCharLimit#);" >
 										</div>
 										<div class="col-12 col-md-2">
 											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
@@ -778,25 +785,21 @@ limitations under the License.
 												aria-describedby="link_name_readonly_note">
 										</div>
 									</cfif>
-									<cfset permalinkColClass = "col-md-8">
-									<cfset linkCharLimit = 100>
-									<cfif linkNameEditable>
-										<cfset permalinkColClass = "col-md-3">
-										<cfset linkCharLimit = 30>
-									</cfif>
 									<div class="col-12 #permalinkColClass#">
 										<span class="data-entry-label d-block">Permalink:</span>
-										<cfif len(trim(link_name)) GT 0>
-											<cfif len(trim(link_name)) LT linkCharLimit>
-												<a id="link_name_permalink" href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#" target="_blank">/namedGroup/#encodeForHtml(link_name)#</a>
-											<cfelse>
-												<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
-														href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#"
-														aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(link_name)#">
-													<i class="fas fa-link" aria-hidden="true"></i>
-												</a>
+										<div id="link_name_permalink_display">
+											<cfif len(trim(link_name)) GT 0>
+												<cfif len(trim(link_name)) LT linkCharLimit>
+													<a id="link_name_permalink" href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#" target="_blank">/namedGroup/#encodeForHtml(link_name)#</a>
+												<cfelse>
+													<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
+															href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#"
+															aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(link_name)#">
+														<i class="fas fa-link" aria-hidden="true"></i>
+													</a>
+												</cfif>
 											</cfif>
-										</cfif>
+										</div>
 									</div>
 								</div>
 								<div class="form-row mb-2">
