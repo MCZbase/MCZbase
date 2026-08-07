@@ -441,19 +441,35 @@ function slugifyCollectionNameForLinkName(collectionName) {
 	return result.substring(0, 200);
 }
 
-/** Auto-populates the link_name field from the collection_name field as the user
- * types, but only while link_name is still empty -- it never overwrites a value
- * already present, whether auto-filled a moment ago or typed by the user, so a
- * user can freely override the derived value before saving (Redmine 1028).
+/** Auto-populates the link_name field from the collection_name field's current value once
+ * collection_name loses focus, but only while link_name is still empty. Fires on blur rather
+ * than on every keystroke so the whole typed name is used at once -- binding this to an
+ * input/keyup event instead would derive link_name from only the first character typed, since
+ * link_name stops being empty the moment that first character is written (Redmine 1028).
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to auto-populate, without a leading # selector.
  */
 function bindNamedGroupLinkNameAutoPopulate(collectionNameFieldId, linkNameFieldId) {
-	$('#' + collectionNameFieldId).on('input', function() {
+	$('#' + collectionNameFieldId).on('blur', function() {
 		var linkNameField = $('#' + linkNameFieldId);
 		if (linkNameField.val().length > 0) {
 			return;
 		}
 		linkNameField.val(slugifyCollectionNameForLinkName($(this).val()));
+	});
+}
+
+/** Wires a button that (re)builds link_name from collection_name's current value, using the
+ * same transform as the auto-populate above -- unlike auto-populate, this always overwrites
+ * whatever link_name currently holds, letting a user reset it to match the group name on
+ * demand (Redmine 1028).
+ * @param generateButtonId id of the button element, without a leading # selector.
+ * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
+ * @param linkNameFieldId id of the link name text input to (re)generate, without a leading # selector.
+ */
+function bindNamedGroupLinkNameGenerateButton(generateButtonId, collectionNameFieldId, linkNameFieldId) {
+	$('#' + generateButtonId).on('click', function() {
+		var collectionName = $('#' + collectionNameFieldId).val();
+		$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName));
 	});
 }

@@ -537,11 +537,17 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
 										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
-										<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
+										<div class="input-group">
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
+											<div class="input-group-append">
+												<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary ml-1">Generate</button>
+											</div>
+										</div>
 									</div>
 									<script>
 										$(document).ready(function() {
 											bindNamedGroupLinkNameAutoPopulate('collection_name','link_name');
+											bindNamedGroupLinkNameGenerateButton('link_name_generate_btn','collection_name','link_name');
 										});
 									</script>
 								</div>
@@ -744,8 +750,20 @@ limitations under the License.
 									<div class="col-12 col-md-9">
 										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
 										<cfif linkNameEditable>
-											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
-													required maxlength="200" value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
+											<div class="input-group">
+												<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
+														required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
+												<div class="input-group-append">
+													<button type="button" id="link_name_enable_btn" class="btn btn-xs btn-secondary ml-1">Enable Editing</button>
+												</div>
+											</div>
+											<script>
+												$(document).ready(function() {
+													$('##link_name_enable_btn').on('click', function() {
+														$('##link_name').prop('disabled', false).trigger('focus');
+													});
+												});
+											</script>
 										<cfelse>
 											<input type="text" id="link_name" name="link_name" class="data-entry-input bg-light"
 													readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"

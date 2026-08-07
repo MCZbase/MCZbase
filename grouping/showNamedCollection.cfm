@@ -350,20 +350,21 @@ limitations under the License.
 						<div class="row mx-0">
 							<div class="col-12 px-1 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-										<div class="d-inline-block float-right"> <a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a> </div>
-									</cfif>
+									<div class="d-inline-block float-right">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
+											<a id="featuredPermalink" class="px-1 text-muted" target="_blank"
+													href="#Application.serverRootUrl#/featured/#encodeForUrl(getNamedGroup.link_name)#"
+													aria-label="Permalink: #Application.serverRootUrl#/featured/#encodeForHtml(getNamedGroup.link_name)#">
+												<i class="fas fa-link" aria-hidden="true"></i>
+											</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a>
+										</cfif>
+									</div>
 								</h1>
 							</div>
 						</div>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
-							<div class="row mx-0">
-								<div class="col-12 px-1">
-									<span class="small text-muted">Permalink:</span>
-									<a id="featuredPermalink" class="small" href="#Application.serverRootUrl#/featured/#encodeForUrl(getNamedGroup.link_name)#">#Application.serverRootUrl#/featured/#encodeForHtml(getNamedGroup.link_name)#</a>
-								</div>
-							</div>
-						</cfif>
 						<div class="row mx-0">
 							<div class="col-12 px-3 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content ---> 
