@@ -51,9 +51,6 @@ Update an existing arbitrary collection record (underscore_collection).
 			<cfif REFind("^[A-Za-z0-9_]+$", normalizedLinkName) NEQ 1>
 				<cfthrow type="Application" message="Link name may contain only letters, numbers, and underscores.">
 			</cfif>
-			<cfif REFind("^[0-9]+$", normalizedLinkName) EQ 1>
-				<cfthrow type="Application" message="Link name must not be purely numeric.">
-			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
 			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" ****** result="checkLinkNameInUse_result">

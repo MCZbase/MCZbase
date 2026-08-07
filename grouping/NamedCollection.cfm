@@ -641,9 +641,6 @@ limitations under the License.
 			<cfif REFind("^[A-Za-z0-9_]+$", link_name) NEQ 1>
 				<cfthrow type="Application" message="Error: link_name may contain only letters, numbers, and underscores.">
 			</cfif>
-			<cfif REFind("^[0-9]+$", link_name) EQ 1>
-				<cfthrow type="Application" message="Error: link_name must not be purely numeric.">
-			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
 			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
