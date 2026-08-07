@@ -782,13 +782,15 @@ limitations under the License.
 										</script>
 									</cfif>
 									<cfset permalinkColClass = "col-md-9">
+									<cfset linkCharLimit = 30>
 									<cfif linkNameEditable>
 										<cfset permalinkColClass = "col-md-3">
+										<cfset linkCharLimit = 100>
 									</cfif>
 									<div class="col-12 #permalinkColClass#">
 										<span class="data-entry-label d-block">Permalink:</span>
 										<cfif len(trim(link_name)) GT 0>
-											<cfif len(trim(link_name)) LT 30>
+											<cfif len(trim(link_name)) LT linkCharLimit>
 												<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
 											<cfelse>
 												<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
