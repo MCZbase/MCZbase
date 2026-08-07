@@ -42,16 +42,24 @@ Update an existing arbitrary collection record (underscore_collection).
 			<cfthrow type="Application" message="Name of named group must contain a value.">
 		</cfif>
 		<cfset applyLinkName = false>
+		<cfset normalizedLinkName = "">
 		<cfif isdefined("link_name")>
 			<cfif len(trim(link_name)) EQ 0>
 				<cfthrow type="Application" message="Link name must contain a value.">
 			</cfif>
+			<cfset normalizedLinkName = trim(link_name)>
+			<cfif REFind("^[A-Za-z0-9_]+$", normalizedLinkName) NEQ 1>
+				<cfthrow type="Application" message="Link name may contain only letters, numbers, and underscores.">
+			</cfif>
+			<cfif REFind("^[0-9]+$", normalizedLinkName) EQ 1>
+				<cfthrow type="Application" message="Link name must not be purely numeric.">
+			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
-			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" ****** result="checkLinkNameInUse_result">
 				SELECT underscore_collection_id
 				FROM underscore_collection
-				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#normalizedLinkName#">
 					AND underscore_collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<cfif checkLinkNameInUse.recordcount GT 0>
@@ -78,7 +86,7 @@ Update an existing arbitrary collection record (underscore_collection).
 					,html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
 				<cfif applyLinkName>
-					,link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+					,link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#normalizedLinkName#">
 				</cfif>
 			where
 				underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">

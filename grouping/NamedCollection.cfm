@@ -523,7 +523,7 @@ limitations under the License.
 								<div class="form-row mt-2 mb-2">
 									<div class="col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label"
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required
 												onblur="autoPopulateNamedGroupLinkName('collection_name','link_name');" >
 									</div>
 									<div class="col-md-3">
@@ -539,7 +539,7 @@ limitations under the License.
 									<div class="col-12 col-md-9">
 										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 										<div class="input-group">
-											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" >
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
@@ -625,7 +625,7 @@ limitations under the License.
 		<cfparam name="form.html_description" default="">
 		<cfparam name="form.displayed_media_id" default="">
 		<cfset collection_name = form.collection_name>
-		<cfset link_name = form.link_name>
+		<cfset link_name = trim(form.link_name)>
 		<cfset underscore_collection_type = form.underscore_collection_type>
 		<cfset mask_fg = form.mask_fg>
 		<cfset description = form.description>
@@ -638,12 +638,18 @@ limitations under the License.
 			<cfif not isdefined("link_name") OR len(trim(#link_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value link_name">
 			</cfif>
+			<cfif REFind("^[A-Za-z0-9_]+$", link_name) NEQ 1>
+				<cfthrow type="Application" message="Error: link_name may contain only letters, numbers, and underscores.">
+			</cfif>
+			<cfif REFind("^[0-9]+$", link_name) EQ 1>
+				<cfthrow type="Application" message="Error: link_name must not be purely numeric.">
+			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
 			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
 				SELECT underscore_collection_id
 				FROM underscore_collection
-				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#link_name#">
 			</cfquery>
 			<cfif checkLinkNameInUse.recordcount GT 0>
 				<cfthrow type="Application" message="Error: This link name is already used by another named group. Choose a different one.">
@@ -667,7 +673,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(link_name)#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#link_name#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
@@ -718,7 +724,7 @@ limitations under the License.
 			<!--- editability of link_name is decided once here, at page load, from the value and role
 				current as of this render -- not re-evaluated reactively in JS as the form is edited --->
 			<cfset linkNameEditable = false>
-			<cfif trim(undColl.link_name) EQ trim(underscore_collection_id)>
+			<cfif len(trim(undColl.link_name)) EQ 0 OR trim(undColl.link_name) EQ trim(underscore_collection_id)>
 				<cfset linkNameEditable = true>
 			<cfelseif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 				<cfset linkNameEditable = true>
@@ -765,7 +771,7 @@ limitations under the License.
 														required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
 											</div>
 										<cfelse>
-											<input type="text" id="link_name" name="link_name" class="data-entry-input bg-light"
+											<input type="text" id="link_name" class="data-entry-input bg-light"
 													readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
 													aria-describedby="link_name_readonly_note">
 											<small id="link_name_readonly_note" class="form-text text-muted">Only editable when this is still the default value, or by a global admin.</small>

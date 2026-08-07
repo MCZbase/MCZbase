@@ -229,7 +229,7 @@
 			named group stays addressable even before it has a link_name value. --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
-			<cfset rawLinkName = listgetat(rdurl,gPos+1,"/")>
+			<cfset rawLinkName = trim(listgetat(rdurl,gPos+1,"/"))>
 			<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 				SELECT underscore_collection_id
 				FROM underscore_collection
