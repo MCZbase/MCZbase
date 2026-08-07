@@ -772,7 +772,7 @@ limitations under the License.
 										</div>
 									<cfelse>
 										<div class="col-12 col-md-4">
-											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
+											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name</label>
 											<input type="text" id="link_name" class="data-entry-input bg-light"
 												readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
 												aria-describedby="link_name_readonly_note">
