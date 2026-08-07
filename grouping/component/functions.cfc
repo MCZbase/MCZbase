@@ -18,14 +18,9 @@ limitations under the License.
 <!--- function saveUndColl
 Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
-@param collection_name the brief uman readable description of the arbitrary collection, must not be blank.
+@param collection_name the brief human readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
-@param link_name value for the /featured/{link_name} permalink (Redmine 1028).  Whether the field
-	is editable at all is a page-load-time-only decision made by the edit page (editable while its
-	value still equals the record's own id, or for global_admin) and is intentionally not re-checked
-	here on every save: once a session could edit it when the page loaded, it can keep correcting it
-	(e.g. fixing a typo) across multiple saves in that same edit session, even after the first save
-	moves the value away from the id.
+@param link_name value for the /featured/{link_name} permalink.  
 @return json structure with status and id or http status 500
 --->
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
