@@ -459,13 +459,15 @@ function autoPopulateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) 
 
 /** (Re)builds link_name from collection_name's current value, using the same transform as
  * the auto-populate above -- unlike auto-populate, this always overwrites whatever link_name
- * currently holds, letting a user reset it to match the group name on demand.
+ * currently holds, letting a user reset it to match the group name on demand. Triggers an
+ * input event on link_name afterward so any oninput-bound permalink preview on the page
+ * (e.g. the edit page's) picks up the new value; harmless where nothing is bound to it.
  * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
  * @param linkNameFieldId id of the link name text input to (re)generate, without a leading # selector.
  */
 function generateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
 	var collectionName = $('#' + collectionNameFieldId).val();
-	$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName));
+	$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName)).trigger('input');
 }
 
 /** Toggles a link_name input between disabled and enabled, relabeling the adjacent toggle
