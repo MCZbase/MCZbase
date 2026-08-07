@@ -472,20 +472,38 @@ function generateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
 
 /** Toggles a link_name input between disabled and enabled, relabeling the adjacent toggle
  * button "Edit"/"Lock" to match, so a save made without pressing the button leaves the field
- * disabled (and so excluded from the submitted form) rather than editable by default.
+ * disabled (and so excluded from the submitted form) rather than editable by default. The
+ * Generate button is enabled/disabled along with the field, since generating a value while
+ * the field is locked would be immediately discarded (Generate has no effect while disabled,
+ * but the enabled/disabled state should still tell the user that).
  * @param linkNameFieldId id of the link name text input, without a leading # selector.
  * @param toggleButtonId id of the toggle button, without a leading # selector.
+ * @param generateButtonId id of the Generate button, without a leading # selector; may not
+ *	exist on the page, in which case this has no effect on it.
  */
-function toggleNamedGroupLinkNameEdit(linkNameFieldId, toggleButtonId) {
+function toggleNamedGroupLinkNameEdit(linkNameFieldId, toggleButtonId, generateButtonId) {
 	var input = $('#' + linkNameFieldId);
 	var button = $('#' + toggleButtonId);
+	var generateButton = $('#' + generateButtonId);
 	if (input.prop('disabled')) {
 		input.prop('disabled', false).trigger('focus');
 		button.text('Lock').attr('aria-pressed', 'true');
+		generateButton.prop('disabled', false);
 	} else {
 		input.prop('disabled', true);
 		button.text('Edit').attr('aria-pressed', 'false');
+		generateButton.prop('disabled', true);
 	}
+}
+
+/** Disables the link_name toggle button once its field has been changed while editable, so
+ * it can't be clicked to re-lock (disable) the field before that change is saved -- a
+ * disabled field is excluded from the submitted form, which would otherwise silently drop
+ * an edit the user believed they'd made. Re-enable it after a successful save.
+ * @param toggleButtonId id of the toggle button, without a leading # selector.
+ */
+function disableNamedGroupLinkNameToggleUntilSaved(toggleButtonId) {
+	$('#' + toggleButtonId).prop('disabled', true);
 }
 
 /** Rebuilds the /namedGroup/{link_name} permalink preview to match the link_name field's

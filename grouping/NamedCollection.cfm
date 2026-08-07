@@ -771,13 +771,13 @@ limitations under the License.
 											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
 												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
-												oninput="updateNamedGroupPermalinkPreview('link_name','link_name_permalink_display','#encodeForJavaScript(Application.serverRootUrl)#',#linkCharLimit#);" >
+												oninput="updateNamedGroupPermalinkPreview('link_name','link_name_permalink_display','#encodeForJavaScript(Application.serverRootUrl)#',#linkCharLimit#); disableNamedGroupLinkNameToggleUntilSaved('link_name_toggle_btn');" >
 										</div>
 										<div class="col-12 col-md-3 col-l-2">
 											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
-												onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn');">Edit</button>
+												onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn','link_name_generate_btn');">Edit</button>
 											<cfif isNumeric(trim(link_name))>
-												<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3 ml-1"
+												<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3 ml-1" disabled
 													onclick="generateNamedGroupLinkName('collection_name','link_name');">Generate</button>
 											</cfif>
 										</div>
@@ -878,8 +878,10 @@ limitations under the License.
 										$('##editUndColl textarea').on("change",changed);
 										$('##description').on("change",changed);
 									});
-									function updateFromSave() { 
+									function updateFromSave() {
 										$('##headingNameOfCollection').html($('#collection_name#').val());
+										// a pending link_name edit is now saved, so re-allow locking it again
+										$('##link_name_toggle_btn').prop('disabled', false);
 									}
 									function saveChanges(){ 
 										saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named group",updateFromSave);
