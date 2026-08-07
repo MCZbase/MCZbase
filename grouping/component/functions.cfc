@@ -53,7 +53,7 @@ Update an existing arbitrary collection record (underscore_collection).
 			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
 				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
-			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" ****** result="checkLinkNameInUse_result">
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
 				SELECT underscore_collection_id
 				FROM underscore_collection
 				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#normalizedLinkName#">
