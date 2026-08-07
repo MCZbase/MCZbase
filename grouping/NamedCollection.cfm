@@ -747,52 +747,54 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<cfif linkNameEditable>
-										<div class="col-12 col-md-7">
-											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+									<div class="col-12 col-md-7">
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+										<cfif linkNameEditable>
 											<div class="input-group">
 												<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
 														required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
 											</div>
-										</div>
-										<div class="col-12 col-md-2">
-											<button type="button" id="link_name_enable_btn" class="btn btn-xs btn-secondary mt-3">Edit</button>
-										</div>
-										<script>
-											$(document).ready(function() {
-												$('##link_name_enable_btn').on('click', function() {
-													$('##link_name').prop('disabled', false).trigger('focus');
-												});
-											});
-										</script>
-										<div class="col-12 col-md-3">
-											<span class="data-entry-label d-block">Permalink:</span>
-											<cfif len(trim(link_name)) GT 0>
-												<cfif len(trim(link_name)) LT 30>
-													<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
-												<cfelse>
-													<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
-															href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#"
-															aria-label="Permalink: #Application.serverRootUrl#/featured/#encodeForHtml(link_name)#">
-														<i class="fas fa-link" aria-hidden="true"></i>
-													</a>
-												</cfif>
-											</cfif>
-										</div>
-									<cfelse>
-										<div class="col-12 col-md-3">
+										<cfelse>
 											<input type="text" id="link_name" name="link_name" class="data-entry-input bg-light"
 													readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
 													aria-describedby="link_name_readonly_note">
 											<small id="link_name_readonly_note" class="form-text text-muted">Only editable when this is still the default value, or by a global admin.</small>
+										</cfif>
+									</div>
+									<cfif linkNameEditable>
+										<div class="col-12 col-md-2">
+											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false">Edit</button>
 										</div>
-										<div class="col-12 col-md-9">
-											<span class="data-entry-label d-block">Permalink</span>
-											<cfif len(trim(link_name)) GT 0>
-												<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
-											</cfif>
-										</div>
+										<script>
+											$(document).ready(function() {
+												$('##link_name_toggle_btn').on('click', function() {
+													var input = $('##link_name');
+													var button = $(this);
+													if (input.prop('disabled')) {
+														input.prop('disabled', false).trigger('focus');
+														button.text('Lock').attr('aria-pressed', 'true');
+													} else {
+														input.prop('disabled', true);
+														button.text('Edit').attr('aria-pressed', 'false');
+													}
+												});
+											});
+										</script>
 									</cfif>
+									<div class="col-12 <cfif linkNameEditable>col-md-3<cfelse>col-md-9</cfif>">
+										<span class="data-entry-label d-block">Permalink:</span>
+										<cfif len(trim(link_name)) GT 0>
+											<cfif len(trim(link_name)) LT 30>
+												<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
+											<cfelse>
+												<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
+														href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#"
+														aria-label="Permalink: #Application.serverRootUrl#/featured/#encodeForHtml(link_name)#">
+													<i class="fas fa-link" aria-hidden="true"></i>
+												</a>
+											</cfif>
+										</cfif>
+									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
