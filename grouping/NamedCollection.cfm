@@ -781,7 +781,11 @@ limitations under the License.
 											});
 										</script>
 									</cfif>
-									<div class="col-12 <cfif linkNameEditable>col-md-3<cfelse>col-md-9</cfif>">
+									<cfset permalinkColClass = "col-md-9">
+									<cfif linkNameEditable>
+										<cfset permalinkColClass = "col-md-3">
+									</cfif>
+									<div class="col-12 #permalinkColClass#">
 										<span class="data-entry-label d-block">Permalink:</span>
 										<cfif len(trim(link_name)) GT 0>
 											<cfif len(trim(link_name)) LT 30>
