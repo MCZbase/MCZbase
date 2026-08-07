@@ -224,10 +224,28 @@
 		</cftry>
 		</cfoutput>
 	<cfelseif listfindnocase(rdurl,'namedGroup',"/")>
-		<!--- Request by target_underscore_collection_id --->
+		<!--- Request by underscore_collection.link_name, falling back to
+			underscore_collection_id if the segment doesn't match any link_name, so every
+			named group stays addressable even before it has a link_name value. --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
-			<cfset target_underscore_collection_id = listgetat(rdurl,gPos+1,"/")>
+			<cfset rawLinkName = trim(listgetat(rdurl,gPos+1,"/"))>
+			<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rawLinkName#">
+			</cfquery>
+			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
+				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT underscore_collection_id
+					FROM underscore_collection
+					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
+				</cfquery>
+			</cfif>
+			<cfif lookupByLinkName.recordcount EQ 0>
+				<cfthrow message="Named group not found." errorcode="404">
+			</cfif>
+			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
 			<!--- if provided, get format from url, otherwise default to html --->
 			<cfset requestedformat = "html">
 			<cftry>
@@ -241,7 +259,11 @@
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
 				<cfset errorDetail = cfcatch.detail>
-				<cfinclude template="/errors/500.cfm">
+				<cfif cfcatch.errorCode IS "404">
+					<cfinclude template="/errors/404.cfm">
+				<cfelse>
+					<cfinclude template="/errors/500.cfm">
+				</cfif>
 			</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'name',"/")>

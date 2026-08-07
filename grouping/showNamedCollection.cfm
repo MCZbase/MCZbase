@@ -105,7 +105,8 @@ limitations under the License.
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg,
-		displayed_media_id
+		displayed_media_id,
+		link_name
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 </cfquery>
@@ -349,14 +350,23 @@ limitations under the License.
 						<div class="row mx-0">
 							<div class="col-12 px-1 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-										<div class="d-inline-block float-right"> <a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a> </div>
-									</cfif>
+									<div class="d-inline-block float-right">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
+											<a id="namedGroupPermalink" class="px-1 text-muted" target="_blank"
+													href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(getNamedGroup.link_name)#"
+													aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(getNamedGroup.link_name)#">
+												<i class="fas fa-link" aria-hidden="true"></i>
+											</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a>
+										</cfif>
+									</div>
 								</h1>
 							</div>
 						</div>
 						<div class="row mx-0">
-							<div class="col-12 px-3 mt-0"> 
+							<div class="col-12 px-3 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content ---> 
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
