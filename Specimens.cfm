@@ -3738,7 +3738,7 @@
 							<cfif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
 								<cfset addedIDs = "#addedIDs#&target_deacc_id=#encodeForUrl(target_deacc_id)#">
 							</cfif>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1">Manage</a>');
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'#addedIDs#" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" style="padding-top: 1px !important; padding-bottom: 1px !important;">Manage</a>');
 							<cfif isDefined("target_loan_id") and len(target_loan_id) GT 0>
 								$('##fixedmanageButtonExtra').html('<a class="btn btn-xs btn-secondary px-2 my-2 mx-1" id="fixedDirectAddPartButton" href="/specimens/changeQueryAddPartsLoan.cfm?result_id='+$('##result_id_fixedSearch').val()+'&transaction_id=#encodeForUrl(target_loan_id)#" target="_blank">Add to Loan #getLoan.loan_number#</a>');
 							<cfelseif isDefined("target_deacc_id") and len(target_deacc_id) GT 0>
@@ -4552,8 +4552,8 @@
 				$("##"+whichGrid+"columnPickDialogButton").html(
 					`<button id="columnPickDialogOpener" 
 						onclick=" populateColumnPicker('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`columnPickDialog').dialog('open'); " 
-						class="btn btn-xs btn-secondary my-2 mx-1 px-2">Select Columns</button>
-					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-2 my-2">Pin GUID Column</button>
+						class="btn btn-xs btn-secondary my-2 mx-1 px-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Select Columns</button>
+					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-2 my-2"  style="padding-top: 1px !important; padding-bottom: 1px !important;">Pin GUID Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -4595,7 +4595,7 @@
 					$("##"+whichGrid+"saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary px-2 mx-1 my-2">Save Search</button>
+							class="btn btn-xs btn-secondary px-2 mx-1 my-2" style="padding-top: 1px !important; padding-bottom: 1px !important;">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a search.
@@ -4604,7 +4604,7 @@
 				// It seems only the last try on the .jqx-menu-wrapper was fixing the issue.
 				maxZIndex = getMaxZIndex();
 				try { 
-					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 					//$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
@@ -4613,7 +4613,7 @@
 					console.log("Expected consequence is that the sort menus on the grid are not visible.");
 				}
 				try { 
-					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 					//$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
@@ -4626,19 +4626,19 @@
 				var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 				<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 					<cfif oneOfUs EQ 1>
-						$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); ">Export to CSV</button>`);
+						$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " style="padding-top: 1px !important; padding-bottom: 1px !important;" >Export to CSV</button>`);
 					<cfelse>
-						$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `');">Export to CSV</button>`);
+						$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " style="padding-top: 1px !important; padding-bottom: 1px !important;">Export to CSV</button>`);
 					</cfif>
 				<cfelse>
-					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="login or register to download">Login to Download</button>`);
+					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="login or register to download" style="padding-top: 1px !important; padding-bottom: 1px !important;">Login to Download</button>`);
 				</cfif>
 				<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 					console.log(#session.specimens_pin_guid#);
 					setPinColumnState(gridId,'GUID',true);
 				</cfif>
 				<cfif isdefined("session.username") AND len(#session.username#) GT 0>
-					$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
+					$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper" style="padding-top: 1px !important; padding-bottom: 1px !important;">BerkeleyMapper</a>`);
 					loadGeoreferenceCount(result_uuid,whichGrid + 'BMMapButton','BerkeleyMapper (',')');
 				</cfif>
 				<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
