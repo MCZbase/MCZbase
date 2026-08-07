@@ -539,10 +539,10 @@ limitations under the License.
 										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
 										<div class="input-group">
 											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
-											<div class="input-group-append">
-												<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary ml-1">Generate</button>
-											</div>
 										</div>
+									</div>
+									<div class="col-12 col-md-3">
+										<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3">Generate Link Name</button>
 									</div>
 									<script>
 										$(document).ready(function() {
