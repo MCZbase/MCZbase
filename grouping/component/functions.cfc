@@ -20,7 +20,7 @@ Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
 @param collection_name the brief human readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
-@param link_name value for the /featured/{link_name} permalink.  
+@param link_name value for the /namedGroup/{link_name} permalink.
 @return json structure with status and id or http status 500
 --->
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
@@ -43,7 +43,7 @@ Update an existing arbitrary collection record (underscore_collection).
 				<cfthrow type="Application" message="Link name must contain a value.">
 			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
-				collision here rather than letting two named groups resolve to the same /featured/ link --->
+				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
 			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT underscore_collection_id
 				FROM underscore_collection

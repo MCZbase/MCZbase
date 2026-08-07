@@ -352,9 +352,9 @@ limitations under the License.
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
 									<div class="d-inline-block float-right">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
-											<a id="featuredPermalink" class="px-1 text-muted" target="_blank"
-													href="#Application.serverRootUrl#/featured/#encodeForUrl(getNamedGroup.link_name)#"
-													aria-label="Permalink: #Application.serverRootUrl#/featured/#encodeForHtml(getNamedGroup.link_name)#">
+											<a id="namedGroupPermalink" class="px-1 text-muted" target="_blank"
+													href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(getNamedGroup.link_name)#"
+													aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(getNamedGroup.link_name)#">
 												<i class="fas fa-link" aria-hidden="true"></i>
 											</a>
 										</cfif>

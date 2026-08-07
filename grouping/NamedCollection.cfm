@@ -536,7 +536,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
-										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 										<div class="input-group">
 											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" aria-labelledby="link_name_label" >
 										</div>
@@ -629,7 +629,7 @@ limitations under the License.
 				<cfthrow type="Application" message="Error: No value provided for required value link_name">
 			</cfif>
 			<!--- link_name has no unique constraint at the database level yet, so check for a
-				collision here rather than letting two named groups resolve to the same /featured/ link --->
+				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
 			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
 				SELECT underscore_collection_id
 				FROM underscore_collection
@@ -748,7 +748,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-7">
-										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /featured/{link_name} permalink)</label>
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
 										<cfif linkNameEditable>
 											<div class="input-group">
 												<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
@@ -791,11 +791,11 @@ limitations under the License.
 										<span class="data-entry-label d-block">Permalink:</span>
 										<cfif len(trim(link_name)) GT 0>
 											<cfif len(trim(link_name)) LT linkCharLimit>
-												<a id="link_name_permalink" href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#" target="_blank">/featured/#encodeForHtml(link_name)#</a>
+												<a id="link_name_permalink" href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#" target="_blank">/namedGroup/#encodeForHtml(link_name)#</a>
 											<cfelse>
 												<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
-														href="#Application.serverRootUrl#/featured/#encodeForUrl(link_name)#"
-														aria-label="Permalink: #Application.serverRootUrl#/featured/#encodeForHtml(link_name)#">
+														href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#"
+														aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(link_name)#">
 													<i class="fas fa-link" aria-hidden="true"></i>
 												</a>
 											</cfif>
