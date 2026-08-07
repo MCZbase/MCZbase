@@ -243,7 +243,7 @@
 				</cfquery>
 			</cfif>
 			<cfif lookupByLinkName.recordcount EQ 0>
-				<cfthrow message="Named group link not recognized.">
+				<cfthrow message="Named group not found." errorcode="404">
 			</cfif>
 			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
 			<!--- if provided, get format from url, otherwise default to html --->
@@ -259,7 +259,11 @@
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
 				<cfset errorDetail = cfcatch.detail>
-				<cfinclude template="/errors/500.cfm">
+				<cfif cfcatch.errorCode IS "404">
+					<cfinclude template="/errors/404.cfm">
+				<cfelse>
+					<cfinclude template="/errors/500.cfm">
+				</cfif>
 			</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
