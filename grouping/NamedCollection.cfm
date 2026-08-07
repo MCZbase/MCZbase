@@ -760,27 +760,24 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-7">
-										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
-										<cfif linkNameEditable>
-											<div class="input-group">
-												<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
-														required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
-											</div>
-										<cfelse>
-											<input type="text" id="link_name" class="data-entry-input bg-light"
-													readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
-													aria-describedby="link_name_readonly_note">
-											<small id="link_name_readonly_note" class="form-text text-muted">Only editable when this is still the default value, or by a global admin.</small>
-										</cfif>
-									</div>
 									<cfif linkNameEditable>
+										<div class="col-12 col-md-7">
+											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
+												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label" >
+										</div>
 										<div class="col-12 col-md-2">
 											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
-													onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn');">Edit</button>
+												onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn');">Edit</button>
+										</div>
+									<cfelse>
+										<div class="col-12 col-md-4">
+											<input type="text" id="link_name" class="data-entry-input bg-light"
+												readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
+												aria-describedby="link_name_readonly_note">
 										</div>
 									</cfif>
-									<cfset permalinkColClass = "col-md-9">
+									<cfset permalinkColClass = "col-md-8">
 									<cfset linkCharLimit = 30>
 									<cfif linkNameEditable>
 										<cfset permalinkColClass = "col-md-3">
