@@ -2750,13 +2750,15 @@ column doesn't stand out from the row it belongs to.
 .secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #E5EFFA !important;
 }
-/* Primary type, alternating row */
+/* Primary type, alternating row -- a lighter overlay than the shared .jqx-grid-cell-alt
+	above uses, since the same percentage of black reads as more intense once layered over an
+	already-tinted color than it does over the shared rule's near-neutral background */
 .primaryTypeCell.jqx-grid-cell-alt {
-	background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #FDEEF1 !important;
 }
-/* Secondary type, alternating row */
+/* Secondary type, alternating row -- same reasoning as primary type above */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #E5EFFA !important;
 }
 /* Primary type, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
