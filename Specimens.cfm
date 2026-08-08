@@ -3328,37 +3328,43 @@
 			//
 			// Set the row color based on type status
 			var keywordcellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-					if (toptypestatuskind=='Primary') { 
+					if (toptypestatuskind=='Primary') {
 						return "primaryTypeCell";
-					} else if (toptypestatuskind=='Secondary') { 
+					} else if (toptypestatuskind=='Secondary') {
 						return "secondaryTypeCell";
+					} else {
+						return "nonTypeCell";
 					}
 				}
 			};
 			var fixedcellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-					if (rowData) { 
+					if (rowData) {
 						var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-						if (toptypestatuskind=='Primary') { 
+						if (toptypestatuskind=='Primary') {
 							return "primaryTypeCell";
-						} else if (toptypestatuskind=='Secondary') { 
+						} else if (toptypestatuskind=='Secondary') {
 							return "secondaryTypeCell";
+						} else {
+							return "nonTypeCell";
 						}
 					}
 				}
 			};
 			var buildercellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-					if (toptypestatuskind=='Primary') { 
+					if (toptypestatuskind=='Primary') {
 						return "primaryTypeCell";
-					} else if (toptypestatuskind=='Secondary') { 
+					} else if (toptypestatuskind=='Secondary') {
 						return "secondaryTypeCell";
+					} else {
+						return "nonTypeCell";
 					}
 				}
 			};
