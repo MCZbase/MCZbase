@@ -2716,81 +2716,79 @@ div.toctitle {
 	color: #2b2b2b !important;
 	z-index: 3004;
 }
-/* Non-type/voucher — dark rows */
+/* Alternating-row background and hover background, shared by every jqxGrid on the site --
+	kept at the same values master uses so grids other than the specimen search results grids
+	are unaffected. Only the specimen search grids' primary/secondary type rules below layer
+	anything else on top of these. */
 .jqx-grid-cell-alt {
-	background-color: #E9E9E9 !important;
+	background-color: #e9edf2 !important;
 }
-/* Primary type — light rows */
-.primaryTypeCell.jqx-grid-cell {
+.jqx-grid-cell-hover {
+	background: #cbced1 !important;
+}
+/************************
+Cell background colors for the specimen search results grids (Specimens.cfm), set via the
+fixedcellclass/keywordcellclass/buildercellclass cellclassname functions on that page. Scoped
+entirely to the primaryTypeCell/secondaryTypeCell classes those functions apply, so nothing
+here affects any other grid.
+
+Each state is the same base tint with a flat, mostly-transparent grey layered on top (a
+solid-color gradient used as a background-image layer over the base background-color) rather
+than a separately hand-picked color per state, so alternating/hover/selected rows stay
+proportionally "the same color, a little darker" instead of drifting into unrelated hues.
+Primary and secondary type cells that are pinned (e.g. a pinned GUID column) get the same base
+color as the rest of their row, rather than a separately-chosen approximation, so a pinned
+column doesn't stand out from the row it belongs to.
+************************/
+/* Primary type — base color, including pinned cells */
+.primaryTypeCell.jqx-grid-cell,
+.primaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #FDEEF1 !important;
 }
-/* Primary type — dark rows */
-.primaryTypeCell.jqx-grid-cell-alt {
-	background-color: #F9DDE4 !important;
-}
-/* Secondary type — light rows */
-.secondaryTypeCell.jqx-grid-cell {
+/* Secondary type — base color, including pinned cells */
+.secondaryTypeCell.jqx-grid-cell,
+.secondaryTypeCell.jqx-grid-cell-pinned {
 	background-color: #E5EFFA !important;
 }
-/* Secondary type — dark rows */
+/* Primary type, alternating row */
+.primaryTypeCell.jqx-grid-cell-alt {
+	background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #FDEEF1 !important;
+}
+/* Secondary type, alternating row */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background-color: #D2E4F2 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #E5EFFA !important;
 }
-/* Primary type — light rows, hover */
+/* Primary type, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
-	background-color: #EEE0E3 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #FDEEF1 !important;
 }
-/* Primary type — dark rows, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-  background-color: #EAD0D6 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #FDEEF1 !important;
 }
-/* Secondary type — light rows, hover */
+/* Secondary type, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
-	background-color: #D7E1EB !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #E5EFFA !important;
 }
-/* Secondary type — dark rows, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-	background-color: #C5D6E3 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #E5EFFA !important;
 }
-/* Non-type/voucher — light rows (white), hover */
-.jqx-grid-cell.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
-	background-color: #F0F0F0 !important;
-}
-/* Non-type/voucher — dark rows (gray), hover */
-.jqx-grid-cell.jqx-grid-cell-alt.jqx-fill-state-hover:not(.primaryTypeCell):not(.secondaryTypeCell) {
-	background-color: #DBDBDB !important;
-}
-/* Primary type — light rows, selected */
+/* Primary type, selected */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected-light {
-  background-color: #DFD1D4 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #FDEEF1 !important;
 }
-/* Primary type — dark rows, selected */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
-  background-color: #DBC2C9 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #FDEEF1 !important;
 }
-
-/* Secondary type — light rows, selected */
+/* Secondary type, selected */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
-  background-color: #CAD2DC !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #E5EFFA !important;
 }
-/* Secondary type — dark rows, selected */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
-  background-color: #B9C9D5 !important;
-}
-
-/* Non-type/voucher — light rows (white), selected */
-.jqx-grid-cell.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
-.jqx-grid-cell.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
-  background-color: #E0E0E0 !important;
-}
-/* Non-type/voucher — dark rows (gray), selected */
-.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected:not(.primaryTypeCell):not(.secondaryTypeCell),
-.jqx-grid-cell.jqx-grid-cell-alt.jqx-grid-cell-selected-light:not(.primaryTypeCell):not(.secondaryTypeCell) {
-  background-color: #CDCDCD !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #E5EFFA !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
