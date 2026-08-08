@@ -2743,54 +2743,54 @@ column doesn't stand out from the row it belongs to.
 /* Primary type — base color, including pinned cells */
 .primaryTypeCell.jqx-grid-cell,
 .primaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #FDEEF1 !important;
+	background-color: #ffe1e1 !important;
 }
 /* Secondary type — base color, including pinned cells */
 .secondaryTypeCell.jqx-grid-cell,
 .secondaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #E5EFFA !important;
+	background-color: #e8f1ff !important;
 }
 /* Primary type, alternating row -- a lighter overlay than the shared .jqx-grid-cell-alt
 	above uses, since the same percentage of black reads as more intense once layered over an
 	already-tinted color than it does over the shared rule's near-neutral background */
 .primaryTypeCell.jqx-grid-cell-alt {
-	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #ffe1e1 !important;
 }
 /* Secondary type, alternating row -- same reasoning as primary type above */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #e8f1ff !important;
 }
 /* Primary type, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #ffe1e1 !important;
 }
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #ffe1e1 !important;
 }
 /* Secondary type, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #e8f1ff !important;
 }
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #e8f1ff !important;
 }
 /* Primary type, selected */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #ffe1e1 !important;
 }
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #FDEEF1 !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #ffe1e1 !important;
 }
 /* Secondary type, selected */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #e8f1ff !important;
 }
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #E5EFFA !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #e8f1ff !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
