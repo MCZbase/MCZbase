@@ -523,15 +523,28 @@ limitations under the License.
 								<div class="form-row mt-2 mb-2">
 									<div class="col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required
+												onblur="autoPopulateNamedGroupLinkName('collection_name','link_name');" >
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
-										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr"> 
+										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr">
 											<option value="" selected="selected"></option>
 											<option value="0">Public</option>
 											<option value="1">Hidden</option>
 										</select>
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-9">
+										<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
+										<div class="input-group">
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr" required maxlength="200" >
+										</div>
+									</div>
+									<div class="col-12 col-md-3">
+										<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3"
+												onclick="generateNamedGroupLinkName('collection_name','link_name');">Generate Link Name</button>
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -604,15 +617,46 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
+		<cfparam name="form.collection_name" default="">
+		<cfparam name="form.link_name" default="">
+		<cfparam name="form.underscore_collection_type" default="">
+		<cfparam name="form.mask_fg" default="">
+		<cfparam name="form.description" default="">
+		<cfparam name="form.html_description" default="">
+		<cfparam name="form.displayed_media_id" default="">
+		<cfset collection_name = form.collection_name>
+		<cfset link_name = trim(form.link_name)>
+		<cfset underscore_collection_type = form.underscore_collection_type>
+		<cfset mask_fg = form.mask_fg>
+		<cfset description = form.description>
+		<cfset html_description = form.html_description>
+		<cfset displayed_media_id = form.displayed_media_id>
 		<cftry>
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
+			</cfif>
+			<cfif not isdefined("link_name") OR len(trim(#link_name#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value link_name">
+			</cfif>
+			<cfif REFind("^[A-Za-z0-9_]+$", link_name) NEQ 1>
+				<cfthrow type="Application" message="Error: link_name may contain only letters, numbers, and underscores.">
+			</cfif>
+			<!--- link_name has no unique constraint at the database level yet, so check for a
+				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#link_name#">
+			</cfquery>
+			<cfif checkLinkNameInUse.recordcount GT 0>
+				<cfthrow type="Application" message="Error: This link name is already used by another named group. Choose a different one.">
 			</cfif>
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
 				insert into underscore_collection (
 					collection_name,
 					underscore_collection_type,
-					mask_fg
+					mask_fg,
+					link_name
 					<cfif isdefined("description")>
 						,description
 					</cfif>
@@ -625,7 +669,8 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#link_name#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
@@ -657,12 +702,13 @@ limitations under the License.
 		<cfelse>
 			<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="undColl_result">
-				SELECT 
+				SELECT
 					underscore_collection_id, collection_name, underscore_collection_type,
-					underscore_collection.description, 
+					underscore_collection.description,
 					html_description,
 					displayed_media_id,
 					underscore_collection.mask_fg,
+					underscore_collection.link_name,
 					media.auto_filename displayed_media_filename
 				FROM underscore_collection
 					left join media on underscore_collection.displayed_media_id = media.media_id
@@ -671,6 +717,14 @@ limitations under the License.
 			</cfquery>
 			<cfif undColl_result.recordcount EQ 0>
 				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id)#])" >
+			</cfif>
+			<!--- editability of link_name is decided once here, at page load, from the value and role
+				current as of this render -- not re-evaluated reactively in JS as the form is edited --->
+			<cfset linkNameEditable = false>
+			<cfif len(trim(undColl.link_name)) EQ 0 OR trim(undColl.link_name) EQ trim(underscore_collection_id)>
+				<cfset linkNameEditable = true>
+			<cfelseif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+				<cfset linkNameEditable = true>
 			</cfif>
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
@@ -703,6 +757,53 @@ limitations under the License.
 												<option value="1">Hidden</option>
 											</cfif>
 										</select>
+									</div>
+								</div>
+								<cfset permalinkColClass = "col-md-8">
+								<cfset linkCharLimit = 100>
+								<cfif linkNameEditable>
+									<cfset permalinkColClass = "col-md-3">
+									<cfset linkCharLimit = 30>
+								</cfif>
+								<div class="form-row mb-2">
+									<cfif linkNameEditable>
+										<div class="col-12 col-md-6 col-l-7">
+											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name (used in the /namedGroup/{link_name} permalink)</label>
+											<input type="text" id="link_name" name="link_name" class="data-entry-input reqdClr"
+												required maxlength="200" disabled value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
+												oninput="updateNamedGroupPermalinkPreview('link_name','link_name_permalink_display','#encodeForJavaScript(Application.serverRootUrl)#',#linkCharLimit#); disableNamedGroupLinkNameToggleUntilSaved('link_name_toggle_btn');" >
+										</div>
+										<div class="col-12 col-md-3 col-l-2">
+											<button type="button" id="link_name_toggle_btn" class="btn btn-xs btn-secondary mt-3" aria-pressed="false"
+												onclick="toggleNamedGroupLinkNameEdit('link_name','link_name_toggle_btn','link_name_generate_btn');">Edit</button>
+											<cfif isNumeric(trim(link_name))>
+												<button type="button" id="link_name_generate_btn" class="btn btn-xs btn-secondary mt-3 ml-1" disabled
+													onclick="generateNamedGroupLinkName('collection_name','link_name');">Generate</button>
+											</cfif>
+										</div>
+									<cfelse>
+										<div class="col-12 col-md-4">
+											<label for="link_name" id="link_name_label" class="data-entry-label">Link Name</label>
+											<input type="text" id="link_name" class="data-entry-input bg-light"
+												readonly value="#encodeForHtml(link_name)#" aria-labelledby="link_name_label"
+												aria-describedby="link_name_readonly_note">
+										</div>
+									</cfif>
+									<div class="col-12 #permalinkColClass#">
+										<span class="data-entry-label d-block">Permalink:</span>
+										<div id="link_name_permalink_display">
+											<cfif len(trim(link_name)) GT 0>
+												<cfif len(trim(link_name)) LT linkCharLimit>
+													<a id="link_name_permalink" href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#" target="_blank">/namedGroup/#encodeForHtml(link_name)#</a>
+												<cfelse>
+													<a id="link_name_permalink" class="px-1 text-muted" target="_blank"
+															href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(link_name)#"
+															aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(link_name)#">
+														<i class="fas fa-link" aria-hidden="true"></i>
+													</a>
+												</cfif>
+											</cfif>
+										</div>
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -777,8 +878,10 @@ limitations under the License.
 										$('##editUndColl textarea').on("change",changed);
 										$('##description').on("change",changed);
 									});
-									function updateFromSave() { 
+									function updateFromSave() {
 										$('##headingNameOfCollection').html($('#collection_name#').val());
+										// a pending link_name edit is now saved, so re-allow locking it again
+										$('##link_name_toggle_btn').prop('disabled', false);
 									}
 									function saveChanges(){ 
 										saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named group",updateFromSave);

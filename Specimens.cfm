@@ -3328,37 +3328,43 @@
 			//
 			// Set the row color based on type status
 			var keywordcellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-					if (toptypestatuskind=='Primary') { 
+					if (toptypestatuskind=='Primary') {
 						return "primaryTypeCell";
-					} else if (toptypestatuskind=='Secondary') { 
+					} else if (toptypestatuskind=='Secondary') {
 						return "secondaryTypeCell";
+					} else {
+						return "nonTypeCell";
 					}
 				}
 			};
 			var fixedcellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-					if (rowData) { 
+					if (rowData) {
 						var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-						if (toptypestatuskind=='Primary') { 
+						if (toptypestatuskind=='Primary') {
 							return "primaryTypeCell";
-						} else if (toptypestatuskind=='Secondary') { 
+						} else if (toptypestatuskind=='Secondary') {
 							return "secondaryTypeCell";
+						} else {
+							return "nonTypeCell";
 						}
 					}
 				}
 			};
 			var buildercellclass = function (row, columnfield, value) {
-				if (row>-1) { 
+				if (row>-1) {
 					var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-					if (toptypestatuskind=='Primary') { 
+					if (toptypestatuskind=='Primary') {
 						return "primaryTypeCell";
-					} else if (toptypestatuskind=='Secondary') { 
+					} else if (toptypestatuskind=='Secondary') {
 						return "secondaryTypeCell";
+					} else {
+						return "nonTypeCell";
 					}
 				}
 			};
@@ -4600,10 +4606,12 @@
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				
+				// It seems only the last try on the .jqx-menu-wrapper was fixing the issue.
 				maxZIndex = getMaxZIndex();
 				try { 
-					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-cell').css({'border-color': '##aaa'});
+					//$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
 					console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");
@@ -4611,12 +4619,12 @@
 					console.log("Expected consequence is that the sort menus on the grid are not visible.");
 				}
 				try { 
-					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+					//$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+					//$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				} catch (error) { 
 					console.log(error);
 				}
-				try { 
+				try { // I went through the issue with Claude and found that this is the fix below. The other two mess up the look of the grid (borders) and don't solve the problem
 					$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				} catch (error) { 
 					console.log(error);

@@ -555,17 +555,16 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.jqx-grid-cell {
+/*.jqx-grid-cell {
 	border-width: 0px 1px 1px 1px;
-	border-color: buttonface;
-}
+}*/
 .jqx-grid-cell a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
-.jqx-item {
+/*.jqx-item {
 	color: black;
-}
+}*/
 .text-success {
 	color: #18780b !important;
 }
@@ -582,35 +581,6 @@ span.data-entry-addon {
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
-}
-/************************
-BELOW: Cell styles for specimen search results grids
-used by cellclassname functions in the results grids
-************************/
-.primaryTypeCell {
-	background-color: #ffe1e1\9;
-}
-.secondaryTypeCell {
-	background-color: #e8f1ff\9;
-}
-.primaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #eedbdb\9;
-}
-.secondaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #e1edff\9;
-}
-/** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
-.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #ffe1e1;
-}
-.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #e8f1ff;
-}
-.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #eedbdb;
-}
-.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-	background-color: #e1edff;
 }
 /************************
 *************************
@@ -741,34 +711,34 @@ li.list-group-item.thethumbs:first-child {
 Interactive map styles 
 ************************/
 .tinymap {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-    margin: 0 0;
+	position: relative;
+	width: 100%;
+	height: 180px;
+	overflow: hidden;
+	margin: 0 0;
 }
 .tinymap-3col, .tinymap-2col {/* Explicit heights per layout */
-    height: 180px;
+	height: 180px;
 }
 .tinymap .static-map,
 .tinymap .interactive-map {/* Both maps fill the wrapper box */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 .tinymap .static-map {/* Static thumbnail: keep whole map and center it */
-    object-fit: cover;
-    object-position: 50% 50%;
-    margin: 0;
-    padding: 0;
-    border: 3px solid #444;
-    cursor: pointer;
+	object-fit: cover;
+	object-position: 50% 50%;
+	margin: 0;
+	padding: 0;
+	border: 3px solid #444;
+	cursor: pointer;
 }
 .tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
-    display: none;
-    z-index: 2;
+	display: none;
+	z-index: 2;
 }
 /************************
 *************************
@@ -1763,7 +1733,6 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	/*content: "\f067";*/
 	content: "\f0fe"; /*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -1773,7 +1742,6 @@ tr.line-top:first-child {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	/*content: "\f068";*/
 	content: "\f146"; /*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -1982,16 +1950,6 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	line-height: 0.875rem;
 	height: 22px;
 }
-/*
-.jqx-combobox-input, .jqx-combobox-content, .jqx-combobox-arrow-normal {
-	height: 23px !important;
-}
-.jqx-combobox-input, .jqx-combobox-content {
-	height: 23px !important;
-}
-.jqx-combobox {
-	height: 23px !important;
-}*/
 .tab-content button.rules, #searchForm button.rules[type="button"], #annotationSearchForm button.rules[type="button"] {
 	border: none;
 	padding: 0;
@@ -2579,9 +2537,6 @@ div.vslider-item[aria-hidden="true"] {
 input[disabled] {
 	color: #9e9e9e;
 }
-.jqx-grid-cell-alt {
-	background: #f5f5f5 !important;
-}
 .caption-sm {
 	overflow-y: visible;
 	height: auto;
@@ -2753,20 +2708,115 @@ div.toctitle {
 	position: relative;
 	padding-left: 1.2rem !important;
 }
-
+.jqx-widget .jqx-grid-group-cell {
+	border-color: #ced4da !important;
+}
+.jqx-widget .jqx-grid-cell {
+	border-color: #ced4da !important;
+	color: #2b2b2b !important;
+	z-index: 3004;
+}
+/* Alternating-row background and hover background, shared by every jqxGrid on the site --
+	kept at the same values master uses so grids other than the specimen search results grids
+	are unaffected. Only the specimen search grids' primary/secondary type rules below layer
+	anything else on top of these. */
 .jqx-grid-cell-alt {
-	background: #e9edf2 !important;
-}
-.primaryTypeCell.jqx-grid-cell-alt {
-	background: #f5cad6!important;
-	background: #fbcad7 !important;
-}
-.secondaryTypeCell.jqx-grid-cell-alt {
-	background: #d1e0f3;
-	background: #d3e1f3 !important;
+	background-color: #e9edf2 !important;
 }
 .jqx-grid-cell-hover {
 	background: #cbced1 !important;
+}
+/************************
+Cell background colors for the specimen search results grids (Specimens.cfm), set via the
+fixedcellclass/keywordcellclass/buildercellclass cellclassname functions on that page. Scoped
+entirely to the primaryTypeCell/secondaryTypeCell classes those functions apply, so nothing
+here affects any other grid.
+
+Each state is the same base tint with a flat, mostly-transparent grey layered on top (a
+solid-color gradient used as a background-image layer over the base background-color) rather
+than a separately hand-picked color per state, so alternating/hover/selected rows stay
+proportionally "the same color, a little darker" instead of drifting into unrelated hues.
+Primary and secondary type cells that are pinned (e.g. a pinned GUID column) get the same base
+color as the rest of their row, rather than a separately-chosen approximation, so a pinned
+column doesn't stand out from the row it belongs to.
+************************/
+/* Primary type — base color, including pinned cells */
+.primaryTypeCell.jqx-grid-cell,
+.primaryTypeCell.jqx-grid-cell-pinned {
+	background-color: #ffdfd3 !important;
+}
+/* Secondary type — base color, including pinned cells */
+.secondaryTypeCell.jqx-grid-cell,
+.secondaryTypeCell.jqx-grid-cell-pinned {
+	background-color: #cfe3ff !important;
+}
+/* Secondary type links (GUID/sci name cells) -- the sitewide a:link/a:hover/a:active
+	color (bootstrap_override.css, near top of file) doesn't have enough contrast against this
+	background, especially once the alternating/selected overlays above darken it further; this
+	darker blue clears WCAG AA (4.5:1) against the base, alternating, hover, and selected
+	variants of the secondary background. */
+.secondaryTypeCell a:link,
+.secondaryTypeCell a:hover,
+.secondaryTypeCell a:active {
+	color: #003366;
+}
+/* Primary type, alternating row -- a lighter overlay than the shared .jqx-grid-cell-alt
+	above uses, since the same percentage of black reads as more intense once layered over an
+	already-tinted color than it does over the shared rule's near-neutral background */
+.primaryTypeCell.jqx-grid-cell-alt {
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #ffdfd3 !important;
+}
+/* Secondary type, alternating row -- same reasoning as primary type above */
+.secondaryTypeCell.jqx-grid-cell-alt {
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #cfe3ff !important;
+}
+/* Non-type/voucher rows, specimen search grids only. Its own class (assigned by the same
+	fixedcellclass/keywordcellclass/buildercellclass functions that assign primaryTypeCell and
+	secondaryTypeCell, for the row that's neither) rather than grid-id/:not() scoping, so this
+	grid's background handling is entirely class-based like every other grid's -- the only
+	difference is that nonTypeCell is a class this page's own JS applies, and it's never used
+	anywhere else, so it can't affect any other grid. White at rest, matching every other
+	grid's own default; a barely-there grey on alternating rows, distinct from both the shared
+	.jqx-grid-cell-alt grey and the secondary type's blue. */
+.nonTypeCell.jqx-grid-cell,
+.nonTypeCell.jqx-grid-cell-pinned {
+	background-color: #ffffff !important;
+}
+.nonTypeCell.jqx-grid-cell-alt,
+.nonTypeCell.jqx-grid-cell-pinned-alt {
+	background: linear-gradient(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02)), #ffffff !important;
+}
+/* Primary type, hover */
+.jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #ffdfd3 !important;
+}
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #ffdfd3 !important;
+}
+/* Secondary type, hover */
+.jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #cfe3ff !important;
+}
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #cfe3ff !important;
+}
+/* Primary type, selected */
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected-light {
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #ffdfd3 !important;
+}
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.primaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #ffdfd3 !important;
+}
+/* Secondary type, selected */
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #cfe3ff !important;
+}
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
+.jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #cfe3ff !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
