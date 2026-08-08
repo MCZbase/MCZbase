@@ -2748,7 +2748,7 @@ column doesn't stand out from the row it belongs to.
 /* Secondary type — base color, including pinned cells */
 .secondaryTypeCell.jqx-grid-cell,
 .secondaryTypeCell.jqx-grid-cell-pinned {
-	background-color: #e8f1ff !important;
+	background-color: #cfe3ff !important;
 }
 /* Primary type, alternating row -- a lighter overlay than the shared .jqx-grid-cell-alt
 	above uses, since the same percentage of black reads as more intense once layered over an
@@ -2758,7 +2758,28 @@ column doesn't stand out from the row it belongs to.
 }
 /* Secondary type, alternating row -- same reasoning as primary type above */
 .secondaryTypeCell.jqx-grid-cell-alt {
-	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #e8f1ff !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #cfe3ff !important;
+}
+/* Non-type/voucher rows, specimen search grids only -- scoped by grid id (rather than the
+	primaryTypeCell/secondaryTypeCell classes used above, which non-type cells never carry) so
+	this doesn't touch the shared .jqx-grid-cell-alt rule every other grid on the site depends
+	on. Uses a distinctly neutral grey with no blue cast, since the shared rule's grey is close
+	enough to the secondary type's blue to be hard to tell apart at a glance. */
+#fixedsearchResultsGrid .jqx-grid-cell:not(.primaryTypeCell):not(.secondaryTypeCell):not(.jqx-grid-cell-alt),
+#fixedsearchResultsGrid .jqx-grid-cell-pinned:not(.primaryTypeCell):not(.secondaryTypeCell),
+#keywordsearchResultsGrid .jqx-grid-cell:not(.primaryTypeCell):not(.secondaryTypeCell):not(.jqx-grid-cell-alt),
+#keywordsearchResultsGrid .jqx-grid-cell-pinned:not(.primaryTypeCell):not(.secondaryTypeCell),
+#buildersearchResultsGrid .jqx-grid-cell:not(.primaryTypeCell):not(.secondaryTypeCell):not(.jqx-grid-cell-alt),
+#buildersearchResultsGrid .jqx-grid-cell-pinned:not(.primaryTypeCell):not(.secondaryTypeCell) {
+	background-color: #e6e6e4 !important;
+}
+#fixedsearchResultsGrid .jqx-grid-cell-alt:not(.primaryTypeCell):not(.secondaryTypeCell),
+#fixedsearchResultsGrid .jqx-grid-cell-pinned-alt:not(.primaryTypeCell):not(.secondaryTypeCell),
+#keywordsearchResultsGrid .jqx-grid-cell-alt:not(.primaryTypeCell):not(.secondaryTypeCell),
+#keywordsearchResultsGrid .jqx-grid-cell-pinned-alt:not(.primaryTypeCell):not(.secondaryTypeCell),
+#buildersearchResultsGrid .jqx-grid-cell-alt:not(.primaryTypeCell):not(.secondaryTypeCell),
+#buildersearchResultsGrid .jqx-grid-cell-pinned-alt:not(.primaryTypeCell):not(.secondaryTypeCell) {
+	background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03)), #e6e6e4 !important;
 }
 /* Primary type, hover */
 .jqx-grid-cell.primaryTypeCell.jqx-fill-state-hover {
@@ -2769,10 +2790,10 @@ column doesn't stand out from the row it belongs to.
 }
 /* Secondary type, hover */
 .jqx-grid-cell.secondaryTypeCell.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #e8f1ff !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.10)), #cfe3ff !important;
 }
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-fill-state-hover {
-	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #e8f1ff !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #cfe3ff !important;
 }
 /* Primary type, selected */
 .jqx-grid-cell.primaryTypeCell.jqx-grid-cell-selected,
@@ -2786,11 +2807,11 @@ column doesn't stand out from the row it belongs to.
 /* Secondary type, selected */
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #e8f1ff !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), #cfe3ff !important;
 }
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected,
 .jqx-grid-cell.secondaryTypeCell.jqx-grid-cell-alt.jqx-grid-cell-selected-light {
-	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #e8f1ff !important;
+	background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), #cfe3ff !important;
 }
 .eyelash_button {
 	padding: 3px 0.5rem;
