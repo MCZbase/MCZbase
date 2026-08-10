@@ -20,11 +20,6 @@ limitations under the License.
 
 -->
 
-<!--- INDETERMINATE_MARKER is a magic value -- it MUST match the ctagent_relationship.agent_relationship
- controlled vocabulary value used to flag that this agent record is an indeterminate placeholder
- potentially referring to one or more specific candidate agents. --->
-<cfset INDETERMINATE_MARKER = "potentially referring to">
-
 <!--- if we were given an action, use that, and let errors arise if requirements for action weren't met. --->
 <cfif NOT isdefined("action")>
 	<!--- if no action was given, but an agent_id was given, then assume we want to edit the agent, otherwise newAgent form. --->
@@ -192,13 +187,10 @@ limitations under the License.
 							<cfset vetted="">
 						</cfif>
 						<cfquery name="getIndeterminate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getIndeterminate_result">
-							SELECT count(*) as ct
-							FROM agent_relations
-							WHERE
-								agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								AND agent_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INDETERMINATE_MARKER#">
+							SELECT MCZBASE.is_indeterminate_agent(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">) as is_indeterminate
+							FROM dual
 						</cfquery>
-						<cfif getIndeterminate.ct GT 0>
+						<cfif getIndeterminate.is_indeterminate EQ 1>
 							<cfset indeterminateBit = "indeterminate ">
 						<cfelse>
 							<cfset indeterminateBit = "">
