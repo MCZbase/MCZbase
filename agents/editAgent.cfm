@@ -20,6 +20,11 @@ limitations under the License.
 
 -->
 
+<!--- INDETERMINATE_MARKER is a magic value -- it MUST match the ctagent_relationship.agent_relationship
+ controlled vocabulary value used to flag that this agent record is an indeterminate placeholder
+ potentially referring to one or more specific candidate agents. --->
+<cfset INDETERMINATE_MARKER = "potentially referring to">
+
 <!--- if we were given an action, use that, and let errors arise if requirements for action weren't met. --->
 <cfif NOT isdefined("action")>
 	<!--- if no action was given, but an agent_id was given, then assume we want to edit the agent, otherwise newAgent form. --->
@@ -186,15 +191,27 @@ limitations under the License.
 						<cfelse>
 							<cfset vetted="">
 						</cfif>
+						<cfquery name="getIndeterminate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getIndeterminate_result">
+							SELECT count(*) as ct
+							FROM agent_relations
+							WHERE
+								agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+								AND agent_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INDETERMINATE_MARKER#">
+						</cfquery>
+						<cfif getIndeterminate.ct GT 0>
+							<cfset indeterminateBit = "indeterminate ">
+						<cfelse>
+							<cfset indeterminateBit = "">
+						</cfif>
 						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">  <!--- " --->
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
-							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
+							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false,is_person=true) >
 						</cfif>
 						<div class="row mx-auto">
 							<div class="row col-12 col-xl-10 mx-auto">
 								<div class="col-12">
-									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 my-2">Edit #indeterminateBit##getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
 										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>

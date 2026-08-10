@@ -27,6 +27,7 @@ limitations under the License.
 	<cfargument name="start_year" type="string" required="yes">
 	<cfargument name="end_year" type="string" required="yes">
 	<cfargument name="year_only" type="string" required="no" default=false>
+	<cfargument name="is_person" type="boolean" required="no" default=false>
 	<cfset yearStr = "">
 	<cfif year_only>
 		<cfif len(start_year) GT 4>
@@ -35,6 +36,10 @@ limitations under the License.
 		<cfif len(end_year) GT 4>
 			<cfset end_year = left(end_year,4)>
 		</cfif>
+	</cfif>
+	<cfif is_person and len(start_year) EQ 0 and len(end_year) EQ 0>
+		<!--- "(unknown - )" reads as a broken range; for a person with no dates at all, state plainly that the birth date is unknown --->
+		<cfreturn " (b. unknown)">
 	</cfif>
 	<cfif len(start_year) gt 0>
 		<cfset yearStr="#yearStr# (#start_year#">
