@@ -4455,6 +4455,8 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+					<cfelse>
+						<div class="small font-italic">No key/value data found for this record.</div>
 					</cfif>
 				</cfif>
 			<cfcatch>
