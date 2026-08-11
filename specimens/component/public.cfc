@@ -4458,6 +4458,8 @@ limitations under the License.
 					<cfelse>
 						<div class="small font-italic">No key/value data found for this record.</div>
 					</cfif>
+				<cfelse>
+					<div class="small font-italic">No key/value data found for this record.</div>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
