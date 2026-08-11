@@ -4378,7 +4378,8 @@ limitations under the License.
 <!--- getKeyValueStoreHTML get a block of html listing key_value_store rows attached to a cataloged item record.
  key_value_store holds arbitrary key/value data (e.g. legacy database fields, AI transcription process
  metadata) that isn't otherwise represented as its own column; it is read only from the UI, values are
- never entered or edited here.
+ never entered or edited here.  Results are only shown to internal users.
+ 
  @param collection_object_id for the cataloged item for which to return key/value data.
  @return a block of html listing key/value data for the record, or if none, whitespace only
  @see MCZBASE.CTKEY for the controlled vocabulary (description/category/sort_order) of the keys in play.
@@ -4390,24 +4391,13 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-					<div class="error"> Improper call. Aborting..... </div>
-					<cfabort>
+					<cfthrow message="No collection_object_id provided.">
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<cfset oneOfUs = 1>
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<!--- check for mask record, hide if mask record ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-					FROM DUAL
-				</cfquery>
-				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-					<cfthrow message="Record Masked">
-				</cfif>
-				<!--- this whole block is for internal use only, nothing is shown to the public --->
 				<cfif oneOfUs EQ 1>
 					<cfquery name="kvdata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
