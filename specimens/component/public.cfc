@@ -4405,6 +4405,7 @@ limitations under the License.
 							key_value_store.value,
 							key_value_store.timestamp_created,
 							key_value_store.timestamp_last_updated,
+							key_value_store.target_table,
 							createdBy.agent_name CreatedByAgent,
 							updatedBy.agent_name UpdatedByAgent,
 							ctkey.description KeyDescription,
@@ -4418,6 +4419,7 @@ limitations under the License.
 							key_value_store.target_table IN ('cataloged_item','coll_object')
 							AND key_value_store.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						ORDER BY
+							key_value_store.target_table NULLS LAST,
 							ctkey.category NULLS LAST,
 							ctkey.sort_order NULLS LAST,
 							key_value_store.key
