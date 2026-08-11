@@ -4375,7 +4375,127 @@ limitations under the License.
 </cffunction>
 
 
-<!--- getEncumbrancesDetailsHTML get a block of html containing metadata about a cataloged item record 
+<!--- getKeyValueStoreHTML get a block of html listing key_value_store rows attached to a cataloged item record.
+ key_value_store holds arbitrary key/value data (e.g. legacy database fields, AI transcription process
+ metadata) that isn't otherwise represented as its own column; it is read only from the UI, values are
+ never entered or edited here.  Results are only shown to internal users.
+ 
+ @param collection_object_id for the cataloged item for which to return key/value data.
+ @return a block of html listing key/value data for the record, or if none, whitespace only
+ @see MCZBASE.CTKEY for the controlled vocabulary (description/category/sort_order) of the keys in play.
+--->
+<cffunction name="getKeyValueStoreHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getKeyValueStoreThread" collection_object_id="#arguments.collection_object_id#">
+		<cfoutput>
+			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<cfthrow message="No collection_object_id provided.">
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfif oneOfUs EQ 1>
+					<cfquery name="kvdata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							key_value_store.key,
+							key_value_store.value,
+							key_value_store.timestamp_created,
+							key_value_store.timestamp_last_updated,
+							key_value_store.target_table,
+							createdBy.agent_name CreatedByAgent,
+							updatedBy.agent_name UpdatedByAgent,
+							ctkey.description KeyDescription,
+							ctkey.category KeyCategory
+						FROM
+							key_value_store
+							left join preferred_agent_name createdBy on key_value_store.created_by_agent_id = createdBy.agent_id
+							left join preferred_agent_name updatedBy on key_value_store.last_updated_by_agent_id = updatedBy.agent_id
+							left join ctkey on key_value_store.key = ctkey.key
+						WHERE
+							key_value_store.target_table IN ('cataloged_item','coll_object')
+							AND key_value_store.target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						ORDER BY
+							key_value_store.target_table NULLS LAST,
+							ctkey.category NULLS LAST,
+							ctkey.sort_order NULLS LAST,
+							key_value_store.key
+					</cfquery>
+					<cfif kvdata.recordcount GT 0>
+						<script>
+							/** toggleKvsMetaColumns shows/hides the created/last-updated metadata columns of the
+							 * key/value data table, which are hidden by default to keep the table compact.
+							 * @param buttonId id of the toggle button, without the leading ## id selector.
+							 * @param targetClass class shared by the header and data cells of the columns to show/hide, without the leading . class selector.
+							 */
+							function toggleKvsMetaColumns(buttonId, targetClass) {
+								var button = $('##' + buttonId);
+								if (button.attr('aria-pressed') === 'true') {
+									$('.' + targetClass).attr('hidden','hidden');
+									button.attr('aria-pressed','false').text('Show Created/Last Updated Columns');
+								} else {
+									$('.' + targetClass).removeAttr('hidden');
+									button.attr('aria-pressed','true').text('Hide Created/Last Updated Columns');
+								}
+							}
+						</script>
+						<button type="button" id="kvsMetaToggleButton" class="btn btn-xs btn-secondary mb-1" aria-pressed="false" onclick="toggleKvsMetaColumns('kvsMetaToggleButton','kvsMetaCol');">Show Metadata Columns</button>
+						<table class="table table-responsive table-striped d-md-table">
+							<thead>
+								<tr>
+									<th scope="col">Category</th>
+									<th scope="col">Key</th>
+									<th scope="col">Value</th>
+									<th scope="col" class="kvsMetaCol" hidden>Created</th>
+									<th scope="col" class="kvsMetaCol" hidden>Last Updated</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="kvdata">
+									<cfset titleKey = kvdata.key>
+									<cfif len(kvdata.KeyDescription) GT 0>
+										<cfset titleKey = kvdata.KeyDescription>
+									</cfif>
+									<tr>
+										<td>#encodeForHtml(kvdata.KeyCategory)#</td>
+										<td title="#encodeForHtml(titleKey)#">#encodeForHtml(kvdata.key)#</td>
+										<td>#encodeForHtml(kvdata.value)#</td>
+										<td class="kvsMetaCol" hidden>
+											<cfif len(kvdata.CreatedByAgent) GT 0>#encodeForHtml(kvdata.CreatedByAgent)# </cfif>on #dateformat(kvdata.timestamp_created,"yyyy-mm-dd")#
+										</td>
+										<td class="kvsMetaCol" hidden>
+											<cfif len(kvdata.timestamp_last_updated) GT 0>
+												<cfif len(kvdata.UpdatedByAgent) GT 0>#encodeForHtml(kvdata.UpdatedByAgent)# </cfif>on #dateformat(kvdata.timestamp_last_updated,"yyyy-mm-dd")#
+											</cfif>
+										</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					<cfelse>
+						<div class="small font-italic">No key/value data found for this record.</div>
+					</cfif>
+				<cfelse>
+					<div class="small font-italic">No key/value data found for this record.</div>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getKeyValueStoreThread"/>
+	<cfreturn getKeyValueStoreThread.output>
+</cffunction>
+
+
+<!--- getEncumbrancesDetailsHTML get a block of html containing metadata about a cataloged item record
  @param collection_object_id for the cataloged item for which to return metadata.
  @return a block of html with cataloged item record metadata, or if none, whitespace only
  @see getEncumbrancesHTML in specimens/component/functions.cfc for a version without the details 
