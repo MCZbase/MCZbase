@@ -4442,7 +4442,7 @@ limitations under the License.
 								}
 							}
 						</script>
-						<button type="button" id="kvsMetaToggleButton" class="btn btn-xs btn-secondary mb-1" aria-pressed="false" onclick="toggleKvsMetaColumns('kvsMetaToggleButton','kvsMetaCol');">Show Created/Last Updated Columns</button>
+						<button type="button" id="kvsMetaToggleButton" class="btn btn-xs btn-secondary mb-1" aria-pressed="false" onclick="toggleKvsMetaColumns('kvsMetaToggleButton','kvsMetaCol');">Show Metadata Columns</button>
 						<table class="table table-responsive table-striped d-md-table">
 							<thead>
 								<tr>
