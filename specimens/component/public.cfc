@@ -4455,13 +4455,13 @@ limitations under the License.
 							</thead>
 							<tbody>
 								<cfloop query="kvdata">
-									<cfset displayKey = kvdata.key>
+									<cfset titleKey = kvdata.key>
 									<cfif len(kvdata.KeyDescription) GT 0>
-										<cfset displayKey = kvdata.KeyDescription>
+										<cfset titleKey = kvdata.KeyDescription>
 									</cfif>
 									<tr>
 										<td>#encodeForHtml(kvdata.KeyCategory)#</td>
-										<td title="#encodeForHtml(kvdata.key)#">#encodeForHtml(displayKey)#</td>
+										<td title="#encodeForHtml(titleKey)#">#encodeForHtml(kvdata.key)#</td>
 										<td>#encodeForHtml(kvdata.value)#</td>
 										<td class="kvsMetaCol" hidden>
 											<cfif len(kvdata.CreatedByAgent) GT 0>#encodeForHtml(kvdata.CreatedByAgent)# </cfif>on #dateformat(kvdata.timestamp_created,"yyyy-mm-dd")#
