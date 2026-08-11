@@ -4425,14 +4425,32 @@ limitations under the License.
 							key_value_store.key
 					</cfquery>
 					<cfif kvdata.recordcount GT 0>
+						<script>
+							/** toggleKvsMetaColumns shows/hides the created/last-updated metadata columns of the
+							 * key/value data table, which are hidden by default to keep the table compact.
+							 * @param buttonId id of the toggle button, without the leading ## id selector.
+							 * @param targetClass class shared by the header and data cells of the columns to show/hide, without the leading . class selector.
+							 */
+							function toggleKvsMetaColumns(buttonId, targetClass) {
+								var button = $('##' + buttonId);
+								if (button.attr('aria-pressed') === 'true') {
+									$('.' + targetClass).attr('hidden','hidden');
+									button.attr('aria-pressed','false').text('Show Created/Last Updated Columns');
+								} else {
+									$('.' + targetClass).removeAttr('hidden');
+									button.attr('aria-pressed','true').text('Hide Created/Last Updated Columns');
+								}
+							}
+						</script>
+						<button type="button" id="kvsMetaToggleButton" class="btn btn-xs btn-secondary mb-1" aria-pressed="false" onclick="toggleKvsMetaColumns('kvsMetaToggleButton','kvsMetaCol');">Show Created/Last Updated Columns</button>
 						<table class="table table-responsive table-striped d-md-table">
 							<thead>
 								<tr>
 									<th scope="col">Category</th>
 									<th scope="col">Key</th>
 									<th scope="col">Value</th>
-									<th scope="col">Created</th>
-									<th scope="col">Last Updated</th>
+									<th scope="col" class="kvsMetaCol" hidden>Created</th>
+									<th scope="col" class="kvsMetaCol" hidden>Last Updated</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -4445,10 +4463,10 @@ limitations under the License.
 										<td>#encodeForHtml(kvdata.KeyCategory)#</td>
 										<td title="#encodeForHtml(kvdata.key)#">#encodeForHtml(displayKey)#</td>
 										<td>#encodeForHtml(kvdata.value)#</td>
-										<td>
+										<td class="kvsMetaCol" hidden>
 											<cfif len(kvdata.CreatedByAgent) GT 0>#encodeForHtml(kvdata.CreatedByAgent)# </cfif>on #dateformat(kvdata.timestamp_created,"yyyy-mm-dd")#
 										</td>
-										<td>
+										<td class="kvsMetaCol" hidden>
 											<cfif len(kvdata.timestamp_last_updated) GT 0>
 												<cfif len(kvdata.UpdatedByAgent) GT 0>#encodeForHtml(kvdata.UpdatedByAgent)# </cfif>on #dateformat(kvdata.timestamp_last_updated,"yyyy-mm-dd")#
 											</cfif>
