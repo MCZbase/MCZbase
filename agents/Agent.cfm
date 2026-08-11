@@ -145,7 +145,7 @@ limitations under the License.
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
 									<!--- add birth death dates --->
-									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false) >
+									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false,is_person=true) >
 								</cfif>
 							<cfelse>
 								<!--- add start and end years when implemented --->
@@ -176,7 +176,16 @@ limitations under the License.
 									<cfset rankBit = '#rankBit#</span>'><!--- ' --->
 								</cfif>
 							</cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #agent_type# #agent_id_bit##rankBit#</span> 
+							<cfquery name="getIndeterminate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getIndeterminate_result">
+								SELECT MCZBASE.is_indeterminate_agent(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as is_indeterminate
+								FROM dual
+							</cfquery>
+							<cfif getIndeterminate.is_indeterminate EQ 1>
+								<cfset indeterminateBit = "indeterminate ">
+							<cfelse>
+								<cfset indeterminateBit = "">
+							</cfif>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #indeterminateBit##agent_type# #agent_id_bit##rankBit#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>

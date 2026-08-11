@@ -219,6 +219,8 @@ For IDs of DOM elements such as `<div>` tags in html that are to be referred to 
 
 In general, use long descriptive names for variables. Exception: Loop counters can use single lower case letters, in particular i or j. Avoid using q for the name of a query, except in very small function calls where the query will be operated on and referenced only within a few lines of the query.
 
+For variables that hold magic values, (these may be database values given special meaning in the code), use UPPER_SNAKE_CASE.  For example, LOANNUMBERPATTERN is a variable that holds the regex pattern for a valid loan number.  Define these early in a file, and reference that magic value in the code by using the variable name, rather than embedding the magic value directly in the code at the point of use.
+
 ### Operators
 
 Place coldfusion operators in upper case.
