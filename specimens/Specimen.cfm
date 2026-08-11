@@ -1084,6 +1084,26 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
+					<!------------------------------------ Key/Value Store Data------------------------------------------->
+					<cfif #oneOfUs# eq 1>
+						<div class="accordion" id="accordionKVS">
+							<div class="card mb-2 bg-light">
+								<cfset blockkvs = getKeyValueStoreHTML(collection_object_id = "#collection_object_id#")>
+								<div class="card-header" id="headingKVS">
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Additional Data Pane" aria-controls="KVSPane" data-toggle="collapse" data-target="##KVSPane">
+											Additional Data
+										</button>
+									</h3>
+								</div>
+								<div id="KVSPane" class="collapse show" aria-labelledby="headingKVS" data-parent="##accordionKVS">
+									<div class="card-body" id="kvsCardBody">
+										#blockkvs#
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfif>
 				</div>
 
 				<!----- start of column 3 (rightmost of the two right columns) --->
