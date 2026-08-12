@@ -55,6 +55,14 @@ function resizeAllGridsToContent() {
 		console.log('resizing grid', this.id, 'to', newWidth);
 		$(this).jqxGrid('width', newWidth);
 	});
+
+	// Redmine 1023: Tabulator is replacing jqxGrid concept by concept; redraw any
+	// Tabulator instance registered via tabulator-common.js the same way the
+	// jqxGrid instances above are resized. Guarded so pages with no Tabulator grid
+	// (i.e. that don't load tabulator-common.js) are unaffected.
+	if (typeof mczRedrawAllTabulatorInstances === "function") {
+		mczRedrawAllTabulatorInstances();
+	}
 }
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
