@@ -76,3 +76,46 @@ function mczColumnVisibilityMenu(table) {
 		};
 	});
 }
+
+/**
+ * mczSafeTextFormatter is a Tabulator cell formatter for plain text values.
+ *
+ * Tabulator's own default rendering, with no formatter at all, sets the cell's
+ * innerHTML directly from the raw value (confirmed by reading tabulator.min.js's
+ * _generateContents): a project name, agent name, or any other user-editable text
+ * containing "<" is rendered as markup, not escaped. Use this formatter (or
+ * mczSafeLinkFormatter below) on every column showing such text instead of leaving
+ * the column formatter-less.
+ *
+ * @param cell the Tabulator cell component passed into a column's formatter.
+ * @return a <span> Node with the cell's value set via textContent.
+ */
+function mczSafeTextFormatter(cell) {
+	var span = document.createElement("span");
+	span.textContent = cell.getValue();
+	return span;
+}
+
+/**
+ * mczSafeLinkFormatter returns a Tabulator column formatter rendering an <a> whose
+ * visible text comes from a row field via textContent (safe for the same reason
+ * mczSafeTextFormatter is) and whose href is built by the caller from the row's data,
+ * kept separate from the escaped text rather than string-concatenated with it.
+ *
+ * @param textField field name on the row's data to use as the link's visible text.
+ * @param hrefFn function(rowData) returning the href for a given row.
+ * @param className optional CSS class string to add to the <a>.
+ * @return a formatter function usable as a column's `formatter` option.
+ */
+function mczSafeLinkFormatter(textField, hrefFn, className) {
+	return function (cell) {
+		var rowData = cell.getRow().getData();
+		var a = document.createElement("a");
+		a.href = hrefFn(rowData);
+		if (className) {
+			a.className = className;
+		}
+		a.textContent = rowData[textField];
+		return a;
+	};
+}

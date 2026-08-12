@@ -128,7 +128,7 @@ redesign) lands and its findings are folded into /shared/js/.
 			   range-select is one of the modes this page must support, that ordering isn't
 			   optional here. */
 			columns: [
-				{ title: "Project", field: "project_name", frozen: true, widthGrow: 3 },
+				{ title: "Project", field: "project_name", frozen: true, widthGrow: 3, formatter: mczSafeTextFormatter },
 				{
 					title: "ID",
 					field: "id",
@@ -145,12 +145,23 @@ redesign) lands and its findings are folded into /shared/js/.
 					title: "Participant",
 					field: "agent_name",
 					widthGrow: 2,
-					/* on-screen: combines agent_name + role into one styled cell, matching the
-					   jqxGrid cellsrenderer pattern used for the same data today. */
+					/* Combines agent_name + role into one styled cell, matching the jqxGrid
+					   cellsrenderer pattern used for the same data today -- built as DOM nodes
+					   with textContent rather than an HTML string, since Tabulator's string-
+					   formatter path sets innerHTML directly (see mczSafeTextFormatter in
+					   tabulator-common.js). */
 					formatter: function (cell) {
 						var d = cell.getRow().getData();
-						return "<span class=\"font-weight-bold\">" + d.agent_name + "</span> " +
-							"<span class=\"text-secondary small\">(" + d.role + ")</span>";
+						var wrap = document.createElement("span");
+						var name = document.createElement("span");
+						name.className = "font-weight-bold";
+						name.textContent = d.agent_name;
+						var role = document.createElement("span");
+						role.className = "text-secondary small";
+						role.textContent = " (" + d.role + ")";
+						wrap.appendChild(name);
+						wrap.appendChild(role);
+						return wrap;
 					},
 					/* CSV export: plain "Name (Role)" text, not the rendered HTML -- this is the
 					   divergence being verified. */
@@ -158,7 +169,7 @@ redesign) lands and its findings are folded into /shared/js/.
 						return data.agent_name + " (" + data.role + ")";
 					}
 				},
-				{ title: "Start Date", field: "start_date" }
+				{ title: "Start Date", field: "start_date", formatter: mczSafeTextFormatter }
 			]
 		};
 
