@@ -40,3 +40,39 @@ function mczRedrawAllTabulatorInstances() {
 		}
 	});
 }
+
+/**
+ * mczColumnVisibilityMenu builds the item list for a Tabulator column's `headerMenu`
+ * function, replacing jqxGrid's bespoke jqxListBox-in-a-jqxDialog column chooser with
+ * Tabulator's built-in header menu. Assign the RETURN VALUE OF THIS FUNCTION CALL's
+ * wrapper, not this function itself, to `headerMenu` -- headerMenu must be a function
+ * so the checked/unchecked state is rebuilt fresh each time the menu opens, e.g.:
+ *
+ *   { title: "...", field: "...", headerMenu: function (e, column) {
+ *       return mczColumnVisibilityMenu(column.getTable());
+ *   } }
+ *
+ * @param table the Tabulator instance (a column's headerMenu callback receives the
+ *   column component, not the table, so call column.getTable() to get this).
+ * @return an array of Tabulator menu item definitions, one per column that declares
+ *   a `title`, each toggling that column's visibility via column.toggle(). Known
+ *   cosmetic limitation: the checkbox glyph on an already-open menu doesn't update
+ *   itself after a toggle (only a fresh open of the menu re-renders it) -- the
+ *   underlying visibility change is applied immediately either way.
+ */
+function mczColumnVisibilityMenu(table) {
+	return table.getColumns().filter(function (column) {
+		return column.getDefinition().title;
+	}).map(function (column) {
+		return {
+			label: (column.isVisible() ? "☑ " : "☐ ") + column.getDefinition().title,
+			action: function (e, menuColumn) {
+				/* stopPropagation keeps the menu open after toggling one column, so a
+				   user checking/unchecking several columns doesn't have to reopen the
+				   menu each time; it still closes normally on an outside click. */
+				e.stopPropagation();
+				column.toggle();
+			}
+		};
+	});
+}
