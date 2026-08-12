@@ -46,6 +46,7 @@ redesign) lands and its findings are folded into /shared/js/.
 	<cfabort>
 </cfif>
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
+<link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
 <script src="/shared/js/tabulator-common.js"></script>
 

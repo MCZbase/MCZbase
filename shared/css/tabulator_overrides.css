@@ -1,0 +1,78 @@
+/*
+shared/css/tabulator_overrides.css
+
+Copyright 2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+*/
+
+/*
+Brings Tabulator (Redmine 1023, replacing jqxGrid) into line with the same teal/
+Bootstrap branding jqxGrid grids use today (see the .jqx-widget-header and
+.jqx-grid-cell-alt rules in bootstrap_override.css). Same intent, different
+selectors -- Tabulator's DOM/class structure isn't a straight port of jqxGrid's,
+so this is a parallel stylesheet, not a translation of the old rules line by line.
+Include after tabulator_bootstrap4.min.css so these rules win.
+*/
+
+.tabulator .tabulator-header {
+	background-color: #deebec;
+}
+
+.tabulator .tabulator-col {
+	border-right: 1px solid #dee2e6;
+}
+
+.tabulator-row.tabulator-row-even {
+	background-color: #e9edf2;
+}
+
+.tabulator-row:hover {
+	background-color: #cbced1;
+}
+
+.tabulator-row.tabulator-selected,
+.tabulator-row.tabulator-selected:hover {
+	background-color: #caeaad;
+}
+
+.tabulator .tabulator-cell.tabulator-frozen {
+	border-right: 2px solid #3e6f7d;
+}
+
+/* Match the site's btn-xs sizing when a button is placed in a grid cell via a
+   formatter (e.g. an edit link rendered per CLAUDE.md's grid-edit-link convention). */
+.tabulator-cell .btn-xs {
+	white-space: nowrap;
+}
+
+/* The column-visibility chooser (headerMenu, see shared/js/tabulator-common.js)
+   renders as a .tabulator-menu popup; align it with the app's existing dropdown-menu
+   look rather than Tabulator's bare default. */
+.tabulator-menu {
+	border: 1px solid #dee2e6;
+	border-radius: 4px;
+	background-color: #fff;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.tabulator-menu .tabulator-menu-item {
+	padding: 0.25rem 0.75rem;
+	font-size: 0.875em;
+}
+
+.tabulator-menu .tabulator-menu-item:hover {
+	background-color: #deebec;
+	cursor: pointer;
+}
