@@ -1,7 +1,7 @@
 <!---
 /projects/component/search.cfc
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -63,6 +63,193 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function search.  Backs the /Projects.cfm search-with-results grid (Redmine 899). Search
+for projects by name, participant, sponsor, description length, project type (uses and/or
+contributes specimens), year, or a specific publication_id/project_id. Returns exactly one
+row per project -- participant and sponsor names are aggregated per project with LISTAGG
+in the query itself, rather than fetched with a separate per-project query in a loop as the
+legacy SpecimenUsage.cfm/ProjectList.cfm code does, since that's an N+1 query pattern this
+method doesn't need to repeat.
+
+Deliberately does NOT require at least one search term before running, unlike the legacy
+combined project+publication search on SpecimenUsage.cfm (which refused a blank search to
+avoid a large join against publication/citation on every submit with no terms). A blank
+search here just returns every project the caller is allowed to see -- the citation/
+publication join that made a blank search expensive doesn't exist in this query, and every
+other redesigned search page's GET-param API already relies on execute=true with no other
+params still running the search.
+
+@param p_title substring to match against project_name.
+@param author substring to match against a participant's agent_name.
+@param sponsor substring to match against a sponsor's agent_name.
+@param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
+	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
+	"neither" (neither uses nor contributes).
+@param year a year that must fall between the project's start_date and end_date.
+@param descr_len minimum length, in characters, of project_description.
+@param publication_id restrict results to projects linked to this publication.
+@param project_id restrict results to this specific project.
+@return a JSON array of structs, one per matching project: project_id, project_name,
+	start_date, end_date ('YYYY-MM-DD', or "" if null), participants, sponsors (both
+	semicolon-separated display strings, or "" if none).
+--->
+<cffunction name="search" access="remote" returntype="any" returnformat="json">
+	<cfargument name="p_title" type="string" required="no" default="">
+	<cfargument name="author" type="string" required="no" default="">
+	<cfargument name="sponsor" type="string" required="no" default="">
+	<cfargument name="project_type" type="string" required="no" default="">
+	<cfargument name="year" type="string" required="no" default="">
+	<cfargument name="descr_len" type="string" required="no" default="">
+	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="project_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+			SELECT
+				project.project_id,
+				project.project_name,
+				TO_CHAR(project.start_date,'YYYY-MM-DD') AS start_date,
+				TO_CHAR(project.end_date,'YYYY-MM-DD') AS end_date,
+				(
+					SELECT LISTAGG(agent_name.agent_name || ' (' || project_agent.project_agent_role || ')', '; ')
+						WITHIN GROUP (ORDER BY project_agent.agent_position)
+					FROM
+						project_agent
+						JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
+					WHERE
+						project_agent.project_id = project.project_id
+				) AS participants,
+				(
+					SELECT LISTAGG(sponsor_name.agent_name, '; ') WITHIN GROUP (ORDER BY sponsor_name.agent_name)
+					FROM
+						project_sponsor
+						JOIN agent_name sponsor_name ON project_sponsor.agent_name_id = sponsor_name.agent_name_id
+					WHERE
+						project_sponsor.project_id = project.project_id
+				) AS sponsors
+			FROM
+				project
+			WHERE
+				project.project_id IS NOT NULL
+				<cfif oneOfUs NEQ 1>
+					AND project.mask_project_fg = 0
+				</cfif>
+				<cfif len(arguments.p_title) GT 0>
+					AND UPPER(REGEXP_REPLACE(project.project_name,'<[^>]*>')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.p_title)#%">
+				</cfif>
+				<cfif len(arguments.descr_len) GT 0 AND isnumeric(arguments.descr_len)>
+					AND project.project_description IS NOT NULL
+					AND LENGTH(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.descr_len#">
+				</cfif>
+				<cfif len(arguments.author) GT 0>
+					AND project.project_id IN (
+						SELECT project_agent.project_id
+						FROM
+							project_agent
+							JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
+						WHERE
+							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.author)#%">
+					)
+				</cfif>
+				<cfif len(arguments.sponsor) GT 0>
+					AND project.project_id IN (
+						SELECT project_sponsor.project_id
+						FROM
+							project_sponsor
+							JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
+						WHERE
+							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.sponsor)#%">
+					)
+				</cfif>
+				<cfif len(arguments.project_type) GT 0>
+					<cfif arguments.project_type EQ "loan">
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, loan_item
+							WHERE project_trans.transaction_id = loan_item.transaction_id)
+					<cfelseif arguments.project_type EQ "accn">
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, cataloged_item
+							WHERE project_trans.transaction_id = cataloged_item.accn_id)
+					<cfelseif arguments.project_type EQ "both">
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, loan_item
+							WHERE project_trans.transaction_id = loan_item.transaction_id)
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, cataloged_item
+							WHERE project_trans.transaction_id = cataloged_item.accn_id)
+					<cfelseif arguments.project_type EQ "neither">
+						AND project.project_id NOT IN (
+							SELECT project_trans.project_id FROM project_trans, loan_item
+							WHERE project_trans.transaction_id = loan_item.transaction_id)
+						AND project.project_id NOT IN (
+							SELECT project_trans.project_id FROM project_trans, cataloged_item
+							WHERE project_trans.transaction_id = cataloged_item.accn_id)
+					<cfelseif arguments.project_type EQ "loan_no_pub">
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, loan_item
+							WHERE project_trans.transaction_id = loan_item.transaction_id)
+						AND project.project_id NOT IN (
+							SELECT project_publication.project_id FROM project_publication)
+					</cfif>
+				</cfif>
+				<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
+					AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
+						BETWEEN TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY'))
+				</cfif>
+				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
+					AND project.project_id IN (
+						SELECT project_publication.project_id FROM project_publication
+						WHERE project_publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">)
+				</cfif>
+				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
+					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
+				</cfif>
+			ORDER BY
+				project.project_name
+		</cfquery>
+
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["project_id"] = project_id>
+			<cfset row["project_name"] = project_name>
+			<cfset row["start_date"] = start_date>
+			<cfset row["end_date"] = end_date>
+			<cfset row["participants"] = participants>
+			<cfset row["sponsors"] = sponsors>
+			<cfset ArrayAppend(data, row)>
+		</cfloop>
+
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
