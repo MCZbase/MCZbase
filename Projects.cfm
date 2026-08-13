@@ -185,14 +185,14 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		<section class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
-					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0" style="background-color:#deebec;">
+					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0" style="background-color:##deebec;">
 						<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
 							<span tabindex="0">Results: </span>
 							<span class="pr-2 font-weight-normal" id="resultCount"></span>
 							<span id="resultLink" class="pr-2 font-weight-normal"></span>
 						</h1>
 						<div id="showhide"></div>
-						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
+						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('##columnChooserDialog').dialog('open');">Select Columns</button>
 						<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
 							<div id="columnChooserList" class="px-1"></div>
 						</div>
@@ -424,7 +424,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		);
 	}
 
-	/** searchProjects submits #searchForm via ajax to projects/component/search.cfc and
+	/** searchProjects submits searchForm via ajax to projects/component/search.cfc and
 	 * replaces the grid's data with the response.
 	 */
 	function searchProjects() {
