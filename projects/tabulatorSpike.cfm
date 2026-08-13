@@ -123,6 +123,7 @@ Delete this file once its findings are folded into /shared/js/.
 			layout: "fitColumns",
 			persistence: { sort: true },
 			persistenceID: "tabulatorSpike_v1",
+			clipboard: "copy",
 			data: [
 				{ id: 1, project_name: "Deep Sea Isopoda Systematics", agent_name: "Jane Doe", role: "PI", start_date: "2020-01-01" },
 				{ id: 2, project_name: "Amazonian Herpetofauna Survey", agent_name: "John Smith", role: "Co-PI", start_date: "2021-06-15" },
