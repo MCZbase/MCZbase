@@ -257,11 +257,14 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			projectsTable.destroy();
 			projectsTable = null;
 		}
-		/* SelectRange (cell/range modes) manipulates window.getSelection() directly to
-		   track focus (confirmed against source), and destroy() does not appear to clear
-		   it -- left uncleared, that leftover native selection state was found (by
-		   testing) to make text mode's native drag-selection stop working on the next
-		   build, even in a page reload's first mode switch away from a range mode. */
+		/* Root cause of "text mode's native drag-selection stops working after visiting
+		   a range-selection mode, until a full page reload" (confirmed against source):
+		   Tabulator's SelectRange module adds a "tabulator-ranges" class to the container
+		   element on init and never removes it again, not even on destroy(). The bundled
+		   theme CSS disables user-select on cells whenever that class is present, at
+		   higher specificity than this app's own text-mode override -- see
+		   mczClearStaleRangeSelectionClass's doc comment for the full trace. */
+		mczClearStaleRangeSelectionClass("##projectsGridDiv");
 		if (window.getSelection) {
 			window.getSelection().removeAllRanges();
 		}
@@ -339,8 +342,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			   "range row header" -- which was the cause of the pinned Project column
 			   showing grey/dark-blue instead of the normal range highlight color. */
 			/* selectableRange is a max-concurrent-ranges count, not a max-cells-per-range
-			   limit -- "single cell" here means "one range at a time" (a user can still drag
-			   that one range across multiple cells). */
+			   limit -- "single cell" here would otherwise still let a user drag one range
+			   across multiple cells, so the rangeChanged listener below clamps it back down
+			   to the drag's starting cell whenever mode is "singlecell". */
 			options.selectableRange = (mode === "singlecell") ? 1 : true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
@@ -357,6 +361,22 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
+		if (mode === "singlecell") {
+			/* Clamps a drag back down to its starting cell -- see the comment on
+			   options.selectableRange above for why this is needed at all. Re-entrant safe:
+			   setBounds(cell, cell) below always leaves exactly one cell selected, so the
+			   guard's condition is false on the resulting recursive call. getCells() returns
+			   cells grouped by row (confirmed against source), so it's flattened here before
+			   counting/indexing. */
+			projectsTable.on("rangeChanged", function (range) {
+				var cells = range.getCells().reduce(function (flat, row) {
+					return flat.concat(row);
+				}, []);
+				if (cells.length > 1) {
+					range.setBounds(cells[0], cells[0]);
+				}
+			});
+		}
 	}
 
 	/**

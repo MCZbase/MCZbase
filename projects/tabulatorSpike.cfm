@@ -121,11 +121,14 @@ Delete this file once its findings are folded into /shared/js/.
 			spikeTable.destroy();
 			spikeTable = null;
 		}
-		/* SelectRange (cell/range modes) manipulates window.getSelection() directly to
-		   track focus (confirmed against source), and destroy() does not appear to clear
-		   it -- left uncleared, that leftover native selection state was found (by
-		   testing) to make text mode's native drag-selection stop working on the next
-		   build, even in a page reload's first mode switch away from a range mode. */
+		/* Root cause of "text mode's native drag-selection stops working after visiting
+		   a range-selection mode, until a full page reload" (confirmed against source):
+		   Tabulator's SelectRange module adds a "tabulator-ranges" class to the container
+		   element on init and never removes it again, not even on destroy(). The bundled
+		   theme CSS disables user-select on cells whenever that class is present, at
+		   higher specificity than this app's own text-mode override -- see
+		   mczClearStaleRangeSelectionClass's doc comment for the full trace. */
+		mczClearStaleRangeSelectionClass("##spikeTableDiv");
 		if (window.getSelection) {
 			window.getSelection().removeAllRanges();
 		}
@@ -199,9 +202,8 @@ Delete this file once its findings are folded into /shared/js/.
 			   showing grey/dark-blue instead of the normal range highlight color. */
 			/* selectableRange means "max concurrent ranges", not "max cells per range" --
 			   there is no built-in option to cap a single range at exactly one cell, so
-			   "single cell" here means "one range at a time", and a user can still drag
-			   that one range across multiple cells. True single-cell-only selection would
-			   need a range-changed handler to clamp the drag; not built here. */
+			   "single cell" here would otherwise still let a user drag one range across
+			   multiple cells; the rangeChanged listener below clamps it back down. */
 			options.selectableRange = (mode === "singlecell") ? 1 : true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
@@ -218,6 +220,20 @@ Delete this file once its findings are folded into /shared/js/.
 		mczRegisterTabulatorInstance(spikeTable);
 		mczPreventSelectRangeNativeSelection(spikeTable);
 		spikeTable.on("tableBuilt", populateColumnChooser);
+		if (mode === "singlecell") {
+			/* Re-entrant safe: setBounds(cell, cell) below always leaves exactly one cell
+			   selected, so the guard's condition is false on the resulting recursive call.
+			   getCells() returns cells grouped by row (confirmed against source), so it's
+			   flattened here before counting/indexing. */
+			spikeTable.on("rangeChanged", function (range) {
+				var cells = range.getCells().reduce(function (flat, row) {
+					return flat.concat(row);
+				}, []);
+				if (cells.length > 1) {
+					range.setBounds(cells[0], cells[0]);
+				}
+			});
+		}
 	}
 
 	function populateColumnChooser() {

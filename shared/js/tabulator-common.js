@@ -54,6 +54,29 @@ function mczPreventSelectRangeNativeSelection(table) {
 }
 
 /**
+ * mczClearStaleRangeSelectionClass removes the "tabulator-ranges" CSS class from a
+ * table's container element.
+ *
+ * Root cause of a real bug (confirmed against source, not a guess): Tabulator's
+ * SelectRange module adds "tabulator-ranges" to the container element the first time
+ * cell/range selection initializes (`classList.add("tabulator-ranges")`), and nothing
+ * in the library ever removes it again -- not on destroy(), not on tableDestroyed().
+ * The bundled theme CSS has `.tabulator.tabulator-ranges .tabulator-cell:not(.tabulator-
+ * editing){user-select:none}`, at higher specificity than this app's own
+ * `.mcz-text-select-mode .tabulator-cell{user-select:text}` override (see
+ * tabulator_overrides.css). So once a container has ever hosted a range-selection-mode
+ * table, native text selection stays impossible for every table rebuilt into that same
+ * container afterward, including plain "text" mode ones, until a full page reload
+ * clears the DOM. Call this right after destroy()ing the old instance and before
+ * constructing the next one on the same container.
+ *
+ * @param container a DOM element, or a jQuery/CSS selector string for one.
+ */
+function mczClearStaleRangeSelectionClass(container) {
+	jQuery(container).removeClass("tabulator-ranges");
+}
+
+/**
  * mczRedrawAllTabulatorInstances redraws every registered Tabulator instance still
  * attached to the document, and removes from the registry any instance whose element
  * is no longer in the document.
