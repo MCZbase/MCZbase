@@ -201,13 +201,14 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
 						<div class="col-12 col-md-auto ml-md-auto pb-1">
 							<label for="selectionMode" class="mb-0">Grid Select:</label>
-							<select id="selectionMode" class="data-entry-select">
+							<select id="selectionMode" class="data-entry-select" aria-describedby="selectionModeHelp">
 								<option value="text">Text</option>
 								<option value="singlecell">Single Cell</option>
 								<option value="singlerow" selected>Single Row</option>
 								<option value="multiplerows">Multiple Rows</option>
 								<option value="multiplecells">Multiple Cells</option>
 							</select>
+							<div id="selectionModeHelp" class="text-secondary small">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
 						</div>
 						<cfif oneOfUs EQ 1>
 							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
@@ -438,6 +439,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
+		mczProtectTextSelectMode();
 
 		$("##showhide").html(
 			'<button class="btn btn-xs btn-secondary mx-1" title="hide search form" ' +

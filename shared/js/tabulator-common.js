@@ -34,6 +34,54 @@ function mczRedrawAllTabulatorInstances() {
 }
 
 /**
+ * mczProtectTextSelectMode neutralizes a Tabulator listener-cleanup gap that breaks
+ * native browser drag-to-select-text after a table has used cell/range selection
+ * (SelectRange) at least once, even in a later, separately-built table with no
+ * selection module enabled at all.
+ *
+ * Confirmed by testing, not just source reading: after a cell has been selected in
+ * SelectRange mode, document.getSelection() shows no leftover range at all in a
+ * subsequently-built "text" mode table (rangeCount is 0 both before and after a failed
+ * drag attempt) -- so the problem isn't a leftover selection object (which
+ * window.getSelection().removeAllRanges() would fix, and does for other symptoms in
+ * this app, but not this one). rangeCount staying at 0 through an entire failed drag,
+ * rather than becoming 1 with an empty/collapsed selection, is the signature of a
+ * mousedown/mousemove handler calling preventDefault() before the browser ever starts
+ * its own native selection -- and Tabulator's SelectRange module's own destroy-time
+ * cleanup only removes a "mouseup" listener from document and a "keydown" listener
+ * from the row manager element, never any "mousedown"/"mousemove" listener, which a
+ * drag-based range-selection module needs to have somewhere. That looks like a genuine
+ * gap in Tabulator's own cleanup, not something this app did wrong.
+ *
+ * Since there's no reference to whatever internal listener function is left behind, it
+ * can't be removed directly. Instead, this adds a capture-phase "mousedown" listener on
+ * document -- capture always runs before bubble, regardless of where or in which phase
+ * the leaked listener is attached -- that stops the event's propagation entirely
+ * whenever its target is inside an element currently marked with the
+ * mcz-text-select-mode class (toggled in JS per selection mode; see
+ * tabulator_overrides.css), before any other listener, leaked or not, gets a chance to
+ * see it. This calls stopPropagation(), not preventDefault(), so the browser's own
+ * default drag-to-select behavior is left completely alone -- only other JS listeners
+ * are blocked from reacting to the same event.
+ *
+ * Only takes effect where mcz-text-select-mode is present, so it does not affect
+ * SelectRow's or SelectRange's own legitimate mousedown handling in any other mode.
+ * Safe to call more than once; only attaches the listener the first time.
+ */
+var mczTextSelectProtectionAttached = false;
+function mczProtectTextSelectMode() {
+	if (mczTextSelectProtectionAttached) {
+		return;
+	}
+	mczTextSelectProtectionAttached = true;
+	document.addEventListener("mousedown", function (e) {
+		if (e.target.closest && e.target.closest(".mcz-text-select-mode")) {
+			e.stopPropagation();
+		}
+	}, true);
+}
+
+/**
  * mczFetchColumnVisibility retrieves persisted column-visibility settings for a page
  * from /shared/component/functions.cfc's getGridColumnHiddenSettings method -- the
  * same backend Taxa.cfm/Agents.cfm's jqxGrid column choosers already persist to, keyed

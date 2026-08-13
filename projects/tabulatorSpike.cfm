@@ -58,13 +58,14 @@ Delete this file once its findings are folded into /shared/js/.
 				<div class="form-row pt-2">
 					<div class="col-12 col-md-6">
 						<label for="selectionMode">Mode</label>
-						<select id="selectionMode" name="selectionMode" class="data-entry-select mb-2">
+						<select id="selectionMode" name="selectionMode" class="data-entry-select mb-2" aria-describedby="selectionModeHelp">
 							<option value="text">Text select (native browser selection, no grid interception)</option>
 							<option value="singlecell">Single cell</option>
 							<option value="singlerow" selected>Single row</option>
-							<option value="multiplerows">Multiple rows</option>
+							<option value="multiplerows">Multiple rows (hold Shift, click and drag)</option>
 							<option value="multiplecells">Multiple cells (range)</option>
 						</select>
+						<div id="selectionModeHelp" class="text-secondary small">In Multiple rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
 					</div>
 					<div class="col-12 col-md-6">
 						<button type="button" class="btn btn-xs btn-secondary" onclick="downloadSpikeCsv();">Download CSV (verify formatter vs. accessorDownload)</button>
@@ -237,6 +238,7 @@ Delete this file once its findings are folded into /shared/js/.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
+		mczProtectTextSelectMode();
 
 		$("##columnChooserDialog").dialog({
 			autoOpen: false,
