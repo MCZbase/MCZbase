@@ -82,7 +82,7 @@ Delete this file once its findings are folded into /shared/js/.
 						<button type="button" class="btn btn-xs btn-secondary" onclick="togglePinProjectColumn();">Pin Project Column (updateDefinition)</button>
 					</div>
 					<div class="col-12 col-md-4">
-						<button type="button" class="btn btn-xs btn-secondary" onclick="mczCopySelectedFromAllInstances();">Copy Selection (for browsers with no context-menu Copy)</button>
+						<button type="button" id="copySelectionButton" class="btn btn-xs btn-secondary" onclick="mczCopySelectedFromAllInstances();">Copy Selection (for browsers with no context-menu Copy)</button>
 					</div>
 				</div>
 			</fieldset>
@@ -210,8 +210,13 @@ Delete this file once its findings are folded into /shared/js/.
 		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
 		$("##spikeTableDiv").toggleClass("mcz-text-select-mode", mode === "text");
+		/* Copy Selection has nothing to do in "text" mode -- native selection/copy
+		   already works there on its own (once selected), with no Tabulator-tracked
+		   row or range selection for this button to act on. */
+		$("##copySelectionButton").toggle(mode !== "text");
 		spikeTable = new Tabulator("##spikeTableDiv", options);
 		mczRegisterTabulatorInstance(spikeTable);
+		mczPreventSelectRangeNativeSelection(spikeTable);
 		spikeTable.on("tableBuilt", populateColumnChooser);
 	}
 
@@ -243,7 +248,6 @@ Delete this file once its findings are folded into /shared/js/.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
-		mczProtectTextSelectMode();
 
 		$("##columnChooserDialog").dialog({
 			autoOpen: false,

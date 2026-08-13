@@ -197,7 +197,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<div id="columnChooserList" class="px-1"></div>
 						</div>
 						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-						<button type="button" class="btn btn-xs btn-info mx-1" onclick="mczCopySelectedFromAllInstances();">Copy Selection</button>
+						<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" onclick="mczCopySelectedFromAllInstances();">Copy Selection</button>
 						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
 						<div class="col-12 col-md-auto ml-md-auto pb-1">
 							<label for="selectionMode" class="mb-0">Grid Select:</label>
@@ -349,8 +349,13 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
 		$("##projectsGridDiv").toggleClass("mcz-text-select-mode", mode === "text");
+		/* Copy Selection has nothing to do in "text" mode -- native selection/copy
+		   already works there on its own (once selected), with no Tabulator-tracked
+		   row or range selection for this button to act on. */
+		$("##copySelectionButton").toggle(mode !== "text");
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
+		mczPreventSelectRangeNativeSelection(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
 	}
 
@@ -441,7 +446,6 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
-		mczProtectTextSelectMode();
 
 		$("##showhide").html(
 			'<button class="btn btn-xs btn-secondary mx-1" title="hide search form" ' +

@@ -16,6 +16,44 @@ function mczRegisterTabulatorInstance(table) {
 }
 
 /**
+ * mczPreventSelectRangeNativeSelection stops Tabulator's SelectRange module from
+ * hijacking the browser's native selection (window.getSelection()) for its own cell-
+ * focus tracking, on one specific table instance.
+ *
+ * The module's initializeFocus(cell) method (confirmed against source) does two
+ * things: calls restoreFocus() (just table.rowManager.element.focus(), needed for
+ * keyboard arrow-key navigation between cells) and, separately, wraps a cell's DOM
+ * element in a native Range and adds it via window.getSelection().addRange(). Manual
+ * testing traced a real bug to that second part: once a table has done this even once
+ * (including just auto-focusing the first cell with no click at all), a later,
+ * separately-built Tabulator instance on the same page -- even one with no selection
+ * module enabled -- can no longer support native drag-to-select-text, and this
+ * persists until a full page reload. Neither an explicit
+ * window.getSelection().removeAllRanges() nor a capture-phase event interceptor
+ * (both tried first) fixed it, and no matching issue turned up in Tabulator's own
+ * issue tracker, so rather than clean up after the fact, this replaces
+ * initializeFocus on the instance (shadowing the class's prototype method for this
+ * table only, standard JS prototype-shadowing -- every rebuilt table needs this
+ * called again, same as any other per-instance setup here) with a version that keeps
+ * the restoreFocus() call but skips the native-selection manipulation entirely, since
+ * this app has its own CSS-based selection highlighting and doesn't rely on that
+ * native selection for anything.
+ *
+ * Safe to call on any table regardless of whether SelectRange is actually active --
+ * every module is always instantiated, just not necessarily initialized, so
+ * table.modules.selectRange exists either way.
+ *
+ * @param table the Tabulator instance to patch.
+ */
+function mczPreventSelectRangeNativeSelection(table) {
+	if (table && table.modules && table.modules.selectRange) {
+		table.modules.selectRange.initializeFocus = function () {
+			this.restoreFocus();
+		};
+	}
+}
+
+/**
  * mczRedrawAllTabulatorInstances redraws every registered Tabulator instance still
  * attached to the document, and removes from the registry any instance whose element
  * is no longer in the document.
@@ -31,57 +69,6 @@ function mczRedrawAllTabulatorInstances() {
 			console.warn("mczRedrawAllTabulatorInstances: redraw failed", e);
 		}
 	});
-}
-
-/**
- * mczProtectTextSelectMode neutralizes a Tabulator listener-cleanup gap that breaks
- * native browser drag-to-select-text after a table has used cell/range selection
- * (SelectRange) at least once, even in a later, separately-built table with no
- * selection module enabled at all.
- *
- * Confirmed by testing, not just source reading: after a cell has been selected in
- * SelectRange mode, document.getSelection() shows no leftover range at all in a
- * subsequently-built "text" mode table (rangeCount is 0 both before and after a failed
- * drag attempt) -- so the problem isn't a leftover selection object (which
- * window.getSelection().removeAllRanges() would fix, and does for other symptoms in
- * this app, but not this one). rangeCount staying at 0 through an entire failed drag,
- * rather than becoming 1 with an empty/collapsed selection, is the signature of a
- * mousedown/mousemove handler calling preventDefault() before the browser ever starts
- * its own native selection -- and Tabulator's SelectRange module's own destroy-time
- * cleanup only removes a "mouseup" listener from document and a "keydown" listener
- * from the row manager element, never any "mousedown"/"mousemove" listener, which a
- * drag-based range-selection module needs to have somewhere. That looks like a genuine
- * gap in Tabulator's own cleanup, not something this app did wrong.
- *
- * Since there's no reference to whatever internal listener function is left behind, it
- * can't be removed directly. Instead, this adds a capture-phase "mousedown" listener on
- * document -- capture always runs before bubble, regardless of where or in which phase
- * the leaked listener is attached -- that stops the event whenever its target is inside
- * an element currently marked with the mcz-text-select-mode class (toggled in JS per
- * selection mode; see tabulator_overrides.css), before any other listener, leaked or
- * not, gets a chance to see it. Calls stopImmediatePropagation(), not preventDefault(),
- * so the browser's own default drag-to-select behavior is left completely alone -- only
- * other JS listeners are blocked from reacting to the same event. Plain
- * stopPropagation() is NOT enough here: it only stops the event reaching other
- * elements, not other listeners already registered on this same document target --
- * and the one Tabulator listener confirmed (from source) to leak is itself attached to
- * document, i.e. the same target this listener is on.
- *
- * Only takes effect where mcz-text-select-mode is present, so it does not affect
- * SelectRow's or SelectRange's own legitimate mousedown handling in any other mode.
- * Safe to call more than once; only attaches the listener the first time.
- */
-var mczTextSelectProtectionAttached = false;
-function mczProtectTextSelectMode() {
-	if (mczTextSelectProtectionAttached) {
-		return;
-	}
-	mczTextSelectProtectionAttached = true;
-	document.addEventListener("mousedown", function (e) {
-		if (e.target.closest && e.target.closest(".mcz-text-select-mode")) {
-			e.stopImmediatePropagation();
-		}
-	}, true);
 }
 
 /**
