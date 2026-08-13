@@ -72,7 +72,7 @@ Delete this file once its findings are folded into /shared/js/.
 				</div>
 				<div class="form-row pt-2">
 					<div class="col-12 col-md-4">
-						<button type="button" class="btn btn-xs btn-secondary" onclick="$('##columnChooserDialog').dialog('open');">Select Columns (persisted server-side)</button>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="$('#columnChooserDialog').dialog('open');">Select Columns (persisted server-side)</button>
 						<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
 							<div id="columnChooserList" class="px-1"></div>
 						</div>

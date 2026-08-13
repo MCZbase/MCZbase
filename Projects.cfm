@@ -192,7 +192,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<span id="resultLink" class="pr-2 font-weight-normal"></span>
 						</h1>
 						<div id="showhide"></div>
-						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('##columnChooserDialog').dialog('open');">Select Columns</button>
+						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
 						<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
 							<div id="columnChooserList" class="px-1"></div>
 						</div>
@@ -209,7 +209,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							</select>
 						</div>
 						<cfif oneOfUs EQ 1>
-							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('##saveSearchDialog').dialog('open');">Save Search</button>
+							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 							<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 						</cfif>
 						<output id="actionFeedback" class="mx-1 my-0 h5"></output>
