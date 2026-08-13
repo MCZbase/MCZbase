@@ -266,30 +266,36 @@ links do) redisplays correctly.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</span>
 						</h1>
-						<div id="resultsToolbarControls" class="d-flex flex-wrap align-items-center" style="display:none;">
-							<div id="showhide"></div>
-							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
-							<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
-								<div id="columnChooserList" class="px-1"></div>
+						<div id="resultsToolbarControls" style="display:none;">
+							<!--- The flex layout lives on this inner div rather than resultsToolbarControls
+							      itself -- Bootstrap's d-flex utility is !important, which beats a plain
+							      (non-!important) inline display:none on the same element, so the outer
+							      hide/show wrapper must carry no competing display-affecting class. --->
+							<div class="d-flex flex-wrap align-items-center">
+								<div id="showhide"></div>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
+								<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
+									<div id="columnChooserList" class="px-1"></div>
+								</div>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
+								<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
+									<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
+									<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
+										<option value="text">Text</option>
+										<option value="cell">Cell(s)</option>
+										<option value="singlerow" selected>Single Row</option>
+										<option value="multiplerows">Multiple Rows</option>
+									</select>
+									<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
+								</div>
+								<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
+								<cfif oneOfUs EQ 1>
+									<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
+								</cfif>
+								<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 							</div>
-							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
-							<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
-								<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
-								<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
-									<option value="text">Text</option>
-									<option value="cell">Cell(s)</option>
-									<option value="singlerow" selected>Single Row</option>
-									<option value="multiplerows">Multiple Rows</option>
-								</select>
-								<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
-							</div>
-							<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
-							<cfif oneOfUs EQ 1>
-								<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
-								<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
-							</cfif>
-							<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 						</div>
 					</div>
 					<div id="projectsGridDiv"></div>
