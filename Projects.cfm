@@ -353,6 +353,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
 		$("##projectsGridDiv").toggleClass("mcz-text-select-mode", mode === "text");
+		$("##projectsGridDiv").toggleClass("mcz-row-select-mode", mode === "singlerow" || mode === "multiplerows");
 		/* Copy Selection has nothing to do in "text" mode -- native selection/copy
 		   already works there on its own (once selected), with no Tabulator-tracked
 		   row or range selection for this button to act on. */

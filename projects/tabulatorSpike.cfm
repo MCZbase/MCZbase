@@ -212,6 +212,7 @@ Delete this file once its findings are folded into /shared/js/.
 		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
 		$("##spikeTableDiv").toggleClass("mcz-text-select-mode", mode === "text");
+		$("##spikeTableDiv").toggleClass("mcz-row-select-mode", mode === "singlerow" || mode === "multiplerows");
 		/* Copy Selection has nothing to do in "text" mode -- native selection/copy
 		   already works there on its own (once selected), with no Tabulator-tracked
 		   row or range selection for this button to act on. */

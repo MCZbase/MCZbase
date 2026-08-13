@@ -90,6 +90,19 @@ tabulator_bootstrap4.min.css so these rules win.
 	user-select: text;
 }
 
+/* Row-selection modes (SelectRow) have no equivalent to SelectRange's "tabulator-ranges"
+   class -- confirmed against source, nothing in SelectRow blocks native text selection at
+   either the CSS or the JS (no mousedown preventDefault) level. Left unblocked, a
+   click-and-drag row selection also starts a native text-selection drag alongside it; that
+   competing native selection was found (by testing) to prevent the mouseenter events
+   Tabulator's own shift+drag multi-row range-select depends on from firing reliably,
+   breaking that feature rather than just leaving a visual side effect. Scoped to a marker
+   class (mcz-row-select-mode, toggled in JS alongside mcz-text-select-mode) rather than
+   applied unconditionally, matching that rule's own scoping. */
+.mcz-row-select-mode .tabulator-cell {
+	user-select: none;
+}
+
 /* Normalizes cell/range selection (SelectRange) to the same green used for row
    selection (SelectRow), rather than Tabulator's default multi-tone blue "spreadsheet"
    range styling (a distinct color for the anchor cell, the rest of the range, and the
