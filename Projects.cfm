@@ -191,19 +191,28 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<span class="pr-2 font-weight-normal" id="resultCount"></span>
 							<span id="resultLink" class="pr-2 font-weight-normal"></span>
 						</h1>
-						<div class="col-12 col-md-auto ml-md-auto pb-1">
-							<cfif oneOfUs EQ 1>
-								<label for="selectionMode" class="mb-0">Selection mode</label>
-								<select id="selectionMode" class="data-entry-select">
-									<option value="text">Text select</option>
-									<option value="singlecell">Single cell</option>
-									<option value="singlerow" selected>Single row</option>
-									<option value="multiplerows">Multiple rows</option>
-									<option value="multiplecells">Multiple cells</option>
-								</select>
-							</cfif>
-							<button type="button" class="btn btn-xs btn-info" onclick="downloadProjectsCsv();">Download CSV</button>
+						<div id="showhide"></div>
+						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('##columnChooserDialog').dialog('open');">Select Columns</button>
+						<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
+							<div id="columnChooserList" class="px-1"></div>
 						</div>
+						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
+						<div class="col-12 col-md-auto ml-md-auto pb-1">
+							<label for="selectionMode" class="mb-0">Grid Select:</label>
+							<select id="selectionMode" class="data-entry-select">
+								<option value="text">Text</option>
+								<option value="singlecell">Single Cell</option>
+								<option value="singlerow" selected>Single Row</option>
+								<option value="multiplerows">Multiple Rows</option>
+								<option value="multiplecells">Multiple Cells</option>
+							</select>
+						</div>
+						<cfif oneOfUs EQ 1>
+							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('##saveSearchDialog').dialog('open');">Save Search</button>
+							<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
+						</cfif>
+						<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 					</div>
 					<div id="projectsGridDiv">
 						<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
@@ -225,6 +234,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	var projectsTable = null;
 	var oneOfUs = #oneOfUsJs#;
 	var canManageProjects = #canManageProjectsJs#;
+	var pageFilePath = "#cgi.script_name#";
+	var savedColumnVisibility = {};
+	var projectColumnPinned = true;
 
 	/**
 	 * buildProjectsTable creates (or recreates) the Tabulator instance for the results grid,
@@ -248,7 +260,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			{
 				title: "Project",
 				field: "project_name",
-				frozen: true,
+				frozen: projectColumnPinned,
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/ProjectDetail.cfm?project_id=" + encodeURIComponent(d.project_id);
@@ -264,19 +276,6 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			{ title: "End Date", field: "end_date", width: 110, formatter: mczSafeTextFormatter }
 		];
 
-		/* Column-visibility chooser requires coldfusion_user, like the selection-mode
-		   control below -- manage_projects is scoped to editing/creating project
-		   records, not to configuring the search grid. */
-		if (oneOfUs) {
-			columns[0].headerMenu = function (e, column) {
-				return mczColumnVisibilityMenu(column.getTable());
-			};
-		}
-
-		/* Only given a column definition at all when canManageProjects -- getColumns()
-		   (which the headerMenu column-visibility chooser above calls) returns every
-		   column regardless of its visible setting, so a column merely hidden with
-		   visible:false is still listed there and can be toggled back on by anyone. */
 		if (canManageProjects) {
 			columns.push({
 				title: "Edit",
@@ -294,10 +293,19 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			});
 		}
 
+		/* Apply any persisted show/hide choices (see mczFetchColumnVisibility, called
+		   before the first build in $(document).ready below) up front, rather than
+		   building with defaults and correcting afterward. */
+		columns.forEach(function (col) {
+			if (savedColumnVisibility.hasOwnProperty(col.field)) {
+				col.visible = !savedColumnVisibility[col.field];
+			}
+		});
+
 		var options = {
 			height: "500px",
 			layout: "fitColumns",
-			persistence: { columns: true, sort: true },
+			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
 			placeholder: "No projects matched your search.",
 			data: [],
@@ -320,6 +328,40 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
+		projectsTable.on("tableBuilt", populateColumnChooser);
+	}
+
+	/**
+	 * populateColumnChooser rebuilds the #columnChooserList checkbox markup from the
+	 * current table's columns. Column titles/fields come from this page's own column
+	 * definitions, not user-supplied data, so plain string concatenation is used here
+	 * (contrast mczSafeTextFormatter/mczSafeLinkFormatter, which exist for cell values).
+	 */
+	function populateColumnChooser() {
+		var html = "";
+		projectsTable.getColumns().forEach(function (column) {
+			var def = column.getDefinition();
+			if (!def.title) { return; }
+			html += "<div class='form-check'>" +
+				"<input type='checkbox' class='form-check-input columnChooserCheckbox' id='colChoice_" + def.field + "' data-field='" + def.field + "'" +
+				(column.isVisible() ? " checked" : "") + ">" +
+				"<label class='form-check-label' for='colChoice_" + def.field + "'>" + def.title + "</label>" +
+				"</div>";
+		});
+		$("##columnChooserList").html(html);
+	}
+
+	/**
+	 * togglePinProjectColumn flips the Project column's frozen state, both on the live
+	 * table (via updateDefinition, which re-runs Tabulator's column initialization so
+	 * the frozen-columns module picks the change up) and in projectColumnPinned, so a
+	 * later selection-mode change -- which rebuilds the table from scratch -- doesn't
+	 * silently revert the choice.
+	 */
+	function togglePinProjectColumn() {
+		projectColumnPinned = !projectColumnPinned;
+		var column = projectsTable.getColumn("project_name");
+		column.updateDefinition({ frozen: projectColumnPinned });
 	}
 
 	function downloadProjectsCsv() {
@@ -328,11 +370,33 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		}
 	}
 
+	/**
+	 * populateSaveSearchDialog fills #saveSearchDialog with a form capturing the
+	 * current search as a URL, a name, and whether to run it immediately when opened
+	 * later -- saveSearch() (loaded from /users/js/internal.js for coldfusion_user
+	 * sessions) posts this to /users/component/functions.cfc.
+	 */
+	function populateSaveSearchDialog() {
+		var uri = "/Projects.cfm?execute=true&" +
+			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
+				.not(".excludeFromLink").serialize();
+		$("##saveSearchDialog").html(
+			"<form id='saveSearchForm'>" +
+			"<input type='hidden' name='url' value='" + uri + "'>" +
+			"<div class='form-group'><label for='search_name_input'>Search Name</label>" +
+			"<input type='text' id='search_name_input' name='search_name' class='data-entry-input' maxlength='60' required></div>" +
+			"<div class='form-group'><label for='execute_input'>Execute Immediately</label> " +
+			"<input id='execute_input' type='checkbox' name='execute' checked></div>" +
+			"</form>"
+		);
+	}
+
 	/** searchProjects submits #searchForm via ajax to projects/component/search.cfc and
 	 * replaces the grid's data with the response.
 	 */
 	function searchProjects() {
 		$("##overlay").show();
+		$("##actionFeedback").html("");
 		$.ajax({
 			url: "/projects/component/search.cfc",
 			data: $("##searchForm").serialize(),
@@ -340,7 +404,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			success: function (data) {
 				$("##overlay").hide();
 				projectsTable.setData(data);
-				$("##resultCount").text(data.length + " result(s)");
+				$("##resultCount").text("Found " + data.length + " project record" + (data.length === 1 ? "" : "s") + ".");
 				$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
 					$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
 						.not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -353,9 +417,93 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	}
 
 	$(document).ready(function () {
-		var $selectionMode = $("##selectionMode");
-		buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
-		$selectionMode.on("change", function () {
+		$("##showhide").html(
+			'<button class="btn btn-xs btn-secondary mx-1" title="hide search form" ' +
+			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +
+			'<i id="searchFormToggleIcon" class="fas fa-eye-slash" aria-hidden="true"></i> Search Form</button>'
+		);
+
+		$("##columnChooserDialog").dialog({
+			autoOpen: false,
+			modal: true,
+			width: "auto",
+			buttons: (function () {
+				var buttons = [];
+				if (oneOfUs) {
+					buttons.push({
+						text: "Defaults",
+						click: function () {
+							projectsTable.getColumns().forEach(function (column) {
+								if (column.getDefinition().title) { column.show(); }
+							});
+							savedColumnVisibility = {};
+							saveColumnVisibilities(pageFilePath, {}, "Default", "actionFeedback");
+							populateColumnChooser();
+						}
+					});
+				}
+				buttons.push({
+					text: "Ok",
+					click: function () {
+						var hidden = {};
+						$("##columnChooserList .columnChooserCheckbox").each(function () {
+							var field = $(this).data("field");
+							var checked = $(this).is(":checked");
+							var column = projectsTable.getColumn(field);
+							if (checked) { column.show(); } else { column.hide(); }
+							hidden[field] = !checked;
+						});
+						if (oneOfUs) {
+							savedColumnVisibility = hidden;
+							saveColumnVisibilities(pageFilePath, hidden, "Default", "actionFeedback");
+						}
+						$(this).dialog("close");
+					}
+				});
+				return buttons;
+			})()
+		});
+
+		$("##saveSearchDialog").dialog({
+			autoOpen: false,
+			modal: true,
+			title: "Save Search",
+			buttons: [
+				{
+					text: "Save",
+					click: function () {
+						var url = $("##saveSearchForm :input[name=url]").val();
+						var execute = $("##saveSearchForm :input[name=execute]").is(":checked");
+						var search_name = $("##saveSearchForm :input[name=search_name]").val();
+						saveSearch(url, execute, search_name, "actionFeedback");
+						$(this).dialog("close");
+					}
+				},
+				{
+					text: "Cancel",
+					click: function () { $(this).dialog("close"); }
+				}
+			]
+		});
+
+		function buildInitialTable() {
+			var $selectionMode = $("##selectionMode");
+			buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
+			<cfif len(url.execute) GT 0>
+				$("##searchForm").submit();
+			</cfif>
+		}
+
+		if (oneOfUs) {
+			mczFetchColumnVisibility(pageFilePath, "Default").then(function (settings) {
+				savedColumnVisibility = settings;
+				buildInitialTable();
+			});
+		} else {
+			buildInitialTable();
+		}
+
+		$("##selectionMode").on("change", function () {
 			buildProjectsTable($(this).val());
 			searchProjects();
 		});
@@ -363,10 +511,6 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			e.preventDefault();
 			searchProjects();
 		});
-
-		<cfif len(url.execute) GT 0>
-			$("##searchForm").submit();
-		</cfif>
 	});
 </script>
 </cfoutput>

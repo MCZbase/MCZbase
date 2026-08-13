@@ -34,42 +34,46 @@ function mczRedrawAllTabulatorInstances() {
 }
 
 /**
- * mczColumnVisibilityMenu builds a Tabulator column-header menu item list, one item
- * per titled column, each toggling that column's visibility.
+ * mczFetchColumnVisibility retrieves persisted column-visibility settings for a page
+ * from /shared/component/functions.cfc's getGridColumnHiddenSettings method -- the
+ * same backend Taxa.cfm/Agents.cfm's jqxGrid column choosers already persist to, keyed
+ * by page_file_path + username + label, so a Tabulator page's settings live in the same
+ * place and under the same key shape ({field: hiddenBoolean}) those pages use.
  *
- * Tabulator's `headerMenu` column option must be a function, not a static array --
- * it is invoked fresh each time the menu is opened -- so assign a function calling
- * this rather than its return value directly, e.g.
- *   { title: "...", field: "...", headerMenu: function (e, column) {
- *       return mczColumnVisibilityMenu(column.getTable());
- *   } }
- * Known limitation: the checkbox glyph on an already-open menu does not update after
- * a toggle (the menu must be reopened to see it); the underlying visibility change
- * itself is applied immediately either way.
+ * Returns a Promise rather than writing to a global (contrast the older jqxGrid pages'
+ * window.columnHiddenSettings), so a caller can build a table's columns with the
+ * correct initial visibility already applied instead of building with defaults and
+ * correcting after the fact.
  *
- * Lists every column with a title regardless of that column's current visibility --
- * getColumns() returns hidden columns too, so a column merely given `visible: false`
- * still appears here and can be toggled back on by anyone viewing the menu. A column
- * that must not be shown to some users should not be given a column definition at all
- * for those users, rather than being hidden.
- *
- * @param table the Tabulator instance.
- * @return an array of Tabulator menu item definitions.
+ * @param pageFilePath the page path settings are stored under (e.g. cgi.script_name).
+ * @param label settings label; the app-wide convention is "Default".
+ * @return a Promise resolving to a {field: hiddenBoolean} object, or {} if nothing has
+ *   been saved yet or the lookup fails.
  */
-function mczColumnVisibilityMenu(table) {
-	return table.getColumns().filter(function (column) {
-		return column.getDefinition().title;
-	}).map(function (column) {
-		return {
-			label: (column.isVisible() ? "☑ " : "☐ ") + column.getDefinition().title,
-			action: function (e, menuColumn) {
-				/* stopPropagation keeps the menu open after toggling one column, so a
-				   user checking/unchecking several columns doesn't have to reopen the
-				   menu each time; it still closes normally on an outside click. */
-				e.stopPropagation();
-				column.toggle();
+function mczFetchColumnVisibility(pageFilePath, label) {
+	return jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: {
+			method: "getGridColumnHiddenSettings",
+			page_file_path: pageFilePath,
+			label: label,
+			returnformat: "json",
+			queryformat: "column"
+		}
+	}).then(function (result) {
+		var settings = result && result[0];
+		if (settings && settings.columnhiddensettings) {
+			try {
+				return JSON.parse(settings.columnhiddensettings);
+			} catch (e) {
+				console.warn("mczFetchColumnVisibility: could not parse saved settings", e);
 			}
-		};
+		}
+		return {};
+	}, function (jqXHR, status, error) {
+		console.warn("mczFetchColumnVisibility: lookup failed", status, error);
+		return {};
 	});
 }
 
