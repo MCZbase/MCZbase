@@ -236,6 +236,50 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			projectsTable = null;
 		}
 
+		var columns = [
+			{
+				title: "Project",
+				field: "project_name",
+				frozen: true,
+				widthGrow: 3,
+				formatter: mczSafeLinkFormatter("project_name", function (d) {
+					return "/ProjectDetail.cfm?project_id=" + encodeURIComponent(d.project_id);
+				}, "text-primary"),
+				/* CSV export gets the plain project name, not the rendered <a> markup. */
+				accessorDownload: function (value, data) {
+					return data.project_name;
+				},
+				headerMenu: function (e, column) {
+					return mczColumnVisibilityMenu(column.getTable());
+				}
+			},
+			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter },
+			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter },
+			{ title: "Start Date", field: "start_date", width: 110, formatter: mczSafeTextFormatter },
+			{ title: "End Date", field: "end_date", width: 110, formatter: mczSafeTextFormatter }
+		];
+
+		/* Only given a column definition at all when canManageProjects -- getColumns()
+		   (which the headerMenu column-visibility chooser above calls) returns every
+		   column regardless of its visible setting, so a column merely hidden with
+		   visible:false is still listed there and can be toggled back on by anyone. */
+		if (canManageProjects) {
+			columns.push({
+				title: "Edit",
+				field: "project_id",
+				width: 80,
+				download: false,
+				formatter: function (cell) {
+					var d = cell.getRow().getData();
+					var a = document.createElement("a");
+					a.className = "btn-xs btn-outline-primary";
+					a.href = "/Project.cfm?Action=editProject&project_id=" + encodeURIComponent(d.project_id);
+					a.textContent = "Edit";
+					return a;
+				}
+			});
+		}
+
 		var options = {
 			height: "500px",
 			layout: "fitColumns",
@@ -245,44 +289,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			data: [],
 			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
 			   isn't at index 0 when range-select is enabled. */
-			columns: [
-				{
-					title: "Project",
-					field: "project_name",
-					frozen: true,
-					widthGrow: 3,
-					formatter: mczSafeLinkFormatter("project_name", function (d) {
-						return "/ProjectDetail.cfm?project_id=" + encodeURIComponent(d.project_id);
-					}, "text-primary"),
-					/* CSV export gets the plain project name, not the rendered <a> markup. */
-					accessorDownload: function (value, data) {
-						return data.project_name;
-					},
-					headerMenu: function (e, column) {
-						return mczColumnVisibilityMenu(column.getTable());
-					}
-				},
-				{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter },
-				{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter },
-				{ title: "Start Date", field: "start_date", width: 110, formatter: mczSafeTextFormatter },
-				{ title: "End Date", field: "end_date", width: 110, formatter: mczSafeTextFormatter },
-				{
-					title: "Edit",
-					field: "project_id",
-					width: 80,
-					visible: canManageProjects,
-					download: false,
-					formatter: function (cell) {
-						if (!canManageProjects) { return ""; }
-						var d = cell.getRow().getData();
-						var a = document.createElement("a");
-						a.className = "btn-xs btn-outline-primary";
-						a.href = "/Project.cfm?Action=editProject&project_id=" + encodeURIComponent(d.project_id);
-						a.textContent = "Edit";
-						return a;
-					}
-				}
-			]
+			columns: columns
 		};
 
 		if (mode === "singlecell" || mode === "multiplecells") {

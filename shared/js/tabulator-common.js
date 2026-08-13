@@ -47,6 +47,12 @@ function mczRedrawAllTabulatorInstances() {
  * a toggle (the menu must be reopened to see it); the underlying visibility change
  * itself is applied immediately either way.
  *
+ * Lists every column with a title regardless of that column's current visibility --
+ * getColumns() returns hidden columns too, so a column merely given `visible: false`
+ * still appears here and can be toggled back on by anyone viewing the menu. A column
+ * that must not be shown to some users should not be given a column definition at all
+ * for those users, rather than being hidden.
+ *
  * @param table the Tabulator instance.
  * @return an array of Tabulator menu item definitions.
  */
