@@ -72,6 +72,41 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	<cfset oneOfUsJs = "true">
 </cfif>
 
+<!---
+GET-param API: an agent id alone (no name) must still populate the search box with that
+agent's name, so a "link to this search" URL that only carries the id (as this page's own
+links do) redisplays correctly.
+--->
+<cfif len(variables.participant_agent_id) GT 0 AND isnumeric(variables.participant_agent_id) AND len(variables.participant_agent_name) EQ 0>
+	<cfquery name="getParticipantAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			agent_name.agent_name
+		FROM
+			agent
+			JOIN agent_name ON agent.preferred_agent_name_id = agent_name.agent_name_id
+		WHERE
+			agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.participant_agent_id#">
+	</cfquery>
+	<cfif getParticipantAgentName.recordcount GT 0>
+		<cfset variables.participant_agent_name = getParticipantAgentName.agent_name>
+	</cfif>
+</cfif>
+
+<cfif len(variables.sponsor_agent_id) GT 0 AND isnumeric(variables.sponsor_agent_id) AND len(variables.sponsor_agent_name) EQ 0>
+	<cfquery name="getSponsorAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			agent_name.agent_name
+		FROM
+			agent
+			JOIN agent_name ON agent.preferred_agent_name_id = agent_name.agent_name_id
+		WHERE
+			agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sponsor_agent_id#">
+	</cfquery>
+	<cfif getSponsorAgentName.recordcount GT 0>
+		<cfset variables.sponsor_agent_name = getSponsorAgentName.agent_name>
+	</cfif>
+</cfif>
+
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		COUNT(*) AS cnt
@@ -223,46 +258,48 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		<section class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
-					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0 align-items-center" style="background-color:##deebec;">
+					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0 align-items-center" style="background-color:#deebec;">
 						<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
 							<span tabindex="0">Results: </span>
-							<span class="pr-2 font-weight-normal" id="resultCount"></span>
-							<span id="resultLink" class="pr-2 font-weight-normal"></span>
+							<span id="resultsMeta" style="display:none;">
+								<span class="pr-2 font-weight-normal" id="resultCount"></span>
+								<span id="resultLink" class="pr-2 font-weight-normal"></span>
+							</span>
 						</h1>
-						<div id="showhide"></div>
-						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('##columnChooserDialog').dialog('open');">Select Columns</button>
-						<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
-							<div id="columnChooserList" class="px-1"></div>
+						<div id="resultsToolbarControls" class="d-flex flex-wrap align-items-center" style="display:none;">
+							<div id="showhide"></div>
+							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
+							<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
+								<div id="columnChooserList" class="px-1"></div>
+							</div>
+							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+							<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
+							<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
+								<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
+								<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
+									<option value="text">Text</option>
+									<option value="cell">Cell(s)</option>
+									<option value="singlerow" selected>Single Row</option>
+									<option value="multiplerows">Multiple Rows</option>
+								</select>
+								<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
+							</div>
+							<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
+							<cfif oneOfUs EQ 1>
+								<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+								<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
+							</cfif>
+							<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 						</div>
-						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
-						<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
-							<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
-							<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
-								<option value="text">Text</option>
-								<option value="cell">Cell(s)</option>
-								<option value="singlerow" selected>Single Row</option>
-								<option value="multiplerows">Multiple Rows</option>
-							</select>
-							<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
-						</div>
-						<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
-						<cfif oneOfUs EQ 1>
-							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('##saveSearchDialog').dialog('open');">Save Search</button>
-							<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
-						</cfif>
-						<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 					</div>
-					<div id="projectsGridDiv">
-						<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
-					</div>
+					<div id="projectsGridDiv"></div>
 				</div>
 			</div>
 		</section>
 	</main>
 
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
-		<div style="position: absolute; left: 50%; top: 25%; width: 10em; padding: 5px; background-color: ##fff; border: 1px solid ##898989; border-radius: 4px; margin-left: -5em;">
+		<div style="position: absolute; left: 50%; top: 25%; width: 10em; padding: 5px; background-color: #fff; border: 1px solid #898989; border-radius: 4px; margin-left: -5em;">
 			<img src="/shared/images/indicator.gif" alt=""> Searching...
 		</div>
 	</div>
@@ -280,6 +317,15 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	   grid's placeholder text below should stay blank until a search has actually run,
 	   rather than claiming "no projects matched" before the user has searched at all. */
 	var searchHasRun = false;
+	/* Started once, up front, rather than inside ensureProjectsTableBuilt -- a
+	   coldfusion_user's persisted column choices should be in flight from page load, not
+	   only once the user's first search kicks off the fetch. Resolves immediately for
+	   everyone else, since there is nothing to fetch. */
+	var columnVisibilityPromise = oneOfUs
+		? mczFetchColumnVisibility(pageFilePath, "Default").then(function (settings) {
+			savedColumnVisibility = settings;
+		})
+		: $.when();
 
 	/**
 	 * buildProjectsTable creates (or recreates) the Tabulator instance for the results grid,
@@ -347,9 +393,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			});
 		}
 
-		/* Apply any persisted show/hide choices (see mczFetchColumnVisibility, called
-		   before the first build in $(document).ready below) up front, rather than
-		   building with defaults and correcting afterward. */
+		/* Apply any persisted show/hide choices (see columnVisibilityPromise above, which
+		   ensureProjectsTableBuilt waits on before the first call here) up front, rather
+		   than building with defaults and correcting afterward. */
 		columns.forEach(function (col) {
 			if (savedColumnVisibility.hasOwnProperty(col.field)) {
 				col.visible = !savedColumnVisibility[col.field];
@@ -466,29 +512,57 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		);
 	}
 
+	/**
+	 * ensureProjectsTableBuilt builds the Tabulator instance the first time it's needed
+	 * (a search actually running), rather than at page load -- the grid, including its
+	 * header, must not appear until then. Waits on columnVisibilityPromise first so a
+	 * coldfusion_user's persisted show/hide choices are already in savedColumnVisibility
+	 * by the time buildProjectsTable reads it, matching the ordering the old unconditional
+	 * page-load build relied on.
+	 *
+	 * @return a Promise resolved once projectsTable exists.
+	 */
+	function ensureProjectsTableBuilt() {
+		if (projectsTable) {
+			return $.when();
+		}
+		return columnVisibilityPromise.then(function () {
+			if (!projectsTable) {
+				var $selectionMode = $("##selectionMode");
+				buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
+			}
+		});
+	}
+
 	/** searchProjects submits searchForm via ajax to projects/component/search.cfc and
-	 * replaces the grid's data with the response.
+	 * replaces the grid's data with the response. Builds the grid on the first call.
 	 */
 	function searchProjects() {
 		searchHasRun = true;
-		$("##overlay").show();
-		$("##actionFeedback").html("");
-		$.ajax({
-			url: "/projects/component/search.cfc",
-			data: $("##searchForm").serialize(),
-			dataType: "json",
-			success: function (data) {
-				$("##overlay").hide();
-				projectsTable.setData(data);
-				$("##resultCount").text("Found " + data.length + " project record" + (data.length === 1 ? "" : "s") + ".");
-				$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
-					$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
-						.not(".excludeFromLink").serialize() + '">Link to this search</a>');
-			},
-			error: function (jqXHR, status, error) {
-				$("##overlay").hide();
-				handleFail(jqXHR, status, error, "searching for projects");
-			}
+		ensureProjectsTableBuilt().then(function () {
+			$("##overlay").show();
+			$("##actionFeedback").html("");
+			$.ajax({
+				url: "/projects/component/search.cfc",
+				data: $("##searchForm").serialize(),
+				dataType: "json",
+				success: function (data) {
+					$("##overlay").hide();
+					projectsTable.setData(data);
+					$("##resultCount").text("Found " + data.length + " project record" + (data.length === 1 ? "" : "s") + ".");
+					$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
+						$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
+							.not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					/* First successful search: reveal the toolbar controls and the results
+					   count/link, none of which should be visible before this point. */
+					$("##resultsMeta").show();
+					$("##resultsToolbarControls").show();
+				},
+				error: function (jqXHR, status, error) {
+					$("##overlay").hide();
+					handleFail(jqXHR, status, error, "searching for projects");
+				}
+			});
 		});
 	}
 
@@ -564,23 +638,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			]
 		});
 
-		function buildInitialTable() {
-			var $selectionMode = $("##selectionMode");
-			buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
-			<cfif len(url.execute) GT 0>
-				$("##searchForm").submit();
-			</cfif>
-		}
-
-		if (oneOfUs) {
-			mczFetchColumnVisibility(pageFilePath, "Default").then(function (settings) {
-				savedColumnVisibility = settings;
-				buildInitialTable();
-			});
-		} else {
-			buildInitialTable();
-		}
-
+		/* Bind these before the execute=true auto-submit below -- calling .submit()
+		   before this handler exists falls through to a native (non-AJAX) form
+		   submission instead of triggering searchProjects(). */
 		$("##selectionMode").on("change", function () {
 			buildProjectsTable($(this).val());
 			searchProjects();
@@ -589,6 +649,10 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			e.preventDefault();
 			searchProjects();
 		});
+
+		<cfif len(url.execute) GT 0>
+			$("##searchForm").submit();
+		</cfif>
 	});
 </script>
 </cfoutput>
