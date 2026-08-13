@@ -210,7 +210,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<div id="selectionModeHelp" class="text-secondary small">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
 						</div>
 						<cfif oneOfUs EQ 1>
-							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('##saveSearchDialog').dialog('open');">Save Search</button>
 							<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 						</cfif>
 						<output id="actionFeedback" class="mx-1 my-0 h5"></output>
@@ -224,7 +224,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	</main>
 
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
-		<div style="position: absolute; left: 50%; top: 25%; width: 10em; padding: 5px; background-color: #fff; border: 1px solid #898989; border-radius: 4px; margin-left: -5em;">
+		<div style="position: absolute; left: 50%; top: 25%; width: 10em; padding: 5px; background-color: ##fff; border: 1px solid ##898989; border-radius: 4px; margin-left: -5em;">
 			<img src="/shared/images/indicator.gif" alt=""> Searching...
 		</div>
 	</div>
@@ -404,7 +404,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	}
 
 	/**
-	 * populateSaveSearchDialog fills #saveSearchDialog with a form capturing the
+	 * populateSaveSearchDialog fills saveSearchDialog with a form capturing the
 	 * current search as a URL, a name, and whether to run it immediately when opened
 	 * later -- saveSearch() (loaded from /users/js/internal.js for coldfusion_user
 	 * sessions) posts this to /users/component/functions.cfc.
