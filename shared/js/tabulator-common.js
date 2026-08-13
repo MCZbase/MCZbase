@@ -261,3 +261,56 @@ function mczSafeLinkFormatter(textField, hrefFn, className) {
 		return a;
 	};
 }
+
+/**
+ * mczAddPageJumpControl replaces a Tabulator grid's native numbered page buttons with a
+ * single <select> listing every page, matching the pull-down page selector this app's
+ * other (jqxGrid-based) search grids use. The native buttons only ever show a small
+ * sliding window around the current page (5 by default), with no way to jump straight to
+ * a distant page in a large result set -- there is no documented option to disable just
+ * that piece of the built-in pager, so the numbered buttons are hidden via a scoped CSS
+ * rule instead (see tabulator_overrides.css) and this control is inserted in their place.
+ *
+ * @param table the Tabulator instance to add the control to.
+ * @param selectId id to give the <select> (without a leading # selector) -- passed in
+ *   rather than hardcoded, since a page with more than one Tabulator grid would otherwise
+ *   end up with duplicate ids.
+ */
+function mczAddPageJumpControl(table, selectId) {
+	var wrapper = document.createElement("span");
+	wrapper.className = "tabulator-page-jump-wrapper";
+	var label = document.createElement("label");
+	label.setAttribute("for", selectId);
+	label.textContent = "Page:";
+	var select = document.createElement("select");
+	select.id = selectId;
+	select.className = "tabulator-page-jump";
+	select.addEventListener("change", function () {
+		table.setPage(parseInt(select.value, 10));
+	});
+	wrapper.appendChild(label);
+	wrapper.appendChild(select);
+
+	function refresh() {
+		var lastPage = table.getPageMax ? table.getPageMax() : 1;
+		var currentPage = table.getPage ? table.getPage() : 1;
+		var html = "";
+		for (var page = 1; page <= lastPage; page++) {
+			html += "<option value='" + page + "'" + (page === currentPage ? " selected" : "") + ">" + page + "</option>";
+		}
+		select.innerHTML = html;
+	}
+
+	table.on("tableBuilt", function () {
+		var pagesElement = table.element.querySelector(".tabulator-pages");
+		if (pagesElement && pagesElement.parentNode) {
+			pagesElement.parentNode.insertBefore(wrapper, pagesElement);
+		}
+		refresh();
+	});
+	/* Fires on every completed load in remote pagination mode -- the initial one, a
+	   page/size/sort change, and a fresh search's setPage(1) call alike (confirmed
+	   against source) -- so this single handler keeps the option list and selected
+	   value correct in every case, not just an actual page-number change. */
+	table.on("pageLoaded", refresh);
+}

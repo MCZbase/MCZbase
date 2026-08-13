@@ -140,3 +140,25 @@ tabulator_bootstrap4.min.css so these rules win.
 .tabulator-range-overlay {
 	z-index: 12;
 }
+
+/* Hides the native numbered page buttons -- mczAddPageJumpControl (tabulator-common.js)
+   inserts a <select> covering every page in their place, since the buttons only ever
+   show a small sliding window around the current page with no way to jump further. */
+.tabulator-pages {
+	display: none;
+}
+
+.tabulator-page-jump-wrapper {
+	margin: 0 7px;
+}
+
+.tabulator-page-jump-wrapper label {
+	margin: 0 3px 0 0;
+}
+
+/* Matches .tabulator-page-size's own look, so the two selects sit consistently. */
+.tabulator-page-jump {
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+	padding: 2px 5px;
+}

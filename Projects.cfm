@@ -486,6 +486,7 @@ links do) redisplays correctly.
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
+		mczAddPageJumpControl(projectsTable, "projectsPageJump");
 		projectsTable.on("tableBuilt", populateColumnChooser);
 		projectsTable.on("pageSizeChanged", function (size) {
 			currentPageSize = size;
@@ -573,18 +574,31 @@ links do) redisplays correctly.
 	 * thing. Reaches into table.modules.page directly (confirmed against source): there
 	 * is no public method for changing paginationSizeSelector after construction.
 	 *
+	 * Also corrects the *active* size the same way if needed: generatePageSizeSelectList
+	 * always re-adds the current size to the list if it isn't already there (confirmed
+	 * against source), which would otherwise silently defeat the filtering above whenever
+	 * the active size (e.g. the default 50) is itself larger than a later, smaller
+	 * search's total. Setting modules.page.size directly, rather than calling the public
+	 * setPageSize(), avoids the reload that method would trigger -- this response already
+	 * holds every matching row, so there is nothing new to fetch.
+	 *
 	 * @param totalRows total matching row count from the most recent response.
 	 */
 	function mczAdjustProjectsPageSizeOptions(totalRows) {
 		if (!projectsTable || !projectsTable.modules || !projectsTable.modules.page) {
 			return;
 		}
+		var pageModule = projectsTable.modules.page;
 		var visibleSizes = PROJECTS_PAGE_SIZE_BASE_OPTIONS.filter(function (size) {
 			return size <= totalRows;
 		});
 		visibleSizes.push(true);
+		if (pageModule.size !== true && pageModule.size > totalRows) {
+			pageModule.size = true;
+			currentPageSize = true;
+		}
 		projectsTable.options.paginationSizeSelector = visibleSizes;
-		projectsTable.modules.page.generatePageSizeSelectList();
+		pageModule.generatePageSizeSelectList();
 	}
 
 	/**
