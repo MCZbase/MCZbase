@@ -233,7 +233,7 @@
 			<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 				SELECT underscore_collection_id
 				FROM underscore_collection
-				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rawLinkName#">
+				WHERE lower(link_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(rawLinkName)#">
 			</cfquery>
 			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
 				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
