@@ -365,7 +365,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	}
 
 	/**
-	 * populateColumnChooser rebuilds the #columnChooserList checkbox markup from the
+	 * populateColumnChooser rebuilds the columnChooserList checkbox markup from the
 	 * current table's columns. Column titles/fields come from this page's own column
 	 * definitions, not user-supplied data, so plain string concatenation is used here
 	 * (contrast mczSafeTextFormatter/mczSafeLinkFormatter, which exist for cell values).
