@@ -63,6 +63,11 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	<cfset canManageProjectsJs = "true">
 </cfif>
 
+<cfset oneOfUsJs = "false">
+<cfif oneOfUs EQ 1>
+	<cfset oneOfUsJs = "true">
+</cfif>
+
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		COUNT(*) AS cnt
@@ -187,14 +192,16 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<span id="resultLink" class="pr-2 font-weight-normal"></span>
 						</h1>
 						<div class="col-12 col-md-auto ml-md-auto pb-1">
-							<label for="selectionMode" class="mb-0">Selection mode</label>
-							<select id="selectionMode" class="data-entry-select">
-								<option value="text">Text select</option>
-								<option value="singlecell">Single cell</option>
-								<option value="singlerow" selected>Single row</option>
-								<option value="multiplerows">Multiple rows</option>
-								<option value="multiplecells">Multiple cells</option>
-							</select>
+							<cfif oneOfUs EQ 1>
+								<label for="selectionMode" class="mb-0">Selection mode</label>
+								<select id="selectionMode" class="data-entry-select">
+									<option value="text">Text select</option>
+									<option value="singlecell">Single cell</option>
+									<option value="singlerow" selected>Single row</option>
+									<option value="multiplerows">Multiple rows</option>
+									<option value="multiplecells">Multiple cells</option>
+								</select>
+							</cfif>
 							<button type="button" class="btn btn-xs btn-info" onclick="downloadProjectsCsv();">Download CSV</button>
 						</div>
 					</div>
@@ -216,6 +223,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfoutput>
 <script>
 	var projectsTable = null;
+	var oneOfUs = #oneOfUsJs#;
 	var canManageProjects = #canManageProjectsJs#;
 
 	/**
@@ -248,9 +256,6 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 				/* CSV export gets the plain project name, not the rendered <a> markup. */
 				accessorDownload: function (value, data) {
 					return data.project_name;
-				},
-				headerMenu: function (e, column) {
-					return mczColumnVisibilityMenu(column.getTable());
 				}
 			},
 			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter },
@@ -258,6 +263,15 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			{ title: "Start Date", field: "start_date", width: 110, formatter: mczSafeTextFormatter },
 			{ title: "End Date", field: "end_date", width: 110, formatter: mczSafeTextFormatter }
 		];
+
+		/* Column-visibility chooser requires coldfusion_user, like the selection-mode
+		   control below -- manage_projects is scoped to editing/creating project
+		   records, not to configuring the search grid. */
+		if (oneOfUs) {
+			columns[0].headerMenu = function (e, column) {
+				return mczColumnVisibilityMenu(column.getTable());
+			};
+		}
 
 		/* Only given a column definition at all when canManageProjects -- getColumns()
 		   (which the headerMenu column-visibility chooser above calls) returns every
@@ -339,8 +353,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	}
 
 	$(document).ready(function () {
-		buildProjectsTable($("##selectionMode").val());
-		$("##selectionMode").on("change", function () {
+		var $selectionMode = $("##selectionMode");
+		buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
+		$selectionMode.on("change", function () {
 			buildProjectsTable($(this).val());
 			searchProjects();
 		});
