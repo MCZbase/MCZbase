@@ -256,6 +256,14 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			projectsTable.destroy();
 			projectsTable = null;
 		}
+		/* SelectRange (cell/range modes) manipulates window.getSelection() directly to
+		   track focus (confirmed against source), and destroy() does not appear to clear
+		   it -- left uncleared, that leftover native selection state was found (by
+		   testing) to make text mode's native drag-selection stop working on the next
+		   build, even in a page reload's first mode switch away from a range mode. */
+		if (window.getSelection) {
+			window.getSelection().removeAllRanges();
+		}
 
 		var columns = [
 			{
@@ -321,8 +329,12 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		};
 
 		if (mode === "singlecell" || mode === "multiplecells") {
-			options.selectableRangeColumns = true;
-			options.selectableRangeRows = true;
+			/* Deliberately NOT setting selectableRangeColumns/selectableRangeRows --
+			   those enable a separate feature (clicking a header selects the whole
+			   column/row) not wanted here, and as a side effect (confirmed against
+			   source) designate the first visible column as a specially-styled
+			   "range row header" -- which was the cause of the pinned Project column
+			   showing grey/dark-blue instead of the normal range highlight color. */
 			/* selectableRange is a max-concurrent-ranges count, not a max-cells-per-range
 			   limit -- "single cell" here means "one range at a time" (a user can still drag
 			   that one range across multiple cells). */

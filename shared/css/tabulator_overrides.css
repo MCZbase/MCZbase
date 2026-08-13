@@ -112,6 +112,11 @@ tabulator_bootstrap4.min.css so these rules win.
 	border-color: #3e6f7d !important;
 }
 
+/* The small corner "handle" dot drawn at the active range's corner. */
+.tabulator-range-overlay .tabulator-range.tabulator-range-active:after {
+	background-color: #3e6f7d !important;
+}
+
 /* .tabulator-frozen has z-index:11 in the vendored theme, one above
    .tabulator-range-overlay's z-index:10 -- the frozen column's own cells render on top
    of the overlay that draws the active-cell border, rather than the reverse. This fixes
