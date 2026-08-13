@@ -76,6 +76,108 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 </cffunction>
 
 <!---
+Function getProjectParticipantAutocomplete. Search for agent names that have actually
+served as a project participant, for narrowing the Participant search field's
+autocomplete to real values instead of the full universe of agents in the system.
+
+@param term substring to match against a participating agent's name.
+@return a JSON array of structs, one per matching distinct agent name: value.
+--->
+<cffunction name="getProjectParticipantAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+			SELECT DISTINCT
+				agent_name.agent_name
+			FROM
+				project_agent
+				JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
+				<cfif oneOfUs NEQ 1>
+					JOIN project ON project_agent.project_id = project.project_id
+				</cfif>
+			WHERE
+				UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif oneOfUs NEQ 1>
+					AND project.mask_project_fg = 0
+				</cfif>
+			ORDER BY
+				agent_name.agent_name
+		</cfquery>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#agent_name#">
+			<cfset ArrayAppend(data, row)>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function getProjectSponsorAutocomplete. Search for agent names that have actually served
+as a project sponsor, for narrowing the Sponsor search field's autocomplete to real values
+instead of the full universe of agents in the system.
+
+@param term substring to match against a sponsoring agent's name.
+@return a JSON array of structs, one per matching distinct agent name: value.
+--->
+<cffunction name="getProjectSponsorAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+			SELECT DISTINCT
+				agent_name.agent_name
+			FROM
+				project_sponsor
+				JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
+				<cfif oneOfUs NEQ 1>
+					JOIN project ON project_sponsor.project_id = project.project_id
+				</cfif>
+			WHERE
+				UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif oneOfUs NEQ 1>
+					AND project.mask_project_fg = 0
+				</cfif>
+			ORDER BY
+				agent_name.agent_name
+		</cfquery>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#agent_name#">
+			<cfset ArrayAppend(data, row)>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
 Function search. Search for projects matching any combination of name, participant,
 sponsor, minimum description length, project type, year, publication, or project_id. Any
 argument may be left blank; if all arguments are blank, returns every project visible to

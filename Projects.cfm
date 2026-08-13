@@ -84,6 +84,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
 <script src="/shared/js/tabulator-common.js"></script>
+<script src="/projects/js/projects.js"></script>
 
 <div id="overlaycontainer" style="position: relative;">
 	<main id="content">
@@ -92,91 +93,104 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark mr-4 border-0")#</cfoutput>
 				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 			</cftry>
-			<div class="row mx-0 mb-3">
-				<div class="d-flex flex-wrap mb-0 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
-					<div class="search-box mt-4">
-						<div class="search-box-header">
-							<cfoutput>
-								<h1 class="h3 text-white" tabindex="0">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-							</cfoutput>
-						</div>
-						<div id="searchFormDiv">
-							<cfoutput>
-							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="search" class="keeponclear">
-								<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHtml(variables.publication_id)#" class="excludeFromLink">
-								<input type="hidden" name="project_id" id="project_id" value="#encodeForHtml(variables.project_id)#" class="excludeFromLink">
-								<div class="col-12 px-2">
-									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
-										<div class="form-row">
-											<div class="col-12 col-md-6">
-												<label for="p_title" class="data-entry-label">Title</label>
-												<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
-											</div>
-											<div class="col-12 col-md-6">
-												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
-												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
-											</div>
+			<div class="d-flex flex-wrap mb-3 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
+				<div class="search-box mt-4">
+					<div class="search-box-header">
+						<cfoutput>
+							<h1 class="h3 text-white" tabindex="0">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+						</cfoutput>
+					</div>
+					<div id="searchFormDiv">
+						<cfoutput>
+						<form name="searchForm" id="searchForm">
+							<input type="hidden" name="method" value="search" class="keeponclear">
+							<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHtml(variables.publication_id)#" class="excludeFromLink">
+							<input type="hidden" name="project_id" id="project_id" value="#encodeForHtml(variables.project_id)#" class="excludeFromLink">
+							<div class="col-12 px-2">
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
+									<div class="form-row">
+										<div class="col-12 col-md-6">
+											<label for="p_title" class="data-entry-label">Title</label>
+											<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
+											<script>
+												$(document).ready(function () {
+													makeProjectTitleSearchAutocomplete("p_title");
+												});
+											</script>
 										</div>
-									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Participants &amp; Sponsor</legend>
-										<div class="form-row">
-											<div class="col-12 col-md-6">
-												<label for="author" class="data-entry-label">Participant</label>
-												<input type="text" id="author" name="author" class="data-entry-input" value="#encodeForHtml(variables.author)#">
-											</div>
-											<div class="col-12 col-md-6">
-												<label for="sponsor" class="data-entry-label">Sponsor</label>
-												<input type="text" id="sponsor" name="sponsor" class="data-entry-input" value="#encodeForHtml(variables.sponsor)#">
-											</div>
+										<div class="col-12 col-md-6">
+											<label for="descr_len" class="data-entry-label">Description Min. Length</label>
+											<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 										</div>
-									</fieldset>
-									<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-										<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Type &amp; Year</legend>
-										<div class="form-row">
-											<div class="col-12 col-md-6">
-												<label for="project_type" class="data-entry-label">Type</label>
+									</div>
+								</fieldset>
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Participants &amp; Sponsor</legend>
+									<div class="form-row">
+										<div class="col-12 col-md-6">
+											<label for="author" class="data-entry-label">Participant</label>
+											<input type="text" id="author" name="author" class="data-entry-input" value="#encodeForHtml(variables.author)#">
+											<script>
+												$(document).ready(function () {
+													makeProjectParticipantSearchAutocomplete("author");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="sponsor" class="data-entry-label">Sponsor</label>
+											<input type="text" id="sponsor" name="sponsor" class="data-entry-input" value="#encodeForHtml(variables.sponsor)#">
+											<script>
+												$(document).ready(function () {
+													makeProjectSponsorSearchAutocomplete("sponsor");
+												});
+											</script>
+										</div>
+									</div>
+								</fieldset>
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Type &amp; Year</legend>
+									<div class="form-row">
+										<div class="col-12 col-md-6">
+											<label for="project_type" class="data-entry-label">Type</label>
+											<cfset selected = "">
+											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
+											<select id="project_type" name="project_type" class="data-entry-select">
+												<option value="" #selected#></option>
 												<cfset selected = "">
-												<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
-												<select id="project_type" name="project_type" class="data-entry-select">
-													<option value="" #selected#></option>
-													<cfset selected = "">
-													<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
-													<option value="loan" #selected#>Uses Specimens</option>
-													<cfset selected = "">
-													<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
-													<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
-													<cfset selected = "">
-													<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
-													<option value="accn" #selected#>Contributes Specimens</option>
-													<cfset selected = "">
-													<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
-													<option value="both" #selected#>Uses and Contributes</option>
-													<cfset selected = "">
-													<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
-													<option value="neither" #selected#>Neither Uses nor Contributes</option>
-												</select>
-											</div>
-											<div class="col-12 col-md-6">
-												<label for="year" class="data-entry-label">Year</label>
-												<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
-											</div>
+												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
+												<option value="loan" #selected#>Uses Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
+												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
+												<option value="accn" #selected#>Contributes Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
+												<option value="both" #selected#>Uses and Contributes</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
+												<option value="neither" #selected#>Neither Uses nor Contributes</option>
+											</select>
 										</div>
-									</fieldset>
-								</div>
-								<div class="col-12 px-3 py-2 float-left">
-									<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton">Search<span class="fa fa-search pl-1" aria-hidden="true"></span></button>
-									<button type="reset" class="btn btn-xs btn-warning mr-2 my-1">Reset</button>
-									<button type="button" class="btn btn-xs btn-warning mr-2 my-1" onclick="window.location.href='#Application.serverRootUrl#/Projects.cfm';">New Search</button>
-									<cfif canManageProjects>
-										<button type="button" class="btn btn-xs btn-secondary my-1" onclick="window.location.href='#Application.serverRootUrl#/Project.cfm?action=makeNew';">Create New Project</button>
-									</cfif>
-								</div>
-							</form>
-							</cfoutput>
-						</div>
+										<div class="col-12 col-md-6">
+											<label for="year" class="data-entry-label">Year</label>
+											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
+										</div>
+									</div>
+								</fieldset>
+							</div>
+							<div class="col-12 px-3 py-2 float-left">
+								<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton">Search<span class="fa fa-search pl-1" aria-hidden="true"></span></button>
+								<button type="reset" class="btn btn-xs btn-warning mr-2 my-1">Reset</button>
+								<button type="button" class="btn btn-xs btn-warning mr-2 my-1" onclick="window.location.href='#Application.serverRootUrl#/Projects.cfm';">New Search</button>
+								<cfif canManageProjects>
+									<button type="button" class="btn btn-xs btn-secondary my-1" onclick="window.location.href='#Application.serverRootUrl#/Project.cfm?action=makeNew';">Create New Project</button>
+								</cfif>
+							</div>
+						</form>
+						</cfoutput>
 					</div>
 				</div>
 			</div>
@@ -185,7 +199,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		<section class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
-					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0" style="background-color:##deebec;">
+					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0 align-items-center" style="background-color:##deebec;">
 						<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
 							<span tabindex="0">Results: </span>
 							<span class="pr-2 font-weight-normal" id="resultCount"></span>
@@ -197,18 +211,18 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<div id="columnChooserList" class="px-1"></div>
 						</div>
 						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-						<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" onclick="mczCopySelectedFromAllInstances();">Copy Selection</button>
 						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
-						<div class="col-12 col-md-auto ml-md-auto pb-1">
-							<label for="selectionMode" class="mb-0">Grid Select:</label>
-							<select id="selectionMode" class="data-entry-select" aria-describedby="selectionModeHelp">
+						<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
+							<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
+							<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
 								<option value="text">Text</option>
 								<option value="cell">Cell(s)</option>
 								<option value="singlerow" selected>Single Row</option>
 								<option value="multiplerows">Multiple Rows</option>
 							</select>
-							<div id="selectionModeHelp" class="text-secondary small">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
+							<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
 						</div>
+						<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
 						<cfif oneOfUs EQ 1>
 							<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('##saveSearchDialog').dialog('open');">Save Search</button>
 							<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
@@ -238,6 +252,10 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	var pageFilePath = "#cgi.script_name#";
 	var savedColumnVisibility = {};
 	var projectColumnPinned = true;
+	/* Distinguishes "no search attempted yet" from "search ran, found nothing" -- the
+	   grid's placeholder text below should stay blank until a search has actually run,
+	   rather than claiming "no projects matched" before the user has searched at all. */
+	var searchHasRun = false;
 
 	/**
 	 * buildProjectsTable creates (or recreates) the Tabulator instance for the results grid,
@@ -319,7 +337,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			layout: "fitColumns",
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
-			placeholder: "No projects matched your search.",
+			placeholder: searchHasRun ? "No projects matched your search." : "",
 			data: [],
 			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
 			   isn't at index 0 when range-select is enabled. */
@@ -428,6 +446,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	 * replaces the grid's data with the response.
 	 */
 	function searchProjects() {
+		searchHasRun = true;
 		$("##overlay").show();
 		$("##actionFeedback").html("");
 		$.ajax({
@@ -453,9 +472,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		mczEnableClipboardCopy();
 
 		$("##showhide").html(
-			'<button class="btn btn-xs btn-secondary mx-1" title="hide search form" ' +
+			'<button class="my-0 border rounded" title="hide search form" ' +
 			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +
-			'<i id="searchFormToggleIcon" class="fas fa-eye-slash" aria-hidden="true"></i> Search Form</button>'
+			'<i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>'
 		);
 
 		$("##columnChooserDialog").dialog({
