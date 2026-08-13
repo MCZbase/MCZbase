@@ -318,16 +318,18 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
 			placeholder: "No projects matched your search.",
-			/* Copy-only (no clipboardPasteAction use) -- confirmed against source that
-			   the copy listener only intercepts the browser's native copy event when
-			   Tabulator has an active row/range selection, so native text-selection
-			   copying in "text" mode is unaffected. */
-			clipboard: "copy",
 			data: [],
 			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
 			   isn't at index 0 when range-select is enabled. */
 			columns: columns
 		};
+
+		if (mode !== "text") {
+			/* Copy-only (no clipboardPasteAction use). Not enabled in "text" mode at
+			   all -- that mode wants pure native browser copy with zero Tabulator
+			   clipboard-module involvement, one less thing that could interfere with it. */
+			options.clipboard = "copy";
+		}
 
 		if (mode === "singlecell" || mode === "multiplecells") {
 			/* Deliberately NOT setting selectableRangeColumns/selectableRangeRows --

@@ -56,13 +56,16 @@ function mczRedrawAllTabulatorInstances() {
  * Since there's no reference to whatever internal listener function is left behind, it
  * can't be removed directly. Instead, this adds a capture-phase "mousedown" listener on
  * document -- capture always runs before bubble, regardless of where or in which phase
- * the leaked listener is attached -- that stops the event's propagation entirely
- * whenever its target is inside an element currently marked with the
- * mcz-text-select-mode class (toggled in JS per selection mode; see
- * tabulator_overrides.css), before any other listener, leaked or not, gets a chance to
- * see it. This calls stopPropagation(), not preventDefault(), so the browser's own
- * default drag-to-select behavior is left completely alone -- only other JS listeners
- * are blocked from reacting to the same event.
+ * the leaked listener is attached -- that stops the event whenever its target is inside
+ * an element currently marked with the mcz-text-select-mode class (toggled in JS per
+ * selection mode; see tabulator_overrides.css), before any other listener, leaked or
+ * not, gets a chance to see it. Calls stopImmediatePropagation(), not preventDefault(),
+ * so the browser's own default drag-to-select behavior is left completely alone -- only
+ * other JS listeners are blocked from reacting to the same event. Plain
+ * stopPropagation() is NOT enough here: it only stops the event reaching other
+ * elements, not other listeners already registered on this same document target --
+ * and the one Tabulator listener confirmed (from source) to leak is itself attached to
+ * document, i.e. the same target this listener is on.
  *
  * Only takes effect where mcz-text-select-mode is present, so it does not affect
  * SelectRow's or SelectRange's own legitimate mousedown handling in any other mode.
@@ -76,7 +79,7 @@ function mczProtectTextSelectMode() {
 	mczTextSelectProtectionAttached = true;
 	document.addEventListener("mousedown", function (e) {
 		if (e.target.closest && e.target.closest(".mcz-text-select-mode")) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 		}
 	}, true);
 }
