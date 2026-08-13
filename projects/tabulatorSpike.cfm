@@ -185,12 +185,12 @@ Delete this file once its findings are folded into /shared/js/.
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
 		}
-		/* mode === "text": no selection module enabled at all, so mousedown/drag is never
-		   intercepted by Tabulator and native text selection inside a cell works normally. */
+		/* mode === "text": no selection module enabled. Native text selection needs the
+		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
+		$("##spikeTableDiv").toggleClass("mcz-text-select-mode", mode === "text");
 		spikeTable = new Tabulator("##spikeTableDiv", options);
 		mczRegisterTabulatorInstance(spikeTable);
-		mczEnableClipboardCopy(spikeTable);
 		spikeTable.on("tableBuilt", populateColumnChooser);
 	}
 
@@ -221,6 +221,8 @@ Delete this file once its findings are folded into /shared/js/.
 	}
 
 	$(document).ready(function () {
+		mczEnableClipboardCopy();
+
 		$("##columnChooserDialog").dialog({
 			autoOpen: false,
 			modal: true,

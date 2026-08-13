@@ -80,10 +80,34 @@ tabulator_bootstrap4.min.css so these rules win.
 	outline-offset: -2px;
 }
 
-/* Vendored theme CSS sets user-select:none on cells only while .tabulator-ranges (cell
-   range selection) is active, via a more specific selector that still wins over this
-   rule when that class is present -- this just restores normal text selection in every
-   other mode, where nothing else appears to set user-select at all. */
-.tabulator-cell {
+/* Restores normal text selection in "text" selection mode. Scoped to a marker class
+   (mcz-text-select-mode, toggled in JS on the grid's container per selection mode)
+   rather than applied to every .tabulator-cell unconditionally -- an earlier version of
+   this rule did that, and it let native browser text-selection compete with Tabulator's
+   own mousedown/mousemove drag-select tracking in row-selection modes, breaking
+   click-and-drag multi-row selection. */
+.mcz-text-select-mode .tabulator-cell {
 	user-select: text;
+}
+
+/* Normalizes cell/range selection (SelectRange) to the same green used for row
+   selection (SelectRow), rather than Tabulator's default multi-tone blue "spreadsheet"
+   range styling (a distinct color for the anchor cell, the rest of the range, and the
+   row/column headers the range intersects) -- kept as one consistent highlight instead,
+   matching what a row-selection click looks like. Selectors/specificity here mirror the
+   vendored theme rules they override. */
+.tabulator-range-selected,
+.tabulator-range-selected:not(.tabulator-range-only-cell-selected):not(.tabulator-range-row-header) {
+	background-color: #caeaad !important;
+	color: inherit !important;
+}
+
+.tabulator-range-highlight {
+	background-color: #e9edf2 !important;
+	color: inherit !important;
+}
+
+.tabulator-range-overlay .tabulator-range,
+.tabulator-range-overlay .tabulator-range-cell-active {
+	border-color: #3e6f7d !important;
 }

@@ -329,11 +329,12 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
 		}
-		/* mode === "text": no selection module enabled, native text selection works normally. */
+		/* mode === "text": no selection module enabled. Native text selection needs the
+		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
 
+		$("##projectsGridDiv").toggleClass("mcz-text-select-mode", mode === "text");
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
-		mczEnableClipboardCopy(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
 	}
 
@@ -423,6 +424,8 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	}
 
 	$(document).ready(function () {
+		mczEnableClipboardCopy();
+
 		$("##showhide").html(
 			'<button class="btn btn-xs btn-secondary mx-1" title="hide search form" ' +
 			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +

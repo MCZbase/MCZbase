@@ -78,16 +78,16 @@ function mczFetchColumnVisibility(pageFilePath, label) {
 }
 
 /**
- * mczEnableClipboardCopy wires a Ctrl/Cmd+C keydown handler on a Tabulator instance so
- * a user's own copy keystroke actually copies the current selection.
+ * mczEnableClipboardCopy wires a single, page-wide Ctrl/Cmd+C keydown handler so a
+ * user's own copy keystroke actually copies the current selection in any registered
+ * Tabulator instance.
  *
  * This is necessary because Tabulator's own clipboard-on-copy-event listener (enabled
  * via the `clipboard: "copy"` table option) only ever runs when triggered through the
  * table's `copyToClipboard()` function -- a plain browser Ctrl+C never reaches it, and
- * instead falls through to whatever native text selection happens to exist, which for
- * a row-selection grid is normally nothing, or leftover selection unrelated to the row
- * click (confirmed against source: the listener's own logic is gated on a `blocked`
- * flag that only `copyToClipboard()` clears).
+ * instead falls through to whatever native text selection happens to exist (confirmed
+ * against source: the listener's own logic is gated on a `blocked` flag that only
+ * `copyToClipboard()` clears).
  *
  * Row selection (SelectRow) and cell/range selection (SelectRange) also aren't handled
  * by the same code path -- SelectRange's active ranges are never fed into the
@@ -97,32 +97,47 @@ function mczFetchColumnVisibility(pageFilePath, label) {
  * selection is built from table.getRangesData() and written via the Clipboard Web API,
  * since Tabulator has no built-in path for it.
  *
- * @param table the Tabulator instance to wire up.
+ * Listens on `document`, not a specific table's element, and iterates the shared
+ * mczTabulatorInstances registry rather than taking a table argument -- a table's own
+ * element (or which descendant of it currently holds focus) isn't reliable to attach
+ * to, since a rebuilt table is a new element each time and different selection modes
+ * move focus differently. Safe to call more than once; only attaches the listener the
+ * first time.
  */
-function mczEnableClipboardCopy(table) {
-	table.element.addEventListener("keydown", function (e) {
+var mczClipboardCopyListenerAttached = false;
+function mczEnableClipboardCopy() {
+	if (mczClipboardCopyListenerAttached) {
+		return;
+	}
+	mczClipboardCopyListenerAttached = true;
+	document.addEventListener("keydown", function (e) {
 		var isCopy = (e.ctrlKey || e.metaKey) && (e.key === "c" || e.key === "C");
 		if (!isCopy) {
 			return;
 		}
-		var selectedRows = table.getSelectedRows();
-		if (selectedRows && selectedRows.length) {
-			e.preventDefault();
-			table.copyToClipboard("selected");
-			return;
-		}
-		var ranges = table.getRangesData ? table.getRangesData() : [];
-		if (ranges && ranges.length) {
-			e.preventDefault();
-			var text = ranges.map(function (rangeRows) {
-				return rangeRows.map(function (row) {
-					return Object.keys(row).map(function (field) { return row[field]; }).join("\t");
-				}).join("\n");
-			}).join("\n");
-			if (navigator.clipboard && navigator.clipboard.writeText) {
-				navigator.clipboard.writeText(text);
+		mczTabulatorInstances.forEach(function (table) {
+			if (!table || !table.element || !document.body.contains(table.element)) {
+				return;
 			}
-		}
+			var selectedRows = table.getSelectedRows();
+			if (selectedRows && selectedRows.length) {
+				e.preventDefault();
+				table.copyToClipboard("selected");
+				return;
+			}
+			var ranges = table.getRangesData ? table.getRangesData() : [];
+			if (ranges && ranges.length) {
+				e.preventDefault();
+				var text = ranges.map(function (rangeRows) {
+					return rangeRows.map(function (row) {
+						return Object.keys(row).map(function (field) { return row[field]; }).join("\t");
+					}).join("\n");
+				}).join("\n");
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(text);
+				}
+			}
+		});
 	});
 }
 
