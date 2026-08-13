@@ -246,12 +246,16 @@ the caller. Returns one row per matching project, ordered by project_name.
 
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["project_id"] = project_id>
-			<cfset row["project_name"] = project_name>
-			<cfset row["start_date"] = start_date>
-			<cfset row["end_date"] = end_date>
-			<cfset row["participants"] = participants>
-			<cfset row["sponsors"] = sponsors>
+			<!--- Explicitly scoped to the query, not left bare -- this function also has
+			      a project_id argument (the optional single-project filter), and a bare
+			      reference here would silently resolve to that argument instead of this
+			      row's own column. --->
+			<cfset row["project_id"] = search.project_id>
+			<cfset row["project_name"] = search.project_name>
+			<cfset row["start_date"] = search.start_date>
+			<cfset row["end_date"] = search.end_date>
+			<cfset row["participants"] = search.participants>
+			<cfset row["sponsors"] = search.sponsors>
 			<cfset ArrayAppend(data, row)>
 		</cfloop>
 

@@ -221,6 +221,29 @@ function mczCopySelectedFromAllInstances() {
 }
 
 /**
+ * mczPaginationCounter is a Tabulator `paginationCounter` function rendering a plain
+ * "1-50 of 173" range, matching this app's legacy jqxGrid pages' record-count wording --
+ * Tabulator's own built-in "rows" counter preset renders the wordier "Showing 1-50 of
+ * 173 rows".
+ *
+ * @param pageSize current rows-per-page.
+ * @param currentRow 1-based row number of the first row on the current page.
+ * @param currentPage 1-based current page number (unused; kept to match Tabulator's
+ *   paginationCounter function signature).
+ * @param totalRows total row count across all pages.
+ * @param totalPages total page count (unused; kept to match Tabulator's paginationCounter
+ *   function signature).
+ * @return a <span> Node with the range text.
+ */
+function mczPaginationCounter(pageSize, currentRow, currentPage, totalRows, totalPages) {
+	var span = document.createElement("span");
+	span.textContent = totalRows
+		? currentRow + "-" + Math.min(currentRow + pageSize - 1, totalRows) + " of " + totalRows
+		: "0 of 0";
+	return span;
+}
+
+/**
  * mczSafeTextFormatter is a Tabulator cell formatter for plain text values.
  *
  * Tabulator's default cell rendering (no formatter set) assigns the raw value to the

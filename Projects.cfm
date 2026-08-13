@@ -319,6 +319,10 @@ links do) redisplays correctly.
 	var pageFilePath = "#cgi.script_name#";
 	var savedColumnVisibility = {};
 	var projectColumnPinned = true;
+	/* Preserved across a selection-mode rebuild the same way projectColumnPinned is --
+	   a user's chosen page size is a preference, not something a fresh table build (or a
+	   fresh search) should silently reset back to the default. */
+	var currentPageSize = 50;
 	/* Distinguishes "no search attempted yet" from "search ran, found nothing" -- the
 	   grid's placeholder text below should stay blank until a search has actually run,
 	   rather than claiming "no projects matched" before the user has searched at all. */
@@ -409,7 +413,10 @@ links do) redisplays correctly.
 		});
 
 		var options = {
-			height: "500px",
+			/* No height set -- an explicit height (or Tabulator's own default) gives the
+			   grid its own internal scrollbar. Paging below means a "page" is always a
+			   small, fixed number of rows, so the table can size to its content and let
+			   the browser's own page scroll handle anything taller than the viewport. */
 			layout: "fitColumns",
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
@@ -417,7 +424,14 @@ links do) redisplays correctly.
 			data: [],
 			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
 			   isn't at index 0 when range-select is enabled. */
-			columns: columns
+			columns: columns,
+			/* Sorting is applied to the whole result set before paging (Tabulator's
+			   default, local-mode behavior), not to whatever happens to be on the current
+			   page -- confirmed against source, not just assumed. */
+			pagination: true,
+			paginationSize: currentPageSize,
+			paginationSizeSelector: [5, 50, 100, 500, true],
+			paginationCounter: mczPaginationCounter
 		};
 
 		if (mode !== "text") {
@@ -456,6 +470,9 @@ links do) redisplays correctly.
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
+		projectsTable.on("pageSizeChanged", function (size) {
+			currentPageSize = size;
+		});
 	}
 
 	/**
