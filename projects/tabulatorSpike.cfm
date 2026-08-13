@@ -18,26 +18,21 @@ limitations under the License.
 
 --->
 <!---
-TEMPORARY compatibility-verification page for Redmine 1023 (jqxGrid -> Tabulator).
+TEMPORARY compatibility-verification page (jqxGrid -> Tabulator).
 
 Not a production page, and deliberately not named per the search/details/edit
-conventions in documentation/README.md for that reason. Exercises, in one place,
-every capability the Projects search grid (and every future concept's redesigned
-grid) needs from Tabulator before the shared foundation in /shared/js/ is built
-on top of these assumptions:
+conventions in documentation/README.md for that reason. Exercises, in one place, the
+following Tabulator capabilities the Projects search grid needs:
 
   - runtime switch between 5 selection modes: text select (native) / single cell /
     single row / multiple rows / multiple cells (range)
   - a frozen (pinned) column
   - persisted column visibility (Persistence module)
   - a column whose on-screen display (formatter) differs from its CSV export
-    value (accessorDownload) -- proves combined-column cell renderers don't leak
-    into the CSV download
-  - responsive redraw triggered by the real wiki-help sidebar drawer toggling
-    width, not just page load
+    value (accessorDownload)
+  - responsive redraw triggered by the wiki-help sidebar drawer toggling width
 
-Delete this file once the shared foundation (Phase 2 of the Project/Tabulator
-redesign) lands and its findings are folded into /shared/js/.
+Delete this file once its findings are folded into /shared/js/.
 --->
 <cfset action = "search">
 <cfinclude template = "/shared/_header.cfm">
@@ -91,17 +86,14 @@ redesign) lands and its findings are folded into /shared/js/.
 	var spikeTable = null;
 
 	/**
-	 * buildSpikeTable creates (or recreates) the spike Tabulator instance for a given selection mode.
-	 * Recreation via destroy()+new Tabulator(...) is used instead of mutating a live table's options,
-	 * since inspecting the vendored tabulator.min.js confirms selectableRange/selectableRows are
-	 * read once at module-initialize time (registerTableOption + a one-time initialize() check),
-	 * not live-reactive options -- confirmed, not assumed.
+	 * buildSpikeTable creates (or recreates) the Tabulator instance for a given selection mode.
+	 * Tabulator reads its selection options only at initialization and does not react to
+	 * later changes, so switching modes means building a new instance rather than updating
+	 * an existing one.
 	 *
-	 * Also confirmed directly from source (not just docs): SelectRange and row selection are
-	 * MUTUALLY EXCLUSIVE on one Tabulator instance -- if both selectableRange and selectableRows
-	 * are set, Tabulator logs "SelectRange functionality cannot be used in conjunction with row
-	 * selection" and leaves SelectRange uninitialized. This is exactly why each mode below sets
-	 * only one of the two, never both -- this isn't a design preference, it's a hard constraint.
+	 * Tabulator's SelectRange (cell/range selection) and row-selection are mutually
+	 * exclusive on one instance -- enabling both logs a warning and leaves SelectRange
+	 * uninitialized -- so each mode below sets only one of the two.
 	 *
 	 * @param mode one of "text", "singlecell", "singlerow", "multiplerows", "multiplecells".
 	 */
@@ -122,11 +114,8 @@ redesign) lands and its findings are folded into /shared/js/.
 				{ id: 3, project_name: "Arctic Bird Migration Tracking", agent_name: "A. Lee", role: "Collaborator", start_date: "2019-09-01" },
 				{ id: 4, project_name: "Coral Reef Biodiversity", agent_name: "M. Alvarez", role: "PI", start_date: "2022-03-10" }
 			],
-			/* Frozen column is listed FIRST. Source inspection confirms Tabulator warns
-			   "Having frozen column in arbitrary position with selectRange option may result
-			   in unpredictable behavior" whenever a frozen column isn't at index 0 -- since
-			   range-select is one of the modes this page must support, that ordering isn't
-			   optional here. */
+			/* Frozen column is listed FIRST -- Tabulator warns of "unpredictable behavior"
+			   if a frozen column isn't at index 0 when range-select is enabled. */
 			columns: [
 				{ title: "Project", field: "project_name", frozen: true, widthGrow: 3, formatter: mczSafeTextFormatter },
 				{
@@ -134,9 +123,8 @@ redesign) lands and its findings are folded into /shared/js/.
 					field: "id",
 					width: 60,
 					/* Column-visibility chooser lives on one column via the built-in headerMenu
-					   API (confirmed against source: a per-column function, re-invoked each time
-					   the menu opens, returning {label, action(e, column)} items) -- this replaces
-					   jqxGrid's bespoke jqxListBox-in-a-jqxDialog column chooser. */
+					   API -- a per-column function, invoked fresh each time the menu opens,
+					   returning {label, action(e, column)} items. */
 					headerMenu: function (e, column) {
 						return mczColumnVisibilityMenu(column.getTable());
 					}
@@ -176,12 +164,11 @@ redesign) lands and its findings are folded into /shared/js/.
 		if (mode === "singlecell" || mode === "multiplecells") {
 			options.selectableRangeColumns = true;
 			options.selectableRangeRows = true;
-			/* selectableRange is confirmed (from source) to mean "max concurrent ranges", not
-			   "max cells per range" -- there is no built-in option to cap a single range at
-			   exactly one cell, so "single cell" here means "one range at a time", and a user
-			   can still drag that one range across multiple cells. True single-cell-only would
-			   need a range-changed handler to clamp the drag; not built here -- flagging as a
-			   real, discovered gap rather than quietly approximating it as solved. */
+			/* selectableRange means "max concurrent ranges", not "max cells per range" --
+			   there is no built-in option to cap a single range at exactly one cell, so
+			   "single cell" here means "one range at a time", and a user can still drag
+			   that one range across multiple cells. True single-cell-only selection would
+			   need a range-changed handler to clamp the drag; not built here. */
 			options.selectableRange = (mode === "singlecell") ? 1 : true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;

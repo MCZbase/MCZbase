@@ -18,12 +18,8 @@ limitations under the License.
 */
 
 /*
-Brings Tabulator (Redmine 1023, replacing jqxGrid) into line with the same teal/
-Bootstrap branding jqxGrid grids use today (see the .jqx-widget-header and
-.jqx-grid-cell-alt rules in bootstrap_override.css). Same intent, different
-selectors -- Tabulator's DOM/class structure isn't a straight port of jqxGrid's,
-so this is a parallel stylesheet, not a translation of the old rules line by line.
-Include after tabulator_bootstrap4.min.css so these rules win.
+Teal/Bootstrap branding overrides for Tabulator grids. Include after
+tabulator_bootstrap4.min.css so these rules win.
 */
 
 .tabulator .tabulator-header {

@@ -17,15 +17,11 @@ limitations under the License.
 
 --->
 <!---
-Search-with-results page for Projects (Redmine 899), replacing the project-search half of
-SpecimenUsage.cfm (publication search there is already served by /Publications.cfm). First
-page in the app to use Tabulator instead of jqxGrid for its results grid (Redmine 1023) --
-see projects/tabulatorSpike.cfm for the compatibility notes this page's grid setup relies on.
+Search-with-results page for Projects, replacing the project-search half of
+SpecimenUsage.cfm (publication search there is served by /Publications.cfm).
 
-/projects/showProject.cfm (details) and /projects/Project.cfm (create/edit) are later phases
-of this same redesign and don't exist yet -- the View/Edit links below point at the existing
-legacy ProjectDetail.cfm/Project.cfm, which still work today, and get repointed once those
-phases land.
+View/Edit links below point at the existing ProjectDetail.cfm/Project.cfm; those will be
+replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exist yet.
 --->
 <cfset pageTitle = "Search Projects">
 <cfset action = "search">
@@ -223,11 +219,14 @@ phases land.
 	var canManageProjects = #canManageProjectsJs#;
 
 	/**
-	 * buildProjectsTable creates (or recreates) the Tabulator instance for a given selection
-	 * mode. Recreated via destroy()+new Tabulator(...) rather than mutated live -- confirmed
-	 * against the vendored Tabulator source (see projects/tabulatorSpike.cfm) that
-	 * selectableRange/selectableRows are read once at initialize time, and that the two are
-	 * mutually exclusive on one instance, so each mode below sets only one of the two.
+	 * buildProjectsTable creates (or recreates) the Tabulator instance for the results grid,
+	 * configured for a given row/cell selection mode. Tabulator reads its selection options
+	 * only at initialization and does not react to later changes, so switching modes means
+	 * building a new instance rather than updating an existing one.
+	 *
+	 * Tabulator's SelectRange (cell/range selection) and row-selection are mutually
+	 * exclusive on one instance -- enabling both logs a warning and leaves SelectRange
+	 * uninitialized -- so each mode below sets only one of the two.
 	 *
 	 * @param mode one of "text", "singlecell", "singlerow", "multiplerows", "multiplecells".
 	 */
@@ -244,9 +243,8 @@ phases land.
 			persistenceID: "projectsSearchGrid_v1",
 			placeholder: "No projects matched your search.",
 			data: [],
-			/* Frozen column listed first -- Tabulator warns of "unpredictable behavior" if a
-			   frozen column isn't at index 0 when range-select is in use (confirmed against
-			   source in the compatibility spike). */
+			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
+			   isn't at index 0 when range-select is enabled. */
 			columns: [
 				{
 					title: "Project",
@@ -292,7 +290,7 @@ phases land.
 			options.selectableRangeRows = true;
 			/* selectableRange is a max-concurrent-ranges count, not a max-cells-per-range
 			   limit -- "single cell" here means "one range at a time" (a user can still drag
-			   that one range across multiple cells); see the spike page for the full note. */
+			   that one range across multiple cells). */
 			options.selectableRange = (mode === "singlecell") ? 1 : true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
@@ -309,9 +307,8 @@ phases land.
 		}
 	}
 
-	/** searchProjects submits #searchForm via ajax to projects/component/search.cfc,
-	 * replaces the grid's data on success, and reports failures the same way every other
-	 * backing-method call in this app does.
+	/** searchProjects submits #searchForm via ajax to projects/component/search.cfc and
+	 * replaces the grid's data with the response.
 	 */
 	function searchProjects() {
 		$("##overlay").show();

@@ -77,21 +77,10 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 </cffunction>
 
 <!---
-Function search.  Backs the /Projects.cfm search-with-results grid (Redmine 899). Search
-for projects by name, participant, sponsor, description length, project type (uses and/or
-contributes specimens), year, or a specific publication_id/project_id. Returns exactly one
-row per project -- participant and sponsor names are aggregated per project with LISTAGG
-in the query itself, rather than fetched with a separate per-project query in a loop as the
-legacy SpecimenUsage.cfm/ProjectList.cfm code does, since that's an N+1 query pattern this
-method doesn't need to repeat.
-
-Deliberately does NOT require at least one search term before running, unlike the legacy
-combined project+publication search on SpecimenUsage.cfm (which refused a blank search to
-avoid a large join against publication/citation on every submit with no terms). A blank
-search here just returns every project the caller is allowed to see -- the citation/
-publication join that made a blank search expensive doesn't exist in this query, and every
-other redesigned search page's GET-param API already relies on execute=true with no other
-params still running the search.
+Function search. Search for projects matching any combination of name, participant,
+sponsor, minimum description length, project type, year, publication, or project_id. Any
+argument may be left blank; if all arguments are blank, returns every project visible to
+the caller. Returns one row per matching project, ordered by project_name.
 
 @param p_title substring to match against project_name.
 @param author substring to match against a participant's agent_name.
