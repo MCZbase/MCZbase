@@ -66,7 +66,6 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cftransaction action="rollback">
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
@@ -231,7 +230,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cftransaction action="rollback">
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
