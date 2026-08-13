@@ -111,3 +111,14 @@ tabulator_bootstrap4.min.css so these rules win.
 .tabulator-range-overlay .tabulator-range-cell-active {
 	border-color: #3e6f7d !important;
 }
+
+/* .tabulator-frozen has z-index:11 in the vendored theme, one above
+   .tabulator-range-overlay's z-index:10 -- the frozen column's own cells render on top
+   of the overlay that draws the active-cell border, rather than the reverse. This fixes
+   the stacking order; it's not confirmed whether the overlay's position calculation
+   also accounts for a frozen column's sticky offset, which would be a second, separate
+   problem this alone doesn't address -- flagging that distinction rather than assuming
+   this fully resolves the frozen-column selection-border glitch. */
+.tabulator-range-overlay {
+	z-index: 12;
+}

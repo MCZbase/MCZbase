@@ -80,6 +80,9 @@ Delete this file once its findings are folded into /shared/js/.
 					<div class="col-12 col-md-4">
 						<button type="button" class="btn btn-xs btn-secondary" onclick="togglePinProjectColumn();">Pin Project Column (updateDefinition)</button>
 					</div>
+					<div class="col-12 col-md-4">
+						<button type="button" class="btn btn-xs btn-secondary" onclick="mczCopySelectedFromAllInstances();">Copy Selection (for browsers with no context-menu Copy)</button>
+					</div>
 				</div>
 			</fieldset>
 			<p class="text-secondary small mt-2">

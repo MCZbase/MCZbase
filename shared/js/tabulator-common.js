@@ -115,30 +115,48 @@ function mczEnableClipboardCopy() {
 		if (!isCopy) {
 			return;
 		}
-		mczTabulatorInstances.forEach(function (table) {
-			if (!table || !table.element || !document.body.contains(table.element)) {
-				return;
-			}
-			var selectedRows = table.getSelectedRows();
-			if (selectedRows && selectedRows.length) {
-				e.preventDefault();
-				table.copyToClipboard("selected");
-				return;
-			}
-			var ranges = table.getRangesData ? table.getRangesData() : [];
-			if (ranges && ranges.length) {
-				e.preventDefault();
-				var text = ranges.map(function (rangeRows) {
-					return rangeRows.map(function (row) {
-						return Object.keys(row).map(function (field) { return row[field]; }).join("\t");
-					}).join("\n");
-				}).join("\n");
-				if (navigator.clipboard && navigator.clipboard.writeText) {
-					navigator.clipboard.writeText(text);
-				}
-			}
-		});
+		var copied = mczCopySelectedFromAllInstances();
+		if (copied) {
+			e.preventDefault();
+		}
 	});
+}
+
+/**
+ * mczCopySelectedFromAllInstances copies the current selection (rows or a cell range)
+ * from every registered, still-attached Tabulator instance to the clipboard -- the
+ * logic mczEnableClipboardCopy's keydown handler uses, factored out so a plain button
+ * (for anyone not using Ctrl/Cmd+C, or where a browser's own context menu doesn't offer
+ * a "Copy" item for a non-native selection) can trigger the same behavior directly.
+ *
+ * @return true if a selection was found and copied in any instance, false otherwise.
+ */
+function mczCopySelectedFromAllInstances() {
+	var copiedAny = false;
+	mczTabulatorInstances.forEach(function (table) {
+		if (!table || !table.element || !document.body.contains(table.element)) {
+			return;
+		}
+		var selectedRows = table.getSelectedRows();
+		if (selectedRows && selectedRows.length) {
+			table.copyToClipboard("selected");
+			copiedAny = true;
+			return;
+		}
+		var ranges = table.getRangesData ? table.getRangesData() : [];
+		if (ranges && ranges.length) {
+			var text = ranges.map(function (rangeRows) {
+				return rangeRows.map(function (row) {
+					return Object.keys(row).map(function (field) { return row[field]; }).join("\t");
+				}).join("\n");
+			}).join("\n");
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				navigator.clipboard.writeText(text);
+				copiedAny = true;
+			}
+		}
+	});
+	return copiedAny;
 }
 
 /**

@@ -197,6 +197,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<div id="columnChooserList" class="px-1"></div>
 						</div>
 						<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+						<button type="button" class="btn btn-xs btn-info mx-1" onclick="mczCopySelectedFromAllInstances();">Copy Selection</button>
 						<button type="button" class="btn btn-xs btn-info mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
 						<div class="col-12 col-md-auto ml-md-auto pb-1">
 							<label for="selectionMode" class="mb-0">Grid Select:</label>
