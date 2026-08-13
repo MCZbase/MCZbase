@@ -291,7 +291,22 @@ function mczAddPageJumpControl(table, selectId) {
 	wrapper.appendChild(label);
 	wrapper.appendChild(select);
 
+	/* Tried on every call below, not just once on "tableBuilt" -- exactly when the
+	   pager's own DOM (.tabulator-pages) exists relative to "tableBuilt" firing wasn't
+	   reliable in testing, so this keeps retrying (cheaply; a no-op once inserted)
+	   rather than depending on one specific event ordering. */
+	function ensureInserted() {
+		if (wrapper.parentNode) {
+			return;
+		}
+		var pagesElement = table.element.querySelector(".tabulator-pages");
+		if (pagesElement && pagesElement.parentNode) {
+			pagesElement.parentNode.insertBefore(wrapper, pagesElement);
+		}
+	}
+
 	function refresh() {
+		ensureInserted();
 		var lastPage = table.getPageMax ? table.getPageMax() : 1;
 		var currentPage = table.getPage ? table.getPage() : 1;
 		var html = "";
@@ -301,13 +316,7 @@ function mczAddPageJumpControl(table, selectId) {
 		select.innerHTML = html;
 	}
 
-	table.on("tableBuilt", function () {
-		var pagesElement = table.element.querySelector(".tabulator-pages");
-		if (pagesElement && pagesElement.parentNode) {
-			pagesElement.parentNode.insertBefore(wrapper, pagesElement);
-		}
-		refresh();
-	});
+	table.on("tableBuilt", refresh);
 	/* Fires on every completed load in remote pagination mode -- the initial one, a
 	   page/size/sort change, and a fresh search's setPage(1) call alike (confirmed
 	   against source) -- so this single handler keeps the option list and selected
