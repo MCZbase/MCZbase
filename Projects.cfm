@@ -27,8 +27,10 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfset action = "search">
 
 <cfparam name="url.p_title" default="">
-<cfparam name="url.author" default="">
-<cfparam name="url.sponsor" default="">
+<cfparam name="url.participant_agent_id" default="">
+<cfparam name="url.participant_agent_name" default="">
+<cfparam name="url.sponsor_agent_id" default="">
+<cfparam name="url.sponsor_agent_name" default="">
 <cfparam name="url.project_type" default="">
 <cfparam name="url.year" default="">
 <cfparam name="url.descr_len" default="">
@@ -37,8 +39,10 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfparam name="url.execute" default="">
 
 <cfset variables.p_title = url.p_title>
-<cfset variables.author = url.author>
-<cfset variables.sponsor = url.sponsor>
+<cfset variables.participant_agent_id = url.participant_agent_id>
+<cfset variables.participant_agent_name = url.participant_agent_name>
+<cfset variables.sponsor_agent_id = url.sponsor_agent_id>
+<cfset variables.sponsor_agent_name = url.sponsor_agent_name>
 <cfset variables.project_type = url.project_type>
 <cfset variables.year = url.year>
 <cfset variables.descr_len = url.descr_len>
@@ -129,20 +133,40 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Participants &amp; Sponsor</legend>
 									<div class="form-row">
 										<div class="col-12 col-md-6">
-											<label for="author" class="data-entry-label">Participant</label>
-											<input type="text" id="author" name="author" class="data-entry-input" value="#encodeForHtml(variables.author)#">
+											<div class="form-row mx-0 my-0 py-0">
+												<label for="participant_agent_name" id="participant_agent_name_label" class="data-entry-label mb-0 pb-0">Participant
+													<span id="participant_agent_view" class="ml-2"></span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+													</div>
+													<input type="text" name="participant_agent_name" id="participant_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
+													<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
+												</div>
+											</div>
 											<script>
 												$(document).ready(function () {
-													makeProjectParticipantSearchAutocomplete("author");
+													makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#variables.participant_agent_id#", "project_agent", false);
 												});
 											</script>
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="sponsor" class="data-entry-label">Sponsor</label>
-											<input type="text" id="sponsor" name="sponsor" class="data-entry-input" value="#encodeForHtml(variables.sponsor)#">
+											<div class="form-row mx-0 my-0 py-0">
+												<label for="sponsor_agent_name" id="sponsor_agent_name_label" class="data-entry-label mb-0 pb-0">Sponsor
+													<span id="sponsor_agent_view" class="ml-2"></span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+													</div>
+													<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
+													<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
+												</div>
+											</div>
 											<script>
 												$(document).ready(function () {
-													makeProjectSponsorSearchAutocomplete("sponsor");
+													makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#variables.sponsor_agent_id#", "project_sponsor", false);
 												});
 											</script>
 										</div>

@@ -76,116 +76,21 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 </cffunction>
 
 <!---
-Function getProjectParticipantAutocomplete. Search for agent names that have actually
-served as a project participant, for narrowing the Participant search field's
-autocomplete to real values instead of the full universe of agents in the system.
-
-@param term substring to match against a participating agent's name.
-@return a JSON array of structs, one per matching distinct agent name: value.
---->
-<cffunction name="getProjectParticipantAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfset oneOfUs = 1>
-		<cfelse>
-			<cfset oneOfUs = 0>
-		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
-			SELECT DISTINCT
-				agent_name.agent_name
-			FROM
-				project_agent
-				JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
-				<cfif oneOfUs NEQ 1>
-					JOIN project ON project_agent.project_id = project.project_id
-				</cfif>
-			WHERE
-				UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-				<cfif oneOfUs NEQ 1>
-					AND project.mask_project_fg = 0
-				</cfif>
-			ORDER BY
-				agent_name.agent_name
-		</cfquery>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["value"] = "#agent_name#">
-			<cfset ArrayAppend(data, row)>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!---
-Function getProjectSponsorAutocomplete. Search for agent names that have actually served
-as a project sponsor, for narrowing the Sponsor search field's autocomplete to real values
-instead of the full universe of agents in the system.
-
-@param term substring to match against a sponsoring agent's name.
-@return a JSON array of structs, one per matching distinct agent name: value.
---->
-<cffunction name="getProjectSponsorAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfset oneOfUs = 1>
-		<cfelse>
-			<cfset oneOfUs = 0>
-		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
-			SELECT DISTINCT
-				agent_name.agent_name
-			FROM
-				project_sponsor
-				JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
-				<cfif oneOfUs NEQ 1>
-					JOIN project ON project_sponsor.project_id = project.project_id
-				</cfif>
-			WHERE
-				UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-				<cfif oneOfUs NEQ 1>
-					AND project.mask_project_fg = 0
-				</cfif>
-			ORDER BY
-				agent_name.agent_name
-		</cfquery>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["value"] = "#agent_name#">
-			<cfset ArrayAppend(data, row)>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!---
 Function search. Search for projects matching any combination of name, participant,
 sponsor, minimum description length, project type, year, publication, or project_id. Any
 argument may be left blank; if all arguments are blank, returns every project visible to
 the caller. Returns one row per matching project, ordered by project_name.
 
 @param p_title substring to match against project_name.
-@param author substring to match against a participant's agent_name.
-@param sponsor substring to match against a sponsor's agent_name.
+@param participant_agent_id restrict to projects with this agent as a participant; takes
+	precedence over participant_agent_name when both are provided (matches the rich agent
+	picker's own id-first-else-name-substring convention, e.g. Publications.cfm's Author).
+@param participant_agent_name substring to match against a participant's agent_name, used
+	only when participant_agent_id is blank.
+@param sponsor_agent_id restrict to projects with this agent as a sponsor; takes precedence
+	over sponsor_agent_name when both are provided.
+@param sponsor_agent_name substring to match against a sponsor's agent_name, used only when
+	sponsor_agent_id is blank.
 @param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
@@ -199,8 +104,10 @@ the caller. Returns one row per matching project, ordered by project_name.
 --->
 <cffunction name="search" access="remote" returntype="any" returnformat="json">
 	<cfargument name="p_title" type="string" required="no" default="">
-	<cfargument name="author" type="string" required="no" default="">
-	<cfargument name="sponsor" type="string" required="no" default="">
+	<cfargument name="participant_agent_id" type="string" required="no" default="">
+	<cfargument name="participant_agent_name" type="string" required="no" default="">
+	<cfargument name="sponsor_agent_id" type="string" required="no" default="">
+	<cfargument name="sponsor_agent_name" type="string" required="no" default="">
 	<cfargument name="project_type" type="string" required="no" default="">
 	<cfargument name="year" type="string" required="no" default="">
 	<cfargument name="descr_len" type="string" required="no" default="">
@@ -252,24 +159,42 @@ the caller. Returns one row per matching project, ordered by project_name.
 					AND project.project_description IS NOT NULL
 					AND LENGTH(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.descr_len#">
 				</cfif>
-				<cfif len(arguments.author) GT 0>
+				<cfif len(arguments.participant_agent_id) GT 0 AND isnumeric(arguments.participant_agent_id)>
+					AND project.project_id IN (
+						SELECT project_agent.project_id
+						FROM project_agent
+						WHERE project_agent.agent_name_id IN (
+							SELECT agent_name_id FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.participant_agent_id#">
+						)
+					)
+				<cfelseif len(arguments.participant_agent_name) GT 0>
 					AND project.project_id IN (
 						SELECT project_agent.project_id
 						FROM
 							project_agent
 							JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
 						WHERE
-							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.author)#%">
+							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.participant_agent_name)#%">
 					)
 				</cfif>
-				<cfif len(arguments.sponsor) GT 0>
+				<cfif len(arguments.sponsor_agent_id) GT 0 AND isnumeric(arguments.sponsor_agent_id)>
+					AND project.project_id IN (
+						SELECT project_sponsor.project_id
+						FROM project_sponsor
+						WHERE project_sponsor.agent_name_id IN (
+							SELECT agent_name_id FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sponsor_agent_id#">
+						)
+					)
+				<cfelseif len(arguments.sponsor_agent_name) GT 0>
 					AND project.project_id IN (
 						SELECT project_sponsor.project_id
 						FROM
 							project_sponsor
 							JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
 						WHERE
-							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.sponsor)#%">
+							UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.sponsor_agent_name)#%">
 					)
 				</cfif>
 				<cfif len(arguments.project_type) GT 0>
