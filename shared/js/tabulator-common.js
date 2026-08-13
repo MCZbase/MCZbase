@@ -78,6 +78,55 @@ function mczFetchColumnVisibility(pageFilePath, label) {
 }
 
 /**
+ * mczEnableClipboardCopy wires a Ctrl/Cmd+C keydown handler on a Tabulator instance so
+ * a user's own copy keystroke actually copies the current selection.
+ *
+ * This is necessary because Tabulator's own clipboard-on-copy-event listener (enabled
+ * via the `clipboard: "copy"` table option) only ever runs when triggered through the
+ * table's `copyToClipboard()` function -- a plain browser Ctrl+C never reaches it, and
+ * instead falls through to whatever native text selection happens to exist, which for
+ * a row-selection grid is normally nothing, or leftover selection unrelated to the row
+ * click (confirmed against source: the listener's own logic is gated on a `blocked`
+ * flag that only `copyToClipboard()` clears).
+ *
+ * Row selection (SelectRow) and cell/range selection (SelectRange) also aren't handled
+ * by the same code path -- SelectRange's active ranges are never fed into the
+ * clipboard module's export at all, only row-level "selected"/"active" ranges are -- so
+ * this checks which one is active and handles each directly: row selection goes through
+ * table.copyToClipboard("selected") (Tabulator's own formatted row export); range
+ * selection is built from table.getRangesData() and written via the Clipboard Web API,
+ * since Tabulator has no built-in path for it.
+ *
+ * @param table the Tabulator instance to wire up.
+ */
+function mczEnableClipboardCopy(table) {
+	table.element.addEventListener("keydown", function (e) {
+		var isCopy = (e.ctrlKey || e.metaKey) && (e.key === "c" || e.key === "C");
+		if (!isCopy) {
+			return;
+		}
+		var selectedRows = table.getSelectedRows();
+		if (selectedRows && selectedRows.length) {
+			e.preventDefault();
+			table.copyToClipboard("selected");
+			return;
+		}
+		var ranges = table.getRangesData ? table.getRangesData() : [];
+		if (ranges && ranges.length) {
+			e.preventDefault();
+			var text = ranges.map(function (rangeRows) {
+				return rangeRows.map(function (row) {
+					return Object.keys(row).map(function (field) { return row[field]; }).join("\t");
+				}).join("\n");
+			}).join("\n");
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				navigator.clipboard.writeText(text);
+			}
+		}
+	});
+}
+
+/**
  * mczSafeTextFormatter is a Tabulator cell formatter for plain text values.
  *
  * Tabulator's default cell rendering (no formatter set) assigns the raw value to the

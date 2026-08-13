@@ -53,9 +53,8 @@ tabulator_bootstrap4.min.css so these rules win.
 	white-space: nowrap;
 }
 
-/* The column-visibility chooser (headerMenu, see shared/js/tabulator-common.js)
-   renders as a .tabulator-menu popup; align it with the app's existing dropdown-menu
-   look rather than Tabulator's bare default. */
+/* Align any Tabulator-rendered .tabulator-menu popup (header context/click menus) with
+   the app's existing dropdown-menu look rather than Tabulator's bare default. */
 .tabulator-menu {
 	border: 1px solid #dee2e6;
 	border-radius: 4px;
@@ -71,4 +70,20 @@ tabulator_bootstrap4.min.css so these rules win.
 .tabulator-menu .tabulator-menu-item:hover {
 	background-color: #deebec;
 	cursor: pointer;
+}
+
+/* The scrollable table body (.tabulator-tableholder) always carries tabindex="0" --
+   Tabulator ships no visible focus style for it, so tabbing into the grid is otherwise
+   invisible. */
+.tabulator-tableholder:focus {
+	outline: 2px solid #3e6f7d;
+	outline-offset: -2px;
+}
+
+/* Vendored theme CSS sets user-select:none on cells only while .tabulator-ranges (cell
+   range selection) is active, via a more specific selector that still wins over this
+   rule when that class is present -- this just restores normal text selection in every
+   other mode, where nothing else appears to set user-select at all. */
+.tabulator-cell {
+	user-select: text;
 }

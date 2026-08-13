@@ -333,6 +333,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
+		mczEnableClipboardCopy(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
 	}
 
@@ -347,10 +348,10 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		projectsTable.getColumns().forEach(function (column) {
 			var def = column.getDefinition();
 			if (!def.title) { return; }
-			html += "<div class='form-check'>" +
-				"<input type='checkbox' class='form-check-input columnChooserCheckbox' id='colChoice_" + def.field + "' data-field='" + def.field + "'" +
+			html += "<div class='d-flex align-items-center mb-1'>" +
+				"<input type='checkbox' class='columnChooserCheckbox mr-2' id='colChoice_" + def.field + "' data-field='" + def.field + "'" +
 				(column.isVisible() ? " checked" : "") + ">" +
-				"<label class='form-check-label' for='colChoice_" + def.field + "'>" + def.title + "</label>" +
+				"<label class='mb-0' for='colChoice_" + def.field + "'>" + def.title + "</label>" +
 				"</div>";
 		});
 		$("##columnChooserList").html(html);
