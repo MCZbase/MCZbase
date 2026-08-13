@@ -203,10 +203,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 							<label for="selectionMode" class="mb-0">Grid Select:</label>
 							<select id="selectionMode" class="data-entry-select" aria-describedby="selectionModeHelp">
 								<option value="text">Text</option>
-								<option value="singlecell">Single Cell</option>
+								<option value="cell">Cell(s)</option>
 								<option value="singlerow" selected>Single Row</option>
 								<option value="multiplerows">Multiple Rows</option>
-								<option value="multiplecells">Multiple Cells</option>
 							</select>
 							<div id="selectionModeHelp" class="text-secondary small">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
 						</div>
@@ -250,7 +249,7 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 	 * exclusive on one instance -- enabling both logs a warning and leaves SelectRange
 	 * uninitialized -- so each mode below sets only one of the two.
 	 *
-	 * @param mode one of "text", "singlecell", "singlerow", "multiplerows", "multiplecells".
+	 * @param mode one of "text", "cell", "singlerow", "multiplerows".
 	 */
 	function buildProjectsTable(mode) {
 		if (projectsTable) {
@@ -334,18 +333,19 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 			options.clipboard = "copy";
 		}
 
-		if (mode === "singlecell" || mode === "multiplecells") {
+		if (mode === "cell") {
 			/* Deliberately NOT setting selectableRangeColumns/selectableRangeRows --
 			   those enable a separate feature (clicking a header selects the whole
 			   column/row) not wanted here, and as a side effect (confirmed against
 			   source) designate the first visible column as a specially-styled
 			   "range row header" -- which was the cause of the pinned Project column
 			   showing grey/dark-blue instead of the normal range highlight color. */
-			/* selectableRange is a max-concurrent-ranges count, not a max-cells-per-range
-			   limit -- "single cell" here would otherwise still let a user drag one range
-			   across multiple cells, so the rangeChanged listener below clamps it back down
-			   to the drag's starting cell whenever mode is "singlecell". */
-			options.selectableRange = (mode === "singlecell") ? 1 : true;
+			/* Tabulator has no native single-cell-only selection mode -- selectableRange
+			   is a max-concurrent-ranges count, not a max-cells-per-range limit, so a range
+			   can always span more than one cell regardless of this setting. One "Cell(s)"
+			   mode covering both is offered rather than a "Single Cell" mode that can't
+			   actually be enforced. */
+			options.selectableRange = true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
 		}
@@ -361,22 +361,6 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
-		if (mode === "singlecell") {
-			/* Clamps a drag back down to its starting cell -- see the comment on
-			   options.selectableRange above for why this is needed at all. Re-entrant safe:
-			   setBounds(cell, cell) below always leaves exactly one cell selected, so the
-			   guard's condition is false on the resulting recursive call. getCells() returns
-			   cells grouped by row (confirmed against source), so it's flattened here before
-			   counting/indexing. */
-			projectsTable.on("rangeChanged", function (range) {
-				var cells = range.getCells().reduce(function (flat, row) {
-					return flat.concat(row);
-				}, []);
-				if (cells.length > 1) {
-					range.setBounds(cells[0], cells[0]);
-				}
-			});
-		}
 	}
 
 	/**

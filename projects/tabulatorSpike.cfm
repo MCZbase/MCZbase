@@ -60,10 +60,9 @@ Delete this file once its findings are folded into /shared/js/.
 						<label for="selectionMode">Mode</label>
 						<select id="selectionMode" name="selectionMode" class="data-entry-select mb-2" aria-describedby="selectionModeHelp">
 							<option value="text">Text select (native browser selection, no grid interception)</option>
-							<option value="singlecell">Single cell</option>
+							<option value="cell">Cell(s) (range)</option>
 							<option value="singlerow" selected>Single row</option>
 							<option value="multiplerows">Multiple rows (hold Shift, click and drag)</option>
-							<option value="multiplecells">Multiple cells (range)</option>
 						</select>
 						<div id="selectionModeHelp" class="text-secondary small">In Multiple rows mode, hold Shift while clicking and dragging to select a range of rows.</div>
 					</div>
@@ -114,7 +113,7 @@ Delete this file once its findings are folded into /shared/js/.
 	 * exclusive on one instance -- enabling both logs a warning and leaves SelectRange
 	 * uninitialized -- so each mode below sets only one of the two.
 	 *
-	 * @param mode one of "text", "singlecell", "singlerow", "multiplerows", "multiplecells".
+	 * @param mode one of "text", "cell", "singlerow", "multiplerows".
 	 */
 	function buildSpikeTable(mode) {
 		if (spikeTable) {
@@ -193,18 +192,19 @@ Delete this file once its findings are folded into /shared/js/.
 			options.clipboard = "copy";
 		}
 
-		if (mode === "singlecell" || mode === "multiplecells") {
+		if (mode === "cell") {
 			/* Deliberately NOT setting selectableRangeColumns/selectableRangeRows --
 			   those enable a separate feature (clicking a header selects the whole
 			   column/row) not wanted here, and as a side effect (confirmed against
 			   source) designate the first visible column as a specially-styled
 			   "range row header" -- which was the cause of the pinned Project column
 			   showing grey/dark-blue instead of the normal range highlight color. */
-			/* selectableRange means "max concurrent ranges", not "max cells per range" --
-			   there is no built-in option to cap a single range at exactly one cell, so
-			   "single cell" here would otherwise still let a user drag one range across
-			   multiple cells; the rangeChanged listener below clamps it back down. */
-			options.selectableRange = (mode === "singlecell") ? 1 : true;
+			/* Tabulator has no native single-cell-only selection mode -- selectableRange
+			   is a max-concurrent-ranges count, not a max-cells-per-range limit, so a range
+			   can always span more than one cell regardless of this setting. One "Cell(s)"
+			   mode covering both is offered rather than a "Single cell" mode that can't
+			   actually be enforced. */
+			options.selectableRange = true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
 		}
@@ -220,20 +220,6 @@ Delete this file once its findings are folded into /shared/js/.
 		mczRegisterTabulatorInstance(spikeTable);
 		mczPreventSelectRangeNativeSelection(spikeTable);
 		spikeTable.on("tableBuilt", populateColumnChooser);
-		if (mode === "singlecell") {
-			/* Re-entrant safe: setBounds(cell, cell) below always leaves exactly one cell
-			   selected, so the guard's condition is false on the resulting recursive call.
-			   getCells() returns cells grouped by row (confirmed against source), so it's
-			   flattened here before counting/indexing. */
-			spikeTable.on("rangeChanged", function (range) {
-				var cells = range.getCells().reduce(function (flat, row) {
-					return flat.concat(row);
-				}, []);
-				if (cells.length > 1) {
-					range.setBounds(cells[0], cells[0]);
-				}
-			});
-		}
 	}
 
 	function populateColumnChooser() {
