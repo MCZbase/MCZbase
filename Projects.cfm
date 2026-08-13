@@ -323,10 +323,11 @@ links do) redisplays correctly.
 	   a user's chosen page size is a preference, not something a fresh table build (or a
 	   fresh search) should silently reset back to the default. */
 	var currentPageSize = 50;
-	/* Distinguishes "no search attempted yet" from "search ran, found nothing" -- the
-	   grid's placeholder text below should stay blank until a search has actually run,
-	   rather than claiming "no projects matched" before the user has searched at all. */
-	var searchHasRun = false;
+	/* Base page-size choices offered below the largest total seen so far -- a fixed
+	   choice larger than the actual result set is redundant with (and more confusing
+	   than) the "All" choice already covering that case. mczAdjustProjectsPageSizeOptions
+	   filters this list down per search once the real total is known. */
+	var PROJECTS_PAGE_SIZE_BASE_OPTIONS = [5, 50, 100];
 	/* Started once, up front, rather than inside ensureProjectsTableBuilt -- a
 	   coldfusion_user's persisted column choices should be in flight from page load, not
 	   only once the user's first search kicks off the fetch. Resolves immediately for
@@ -391,6 +392,7 @@ links do) redisplays correctly.
 				title: "Edit",
 				field: "project_id",
 				width: 80,
+				headerSort: false,
 				download: false,
 				formatter: function (cell) {
 					var d = cell.getRow().getData();
@@ -420,18 +422,33 @@ links do) redisplays correctly.
 			layout: "fitColumns",
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
-			placeholder: searchHasRun ? "No projects matched your search." : "",
-			data: [],
+			placeholder: "No projects matched your search.",
+			/* No `data` -- omitting it (rather than seeding an empty array) is what makes
+			   Tabulator fetch page 1 through ajaxRequestFunc immediately on construction,
+			   which is exactly the "build the grid" moment this page treats as "run a
+			   search" (see ensureProjectsTableBuilt/searchProjects below). */
 			/* Frozen column listed first -- Tabulator logs a warning if a frozen column
 			   isn't at index 0 when range-select is enabled. */
 			columns: columns,
-			/* Sorting is applied to the whole result set before paging (Tabulator's
-			   default, local-mode behavior), not to whatever happens to be on the current
-			   page -- confirmed against source, not just assumed. */
+			/* Paging and sorting both happen server-side -- projects/component/search.cfc's
+			   search() takes page/size/sort_field/sort_dir and returns only one page's
+			   rows plus last_page/last_row, rather than this page fetching and holding
+			   every matching row in the browser (which would work poorly for a large
+			   result set). mczProjectsAjaxRequest is this app's own $.ajax()-based
+			   request function, not Tabulator's own networking layer, matching how every
+			   other search page here talks to its backing .cfc. */
+			ajaxURL: "/projects/component/search.cfc",
+			ajaxRequestFunc: mczProjectsAjaxRequest,
+			ajaxParams: mczProjectsAjaxParams,
+			paginationMode: "remote",
+			sortMode: "remote",
 			pagination: true,
 			paginationSize: currentPageSize,
-			paginationSizeSelector: [5, 50, 100, 500, true],
-			paginationCounter: mczPaginationCounter
+			paginationSizeSelector: PROJECTS_PAGE_SIZE_BASE_OPTIONS.concat([true]),
+			/* Tabulator's own built-in "rows" counter preset ("Showing 1-50 of 173
+			   rows"), rather than a custom one -- this app has no existing convention of
+			   its own to match here. */
+			paginationCounter: "rows"
 		};
 
 		if (mode !== "text") {
@@ -473,6 +490,101 @@ links do) redisplays correctly.
 		projectsTable.on("pageSizeChanged", function (size) {
 			currentPageSize = size;
 		});
+	}
+
+	/**
+	 * mczProjectsAjaxParams supplies the current search form's field values as the
+	 * request body for every page/size/sort-triggered reload Tabulator makes on its
+	 * own (not just the ones this page's own code triggers) -- Tabulator calls this
+	 * itself immediately before each request, so it always reflects the form's current
+	 * state, not whatever it held when the table was last built.
+	 *
+	 * @return a plain object of form field name/value pairs.
+	 */
+	function mczProjectsAjaxParams() {
+		var params = {};
+		$("##searchForm").serializeArray().forEach(function (field) {
+			params[field.name] = field.value;
+		});
+		return params;
+	}
+
+	/**
+	 * mczProjectsAjaxRequest is this page's `ajaxRequestFunc` -- Tabulator calls this
+	 * itself (with page/size/sort merged into params by its pagination/sort modules,
+	 * confirmed against source) instead of using its own built-in networking, so the
+	 * request goes through this app's usual $.ajax()/handleFail() convention.
+	 *
+	 * @param url the configured ajaxURL (projects/component/search.cfc).
+	 * @param config request config (unused; this app's own $.ajax() call needs none of
+	 *   Tabulator's own request-building options).
+	 * @param params request body: mczProjectsAjaxParams' fields plus page, size, and
+	 *   sort (an array of {field, dir}, at most one entry -- multi-column sort isn't
+	 *   enabled on this grid).
+	 * @return a Promise resolving to {data, last_page, last_row} on success.
+	 */
+	function mczProjectsAjaxRequest(url, config, params) {
+		$("##overlay").show();
+		$("##actionFeedback").html("");
+		var sorter = (params.sort && params.sort[0]) || {};
+		var requestData = $.extend({}, params, {
+			sort_field: sorter.field || "",
+			sort_dir: sorter.dir || ""
+		});
+		delete requestData.sort;
+		return $.ajax({
+			url: url,
+			data: requestData,
+			dataType: "json"
+		}).done(function (response) {
+			$("##overlay").hide();
+			mczHandleProjectsSearchResponse(response);
+		}).fail(function (jqXHR, status, error) {
+			$("##overlay").hide();
+			handleFail(jqXHR, status, error, "searching for projects");
+		});
+	}
+
+	/**
+	 * mczHandleProjectsSearchResponse applies the side effects of a completed search --
+	 * shared by the first page load and every later page/size/sort change, since all of
+	 * them go through mczProjectsAjaxRequest above.
+	 *
+	 * @param response {data, last_page, last_row} as returned by search().
+	 */
+	function mczHandleProjectsSearchResponse(response) {
+		var totalRows = response.last_row || 0;
+		$("##resultCount").text("Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".");
+		$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
+			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
+				.not(".excludeFromLink").serialize() + '">Link to this search</a>');
+		/* First successful search: reveal the toolbar controls and the results
+		   count/link, none of which should be visible before this point. Calling show()
+		   again on every later response is harmless. */
+		$("##resultsMeta").show();
+		$("##resultsToolbarControls").show();
+		mczAdjustProjectsPageSizeOptions(totalRows);
+	}
+
+	/**
+	 * mczAdjustProjectsPageSizeOptions drops any fixed page-size choice larger than the
+	 * current result set, so the dropdown never offers e.g. "500" alongside "All" when
+	 * there are only 173 matching rows -- confusing, since picking either shows the same
+	 * thing. Reaches into table.modules.page directly (confirmed against source): there
+	 * is no public method for changing paginationSizeSelector after construction.
+	 *
+	 * @param totalRows total matching row count from the most recent response.
+	 */
+	function mczAdjustProjectsPageSizeOptions(totalRows) {
+		if (!projectsTable || !projectsTable.modules || !projectsTable.modules.page) {
+			return;
+		}
+		var visibleSizes = PROJECTS_PAGE_SIZE_BASE_OPTIONS.filter(function (size) {
+			return size <= totalRows;
+		});
+		visibleSizes.push(true);
+		projectsTable.options.paginationSizeSelector = visibleSizes;
+		projectsTable.modules.page.generatePageSizeSelectList();
 	}
 
 	/**
@@ -557,35 +669,19 @@ links do) redisplays correctly.
 		});
 	}
 
-	/** searchProjects submits searchForm via ajax to projects/component/search.cfc and
-	 * replaces the grid's data with the response. Builds the grid on the first call.
+	/**
+	 * searchProjects starts a new search (as opposed to a page/size/sort change, which
+	 * Tabulator triggers on its own): builds the grid if this is the very first search
+	 * (which fetches page 1 itself, on construction, through mczProjectsAjaxRequest --
+	 * see buildProjectsTable), otherwise forces a reload of the now-current search form
+	 * criteria by jumping back to page 1.
 	 */
 	function searchProjects() {
-		searchHasRun = true;
+		var tableAlreadyExisted = !!projectsTable;
 		ensureProjectsTableBuilt().then(function () {
-			$("##overlay").show();
-			$("##actionFeedback").html("");
-			$.ajax({
-				url: "/projects/component/search.cfc",
-				data: $("##searchForm").serialize(),
-				dataType: "json",
-				success: function (data) {
-					$("##overlay").hide();
-					projectsTable.setData(data);
-					$("##resultCount").text("Found " + data.length + " project record" + (data.length === 1 ? "" : "s") + ".");
-					$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
-						$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
-							.not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					/* First successful search: reveal the toolbar controls and the results
-					   count/link, none of which should be visible before this point. */
-					$("##resultsMeta").show();
-					$("##resultsToolbarControls").show();
-				},
-				error: function (jqXHR, status, error) {
-					$("##overlay").hide();
-					handleFail(jqXHR, status, error, "searching for projects");
-				}
-			});
+			if (tableAlreadyExisted) {
+				projectsTable.setPage(1);
+			}
 		});
 	}
 
@@ -661,12 +757,14 @@ links do) redisplays correctly.
 			]
 		});
 
-		/* Bind these before the execute=true auto-submit below -- calling .submit()
-		   before this handler exists falls through to a native (non-AJAX) form
-		   submission instead of triggering searchProjects(). */
+		/* Both bound before the execute=true auto-submit below -- calling .submit()
+		   before the searchForm handler exists falls through to a native (non-AJAX)
+		   form submission instead of triggering searchProjects(). */
+		/* Rebuilding alone is enough here -- buildProjectsTable's own construction
+		   fetches page 1 itself (see its options.ajaxURL/ajaxRequestFunc comment), so
+		   calling searchProjects() too would fire a redundant second request. */
 		$("##selectionMode").on("change", function () {
 			buildProjectsTable($(this).val());
-			searchProjects();
 		});
 		$("##searchForm").on("submit", function (e) {
 			e.preventDefault();

@@ -98,9 +98,19 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param descr_len minimum length, in characters, of project_description.
 @param publication_id restrict results to projects linked to this publication.
 @param project_id restrict results to this specific project.
-@return a JSON array of structs, one per matching project: project_id, project_name,
-	start_date, end_date ('YYYY-MM-DD', or "" if null), participants, sponsors (both
-	semicolon-separated display strings, or "" if none).
+@param page 1-based page number of results to return; ignored (treated as 1) if size
+	indicates "return every row" (see size below).
+@param size rows per page; any non-numeric value (Tabulator sends the literal string
+	"true" for its "All" page-size choice) means "return every matching row on one page."
+@param sort_field one of "project_name" (default), "participants", "sponsors",
+	"start_date", "end_date" -- anything else falls back to the default. Validated against
+	this fixed list rather than used directly, since an ORDER BY column name can't go
+	through <cfqueryparam>.
+@param sort_dir "ASC" (default) or "DESC"; anything else falls back to the default.
+@return a struct: data (an array of structs, one per matching project: project_id,
+	project_name, start_date, end_date ('YYYY-MM-DD', or "" if null), participants,
+	sponsors (both semicolon-separated display strings, or "" if none)), last_page (total
+	page count for the current size), last_row (total matching row count across all pages).
 --->
 <cffunction name="search" access="remote" returntype="any" returnformat="json">
 	<cfargument name="p_title" type="string" required="no" default="">
@@ -113,6 +123,10 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="descr_len" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="page" type="string" required="no" default="1">
+	<cfargument name="size" type="string" required="no" default="50">
+	<cfargument name="sort_field" type="string" required="no" default="">
+	<cfargument name="sort_dir" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -121,6 +135,28 @@ the caller. Returns one row per matching project, ordered by project_name.
 		<cfelse>
 			<cfset oneOfUs = 0>
 		</cfif>
+
+		<cfset variables.orderByColumn = "project_name">
+		<cfif listfindnocase("project_name,participants,sponsors,start_date,end_date", arguments.sort_field) GT 0>
+			<cfset variables.orderByColumn = arguments.sort_field>
+		</cfif>
+		<cfset variables.orderByDir = "ASC">
+		<cfif ucase(arguments.sort_dir) EQ "DESC">
+			<cfset variables.orderByDir = "DESC">
+		</cfif>
+
+		<cfset variables.currentPage = 1>
+		<cfif isnumeric(arguments.page) AND val(arguments.page) GTE 1>
+			<cfset variables.currentPage = int(val(arguments.page))>
+		</cfif>
+		<!--- Tabulator sends the literal string "true" for its "All" page-size choice --->
+		<cfset variables.showAllRows = true>
+		<cfset variables.pageSize = 50>
+		<cfif isnumeric(arguments.size) AND val(arguments.size) GT 0>
+			<cfset variables.showAllRows = false>
+			<cfset variables.pageSize = int(val(arguments.size))>
+		</cfif>
+		<cfset variables.rowOffset = (variables.currentPage - 1) * variables.pageSize>
 
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
@@ -144,7 +180,12 @@ the caller. Returns one row per matching project, ordered by project_name.
 						JOIN agent_name sponsor_name ON project_sponsor.agent_name_id = sponsor_name.agent_name_id
 					WHERE
 						project_sponsor.project_id = project.project_id
-				) AS sponsors
+				) AS sponsors,
+				<!--- Total matching row count, computed once over the whole filtered
+				      result set before OFFSET/FETCH below clips it to one page, so the
+				      pager can show an accurate "of N" total on every page, not just an
+				      estimate. --->
+				COUNT(*) OVER() AS total_count
 			FROM
 				project
 			WHERE
@@ -240,8 +281,15 @@ the caller. Returns one row per matching project, ordered by project_name.
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
 				</cfif>
+			<!--- orderByColumn/orderByDir are validated above against a fixed list, not
+			      passed through <cfqueryparam> -- an ORDER BY column/direction can't be a
+			      bind variable. --->
 			ORDER BY
-				project.project_name
+				#variables.orderByColumn# #variables.orderByDir#
+			<cfif NOT variables.showAllRows>
+				OFFSET <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.rowOffset#"> ROWS
+				FETCH NEXT <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.pageSize#"> ROWS ONLY
+			</cfif>
 		</cfquery>
 
 		<cfloop query="search">
@@ -259,7 +307,21 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset ArrayAppend(data, row)>
 		</cfloop>
 
-		<cfreturn #serializeJSON(data)#>
+		<cfset variables.totalRows = 0>
+		<cfif search.recordcount GT 0>
+			<cfset variables.totalRows = search.total_count[1]>
+		</cfif>
+		<cfset variables.effectiveSize = variables.pageSize>
+		<cfif variables.showAllRows>
+			<cfset variables.effectiveSize = max(variables.totalRows, 1)>
+		</cfif>
+		<cfset variables.lastPage = max(1, ceiling(variables.totalRows / variables.effectiveSize))>
+
+		<cfset result = StructNew()>
+		<cfset result["data"] = data>
+		<cfset result["last_page"] = variables.lastPage>
+		<cfset result["last_row"] = variables.totalRows>
+		<cfreturn #serializeJSON(result)#>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
@@ -267,7 +329,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn #serializeJSON(data)#>
+	<cfset result = StructNew()>
+	<cfset result["data"] = data>
+	<cfset result["last_page"] = 1>
+	<cfset result["last_row"] = 0>
+	<cfreturn #serializeJSON(result)#>
 </cffunction>
 
 </cfcomponent>
