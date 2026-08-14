@@ -210,12 +210,6 @@ links do) redisplays correctly.
 											<label for="project_description" class="data-entry-label">Description</label>
 											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
-										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-4 col-xl-3">
-												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
-												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
-											</div>
-										</cfif>
 										<div class="col-12 col-md-4 col-xl-3">
 											<label for="project_type" class="data-entry-label">Type</label>
 											<cfset selected = "">
@@ -239,6 +233,12 @@ links do) redisplays correctly.
 												<option value="neither" #selected#>Neither Uses nor Contributes</option>
 											</select>
 										</div>
+										<cfif oneOfUs EQ 1>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
+												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
+											</div>
+										</cfif>
 										<div class="col-12 col-md-4 col-xl-3">
 											<label for="year" class="data-entry-label">Active in Year</label>
 											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
@@ -248,10 +248,11 @@ links do) redisplays correctly.
 											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
 										</div>
 										<div class="col-12 col-md-4 col-xl-3">
-											<label for="end_year" class="data-entry-label">End Year</label>
+											<label for="end_year">End Year</label>
 											<span class="text-secondary small">(</span>
-											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find ongoing projects with no end date">Null</button>,
-											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find projects with a defined end date">Any</button><span class="text-secondary small">)</span>
+											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>,
+											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button>
+											<span class="text-secondary small">)</span>
 											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
 										</div>
 										<cfif oneOfUs EQ 1>
@@ -324,9 +325,8 @@ links do) redisplays correctly.
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-3">
 											<label for="guid" class="data-entry-label">Cataloged Item</label>
-											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" aria-describedby="guid_help">
+											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#">
 											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
-											<small id="guid_help" class="text-secondary d-block">Find projects that used or contributed this specimen (select from the pick list that appears as you type).</small>
 											<script>
 												$(document).ready(function () {
 													makeCatalogedItemAutocompleteMeta("guid", "collection_object_id");
@@ -335,40 +335,22 @@ links do) redisplays correctly.
 										</div>
 										<cfif oneOfUs EQ 1>
 											<div class="col-12 col-md-4 col-xl-3">
-												<label for="loan_number" class="data-entry-label">Loan Number</label>
-												<span class="text-secondary small">(exact:
+												<label for="loan_number">Loan Number</label>
+												<span class="text-secondary small">(exact:</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
-												exclude:
-												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>)</span>
-												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#" aria-describedby="loan_number_help">
-												<!--- Currently unused; makeLoanPicker requires an id control to write to. --->
-												<input type="hidden" id="loan_transaction_id">
-												<small id="loan_number_help" class="text-secondary d-block">Substring match by default; a pick list of matching loans appears as you type, and picking one prefixes it with = for an exact match.</small>
+												<span class="text-secondary small">exclude:</span>
+												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>
+												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
 												<script>
 													$(document).ready(function () {
-														makeLoanPicker("loan_number", "loan_transaction_id", function () {
-															/* makeLoanPicker's own select handler (which sets
-															   loan_transaction_id, unused here) runs before jQuery
-															   UI's autocomplete widget writes the picked value into
-															   loan_number itself, so this has to defer with
-															   setTimeout to run after that, or its own change would
-															   be overwritten. */
-															setTimeout(function () {
-																var field = $("##loan_number");
-																var value = field.val();
-																if (value.length > 0 && value.charAt(0) !== "=" && value.charAt(0) !== "!") {
-																	field.val("=" + value);
-																}
-															}, 0);
-														});
+														makeLoanPickerSearch("loan_number");
 													});
 												</script>
 											</div>
 											<div class="col-12 col-md-4 col-xl-3">
 												<label for="accn_number" class="data-entry-label">Accession</label>
-												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" aria-describedby="accn_number_help">
+												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#">
 												<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
-												<small id="accn_number_help" class="text-secondary d-block">Find projects related to this specific accession (select from the pick list that appears as you type).</small>
 												<script>
 													$(document).ready(function () {
 														makeAccessionAutocompleteMeta("accn_number", "accn_transaction_id");
