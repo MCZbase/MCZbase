@@ -136,10 +136,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset oneOfUs = 0>
 		</cfif>
 
-		<cfset variables.orderByColumn = "project_name">
-		<cfif listfindnocase("project_name,participants,sponsors,start_date,end_date", arguments.sort_field) GT 0>
-			<cfset variables.orderByColumn = arguments.sort_field>
-		</cfif>
 		<cfset variables.orderByDir = "ASC">
 		<cfif ucase(arguments.sort_dir) EQ "DESC">
 			<cfset variables.orderByDir = "DESC">
@@ -281,11 +277,29 @@ the caller. Returns one row per matching project, ordered by project_name.
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
 				</cfif>
-			<!--- orderByColumn/orderByDir are validated above against a fixed list, not
-			      passed through <cfqueryparam> -- an ORDER BY column/direction can't be a
-			      bind variable. --->
 			ORDER BY
-				#variables.orderByColumn# #variables.orderByDir#
+				<cfswitch value="#arguments.sort_field#">
+					<cfcase value="participants">
+						participants
+					</cfcase>
+					<cfcase value="sponsors">
+						sponsors
+					</cfcase>
+					<cfcase value="start_date">
+						project.start_date
+					</cfcase>
+					<cfcase value="end_date">
+						project.end_date
+					</cfcase>
+					<cfdefaultcase>
+						project.project_name
+					</cfdefaultcase>
+				</cfswitch>
+				<cfif ucase(arguments.sort_dir) EQ "DESC">
+					DESC
+				<cfelse>
+					ASC
+				</cfif>
 			<cfif NOT variables.showAllRows>
 				OFFSET <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.rowOffset#"> ROWS
 				FETCH NEXT <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.pageSize#"> ROWS ONLY
@@ -294,10 +308,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<!--- Explicitly scoped to the query, not left bare -- this function also has
-			      a project_id argument (the optional single-project filter), and a bare
-			      reference here would silently resolve to that argument instead of this
-			      row's own column. --->
 			<cfset row["project_id"] = search.project_id>
 			<cfset row["project_name"] = search.project_name>
 			<cfset row["start_date"] = search.start_date>
