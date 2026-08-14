@@ -6,14 +6,27 @@
 	<cfset ipaddress='unknown'>
 </CFIF>
 	<cftry>
-		<cfquery name="d" datasource="uam_god">
-		insert into mczbase.blacklist (ip) values (<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#trim(ipaddress)#">)
-		</cfquery>
+		<cfset inserted = false>
+		<cfif ipaddress EQ "127.0.0.1" OR ipaddress EQ "#CGI.SERVER_ADDR#" OR ipaddress EQ "localhost">
+			<cfset ipaddress = "likely spoofed IP address: #ipaddress#">
+		<cfelse>
+			<cfquery name="d" datasource="uam_god">
+				INSERT INTO mczbase.blacklist 
+					(ip) 
+				VALUES 
+					(<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#trim(ipaddress)#">)
+			</cfquery>
+			<cfset inserted = true>
+		</cfif>
 		<cfset application.blacklist=listappend(application.blacklist,trim(ipaddress))>
 		<cfmail subject="Autoblacklist Success" to="#Application.PageProblemEmail#" from="blacklisted@#application.fromEmail#" type="html">
 			MCZbase automatically blacklisted IP
+			<cfif inserted>
 			<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 			- <a href="#application.serverRootUrl#/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+			<cfelse>
+				Not added to blacklist table: #ipaddress#
+			</cfif>
 			<p></p>
 			<cfdump var="#cgi.redirect_url#">
 			<cfdump var="#cgi#">
