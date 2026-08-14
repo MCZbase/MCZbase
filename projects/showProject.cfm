@@ -139,7 +139,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			join collection on cataloged_item.collection_id = collection.collection_id
 			join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 			join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
-			join project_trans on loan_item.transaction_id = project_trans.transaction
+			join project_trans on loan_item.transaction_id = project_trans.transaction_id
 		WHERE
 			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
