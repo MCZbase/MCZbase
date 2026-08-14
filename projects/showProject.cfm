@@ -43,15 +43,15 @@ carried over unchanged from its fragment, only the markup is new.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 
+<!--- store relevant session role information into variables for use in this page --->
+<cfset canManageProjects = false>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
+	<cfif listfindnocase(session.roles,"manage_projects")>
+		<cfset canManageProjects = true>
+	</cfif>
 <cfelse>
 	<cfset oneOfUs = 0>
-</cfif>
-
-<cfset canManageProjects = false>
-<cfif oneOfUs EQ 1 and listfindnocase(session.roles,"manage_projects")>
-	<cfset canManageProjects = true>
 </cfif>
 
 <main class="container py-3" id="content">
@@ -76,7 +76,7 @@ carried over unchanged from its fragment, only the markup is new.
 				</cfif>
 		</cfquery>
 		<cfif getProject.recordcount EQ 0>
-			<cfthrow message="No project record found for the given project_id.">
+			<cfthrow message="No project found for the given project_id.">
 		</cfif>
 	<cfcatch>
 		<cfinclude template="/errors/404.cfm">
@@ -109,19 +109,16 @@ carried over unchanged from its fragment, only the markup is new.
 			project_sponsor.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 	</cfquery>
 
-	<!--- Publications (was includes/project/pubs.cfm) --->
 	<cfquery name="getPublications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPublications_result">
 		SELECT
 			formatted_publication.publication_id,
 			formatted_publication,
 			COUNT(citation.collection_object_id) AS numCit
 		FROM
-			project_publication,
-			formatted_publication,
-			citation
+			project_publication 
+			join formatted_publication on project_publication.publication_id = formatted_publication.publication_id
+			left join citation on formatted_publication.publication_id = citation.publication_id
 		WHERE
-			project_publication.publication_id = formatted_publication.publication_id AND
-			formatted_publication.publication_id = citation.publication_id (+) AND
 			format_style = 'long' AND
 			project_publication.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
@@ -131,24 +128,19 @@ carried over unchanged from its fragment, only the markup is new.
 			formatted_publication
 	</cfquery>
 
-	<!--- Specimens used (was includes/project/specUsed.cfm): specimens on loan to this
-	      project, either directly or as a sub-part derived from a loaned item. --->
+	<!--- Specimens used specimens on loan to this project, either directly or as a sub-part derived from a loaned item. --->
 	<cfquery name="getSpecimensUsed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensUsed_result">
 		SELECT
 			collection.collection,
 			collection.collection_id,
 			COUNT(DISTINCT(cataloged_item.collection_object_id)) AS c
 		FROM
-			cataloged_item,
-			collection,
-			specimen_part,
-			loan_item,
-			project_trans
+			cataloged_item
+			join collection on cataloged_item.collection_id = collection.collection_id
+			join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+			join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+			join project_trans on loan_item.transaction_id = project_trans.transaction
 		WHERE
-			specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-			cataloged_item.collection_id = collection.collection_id AND
-			specimen_part.collection_object_id = loan_item.collection_object_id AND
-			loan_item.transaction_id = project_trans.transaction_id AND
 			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
 			collection.collection,
@@ -159,10 +151,10 @@ carried over unchanged from its fragment, only the markup is new.
 			collection.collection_id,
 			COUNT(DISTINCT(cataloged_item.collection_object_id)) AS c
 		FROM
-			cataloged_item,
-			collection,
-			loan_item,
-			project_trans
+			cataloged_item
+			join collection on cataloged_item.collection_id = collection.collection_id
+			join loan_item on cataloged_item.collection_object_id = loan_item.collection_object_id
+			join project_trans on loan_item.transaction_id = project_trans.transaction
 		WHERE
 			cataloged_item.collection_id = collection.collection_id AND
 			cataloged_item.collection_object_id = loan_item.collection_object_id AND
@@ -179,24 +171,19 @@ carried over unchanged from its fragment, only the markup is new.
 		SELECT collection FROM getSpecimensUsed GROUP BY collection
 	</cfquery>
 
-	<!--- Specimens contributed (was includes/project/specCont.cfm): specimens accessioned
-	      through this project. --->
+	<!--- Specimens contributed: specimens accessioned through this project. --->
 	<cfquery name="getSpecimensContributed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensContributed_result">
 		SELECT
 			collection,
 			collection.collection_id,
 			COUNT(*) AS c
 		FROM
-			project,
-			project_trans,
-			accn,
-			cataloged_item,
-			collection
+			project 
+			join project_trans on project.project_id = project_trans.project_id
+			join accn on project_trans.transaction_id = accn.transaction_id
+			join cataloged_item on accn.transaction_id = cataloged_item.accn_id 
+			join collection on cataloged_item.collection_id = collection.collection_id 
 		WHERE
-			accn.transaction_id = cataloged_item.accn_id AND
-			cataloged_item.collection_id = collection.collection_id AND
-			project_trans.transaction_id = accn.transaction_id AND
-			project.project_id = project_trans.project_id AND
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
 			collection,
@@ -222,28 +209,21 @@ carried over unchanged from its fragment, only the markup is new.
 				SELECT
 					project_trans.project_id
 				FROM
-					project,
-					project_trans,
-					accn,
-					cataloged_item
+					project
+					join project_trans on project.project_id = project_trans.project_id
+					join accn on project_trans.transaction_id = accn.transaction_id 
+					join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 				WHERE
-					project_trans.transaction_id = accn.transaction_id AND
-					accn.transaction_id = cataloged_item.accn_id AND
-					project_trans.project_id = project.project_id AND
 					cataloged_item.collection_object_id IN (
 						SELECT
 							cataloged_item.collection_object_id
 						FROM
-							project,
-							project_trans,
-							loan_item,
-							specimen_part,
-							cataloged_item
+							project
+							join project_trans on project.project_id = project_trans.project
+							join loan_item on project_trans.transaction_id = loan_item.transaction_id
+							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 						WHERE
-							loan_item.collection_object_id = specimen_part.collection_object_id AND
-							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-							project_trans.transaction_id = loan_item.transaction_id AND
-							project_trans.project_id = project.project_id AND
 							project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 					)
 			)
@@ -265,28 +245,21 @@ carried over unchanged from its fragment, only the markup is new.
 				SELECT
 					project_trans.project_id
 				FROM
-					project,
-					project_trans,
-					loan_item,
-					specimen_part,
-					cataloged_item
+					project
+					join project_trans on project.project_id = project_trans.project_id
+					join loan_item on project_trans.transaction_id = loan_item.transaction_id
+					join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 				WHERE
-					project_trans.transaction_id = loan_item.transaction_id AND
-					loan_item.collection_object_id = specimen_part.collection_object_id AND
-					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-					project_trans.project_id = project.project_id AND
 					cataloged_item.collection_object_id IN (
 						SELECT
 							cataloged_item.collection_object_id
 						FROM
-							project,
-							project_trans,
-							accn,
-							cataloged_item
+							project
+							join project_trans on project.project_id = project_trans.project_id
+							join accn on project_trans.transaction_id = accn.transaction_id
+							join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 						WHERE
-							accn.transaction_id = cataloged_item.accn_id AND
-							project_trans.transaction_id = accn.transaction_id AND
-							project_trans.project_id = project.project_id AND
 							project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 					)
 			)
@@ -302,10 +275,9 @@ carried over unchanged from its fragment, only the markup is new.
 		SELECT DISTINCT
 			media.media_id
 		FROM
-			media,
-			media_relations
+			media
+			join media_relations on media.media_id = media_relations.media_id
 		WHERE
-			media.media_id = media_relations.media_id AND
 			media_relations.media_relationship LIKE '% project' AND
 			media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 	</cfquery>
@@ -316,10 +288,9 @@ carried over unchanged from its fragment, only the markup is new.
 			taxonomy.taxon_name_id,
 			scientific_name
 		FROM
-			project_taxonomy,
-			taxonomy
+			project_taxonomy
+			join taxonomy on project_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 		WHERE
-			taxonomy.taxon_name_id = project_taxonomy.taxon_name_id AND
 			project_taxonomy.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 	</cfquery>
 
