@@ -97,6 +97,12 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param year a year that must fall between the project's start_date and end_date.
 @param descr_len minimum length, in characters, of project_description.
 @param publication_id restrict results to projects linked to this publication.
+@param collection_object_id restrict to projects related to this cataloged item, either
+	having contributed it (via an accession) or used it (via a loan, either directly or as
+	a part derived from it).
+@param loan_number substring to match (case-insensitively) against the loan_number of any
+	loan linked to a project via project_trans. Loan-specific rather than a generic
+	transaction_id filter, so a future accession_number field can be added independently.
 @param project_id restrict results to this specific project.
 @param page 1-based page number of results to return; ignored (treated as 1) if size
 	indicates "return every row" (see size below).
@@ -122,6 +128,8 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="year" type="string" required="no" default="">
 	<cfargument name="descr_len" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="collection_object_id" type="string" required="no" default="">
+	<cfargument name="loan_number" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="page" type="string" required="no" default="1">
 	<cfargument name="size" type="string" required="no" default="50">
@@ -273,6 +281,42 @@ the caller. Returns one row per matching project, ordered by project_name.
 					AND project.project_id IN (
 						SELECT project_publication.project_id FROM project_publication
 						WHERE project_publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">)
+				</cfif>
+				<!--- Mirrors the relationships showProject.cfm's own Specimens Used/Specimens
+				      Contributed sections query: contributed via an accession, or used via a
+				      loan -- either the whole cataloged item directly, or a specimen_part
+				      derived from it. --->
+				<cfif len(arguments.collection_object_id) GT 0 AND isnumeric(arguments.collection_object_id)>
+					AND project.project_id IN (
+						SELECT project_trans.project_id
+						FROM project_trans, accn, cataloged_item
+						WHERE
+							project_trans.transaction_id = accn.transaction_id AND
+							accn.transaction_id = cataloged_item.accn_id AND
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						UNION
+						SELECT project_trans.project_id
+						FROM project_trans, loan_item
+						WHERE
+							project_trans.transaction_id = loan_item.transaction_id AND
+							loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						UNION
+						SELECT project_trans.project_id
+						FROM project_trans, loan_item, specimen_part
+						WHERE
+							project_trans.transaction_id = loan_item.transaction_id AND
+							loan_item.collection_object_id = specimen_part.collection_object_id AND
+							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					)
+				</cfif>
+				<cfif len(arguments.loan_number) GT 0>
+					AND project.project_id IN (
+						SELECT project_trans.project_id
+						FROM project_trans, loan
+						WHERE
+							project_trans.transaction_id = loan.transaction_id AND
+							UPPER(loan.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.loan_number)#%">
+					)
 				</cfif>
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">

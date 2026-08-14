@@ -188,6 +188,13 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/publications/" >
 	<script type="text/javascript" src="/publications/js/publications.js"></script>
 </cfif>
+<!--- Projects.cfm's search form offers a Loan Number field (makeLoanPicker) to
+      coldfusion_user sessions only, matching the transactions/ concept's general practice
+      of keeping its JS out of /shared/js/ and instead including it, as here, only for
+      privileged sessions on pages outside /transactions/ that need one of its functions. --->
+<cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
 <cfif CGI.script_name CONTAINS "/vocabularies/">
 	<script type="text/javascript" src="/vocabularies/js/geology.js"></script>
 </cfif>

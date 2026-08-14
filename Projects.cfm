@@ -35,6 +35,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfparam name="url.year" default="">
 <cfparam name="url.descr_len" default="">
 <cfparam name="url.publication_id" default="">
+<cfparam name="url.guid" default="">
+<cfparam name="url.collection_object_id" default="">
+<cfparam name="url.loan_number" default="">
 <cfparam name="url.project_id" default="">
 <cfparam name="url.execute" default="">
 
@@ -47,6 +50,9 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfset variables.year = url.year>
 <cfset variables.descr_len = url.descr_len>
 <cfset variables.publication_id = url.publication_id>
+<cfset variables.guid = url.guid>
+<cfset variables.collection_object_id = url.collection_object_id>
+<cfset variables.loan_number = url.loan_number>
 <cfset variables.project_id = url.project_id>
 
 <cfinclude template = "/shared/_header.cfm">
@@ -107,6 +113,20 @@ links do) redisplays correctly.
 	</cfif>
 </cfif>
 
+<cfif len(variables.collection_object_id) GT 0 AND isnumeric(variables.collection_object_id) AND len(variables.guid) EQ 0>
+	<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			guid
+		FROM
+			<cfif ucase(session.flatTableName) EQ "FLAT">FLAT<cfelse>FILTERED_FLAT</cfif>
+		WHERE
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+	</cfquery>
+	<cfif getGuid.recordcount GT 0>
+		<cfset variables.guid = getGuid.guid>
+	</cfif>
+</cfif>
+
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		COUNT(*) AS cnt
@@ -149,7 +169,7 @@ links do) redisplays correctly.
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
 									<div class="form-row">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="p_title" class="data-entry-label">Title</label>
 											<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
 											<script>
@@ -158,7 +178,7 @@ links do) redisplays correctly.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="descr_len" class="data-entry-label">Description Min. Length</label>
 											<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 										</div>
@@ -167,7 +187,7 @@ links do) redisplays correctly.
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Participants &amp; Sponsor</legend>
 									<div class="form-row">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<div class="form-row mx-0 my-0 py-0">
 												<label for="participant_agent_name" id="participant_agent_name_label" class="data-entry-label mb-0 pb-0">Participant
 													<span id="participant_agent_view" class="ml-2"></span>
@@ -186,7 +206,7 @@ links do) redisplays correctly.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<div class="form-row mx-0 my-0 py-0">
 												<label for="sponsor_agent_name" id="sponsor_agent_name_label" class="data-entry-label mb-0 pb-0">Sponsor
 													<span id="sponsor_agent_view" class="ml-2"></span>
@@ -210,7 +230,7 @@ links do) redisplays correctly.
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Type &amp; Year</legend>
 									<div class="form-row">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="project_type" class="data-entry-label">Type</label>
 											<cfset selected = "">
 											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
@@ -233,10 +253,40 @@ links do) redisplays correctly.
 												<option value="neither" #selected#>Neither Uses nor Contributes</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="year" class="data-entry-label">Year</label>
 											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
 										</div>
+									</div>
+								</fieldset>
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Specimens &amp; Transactions</legend>
+									<div class="form-row">
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="guid" class="data-entry-label">Cataloged Item</label>
+											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" aria-describedby="guid_help">
+											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
+											<small id="guid_help" class="text-secondary d-block">Find projects that used or contributed this specimen (select from the pick list that appears as you type).</small>
+											<script>
+												$(document).ready(function () {
+													makeCatalogedItemAutocompleteMeta("guid", "collection_object_id");
+												});
+											</script>
+										</div>
+										<cfif oneOfUs EQ 1>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="loan_number" class="data-entry-label">Loan Number</label>
+												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#" aria-describedby="loan_number_help">
+												<!--- Currently unused; makeLoanPicker requires an id control to write to. --->
+												<input type="hidden" id="loan_transaction_id">
+												<small id="loan_number_help" class="text-secondary d-block">Substring match; find projects linked to loans whose number contains this text (a pick list of matching loans appears as you type).</small>
+												<script>
+													$(document).ready(function () {
+														makeLoanPicker("loan_number", "loan_transaction_id");
+													});
+												</script>
+											</div>
+										</cfif>
 									</div>
 								</fieldset>
 							</div>
