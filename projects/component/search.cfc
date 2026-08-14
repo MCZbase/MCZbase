@@ -94,15 +94,31 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
-@param year a year that must fall between the project's start_date and end_date.
+@param year restrict to projects active in this year, i.e. this year falls between the
+	project's start year and end year, inclusive.
+@param start_year restrict to projects whose start_date falls in this year.
+@param end_year restrict to projects whose end_date falls in this year; "NOT NULL" restricts
+	to projects with a defined end_date (i.e. not ongoing), "NULL" restricts to projects with
+	no end_date (ongoing).
 @param descr_len minimum length, in characters, of project_description.
+@param project_description substring to match against project_description.
+@param project_remarks substring to match against project_remarks.
+@param mask_project_fg restrict to projects with this exact mask_project_fg value ("0" for
+	public, "1" for hidden) -- redundant with the caller's own visibility for a non-
+	coldfusion_user session, since mask_project_fg=0 is already enforced unconditionally
+	for those callers below.
 @param publication_id restrict results to projects linked to this publication.
 @param collection_object_id restrict to projects related to this cataloged item, either
 	having contributed it (via an accession) or used it (via a loan, either directly or as
 	a part derived from it).
 @param loan_number substring to match (case-insensitively) against the loan_number of any
 	loan linked to a project via project_trans. Loan-specific rather than a generic
-	transaction_id filter, so a future accession_number field can be added independently.
+	transaction_id filter, so a future accession_number field can be added independently. A
+	leading "=" matches the rest of the value exactly instead of by substring (appended
+	automatically when a loan is picked from the autocomplete); a leading "!" excludes
+	projects with that exact loan number instead of restricting to them.
+@param accn_transaction_id restrict to projects linked (via project_trans) to this specific
+	accession.
 @param project_id restrict results to this specific project.
 @param page 1-based page number of results to return; ignored (treated as 1) if size
 	indicates "return every row" (see size below).
@@ -126,10 +142,16 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="sponsor_agent_name" type="string" required="no" default="">
 	<cfargument name="project_type" type="string" required="no" default="">
 	<cfargument name="year" type="string" required="no" default="">
+	<cfargument name="start_year" type="string" required="no" default="">
+	<cfargument name="end_year" type="string" required="no" default="">
 	<cfargument name="descr_len" type="string" required="no" default="">
+	<cfargument name="project_description" type="string" required="no" default="">
+	<cfargument name="project_remarks" type="string" required="no" default="">
+	<cfargument name="mask_project_fg" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="collection_object_id" type="string" required="no" default="">
 	<cfargument name="loan_number" type="string" required="no" default="">
+	<cfargument name="accn_transaction_id" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="page" type="string" required="no" default="1">
 	<cfargument name="size" type="string" required="no" default="50">
@@ -161,6 +183,19 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset variables.pageSize = int(val(arguments.size))>
 		</cfif>
 		<cfset variables.rowOffset = (variables.currentPage - 1) * variables.pageSize>
+
+		<!--- loan_number: a leading "=" means an exact match (appended automatically when a
+		      loan is picked from the autocomplete), a leading "!" means exclude an exact
+		      match, otherwise a plain substring match. --->
+		<cfset variables.loanNumberMode = "substring">
+		<cfset variables.loanNumberTerm = arguments.loan_number>
+		<cfif left(arguments.loan_number,1) EQ "=">
+			<cfset variables.loanNumberMode = "exact">
+			<cfset variables.loanNumberTerm = RemoveChars(arguments.loan_number,1,1)>
+		<cfelseif left(arguments.loan_number,1) EQ "!">
+			<cfset variables.loanNumberMode = "exclude">
+			<cfset variables.loanNumberTerm = RemoveChars(arguments.loan_number,1,1)>
+		</cfif>
 
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
@@ -203,6 +238,15 @@ the caller. Returns one row per matching project, ordered by project_name.
 				<cfif len(arguments.descr_len) GT 0 AND isnumeric(arguments.descr_len)>
 					AND project.project_description IS NOT NULL
 					AND LENGTH(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.descr_len#">
+				</cfif>
+				<cfif len(arguments.project_description) GT 0>
+					AND UPPER(project.project_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.project_description)#%">
+				</cfif>
+				<cfif len(arguments.project_remarks) GT 0>
+					AND UPPER(project.project_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.project_remarks)#%">
+				</cfif>
+				<cfif len(arguments.mask_project_fg) GT 0 AND isnumeric(arguments.mask_project_fg)>
+					AND project.mask_project_fg = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.mask_project_fg#">
 				</cfif>
 				<cfif len(arguments.participant_agent_id) GT 0 AND isnumeric(arguments.participant_agent_id)>
 					AND project.project_id IN (
@@ -277,6 +321,16 @@ the caller. Returns one row per matching project, ordered by project_name.
 					AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
 						BETWEEN TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY'))
 				</cfif>
+				<cfif len(arguments.start_year) GT 0 AND isnumeric(arguments.start_year)>
+					AND TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
+				</cfif>
+				<cfif arguments.end_year EQ "NOT NULL">
+					AND project.end_date IS NOT NULL
+				<cfelseif arguments.end_year EQ "NULL">
+					AND project.end_date IS NULL
+				<cfelseif len(arguments.end_year) GT 0 AND isnumeric(arguments.end_year)>
+					AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
+				</cfif>
 				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
 					AND project.project_id IN (
 						SELECT project_publication.project_id FROM project_publication
@@ -310,19 +364,42 @@ the caller. Returns one row per matching project, ordered by project_name.
 					)
 				</cfif>
 				<cfif len(arguments.loan_number) GT 0>
+					<cfif variables.loanNumberMode EQ "exclude">
+						AND project.project_id NOT IN (
+							SELECT project_trans.project_id
+							FROM project_trans, loan
+							WHERE
+								project_trans.transaction_id = loan.transaction_id AND
+								UPPER(loan.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.loanNumberTerm)#">
+						)
+					<cfelseif variables.loanNumberMode EQ "exact">
+						AND project.project_id IN (
+							SELECT project_trans.project_id
+							FROM project_trans, loan
+							WHERE
+								project_trans.transaction_id = loan.transaction_id AND
+								UPPER(loan.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.loanNumberTerm)#">
+						)
+					<cfelse>
+						AND project.project_id IN (
+							SELECT project_trans.project_id
+							FROM project_trans, loan
+							WHERE
+								project_trans.transaction_id = loan.transaction_id AND
+								UPPER(loan.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.loanNumberTerm)#%">
+						)
+					</cfif>
+				</cfif>
+				<cfif len(arguments.accn_transaction_id) GT 0 AND isnumeric(arguments.accn_transaction_id)>
 					AND project.project_id IN (
-						SELECT project_trans.project_id
-						FROM project_trans, loan
-						WHERE
-							project_trans.transaction_id = loan.transaction_id AND
-							UPPER(loan.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.loan_number)#%">
-					)
+						SELECT project_trans.project_id FROM project_trans
+						WHERE project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.accn_transaction_id#">)
 				</cfif>
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
 				</cfif>
 			ORDER BY
-				<cfswitch value="#arguments.sort_field#">
+				<cfswitch expression="#arguments.sort_field#">
 					<cfcase value="participants">
 						participants
 					</cfcase>

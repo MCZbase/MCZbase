@@ -33,11 +33,18 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfparam name="url.sponsor_agent_name" default="">
 <cfparam name="url.project_type" default="">
 <cfparam name="url.year" default="">
+<cfparam name="url.start_year" default="">
+<cfparam name="url.end_year" default="">
 <cfparam name="url.descr_len" default="">
+<cfparam name="url.project_description" default="">
+<cfparam name="url.project_remarks" default="">
+<cfparam name="url.mask_project_fg" default="">
 <cfparam name="url.publication_id" default="">
 <cfparam name="url.guid" default="">
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="url.loan_number" default="">
+<cfparam name="url.accn_number" default="">
+<cfparam name="url.accn_transaction_id" default="">
 <cfparam name="url.project_id" default="">
 <cfparam name="url.execute" default="">
 
@@ -48,11 +55,18 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfset variables.sponsor_agent_name = url.sponsor_agent_name>
 <cfset variables.project_type = url.project_type>
 <cfset variables.year = url.year>
+<cfset variables.start_year = url.start_year>
+<cfset variables.end_year = url.end_year>
 <cfset variables.descr_len = url.descr_len>
+<cfset variables.project_description = url.project_description>
+<cfset variables.project_remarks = url.project_remarks>
+<cfset variables.mask_project_fg = url.mask_project_fg>
 <cfset variables.publication_id = url.publication_id>
 <cfset variables.guid = url.guid>
 <cfset variables.collection_object_id = url.collection_object_id>
 <cfset variables.loan_number = url.loan_number>
+<cfset variables.accn_number = url.accn_number>
+<cfset variables.accn_transaction_id = url.accn_transaction_id>
 <cfset variables.project_id = url.project_id>
 
 <cfinclude template = "/shared/_header.cfm">
@@ -127,6 +141,20 @@ links do) redisplays correctly.
 	</cfif>
 </cfif>
 
+<cfif len(variables.accn_transaction_id) GT 0 AND isnumeric(variables.accn_transaction_id) AND len(variables.accn_number) EQ 0>
+	<cfquery name="getAccnNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			accn_number
+		FROM
+			accn
+		WHERE
+			transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.accn_transaction_id#">
+	</cfquery>
+	<cfif getAccnNumber.recordcount GT 0>
+		<cfset variables.accn_number = getAccnNumber.accn_number>
+	</cfif>
+</cfif>
+
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT
 		COUNT(*) AS cnt
@@ -179,9 +207,73 @@ links do) redisplays correctly.
 											</script>
 										</div>
 										<div class="col-12 col-md-4 col-xl-3">
-											<label for="descr_len" class="data-entry-label">Description Min. Length</label>
-											<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
+											<label for="project_description" class="data-entry-label">Description</label>
+											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
+										<cfif oneOfUs EQ 1>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
+												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
+											</div>
+										</cfif>
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="project_type" class="data-entry-label">Type</label>
+											<cfset selected = "">
+											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
+											<select id="project_type" name="project_type" class="data-entry-select">
+												<option value="" #selected#></option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
+												<option value="loan" #selected#>Uses Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
+												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
+												<option value="accn" #selected#>Contributes Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
+												<option value="both" #selected#>Uses and Contributes</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
+												<option value="neither" #selected#>Neither Uses nor Contributes</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="year" class="data-entry-label">Active in Year</label>
+											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
+										</div>
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="start_year" class="data-entry-label">Start Year</label>
+											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
+										</div>
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="end_year" class="data-entry-label">End Year</label>
+											<span class="text-secondary small">(</span>
+											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find ongoing projects with no end date">Null</button>,
+											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find projects with a defined end date">Any</button><span class="text-secondary small">)</span>
+											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
+										</div>
+										<cfif oneOfUs EQ 1>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="project_remarks" class="data-entry-label">Remarks</label>
+												<input type="text" id="project_remarks" name="project_remarks" class="data-entry-input" value="#encodeForHtml(variables.project_remarks)#">
+											</div>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="mask_project_fg" class="data-entry-label">Visibility</label>
+												<cfset selected = "">
+												<cfif variables.mask_project_fg EQ ""><cfset selected = "selected"></cfif>
+												<select id="mask_project_fg" name="mask_project_fg" class="data-entry-select">
+													<option value="" #selected#></option>
+													<cfset selected = "">
+													<cfif variables.mask_project_fg EQ "0"><cfset selected = "selected"></cfif>
+													<option value="0" #selected#>Public</option>
+													<cfset selected = "">
+													<cfif variables.mask_project_fg EQ "1"><cfset selected = "selected"></cfif>
+													<option value="1" #selected#>Hidden</option>
+												</select>
+											</div>
+										</cfif>
 									</div>
 								</fieldset>
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
@@ -228,38 +320,6 @@ links do) redisplays correctly.
 									</div>
 								</fieldset>
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Type &amp; Year</legend>
-									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="project_type" class="data-entry-label">Type</label>
-											<cfset selected = "">
-											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
-											<select id="project_type" name="project_type" class="data-entry-select">
-												<option value="" #selected#></option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
-												<option value="loan" #selected#>Uses Specimens</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
-												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
-												<option value="accn" #selected#>Contributes Specimens</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
-												<option value="both" #selected#>Uses and Contributes</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
-												<option value="neither" #selected#>Neither Uses nor Contributes</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="year" class="data-entry-label">Year</label>
-											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
-										</div>
-									</div>
-								</fieldset>
-								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Specimens &amp; Transactions</legend>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-3">
@@ -276,13 +336,42 @@ links do) redisplays correctly.
 										<cfif oneOfUs EQ 1>
 											<div class="col-12 col-md-4 col-xl-3">
 												<label for="loan_number" class="data-entry-label">Loan Number</label>
+												<span class="text-secondary small">(exact:
+												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
+												exclude:
+												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>)</span>
 												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#" aria-describedby="loan_number_help">
 												<!--- Currently unused; makeLoanPicker requires an id control to write to. --->
 												<input type="hidden" id="loan_transaction_id">
-												<small id="loan_number_help" class="text-secondary d-block">Substring match; find projects linked to loans whose number contains this text (a pick list of matching loans appears as you type).</small>
+												<small id="loan_number_help" class="text-secondary d-block">Substring match by default; a pick list of matching loans appears as you type, and picking one prefixes it with = for an exact match.</small>
 												<script>
 													$(document).ready(function () {
-														makeLoanPicker("loan_number", "loan_transaction_id");
+														makeLoanPicker("loan_number", "loan_transaction_id", function () {
+															/* makeLoanPicker's own select handler (which sets
+															   loan_transaction_id, unused here) runs before jQuery
+															   UI's autocomplete widget writes the picked value into
+															   loan_number itself, so this has to defer with
+															   setTimeout to run after that, or its own change would
+															   be overwritten. */
+															setTimeout(function () {
+																var field = $("##loan_number");
+																var value = field.val();
+																if (value.length > 0 && value.charAt(0) !== "=" && value.charAt(0) !== "!") {
+																	field.val("=" + value);
+																}
+															}, 0);
+														});
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-4 col-xl-3">
+												<label for="accn_number" class="data-entry-label">Accession</label>
+												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" aria-describedby="accn_number_help">
+												<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
+												<small id="accn_number_help" class="text-secondary d-block">Find projects related to this specific accession (select from the pick list that appears as you type).</small>
+												<script>
+													$(document).ready(function () {
+														makeAccessionAutocompleteMeta("accn_number", "accn_transaction_id");
 													});
 												</script>
 											</div>
