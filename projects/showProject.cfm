@@ -216,7 +216,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 							cataloged_item.collection_object_id
 						FROM
 							project
-							join project_trans on project.project_id = project_trans.project
+							join project_trans on project.project_id = project_trans.project_id
 							join loan_item on project_trans.transaction_id = loan_item.transaction_id
 							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
 							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
