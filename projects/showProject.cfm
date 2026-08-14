@@ -45,10 +45,14 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 
 <!--- store relevant session role information into variables for use in this page --->
 <cfset canManageProjects = false>
+<cfset canManageTransactions = false>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 	<cfif listfindnocase(session.roles,"manage_projects")>
 		<cfset canManageProjects = true>
+	</cfif>
+	<cfif listfindnocase(session.roles,"manage_transactions")>
+		<cfset canManageTransactions = true>
 	</cfif>
 <cfelse>
 	<cfset oneOfUs = 0>
@@ -193,6 +197,41 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 		SELECT collection FROM getSpecimensContributed GROUP BY collection
 	</cfquery>
 
+	<cfif canManageTransactions>
+		<!--- Loans (transaction records, not just the specimen counts above) through
+		      which this project used specimens, either directly or as a derived part. --->
+		<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoans_result">
+			SELECT DISTINCT
+				loan.transaction_id,
+				loan.loan_number,
+				loan.loan_status
+			FROM
+				project_trans
+				join loan_item on project_trans.transaction_id = loan_item.transaction_id
+				join loan on loan_item.transaction_id = loan.transaction_id
+			WHERE
+				project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+			ORDER BY
+				loan.loan_number
+		</cfquery>
+
+		<!--- Accessions (transaction records) through which this project contributed
+		      specimens. --->
+		<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccessions_result">
+			SELECT DISTINCT
+				accn.transaction_id,
+				accn.accn_number,
+				accn.accn_status
+			FROM
+				project_trans
+				join accn on project_trans.transaction_id = accn.transaction_id
+			WHERE
+				project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+			ORDER BY
+				accn.accn_number
+		</cfquery>
+	</cfif>
+
 	<!--- Projects contributing specimens (was includes/project/projCont.cfm): other
 	      projects whose contributed specimens this project's loans derive parts from. --->
 	<cfquery name="getContributingProjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getContributingProjects_result">
@@ -294,7 +333,20 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 	<cfoutput>
 	<section class="row border rounded my-2">
 		<div class="col-12 py-2">
-			<h1 class="h2 mt-3">#encodeForHtml(getProject.project_name)#</h1>
+			<div class="d-flex align-items-start justify-content-between flex-wrap">
+				<div>
+					<h1 class="h2 mt-3">#encodeForHtml(getProject.project_name)#</h1>
+				</div>
+				<cfif canManageProjects>
+					<div class="mt-2 ml-2 flex-shrink-0">
+						<!--- publications/showPublication.cfm's own equivalent link uses
+						      btn-primary; that appears to be a pre-existing deviation from
+						      this app's documented button convention (Edit -> btn-secondary),
+						      not a precedent to repeat, so this uses btn-secondary instead. --->
+						<a class="btn btn-xs btn-secondary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
+					</div>
+				</cfif>
+			</div>
 
 			<cfif getSponsors.recordcount GT 0>
 				<p class="h5">
@@ -302,16 +354,6 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 					<cfloop query="getSponsors">
 						#encodeForHtml(agent_name)#<cfif len(acknowledgement) GT 0>: #encodeForHtml(acknowledgement)#</cfif><cfif getSponsors.currentRow LT getSponsors.recordcount>; </cfif>
 					</cfloop>
-				</p>
-			</cfif>
-
-			<cfif canManageProjects>
-				<p>
-					<!--- publications/showPublication.cfm's own equivalent link uses
-					      btn-primary; that appears to be a pre-existing deviation from
-					      this app's documented button convention (Edit -> btn-secondary),
-					      not a precedent to repeat, so this uses btn-secondary instead. --->
-					<a class="btn btn-xs btn-secondary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
 				</p>
 			</cfif>
 
@@ -367,6 +409,17 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 				</ul>
 			</cfif>
 
+			<cfif canManageTransactions>
+				<cfif getLoans.recordcount GT 0>
+					<h2 class="h4">Loans</h2>
+					<ul>
+						<cfloop query="getLoans">
+							<li><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a> (#encodeForHtml(loan_status)#)</li>
+						</cfloop>
+					</ul>
+				</cfif>
+			</cfif>
+
 			<cfif getSpecimensContributed.recordcount GT 0>
 				<h2 class="h4">Specimens Contributed</h2>
 				<ul>
@@ -383,6 +436,17 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 						</li>
 					</cfif>
 				</ul>
+			</cfif>
+
+			<cfif canManageTransactions>
+				<cfif getAccessions.recordcount GT 0>
+					<h2 class="h4">Accessions</h2>
+					<ul>
+						<cfloop query="getAccessions">
+							<li><a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a> (#encodeForHtml(accn_status)#)</li>
+						</cfloop>
+					</ul>
+				</cfif>
 			</cfif>
 
 			<cfif getContributingProjects.recordcount GT 0>
