@@ -1,5 +1,5 @@
-// projects/js/projects.js
-/**** Search-field autocomplete bindings for /Projects.cfm.
+/**** projects/js/projects.js
+Search-field autocomplete bindings for /Projects.cfm.
  ******/
 
 /**

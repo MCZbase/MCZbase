@@ -17,11 +17,11 @@ limitations under the License.
 
 --->
 <!---
-Details page for a single project, replacing ProjectDetail.cfm. The seven
+Details page for a single project.
+
+TODO: Cleanup, this replaces ProjectDetail.cfm. when cone cleanup the seven
 /includes/project/*.cfm fragments that page ajax-loaded (pubs, specUsed, specCont,
-projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sections
-instead, matching publications/showPublication.cfm's pattern -- each section's query is
-carried over unchanged from its fragment, only the markup is new.
+projCont, projUseCont, projMedia, projTaxa) are folded in below as inline section.
 --->
 <cfparam name="url.project_id" default="">
 
