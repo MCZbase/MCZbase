@@ -53,6 +53,46 @@ Details page for a single project, replacing ProjectDetail.cfm.
 	<cfset oneOfUs = 0>
 </cfif>
 
+<!---
+Builds a /Specimens.cfm search-builder URL: an OR-group across orValues (each matched
+against orField), optionally AND-ed with an exact-match CATALOGED_ITEM:COLLECTION_CDE
+clause. Parens are only emitted around the OR-group when it has more than one member --
+the builder needs them to keep that group scoped against the collection clause that
+follows, but a single term needs no grouping.
+--->
+<cffunction name="buildSpecimenBuilderSearchUrl" returntype="string">
+	<cfargument name="orField" type="string" required="yes">
+	<cfargument name="orValues" type="array" required="yes">
+	<cfargument name="collectionCde" type="string" required="no" default="">
+	<cfset var orCount = ArrayLen(arguments.orValues)>
+	<cfset var totalRows = orCount>
+	<cfif len(arguments.collectionCde) GT 0>
+		<cfset totalRows = totalRows + 1>
+	</cfif>
+	<cfset var searchUrl = "/Specimens.cfm?execute=true&action=builderSearch&builderMaxRows=#totalRows#">
+	<cfset var i = 0>
+	<cfloop array="#arguments.orValues#" index="orValue">
+		<cfset i = i + 1>
+		<cfset var openParen = 0>
+		<cfset var closeParen = 0>
+		<cfif orCount GT 1 AND i EQ 1>
+			<cfset openParen = 1>
+		</cfif>
+		<cfif orCount GT 1 AND i EQ orCount>
+			<cfset closeParen = 1>
+		</cfif>
+		<cfif i GT 1>
+			<cfset searchUrl = searchUrl & "&JoinOperator#i#=or">
+		</cfif>
+		<cfset searchUrl = searchUrl & "&openParens#i#=#openParen#&field#i#=#EncodeForUrl(arguments.orField)#&searchText#i#=#EncodeForUrl(orValue)#&closeParens#i#=#closeParen#">
+	</cfloop>
+	<cfif len(arguments.collectionCde) GT 0>
+		<cfset i = i + 1>
+		<cfset searchUrl = searchUrl & "&JoinOperator#i#=and&openParens#i#=0&field#i#=#EncodeForUrl('CATALOGED_ITEM:COLLECTION_CDE')#&searchText#i#=#EncodeForUrl('=' & arguments.collectionCde)#&closeParens#i#=0">
+	</cfif>
+	<cfreturn searchUrl>
+</cffunction>
+
 <main class="container py-3" id="content">
 	<cftry>
 		<cfif len(url.project_id) EQ 0 OR NOT isnumeric(url.project_id)>
@@ -82,6 +122,9 @@ Details page for a single project, replacing ProjectDetail.cfm.
 		<cfabort>
 	</cfcatch>
 	</cftry>
+
+	<cfset projectNameForSearch = ArrayNew(1)>
+	<cfset ArrayAppend(projectNameForSearch, getProject.project_name)>
 
 	<cfquery name="getParticipants" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getParticipants_result">
 		SELECT
@@ -133,6 +176,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 		SELECT
 			collection.collection,
 			collection.collection_id,
+			collection.collection_cde,
 			COUNT(DISTINCT(cataloged_item.collection_object_id)) AS c
 		FROM
 			cataloged_item
@@ -144,11 +188,13 @@ Details page for a single project, replacing ProjectDetail.cfm.
 			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
 			collection.collection,
-			collection.collection_id
+			collection.collection_id,
+			collection.collection_cde
 		UNION
 		SELECT
 			collection.collection,
 			collection.collection_id,
+			collection.collection_cde,
 			COUNT(DISTINCT(cataloged_item.collection_object_id)) AS c
 		FROM
 			cataloged_item
@@ -159,7 +205,8 @@ Details page for a single project, replacing ProjectDetail.cfm.
 			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
 			collection.collection,
-			collection.collection_id
+			collection.collection_id,
+			collection.collection_cde
 	</cfquery>
 	<cfquery name="specUsedTotal" dbtype="query">
 		SELECT SUM(c) AS totspec FROM getSpecimensUsed
@@ -168,11 +215,29 @@ Details page for a single project, replacing ProjectDetail.cfm.
 		SELECT collection FROM getSpecimensUsed GROUP BY collection
 	</cfquery>
 
+	<!--- Loan numbers this project is linked to, needed (regardless of role) to build
+	      Specimens Used search-builder links; the Loans card itself, with full detail,
+	      stays manage_transactions-gated below. --->
+	<cfquery name="getLoanNumbersForSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanNumbersForSearch_result">
+		SELECT DISTINCT
+			loan.loan_number
+		FROM
+			project_trans
+			join loan_item on project_trans.transaction_id = loan_item.transaction_id
+			join loan on loan_item.transaction_id = loan.transaction_id
+		WHERE
+			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+		ORDER BY
+			loan.loan_number
+	</cfquery>
+	<cfset loanNumbersForSearch = ValueArray(getLoanNumbersForSearch, "loan_number")>
+
 	<!--- Specimens contributed: specimens accessioned through this project. --->
 	<cfquery name="getSpecimensContributed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensContributed_result">
 		SELECT
 			collection,
 			collection.collection_id,
+			collection.collection_cde,
 			COUNT(*) AS c
 		FROM
 			project
@@ -184,7 +249,8 @@ Details page for a single project, replacing ProjectDetail.cfm.
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
 			collection,
-			collection.collection_id
+			collection.collection_id,
+			collection.collection_cde
 	</cfquery>
 	<cfquery name="specContTotal" dbtype="query">
 		SELECT SUM(c) AS totspec FROM getSpecimensContributed
@@ -502,13 +568,13 @@ Details page for a single project, replacing ProjectDetail.cfm.
 						<ul class="list-group">
 							<cfloop query="getSpecimensUsed">
 								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="#buildSpecimenBuilderSearchUrl(orField='LOAN:LOAN_NUMBER', orValues=loanNumbersForSearch, collectionCde=collection_cde)#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
 								</li>
 							</cfloop>
 							<cfif specUsedCollections.recordcount GT 1>
 								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#">#specUsedTotal.totspec# total specimens</a>
+									<a href="#buildSpecimenBuilderSearchUrl(orField='LOAN:LOAN_NUMBER', orValues=loanNumbersForSearch)#">#specUsedTotal.totspec# total specimens</a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#">[ BerkeleyMapper ]</a>
 								</li>
 							</cfif>
@@ -550,13 +616,13 @@ Details page for a single project, replacing ProjectDetail.cfm.
 						<ul class="list-group">
 							<cfloop query="getSpecimensContributed">
 								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="#buildSpecimenBuilderSearchUrl(orField='VIEW_CI_PROJECT:PROJECT_NAME', orValues=projectNameForSearch, collectionCde=collection_cde)#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
 								</li>
 							</cfloop>
 							<cfif specContCollections.recordcount GT 1>
 								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?project_id=#url.project_id#">#specContTotal.totspec# total specimens</a>
+									<a href="#buildSpecimenBuilderSearchUrl(orField='VIEW_CI_PROJECT:PROJECT_NAME', orValues=projectNameForSearch)#">#specContTotal.totspec# total specimens</a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#">[ BerkeleyMapper ]</a>
 								</li>
 							</cfif>
