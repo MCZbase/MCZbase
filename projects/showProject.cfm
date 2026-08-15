@@ -320,7 +320,8 @@ Details page for a single project, replacing ProjectDetail.cfm.
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTaxa_result">
 		SELECT
 			taxonomy.taxon_name_id,
-			scientific_name
+			scientific_name,
+			author_text
 		FROM
 			project_taxonomy
 			join taxonomy on project_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -429,7 +430,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 					<cfif getTaxa.recordcount GT 0>
 						<ul class="list-group">
 							<cfloop query="getTaxa">
-								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a></li>
+								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps">#encodeForHtml(author_text)#</span></a></li>
 							</cfloop>
 						</ul>
 					<cfelse>
