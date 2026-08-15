@@ -424,7 +424,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 			<div class="card mb-2 bg-light">
 				<div class="card-header py-0">
-					<h2 class="h4 my-1 mx-2 px-2">Taxonomy</h2>
+					<h2 class="h4 my-1 mx-2 px-2">Taxa linked to this Project</h2>
 				</div>
 				<div class="card-body py-2">
 					<cfif getTaxa.recordcount GT 0>
