@@ -200,11 +200,14 @@ Details page for a single project, replacing ProjectDetail.cfm.
 			SELECT DISTINCT
 				loan.transaction_id,
 				loan.loan_number,
-				loan.loan_status
+				loan.loan_status,
+				TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
+				concattransagent(loan.transaction_id,'recipient institution') AS recipient_agent
 			FROM
 				project_trans
 				join loan_item on project_trans.transaction_id = loan_item.transaction_id
 				join loan on loan_item.transaction_id = loan.transaction_id
+				left join trans on loan.transaction_id = trans.transaction_id
 			WHERE
 				project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 			ORDER BY
@@ -216,10 +219,13 @@ Details page for a single project, replacing ProjectDetail.cfm.
 			SELECT DISTINCT
 				accn.transaction_id,
 				accn.accn_number,
-				accn.accn_status
+				accn.accn_status,
+				TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
+				concattransagent(accn.transaction_id,'received from') AS rec_agent
 			FROM
 				project_trans
 				join accn on project_trans.transaction_id = accn.transaction_id
+				left join trans on accn.transaction_id = trans.transaction_id
 			WHERE
 				project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 			ORDER BY
@@ -519,7 +525,10 @@ Details page for a single project, replacing ProjectDetail.cfm.
 						<cfif getLoans.recordcount GT 0>
 							<ul class="list-group">
 								<cfloop query="getLoans">
-									<li class="list-group-item"><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a> (#encodeForHtml(loan_status)#)</li>
+									<li class="list-group-item">
+										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a>
+										&mdash; #encodeForHtml(loan_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(recipient_agent) GT 0>, loaned to #encodeForHtml(recipient_agent)#</cfif>
+									</li>
 								</cfloop>
 							</ul>
 						<cfelse>
@@ -536,7 +545,10 @@ Details page for a single project, replacing ProjectDetail.cfm.
 						<cfif getAccessions.recordcount GT 0>
 							<ul class="list-group">
 								<cfloop query="getAccessions">
-									<li class="list-group-item"><a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a> (#encodeForHtml(accn_status)#)</li>
+									<li class="list-group-item">
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a>
+										&mdash; #encodeForHtml(accn_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(rec_agent) GT 0>, received from #encodeForHtml(rec_agent)#</cfif>
+									</li>
 								</cfloop>
 							</ul>
 						<cfelse>
