@@ -324,16 +324,14 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 	<cfoutput>
 	<div class="row mx-0">
-		<div class="col-12">
+		<div class="col-12 px-1">
 			<div class="d-flex align-items-start justify-content-between flex-wrap">
 				<div>
 					<h1 class="h2 mt-3">#encodeForHtml(getProject.project_name)#</h1>
 				</div>
 				<cfif canManageProjects>
 					<div class="mt-2 ml-2 flex-shrink-0">
-						<!--- btn-secondary per this app's Edit-button convention;
-						      showPublication.cfm's own equivalent link uses btn-primary. --->
-						<a class="btn btn-xs btn-secondary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
+						<a class="btn btn-xs btn-primary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
 					</div>
 				</cfif>
 			</div>
