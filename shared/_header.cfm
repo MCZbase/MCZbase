@@ -195,6 +195,12 @@ limitations under the License.
 <cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
+<!--- /projects/Project.cfm's Loans/Accessions sections use makeLoanPicker/
+      makeAccessionAutocompleteMeta; manage_projects is already required to reach this
+      page at all, so the include is gated on it rather than the broader coldfusion_user. --->
+<cfif CGI.script_name IS "/projects/Project.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_projects")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
 <cfif CGI.script_name CONTAINS "/vocabularies/">
 	<script type="text/javascript" src="/vocabularies/js/geology.js"></script>
 </cfif>
