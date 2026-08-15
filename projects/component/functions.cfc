@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<cfinclude template = "/shared/functionLib.cfm">
+<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- backing for a project autocomplete control --->
