@@ -38,10 +38,16 @@ function makeProjectTitleSearchAutocomplete(fieldId) {
  ******/
 
 /** saveEdits saves the main project record via this app's standard
- * saveEditsFromFormCallback helper (shared/js/internal-scripts.js).
+ * saveEditsFromFormCallback helper (shared/js/internal-scripts.js), then reflects the
+ * saved title in the page heading.
  */
 function saveEdits() {
-	saveEditsFromFormCallback("projectForm", "/projects/component/functions.cfc", "saveResultDiv", "saving project record", null);
+	saveEditsFromFormCallback("projectForm", "/projects/component/functions.cfc", "saveResultDiv", "saving project record", updateProjectNameHeading);
+}
+
+/** updateProjectNameHeading reflects the just-saved project_name in the page heading. */
+function updateProjectNameHeading() {
+	$("#projectNameHeading").text($("#project_name").val());
 }
 
 /** refreshProjectAgents re-fetches and swaps in the Agents section fragment.

@@ -213,7 +213,7 @@ add-agent row using the rich agent picker (project_agent constraint).
 										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectAgent(#project_id#,#agent_name_id#,'agent_role_#agent_name_id#','agent_position_#agent_name_id#');">Save</button>
 									</div>
 									<div class="col-3 col-md-2">
-										<button type="button" class="btn btn-xs btn-warning" onclick="removeProjectAgent(#project_id#,#agent_name_id#);">Remove</button>
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove this agent from the project?','Remove Agent?', function() { removeProjectAgent(#project_id#,#agent_name_id#); });">Remove</button>
 									</div>
 								</div>
 							</li>
@@ -431,7 +431,7 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectSponsor(#project_sponsor_id#,'sponsor_ack_#project_sponsor_id#');">Save</button>
 									</div>
 									<div class="col-6 col-md-2">
-										<button type="button" class="btn btn-xs btn-warning" onclick="removeProjectSponsor(#project_id#,#project_sponsor_id#);">Remove</button>
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove this sponsor from the project?','Remove Sponsor?', function() { removeProjectSponsor(#project_id#,#project_sponsor_id#); });">Remove</button>
 									</div>
 								</div>
 							</li>
@@ -614,7 +614,7 @@ using the existing loan-number picker.
 							<li class="list-group-item">
 								<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(loan_number)#</a>
 								<cfif len(project_trans_remarks) GT 0> -- #encodeForHtml(project_trans_remarks)#</cfif>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="removeProjectTransaction(#project_id#,#transaction_id#);">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this loan from the project?','Remove Loan?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>
@@ -683,7 +683,7 @@ add-accession row using an accession-number picker.
 							<li class="list-group-item">
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(accn_number)#</a>
 								<cfif len(project_trans_remarks) GT 0> -- #encodeForHtml(project_trans_remarks)#</cfif>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="removeProjectTransaction(#project_id#,#transaction_id#);">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this accession from the project?','Remove Accession?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>
@@ -835,7 +835,7 @@ row using the existing publication picker.
 							<li class="list-group-item">
 								#encodeForHtml(formatted_publication)#
 								<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="removeProjectPublication(#project_id#,#publication_id#);">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this publication from the project?','Remove Publication?', function() { removeProjectPublication(#project_id#,#publication_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>
@@ -966,7 +966,7 @@ scientific-name picker.
 						<cfloop query="taxa">
 							<li class="list-group-item">
 								<a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="removeProjectTaxon(#project_id#,#taxon_name_id#);">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this taxon from the project?','Remove Taxon?', function() { removeProjectTaxon(#project_id#,#taxon_name_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>

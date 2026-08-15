@@ -144,13 +144,31 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 	</cfcatch>
 	</cftry>
 
+	<!--- the Delete button is only offered when nothing is linked to the project, matching
+	      the "delete" action's own blocking rule below --->
+	<cfquery name="checkRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkRelated_result">
+		SELECT project_id FROM project_agent WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+		UNION ALL
+		SELECT project_id FROM project_sponsor WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+		UNION ALL
+		SELECT project_id FROM project_trans WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+		UNION ALL
+		SELECT project_id FROM project_publication WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+		UNION ALL
+		SELECT project_id FROM project_taxonomy WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#">
+	</cfquery>
+	<cfset variables.showDeleteButton = false>
+	<cfif checkRelated.recordcount EQ 0>
+		<cfset variables.showDeleteButton = true>
+	</cfif>
+
 	<main class="container py-3" id="content">
 		<cfoutput>
 		<section class="row border rounded my-2">
-			<div class="col-12">
+			<div class="col-12 pb-3">
 				<div class="d-flex align-items-start justify-content-between flex-wrap">
 					<div>
-						<h1 class="h2 mt-3">Edit Project</h1>
+						<h1 class="h2 mt-3">Edit Project: <span id="projectNameHeading">#encodeForHtml(getProject.project_name)#</span></h1>
 					</div>
 					<div class="mt-2 ml-2 flex-shrink-0">
 						<a class="btn btn-xs btn-info" href="/projects/showProject.cfm?project_id=#getProject.project_id#">View Details Page</a>
@@ -200,8 +218,10 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 						<div class="col-12">
 							<input type="button" value="Save" class="btn btn-xs btn-primary"
 								onclick="if (checkFormValidity($('##projectForm')[0])) { saveEdits(); }">
-							<input type="button" value="Delete Project" class="btn btn-xs btn-danger"
-								onclick="confirmDialog('Delete this project? This is only allowed if it has no agents, transactions, or publications linked to it.','Confirm Delete Project', function() { $('##action').val('delete'); $('##projectForm').submit(); });">
+							<cfif variables.showDeleteButton>
+								<input type="button" value="Delete Project" class="btn btn-xs btn-danger"
+									onclick="confirmDialog('Delete this project?','Confirm Delete Project', function() { $('##action').val('delete'); $('##projectForm').submit(); });">
+							</cfif>
 							<output id="saveResultDiv"></output>
 						</div>
 					</div>
@@ -252,6 +272,21 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 		</section>
 		</cfoutput>
 	</main>
+
+	<script>
+		// changed() is at top-level scope so the change listeners below can reach it.
+		function changed() {
+			$('#saveResultDiv').html('Unsaved changes.');
+			$('#saveResultDiv').addClass('text-danger');
+			$('#saveResultDiv').removeClass('text-success');
+			$('#saveResultDiv').removeClass('text-warning');
+		}
+		$(document).ready(function () {
+			$('#projectForm input[type=text]').on('change', changed);
+			$('#projectForm select').on('change', changed);
+			$('#projectForm textarea').on('change', changed);
+		});
+	</script>
 
 <cfelse>
 	<main class="container py-3" id="content">
