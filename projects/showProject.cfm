@@ -470,52 +470,6 @@ Details page for a single project, replacing ProjectDetail.cfm.
 		</div>
 
 		<div class="col-12 col-md-6 px-0 px-md-1">
-			<div class="card mb-2 bg-light">
-				<div class="card-header py-0">
-					<h2 class="h4 my-1 mx-2 px-2">Specimens</h2>
-				</div>
-				<div class="card-body py-2">
-					<h3 class="h6">Used</h3>
-					<cfif getSpecimensUsed.recordcount GT 0>
-						<ul class="list-group mb-2">
-							<cfloop query="getSpecimensUsed">
-								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
-									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
-								</li>
-							</cfloop>
-							<cfif specUsedCollections.recordcount GT 1>
-								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#">#specUsedTotal.totspec# total specimens</a>
-									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#">[ BerkeleyMapper ]</a>
-								</li>
-							</cfif>
-						</ul>
-					<cfelse>
-						<p>None.</p>
-					</cfif>
-					<h3 class="h6">Contributed</h3>
-					<cfif getSpecimensContributed.recordcount GT 0>
-						<ul class="list-group">
-							<cfloop query="getSpecimensContributed">
-								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
-									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
-								</li>
-							</cfloop>
-							<cfif specContCollections.recordcount GT 1>
-								<li class="list-group-item">
-									<a href="/SpecimenResults.cfm?project_id=#url.project_id#">#specContTotal.totspec# total specimens</a>
-									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#">[ BerkeleyMapper ]</a>
-								</li>
-							</cfif>
-						</ul>
-					<cfelse>
-						<p class="mb-0">None.</p>
-					</cfif>
-				</div>
-			</div>
-
 			<cfif canManageTransactions>
 				<div class="card mb-2 bg-light">
 					<div class="card-header py-0">
@@ -536,7 +490,35 @@ Details page for a single project, replacing ProjectDetail.cfm.
 						</cfif>
 					</div>
 				</div>
+			</cfif>
 
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Specimens Used</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getSpecimensUsed.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getSpecimensUsed">
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfloop>
+							<cfif specUsedCollections.recordcount GT 1>
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#">#specUsedTotal.totspec# total specimens</a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfif>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+			<cfif canManageTransactions>
 				<div class="card mb-2 bg-light">
 					<div class="card-header py-0">
 						<h2 class="h4 my-1 mx-2 px-2">Accessions</h2>
@@ -560,7 +542,33 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 			<div class="card mb-2 bg-light">
 				<div class="card-header py-0">
-					<h2 class="h4 my-1 mx-2 px-2">Projects Contributing Specimens</h2>
+					<h2 class="h4 my-1 mx-2 px-2">Specimens Contributed</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getSpecimensContributed.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getSpecimensContributed">
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfloop>
+							<cfif specContCollections.recordcount GT 1>
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?project_id=#url.project_id#">#specContTotal.totspec# total specimens</a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfif>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Related Projects Contributing Specimens</h2>
 				</div>
 				<div class="card-body py-2">
 					<cfif getContributingProjects.recordcount GT 0>
@@ -577,7 +585,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 			<div class="card mb-2 bg-light">
 				<div class="card-header py-0">
-					<h2 class="h4 my-1 mx-2 px-2">Projects Using Contributed Specimens</h2>
+					<h2 class="h4 my-1 mx-2 px-2">Related Projects Using Contributed Specimens</h2>
 				</div>
 				<div class="card-body py-2">
 					<cfif getUsingProjects.recordcount GT 0>
