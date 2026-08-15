@@ -274,17 +274,8 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 	</main>
 
 	<script>
-		// changed() is at top-level scope so the change listeners below can reach it.
-		function changed() {
-			$('#saveResultDiv').html('Unsaved changes.');
-			$('#saveResultDiv').addClass('text-danger');
-			$('#saveResultDiv').removeClass('text-success');
-			$('#saveResultDiv').removeClass('text-warning');
-		}
 		$(document).ready(function () {
-			$('#projectForm input[type=text]').on('change', changed);
-			$('#projectForm select').on('change', changed);
-			$('#projectForm textarea').on('change', changed);
+			monitorForChangesGeneric('projectForm', handleChange);
 		});
 	</script>
 

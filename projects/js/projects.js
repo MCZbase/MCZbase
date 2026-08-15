@@ -37,6 +37,16 @@ function makeProjectTitleSearchAutocomplete(fieldId) {
  * re-fetches and swaps in that section's HTML fragment.
  ******/
 
+/** handleChange reflects an unsaved edit to the main project form in saveResultDiv;
+ * bound to the form's inputs via monitorForChangesGeneric (shared/js/internal-scripts.js).
+ */
+function handleChange() {
+	$("#saveResultDiv").html("Unsaved changes.");
+	$("#saveResultDiv").addClass("text-danger");
+	$("#saveResultDiv").removeClass("text-success");
+	$("#saveResultDiv").removeClass("text-warning");
+}
+
 /** saveEdits saves the main project record via this app's standard
  * saveEditsFromFormCallback helper (shared/js/internal-scripts.js), then reflects the
  * saved title in the page heading.
