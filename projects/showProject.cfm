@@ -17,11 +17,7 @@ limitations under the License.
 
 --->
 <!---
-Details page for a single project.
-
-TODO: Cleanup, this replaces ProjectDetail.cfm. when cone cleanup the seven
-/includes/project/*.cfm fragments that page ajax-loaded (pubs, specUsed, specCont,
-projCont, projUseCont, projMedia, projTaxa) are folded in below as inline section.
+Details page for a single project, replacing ProjectDetail.cfm.
 --->
 <cfparam name="url.project_id" default="">
 
@@ -43,7 +39,6 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 
-<!--- store relevant session role information into variables for use in this page --->
 <cfset canManageProjects = false>
 <cfset canManageTransactions = false>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -119,7 +114,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			formatted_publication,
 			COUNT(citation.collection_object_id) AS numCit
 		FROM
-			project_publication 
+			project_publication
 			join formatted_publication on project_publication.publication_id = formatted_publication.publication_id
 			left join citation on formatted_publication.publication_id = citation.publication_id
 		WHERE
@@ -132,7 +127,8 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			formatted_publication
 	</cfquery>
 
-	<!--- Specimens used specimens on loan to this project, either directly or as a sub-part derived from a loaned item. --->
+	<!--- Specimens used: specimens on loan to this project, either directly or as a
+	      sub-part derived from a loaned item. --->
 	<cfquery name="getSpecimensUsed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensUsed_result">
 		SELECT
 			collection.collection,
@@ -179,11 +175,11 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			collection.collection_id,
 			COUNT(*) AS c
 		FROM
-			project 
+			project
 			join project_trans on project.project_id = project_trans.project_id
 			join accn on project_trans.transaction_id = accn.transaction_id
-			join cataloged_item on accn.transaction_id = cataloged_item.accn_id 
-			join collection on cataloged_item.collection_id = collection.collection_id 
+			join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+			join collection on cataloged_item.collection_id = collection.collection_id
 		WHERE
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 		GROUP BY
@@ -198,8 +194,8 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 	</cfquery>
 
 	<cfif canManageTransactions>
-		<!--- Loans (transaction records, not just the specimen counts above) through
-		      which this project used specimens, either directly or as a derived part. --->
+		<!--- Loans through which this project used specimens, directly or via a derived
+		      part. --->
 		<cfquery name="getLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoans_result">
 			SELECT DISTINCT
 				loan.transaction_id,
@@ -215,8 +211,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 				loan.loan_number
 		</cfquery>
 
-		<!--- Accessions (transaction records) through which this project contributed
-		      specimens. --->
+		<!--- Accessions through which this project contributed specimens. --->
 		<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccessions_result">
 			SELECT DISTINCT
 				accn.transaction_id,
@@ -232,8 +227,8 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 		</cfquery>
 	</cfif>
 
-	<!--- Projects contributing specimens (was includes/project/projCont.cfm): other
-	      projects whose contributed specimens this project's loans derive parts from. --->
+	<!--- Other projects whose contributed specimens this project's loans derive parts
+	      from. --->
 	<cfquery name="getContributingProjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getContributingProjects_result">
 		SELECT
 			project.project_id,
@@ -247,7 +242,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 				FROM
 					project
 					join project_trans on project.project_id = project_trans.project_id
-					join accn on project_trans.transaction_id = accn.transaction_id 
+					join accn on project_trans.transaction_id = accn.transaction_id
 					join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 				WHERE
 					cataloged_item.collection_object_id IN (
@@ -257,8 +252,8 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 							project
 							join project_trans on project.project_id = project_trans.project_id
 							join loan_item on project_trans.transaction_id = loan_item.transaction_id
-							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 						WHERE
 							project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 					)
@@ -267,8 +262,7 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			project_name
 	</cfquery>
 
-	<!--- Projects using contributed specimens (was includes/project/projUseCont.cfm):
-	      other projects that borrowed parts derived from specimens this project
+	<!--- Other projects that borrowed parts derived from specimens this project
 	      contributed. --->
 	<cfquery name="getUsingProjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getUsingProjects_result">
 		SELECT
@@ -306,7 +300,6 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			project_name
 	</cfquery>
 
-	<!--- Media (was includes/project/projMedia.cfm) --->
 	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMedia_result">
 		SELECT DISTINCT
 			media.media_id
@@ -318,7 +311,6 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 			media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 	</cfquery>
 
-	<!--- Taxonomy (was includes/project/projTaxa.cfm) --->
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTaxa_result">
 		SELECT
 			taxonomy.taxon_name_id,
@@ -331,18 +323,16 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 	</cfquery>
 
 	<cfoutput>
-	<section class="row border rounded my-2">
-		<div class="col-12 py-2">
+	<div class="row mx-0">
+		<div class="col-12">
 			<div class="d-flex align-items-start justify-content-between flex-wrap">
 				<div>
 					<h1 class="h2 mt-3">#encodeForHtml(getProject.project_name)#</h1>
 				</div>
 				<cfif canManageProjects>
 					<div class="mt-2 ml-2 flex-shrink-0">
-						<!--- publications/showPublication.cfm's own equivalent link uses
-						      btn-primary; that appears to be a pre-existing deviation from
-						      this app's documented button convention (Edit -> btn-secondary),
-						      not a precedent to repeat, so this uses btn-secondary instead. --->
+						<!--- btn-secondary per this app's Edit-button convention;
+						      showPublication.cfm's own equivalent link uses btn-primary. --->
 						<a class="btn btn-xs btn-secondary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
 					</div>
 				</cfif>
@@ -357,140 +347,94 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 				</p>
 			</cfif>
 
-			<ul>
-				<cfloop query="getParticipants">
-					<li><strong>#encodeForHtml(project_agent_role)#: </strong> <a href="/agents/Agent.cfm?agent_id=#agent_id#">#encodeForHtml(agent_name)#</a></li>
-				</cfloop>
-				<li><strong>Duration: </strong> #dateformat(getProject.start_date,"yyyy-mm-dd")# to #dateformat(getProject.end_date,"yyyy-mm-dd")#</li>
-				<cfif oneOfUs EQ 1>
-					<cfif getProject.mask_project_fg EQ 1>
-						<cfset visibility = "Hidden">
-					<cfelse>
-						<cfset visibility = "Public">
-					</cfif>
-					<li><strong>Visibility: </strong> #visibility#</li>
-				</cfif>
-			</ul>
-
-			<h2 class="h4">Description</h2>
 			<p>#encodeForHtml(getProject.project_description)#</p>
 
 			<cfif getPublications.recordcount GT 0>
-				<h2 class="h4">Publications</h2>
-				<p>This project produced #getPublications.recordcount# publication<cfif getPublications.recordcount NEQ 1>s</cfif>.</p>
-				<ul>
-					<cfloop query="getPublications">
-						<li>
-							#encodeForHtml(formatted_publication)#
-							<cfif numCit GT 0>
-								&mdash; <a href="/SpecimenResults.cfm?publication_id=#publication_id#">#numCit# cited specimen<cfif numCit NEQ 1>s</cfif></a>
-							</cfif>
-							&mdash; <a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a>
-						</li>
-					</cfloop>
-				</ul>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Publications</h2>
+					</div>
+					<div class="card-body py-2">
+						<p>This project produced #getPublications.recordcount# publication<cfif getPublications.recordcount NEQ 1>s</cfif>.</p>
+						<ul class="list-group">
+							<cfloop query="getPublications">
+								<li class="list-group-item">
+									#encodeForHtml(formatted_publication)#
+									<cfif numCit GT 0>
+										&mdash; <a href="/SpecimenResults.cfm?publication_id=#publication_id#">#numCit# cited specimen<cfif numCit NEQ 1>s</cfif></a>
+									</cfif>
+									&mdash; <a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a>
+								</li>
+							</cfloop>
+						</ul>
+					</div>
+				</div>
 			</cfif>
+		</div>
+	</div>
 
-			<cfif getSpecimensUsed.recordcount GT 0>
-				<h2 class="h4">Specimens Used</h2>
-				<ul>
-					<cfloop query="getSpecimensUsed">
-						<li>
-							<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
-							<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
-						</li>
-					</cfloop>
-					<cfif specUsedCollections.recordcount GT 1>
-						<li>
-							<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#">#specUsedTotal.totspec# total specimens</a>
-							<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#">[ BerkeleyMapper ]</a>
-						</li>
+	<div class="row mx-0 mt-2">
+		<div class="col-12 col-md-6 px-0 px-md-1">
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Agents</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getParticipants.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getParticipants">
+								<li class="list-group-item"><strong>#encodeForHtml(project_agent_role)#: </strong> <a href="/agents/Agent.cfm?agent_id=#agent_id#">#encodeForHtml(agent_name)#</a></li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
 					</cfif>
-				</ul>
-			</cfif>
+				</div>
+			</div>
 
-			<cfif canManageTransactions>
-				<cfif getLoans.recordcount GT 0>
-					<h2 class="h4">Loans</h2>
-					<ul>
-						<cfloop query="getLoans">
-							<li><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a> (#encodeForHtml(loan_status)#)</li>
-						</cfloop>
-					</ul>
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Duration</h2>
+				</div>
+				<div class="card-body py-2">
+					<p class="mb-0">#dateformat(getProject.start_date,"yyyy-mm-dd")# to #dateformat(getProject.end_date,"yyyy-mm-dd")#</p>
+				</div>
+			</div>
+
+			<cfif oneOfUs EQ 1>
+				<cfif getProject.mask_project_fg EQ 1>
+					<cfset visibility = "Hidden">
+				<cfelse>
+					<cfset visibility = "Public">
 				</cfif>
-			</cfif>
-
-			<cfif getSpecimensContributed.recordcount GT 0>
-				<h2 class="h4">Specimens Contributed</h2>
-				<ul>
-					<cfloop query="getSpecimensContributed">
-						<li>
-							<a href="/SpecimenResults.cfm?project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
-							<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
-						</li>
-					</cfloop>
-					<cfif specContCollections.recordcount GT 1>
-						<li>
-							<a href="/SpecimenResults.cfm?project_id=#url.project_id#">#specContTotal.totspec# total specimens</a>
-							<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#">[ BerkeleyMapper ]</a>
-						</li>
-					</cfif>
-				</ul>
-			</cfif>
-
-			<cfif canManageTransactions>
-				<cfif getAccessions.recordcount GT 0>
-					<h2 class="h4">Accessions</h2>
-					<ul>
-						<cfloop query="getAccessions">
-							<li><a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a> (#encodeForHtml(accn_status)#)</li>
-						</cfloop>
-					</ul>
-				</cfif>
-			</cfif>
-
-			<cfif getContributingProjects.recordcount GT 0>
-				<h2 class="h4">Projects Contributing Specimens</h2>
-				<p>#getContributingProjects.recordcount# project<cfif getContributingProjects.recordcount NEQ 1>s</cfif> contributed specimens used by this project.</p>
-				<ul>
-					<cfloop query="getContributingProjects">
-						<li><a href="/projects/showProject.cfm?project_id=#project_id#">#encodeForHtml(project_name)#</a></li>
-					</cfloop>
-				</ul>
-			</cfif>
-
-			<cfif getUsingProjects.recordcount GT 0>
-				<h2 class="h4">Projects Using Contributed Specimens</h2>
-				<p>#getUsingProjects.recordcount# project<cfif getUsingProjects.recordcount NEQ 1>s</cfif> used specimens contributed by this project.</p>
-				<ul>
-					<cfloop query="getUsingProjects">
-						<li><a href="/projects/showProject.cfm?project_id=#project_id#">#encodeForHtml(project_name)#</a></li>
-					</cfloop>
-				</ul>
-			</cfif>
-
-			<cfif getMedia.recordcount GT 0>
-				<h2 class="h4">Media</h2>
-				<div class="row">
-					<cfloop query="getMedia">
-						<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-							#getMediaBlockHtml(media_id=media_id, displayAs="thumb", captionAs="textShort")#
-						</div>
-					</cfloop>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Visibility</h2>
+					</div>
+					<div class="card-body py-2">
+						<p class="mb-0">#visibility#</p>
+					</div>
 				</div>
 			</cfif>
 
-			<cfif getTaxa.recordcount GT 0>
-				<h2 class="h4">Taxonomy</h2>
-				<ul>
-					<cfloop query="getTaxa">
-						<li><a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a></li>
-					</cfloop>
-				</ul>
-			</cfif>
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Taxonomy</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getTaxa.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getTaxa">
+								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a></li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
 
 			<cfif len(session.username) GT 0>
-				<h2 class="h4">Annotations</h2>
 				<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="existingAnnotations_result">
 					SELECT
 						COUNT(*) AS cnt
@@ -499,21 +443,166 @@ projCont, projUseCont, projMedia, projTaxa) are folded in below as inline sectio
 					WHERE
 						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 				</cfquery>
-				<cfif existingAnnotations.cnt GT 0>
-					<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-						class="btn btn-xs btn-info" title="Annotate this record and view existing annotations"
-						onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate/View Annotations</button>
-					<p>There <cfif existingAnnotations.cnt EQ 1>is<cfelse>are</cfif> #existingAnnotations.cnt# annotation<cfif existingAnnotations.cnt NEQ 1>s</cfif> on this project record.</p>
-				<cfelse>
-					<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-						class="btn btn-xs btn-info" title="Annotate this record"
-						onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate</button>
-					<p>There are no annotations on this project record.</p>
-				</cfif>
-				<div id="annotationDialog"></div>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Annotations</h2>
+					</div>
+					<div class="card-body py-2">
+						<cfif existingAnnotations.cnt GT 0>
+							<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+								class="btn btn-xs btn-info" title="Annotate this record and view existing annotations"
+								onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate/View Annotations</button>
+							<p>There <cfif existingAnnotations.cnt EQ 1>is<cfelse>are</cfif> #existingAnnotations.cnt# annotation<cfif existingAnnotations.cnt NEQ 1>s</cfif> on this project record.</p>
+						<cfelse>
+							<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+								class="btn btn-xs btn-info" title="Annotate this record"
+								onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate</button>
+							<p class="mb-0">There are no annotations on this project record.</p>
+						</cfif>
+						<div id="annotationDialog"></div>
+					</div>
+				</div>
 			</cfif>
 		</div>
-	</section>
+
+		<div class="col-12 col-md-6 px-0 px-md-1">
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Specimens</h2>
+				</div>
+				<div class="card-body py-2">
+					<h3 class="h6">Used</h3>
+					<cfif getSpecimensUsed.recordcount GT 0>
+						<ul class="list-group mb-2">
+							<cfloop query="getSpecimensUsed">
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfloop>
+							<cfif specUsedCollections.recordcount GT 1>
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?loan_project_id=#url.project_id#">#specUsedTotal.totspec# total specimens</a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfif>
+						</ul>
+					<cfelse>
+						<p>None.</p>
+					</cfif>
+					<h3 class="h6">Contributed</h3>
+					<cfif getSpecimensContributed.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getSpecimensContributed">
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?project_id=#url.project_id#&collection_id=#collection_id#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfloop>
+							<cfif specContCollections.recordcount GT 1>
+								<li class="list-group-item">
+									<a href="/SpecimenResults.cfm?project_id=#url.project_id#">#specContTotal.totspec# total specimens</a>
+									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#">[ BerkeleyMapper ]</a>
+								</li>
+							</cfif>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+			<cfif canManageTransactions>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Loans</h2>
+					</div>
+					<div class="card-body py-2">
+						<cfif getLoans.recordcount GT 0>
+							<ul class="list-group">
+								<cfloop query="getLoans">
+									<li class="list-group-item"><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a> (#encodeForHtml(loan_status)#)</li>
+								</cfloop>
+							</ul>
+						<cfelse>
+							<p class="mb-0">None.</p>
+						</cfif>
+					</div>
+				</div>
+
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Accessions</h2>
+					</div>
+					<div class="card-body py-2">
+						<cfif getAccessions.recordcount GT 0>
+							<ul class="list-group">
+								<cfloop query="getAccessions">
+									<li class="list-group-item"><a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a> (#encodeForHtml(accn_status)#)</li>
+								</cfloop>
+							</ul>
+						<cfelse>
+							<p class="mb-0">None.</p>
+						</cfif>
+					</div>
+				</div>
+			</cfif>
+
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Projects Contributing Specimens</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getContributingProjects.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getContributingProjects">
+								<li class="list-group-item"><a href="/projects/showProject.cfm?project_id=#project_id#">#encodeForHtml(project_name)#</a></li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Projects Using Contributed Specimens</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getUsingProjects.recordcount GT 0>
+						<ul class="list-group">
+							<cfloop query="getUsingProjects">
+								<li class="list-group-item"><a href="/projects/showProject.cfm?project_id=#project_id#">#encodeForHtml(project_name)#</a></li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h2 class="h4 my-1 mx-2 px-2">Media</h2>
+				</div>
+				<div class="card-body py-2">
+					<cfif getMedia.recordcount GT 0>
+						<div class="row">
+							<cfloop query="getMedia">
+								<div class="col-12 col-sm-6 mb-3">
+									#getMediaBlockHtml(media_id=media_id, displayAs="thumb", captionAs="textShort")#
+								</div>
+							</cfloop>
+						</div>
+					<cfelse>
+						<p class="mb-0">None.</p>
+					</cfif>
+				</div>
+			</div>
+
+		</div>
+	</div>
 	</cfoutput>
 </main>
 
