@@ -430,7 +430,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 					<cfif getTaxa.recordcount GT 0>
 						<ul class="list-group">
 							<cfloop query="getTaxa">
-								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps">#encodeForHtml(author_text)#</span></a></li>
+								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span></a></li>
 							</cfloop>
 						</ul>
 					<cfelse>
