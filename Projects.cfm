@@ -19,9 +19,6 @@ limitations under the License.
 <!---
 Search-with-results page for Projects, replacing the project-search half of
 SpecimenUsage.cfm (publication search there is served by /Publications.cfm).
-
-View/Edit links below point at the existing ProjectDetail.cfm/Project.cfm; those will be
-replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exist yet.
 --->
 <cfset pageTitle = "Search Projects">
 <cfset action = "search">
@@ -421,7 +418,7 @@ links do) redisplays correctly.
 								<button type="reset" class="btn btn-xs btn-warning mr-2 my-1">Reset</button>
 								<button type="button" class="btn btn-xs btn-warning mr-2 my-1" onclick="window.location.href='#Application.serverRootUrl#/Projects.cfm';">New Search</button>
 								<cfif canManageProjects>
-									<button type="button" class="btn btn-xs btn-secondary my-1" onclick="window.location.href='#Application.serverRootUrl#/Project.cfm?action=makeNew';">Create New Project</button>
+									<button type="button" class="btn btn-xs btn-secondary my-1" onclick="window.location.href='#Application.serverRootUrl#/projects/Project.cfm?action=makeNew';">Create New Project</button>
 								</cfif>
 							</div>
 						</form>
@@ -550,7 +547,7 @@ links do) redisplays correctly.
 				frozen: projectColumnPinned,
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
-					return "/ProjectDetail.cfm?project_id=" + encodeURIComponent(d.project_id);
+					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
 				}, "text-primary"),
 				/* CSV export gets the plain project name, not the rendered <a> markup. */
 				accessorDownload: function (value, data) {
@@ -574,7 +571,7 @@ links do) redisplays correctly.
 					var d = cell.getRow().getData();
 					var a = document.createElement("a");
 					a.className = "btn-xs btn-outline-primary";
-					a.href = "/Project.cfm?Action=editProject&project_id=" + encodeURIComponent(d.project_id);
+					a.href = "/projects/Project.cfm?action=edit&project_id=" + encodeURIComponent(d.project_id);
 					a.textContent = "Edit";
 					return a;
 				}

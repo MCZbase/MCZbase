@@ -404,7 +404,7 @@ follows, but a single term needs no grouping.
 				</div>
 				<cfif canManageProjects>
 					<div class="mt-2 ml-2 flex-shrink-0">
-						<a class="btn btn-xs btn-primary" href="/Project.cfm?Action=editProject&project_id=#getProject.project_id#">Edit Project</a>
+						<a class="btn btn-xs btn-primary" href="/projects/Project.cfm?action=edit&project_id=#getProject.project_id#">Edit Project</a>
 					</div>
 				</cfif>
 			</div>
