@@ -31,6 +31,8 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfparam name="url.participant_agent_name" default="">
 <cfparam name="url.sponsor_agent_id" default="">
 <cfparam name="url.sponsor_agent_name" default="">
+<cfparam name="url.transaction_agent_id" default="">
+<cfparam name="url.transaction_agent_name" default="">
 <cfparam name="url.project_type" default="">
 <cfparam name="url.year" default="">
 <cfparam name="url.start_year" default="">
@@ -53,6 +55,8 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfset variables.participant_agent_name = url.participant_agent_name>
 <cfset variables.sponsor_agent_id = url.sponsor_agent_id>
 <cfset variables.sponsor_agent_name = url.sponsor_agent_name>
+<cfset variables.transaction_agent_id = url.transaction_agent_id>
+<cfset variables.transaction_agent_name = url.transaction_agent_name>
 <cfset variables.project_type = url.project_type>
 <cfset variables.year = url.year>
 <cfset variables.start_year = url.start_year>
@@ -80,6 +84,11 @@ replaced by /projects/showProject.cfm and /projects/Project.cfm, which don't exi
 <cfset canManageProjects = false>
 <cfif oneOfUs EQ 1 and listfindnocase(session.roles,"manage_projects")>
 	<cfset canManageProjects = true>
+</cfif>
+
+<cfset canManageTransactions = false>
+<cfif oneOfUs EQ 1 and listfindnocase(session.roles,"manage_transactions")>
+	<cfset canManageTransactions = true>
 </cfif>
 
 <cfset canManageProjectsJs = "false">
@@ -124,6 +133,21 @@ links do) redisplays correctly.
 	</cfquery>
 	<cfif getSponsorAgentName.recordcount GT 0>
 		<cfset variables.sponsor_agent_name = getSponsorAgentName.agent_name>
+	</cfif>
+</cfif>
+
+<cfif len(variables.transaction_agent_id) GT 0 AND isnumeric(variables.transaction_agent_id) AND len(variables.transaction_agent_name) EQ 0>
+	<cfquery name="getTransactionAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			agent_name.agent_name
+		FROM
+			agent
+			JOIN agent_name ON agent.preferred_agent_name_id = agent_name.agent_name_id
+		WHERE
+			agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.transaction_agent_id#">
+	</cfquery>
+	<cfif getTransactionAgentName.recordcount GT 0>
+		<cfset variables.transaction_agent_name = getTransactionAgentName.agent_name>
 	</cfif>
 </cfif>
 
@@ -210,29 +234,6 @@ links do) redisplays correctly.
 											<label for="project_description" class="data-entry-label">Description</label>
 											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="project_type" class="data-entry-label">Type</label>
-											<cfset selected = "">
-											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
-											<select id="project_type" name="project_type" class="data-entry-select">
-												<option value="" #selected#></option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
-												<option value="loan" #selected#>Uses Specimens</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
-												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
-												<option value="accn" #selected#>Contributes Specimens</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
-												<option value="both" #selected#>Uses and Contributes</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
-												<option value="neither" #selected#>Neither Uses nor Contributes</option>
-											</select>
-										</div>
 										<cfif oneOfUs EQ 1>
 											<div class="col-12 col-md-4 col-xl-3">
 												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
@@ -278,7 +279,7 @@ links do) redisplays correctly.
 									</div>
 								</fieldset>
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Participants &amp; Sponsor</legend>
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-3">
 											<div class="form-row mx-0 my-0 py-0">
@@ -318,14 +319,39 @@ links do) redisplays correctly.
 												});
 											</script>
 										</div>
+										<cfif canManageTransactions>
+											<div class="col-12 col-md-4 col-xl-3">
+												<div class="form-row mx-0 my-0 py-0">
+													<label for="transaction_agent_name" id="transaction_agent_name_label" class="data-entry-label mb-0 pb-0">Transaction Agent
+														<span id="transaction_agent_view" class="ml-2"></span>
+													</label>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+														</div>
+														<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
+														<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
+													</div>
+												</div>
+												<script>
+													$(document).ready(function () {
+														makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#variables.transaction_agent_id#", "transaction_agent", false);
+													});
+												</script>
+											</div>
+										</cfif>
 									</div>
 								</fieldset>
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Specimens &amp; Transactions</legend>
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-3">
-											<label for="guid" class="data-entry-label">Cataloged Item</label>
-											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#">
+											<label for="guid">Cataloged Item</label>
+											<span class="text-secondary small">(</span>
+											<button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button>,
+											<button type="button" class="rules" onclick="document.getElementById('guid').value='NULL';" aria-label="set cataloged item to NULL to find projects related to no cataloged item">None</button>
+											<span class="text-secondary small">)</span>
+											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" onchange="document.getElementById('collection_object_id').value='';">
 											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
 											<script>
 												$(document).ready(function () {
@@ -339,7 +365,9 @@ links do) redisplays correctly.
 												<span class="text-secondary small">(exact:</span>
 												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
 												<span class="text-secondary small">exclude:</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>
+												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>,
+												<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button>,
+												<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>
 												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
 												<script>
 													$(document).ready(function () {
@@ -348,8 +376,12 @@ links do) redisplays correctly.
 												</script>
 											</div>
 											<div class="col-12 col-md-4 col-xl-3">
-												<label for="accn_number" class="data-entry-label">Accession</label>
-												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#">
+												<label for="accn_number">Accession</label>
+												<span class="text-secondary small">(</span>
+												<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button>,
+												<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>
+												<span class="text-secondary small">)</span>
+												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" onchange="document.getElementById('accn_transaction_id').value='';">
 												<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
 												<script>
 													$(document).ready(function () {
@@ -358,6 +390,29 @@ links do) redisplays correctly.
 												</script>
 											</div>
 										</cfif>
+										<div class="col-12 col-md-4 col-xl-3">
+											<label for="project_type" class="data-entry-label">Nature of Contributions</label>
+											<cfset selected = "">
+											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
+											<select id="project_type" name="project_type" class="data-entry-select">
+												<option value="" #selected#></option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
+												<option value="loan" #selected#>Uses Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
+												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
+												<option value="accn" #selected#>Contributes Specimens</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
+												<option value="both" #selected#>Uses and Contributes</option>
+												<cfset selected = "">
+												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
+												<option value="neither" #selected#>Neither Uses nor Contributes</option>
+											</select>
+										</div>
 									</div>
 								</fieldset>
 							</div>

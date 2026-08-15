@@ -91,6 +91,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 	over sponsor_agent_name when both are provided.
 @param sponsor_agent_name substring to match against a sponsor's agent_name, used only when
 	sponsor_agent_id is blank.
+@param transaction_agent_id restrict to projects with this agent listed as a trans_agent on
+	any linked transaction (loan or accession); takes precedence over transaction_agent_name
+	when both are provided.
+@param transaction_agent_name substring to match against a transaction agent's agent_name,
+	used only when transaction_agent_id is blank.
 @param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
@@ -110,15 +115,26 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param publication_id restrict results to projects linked to this publication.
 @param collection_object_id restrict to projects related to this cataloged item, either
 	having contributed it (via an accession) or used it (via a loan, either directly or as
-	a part derived from it).
+	a part derived from it). "NOT NULL" restricts to projects related to any cataloged item
+	at all; "NULL" restricts to projects related to none. guid, the paired display field
+	for this argument's autocomplete-driven hidden input, overrides collection_object_id
+	with its own "NULL"/"NOT NULL" value when set that way (matching Publications.cfm's own
+	related_cataloged_item/cited_collection_object_id pair), so a stale numeric id left
+	over from an earlier autocomplete pick can't silently win once the Any/None buttons
+	(which target guid, not the hidden field) are used instead.
+@param guid see collection_object_id.
 @param loan_number substring to match (case-insensitively) against the loan_number of any
 	loan linked to a project via project_trans. Loan-specific rather than a generic
 	transaction_id filter, so a future accession_number field can be added independently. A
 	leading "=" matches the rest of the value exactly instead of by substring (appended
 	automatically when a loan is picked from the autocomplete); a leading "!" excludes
-	projects with that exact loan number instead of restricting to them.
+	projects with that exact loan number instead of restricting to them; "NOT NULL"
+	restricts to projects with any loan at all, "NULL" to projects with none.
 @param accn_transaction_id restrict to projects linked (via project_trans) to this specific
-	accession.
+	accession. "NOT NULL"/"NULL" as for collection_object_id, restricting to projects with
+	any accession, or none. accn_number overrides this the same way guid overrides
+	collection_object_id.
+@param accn_number see accn_transaction_id.
 @param project_id restrict results to this specific project.
 @param page 1-based page number of results to return; ignored (treated as 1) if size
 	indicates "return every row" (see size below).
@@ -140,6 +156,8 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="participant_agent_name" type="string" required="no" default="">
 	<cfargument name="sponsor_agent_id" type="string" required="no" default="">
 	<cfargument name="sponsor_agent_name" type="string" required="no" default="">
+	<cfargument name="transaction_agent_id" type="string" required="no" default="">
+	<cfargument name="transaction_agent_name" type="string" required="no" default="">
 	<cfargument name="project_type" type="string" required="no" default="">
 	<cfargument name="year" type="string" required="no" default="">
 	<cfargument name="start_year" type="string" required="no" default="">
@@ -150,8 +168,10 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="mask_project_fg" type="string" required="no" default="">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="collection_object_id" type="string" required="no" default="">
+	<cfargument name="guid" type="string" required="no" default="">
 	<cfargument name="loan_number" type="string" required="no" default="">
 	<cfargument name="accn_transaction_id" type="string" required="no" default="">
+	<cfargument name="accn_number" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
 	<cfargument name="page" type="string" required="no" default="1">
 	<cfargument name="size" type="string" required="no" default="50">
@@ -184,17 +204,39 @@ the caller. Returns one row per matching project, ordered by project_name.
 		</cfif>
 		<cfset variables.rowOffset = (variables.currentPage - 1) * variables.pageSize>
 
-		<!--- loan_number: a leading "=" means an exact match (appended automatically when a
-		      loan is picked from the autocomplete), a leading "!" means exclude an exact
+		<!--- loan_number: "NULL"/"NOT NULL" restrict to projects with no loan/any loan at
+		      all; otherwise a leading "=" means an exact match (appended automatically when
+		      a loan is picked from the autocomplete), a leading "!" means exclude an exact
 		      match, otherwise a plain substring match. --->
 		<cfset variables.loanNumberMode = "substring">
 		<cfset variables.loanNumberTerm = arguments.loan_number>
-		<cfif left(arguments.loan_number,1) EQ "=">
+		<cfif arguments.loan_number EQ "NULL">
+			<cfset variables.loanNumberMode = "null">
+		<cfelseif arguments.loan_number EQ "NOT NULL">
+			<cfset variables.loanNumberMode = "notnull">
+		<cfelseif left(arguments.loan_number,1) EQ "=">
 			<cfset variables.loanNumberMode = "exact">
 			<cfset variables.loanNumberTerm = RemoveChars(arguments.loan_number,1,1)>
 		<cfelseif left(arguments.loan_number,1) EQ "!">
 			<cfset variables.loanNumberMode = "exclude">
 			<cfset variables.loanNumberTerm = RemoveChars(arguments.loan_number,1,1)>
+		</cfif>
+
+		<!--- guid/accn_number are the display fields paired with the collection_object_id/
+		      accn_transaction_id hidden autocomplete-driven inputs; the Any/None buttons
+		      target the display field (matching Publications.cfm's related_cataloged_item/
+		      cited_collection_object_id precedent) rather than the hidden id, so a "NULL"/
+		      "NOT NULL" value there overrides whatever numeric id happens to still be in
+		      the hidden field. --->
+		<cfif arguments.guid EQ "NULL">
+			<cfset arguments.collection_object_id = "NULL">
+		<cfelseif arguments.guid EQ "NOT NULL">
+			<cfset arguments.collection_object_id = "NOT NULL">
+		</cfif>
+		<cfif arguments.accn_number EQ "NULL">
+			<cfset arguments.accn_transaction_id = "NULL">
+		<cfelseif arguments.accn_number EQ "NOT NULL">
+			<cfset arguments.accn_transaction_id = "NOT NULL">
 		</cfif>
 
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
@@ -340,7 +382,32 @@ the caller. Returns one row per matching project, ordered by project_name.
 				      Contributed sections query: contributed via an accession, or used via a
 				      loan -- either the whole cataloged item directly, or a specimen_part
 				      derived from it. --->
-				<cfif len(arguments.collection_object_id) GT 0 AND isnumeric(arguments.collection_object_id)>
+				<cfif arguments.collection_object_id EQ "NULL">
+					AND project.project_id NOT IN (
+						SELECT project_trans.project_id
+						FROM project_trans, accn, cataloged_item
+						WHERE
+							project_trans.transaction_id = accn.transaction_id AND
+							accn.transaction_id = cataloged_item.accn_id)
+					AND project.project_id NOT IN (
+						SELECT project_trans.project_id
+						FROM project_trans, loan_item
+						WHERE
+							project_trans.transaction_id = loan_item.transaction_id)
+				<cfelseif arguments.collection_object_id EQ "NOT NULL">
+					AND project.project_id IN (
+						SELECT project_trans.project_id
+						FROM project_trans, accn, cataloged_item
+						WHERE
+							project_trans.transaction_id = accn.transaction_id AND
+							accn.transaction_id = cataloged_item.accn_id
+						UNION
+						SELECT project_trans.project_id
+						FROM project_trans, loan_item
+						WHERE
+							project_trans.transaction_id = loan_item.transaction_id
+					)
+				<cfelseif len(arguments.collection_object_id) GT 0 AND isnumeric(arguments.collection_object_id)>
 					AND project.project_id IN (
 						SELECT project_trans.project_id
 						FROM project_trans, accn, cataloged_item
@@ -364,7 +431,15 @@ the caller. Returns one row per matching project, ordered by project_name.
 					)
 				</cfif>
 				<cfif len(arguments.loan_number) GT 0>
-					<cfif variables.loanNumberMode EQ "exclude">
+					<cfif variables.loanNumberMode EQ "null">
+						AND project.project_id NOT IN (
+							SELECT project_trans.project_id FROM project_trans, loan
+							WHERE project_trans.transaction_id = loan.transaction_id)
+					<cfelseif variables.loanNumberMode EQ "notnull">
+						AND project.project_id IN (
+							SELECT project_trans.project_id FROM project_trans, loan
+							WHERE project_trans.transaction_id = loan.transaction_id)
+					<cfelseif variables.loanNumberMode EQ "exclude">
 						AND project.project_id NOT IN (
 							SELECT project_trans.project_id
 							FROM project_trans, loan
@@ -390,10 +465,34 @@ the caller. Returns one row per matching project, ordered by project_name.
 						)
 					</cfif>
 				</cfif>
-				<cfif len(arguments.accn_transaction_id) GT 0 AND isnumeric(arguments.accn_transaction_id)>
+				<cfif arguments.accn_transaction_id EQ "NULL">
+					AND project.project_id NOT IN (
+						SELECT project_trans.project_id FROM project_trans, accn
+						WHERE project_trans.transaction_id = accn.transaction_id)
+				<cfelseif arguments.accn_transaction_id EQ "NOT NULL">
+					AND project.project_id IN (
+						SELECT project_trans.project_id FROM project_trans, accn
+						WHERE project_trans.transaction_id = accn.transaction_id)
+				<cfelseif len(arguments.accn_transaction_id) GT 0 AND isnumeric(arguments.accn_transaction_id)>
 					AND project.project_id IN (
 						SELECT project_trans.project_id FROM project_trans
 						WHERE project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.accn_transaction_id#">)
+				</cfif>
+				<cfif len(arguments.transaction_agent_id) GT 0 AND isnumeric(arguments.transaction_agent_id)>
+					AND project.project_id IN (
+						SELECT project_trans.project_id
+						FROM project_trans
+						JOIN trans_agent ON project_trans.transaction_id = trans_agent.transaction_id
+						WHERE trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_agent_id#">
+					)
+				<cfelseif len(arguments.transaction_agent_name) GT 0>
+					AND project.project_id IN (
+						SELECT project_trans.project_id
+						FROM project_trans
+						JOIN trans_agent ON project_trans.transaction_id = trans_agent.transaction_id
+						JOIN agent_name ON trans_agent.agent_id = agent_name.agent_id
+						WHERE UPPER(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.transaction_agent_name)#%">
+					)
 				</cfif>
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
