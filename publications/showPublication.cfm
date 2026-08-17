@@ -173,7 +173,7 @@ limitations under the License.
 							<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
 						</div>
 					</cfif>
-					<h1 class="h2 mt-2 mb-1">#getDetails.full_citation#</h1>
+					<h1 class="h2 mt-0 mb-1">#getDetails.full_citation#</h1>
 				</div>
 				<div class="card-body px-3 py-2">
 					<ul>
