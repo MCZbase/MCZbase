@@ -17,8 +17,7 @@ limitations under the License.
 
 --->
 <!---
-Search-with-results page for Projects, replacing the project-search half of
-SpecimenUsage.cfm (publication search there is served by /Publications.cfm).
+Search-with-results page for Projects.
 --->
 <cfset pageTitle = "Search Projects">
 <cfset action = "search">
