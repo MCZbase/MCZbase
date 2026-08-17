@@ -271,14 +271,16 @@ add-agent row using the rich agent picker (project_agent constraint).
 Function addProjectAgent. Insert a project_agent row.
 
 @param project_id the project.
-@param agent_name_id the agent to add (a specific name/spelling, not a bare agent_id).
+@param agent_id the picked agent.agent_id; resolved below to that agent's
+  preferred_agent_name_id, since project_agent.agent_name_id is a specific name/spelling,
+  not a bare agent_id, and the rich agent picker only returns agent_id.
 @param project_agent_role the agent's role on the project.
 @param agent_position display position among the project's other agents.
 @return a struct: status (1 on success), message.
 --->
 <cffunction name="addProjectAgent" access="remote" returntype="any" returnformat="json">
 	<cfargument name="project_id" type="string" required="yes">
-	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="project_agent_role" type="string" required="yes">
 	<cfargument name="agent_position" type="string" required="no" default="1">
 
@@ -286,8 +288,16 @@ Function addProjectAgent. Insert a project_agent row.
 	<cfset theResult = queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfif len(arguments.agent_name_id) EQ 0>
+			<cfif len(arguments.agent_id) EQ 0>
 				<cfthrow message="Unable to add agent, no agent selected. You must pick an agent from the pick list.">
+			</cfif>
+			<cfquery name="getPreferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT preferred_agent_name_id
+				FROM agent
+				WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">
+			</cfquery>
+			<cfif getPreferredName.recordcount EQ 0 OR len(getPreferredName.preferred_agent_name_id) EQ 0>
+				<cfthrow message="Unable to add agent, no preferred name found for the selected agent.">
 			</cfif>
 			<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newAgent_result">
 				INSERT INTO project_agent (
@@ -297,7 +307,7 @@ Function addProjectAgent. Insert a project_agent row.
 					AGENT_POSITION
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreferredName.preferred_agent_name_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.project_agent_role#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_position#">
 				)
@@ -473,19 +483,29 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 </cffunction>
 
 <!---
-Function addProjectSponsor. Insert a project_sponsor row.
+Function addProjectSponsor. Insert a project_sponsor row. agent_id is the picked
+agent.agent_id, resolved below to that agent's preferred_agent_name_id for the
+agent_name_id column.
 --->
 <cffunction name="addProjectSponsor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="project_id" type="string" required="yes">
-	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="acknowledgement" type="string" required="no" default="">
 
 	<cfset requireManageProjects()>
 	<cfset theResult = queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfif len(arguments.agent_name_id) EQ 0>
+			<cfif len(arguments.agent_id) EQ 0>
 				<cfthrow message="Unable to add sponsor, no agent selected. You must pick an agent from the pick list.">
+			</cfif>
+			<cfquery name="getPreferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT preferred_agent_name_id
+				FROM agent
+				WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">
+			</cfquery>
+			<cfif getPreferredName.recordcount EQ 0 OR len(getPreferredName.preferred_agent_name_id) EQ 0>
+				<cfthrow message="Unable to add sponsor, no preferred name found for the selected agent.">
 			</cfif>
 			<cfquery name="newSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newSponsor_result">
 				INSERT INTO project_sponsor (
@@ -494,7 +514,7 @@ Function addProjectSponsor. Insert a project_sponsor row.
 					ACKNOWLEDGEMENT
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreferredName.preferred_agent_name_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.acknowledgement#">
 				)
 			</cfquery>

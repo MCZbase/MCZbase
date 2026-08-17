@@ -79,7 +79,7 @@ function addProjectAgent(project_id) {
 		{
 			method: "addProjectAgent",
 			project_id: project_id,
-			agent_name_id: $("#new_agent_id").val(),
+			agent_id: $("#new_agent_id").val(),
 			project_agent_role: $("#new_agent_role").val(),
 			agent_position: $("#new_agent_position").val(),
 			returnformat: "json",
@@ -154,7 +154,7 @@ function addProjectSponsor(project_id) {
 		{
 			method: "addProjectSponsor",
 			project_id: project_id,
-			agent_name_id: $("#new_sponsor_id").val(),
+			agent_id: $("#new_sponsor_id").val(),
 			acknowledgement: $("#new_sponsor_ack").val(),
 			returnformat: "json",
 			queryformat: "struct"
