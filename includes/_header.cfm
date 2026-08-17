@@ -231,6 +231,8 @@
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 										<a class="dropdown-item" target="_top" href="/publications/Publication.cfm?action=new">Publication Record</a> 
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
 										<a class="dropdown-item" target="_top" href="/projects/Project.cfm?action=makeNew">Project Record</a>
 									</cfif>
 								</div>
@@ -275,6 +277,9 @@
 										<a class="dropdown-item" href="/Publications.cfm">Publications</a>
 										<a class="dropdown-item" href="/publications/Journals.cfm">Serial/Journal Titles</a> 
 									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
+										<a class="dropdown-item" target="_top" href="/Projects.cfm">Projects</a>
+									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 92%;">
@@ -292,6 +297,9 @@
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a> 
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
+											<a class="dropdown-item" target="_top" href="/projects/Project.cfm?action=makeNew">Project</a>
 										</cfif>
 									</div>
 								</cfif>

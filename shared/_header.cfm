@@ -188,17 +188,11 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/publications/" >
 	<script type="text/javascript" src="/publications/js/publications.js"></script>
 </cfif>
-<!--- Projects.cfm's search form offers a Loan Number field (makeLoanPicker) to
-      coldfusion_user sessions only, matching the transactions/ concept's general practice
-      of keeping its JS out of /shared/js/ and instead including it, as here, only for
-      privileged sessions on pages outside /transactions/ that need one of its functions. --->
 <cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<!--- To enable transaction pickers on project search page for logged in users --->
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
-<!--- /projects/Project.cfm's Loans/Accessions sections use makeLoanPicker/
-      makeAccessionAutocompleteMeta; manage_projects is already required to reach this
-      page at all, so the include is gated on it rather than the broader coldfusion_user. --->
-<cfif CGI.script_name IS "/projects/Project.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_projects")>
+<cfif CGI.script_name IS "/projects/Project.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/vocabularies/">
@@ -439,7 +433,9 @@ limitations under the License.
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a>
-											<a class="dropdown-item" href="/projects/Project.cfm?action=makeNew">Projects</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
+											<a class="dropdown-item" href="/projects/Project.cfm?action=makeNew">Project</a>
 										</cfif>
 									</div>
 									<div>
@@ -483,6 +479,9 @@ limitations under the License.
 											<a class="dropdown-item" href="/Publications.cfm">Publications</a>
 											<a class="dropdown-item" href="/publications/Journals.cfm">Serial/Journal Titles</a> 
 										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
+											<a class="dropdown-item" href="/Projects.cfm">Projects</a>
+										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 										<div>
@@ -495,17 +494,17 @@ limitations under the License.
 												<a class="dropdown-item" href="/localities/Locality.cfm?action=new">Locality</a> 
 												<a class="dropdown-item" href="/localities/CollectingEvent.cfm?action=new">Collecting Events</a> 
 											</cfif>
-									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
 												<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a> 
 												<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=organization">Organization Agent</a> 
 											</cfif>
-	
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 												<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a> 
 											</cfif>
-	
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_projects")>
+												<a class="dropdown-item" href="/projects/Project.cfm?action=makeNew">Project</a>
+											</cfif>
 										</div>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
