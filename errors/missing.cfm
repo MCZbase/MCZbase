@@ -295,7 +295,7 @@
 			<cfif listlen(rdurl,"/") gt 1>
 				<cfset niceProjName = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
-			<cfinclude template="/ProjectDetail.cfm">
+			<cfinclude template="/projects/showProject.cfm">
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
