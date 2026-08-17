@@ -366,7 +366,7 @@ limitations under the License.
 							<ul class="list-group">
 								<cfloop query="taxonPublications">
 									<li class="list-group-item text-nowrap">
-										<cfif len(taxonPublications.phylclass) GT 0>#encodeForHtml(taxonPublications.phylclass)# &mdash; </cfif><cfif len(taxonPublications.family) GT 0>#encodeForHtml(taxonPublications.family)# &mdash; </cfif><a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">#taxonPublications.display_name# <span class="sm-caps">#taxonPublications.author_text#</span></a>
+										<cfif len(taxonPublications.phylclass) GT 0>#encodeForHtml(taxonPublications.phylclass)# : </cfif><cfif len(taxonPublications.family) GT 0>#encodeForHtml(taxonPublications.family)# : </cfif><a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">#taxonPublications.display_name# <span class="sm-caps">#taxonPublications.author_text#</span></a>
 									</li>
 								</cfloop>
 							</ul>
