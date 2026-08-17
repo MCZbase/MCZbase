@@ -219,19 +219,6 @@ limitations under the License.
 						</ul>
 					</cfif>
 
-					<cfif taxonPublications.recordcount GT 0>
-						<h2 class="h5">Taxa Related to #getDetails.short_citation#:</h2>
-						<ul>
-							<cfloop query="taxonPublications">
-								<li>
-									<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">
-										#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
-									</a>
-								</li>
-							</cfloop>
-						</ul>
-					</cfif>
-
 					<cfif citedNamedGroups.recordcount GT 0>
 						<h2 class="h5">Named Groups Related to #getDetails.short_citation#:</h2>
 						<ul>
@@ -308,32 +295,78 @@ limitations under the License.
 						<cfif citedSpecimens.recordcount is 0>
 							<p class="mb-0"><b>No cited MCZ specimens.</b></p>
 						<cfelse>
+							<div class="table-responsive">
+								<table class="table table-sm table-striped mb-0">
+									<caption class="sr-only">Specimens cited in #getDetails.short_citation#</caption>
+									<thead>
+										<tr>
+											<th scope="col">GUID</th>
+											<th scope="col">Taxon</th>
+											<th scope="col">Type Status</th>
+											<th scope="col">Page</th>
+											<th scope="col">Remarks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfloop query="citedSpecimens">
+											<cfif len(citedSpecimens.occurs_page_number) GT 0>
+												<cfif len(citedSpecimens.citation_page_uri) GT 0>
+													<cfset page = "p. <a href='#citation_page_uri#'>#occurs_page_number#</a>" >
+												<cfelse>
+													<cfset page = "p. #occurs_page_number#">
+												</cfif>
+											<cfelse>
+												<cfif len(citedSpecimens.citation_page_uri) GT 0>
+													<cfset page = "<a href=#citation_page_uri#>[page link]</a>" >
+												<cfelse>
+													<cfset page = "">
+												</cfif>
+											</cfif>
+											<cfset taxonidLink ="">
+											<cfif len(citedSpecimens.taxonid) gt 0>
+												<cfset link = getGuidLink(guid=#citedSpecimens.taxonid#,guid_type=#citedSpecimens.taxonid_guid_type#)>
+												<cfset taxonidLink = " <span>#link#</span>" >
+											</cfif>
+											<tr>
+												<td><a href="/guid/#guid#">#guid#</a></td>
+												<td><a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span>#taxonidLink#</td>
+												<td>#type_status#</td>
+												<td>#page#</td>
+												<td>#citedSpecimens.citation_remarks#</td>
+											</tr>
+										</cfloop>
+									</tbody>
+								</table>
+							</div>
+						</cfif>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!--- Taxa Related card: closable, open by default. --->
+	<section class="row mx-0 mb-2">
+		<div class="col-12 px-0 accordion" id="taxaRelatedSectionAccordion">
+			<div class="card">
+				<div class="card-header py-0" id="taxaRelatedCardHeader">
+					<h2 class="h4 my-0">
+						<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##taxaRelatedCardBodyWrap" aria-expanded="true" aria-controls="taxaRelatedCardBodyWrap">
+							Taxa Related to #getDetails.short_citation# &mdash; #taxonPublications.recordcount# <cfif taxonPublications.recordcount EQ 1>taxon<cfelse>taxa</cfif>
+						</button>
+					</h2>
+				</div>
+				<div id="taxaRelatedCardBodyWrap" class="collapse show" aria-labelledby="taxaRelatedCardHeader" data-parent="##taxaRelatedSectionAccordion">
+					<div class="card-body">
+						<cfif taxonPublications.recordcount EQ 0>
+							<p class="mb-0">None.</p>
+						<cfelse>
 							<ul class="list-group">
-								<cfloop query="citedSpecimens">
-									<cfif len(citedSpecimens.occurs_page_number) GT 0>
-										<cfif len(citedSpecimens.citation_page_uri) GT 0>
-											<cfset page = "p. <a href='#citation_page_uri#'>#occurs_page_number#</a>" >
-										<cfelse>
-											<cfset page = "p. #occurs_page_number#">
-										</cfif>
-									<cfelse>
-										<cfif len(citedSpecimens.citation_page_uri) GT 0>
-											<cfset page = "<a href=#citation_page_uri#>[page link]</a>" >
-										<cfelse>
-											<cfset page = "">
-										</cfif>
-									</cfif>
-									<cfset taxonidLink ="">
-									<cfif len(citedSpecimens.taxonid) gt 0>
-										<cfset link = getGuidLink(guid=#citedSpecimens.taxonid#,guid_type=#citedSpecimens.taxonid_guid_type#)>
-										<cfset taxonidLink = "<span>#link#</span> " >
-									</cfif>
+								<cfloop query="taxonPublications">
 									<li class="list-group-item">
-										<a href="/guid/#guid#">#guid#</a> &mdash;
-										<a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span>
-										<cfif len(taxonidLink) GT 0 OR len(type_status) GT 0 OR len(page) GT 0 OR len(citedSpecimens.citation_remarks) GT 0>
-											<span class="d-block small mb-0">#taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#</span>
-										</cfif>
+										<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">
+											#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
+										</a>
 									</li>
 								</cfloop>
 							</ul>
