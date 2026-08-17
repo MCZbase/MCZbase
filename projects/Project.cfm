@@ -35,7 +35,7 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 <cfset pageTitle = "Edit Project">
 <cfif variables.action EQ "makeNew">
 	<cfset pageTitle = "New Project">
-</cfiif>
+</cfif>
 
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/projects/component/functions.cfc" runOnce="true">
