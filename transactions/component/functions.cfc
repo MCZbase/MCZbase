@@ -4580,7 +4580,7 @@ limitations under the License.
 						<ul class="pl-4 pr-0 list-style-disc">
 						<cfloop query="projs">
 							<li class="my-1">
-								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
+								<a href="/projects/Project.cfm?action=edit&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a>
 								<cfif mask_project_fg eq 1>#project_visibility#</cfif>
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>

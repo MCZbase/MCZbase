@@ -2715,7 +2715,7 @@ limitations under the License.
 						<cfloop query="isProj">
 							<li class="list-group-item pt-0">
 								<span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
-								<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#" target="_blank">#isProj.project_name#</a>
+								<a href="/projects/showProject.cfm?project_id=#isProj.project_id#" target="_blank">#isProj.project_name#</a>
 							</li>
 						</cfloop>
 					</cfif>
@@ -2724,7 +2724,7 @@ limitations under the License.
 						<cfloop query="hasLoanInProject">
 							<li class="list-group-item pt-0">
 								<span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
-								<a href="/ProjectDetail.cfm?src=proj&project_id=#hasLoanInProject.project_id#" target="_blank">#hasLoanInProject.project_name#</a>
+								<a href="/projects/showProject.cfm?project_id=#hasLoanInProject.project_id#" target="_blank">#hasLoanInProject.project_name#</a>
 							</li>
 						</cfloop>
 					</cfif>

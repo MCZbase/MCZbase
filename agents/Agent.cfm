@@ -1811,7 +1811,7 @@ limitations under the License.
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
-															<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#" target="_blank">#project_name#</a></li>
+															<li class="list-group-item">#getProjRoles.role# for <a href="/projects/showProject.cfm?project_id=#project_id#" target="_blank">#project_name#</a></li>
 														</cfloop>
 													</ul>
 												</cfif>

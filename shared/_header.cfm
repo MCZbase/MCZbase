@@ -381,11 +381,7 @@ limitations under the License.
 								</cfif>	
 								<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 								<a class="dropdown-item" href="/Publications.cfm">Publications</a>
-								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/SpecimenUsage.cfm">Projects</a><!--- old --->
-								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Projects</a>
-								</cfif>	
+								<a class="dropdown-item" href="/Projects.cfm">Projects</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<a class="dropdown-item" href="/annotations/Annotations.cfm">Annotations</a>
 									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> 
@@ -443,11 +439,7 @@ limitations under the License.
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Project.cfm?action=makeNew">Projects</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Projects</a> 
-											</cfif>
+											<a class="dropdown-item" href="/projects/Project.cfm?action=makeNew">Projects</a>
 										</cfif>
 									</div>
 									<div>
