@@ -134,6 +134,7 @@ limitations under the License.
 			taxonomy.taxon_name_id,
 			taxonomy.display_name,
 			taxonomy.author_text,
+			taxonomy.phylclass,
 			taxonomy.family
 		FROM
 			taxonomy_publication
@@ -364,11 +365,8 @@ limitations under the License.
 						<cfelse>
 							<ul class="list-group">
 								<cfloop query="taxonPublications">
-									<li class="list-group-item">
-										<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">
-											#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
-										</a>
-										<cfif len(taxonPublications.family) GT 0> &mdash; #encodeForHtml(taxonPublications.family)#</cfif>
+									<li class="list-group-item text-nowrap">
+										<cfif len(taxonPublications.phylclass) GT 0>#encodeForHtml(taxonPublications.phylclass)# &mdash; </cfif><cfif len(taxonPublications.family) GT 0>#encodeForHtml(taxonPublications.family)# &mdash; </cfif><a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">#taxonPublications.display_name# <span class="sm-caps">#taxonPublications.author_text#</span></a>
 									</li>
 								</cfloop>
 							</ul>
