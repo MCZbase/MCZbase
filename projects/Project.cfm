@@ -33,6 +33,9 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 <cfif len(form.project_id) GT 0><cfset variables.project_id = form.project_id></cfif>
 
 <cfset pageTitle = "Edit Project">
+<cfif variables.action EQ "makeNew">
+	<cfset pageTitle = "New Project">
+</cfiif>
 
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/projects/component/functions.cfc" runOnce="true">
