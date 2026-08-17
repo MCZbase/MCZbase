@@ -143,6 +143,8 @@ limitations under the License.
 			JOIN taxonomy on taxonomy_publication.taxon_name_id=taxonomy.taxon_name_id
 		WHERE
 			taxonomy_publication.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.publication_id#">
+		ORDER BY
+			taxonomy.phylclass, taxonomy.family, taxonomy.scienific_name
 	</cfquery>
 	<cfquery name="citedNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citedNamedGroups_result">
 		SELECT collection_name, type, pages, remarks, mask_fg, underscore_collection.underscore_collection_id
