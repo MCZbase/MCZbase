@@ -63,6 +63,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 <cfinclude template="/annotations/component/public.cfc" runOnce="true"><!--- for getProjectAnnotationCardBodyHtml() --->
+<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <cfset canManageProjects = false>
 <cfset canManageTransactions = false>
@@ -461,8 +462,12 @@ follows, but a single term needs no grouping.
 		SELECT
 			taxonomy.taxon_name_id,
 			scientific_name,
+			display_name,
 			author_text,
-			family
+			phylclass,
+			family,
+			taxonid,
+			taxonid_guid_type
 		FROM
 			project_taxonomy
 			join taxonomy on project_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -582,7 +587,14 @@ follows, but a single term needs no grouping.
 					<cfif getTaxa.recordcount GT 0>
 						<ul class="list-group">
 							<cfloop query="getTaxa">
-								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span></a><cfif len(family) GT 0> &mdash; #encodeForHtml(family)#</cfif></li>
+								<cfset taxonidLink = "">
+								<cfif len(getTaxa.taxonid) gt 0>
+									<cfset link = getGuidLink(guid=#getTaxa.taxonid#,guid_type=#getTaxa.taxonid_guid_type#)>
+									<cfset taxonidLink = " #link#" >
+								</cfif>
+								<li class="list-group-item text-nowrap">
+									<cfif len(trim(getTaxa.phylclass)) GT 0>#encodeForHtml(trim(getTaxa.phylclass))# : </cfif><cfif len(trim(getTaxa.family)) GT 0>#encodeForHtml(trim(getTaxa.family))# : </cfif><a href="/name/#EncodeForURL(scientific_name)#">#getTaxa.display_name#</a> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span>#taxonidLink#
+								</li>
 							</cfloop>
 						</ul>
 					<cfelse>
