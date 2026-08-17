@@ -183,7 +183,7 @@ limitations under the License.
 					<h1 class="h2 mt-0 mb-1">#getDetails.full_citation#</h1>
 				</div>
 				<div class="card-body px-3 py-2">
-					<ul>
+					<ul class="px-0">
 						<li><strong>Short Citation: </strong> #getDetails.short_citation#</li>
 						<li><strong>Year Published: </strong> #getDetails.published_year#</li>
 						<cfloop query="getAgents">
@@ -216,19 +216,16 @@ limitations under the License.
 						<cfif canManagePublications>
 							<li><strong>Location: </strong> #getDetails.publication_loc#</li>
 						</cfif>
-					</ul>
-
-					<cfif getAttributes.recordcount GT 0>
-						<ul>
+						<cfif getAttributes.recordcount GT 0>
 							<cfloop query="getAttributes">
 								<li><strong>#getAttributes.publication_attribute#: </strong> #getAttributes.pub_att_value#</li>
 							</cfloop>
-						</ul>
-					</cfif>
+						</cfif>
+					</ul>
 
 					<cfif citedNamedGroups.recordcount GT 0>
 						<h2 class="h5">Named Groups Related to #getDetails.short_citation#:</h2>
-						<ul>
+						<ul class="px-0">
 							<cfloop query="citedNamedGroups">
 								<li>
 									<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#citedNamedGroups.underscore_collection_id#">
