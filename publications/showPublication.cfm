@@ -133,7 +133,8 @@ limitations under the License.
 		SELECT distinct
 			taxonomy.taxon_name_id,
 			taxonomy.display_name,
-			taxonomy.author_text
+			taxonomy.author_text,
+			taxonomy.family
 		FROM
 			taxonomy_publication
 			JOIN taxonomy on taxonomy_publication.taxon_name_id=taxonomy.taxon_name_id
@@ -367,6 +368,7 @@ limitations under the License.
 										<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">
 											#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
 										</a>
+										<cfif len(taxonPublications.family) GT 0> &mdash; #encodeForHtml(taxonPublications.family)#</cfif>
 									</li>
 								</cfloop>
 							</ul>

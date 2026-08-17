@@ -246,10 +246,11 @@ follows, but a single term needs no grouping.
 	<cfquery name="getSpecimensUsedGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensUsedGuids_result">
 		SELECT DISTINCT
 			collection.collection_id,
-			cataloged_item.guid
+			flatTableName.guid
 		FROM
 			cataloged_item
 			join collection on cataloged_item.collection_id = collection.collection_id
+			join <cfif ucase(session.flatTableName) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on cataloged_item.collection_object_id = flatTableName.collection_object_id
 			join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 			join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 			join project_trans on loan_item.transaction_id = project_trans.transaction_id
@@ -258,10 +259,11 @@ follows, but a single term needs no grouping.
 		UNION
 		SELECT DISTINCT
 			collection.collection_id,
-			cataloged_item.guid
+			flatTableName.guid
 		FROM
 			cataloged_item
 			join collection on cataloged_item.collection_id = collection.collection_id
+			join <cfif ucase(session.flatTableName) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on cataloged_item.collection_object_id = flatTableName.collection_object_id
 			join loan_item on cataloged_item.collection_object_id = loan_item.collection_object_id
 			join project_trans on loan_item.transaction_id = project_trans.transaction_id
 		WHERE
@@ -317,13 +319,14 @@ follows, but a single term needs no grouping.
 	<cfquery name="getSpecimensContributedGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensContributedGuids_result">
 		SELECT DISTINCT
 			collection.collection_id,
-			cataloged_item.guid
+			flatTableName.guid
 		FROM
 			project
 			join project_trans on project.project_id = project_trans.project_id
 			join accn on project_trans.transaction_id = accn.transaction_id
 			join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 			join collection on cataloged_item.collection_id = collection.collection_id
+			join <cfif ucase(session.flatTableName) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on cataloged_item.collection_object_id = flatTableName.collection_object_id
 		WHERE
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
 	</cfquery>
