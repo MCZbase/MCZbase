@@ -135,7 +135,9 @@ limitations under the License.
 			taxonomy.display_name,
 			taxonomy.author_text,
 			taxonomy.phylclass,
-			taxonomy.family
+			taxonomy.family,
+			taxonomy.taxonid,
+			taxonomy.taxonid_guid_type
 		FROM
 			taxonomy_publication
 			JOIN taxonomy on taxonomy_publication.taxon_name_id=taxonomy.taxon_name_id
@@ -365,8 +367,13 @@ limitations under the License.
 						<cfelse>
 							<ul class="list-group">
 								<cfloop query="taxonPublications">
+									<cfset taxonidLink = "">
+									<cfif len(taxonPublications.taxonid) gt 0>
+										<cfset link = getGuidLink(guid=#taxonPublications.taxonid#,guid_type=#taxonPublications.taxonid_guid_type#)>
+										<cfset taxonidLink = " #link#" >
+									</cfif>
 									<li class="list-group-item text-nowrap">
-										<cfif len(trim(taxonPublications.phylclass)) GT 0>#encodeForHtml(trim(taxonPublications.phylclass))# : </cfif><cfif len(trim(taxonPublications.family)) GT 0>#encodeForHtml(trim(taxonPublications.family))# : </cfif><a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">#taxonPublications.display_name# <span class="sm-caps d-inline">#taxonPublications.author_text#</span></a>
+										<cfif len(trim(taxonPublications.phylclass)) GT 0>#encodeForHtml(trim(taxonPublications.phylclass))# : </cfif><cfif len(trim(taxonPublications.family)) GT 0>#encodeForHtml(trim(taxonPublications.family))# : </cfif><a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">#taxonPublications.display_name#</a> <span class="sm-caps d-inline">#taxonPublications.author_text#</span>#taxonidLink#
 									</li>
 								</cfloop>
 							</ul>
