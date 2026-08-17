@@ -167,17 +167,13 @@ limitations under the License.
 		<div class="col-12 px-0">
 			<div class="card mb-2">
 				<div class="card-header py-2">
-					<div class="d-flex align-items-start justify-content-between flex-wrap">
-						<div>
-							<h1 class="h2 mt-2 mb-1">#getDetails.full_citation#</h1>
+					<cfif canManagePublications>
+						<div class="float-right ml-2 d-flex flex-column">
+							<a class="btn btn-xs btn-primary mb-1" href="/publications/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a>
+							<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
 						</div>
-						<cfif canManagePublications>
-							<div class="mt-2 ml-2 flex-shrink-0 d-flex flex-column">
-								<a class="btn btn-xs btn-primary mb-1" href="/publications/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a>
-								<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
-							</div>
-						</cfif>
-					</div>
+					</cfif>
+					<h1 class="h2 mt-2 mb-1">#getDetails.full_citation#</h1>
 				</div>
 				<div class="card-body px-3 py-2">
 					<ul>
@@ -333,9 +329,11 @@ limitations under the License.
 										<cfset taxonidLink = "<span>#link#</span> " >
 									</cfif>
 									<li class="list-group-item">
-										<a href="/guid/#guid#">#guid#</a>
+										<a href="/guid/#guid#">#guid#</a> &mdash;
 										<a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span>
-										#taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#
+										<cfif len(taxonidLink) GT 0 OR len(type_status) GT 0 OR len(page) GT 0 OR len(citedSpecimens.citation_remarks) GT 0>
+											<span class="d-block small mb-0">#taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#</span>
+										</cfif>
 									</li>
 								</cfloop>
 							</ul>
