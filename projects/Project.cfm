@@ -25,12 +25,18 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 <cfparam name="url.project_id" default="">
 <cfparam name="form.project_id" default="">
 
-<cfset variables.action = url.action>
-<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
-<cfif len(variables.action) EQ 0><cfset variables.action = "makeNew"></cfif>
-
 <cfset variables.project_id = url.project_id>
 <cfif len(form.project_id) GT 0><cfset variables.project_id = form.project_id></cfif>
+
+<cfset variables.action = url.action>
+<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
+<cfif len(variables.action) EQ 0>
+	<cfif len(variables.project_id) GT 0>
+		<cfset variables.action = "edit">
+	<cfelse>
+		<cfset variables.action = "makeNew">
+	</cfif>
+</cfif>
 
 <cfset pageTitle = "Edit Project">
 <cfif variables.action EQ "makeNew">

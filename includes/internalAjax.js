@@ -423,8 +423,6 @@ function pickedRelationship (id){
 		findCollEvent(idInputName,formName,dispInputName);
 	} else if (relatedTable=='cataloged_item'){
 		findCatalogedItem(idInputName,dispInputName,formName);
-	} else if (relatedTable=='project'){
-		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='container'){
 		getContainer(dispInputName,idInputName,formName);
 	} else if (relatedTable=='taxonomy'){

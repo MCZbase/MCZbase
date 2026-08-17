@@ -932,15 +932,6 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 	var oawin=url+"?agentIdFld="+agentIdFld+"&agentNameFld="+agentNameFld+"&formName="+formName+"&agent_name="+agentNameString+"&allowCreation="+allowCreation;
 	agentpickwin=window.open(oawin,"","width=400,height=338, resizable,scrollbars");
 }
-function getProject(projIdFld,projNameFld,formName,projNameString){
-	var url="/picks/findProject.cfm";
-	var projIdFld;
-	var projNameFld;
-	var formName;
-	var projNameString;
-	var prwin=url+"?projIdFld="+projIdFld+"&projNameFld="+projNameFld+"&formName="+formName+"&project_name="+projNameString;
-	projpickwin=window.open(prwin,"","width=400,height=338, resizable,scrollbars");
-}
 function findCatalogedItem(collIdFld,CatNumStrFld,formName,oidType,oidNum,collID){
 	var url="/picks/findCatalogedItem.cfm";
 	var collIdFld;

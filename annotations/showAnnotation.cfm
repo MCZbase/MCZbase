@@ -278,7 +278,7 @@ limitations under the License.
 				WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.targetId#">
 			</cfquery>
 			<cfif targetRecord.recordcount EQ 1>
-				<cfset variables.targetIRI = Application.ServerRootUrl & "/projects/Project.cfm?project_id=" & variables.targetId>
+				<cfset variables.targetIRI = Application.ServerRootUrl & "/projects/showProject.cfm?project_id=" & variables.targetId>
 				<cfset variables.targetSummary = "Project " & targetRecord.project_name>
 			</cfif>
 		</cfcase>

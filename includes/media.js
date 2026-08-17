@@ -88,8 +88,6 @@ function pickedRelationship (id){
 		findCollEvent(idInputName,'newMedia',dispInputName);
 	} else if (relatedTable=='cataloged_item'){
 		findCatalogedItem(idInputName,dispInputName,'newMedia');
-	} else if (relatedTable=='project'){
-		getProject(idInputName,dispInputName,'newMedia');
 	} else if (relatedTable=='delete'){
 		document.getElementById(dispInputName).value='Marked for deletion.....';
 	} else {

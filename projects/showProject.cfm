@@ -23,18 +23,19 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 <!--- errors/missing.cfm's /project/{name} route sets niceProjName (unscoped), matching
       taxonomy/showTaxonomy.cfm's scientific_name convention for /name/{name}, then
-      includes this page. niceURL() below is an Oracle function, not the CF UDF of the
-      same name in shared/functionLib.cfm, so this can resolve before that file is
-      included (by /shared/_header.cfm, further down). --->
+      includes this page. niceURL() (shared/functionLib.cfm) is a CF UDF, not an Oracle
+      function, and can't run as inline SQL text inside a query -- resolve by reversing
+      its space-to-dash substitution instead, and matching project_name exactly. --->
 <cfif len(url.project_id) EQ 0 AND isdefined("niceProjName") AND len(niceProjName) GT 0>
 	<cfset earlyCanManageProjects = false>
 	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<cfset earlyCanManageProjects = true>
 	</cfif>
+	<cfset decodedProjName = replace(URLDecode(niceProjName),"-"," ","all")>
 	<cfquery name="resolveNiceProjName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT project_id
 		FROM project
-		WHERE niceURL(project_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#niceProjName#">
+		WHERE LOWER(project_name) = LOWER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#decodedProjName#">)
 		<cfif NOT earlyCanManageProjects>
 			AND mask_project_fg = 0
 		</cfif>
