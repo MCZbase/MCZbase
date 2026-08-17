@@ -324,7 +324,7 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"publication","/")>
 			<cfif listlen(rdurl,"/") gt 1>
-				<cfset publication_id = listgetat(rdurl,gPos+1,"/")>
+				<cfset url.publication_id = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
 			<cfinclude template="/publications/showPublication.cfm">
 			<cfcatch>
