@@ -521,7 +521,7 @@ follows, but a single term needs no grouping.
 						<ul class="list-group">
 							<cfloop query="getPublications">
 								<li class="list-group-item">
-									#encodeForHtml(formatted_publication)#
+									#formatted_publication#
 									<cfif numCit GT 0>
 										&mdash; <a href="/SpecimenResults.cfm?publication_id=#publication_id#">#numCit# cited specimen<cfif numCit NEQ 1>s</cfif></a>
 									</cfif>

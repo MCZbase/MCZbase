@@ -949,7 +949,7 @@ row using the existing publication picker.
 						<cfloop query="pubs">
 							<cfset plainCitation = REReplaceNoCase(formatted_publication,"<[^>]*>","","all")>
 							<li class="list-group-item">
-								#encodeForHtml(formatted_publication)#
+								#formatted_publication#
 								<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a>
 								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove #encodeForJavaScript(plainCitation)# from the project?','Remove Publication?', function() { removeProjectPublication(#project_id#,#publication_id#); });">Remove</button>
 							</li>
