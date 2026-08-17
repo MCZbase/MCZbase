@@ -54,6 +54,11 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 	<cfabort>
 </cfif>
 
+<cfset canManageTransactions = false>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<cfset canManageTransactions = true>
+</cfif>
+
 <script src="/projects/js/projects.js"></script>
 
 <cfif variables.action EQ "create">
@@ -252,19 +257,21 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 			</div>
 		</section>
 
-		<section class="row">
-			<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">
-				<h2 class="h3">Loans</h2>
-				<div id="loansDiv">#getLoansHtml(project_id="#getProject.project_id#")#</div>
-			</div>
-		</section>
+		<cfif canManageTransactions>
+			<section class="row">
+				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">
+					<h2 class="h3">Loans</h2>
+					<div id="loansDiv">#getLoansHtml(project_id="#getProject.project_id#")#</div>
+				</div>
+			</section>
 
-		<section class="row">
-			<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">
-				<h2 class="h3">Accessions</h2>
-				<div id="accessionsDiv">#getAccessionsHtml(project_id="#getProject.project_id#")#</div>
-			</div>
-		</section>
+			<section class="row">
+				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">
+					<h2 class="h3">Accessions</h2>
+					<div id="accessionsDiv">#getAccessionsHtml(project_id="#getProject.project_id#")#</div>
+				</div>
+			</section>
+		</cfif>
 
 		<section class="row">
 			<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">

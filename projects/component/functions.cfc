@@ -76,6 +76,12 @@ manage_projects role. Called at the top of every mutating method below.
 	</cfif>
 </cffunction>
 
+<cffunction name="requireManageTransactions" access="private" returntype="void">
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions"))>
+		<cfthrow message="Not Authorized: manage_transactions role is required.">
+	</cfif>
+</cffunction>
+
 <!---
 Function saveProject. Update a project's own fields (not its related records).
 
@@ -619,6 +625,7 @@ using the existing loan-number picker.
 --->
 <cffunction name="getLoansHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="project_id" type="string" required="yes">
+	<cfset requireManageTransactions()>
 	<cfthread name="loansThread">
 		<cfoutput>
 			<cftry>
@@ -704,6 +711,7 @@ add-accession row using an accession-number picker.
 --->
 <cffunction name="getAccessionsHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="project_id" type="string" required="yes">
+	<cfset requireManageTransactions()>
 	<cfthread name="accessionsThread">
 		<cfoutput>
 			<cftry>
@@ -798,6 +806,7 @@ distinguish transaction type.
 	<cfargument name="project_trans_remarks" type="string" required="no" default="">
 
 	<cfset requireManageProjects()>
+	<cfset requireManageTransactions()>
 	<cfset theResult = queryNew("status, message")>
 	<cftransaction>
 		<cftry>
@@ -844,6 +853,7 @@ project. Shared by both the Loans and Accessions sections.
 	<cfargument name="transaction_id" type="string" required="yes">
 
 	<cfset requireManageProjects()>
+	<cfset requireManageTransactions()>
 	<cfset theResult = queryNew("status, message")>
 	<cftransaction>
 		<cftry>
@@ -880,6 +890,7 @@ distinguish transaction type.
 	<cfargument name="project_trans_remarks" type="string" required="no" default="">
 
 	<cfset requireManageProjects()>
+	<cfset requireManageTransactions()>
 	<cfset theResult = queryNew("status, message")>
 	<cftransaction>
 		<cftry>
