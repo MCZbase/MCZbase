@@ -194,7 +194,7 @@ add-agent row using the rich agent picker (project_agent constraint).
 										<label class="data-entry-label mb-0" for="agent_role_#agent_name_id#">
 											<a href="/agents/Agent.cfm?agent_id=#agent_id#">#encodeForHtml(agent_name)#</a>
 										</label>
-										<select id="agent_role_#agent_name_id#" class="data-entry-select">
+										<select id="agent_role_#agent_name_id#" class="data-entry-select" onchange="setFeedbackControlState('agent_feedback_#agent_name_id#','unsaved');">
 											<cfloop query="ctRole">
 												<cfif ctRole.project_agent_role EQ agents.project_agent_role><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="#ctRole.project_agent_role#" #selected#>#ctRole.project_agent_role#</option>
@@ -203,7 +203,7 @@ add-agent row using the rich agent picker (project_agent constraint).
 									</div>
 									<div class="col-6 col-md-2">
 										<label class="data-entry-label mb-0" for="agent_position_#agent_name_id#">Position</label>
-										<select id="agent_position_#agent_name_id#" class="data-entry-select">
+										<select id="agent_position_#agent_name_id#" class="data-entry-select" onchange="setFeedbackControlState('agent_feedback_#agent_name_id#','unsaved');">
 											<cfloop from="1" to="#numPositions#" index="p">
 												<cfif p EQ agent_position><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="#p#" #selected#>#p#</option>
@@ -211,12 +211,13 @@ add-agent row using the rich agent picker (project_agent constraint).
 										</select>
 									</div>
 									<div class="col-3 col-md-2">
-										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectAgent(#project_id#,#agent_name_id#,'agent_role_#agent_name_id#','agent_position_#agent_name_id#');">Save</button>
+										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectAgent(#project_id#,#agent_name_id#,'agent_role_#agent_name_id#','agent_position_#agent_name_id#','agent_feedback_#agent_name_id#');">Save</button>
 									</div>
 									<div class="col-3 col-md-2">
-										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove this agent from the project?','Remove Agent?', function() { removeProjectAgent(#project_id#,#agent_name_id#); });">Remove</button>
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove #encodeForJavaScript(agent_name)# from the project?','Remove Agent?', function() { removeProjectAgent(#project_id#,#agent_name_id#); });">Remove</button>
 									</div>
 								</div>
+								<output id="agent_feedback_#agent_name_id#" class="small"></output>
 							</li>
 						</cfloop>
 					</ul>
@@ -255,7 +256,7 @@ add-agent row using the rich agent picker (project_agent constraint).
 				</div>
 				<script>
 					$(document).ready(function () {
-						makeConstrainedRichAgentPickerConfig("new_agent_name", "new_agent_id", "new_agent_icon", null, "", "project_agent", false);
+						makeConstrainedRichAgentPickerConfig("new_agent_name", "new_agent_id", "new_agent_icon", null, "", "", false);
 					});
 				</script>
 			<cfcatch>
@@ -442,15 +443,16 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 									</div>
 									<div class="col-12 col-md-4">
 										<label class="data-entry-label mb-0" for="sponsor_ack_#project_sponsor_id#">Acknowledgement</label>
-										<input type="text" id="sponsor_ack_#project_sponsor_id#" class="data-entry-input" value="#encodeForHtml(acknowledgement)#">
+										<input type="text" id="sponsor_ack_#project_sponsor_id#" class="data-entry-input" value="#encodeForHtml(acknowledgement)#" onchange="setFeedbackControlState('sponsor_feedback_#project_sponsor_id#','unsaved');">
 									</div>
 									<div class="col-6 col-md-2">
-										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectSponsor(#project_sponsor_id#,'sponsor_ack_#project_sponsor_id#');">Save</button>
+										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectSponsor(#project_sponsor_id#,'sponsor_ack_#project_sponsor_id#','sponsor_feedback_#project_sponsor_id#');">Save</button>
 									</div>
 									<div class="col-6 col-md-2">
-										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove this sponsor from the project?','Remove Sponsor?', function() { removeProjectSponsor(#project_id#,#project_sponsor_id#); });">Remove</button>
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove #encodeForJavaScript(agent_name)# as a sponsor of the project?','Remove Sponsor?', function() { removeProjectSponsor(#project_id#,#project_sponsor_id#); });">Remove</button>
 									</div>
 								</div>
+								<output id="sponsor_feedback_#project_sponsor_id#" class="small"></output>
 							</li>
 						</cfloop>
 					</ul>
@@ -476,7 +478,7 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 				</div>
 				<script>
 					$(document).ready(function () {
-						makeConstrainedRichAgentPickerConfig("new_sponsor_name", "new_sponsor_id", "new_sponsor_icon", null, "", "project_sponsor", false);
+						makeConstrainedRichAgentPickerConfig("new_sponsor_name", "new_sponsor_id", "new_sponsor_icon", null, "", "", false);
 					});
 				</script>
 			<cfcatch>
@@ -645,10 +647,23 @@ using the existing loan-number picker.
 					<ul class="list-group mb-2">
 						<cfloop query="loans">
 							<li class="list-group-item">
-								<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(loan_number)#</a>
-								&mdash; #encodeForHtml(loan_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(recipient_agent) GT 0>, loaned to #encodeForHtml(recipient_agent)#</cfif>
-								<cfif len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this loan from the project?','Remove Loan?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
+								<div class="form-row align-items-end">
+									<div class="col-12 col-md-6">
+										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(loan_number)#</a>
+										&mdash; #encodeForHtml(loan_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(recipient_agent) GT 0>, loaned to #encodeForHtml(recipient_agent)#</cfif>
+									</div>
+									<div class="col-8 col-md-3">
+										<label class="data-entry-label mb-0" for="loan_remarks_#transaction_id#">Remarks</label>
+										<input type="text" id="loan_remarks_#transaction_id#" class="data-entry-input" value="#encodeForHtml(project_trans_remarks)#" onchange="setFeedbackControlState('loan_remarks_feedback_#transaction_id#','unsaved');">
+									</div>
+									<div class="col-2 col-md-1">
+										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectTransactionRemarks(#project_id#,#transaction_id#,'loan_remarks_#transaction_id#','loan_remarks_feedback_#transaction_id#');">Save</button>
+									</div>
+									<div class="col-2 col-md-1">
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove loan #encodeForJavaScript(collection)# #encodeForJavaScript(loan_number)# from the project?','Remove Loan?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
+									</div>
+								</div>
+								<output id="loan_remarks_feedback_#transaction_id#" class="small"></output>
 							</li>
 						</cfloop>
 					</ul>
@@ -717,10 +732,23 @@ add-accession row using an accession-number picker.
 					<ul class="list-group mb-2">
 						<cfloop query="accns">
 							<li class="list-group-item">
-								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(accn_number)#</a>
-								&mdash; #encodeForHtml(accn_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(rec_agent) GT 0>, received from #encodeForHtml(rec_agent)#</cfif>
-								<cfif len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this accession from the project?','Remove Accession?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
+								<div class="form-row align-items-end">
+									<div class="col-12 col-md-6">
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(accn_number)#</a>
+										&mdash; #encodeForHtml(accn_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(rec_agent) GT 0>, received from #encodeForHtml(rec_agent)#</cfif>
+									</div>
+									<div class="col-8 col-md-3">
+										<label class="data-entry-label mb-0" for="accn_remarks_#transaction_id#">Remarks</label>
+										<input type="text" id="accn_remarks_#transaction_id#" class="data-entry-input" value="#encodeForHtml(project_trans_remarks)#" onchange="setFeedbackControlState('accn_remarks_feedback_#transaction_id#','unsaved');">
+									</div>
+									<div class="col-2 col-md-1">
+										<button type="button" class="btn btn-xs btn-secondary" onclick="saveProjectTransactionRemarks(#project_id#,#transaction_id#,'accn_remarks_#transaction_id#','accn_remarks_feedback_#transaction_id#');">Save</button>
+									</div>
+									<div class="col-2 col-md-1">
+										<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove accession #encodeForJavaScript(collection)# #encodeForJavaScript(accn_number)# from the project?','Remove Accession?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
+									</div>
+								</div>
+								<output id="accn_remarks_feedback_#transaction_id#" class="small"></output>
 							</li>
 						</cfloop>
 					</ul>
@@ -842,6 +870,44 @@ project. Shared by both the Loans and Accessions sections.
 </cffunction>
 
 <!---
+Function saveProjectTransactionRemarks. Update an existing project_trans row's remarks.
+Shared by both the Loans and Accessions sections, since project_trans doesn't
+distinguish transaction type.
+--->
+<cffunction name="saveProjectTransactionRemarks" access="remote" returntype="any" returnformat="json">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_trans_remarks" type="string" required="no" default="">
+
+	<cfset requireManageProjects()>
+	<cfset theResult = queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="upProjTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upProjTrans_result">
+				UPDATE project_trans
+				SET
+					project_trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.project_trans_remarks#">
+				WHERE
+					project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
+					AND transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+			</cfquery>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Remarks updated.", 1)>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!---
 Function getPublicationsHtml. Render the Publications section (project_publication) as an
 HTML fragment: existing publications with a Remove button, followed by an add-publication
 row using the existing publication picker.
@@ -869,10 +935,11 @@ row using the existing publication picker.
 				<cfelse>
 					<ul class="list-group mb-2">
 						<cfloop query="pubs">
+							<cfset plainCitation = REReplaceNoCase(formatted_publication,"<[^>]*>","","all")>
 							<li class="list-group-item">
 								#encodeForHtml(formatted_publication)#
 								<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this publication from the project?','Remove Publication?', function() { removeProjectPublication(#project_id#,#publication_id#); });">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove #encodeForJavaScript(plainCitation)# from the project?','Remove Publication?', function() { removeProjectPublication(#project_id#,#publication_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>
@@ -1003,7 +1070,7 @@ scientific-name picker.
 						<cfloop query="taxa">
 							<li class="list-group-item">
 								<a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a>
-								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this taxon from the project?','Remove Taxon?', function() { removeProjectTaxon(#project_id#,#taxon_name_id#); });">Remove</button>
+								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove #encodeForJavaScript(scientific_name)# from the project?','Remove Taxon?', function() { removeProjectTaxon(#project_id#,#taxon_name_id#); });">Remove</button>
 							</li>
 						</cfloop>
 					</ul>

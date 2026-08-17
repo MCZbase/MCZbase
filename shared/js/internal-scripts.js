@@ -4,11 +4,16 @@
 
 /** setFeedbackControlState is used to set the css classes and message of the feedback control
  * @param control the id of the control to set without a leading # selector
- * @param state the state to set, one of 'saving', 'saved', 'error', 'info', 'success', 'removed'
+ * @param state the state to set, one of 'unsaved', 'saving', 'saved', 'error', 'info', 'success', 'removed'
 */
 function setFeedbackControlState(control,state){
 	state = state.toLowerCase();
-	if (state == 'saving') {
+	if (state == 'unsaved') {
+		message = "Unsaved changes."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'saving') {
 		message = "Saving..."
 		$('#' + control).addClass('text-warning');
 		$('#' + control).removeClass('text-success');

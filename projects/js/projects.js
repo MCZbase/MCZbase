@@ -94,11 +94,16 @@ function addProjectAgent(project_id) {
 	});
 }
 
-/** saveProjectAgent saves an existing agent row's role/position.
+/** saveProjectAgent saves an existing agent row's role/position, reporting
+ * Saving.../Saved./Error. on feedbackControl via the shared setFeedbackControlState().
+ * The section refresh (which may reorder rows by position) is delayed briefly so the
+ * Saved. message is visible before the row is rebuilt.
  * @param roleControl the id of that row's role select, without a leading # selector.
  * @param positionControl the id of that row's position select, without a leading # selector.
+ * @param feedbackControl the id of that row's feedback <output>, without a leading # selector.
  */
-function saveProjectAgent(project_id, agent_name_id, roleControl, positionControl) {
+function saveProjectAgent(project_id, agent_name_id, roleControl, positionControl, feedbackControl) {
+	setFeedbackControlState(feedbackControl, "saving");
 	jQuery.getJSON("/projects/component/functions.cfc",
 		{
 			method: "saveProjectAgent",
@@ -110,10 +115,16 @@ function saveProjectAgent(project_id, agent_name_id, roleControl, positionContro
 			queryformat: "struct"
 		},
 		function (result) {
-			refreshProjectAgents(project_id);
-			if (result[0].STATUS != 1) { alert(result[0].MESSAGE); }
+			if (result[0].STATUS == 1) {
+				setFeedbackControlState(feedbackControl, "saved");
+				setTimeout(function () { refreshProjectAgents(project_id); }, 600);
+			} else {
+				setFeedbackControlState(feedbackControl, "error");
+				alert(result[0].MESSAGE);
+			}
 		}
 	).fail(function (jqXHR, textStatus, error) {
+		setFeedbackControlState(feedbackControl, "error");
 		handleFail(jqXHR, textStatus, error, "updating an agent on a project");
 	});
 }
@@ -168,11 +179,13 @@ function addProjectSponsor(project_id) {
 	});
 }
 
-/** saveProjectSponsor saves an existing sponsor row's acknowledgement.
+/** saveProjectSponsor saves an existing sponsor row's acknowledgement, reporting
+ * Saving.../Saved./Error. on feedbackControl via the shared setFeedbackControlState().
  * @param ackControl the id of that row's acknowledgement input, without a leading # selector.
+ * @param feedbackControl the id of that row's feedback <output>, without a leading # selector.
  */
-function saveProjectSponsor(project_sponsor_id, ackControl) {
-	var project_id = $("#project_id").val();
+function saveProjectSponsor(project_sponsor_id, ackControl, feedbackControl) {
+	setFeedbackControlState(feedbackControl, "saving");
 	jQuery.getJSON("/projects/component/functions.cfc",
 		{
 			method: "saveProjectSponsor",
@@ -182,10 +195,15 @@ function saveProjectSponsor(project_sponsor_id, ackControl) {
 			queryformat: "struct"
 		},
 		function (result) {
-			refreshProjectSponsors(project_id);
-			if (result[0].STATUS != 1) { alert(result[0].MESSAGE); }
+			if (result[0].STATUS == 1) {
+				setFeedbackControlState(feedbackControl, "saved");
+			} else {
+				setFeedbackControlState(feedbackControl, "error");
+				alert(result[0].MESSAGE);
+			}
 		}
 	).fail(function (jqXHR, textStatus, error) {
+		setFeedbackControlState(feedbackControl, "error");
 		handleFail(jqXHR, textStatus, error, "updating a sponsor on a project");
 	});
 }
@@ -268,6 +286,36 @@ function addProjectAccession(project_id) {
 		}
 	).fail(function (jqXHR, textStatus, error) {
 		handleFail(jqXHR, textStatus, error, "adding an accession to a project");
+	});
+}
+
+/** saveProjectTransactionRemarks saves an existing loan/accession row's remarks, reporting
+ * Saving.../Saved./Error. on feedbackControl via the shared setFeedbackControlState().
+ * @param remarksControl the id of that row's remarks input, without a leading # selector.
+ * @param feedbackControl the id of that row's feedback <output>, without a leading # selector.
+ */
+function saveProjectTransactionRemarks(project_id, transaction_id, remarksControl, feedbackControl) {
+	setFeedbackControlState(feedbackControl, "saving");
+	jQuery.getJSON("/projects/component/functions.cfc",
+		{
+			method: "saveProjectTransactionRemarks",
+			project_id: project_id,
+			transaction_id: transaction_id,
+			project_trans_remarks: $("#" + remarksControl).val(),
+			returnformat: "json",
+			queryformat: "struct"
+		},
+		function (result) {
+			if (result[0].STATUS == 1) {
+				setFeedbackControlState(feedbackControl, "saved");
+			} else {
+				setFeedbackControlState(feedbackControl, "error");
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function (jqXHR, textStatus, error) {
+		setFeedbackControlState(feedbackControl, "error");
+		handleFail(jqXHR, textStatus, error, "saving remarks on a project transaction");
 	});
 }
 
