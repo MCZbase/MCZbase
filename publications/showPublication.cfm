@@ -133,6 +133,7 @@ limitations under the License.
 		SELECT distinct
 			taxonomy.taxon_name_id,
 			taxonomy.display_name,
+			taxonomy.scientific_name,
 			taxonomy.author_text,
 			taxonomy.phylclass,
 			taxonomy.family,
