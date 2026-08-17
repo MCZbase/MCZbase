@@ -559,7 +559,15 @@ follows, but a single term needs no grouping.
 					<h2 class="h4 my-1 mx-2 px-2">Duration</h2>
 				</div>
 				<div class="card-body py-2">
-					<p class="mb-0">#dateformat(getProject.start_date,"yyyy-mm-dd")# to #dateformat(getProject.end_date,"yyyy-mm-dd")#</p>
+					<cfif len(getProject.start_date) EQ 0 AND len(getProject.end_date) EQ 0>
+						<p class="mb-0">Unknown</p>
+					<cfelseif len(getProject.start_date) EQ 0>
+						<p class="mb-0">Unknown - #dateformat(getProject.end_date,"yyyy-mm-dd")#</p>
+					<cfelseif len(getProject.end_date) EQ 0>
+						<p class="mb-0">#dateformat(getProject.start_date,"yyyy-mm-dd")# - [ongoing]</p>
+					<cfelse>
+						<p class="mb-0">#dateformat(getProject.start_date,"yyyy-mm-dd")# to #dateformat(getProject.end_date,"yyyy-mm-dd")#</p>
+					</cfif>
 				</div>
 			</div>
 
