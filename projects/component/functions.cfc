@@ -169,6 +169,7 @@ add-agent row using the rich agent picker (project_agent constraint).
 						project_agent.agent_position
 					FROM
 						project_agent
+						<!--- project_agent.agent_name_id is FK'd to agent_name.agent_name_id, not agent.agent_id; see addProjectAgent's schema note. --->
 						JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
 					WHERE
 						project_agent.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -270,10 +271,15 @@ add-agent row using the rich agent picker (project_agent constraint).
 <!---
 Function addProjectAgent. Insert a project_agent row.
 
+Schema note: project_agent.agent_name_id is FK'd to agent_name.agent_name_id, not to
+agent.agent_id -- likely meant to reference the agent directly, but doesn't. The rich
+agent picker only offers agent-level (not name-variant-level) selection, so this resolves
+the picked agent_id to that agent's CURRENT preferred_agent_name_id. If an agent's
+preferred name is later changed, previously-stored rows keep pointing at the old name row
+(still the same agent, via agent_name.agent_id, just a stale display spelling).
+
 @param project_id the project.
-@param agent_id the picked agent.agent_id; resolved below to that agent's
-  preferred_agent_name_id, since project_agent.agent_name_id is a specific name/spelling,
-  not a bare agent_id, and the rich agent picker only returns agent_id.
+@param agent_id the picked agent.agent_id; resolved below to preferred_agent_name_id.
 @param project_agent_role the agent's role on the project.
 @param agent_position display position among the project's other agents.
 @return a struct: status (1 on success), message.
@@ -417,6 +423,7 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 						project_sponsor.acknowledgement
 					FROM
 						project_sponsor
+						<!--- project_sponsor.agent_name_id is FK'd to agent_name.agent_name_id, not agent.agent_id; see addProjectAgent's schema note. --->
 						JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
 					WHERE
 						project_sponsor.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
@@ -483,9 +490,13 @@ followed by an add-sponsor row using the rich agent picker (project_sponsor cons
 </cffunction>
 
 <!---
-Function addProjectSponsor. Insert a project_sponsor row. agent_id is the picked
-agent.agent_id, resolved below to that agent's preferred_agent_name_id for the
-agent_name_id column.
+Function addProjectSponsor. Insert a project_sponsor row.
+
+Schema note: project_sponsor.agent_name_id is FK'd to agent_name.agent_name_id, not to
+agent.agent_id -- see addProjectAgent's note above; same fix, same caveat.
+
+agent_id is the picked agent.agent_id, resolved below to that agent's
+preferred_agent_name_id for the agent_name_id column.
 --->
 <cffunction name="addProjectSponsor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="project_id" type="string" required="yes">
