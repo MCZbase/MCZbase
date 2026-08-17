@@ -391,17 +391,23 @@ links do) redisplays correctly.
 											<label for="project_type" class="data-entry-label">Nature of Contributions</label>
 											<cfset selected = "">
 											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
+											<cfset loanText = "">
+											<cfset accessionText="">
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<cfset loanText = " (in loans)">
+												<cfset accessionText = " (in accessions)">
+											</cfif>
 											<select id="project_type" name="project_type" class="data-entry-select">
 												<option value="" #selected#></option>
 												<cfset selected = "">
 												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
-												<option value="loan" #selected#>Uses Specimens</option>
+												<option value="loan" #selected#>Uses Specimens#loanText#</option>
 												<cfset selected = "">
 												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
 												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
 												<cfset selected = "">
 												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
-												<option value="accn" #selected#>Contributes Specimens</option>
+												<option value="accn" #selected#>Contributes Specimens#accessionText#</option>
 												<cfset selected = "">
 												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
 												<option value="both" #selected#>Uses and Contributes</option>
