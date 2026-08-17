@@ -285,6 +285,8 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 	<script>
 		$(document).ready(function () {
 			monitorForChangesGeneric('projectForm', handleChange);
+			$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
+			$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
 		});
 	</script>
 
@@ -340,6 +342,14 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 		</section>
 		</cfoutput>
 	</main>
+
+	<script>
+		$(document).ready(function () {
+			$('#start_date').datepicker({ dateFormat: 'yy-mm-dd' });
+			$('#end_date').datepicker({ dateFormat: 'yy-mm-dd' });
+		});
+	</script>
+
 </cfif>
 
 <cfinclude template = "/shared/_footer.cfm">

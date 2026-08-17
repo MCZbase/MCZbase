@@ -594,7 +594,9 @@ using the existing loan-number picker.
 						collection.collection,
 						loan.loan_number,
 						loan.transaction_id,
-						trans.nature_of_material,
+						loan.loan_status,
+						TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
+						concattransagent(loan.transaction_id,'recipient institution') AS recipient_agent,
 						project_trans.project_trans_remarks
 					FROM
 						project_trans
@@ -613,7 +615,8 @@ using the existing loan-number picker.
 						<cfloop query="loans">
 							<li class="list-group-item">
 								<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(loan_number)#</a>
-								<cfif len(project_trans_remarks) GT 0> -- #encodeForHtml(project_trans_remarks)#</cfif>
+								&mdash; #encodeForHtml(loan_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(recipient_agent) GT 0>, loaned to #encodeForHtml(recipient_agent)#</cfif>
+								<cfif len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
 								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this loan from the project?','Remove Loan?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
 							</li>
 						</cfloop>
@@ -663,7 +666,9 @@ add-accession row using an accession-number picker.
 						collection.collection,
 						accn.accn_number,
 						accn.transaction_id,
-						trans.nature_of_material,
+						accn.accn_status,
+						TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
+						concattransagent(accn.transaction_id,'received from') AS rec_agent,
 						project_trans.project_trans_remarks
 					FROM
 						project_trans
@@ -682,7 +687,8 @@ add-accession row using an accession-number picker.
 						<cfloop query="accns">
 							<li class="list-group-item">
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(collection)# #encodeForHtml(accn_number)#</a>
-								<cfif len(project_trans_remarks) GT 0> -- #encodeForHtml(project_trans_remarks)#</cfif>
+								&mdash; #encodeForHtml(accn_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(rec_agent) GT 0>, received from #encodeForHtml(rec_agent)#</cfif>
+								<cfif len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
 								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove this accession from the project?','Remove Accession?', function() { removeProjectTransaction(#project_id#,#transaction_id#); });">Remove</button>
 							</li>
 						</cfloop>

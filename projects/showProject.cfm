@@ -62,6 +62,7 @@ Details page for a single project, replacing ProjectDetail.cfm.
 
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
+<cfinclude template="/annotations/component/public.cfc" runOnce="true"><!--- for getProjectAnnotationCardBodyHtml() --->
 
 <cfset canManageProjects = false>
 <cfset canManageTransactions = false>
@@ -128,6 +129,7 @@ follows, but a single term needs no grouping.
 				project_name,
 				mask_project_fg,
 				project_description,
+				project_remarks,
 				start_date,
 				end_date
 			FROM
@@ -239,6 +241,33 @@ follows, but a single term needs no grouping.
 		SELECT collection FROM getSpecimensUsed GROUP BY collection
 	</cfquery>
 
+	<!--- Individual specimen guids, only rendered per-collection below when that
+	      collection's count is small enough to list individually. --->
+	<cfquery name="getSpecimensUsedGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensUsedGuids_result">
+		SELECT DISTINCT
+			collection.collection_id,
+			cataloged_item.guid
+		FROM
+			cataloged_item
+			join collection on cataloged_item.collection_id = collection.collection_id
+			join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+			join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+			join project_trans on loan_item.transaction_id = project_trans.transaction_id
+		WHERE
+			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+		UNION
+		SELECT DISTINCT
+			collection.collection_id,
+			cataloged_item.guid
+		FROM
+			cataloged_item
+			join collection on cataloged_item.collection_id = collection.collection_id
+			join loan_item on cataloged_item.collection_object_id = loan_item.collection_object_id
+			join project_trans on loan_item.transaction_id = project_trans.transaction_id
+		WHERE
+			project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+	</cfquery>
+
 	<!--- Loan numbers this project is linked to, needed (regardless of role) to build
 	      Specimens Used search-builder links; the Loans card itself, with full detail,
 	      stays manage_transactions-gated below. --->
@@ -283,6 +312,22 @@ follows, but a single term needs no grouping.
 		SELECT collection FROM getSpecimensContributed GROUP BY collection
 	</cfquery>
 
+	<!--- Individual specimen guids, only rendered per-collection below when that
+	      collection's count is small enough to list individually. --->
+	<cfquery name="getSpecimensContributedGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getSpecimensContributedGuids_result">
+		SELECT DISTINCT
+			collection.collection_id,
+			cataloged_item.guid
+		FROM
+			project
+			join project_trans on project.project_id = project_trans.project_id
+			join accn on project_trans.transaction_id = accn.transaction_id
+			join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+			join collection on cataloged_item.collection_id = collection.collection_id
+		WHERE
+			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+	</cfquery>
+
 	<cfif canManageTransactions>
 		<!--- Loans through which this project used specimens, directly or via a derived
 		      part. --->
@@ -292,7 +337,8 @@ follows, but a single term needs no grouping.
 				loan.loan_number,
 				loan.loan_status,
 				TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
-				concattransagent(loan.transaction_id,'recipient institution') AS recipient_agent
+				concattransagent(loan.transaction_id,'recipient institution') AS recipient_agent,
+				project_trans.project_trans_remarks
 			FROM
 				project_trans
 				join loan_item on project_trans.transaction_id = loan_item.transaction_id
@@ -311,7 +357,8 @@ follows, but a single term needs no grouping.
 				accn.accn_number,
 				accn.accn_status,
 				TO_CHAR(trans.trans_date,'YYYY-MM-DD') AS trans_date,
-				concattransagent(accn.transaction_id,'received from') AS rec_agent
+				concattransagent(accn.transaction_id,'received from') AS rec_agent,
+				project_trans.project_trans_remarks
 			FROM
 				project_trans
 				join accn on project_trans.transaction_id = accn.transaction_id
@@ -411,7 +458,8 @@ follows, but a single term needs no grouping.
 		SELECT
 			taxonomy.taxon_name_id,
 			scientific_name,
-			author_text
+			author_text,
+			family
 		FROM
 			project_taxonomy
 			join taxonomy on project_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -443,6 +491,17 @@ follows, but a single term needs no grouping.
 			</cfif>
 
 			<p>#encodeForHtml(getProject.project_description)#</p>
+
+			<cfif oneOfUs EQ 1 AND len(getProject.project_remarks) GT 0>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h2 class="h4 my-1 mx-2 px-2">Remarks</h2>
+					</div>
+					<div class="card-body py-2">
+						<p class="mb-0">#encodeForHtml(getProject.project_remarks)#</p>
+					</div>
+				</div>
+			</cfif>
 
 			<cfif getPublications.recordcount GT 0>
 				<div class="card mb-2 bg-light">
@@ -520,7 +579,7 @@ follows, but a single term needs no grouping.
 					<cfif getTaxa.recordcount GT 0>
 						<ul class="list-group">
 							<cfloop query="getTaxa">
-								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span></a></li>
+								<li class="list-group-item"><a href="/name/#EncodeForURL(scientific_name)#"><em>#encodeForHtml(scientific_name)#</em> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span></a><cfif len(family) GT 0> &mdash; #encodeForHtml(family)#</cfif></li>
 							</cfloop>
 						</ul>
 					<cfelse>
@@ -536,27 +595,47 @@ follows, but a single term needs no grouping.
 					FROM
 						annotations
 					WHERE
-						project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
-				</cfquery>
-				<div class="card mb-2 bg-light">
-					<div class="card-header py-0">
-						<h2 class="h4 my-1 mx-2 px-2">Annotations</h2>
-					</div>
-					<div class="card-body py-2">
-						<cfif existingAnnotations.cnt GT 0>
-							<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-								class="btn btn-xs btn-info" title="Annotate this record and view existing annotations"
-								onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate/View Annotations</button>
-							<p>There <cfif existingAnnotations.cnt EQ 1>is<cfelse>are</cfif> #existingAnnotations.cnt# annotation<cfif existingAnnotations.cnt NEQ 1>s</cfif> on this project record.</p>
-						<cfelse>
-							<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
-								class="btn btn-xs btn-info" title="Annotate this record"
-								onclick="openAnnotationsDialog('annotationDialog','PROJECT',#url.project_id#,null);">Annotate</button>
-							<p class="mb-0">There are no annotations on this project record.</p>
+						target_table = 'PROJECT'
+						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+						<cfif NOT canManageProjects>
+							AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 						</cfif>
-						<div id="annotationDialog"></div>
+				</cfquery>
+				<div id="projectAnnotationDialog"></div>
+				<script type="text/javascript">
+					function reloadProjectAnnotationCardBody() {
+						$.ajax({
+							url: '/annotations/component/public.cfc',
+							data: { method: 'getProjectAnnotationCardBodyHtml', project_id: #url.project_id# },
+							success: function(result) { $('##projectAnnotationsCardBodyWrap').html(result); },
+							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading project annotations'); },
+							dataType: 'html'
+						});
+					}
+				</script>
+				<section class="accordion" id="projectAnnotationsSection">
+					<div class="card mb-2 bg-light">
+						<div class="card-header" id="projectAnnotationsHeader">
+							<h2 class="h4 my-0">
+								<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##projectAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="projectAnnotationsCardBodyWrap">
+									Annotations (#existingAnnotations.cnt#)
+								</button>
+								<cfif canManageProjects AND existingAnnotations.cnt GT 0>
+									<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
+										Edit Annotations
+									</a>
+								<cfelse>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
+										Annotate
+									</a>
+								</cfif>
+							</h2>
+						</div>
+						<div id="projectAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="projectAnnotationsHeader" data-parent="##projectAnnotationsSection">
+							#getProjectAnnotationCardBodyHtml(project_id=val(url.project_id))#
+						</div>
 					</div>
-				</div>
+				</section>
 			</cfif>
 		</div>
 
@@ -573,6 +652,7 @@ follows, but a single term needs no grouping.
 									<li class="list-group-item">
 										<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(loan_number)#</a>
 										&mdash; #encodeForHtml(loan_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(recipient_agent) GT 0>, loaned to #encodeForHtml(recipient_agent)#</cfif>
+										<cfif oneOfUs EQ 1 AND len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
 									</li>
 								</cfloop>
 							</ul>
@@ -594,6 +674,16 @@ follows, but a single term needs no grouping.
 								<li class="list-group-item">
 									<a href="#buildSpecimenBuilderSearchUrl(orField='LOAN:LOAN_NUMBER', orValues=loanNumbersForSearch, collectionCde=collection_cde)#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?loan_project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+									<cfif c LT 11>
+										<cfquery name="theseUsedGuids" dbtype="query">
+											SELECT guid FROM getSpecimensUsedGuids WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+										</cfquery>
+										<ul class="list-group mt-1">
+											<cfloop query="theseUsedGuids">
+												<li class="list-group-item py-1"><a href="/guid/#EncodeForURL(guid)#" target="_blank">#encodeForHtml(guid)#</a></li>
+											</cfloop>
+										</ul>
+									</cfif>
 								</li>
 							</cfloop>
 							<cfif specUsedCollections.recordcount GT 1>
@@ -621,6 +711,7 @@ follows, but a single term needs no grouping.
 									<li class="list-group-item">
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#" target="_blank">#encodeForHtml(accn_number)#</a>
 										&mdash; #encodeForHtml(accn_status)#<cfif len(trans_date) GT 0>, #trans_date#</cfif><cfif len(rec_agent) GT 0>, received from #encodeForHtml(rec_agent)#</cfif>
+										<cfif oneOfUs EQ 1 AND len(project_trans_remarks) GT 0><span class="d-block small mb-0">#encodeForHtml(project_trans_remarks)#</span></cfif>
 									</li>
 								</cfloop>
 							</ul>
@@ -642,6 +733,16 @@ follows, but a single term needs no grouping.
 								<li class="list-group-item">
 									<a href="#buildSpecimenBuilderSearchUrl(orField='VIEW_CI_PROJECT:PROJECT_NAME', orValues=projectNameForSearch, collectionCde=collection_cde)#">#c# #encodeForHtml(collection)# specimen<cfif c NEQ 1>s</cfif></a>
 									<a href="/bnhmMaps/bnhmMapData.cfm?project_id=#url.project_id#&collection_id=#collection_id#">[ BerkeleyMapper ]</a>
+									<cfif c LT 11>
+										<cfquery name="theseContGuids" dbtype="query">
+											SELECT guid FROM getSpecimensContributedGuids WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+										</cfquery>
+										<ul class="list-group mt-1">
+											<cfloop query="theseContGuids">
+												<li class="list-group-item py-1"><a href="/guid/#EncodeForURL(guid)#" target="_blank">#encodeForHtml(guid)#</a></li>
+											</cfloop>
+										</ul>
+									</cfif>
 								</li>
 							</cfloop>
 							<cfif specContCollections.recordcount GT 1>
