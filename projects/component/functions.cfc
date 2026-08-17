@@ -20,6 +20,7 @@ limitations under the License.
 
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <!--- backing for a project autocomplete control --->
 <cffunction name="getProjectAutocomplete" access="remote" returntype="any" returnformat="json">
@@ -1065,7 +1066,13 @@ scientific-name picker.
 				<cfquery name="taxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxa_result">
 					SELECT
 						taxonomy.taxon_name_id,
-						scientific_name
+						scientific_name,
+						display_name,
+						author_text,
+						phylclass,
+						family,
+						taxonid,
+						taxonid_guid_type
 					FROM
 						project_taxonomy
 						JOIN taxonomy ON project_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -1079,8 +1086,13 @@ scientific-name picker.
 				<cfelse>
 					<ul class="list-group mb-2">
 						<cfloop query="taxa">
-							<li class="list-group-item">
-								<a href="/name/#EncodeForURL(scientific_name)#">#encodeForHtml(scientific_name)#</a>
+							<cfset taxonidLink = "">
+							<cfif len(taxa.taxonid) gt 0>
+								<cfset link = getGuidLink(guid=#taxa.taxonid#,guid_type=#taxa.taxonid_guid_type#)>
+								<cfset taxonidLink = " #link#" >
+							</cfif>
+							<li class="list-group-item text-nowrap">
+								<cfif len(trim(taxa.phylclass)) GT 0>#encodeForHtml(trim(taxa.phylclass))# : </cfif><cfif len(trim(taxa.family)) GT 0>#encodeForHtml(trim(taxa.family))# : </cfif><a href="/name/#EncodeForURL(scientific_name)#">#taxa.display_name#</a> <span class="sm-caps d-inline">#encodeForHtml(author_text)#</span>#taxonidLink#
 								<button type="button" class="btn btn-xs btn-warning float-right" onclick="confirmDialog('Remove #encodeForJavaScript(scientific_name)# from the project?','Remove Taxon?', function() { removeProjectTaxon(#project_id#,#taxon_name_id#); });">Remove</button>
 							</li>
 						</cfloop>
