@@ -96,10 +96,11 @@
 				</form>
 				<cfobject type="Java" class="java.net.InetAddress" name="inetAddr">
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
+					select ip, to_char(listdate,'YYYY-MM-DD') as listdate /*, LOOKUP_HOSTNAME(ip) as hostname*/ from blacklist 
 					where listdate > sysdate - 30
 					order by ip
 				</cfquery>
+				<cfset hostname='hostname'>
 				<h3 class="h4">Addresses blocked in the last 30 days</h3>
 				<ul>
 					<cfif last30.recordcount EQ 0>
