@@ -1205,10 +1205,12 @@ publications/Publication.cfm's own Media section (getMediaForPubHtml).
 --->
 <cffunction name="getMediaForProjectHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="project_id" type="string" required="yes">
-	<cfargument name="project_name" type="string" required="no" default="">
-	<cfthread name="getMediaForProjectThread" project_id="#arguments.project_id#" project_name="#arguments.project_name#">
+	<cfthread name="getMediaForProjectThread" project_id="#arguments.project_id#">
 		<cfoutput>
 			<cftry>
+				<cfquery name="getProjectName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProjectName_result">
+					SELECT project_name FROM project WHERE project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+				</cfquery>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMedia_result">
 					SELECT DISTINCT
 						media.media_id,
@@ -1221,7 +1223,7 @@ publications/Publication.cfm's own Media section (getMediaForPubHtml).
 						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 				</cfquery>
 				<cfif getMedia.recordcount GT 0>
-					<div class="row">
+					<div class="col-12 row">
 						<cfloop query="getMedia">
 							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light border rounded mb-2">
 								<div id="mediaBlock#media_id#">
@@ -1235,8 +1237,8 @@ publications/Publication.cfm's own Media section (getMediaForPubHtml).
 					<p class="mb-0">None.</p>
 				</cfif>
 				<div class="mt-2">
-					<button type="button" class="btn btn-xs btn-secondary" onclick="opencreatemediadialog('addProjectMediaDialog','#encodeForJavaScript(project_name)#','#project_id#','shows project',reloadProjectMedia);">Create Media</button>
-					<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="openlinkmediadialog('linkProjectMediaDialog','#encodeForJavaScript(project_name)#','#project_id#','shows project',reloadProjectMedia);">Link Media</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="opencreatemediadialog('addProjectMediaDialog','#encodeForJavaScript(getProjectName.project_name)#','#project_id#','shows project',reloadProjectMedia);">Create Media</button>
+					<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="openlinkmediadialog('linkProjectMediaDialog','#encodeForJavaScript(getProjectName.project_name)#','#project_id#','shows project',reloadProjectMedia);">Link Media</button>
 				</div>
 				<div id="addProjectMediaDialog"></div>
 				<div id="linkProjectMediaDialog"></div>
@@ -1244,7 +1246,7 @@ publications/Publication.cfm's own Media section (getMediaForPubHtml).
 					function reloadProjectMedia() {
 						$.ajax({
 							url: '/projects/component/functions.cfc',
-							data: { method: 'getMediaForProjectHtml', project_id: #project_id#, project_name: '#encodeForJavaScript(project_name)#' },
+							data: { method: 'getMediaForProjectHtml', project_id: #project_id# },
 							success: function(result) { $('##mediaDiv').html(result); },
 							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading project media'); },
 							dataType: 'html'
