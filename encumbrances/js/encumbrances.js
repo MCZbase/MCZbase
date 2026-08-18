@@ -104,17 +104,16 @@ function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
+				// deleteEncumbrance only ever returns status="ok" or "blocked" here;
+				// database failures abort with an HTTP 500 instead (see error: below).
 				if (resp.STATUS === 'ok' || resp.status === 'ok') {
 					loadEncumbranceResults();
-				} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
-					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
 				} else {
-					messageDialog('Error deleting encumbrance: ' + (resp.MESSAGE || resp.message || 'Unknown error.'), 'Error');
+					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
-				console.error('Delete encumbrance error:', error);
-				messageDialog('Error deleting encumbrance. Please try again.', 'Error');
+				handleFail(jqXHR, textStatus, error, 'deleting encumbrance');
 			}
 		});
 	});
@@ -156,6 +155,12 @@ function validateEncumbranceForm(agentIdFieldId, expDateFieldId, expEventFieldId
  * page stays on the edit form and uses setFeedbackControlState() on
  * saveResultDiv to report saving / saved / error state.
  *
+ * createEncumbrance/saveEncumbrance report validation and database failures
+ * (e.g. a value too long for its column) by aborting with an HTTP 500 response
+ * rather than returning a status="error" JSON body, so those failures land in
+ * the error: handler below, not success:; handleFail() extracts the message
+ * from the response and displays it in a dialog.
+ *
  * @param {string} formId      - the ID of the form element.
  * @param {string} method      - the CFC method: 'createEncumbrance' or 'saveEncumbrance'.
  * @param {string} [redirectUrl] - URL to redirect to on success in create mode;
@@ -177,39 +182,25 @@ function submitEncumbranceForm(formId, method, redirectUrl) {
 		type: 'post',
 		dataType: 'json',
 		success: function (resp) {
-			if (resp.STATUS === 'ok' || resp.status === 'ok') {
-				if (redirectUrl) {
-					window.location.href = redirectUrl.replace(
-						'{encumbrance_id}',
-						resp.ENCUMBRANCE_ID || resp.encumbrance_id || ''
-					);
-				} else {
-					setFeedbackControlState('saveResultDiv', 'saved');
-				}
+			// createEncumbrance/saveEncumbrance only ever return status="ok" here;
+			// validation and database failures abort with an HTTP 500 instead
+			// (see the error: handler below).
+			if (redirectUrl) {
+				window.location.href = redirectUrl.replace(
+					'{encumbrance_id}',
+					resp.ENCUMBRANCE_ID || resp.encumbrance_id || ''
+				);
 			} else {
-				var errMsg = resp.MESSAGE || resp.message || 'Unknown error.';
-				if (redirectUrl) {
-					$('#encumbranceSaveStatus').html(
-						'<span class="text-danger">Error: ' +
-						$('<div>').text(errMsg).html() +
-						'</span>'
-					);
-				} else {
-					setFeedbackControlState('saveResultDiv', 'error');
-					messageDialog('Error: ' + errMsg, 'Error Saving Encumbrance');
-				}
+				setFeedbackControlState('saveResultDiv', 'saved');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			if (redirectUrl) {
-				console.error('Save encumbrance error:', error);
-				$('#encumbranceSaveStatus').html(
-					'<span class="text-danger">Error saving encumbrance. Please try again.</span>'
-				);
+				$('#encumbranceSaveStatus').html('<span class="text-danger">Error saving encumbrance.</span>');
 			} else {
 				setFeedbackControlState('saveResultDiv', 'error');
-				handleFail(jqXHR, textStatus, error, 'saving encumbrance');
 			}
+			handleFail(jqXHR, textStatus, error, 'saving encumbrance');
 		}
 	});
 }
@@ -284,17 +275,16 @@ function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
+				// deleteEncumbrance only ever returns status="ok" or "blocked" here;
+				// database failures abort with an HTTP 500 instead (see error: below).
 				if (resp.STATUS === 'ok' || resp.status === 'ok') {
 					window.location.href = '/encumbrances/Encumbrances.cfm';
-				} else if (resp.STATUS === 'blocked' || resp.status === 'blocked') {
-					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
 				} else {
-					messageDialog('Error deleting encumbrance: ' + (resp.MESSAGE || resp.message || 'Unknown error.'), 'Error');
+					messageDialog('Cannot delete: ' + (resp.MESSAGE || resp.message), 'Cannot Delete');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
-				console.error('Delete encumbrance (edit page) error:', error);
-				messageDialog('Error deleting encumbrance. Please try again.', 'Error');
+				handleFail(jqXHR, textStatus, error, 'deleting encumbrance');
 			}
 		});
 	});
@@ -336,6 +326,8 @@ function addSpecimenToEncumbrance(encumbranceId, containerIdSuffix) {
 		type: 'post',
 		dataType: 'json',
 		success: function (resp) {
+			// addSpecimenToEncumbrance only ever returns status="ok" or "duplicate" here;
+			// database failures abort with an HTTP 500 instead (see error: below).
 			var status = resp.STATUS || resp.status;
 			var message = resp.MESSAGE || resp.message || '';
 			if (status === 'ok') {
@@ -343,15 +335,13 @@ function addSpecimenToEncumbrance(encumbranceId, containerIdSuffix) {
 				$('#collection_object_id').val('');
 				$status.html('<span class="text-success">Added.</span>');
 				loadEncumberedObjectsEdit(encumbranceId);
-			} else if (status === 'duplicate') {
-				$status.html('<span class="text-warning">' + $('<div>').text(message).html() + '</span>');
 			} else {
-				$status.html('<span class="text-danger">Error: ' + $('<div>').text(message).html() + '</span>');
+				$status.html('<span class="text-warning">' + $('<div>').text(message).html() + '</span>');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			console.error('addSpecimenToEncumbrance error:', error);
-			$status.html('<span class="text-danger">Error adding specimen. Please try again.</span>');
+			$status.html('<span class="text-danger">Error adding specimen.</span>');
+			handleFail(jqXHR, textStatus, error, 'adding specimen to encumbrance');
 		}
 	});
 }
@@ -377,17 +367,12 @@ function removeSpecimenFromEncumbrance(encumbranceId, collectionObjectId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
-				var status = resp.STATUS || resp.status;
-				var message = resp.MESSAGE || resp.message || '';
-				if (status === 'ok') {
-					loadEncumberedObjectsEdit(encumbranceId);
-				} else {
-					messageDialog('Error removing specimen: ' + message, 'Error');
-				}
+				// removeSpecimenFromEncumbrance only ever returns status="ok" here;
+				// database failures abort with an HTTP 500 instead (see error: below).
+				loadEncumberedObjectsEdit(encumbranceId);
 			},
 			error: function (jqXHR, textStatus, error) {
-				console.error('removeSpecimenFromEncumbrance error:', error);
-				messageDialog('Error removing specimen. Please try again.', 'Error');
+				handleFail(jqXHR, textStatus, error, 'removing specimen from encumbrance');
 			}
 		});
 	});
