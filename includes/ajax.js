@@ -932,41 +932,89 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 	var oawin=url+"?agentIdFld="+agentIdFld+"&agentNameFld="+agentNameFld+"&formName="+formName+"&agent_name="+agentNameString+"&allowCreation="+allowCreation;
 	agentpickwin=window.open(oawin,"","width=400,height=338, resizable,scrollbars");
 }
-/** Bind a paired hidden id and text name control into an autocomplete project picker,
- * for use by the generic related-record relationship picker (pickedRelationship).
+/** Bind a paired hidden id and text name control into a project picker, for use by the
+ * generic related-record relationship picker (pickedRelationship).
+ *
+ * WORKAROUND, read before "modernizing" this: media.cfm (this function's only caller)
+ * includes /includes/_header.cfm, which -- unless the including page sets a "jquery11"
+ * variable before the include (agents/editAgent.cfm does this; media.cfm does not) --
+ * falls into includes/alwaysInclude.cfm's <cfelse> branch. That branch loads jQuery 1.3.2
+ * (not the 1.11.3 the rest of this codebase assumes) and ONLY a datepicker-only jQuery UI
+ * build (jquery.ui.datepicker.min.js), not the full jquery-ui-1.11.4.custom bundle that
+ * ships the autocomplete and dialog widgets. Two consequences, confirmed live on
+ * media.cfm?action=edit:
+ *   1. $(...).autocomplete(...) throws "is not a function" -- the widget code simply isn't
+ *      loaded on this page. This is why this function does NOT follow the
+ *      $(...).autocomplete()-based pattern used by every other modern picker in this app
+ *      (e.g. transactions.js's makeAccessionAutocompleteMeta) -- that pattern would fail
+ *      here the same way.
+ *   2. messageDialog() (includes/js/messageDialogWorkaround.js, itself a workaround for a
+ *      DIFFERENT missing-shared-scripts.js problem) calls .dialog(...) internally, which is
+ *      equally unavailable here -- so this function uses plain alert() for its error path
+ *      rather than messageDialog(), to avoid swapping one broken dependency for another.
+ * Instead, this binds a native HTML <datalist> (needs no jQuery UI at all) to the existing
+ * text field, and uses jQuery's bind()/unbind() rather than on()/off() (on() was only added
+ * in jQuery 1.7, well after the 1.3.2 this page may actually be running).
+ *
+ * Setting jquery11=true on media.cfm (matching editAgent.cfm's precedent) would fix the
+ * root cause and let this be rewritten using the standard autocomplete pattern -- but that
+ * upgrades jQuery for the WHOLE page, a bigger blast radius than this function alone, and
+ * was deliberately deferred pending a real redesign of media.cfm onto /shared/_header.cfm.
+ * Replace this entire function with the standard $(...).autocomplete() pattern at that time.
+ *
  * @param projIdFld the id of a hidden input to hold the picked project_id.
- * @param projNameFld the id of a text input to be the autocomplete field.
+ * @param projNameFld the id of a text input to be the suggestion field.
  * @param formName unused; kept for compatibility with pickedRelationship's call signature.
  */
 function getProject(projIdFld,projNameFld,formName){
-	$('#'+projNameFld).autocomplete({
-		source: function (request, response) {
-			$.ajax({
-				url: "/projects/component/search.cfc",
-				data: { term: request.term, method: 'getProjectAutocompleteMeta' },
-				dataType: 'json',
-				success: function (data) { response(data); },
-				error: function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') {
-						message = ' Server took too long to respond.';
-					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-						message = ' Backing method did not return JSON.';
-					} else {
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message, 'Error: ' + error);
-				}
-			});
-		},
-		select: function (event, result) {
-			$('#'+projIdFld).val(result.item.id);
-			$('#'+projNameFld).addClass('goodPick');
-		},
-		minLength: 3
-	}).autocomplete("instance")._renderItem = function (ul, item) {
-		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
-	};
+	var nameField = document.getElementById(projNameFld);
+	var listId = projNameFld + '_projectDatalist';
+	var dataList = document.getElementById(listId);
+	if (!dataList) {
+		// created once per field; re-used (and repopulated) across repeated selections
+		// of the "project" relationship type on the same row.
+		dataList = document.createElement('datalist');
+		dataList.id = listId;
+		nameField.parentNode.insertBefore(dataList, nameField.nextSibling);
+	}
+	nameField.setAttribute('list', listId);
+	var projectsByName = {};
+	// unbind first: pickedRelationship may call getProject() again on this same field if
+	// the user re-selects "project" after switching to a different relationship type.
+	jQuery('#'+projNameFld).unbind('keyup.getProject').bind('keyup.getProject', function () {
+		jQuery('#'+projIdFld).val('');
+		jQuery('#'+projNameFld).removeClass('goodPick');
+		var term = jQuery(this).val();
+		if (term.length < 3) { return; }
+		jQuery.ajax({
+			url: "/projects/component/search.cfc",
+			data: { term: term, method: 'getProjectAutocompleteMeta' },
+			dataType: 'json',
+			success: function (data) {
+				projectsByName = {};
+				while (dataList.firstChild) { dataList.removeChild(dataList.firstChild); }
+				jQuery.each(data, function (i, item) {
+					projectsByName[item.value] = item.id;
+					var option = document.createElement('option');
+					option.value = item.value;
+					dataList.appendChild(option);
+				});
+			},
+			error: function (jqXHR, status, error) {
+				alert('Error retrieving projects: ' + jqXHR.responseText);
+			}
+		});
+	});
+	jQuery('#'+projNameFld).unbind('change.getProject').bind('change.getProject', function () {
+		var val = jQuery(this).val();
+		if (projectsByName.hasOwnProperty(val)) {
+			jQuery('#'+projIdFld).val(projectsByName[val]);
+			jQuery('#'+projNameFld).addClass('goodPick');
+		} else {
+			jQuery('#'+projIdFld).val('');
+			jQuery('#'+projNameFld).removeClass('goodPick');
+		}
+	});
 }
 function findCatalogedItem(collIdFld,CatNumStrFld,formName,oidType,oidNum,collID){
 	var url="/picks/findCatalogedItem.cfm";
