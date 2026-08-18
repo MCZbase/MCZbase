@@ -1206,7 +1206,7 @@ publications/Publication.cfm's own Media section (getMediaForPubHtml).
 <cffunction name="getMediaForProjectHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="project_id" type="string" required="yes">
 	<cfargument name="project_name" type="string" required="no" default="">
-	<cfthread name="getMediaForProjectThread">
+	<cfthread name="getMediaForProjectThread" project_id="#arguments.project_id#" project_name="#arguments.project_name#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMedia_result">
