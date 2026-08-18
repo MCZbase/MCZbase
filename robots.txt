@@ -27,7 +27,8 @@ Disallow: /log/
 Disallow: /media/component/
 Disallow: /media/js/
 Disallow: /picks/
-Disallow: /projects/
+Disallow: /projects/component/
+Disallow: /projects/js/
 Disallow: /publications/component/
 Disallow: /publications/js/
 Disallow: /rdf/
@@ -70,7 +71,6 @@ Disallow: /DataEntry.cfm
 Disallow: /download.cfm
 Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
-Disallow: /editAccn.cfm
 Disallow: /editAllAgent.cfm
 Disallow: /editContainer.cfm
 Disallow: /localities/Locality.cfm

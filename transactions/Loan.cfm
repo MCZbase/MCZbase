@@ -1266,7 +1266,7 @@ limitations under the License.
 								</div>
 							</section>
 						<cfelse>
-							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0"><section>
+							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0"></section>
 						</cfif>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">

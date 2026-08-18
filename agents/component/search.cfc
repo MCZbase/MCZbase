@@ -742,8 +742,8 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 
 @param term agent name to search for.
 @param constraint limit agents to those agents where the constraint applies, supports:  permit_issued_by_agent,
-	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, media_agent, media_creator_agent, 
-	determiner, collector, preparator, author, editor, entered_by, annotated, encumbering_agent, georeference_determiner, 
+	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, project_sponsor, media_agent, media_creator_agent,
+	determiner, collector, preparator, author, editor, entered_by, annotated, encumbering_agent, georeference_determiner,
 	georeference_verifier, ce_date_determiner.
 @param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
 @return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
@@ -787,7 +787,10 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 					left join trans_agent on agent.agent_id = trans_agent.agent_id
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
-					left join project_agent on searchname.agent_name_id = trans_agent.agent_name_id
+					left join project_agent on searchname.agent_name_id = project_agent.agent_name_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'project_sponsor'>
+					left join project_sponsor on searchname.agent_name_id = project_sponsor.agent_name_id
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'media_agent'>
 					left join media_relations on agent.agent_id = media_relations.related_primary_key
@@ -836,6 +839,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
 					AND project_agent.project_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'project_sponsor'>
+					AND project_sponsor.project_id is not null
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'organization_agent'>
 					AND agent.agent_type = 'organization'
