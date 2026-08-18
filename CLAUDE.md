@@ -193,11 +193,11 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 
 | Purpose | Class |
 |---|---|
-| Save / Create / Execute search | `btn btn-xs btn-primary` |
+| Save / Create / Execute search / Edit (page-level button linking to a full edit page, e.g. from a show/details page) | `btn btn-xs btn-primary` |
 | Delete a standalone record | `btn btn-xs btn-danger` |
 | Remove a relationship / Reset / New Search | `btn btn-xs btn-warning` |
 | View details / Print (page-level button) | `btn btn-xs btn-info` |
-| Add relationship / Edit / Create-new-{object} from search page | `btn btn-xs btn-secondary` |
+| Add relationship / Create-new-{object} from search page | `btn btn-xs btn-secondary` |
 | Edit link from a results grid | `btn-xs btn-outline-primary` |
 
 ## CSS

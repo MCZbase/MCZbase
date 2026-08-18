@@ -967,7 +967,7 @@ limitations under the License.
 						</cfcase>
 						<cfcase value="PROJECT">
 							<cfset targetTitle = targets.project_name>
-							<cfset targetLink = "/ProjectDetail.cfm?project_id=#encodeForURL(targets.project_id)#">
+							<cfset targetLink = "/projects/showProject.cfm?project_id=#encodeForURL(targets.project_id)#">
 						</cfcase>
 						<cfcase value="AGENT">
 							<cfset targetTitle = targets.agent_name>

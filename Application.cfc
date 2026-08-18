@@ -441,7 +441,7 @@ limitations under the License.
 			<cfset Application.genBankPrid = "" />
 			<cfset Application.genBankUsername="" />
 			<cfset Application.convertPath = "/usr/bin/convert" />
-			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
+			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/MCZConfig.xml" />
 
 			<cfset Application.stylesheet = "style.css" />
 		</cfif>

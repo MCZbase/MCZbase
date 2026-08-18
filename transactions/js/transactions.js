@@ -1964,10 +1964,36 @@ function makeLoanPicker(valueControl, idControl,selectCallback=null) {
 			}
 		},
 		minLength: 3
-	}).autocomplete("instance")._renderItem = function(ul,item) { 
+	}).autocomplete("instance")._renderItem = function(ul,item) {
 		// override to display meta with additional information instead of minimal value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+
+/** Make a text control into an autocomplete loan number picker, intended for use with
+ * search, prepends an equals sign on selection.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeLoanPickerSearch(valueControl) {
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/transactions/component/search.cfc",
+				data: { term: request.term, method: 'getLoanAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up loans for a loan number search picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	});
 };
 
 /** Make a paired hidden id and text name control into an autocomplete accession picker.

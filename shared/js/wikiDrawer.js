@@ -55,6 +55,12 @@ function resizeAllGridsToContent() {
 		console.log('resizing grid', this.id, 'to', newWidth);
 		$(this).jqxGrid('width', newWidth);
 	});
+
+	// Also redraw any registered Tabulator instance (see tabulator-common.js),
+	// guarded so pages without a Tabulator grid are unaffected.
+	if (typeof mczRedrawAllTabulatorInstances === "function") {
+		mczRedrawAllTabulatorInstances();
+	}
 }
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');

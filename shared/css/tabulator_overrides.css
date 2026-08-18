@@ -1,0 +1,184 @@
+/*
+shared/css/tabulator_overrides.css
+
+Copyright 2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+*/
+
+/*
+Teal/Bootstrap branding overrides for Tabulator grids. Include after
+tabulator_bootstrap4.min.css so these rules win.
+*/
+
+/* tabulator_bootstrap4.min.css's own theme sets font-size: 16px on the whole grid;
+   0.875em (=14px at the default root size) matches this app's jqxGrid sizing and its
+   own "font size for displayed data should be .875em" convention. */
+.tabulator {
+	font-size: 0.875em;
+}
+
+.tabulator .tabulator-header {
+	background-color: #deebec;
+}
+
+.tabulator .tabulator-col {
+	border-right: 1px solid #dee2e6;
+}
+
+.tabulator-row.tabulator-row-even {
+	background-color: #e9edf2;
+}
+
+.tabulator-row:hover {
+	background-color: #cbced1;
+}
+
+/* tabulator_bootstrap4.min.css's own theme sets padding: 12px on every cell; this
+   overrides it (loaded after, same selector) to something tighter. */
+.tabulator-row .tabulator-cell {
+	padding: 0.375em;
+}
+
+/* The theme's own min-height: 40px (2x its 12px cell padding, plus a 16px line) is now
+   oversized relative to the reduced font-size/padding above; scale it the same way
+   (2x cell padding + a ~1em line allowance). */
+.tabulator-row {
+	min-height: 1.75em;
+}
+
+.tabulator-row.tabulator-selected,
+.tabulator-row.tabulator-selected:hover {
+	background-color: #caeaad;
+}
+
+.tabulator .tabulator-cell.tabulator-frozen {
+	border-right: 2px solid #3e6f7d;
+}
+
+/* Match the site's btn-xs sizing when a button is placed in a grid cell via a
+   formatter (e.g. an edit link rendered per CLAUDE.md's grid-edit-link convention). */
+.tabulator-cell .btn-xs {
+	white-space: nowrap;
+}
+
+/* Align any Tabulator-rendered .tabulator-menu popup (header context/click menus) with
+   the app's existing dropdown-menu look rather than Tabulator's bare default. */
+.tabulator-menu {
+	border: 1px solid #dee2e6;
+	border-radius: 4px;
+	background-color: #fff;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.tabulator-menu .tabulator-menu-item {
+	padding: 0.25rem 0.75rem;
+	font-size: 0.875em;
+}
+
+.tabulator-menu .tabulator-menu-item:hover {
+	background-color: #deebec;
+	cursor: pointer;
+}
+
+/* The scrollable table body (.tabulator-tableholder) always carries tabindex="0" --
+   Tabulator ships no visible focus style for it, so tabbing into the grid is otherwise
+   invisible. */
+.tabulator-tableholder:focus {
+	outline: 2px solid #3e6f7d;
+	outline-offset: -2px;
+}
+
+/* Restores normal text selection in "text" selection mode. Scoped to a marker class
+   (mcz-text-select-mode, toggled in JS on the grid's container per selection mode)
+   rather than applied to every .tabulator-cell unconditionally -- an earlier version of
+   this rule did that, and it let native browser text-selection compete with Tabulator's
+   own mousedown/mousemove drag-select tracking in row-selection modes, breaking
+   click-and-drag multi-row selection. */
+.mcz-text-select-mode .tabulator-cell {
+	user-select: text;
+}
+
+/* Row-selection modes (SelectRow) have no equivalent to SelectRange's "tabulator-ranges"
+   class -- confirmed against source, nothing in SelectRow blocks native text selection at
+   either the CSS or the JS (no mousedown preventDefault) level. Left unblocked, a
+   click-and-drag row selection also starts a native text-selection drag alongside it; that
+   competing native selection was found (by testing) to prevent the mouseenter events
+   Tabulator's own shift+drag multi-row range-select depends on from firing reliably,
+   breaking that feature rather than just leaving a visual side effect. Scoped to a marker
+   class (mcz-row-select-mode, toggled in JS alongside mcz-text-select-mode) rather than
+   applied unconditionally, matching that rule's own scoping. */
+.mcz-row-select-mode .tabulator-cell {
+	user-select: none;
+}
+
+/* Normalizes cell/range selection (SelectRange) to the same green used for row
+   selection (SelectRow), rather than Tabulator's default multi-tone blue "spreadsheet"
+   range styling (a distinct color for the anchor cell, the rest of the range, and the
+   row/column headers the range intersects) -- kept as one consistent highlight instead,
+   matching what a row-selection click looks like. Selectors/specificity here mirror the
+   vendored theme rules they override. */
+.tabulator-range-selected,
+.tabulator-range-selected:not(.tabulator-range-only-cell-selected):not(.tabulator-range-row-header) {
+	background-color: #caeaad !important;
+	color: inherit !important;
+}
+
+.tabulator-range-highlight {
+	background-color: #e9edf2 !important;
+	color: inherit !important;
+}
+
+.tabulator-range-overlay .tabulator-range,
+.tabulator-range-overlay .tabulator-range-cell-active {
+	border-color: #3e6f7d !important;
+}
+
+/* The small corner "handle" dot drawn at the active range's corner. */
+.tabulator-range-overlay .tabulator-range.tabulator-range-active:after {
+	background-color: #3e6f7d !important;
+}
+
+/* .tabulator-frozen has z-index:11 in the vendored theme, one above
+   .tabulator-range-overlay's z-index:10 -- the frozen column's own cells render on top
+   of the overlay that draws the active-cell border, rather than the reverse. This fixes
+   the stacking order; it's not confirmed whether the overlay's position calculation
+   also accounts for a frozen column's sticky offset, which would be a second, separate
+   problem this alone doesn't address -- flagging that distinction rather than assuming
+   this fully resolves the frozen-column selection-border glitch. */
+.tabulator-range-overlay {
+	z-index: 12;
+}
+
+/* Hides the native numbered page buttons -- mczAddPageJumpControl (tabulator-common.js)
+   inserts a <select> covering every page in their place, since the buttons only ever
+   show a small sliding window around the current page with no way to jump further. */
+.tabulator-pages {
+	display: none;
+}
+
+.tabulator-page-jump-wrapper {
+	margin: 0 7px;
+}
+
+.tabulator-page-jump-wrapper label {
+	margin: 0 3px 0 0;
+}
+
+/* Matches .tabulator-page-size's own look, so the two selects sit consistently. */
+.tabulator-page-jump {
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+	padding: 2px 5px;
+}

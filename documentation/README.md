@@ -1017,6 +1017,8 @@ CREATE = btn btn-xs **btn-primary**. Use Create buttons on New {object} forms in
 
 SEARCH = btn-xs '''btn-primary '''Execute the search
 
+EDIT (page-level) = btn btn-xs **btn-primary**. Use on a show/details page (e.g. showTaxonomy.cfm, showProject.cfm, Agent.cfm, showMedia.cfm, showPublication.cfm) for the button that navigates to the full edit page for the record the show page is displaying. This is distinct from an Edit button for a related record embedded within a section of the page -- see btn-secondary below.
+
 ####  Buttons that Delete records, use btn-danger.
 
 (class=”btn-danger” makes a red button)
@@ -1051,7 +1053,7 @@ PRINT = btn btn-xs **btn-info**. Use to navigate to printable reports of or rela
 
 ADD\_{OBJECT} = btn btn-xs **btn-secondary** Use to create a relationship to another record of the same or different type.
 
-EDIT = btn btn-xs '''btn-secondary '''Use edit details of a related record when used as a button on the page.
+EDIT = btn btn-xs '''btn-secondary '''Use to edit details of a related record embedded within a section of the page (not the page's own record -- see the page-level EDIT button under btn-primary above).
 
 CREATE\_NEW\_{OBJECT} = btn btn-xs''' btn-secondary. '''Use Create New {Object} buttons on search forms, rendered only for users with rights to create as an alternative route from the main menu to create a new object of the type the search form applies to. Put the Create New {Object} button inline with the Search, Reset, and New Search buttons.
 
