@@ -971,7 +971,7 @@ links do) redisplays correctly.
 </cfoutput>
 
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset targetWikiPage = "Search_Projects">
+<cfset targetWikiPage = "Project_Search">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
