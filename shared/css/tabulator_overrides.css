@@ -22,6 +22,13 @@ Teal/Bootstrap branding overrides for Tabulator grids. Include after
 tabulator_bootstrap4.min.css so these rules win.
 */
 
+/* tabulator_bootstrap4.min.css's own theme sets font-size: 16px on the whole grid;
+   0.875em (=14px at the default root size) matches this app's jqxGrid sizing and its
+   own "font size for displayed data should be .875em" convention. */
+.tabulator {
+	font-size: 0.875em;
+}
+
 .tabulator .tabulator-header {
 	background-color: #deebec;
 }
@@ -36,6 +43,19 @@ tabulator_bootstrap4.min.css so these rules win.
 
 .tabulator-row:hover {
 	background-color: #cbced1;
+}
+
+/* tabulator_bootstrap4.min.css's own theme sets padding: 12px on every cell; this
+   overrides it (loaded after, same selector) to something tighter. */
+.tabulator-row .tabulator-cell {
+	padding: 0.375em;
+}
+
+/* The theme's own min-height: 40px (2x its 12px cell padding, plus a 16px line) is now
+   oversized relative to the reduced font-size/padding above; scale it the same way
+   (2x cell padding + a ~1em line allowance). */
+.tabulator-row {
+	min-height: 1.75em;
 }
 
 .tabulator-row.tabulator-selected,
