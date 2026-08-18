@@ -932,6 +932,42 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 	var oawin=url+"?agentIdFld="+agentIdFld+"&agentNameFld="+agentNameFld+"&formName="+formName+"&agent_name="+agentNameString+"&allowCreation="+allowCreation;
 	agentpickwin=window.open(oawin,"","width=400,height=338, resizable,scrollbars");
 }
+/** Bind a paired hidden id and text name control into an autocomplete project picker,
+ * for use by the generic related-record relationship picker (pickedRelationship).
+ * @param projIdFld the id of a hidden input to hold the picked project_id.
+ * @param projNameFld the id of a text input to be the autocomplete field.
+ * @param formName unused; kept for compatibility with pickedRelationship's call signature.
+ */
+function getProject(projIdFld,projNameFld,formName){
+	$('#'+projNameFld).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/projects/component/search.cfc",
+				data: { term: request.term, method: 'getProjectAutocompleteMeta' },
+				dataType: 'json',
+				success: function (data) { response(data); },
+				error: function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') {
+						message = ' Server took too long to respond.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
+					} else {
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message, 'Error: ' + error);
+				}
+			});
+		},
+		select: function (event, result) {
+			$('#'+projIdFld).val(result.item.id);
+			$('#'+projNameFld).addClass('goodPick');
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function (ul, item) {
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+}
 function findCatalogedItem(collIdFld,CatNumStrFld,formName,oidType,oidNum,collID){
 	var url="/picks/findCatalogedItem.cfm";
 	var collIdFld;
