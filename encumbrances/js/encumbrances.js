@@ -104,8 +104,7 @@ function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
-				// deleteEncumbrance only ever returns status="ok" or "blocked" here;
-				// database failures abort with an HTTP 500 instead (see error: below).
+				// database failures abort with an HTTP 500 instead (see error: below)
 				if (resp.STATUS === 'ok' || resp.status === 'ok') {
 					loadEncumbranceResults();
 				} else {
@@ -124,16 +123,11 @@ function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
  * ============================================================ */
 
 /**
- * Validates the create or edit encumbrance form before AJAX submission.
- * The form is submitted via a type="button" onclick handler rather than a
- * native form submit, so the [required] attributes in the markup are not
- * enforced by the browser on their own; this walks the form's actual
- * [required] fields (which already vary by mode -- e.g. Made Date is only
- * required on create) so the JS check stays in sync with that markup
- * without duplicating which fields are required.  The Encumbering Agent is
- * checked separately since a value there is only valid once resolved to an
- * agent_id via the autocomplete.  Also checks that exactly one of
- * Expiration Date and Expiration Event is specified (not both, not neither).
+ * Validates the create or edit encumbrance form before AJAX submission:
+ * checks the form's required fields (read from the markup, so this stays
+ * correct as required fields vary by mode), that the Encumbering Agent has
+ * been resolved to an agent_id, and that exactly one of Expiration Date and
+ * Expiration Event is specified (not both, not neither).
  *
  * @param {string} formId - the ID of the form element.
  * @param {string} agentIdFieldId - the ID of the hidden agent_id input.
@@ -179,11 +173,9 @@ function validateEncumbranceForm(formId, agentIdFieldId, expDateFieldId, expEven
  * page stays on the edit form and uses setFeedbackControlState() on
  * saveResultDiv to report saving / saved / error state.
  *
- * createEncumbrance/saveEncumbrance report validation and database failures
- * (e.g. a value too long for its column) by aborting with an HTTP 500 response
- * rather than returning a status="error" JSON body, so those failures land in
- * the error: handler below, not success:; handleFail() extracts the message
- * from the response and displays it in a dialog.
+ * Validation and database failures abort with an HTTP 500 rather than a
+ * status="error" JSON body, so they surface via the error: handler below,
+ * not success:.
  *
  * @param {string} formId      - the ID of the form element.
  * @param {string} method      - the CFC method: 'createEncumbrance' or 'saveEncumbrance'.
@@ -206,9 +198,6 @@ function submitEncumbranceForm(formId, method, redirectUrl) {
 		type: 'post',
 		dataType: 'json',
 		success: function (resp) {
-			// createEncumbrance/saveEncumbrance only ever return status="ok" here;
-			// validation and database failures abort with an HTTP 500 instead
-			// (see the error: handler below).
 			if (redirectUrl) {
 				window.location.href = redirectUrl.replace(
 					'{encumbrance_id}',
@@ -299,8 +288,7 @@ function confirmDeleteEncumbranceFromEditPage(encumbranceId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
-				// deleteEncumbrance only ever returns status="ok" or "blocked" here;
-				// database failures abort with an HTTP 500 instead (see error: below).
+				// database failures abort with an HTTP 500 instead (see error: below)
 				if (resp.STATUS === 'ok' || resp.status === 'ok') {
 					window.location.href = '/encumbrances/Encumbrances.cfm';
 				} else {
@@ -350,8 +338,7 @@ function addSpecimenToEncumbrance(encumbranceId, containerIdSuffix) {
 		type: 'post',
 		dataType: 'json',
 		success: function (resp) {
-			// addSpecimenToEncumbrance only ever returns status="ok" or "duplicate" here;
-			// database failures abort with an HTTP 500 instead (see error: below).
+			// database failures abort with an HTTP 500 instead (see error: below)
 			var status = resp.STATUS || resp.status;
 			var message = resp.MESSAGE || resp.message || '';
 			if (status === 'ok') {
@@ -391,8 +378,7 @@ function removeSpecimenFromEncumbrance(encumbranceId, collectionObjectId) {
 			type: 'post',
 			dataType: 'json',
 			success: function (resp) {
-				// removeSpecimenFromEncumbrance only ever returns status="ok" here;
-				// database failures abort with an HTTP 500 instead (see error: below).
+				// database failures abort with an HTTP 500 instead (see error: below)
 				loadEncumberedObjectsEdit(encumbranceId);
 			},
 			error: function (jqXHR, textStatus, error) {
