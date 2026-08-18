@@ -78,7 +78,8 @@ viewEncumbrance.cfm.
  @param expiration_date     optional ISO date string for when the encumbrance expires.
  @param expiration_event    optional text description of the expiration event.
  @param remarks             optional remarks.
- @return struct with keys: status ("ok"|"error"), encumbrance_id (on success), message (on error).
+ @return struct with keys: status ("ok"), encumbrance_id.  On failure, aborts with an
+         HTTP 500 error response (see reportError) rather than returning this struct.
 --->
 <cffunction name="createEncumbrance" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumberingAgentId" type="string" required="yes">
@@ -153,12 +154,10 @@ viewEncumbrance.cfm.
 			<cfset data["encumbrance_id"] = nextEncumbrance.nextEncumbrance>
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-			<cfset data["status"] = "error">
-			<cfset data["message"] = error_message>
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
@@ -176,7 +175,8 @@ viewEncumbrance.cfm.
  @param expiration_date     optional ISO date string (set empty to clear).
  @param expiration_event    optional text description of the expiration event (set empty to clear).
  @param remarks             optional remarks (set empty to clear).
- @return struct with keys: status ("ok"|"error"), message (on error).
+ @return struct with keys: status ("ok").  On failure, aborts with an HTTP 500 error
+         response (see reportError) rather than returning this struct.
 --->
 <cffunction name="saveEncumbrance" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumbrance_id" type="string" required="yes">
@@ -223,12 +223,10 @@ viewEncumbrance.cfm.
 			<cfset data["status"] = "ok">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-			<cfset data["status"] = "error">
-			<cfset data["message"] = error_message>
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
@@ -252,7 +250,9 @@ viewEncumbrance.cfm.
  junction table (e.g. media_encumbrance, agent_encumbrance) before allowing deletion.
 
  @param encumbrance_id  required encumbrance_id to delete.
- @return struct with keys: status ("ok"|"blocked"|"error"), message, count (when blocked).
+ @return struct with keys: status ("ok"|"blocked"), message, count (when blocked).  On
+         failure, aborts with an HTTP 500 error response (see reportError) rather than
+         returning this struct.
 --->
 <cffunction name="deleteEncumbrance" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumbrance_id" type="string" required="yes">
@@ -286,12 +286,10 @@ viewEncumbrance.cfm.
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-			<cfset data["status"] = "error">
-			<cfset data["message"] = error_message>
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
@@ -309,9 +307,10 @@ viewEncumbrance.cfm.
  count in the Localities tab header once locality_count is present in the data.
 
  @param encumbrance_id  required encumbrance_id to look up.
- @return struct with keys: status ("ok"|"notfound"|"error"),
+ @return struct with keys: status ("ok"|"notfound"),
          data (struct on success including object_count for specimens),
-         message (on error/notfound).
+         message (on notfound).  On failure, aborts with an HTTP 500 error response
+         (see reportError) rather than returning this struct.
 --->
 <cffunction name="getEncumbranceDetail" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumbrance_id" type="string" required="yes">
@@ -381,12 +380,10 @@ viewEncumbrance.cfm.
 			<cfset data["data"] = rec>
 		</cfif>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-		<cfset data["status"] = "error">
-		<cfset data["message"] = error_message>
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn data>
@@ -608,7 +605,8 @@ viewEncumbrance.cfm.
 
  @param encumbrance_id       required encumbrance_id to add the specimen to.
  @param collection_object_id required collection_object_id of the cataloged item.
- @return struct with keys: status ("ok"|"duplicate"|"error"), message.
+ @return struct with keys: status ("ok"|"duplicate"), message.  On failure, aborts with
+         an HTTP 500 error response (see reportError) rather than returning this struct.
 --->
 <cffunction name="addSpecimenToEncumbrance" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumbrance_id" type="string" required="yes">
@@ -650,12 +648,10 @@ viewEncumbrance.cfm.
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-			<cfset data["status"] = "error">
-			<cfset data["message"] = error_message>
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
@@ -667,7 +663,8 @@ viewEncumbrance.cfm.
 
  @param encumbrance_id       required encumbrance_id to remove the specimen from.
  @param collection_object_id required collection_object_id of the cataloged item to remove.
- @return struct with keys: status ("ok"|"error"), message.
+ @return struct with keys: status ("ok"), message.  On failure, aborts with an HTTP 500
+         error response (see reportError) rather than returning this struct.
 --->
 <cffunction name="removeSpecimenFromEncumbrance" access="remote" returntype="struct" returnformat="json">
 	<cfargument name="encumbrance_id" type="string" required="yes">
@@ -692,12 +689,10 @@ viewEncumbrance.cfm.
 			<cfset data["message"] = "Cataloged item removed from encumbrance.">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError")><cfset queryError = cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-			<cfset data["status"] = "error">
-			<cfset data["message"] = error_message>
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
