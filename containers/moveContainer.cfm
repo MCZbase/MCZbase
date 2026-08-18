@@ -77,10 +77,9 @@ limitations under the License.
 				</div>
 				<div class="form-row mb-2" id="moveContainerBatchWrap" style="display:none;">
 					<div class="col-12">
-						<label for="batch_child_barcodes" class="data-entry-label">Child Unique Identifiers (one per line, or separated by commas)</label>
-						<textarea name="batch_child_barcodes" id="batch_child_barcodes" class="data-entry-input col-12 col-md-8 col-lg-6" rows="6" aria-describedby="batchChildBarcodesHelp"></textarea>
-						<small id="batchChildBarcodesHelp" class="text-muted d-block">Each valid barcode is moved into the parent above. Placements needing a warning confirmation, or that fail, are skipped and reported below rather than moved automatically &mdash; use the single-move fields above to resolve those.</small>
-						<button type="button" class="btn btn-xs btn-primary mt-1" id="moveContainerBatchSubmit">Move All</button>
+						<span class="data-entry-label" id="batchChildGridLabel">Child Unique Identifiers</span>
+						<small id="batchChildGridHelp" class="text-muted d-block mb-1">Scan or type a barcode into a box; it's checked as soon as you leave the box. Green is moved, yellow needs confirmation, red needs correction. A new box appears automatically as you fill the last one.</small>
+						<div class="positions-grid positions-grid-autofill" id="batchChildGrid" role="group" aria-labelledby="batchChildGridLabel" aria-describedby="batchChildGridHelp"></div>
 					</div>
 				</div>
 				<div class="form-row mb-2">
@@ -183,9 +182,9 @@ limitations under the License.
 		$('#moveContainerBatchMode').prop('disabled', isScannerMode);
 	}
 
-	/** Toggle batch mode behavior: swap the single child-barcode field for a multi-line list, and
-	 * disable barcode scanner mode's per-scan auto-submit while a batch is being composed.
-	 * @param {boolean} isBatchMode - true shows the batch textarea and Move All button in place of the single child field.
+	/** Toggle batch mode behavior: swap the single child-barcode field for a grid of scan-and-validate
+	 * cells, and disable barcode scanner mode's per-scan auto-submit while batch mode is active.
+	 * @param {boolean} isBatchMode - true shows the batch grid in place of the single child field.
 	 * @returns {void}
 	 */
 	function applyBatchModeState(isBatchMode) {
@@ -196,6 +195,9 @@ limitations under the License.
 		$('#moveContainerScannerMode').prop('disabled', isBatchMode);
 		if (isBatchMode) {
 			$('#moveContainerAutoSubmit').prop('checked', false);
+			if ($('#batchChildGrid').children().length === 0) {
+				resetBatchChildGrid();
+			}
 		}
 	}
 
@@ -327,33 +329,123 @@ limitations under the License.
 		runMoveContainerPreflight(parentBarcode, childBarcode, moveTimestamp);
 	}
 
-	/** Split batch textarea input into a list of non-empty barcodes, one per line or comma-separated.
-	 * @param {string} rawText - raw contents of the batch child-barcodes textarea.
-	 * @returns {Array<string>} trimmed, non-empty barcodes in entry order.
-	 */
-	function parseBatchChildBarcodes(rawText) {
-		var pieces = String(rawText || '').split(/[\r\n,]+/);
-		var barcodes = [];
-		$.each(pieces, function(i, piece) {
-			var trimmed = $.trim(piece);
-			if (trimmed.length > 0) {
-				barcodes.push(trimmed);
-			}
-		});
-		return barcodes;
-	}
+	var batchChildRowCounter = 0;
 
-	/** Run preflight for one barcode in a batch queue and either execute the move or skip it.
-	 * Unlike runMoveContainerPreflight, this never opens a confirm dialog: an unattended batch
-	 * treats anything needing a warning confirmation as skipped-for-manual-review, so a long list
-	 * doesn't stack up modal dialogs waiting on the user.
-	 * @param {string} parentBarcode - destination parent container barcode.
-	 * @param {string} childBarcode - child container barcode being moved.
-	 * @param {string} moveTimestamp - optional move timestamp passed through on move.
-	 * @param {function(string):void} onComplete - called with 'moved', 'skipped', or 'failed' when this item is done.
+	/** Mark one batch grid cell with a validation/move outcome and its message.
+	 * @param {jQuery} inputEl - the barcode input the outcome applies to.
+	 * @param {string} state - one of 'ok', 'warn', or 'bad'.
+	 * @param {string} message - short status text shown under the input.
 	 * @returns {void}
 	 */
-	function runBatchMovePreflight(parentBarcode, childBarcode, moveTimestamp, onComplete) {
+	function markBatchChildRowStatus(inputEl, state, message) {
+		var cell = inputEl.closest('.positions-grid-cell');
+		var statusEl = cell.find('.positions-grid-status-icon');
+		var messageEl = cell.find('.positions-grid-barcode-status');
+		inputEl.removeClass('goodPick warnPick badPick');
+		messageEl.removeClass('text-success text-warning text-danger');
+		if (state === 'ok') {
+			inputEl.addClass('goodPick');
+			statusEl.html('<i class="fas fa-check-circle text-success" aria-hidden="true"></i>');
+			messageEl.addClass('text-success');
+		} else if (state === 'warn') {
+			inputEl.addClass('warnPick');
+			statusEl.html('<i class="fas fa-exclamation-triangle text-warning" aria-hidden="true"></i>');
+			messageEl.addClass('text-warning');
+		} else {
+			inputEl.addClass('badPick');
+			statusEl.html('<i class="fas fa-times-circle text-danger" aria-hidden="true"></i>');
+			messageEl.addClass('text-danger');
+		}
+		messageEl.text(message || '');
+	}
+
+	/** Clear one batch grid cell back to its blank, unvalidated state.
+	 * @param {jQuery} inputEl - the barcode input to reset.
+	 * @returns {void}
+	 */
+	function resetBatchChildRowStatus(inputEl) {
+		inputEl.removeClass('goodPick warnPick badPick');
+		var cell = inputEl.closest('.positions-grid-cell');
+		cell.find('.positions-grid-status-icon').empty();
+		cell.find('.positions-grid-barcode-status').empty().removeClass('text-success text-warning text-danger');
+	}
+
+	/** Ensure the batch grid always has one trailing blank, enabled input ready for the next scan.
+	 * @returns {void}
+	 */
+	function ensureTrailingBatchChildRow() {
+		var lastInput = $('#batchChildGrid .positions-grid-barcode-input').last();
+		if (lastInput.length === 0 || lastInput.prop('disabled') || $.trim(lastInput.val()).length > 0) {
+			addBatchChildRow();
+		}
+	}
+
+	/** Move focus to the grid's trailing blank input, so scanning can continue without the mouse.
+	 * @returns {void}
+	 */
+	function focusTrailingBatchChildRow() {
+		var lastInput = $('#batchChildGrid .positions-grid-barcode-input:enabled').last();
+		if (lastInput.length) {
+			lastInput.trigger('focus');
+		}
+	}
+
+	/** Execute the move for one batch grid entry once preflight has approved it, or a warning was confirmed.
+	 * @param {jQuery} inputEl - the barcode input this move applies to.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {string} childBarcode - child container barcode being moved.
+	 * @param {string} moveTimestamp - optional move timestamp.
+	 * @returns {void}
+	 */
+	function executeBatchChildMove(inputEl, parentBarcode, childBarcode, moveTimestamp) {
+		inputEl.prop('disabled', true);
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'moveContainerByBarcode',
+				returnformat: 'json',
+				child_barcode: childBarcode,
+				parent_barcode: parentBarcode,
+				move_timestamp: moveTimestamp
+			},
+			success: function(result) {
+				if (result && result.status === 'moved') {
+					markBatchChildRowStatus(inputEl, 'ok', 'Moved.');
+					var childDisplay = formatContainerDisplay(childBarcode, result.child_label);
+					var parentDisplay = formatContainerDisplay(parentBarcode, result.parent_label);
+					appendMoveResult('alert-success', 'Moved <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>.');
+					var movedCount = parseInt($('#moveContainerCounter').data('count'), 10) || 0;
+					var nextCount = movedCount + 1;
+					$('#moveContainerCounter').data('count', nextCount).text(nextCount + ' moved');
+					ensureTrailingBatchChildRow();
+					focusTrailingBatchChildRow();
+				} else {
+					inputEl.prop('disabled', false);
+					markBatchChildRowStatus(inputEl, 'bad', (result && result.message) ? result.message : 'Move failed.');
+					inputEl.trigger('select');
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				inputEl.prop('disabled', false);
+				markBatchChildRowStatus(inputEl, 'bad', 'Unable to reach the server. ' + prepareErrorMessage(jqXHR.responseText));
+			}
+		});
+	}
+
+	/** Run preflight for one batch grid entry and either move it immediately (clean placement),
+	 * offer an inline confirm for a warning, or mark it red for correction. Never opens a modal
+	 * dialog: a scanning workflow shouldn't have focus stolen by a popup, so status is always
+	 * shown inline at the input that triggered it, one input at a time.
+	 * @param {jQuery} inputEl - the barcode input that changed.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {string} childBarcode - child container barcode being validated.
+	 * @param {string} moveTimestamp - optional move timestamp passed through on move.
+	 * @returns {void}
+	 */
+	function runBatchChildPreflight(inputEl, parentBarcode, childBarcode, moveTimestamp) {
+		inputEl.prop('disabled', true);
 		$.ajax({
 			url: '/containers/component/functions.cfc',
 			type: 'get',
@@ -365,81 +457,89 @@ limitations under the License.
 				parent_barcode: parentBarcode
 			},
 			success: function(preflight) {
+				inputEl.prop('disabled', false);
 				if (!preflight || preflight.status === 'error') {
-					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + ((preflight && preflight.message) ? preflight.message : 'Unable to validate placement.')).html());
-					onComplete('failed');
+					markBatchChildRowStatus(inputEl, 'bad', (preflight && preflight.message) ? preflight.message : 'Unable to validate placement.');
+					inputEl.trigger('select');
 					return;
 				}
 				if (preflight.status === 'notfound') {
-					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + (preflight.message || 'Container was not found.')).html());
-					onComplete('skipped');
+					markBatchChildRowStatus(inputEl, 'bad', preflight.message || 'Container was not found.');
+					inputEl.trigger('select');
 					return;
 				}
 				if (preflight.allowed !== true) {
-					var blockedMessage = joinPlacementMessages(preflight.blocks) || 'Placement is not allowed.';
-					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + blockedMessage).html());
-					onComplete('skipped');
+					markBatchChildRowStatus(inputEl, 'bad', joinPlacementMessages(preflight.blocks) || 'Placement is not allowed.');
+					inputEl.trigger('select');
 					return;
 				}
 				if (preflight.severity === 'warn') {
-					var warningMessage = joinPlacementMessages(preflight.warnings) || 'Needs a warning confirmation.';
-					appendMoveResult('alert-warning', $('<div>').text(childBarcode + ': skipped, ' + warningMessage + ' Use the single-move fields above to confirm.').html());
-					onComplete('skipped');
+					var warningMessage = joinPlacementMessages(preflight.warnings) || 'Needs confirmation.';
+					markBatchChildRowStatus(inputEl, 'warn', warningMessage);
+					var confirmBtn = $('<button type="button" class="btn btn-xs btn-warning mt-1">Confirm Move</button>');
+					confirmBtn.on('click', function() {
+						confirmBtn.remove();
+						executeBatchChildMove(inputEl, parentBarcode, childBarcode, moveTimestamp);
+					});
+					inputEl.closest('.positions-grid-cell').find('.positions-grid-barcode-status').after(confirmBtn);
 					return;
 				}
-				executeMoveContainer(parentBarcode, childBarcode, moveTimestamp, onComplete);
+				executeBatchChildMove(inputEl, parentBarcode, childBarcode, moveTimestamp);
 			},
 			error: function(jqXHR, textStatus, error) {
-				handleFail(jqXHR, textStatus, error, 'validating batch move container placement');
-				onComplete('failed');
+				inputEl.prop('disabled', false);
+				markBatchChildRowStatus(inputEl, 'bad', 'Unable to reach the server. ' + prepareErrorMessage(jqXHR.responseText));
 			}
 		});
 	}
 
-	/** Process a list of child barcodes sequentially against one parent container.
-	 * @param {string} parentBarcode - destination parent container barcode.
-	 * @param {Array<string>} childBarcodes - child barcodes to move, in order.
-	 * @param {string} moveTimestamp - optional move timestamp applied to every successful move.
+	/** Handle a barcode entered or scanned into a batch grid cell.
+	 * @param {jQuery} inputEl - the barcode input that changed.
 	 * @returns {void}
 	 */
-	function processBatchMoveQueue(parentBarcode, childBarcodes, moveTimestamp) {
-		var total = childBarcodes.length;
-		var counts = { moved: 0, skipped: 0, failed: 0 };
-		$('#moveContainerBatchSubmit').prop('disabled', true);
-		function advance(index) {
-			if (index >= total) {
-				appendMoveResult('alert-info', 'Batch complete: ' + counts.moved + ' moved, ' + counts.skipped + ' skipped, ' + counts.failed + ' failed.');
-				setFeedbackControlState('moveContainerStatus', (counts.failed > 0 || counts.skipped > 0) ? 'warning' : 'saved', 'Batch complete.');
-				$('#moveContainerBatchSubmit').prop('disabled', false);
-				return;
-			}
-			setFeedbackControlState('moveContainerStatus', 'saving', 'Processing ' + (index + 1) + ' of ' + total + '...');
-			runBatchMovePreflight(parentBarcode, childBarcodes[index], moveTimestamp, function(outcome) {
-				if (outcome === 'moved') { counts.moved++; }
-				else if (outcome === 'skipped') { counts.skipped++; }
-				else { counts.failed++; }
-				advance(index + 1);
-			});
-		}
-		advance(0);
-	}
-
-	/** Validate required fields and begin processing the batch child-barcode queue.
-	 * @returns {void}
-	 */
-	function submitBatchMoveContainer() {
-		var parentBarcode = $.trim($('#parent_barcode').val());
-		var childBarcodes = parseBatchChildBarcodes($('#batch_child_barcodes').val());
-		if (!parentBarcode) {
-			setFeedbackControlState('moveContainerStatus', 'error', 'Parent barcode is required.');
+	function handleBatchChildBarcodeChange(inputEl) {
+		inputEl.closest('.positions-grid-cell').find('button').remove();
+		resetBatchChildRowStatus(inputEl);
+		var childBarcode = $.trim(inputEl.val());
+		if (!childBarcode) {
 			return;
 		}
-		if (childBarcodes.length === 0) {
-			setFeedbackControlState('moveContainerStatus', 'error', 'Enter at least one child identifier.');
+		var parentBarcode = $.trim($('#parent_barcode').val());
+		if (!parentBarcode) {
+			markBatchChildRowStatus(inputEl, 'bad', 'Enter the parent barcode above first.');
 			return;
 		}
 		var moveTimestamp = $.trim($('#move_timestamp').val());
-		processBatchMoveQueue(parentBarcode, childBarcodes, moveTimestamp);
+		runBatchChildPreflight(inputEl, parentBarcode, childBarcode, moveTimestamp);
+	}
+
+	/** Append one blank barcode-entry cell to the batch grid and wire its change handler.
+	 * @returns {jQuery} the newly created barcode input element.
+	 */
+	function addBatchChildRow() {
+		batchChildRowCounter++;
+		var inputId = 'batchChildInput_' + batchChildRowCounter;
+		var cell = $('<div class="positions-grid-cell positions-grid-cell-empty"></div>');
+		var input = $('<input type="text" class="positions-grid-barcode-input data-entry-input">').attr({ id: inputId, placeholder: 'Scan barcode' });
+		cell.append($('<label class="positions-grid-label"></label>').attr('for', inputId).text(batchChildRowCounter));
+		cell.append(input);
+		cell.append($('<div class="positions-grid-status-icon" aria-hidden="true"></div>'));
+		cell.append($('<div class="positions-grid-barcode-status small" role="status"></div>'));
+		$('#batchChildGrid').append(cell);
+		input.on('change', function() {
+			handleBatchChildBarcodeChange($(this));
+		});
+		return input;
+	}
+
+	/** (Re)build the batch grid from scratch with one blank starting row. Called when batch mode
+	 * is first turned on, and on form reset.
+	 * @returns {void}
+	 */
+	function resetBatchChildGrid() {
+		$('#batchChildGrid').empty();
+		batchChildRowCounter = 0;
+		addBatchChildRow();
 	}
 
 	/** Copy selected container identifier into a move barcode input.
@@ -490,11 +590,11 @@ limitations under the License.
 		$('#moveContainerBatchMode').on('change', function() {
 			applyBatchModeState($(this).prop('checked'));
 		});
-		$('#moveContainerBatchSubmit').on('click', submitBatchMoveContainer);
 		$('#moveContainerForm').on('reset', function() {
 			var updateModeState = function() {
 				applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
 				applyBatchModeState($('#moveContainerBatchMode').prop('checked'));
+				resetBatchChildGrid();
 			};
 			if (window.requestAnimationFrame) {
 				window.requestAnimationFrame(updateModeState);
