@@ -113,7 +113,7 @@
 	</cfif>
 	<cfset formList="Specimens.cfm">
 	<cfset formList=listAppend(formList,"specimens/browseSpecimens.cfm")>
-	<cfset formList=listAppend(formList,"SpecimenUsage.cfm")>
+	<cfset formList=listAppend(formList,"Projects.cfm")>
 	<cfset formList=listAppend(formList,"Taxa.cfm")>
 	<cfset formList=listAppend(formList,"MediaSearch.cfm")>
 	<cfset formList=listAppend(formList,"login.cfm")>

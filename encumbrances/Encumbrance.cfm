@@ -245,7 +245,7 @@ limitations under the License.
 				<div class="col-12">
 					<cfif variables.action EQ "edit">
 						<button type="button" class="btn btn-xs btn-primary"
-							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance'); }">
+							onclick="if (validateEncumbranceForm('encumbranceForm','encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','saveEncumbrance'); }">
 							Save Changes
 						</button>
 						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=ENCUMBRANCE%3AENCUMBRANCE&searchText1=#encodeForUrl(encDetails.encumbrance)#&closeParens1=0#encodeForURL(encDetails.encumbrance_id)#" class="btn btn-xs btn-secondary ml-1" target="_blank">
@@ -259,7 +259,7 @@ limitations under the License.
 						<output id="saveResultDiv" class="ml-2">&nbsp;</output>
 					<cfelse>
 						<button type="button" class="btn btn-xs btn-primary"
-							onclick="if (validateEncumbranceForm('encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','createEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id={encumbrance_id}'); }">
+							onclick="if (validateEncumbranceForm('encumbranceForm','encumberingAgentId','expiration_date','expiration_event')) { submitEncumbranceForm('encumbranceForm','createEncumbrance','/encumbrances/viewEncumbrance.cfm?encumbrance_id={encumbrance_id}'); }">
 							Create Encumbrance
 						</button>
 						<a href="/encumbrances/Encumbrances.cfm" class="btn btn-xs btn-warning ml-1">Cancel</a>

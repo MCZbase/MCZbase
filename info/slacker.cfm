@@ -176,8 +176,8 @@ limitations under the License.
 										<tr>
 											<td>#project_name#</td>
 											<td>
-												<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
-												<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
+												<a href="/projects/showProject.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
+												<a href="/projects/Project.cfm?action=edit&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
 											</td>
 										</tr>
 									</cfloop>
@@ -227,8 +227,8 @@ limitations under the License.
 										<td>#publication_ct#</td>
 										<td>#project_name#</td>
 										<td>
-											<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
-											<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
+											<a href="/projects/showProject.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
+											<a href="/projects/Project.cfm?action=edit&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
 										</td>
 									</tr>
 								</cfloop>
