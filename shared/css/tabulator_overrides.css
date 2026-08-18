@@ -51,6 +51,13 @@ tabulator_bootstrap4.min.css so these rules win.
 	padding: 0.375em;
 }
 
+/* The theme's own min-height: 40px (2x its 12px cell padding, plus a 16px line) is now
+   oversized relative to the reduced font-size/padding above; scale it the same way
+   (2x cell padding + a ~1em line allowance). */
+.tabulator-row {
+	min-height: 1.75em;
+}
+
 .tabulator-row.tabulator-selected,
 .tabulator-row.tabulator-selected:hover {
 	background-color: #caeaad;
