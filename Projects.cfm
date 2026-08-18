@@ -197,7 +197,7 @@ links do) redisplays correctly.
 	<main id="content">
 		<section class="container-fluid" role="search">
 			<cftry>
-				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark mr-4 border-0")#</cfoutput>
+				<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
 				<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
 			</cftry>
 			<div class="d-flex flex-wrap mb-3 mx-0 mr-md-3 mr-xl-4 ml-xl-3">
