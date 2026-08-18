@@ -3201,7 +3201,20 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')
 			.attr('data-toggle', 'collapse')
 			.attr('data-target', '#' + detailId)
-			.text(labelText);
+			.attr('role', 'button')
+			.attr('tabindex', '0')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', detailId)
+			.text(labelText)
+			.on('keydown', function(event) {
+				if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+					event.preventDefault();
+					$(this).trigger('click');
+				}
+			})
+			.on('click', function() {
+				$(this).attr('aria-expanded', $(this).attr('aria-expanded') === 'true' ? 'false' : 'true');
+			});
 		var detail = $('<div class="collapse small mt-1"></div>').attr('id', detailId);
 		var list = $('<ul class="list-unstyled mb-0"></ul>');
 		$.each(items, function(i, item) {

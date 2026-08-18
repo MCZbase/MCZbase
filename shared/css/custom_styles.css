@@ -42,13 +42,10 @@ input.reqdClr, select.reqdClr, textarea.reqdClr {
 	border-radius: .2rem;
 }
 input.badPick, select.badPick, textarea.badPick {
-	background-color: #FF3366 !important;
+	background-color: rgba(220, 53, 69, 0.3) !important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: rgba(173, 236, 199, 0.3) !important;
-}
-input.warnPick, select.warnPick, textarea.warnPick {
-	background-color: rgba(255, 193, 7, 0.3) !important;
 }
 #taxon_form label, #taxon_form2 label {
 	font-size: .8rem;

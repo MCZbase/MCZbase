@@ -142,8 +142,9 @@ limitations under the License.
    a bordered cell with a short numeric label, a barcode input, and a status line beneath it.
    Originally built for the container-positions scan-to-place grid (viewContainer.cfm), they're
    also reused as-is by the batch child-move grid on moveContainer.cfm (#batchChildGrid), which
-   just adds its own layout variant (positions-grid-autofill) and status colors (goodPick/warnPick/
-   badPick, positions-grid-status-icon) below rather than duplicating the cell/label/input rules. */
+   just adds its own layout variant (positions-grid-autofill) below rather than duplicating the
+   cell/label/input rules. The status line in both grids renders the shared placement-ok/warning/
+   blocked badge (renderPlacementWarningBadge in containers.js), not a bespoke color scheme. */
 .positions-grid-wrapper {
 	overflow-x: auto;
 }
@@ -218,11 +219,6 @@ limitations under the License.
 /* batch child-move grid's cells aren't click-to-open-a-dialog like the positions grid's are */
 #batchChildGrid .positions-grid-cell {
 	cursor: default;
-}
-
-.positions-grid-status-icon {
-	display: inline-block;
-	min-height: 1.1rem;
 }
 
 .positions-grid-barcode-status {
