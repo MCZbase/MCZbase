@@ -125,22 +125,46 @@ function confirmDeleteEncumbranceResult(encumbranceId, collectionObjectId) {
 
 /**
  * Validates the create or edit encumbrance form before AJAX submission.
- * Checks that an agent has been resolved and that expiration date and
- * expiration event are not both specified.
+ * The form is submitted via a type="button" onclick handler rather than a
+ * native form submit, so the [required] attributes in the markup are not
+ * enforced by the browser on their own; this walks the form's actual
+ * [required] fields (which already vary by mode -- e.g. Made Date is only
+ * required on create) so the JS check stays in sync with that markup
+ * without duplicating which fields are required.  The Encumbering Agent is
+ * checked separately since a value there is only valid once resolved to an
+ * agent_id via the autocomplete.  Also checks that exactly one of
+ * Expiration Date and Expiration Event is specified (not both, not neither).
  *
+ * @param {string} formId - the ID of the form element.
  * @param {string} agentIdFieldId - the ID of the hidden agent_id input.
  * @param {string} expDateFieldId - the ID of the expiration_date input.
  * @param {string} expEventFieldId - the ID of the expiration_event input.
  * @return {boolean} false if validation fails, true otherwise.
  */
-function validateEncumbranceForm(agentIdFieldId, expDateFieldId, expEventFieldId) {
+function validateEncumbranceForm(formId, agentIdFieldId, expDateFieldId, expEventFieldId) {
 	if ($.trim($('#' + agentIdFieldId).val()).length === 0) {
 		messageDialog('You must pick an Encumbering Agent from the list.', 'Validation Error');
 		return false;
 	}
-	if ($.trim($('#' + expDateFieldId).val()).length > 0 &&
-		$.trim($('#' + expEventFieldId).val()).length > 0) {
-		messageDialog('You may specify an expiration date or an expiration event, but not both.', 'Validation Error');
+	var missingLabel = '';
+	$('#' + formId).find('[required]').not('[name="encumberingAgent"]').each(function () {
+		if (missingLabel.length === 0 && $.trim($(this).val() || '').length === 0) {
+			var $label = $('label[for="' + this.id + '"]');
+			missingLabel = $label.length > 0 ? $.trim($label.text()) : this.name;
+		}
+	});
+	if (missingLabel.length > 0) {
+		messageDialog(missingLabel + ' is required.', 'Validation Error');
+		return false;
+	}
+	var hasExpirationDate = $.trim($('#' + expDateFieldId).val()).length > 0;
+	var hasExpirationEvent = $.trim($('#' + expEventFieldId).val()).length > 0;
+	if (hasExpirationDate && hasExpirationEvent) {
+		messageDialog('You may specify an Expiration Date or an Expiration Event, but not both.', 'Validation Error');
+		return false;
+	}
+	if (!hasExpirationDate && !hasExpirationEvent) {
+		messageDialog('You must specify either an Expiration Date or an Expiration Event.', 'Validation Error');
 		return false;
 	}
 	return true;
