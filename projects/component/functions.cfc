@@ -21,6 +21,7 @@ limitations under the License.
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded() --->
 
 <!--- backing for a project autocomplete control --->
 <cffunction name="getProjectAutocomplete" access="remote" returntype="any" returnformat="json">
@@ -1193,6 +1194,71 @@ Function removeProjectTaxon. Unlink a taxon from a project.
 		</cftry>
 	</cftransaction>
 	<cfreturn #theResult#>
+</cffunction>
+
+<!---
+Function getMediaForProjectHtml. Render the Media section (media/media_relations) as an
+HTML fragment: existing media linked to this project with a Remove button, followed by
+Create Media and Link Media buttons (shared/component/functions.cfc's generic
+createMediaHtml/linkMediaHtml dialogs), matching the model used on
+publications/Publication.cfm's own Media section (getMediaForPubHtml).
+--->
+<cffunction name="getMediaForProjectHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfargument name="project_name" type="string" required="no" default="">
+	<cfthread name="getMediaForProjectThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getMedia_result">
+					SELECT DISTINCT
+						media.media_id,
+						media_relations_id
+					FROM
+						media
+						JOIN media_relations ON media.media_id = media_relations.media_id
+					WHERE
+						media_relations.media_relationship LIKE '% project' AND
+						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+				</cfquery>
+				<cfif getMedia.recordcount GT 0>
+					<div class="row">
+						<cfloop query="getMedia">
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light border rounded mb-2">
+								<div id="mediaBlock#media_id#">
+									#getMediaBlockHtmlUnthreaded(media_id="#media_id#",size="400",captionAs="textMid")#
+									<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Remove this media record from the project?','Remove Media?', function() { deleteMediaRelation(#media_relations_id#,reloadProjectMedia); });">Remove</button>
+								</div>
+							</div>
+						</cfloop>
+					</div>
+				<cfelse>
+					<p class="mb-0">None.</p>
+				</cfif>
+				<div class="mt-2">
+					<button type="button" class="btn btn-xs btn-secondary" onclick="opencreatemediadialog('addProjectMediaDialog','#encodeForJavaScript(project_name)#','#project_id#','shows project',reloadProjectMedia);">Create Media</button>
+					<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="openlinkmediadialog('linkProjectMediaDialog','#encodeForJavaScript(project_name)#','#project_id#','shows project',reloadProjectMedia);">Link Media</button>
+				</div>
+				<div id="addProjectMediaDialog"></div>
+				<div id="linkProjectMediaDialog"></div>
+				<script>
+					function reloadProjectMedia() {
+						$.ajax({
+							url: '/projects/component/functions.cfc',
+							data: { method: 'getMediaForProjectHtml', project_id: #project_id#, project_name: '#encodeForJavaScript(project_name)#' },
+							success: function(result) { $('##mediaDiv').html(result); },
+							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading project media'); },
+							dataType: 'html'
+						});
+					}
+				</script>
+			<cfcatch>
+				<p class="text-danger">Error: #cfcatch.message#</p>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getMediaForProjectThread" />
+	<cfreturn getMediaForProjectThread.output>
 </cffunction>
 
 </cfcomponent>

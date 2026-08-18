@@ -300,7 +300,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 function deleteMediaRelation(media_relations_id, okcallback) {
    jQuery.getJSON("/media/component/functions.cfc",
       {
-         method : "deleteMediaRelation",
+         method : "removeMediaRelation",
          media_relations_id : media_relations_id,
          returnformat : "json",
          queryformat : 'column'

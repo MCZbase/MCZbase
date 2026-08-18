@@ -286,6 +286,13 @@ handles its POST and redirects to "edit"; "edit" is the full page.
 				<div id="taxonomyDiv">#getTaxonomyHtml(project_id="#getProject.project_id#")#</div>
 			</div>
 		</section>
+
+		<section class="row">
+			<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2">
+				<h2 class="h3">Media</h2>
+				<div id="mediaDiv">#getMediaForProjectHtml(project_id="#getProject.project_id#", project_name="#getProject.project_name#")#</div>
+			</div>
+		</section>
 		</cfoutput>
 	</main>
 
