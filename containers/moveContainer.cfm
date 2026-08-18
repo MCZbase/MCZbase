@@ -124,6 +124,22 @@ limitations under the License.
 		container.prepend(item);
 	}
 
+	/** Build an HTML string for a link that opens the shared container details dialog
+	 * (openContainerDetailsDialog in containers.js) for one container, for embedding into other
+	 * string-templated HTML such as Move Log entries. The onclick attribute is set through the DOM
+	 * and read back via outerHTML so the browser handles escaping the display text correctly,
+	 * rather than hand-escaping a string for both HTML and JS-string-literal contexts at once.
+	 * @param {number|string} containerId - container_id to open details for.
+	 * @param {string} displayText - visible link text and dialog title.
+	 * @returns {string} an <a> tag as an HTML string, safe to concatenate into other markup.
+	 */
+	function buildContainerDetailsLinkHtml(containerId, displayText) {
+		return $('<a href="javascript:void(0);"></a>')
+			.attr('onclick', 'openContainerDetailsDialog(' + parseInt(containerId, 10) + ', ' + JSON.stringify(String(displayText)) + ', null, false); return false;')
+			.text(displayText)
+			.prop('outerHTML');
+	}
+
 	function setTimestampToNow() {
 		var now = new Date();
 		var month = String(now.getMonth() + 1).padStart(2, '0');
@@ -267,7 +283,9 @@ limitations under the License.
 				if (result && result.status === 'moved') {
 					var childDisplay = formatContainerDisplay(childBarcode, result.child_label);
 					var parentDisplay = formatContainerDisplay(parentBarcode, result.parent_label);
-					appendMoveResult('alert-success', 'Moved <strong>' + $('<div>').text(childDisplay).html() + '</strong> into <strong>' + $('<div>').text(parentDisplay).html() + '</strong>.');
+					var childLink = buildContainerDetailsLinkHtml(result.child_container_id, childDisplay);
+					var parentLink = buildContainerDetailsLinkHtml(result.parent_container_id, parentDisplay);
+					appendMoveResult('alert-success', 'Moved <strong>' + childLink + '</strong> into <strong>' + parentLink + '</strong>.');
 					var movedCount = parseInt($('#moveContainerCounter').data('count'), 10) || 0;
 					$('#moveContainerCounter').data('count', movedCount + 1).text((movedCount + 1) + ' moved');
 					setFeedbackControlState('moveContainerStatus', 'saved', 'Move recorded.');
