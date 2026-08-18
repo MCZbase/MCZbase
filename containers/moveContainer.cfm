@@ -24,8 +24,15 @@ limitations under the License.
 <cfparam name="url.child_barcode" default="">
 <cfparam name="url.parent_barcode" default="">
 <cfparam name="url.barcode_scanner_mode" default="0">
+<cfparam name="url.batch_mode" default="0">
 <cfset variables.scannerModeParam = lcase(trim(url.barcode_scanner_mode))>
 <cfset variables.scannerModeEnabled = listFindNoCase("1,true,yes,on", variables.scannerModeParam) GT 0>
+<cfset variables.batchModeParam = lcase(trim(url.batch_mode))>
+<cfset variables.batchModeEnabled = listFindNoCase("1,true,yes,on", variables.batchModeParam) GT 0>
+<cfif variables.batchModeEnabled>
+	<!--- batch mode and scanner mode are mutually exclusive in the UI; batch mode wins if both are requested --->
+	<cfset variables.scannerModeEnabled = false>
+</cfif>
 
 <cfset pageTitle = "Move Container">
 <cfset pageHasContainers = true>
@@ -37,7 +44,7 @@ limitations under the License.
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="moveContainerHeading">
 		<div class="col-12">
 			<h1 class="h2 ml-1 mb-1" id="moveContainerHeading">Move Container</h1>
-			<p class="small text-muted">Scan or enter a parent container barcode and child container barcode, then confirm the move.</p>
+			<p class="small text-muted">Scan or enter a parent container barcode and child container barcode, then confirm the move. Use Batch Mode to move a list of children into one parent at once.</p>
 			<form class="col-12 px-0" id="moveContainerForm" name="moveContainerForm" method="post" novalidate onsubmit="return false;">
 				<div class="form-row">
 					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
@@ -51,7 +58,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2">
+					<div class="col-12 col-md-6 col-l-5 col-xl-5 mb-2" id="moveContainerSingleChildWrap">
 						<label for="child_barcode" class="data-entry-label">Child Unique Identifier</label>
 						<div class="container-picker-row d-flex align-items-center form-row">
 							<div class="col-12 col-md-8 col-lg-9 pr-md-0 move-container-input-wrap">
@@ -68,17 +75,31 @@ limitations under the License.
 						<small id="moveTimestampHelp" class="text-muted">Format: yyyy-mm-dd HH:mm:ss</small>
 					</div>
 				</div>
+				<div class="form-row mb-2" id="moveContainerBatchWrap" style="display:none;">
+					<div class="col-12">
+						<label for="batch_child_barcodes" class="data-entry-label">Child Unique Identifiers (one per line, or separated by commas)</label>
+						<textarea name="batch_child_barcodes" id="batch_child_barcodes" class="data-entry-input col-12 col-md-8 col-lg-6" rows="6" aria-describedby="batchChildBarcodesHelp"></textarea>
+						<small id="batchChildBarcodesHelp" class="text-muted d-block">Each valid barcode is moved into the parent above. Placements needing a warning confirmation, or that fail, are skipped and reported below rather than moved automatically &mdash; use the single-move fields above to resolve those.</small>
+						<button type="button" class="btn btn-xs btn-primary mt-1" id="moveContainerBatchSubmit">Move All</button>
+					</div>
+				</div>
 				<div class="form-row mb-2">
 					<div class="col-12">
 						<button type="button" class="btn btn-xs btn-primary" id="moveContainerSubmit">Move Container</button>
 						<button type="button" class="btn btn-xs btn-secondary ml-1" id="moveContainerNow">Set Timestamp to Now</button>
 						<button type="reset" class="btn btn-xs btn-warning ml-1" id="moveContainerClear">Clear Form</button>
-						<label class="ml-3 mb-0 small" for="moveContainerScannerMode">
-							<input type="checkbox" id="moveContainerScannerMode"<cfif variables.scannerModeEnabled> checked</cfif>> Barcode Scanner Mode
-						</label>
-						<label class="ml-3 mb-0 small" for="moveContainerAutoSubmit">
-							<input type="checkbox" id="moveContainerAutoSubmit"> Submit on Child Change
-						</label>
+						<span class="ml-3">
+							<input type="checkbox" id="moveContainerScannerMode"<cfif variables.scannerModeEnabled> checked</cfif>>
+							<label class="mb-0 small d-inline" for="moveContainerScannerMode">Barcode Scanner Mode</label>
+						</span>
+						<span class="ml-3">
+							<input type="checkbox" id="moveContainerAutoSubmit">
+							<label class="mb-0 small d-inline" for="moveContainerAutoSubmit">Submit on Child Change</label>
+						</span>
+						<span class="ml-3">
+							<input type="checkbox" id="moveContainerBatchMode"<cfif variables.batchModeEnabled> checked</cfif>>
+							<label class="mb-0 small d-inline" for="moveContainerBatchMode">Batch Mode (Multiple Children)</label>
+						</span>
 						<output id="moveContainerStatus" class="ml-2" aria-live="polite"></output>
 					</div>
 				</div>
@@ -159,15 +180,34 @@ limitations under the License.
 		timestampInput.prop('disabled', isScannerMode);
 		$('#moveContainerNow').prop('disabled', isScannerMode);
 		$('#moveContainerAutoSubmit').prop('checked', isScannerMode);
+		$('#moveContainerBatchMode').prop('disabled', isScannerMode);
+	}
+
+	/** Toggle batch mode behavior: swap the single child-barcode field for a multi-line list, and
+	 * disable barcode scanner mode's per-scan auto-submit while a batch is being composed.
+	 * @param {boolean} isBatchMode - true shows the batch textarea and Move All button in place of the single child field.
+	 * @returns {void}
+	 */
+	function applyBatchModeState(isBatchMode) {
+		isBatchMode = !!isBatchMode;
+		$('#moveContainerSingleChildWrap').toggle(!isBatchMode);
+		$('#moveContainerBatchWrap').toggle(isBatchMode);
+		$('#moveContainerSubmit').prop('disabled', isBatchMode);
+		$('#moveContainerScannerMode').prop('disabled', isBatchMode);
+		if (isBatchMode) {
+			$('#moveContainerAutoSubmit').prop('checked', false);
+		}
 	}
 
 	/** Execute a barcode move after preflight has approved or warning-confirmed it.
 	 * @param {string} parentBarcode - destination parent container barcode.
 	 * @param {string} childBarcode - child container barcode being moved.
 	 * @param {string} moveTimestamp - optional move timestamp.
+	 * @param {function(string):void} [onComplete] - when given, called with the outcome status ('moved'|'notfound'|'failed') instead of
+	 *   focusing the single child-barcode field, so a batch queue can chain to the next item.
 	 * @returns {void}
 	 */
-	function executeMoveContainer(parentBarcode, childBarcode, moveTimestamp) {
+	function executeMoveContainer(parentBarcode, childBarcode, moveTimestamp, onComplete) {
 		setFeedbackControlState('moveContainerStatus', 'saving', 'Moving...');
 		$('#moveContainerSubmit').prop('disabled', true);
 		$.ajax({
@@ -191,19 +231,22 @@ limitations under the License.
 					var nextCount = movedCount + 1;
 					$('#moveContainerCounter').data('count', nextCount).text(nextCount + ' moved');
 					setFeedbackControlState('moveContainerStatus', 'saved', 'Move recorded.');
-					$('#child_barcode').val('').focus();
+					if (onComplete) { onComplete('moved'); } else { $('#child_barcode').val('').focus(); }
 				} else if (result.status === 'notfound') {
 					appendMoveResult('alert-danger', $('<div>').text(result.message || 'Container was not found.').html());
 					setFeedbackControlState('moveContainerStatus', 'error', result.message || 'Container was not found.');
+					if (onComplete) { onComplete('notfound'); }
 				} else {
 					appendMoveResult('alert-danger', $('<div>').text(result.message || 'Move failed.').html());
 					setFeedbackControlState('moveContainerStatus', 'error', result.message || 'Move failed.');
+					if (onComplete) { onComplete('failed'); }
 				}
 			},
 			error: function(jqXHR, textStatus, error) {
 				$('#moveContainerSubmit').prop('disabled', false);
 				setFeedbackControlState('moveContainerStatus', 'error', 'Move failed.');
 				handleFail(jqXHR, textStatus, error, 'moving container by barcode');
+				if (onComplete) { onComplete('failed'); }
 			}
 		});
 	}
@@ -284,6 +327,121 @@ limitations under the License.
 		runMoveContainerPreflight(parentBarcode, childBarcode, moveTimestamp);
 	}
 
+	/** Split batch textarea input into a list of non-empty barcodes, one per line or comma-separated.
+	 * @param {string} rawText - raw contents of the batch child-barcodes textarea.
+	 * @returns {Array<string>} trimmed, non-empty barcodes in entry order.
+	 */
+	function parseBatchChildBarcodes(rawText) {
+		var pieces = String(rawText || '').split(/[\r\n,]+/);
+		var barcodes = [];
+		$.each(pieces, function(i, piece) {
+			var trimmed = $.trim(piece);
+			if (trimmed.length > 0) {
+				barcodes.push(trimmed);
+			}
+		});
+		return barcodes;
+	}
+
+	/** Run preflight for one barcode in a batch queue and either execute the move or skip it.
+	 * Unlike runMoveContainerPreflight, this never opens a confirm dialog: an unattended batch
+	 * treats anything needing a warning confirmation as skipped-for-manual-review, so a long list
+	 * doesn't stack up modal dialogs waiting on the user.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {string} childBarcode - child container barcode being moved.
+	 * @param {string} moveTimestamp - optional move timestamp passed through on move.
+	 * @param {function(string):void} onComplete - called with 'moved', 'skipped', or 'failed' when this item is done.
+	 * @returns {void}
+	 */
+	function runBatchMovePreflight(parentBarcode, childBarcode, moveTimestamp, onComplete) {
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'get',
+			dataType: 'json',
+			data: {
+				method: 'preflightMoveContainerByBarcode',
+				returnformat: 'json',
+				child_barcode: childBarcode,
+				parent_barcode: parentBarcode
+			},
+			success: function(preflight) {
+				if (!preflight || preflight.status === 'error') {
+					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + ((preflight && preflight.message) ? preflight.message : 'Unable to validate placement.')).html());
+					onComplete('failed');
+					return;
+				}
+				if (preflight.status === 'notfound') {
+					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + (preflight.message || 'Container was not found.')).html());
+					onComplete('skipped');
+					return;
+				}
+				if (preflight.allowed !== true) {
+					var blockedMessage = joinPlacementMessages(preflight.blocks) || 'Placement is not allowed.';
+					appendMoveResult('alert-danger', $('<div>').text(childBarcode + ': ' + blockedMessage).html());
+					onComplete('skipped');
+					return;
+				}
+				if (preflight.severity === 'warn') {
+					var warningMessage = joinPlacementMessages(preflight.warnings) || 'Needs a warning confirmation.';
+					appendMoveResult('alert-warning', $('<div>').text(childBarcode + ': skipped, ' + warningMessage + ' Use the single-move fields above to confirm.').html());
+					onComplete('skipped');
+					return;
+				}
+				executeMoveContainer(parentBarcode, childBarcode, moveTimestamp, onComplete);
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'validating batch move container placement');
+				onComplete('failed');
+			}
+		});
+	}
+
+	/** Process a list of child barcodes sequentially against one parent container.
+	 * @param {string} parentBarcode - destination parent container barcode.
+	 * @param {Array<string>} childBarcodes - child barcodes to move, in order.
+	 * @param {string} moveTimestamp - optional move timestamp applied to every successful move.
+	 * @returns {void}
+	 */
+	function processBatchMoveQueue(parentBarcode, childBarcodes, moveTimestamp) {
+		var total = childBarcodes.length;
+		var counts = { moved: 0, skipped: 0, failed: 0 };
+		$('#moveContainerBatchSubmit').prop('disabled', true);
+		function advance(index) {
+			if (index >= total) {
+				appendMoveResult('alert-info', 'Batch complete: ' + counts.moved + ' moved, ' + counts.skipped + ' skipped, ' + counts.failed + ' failed.');
+				setFeedbackControlState('moveContainerStatus', (counts.failed > 0 || counts.skipped > 0) ? 'warning' : 'saved', 'Batch complete.');
+				$('#moveContainerBatchSubmit').prop('disabled', false);
+				return;
+			}
+			setFeedbackControlState('moveContainerStatus', 'saving', 'Processing ' + (index + 1) + ' of ' + total + '...');
+			runBatchMovePreflight(parentBarcode, childBarcodes[index], moveTimestamp, function(outcome) {
+				if (outcome === 'moved') { counts.moved++; }
+				else if (outcome === 'skipped') { counts.skipped++; }
+				else { counts.failed++; }
+				advance(index + 1);
+			});
+		}
+		advance(0);
+	}
+
+	/** Validate required fields and begin processing the batch child-barcode queue.
+	 * @returns {void}
+	 */
+	function submitBatchMoveContainer() {
+		var parentBarcode = $.trim($('#parent_barcode').val());
+		var childBarcodes = parseBatchChildBarcodes($('#batch_child_barcodes').val());
+		if (!parentBarcode) {
+			setFeedbackControlState('moveContainerStatus', 'error', 'Parent barcode is required.');
+			return;
+		}
+		if (childBarcodes.length === 0) {
+			setFeedbackControlState('moveContainerStatus', 'error', 'Enter at least one child identifier.');
+			return;
+		}
+		var moveTimestamp = $.trim($('#move_timestamp').val());
+		processBatchMoveQueue(parentBarcode, childBarcodes, moveTimestamp);
+	}
+
 	/** Copy selected container identifier into a move barcode input.
 	 * @param {string} targetInputId - input control id to populate.
 	 * @param {Object} selectedItem - selected autocomplete item containing barcode and label keys.
@@ -329,19 +487,25 @@ limitations under the License.
 		$('#moveContainerScannerMode').on('change', function() {
 			applyBarcodeScannerModeState($(this).prop('checked'));
 		});
+		$('#moveContainerBatchMode').on('change', function() {
+			applyBatchModeState($(this).prop('checked'));
+		});
+		$('#moveContainerBatchSubmit').on('click', submitBatchMoveContainer);
 		$('#moveContainerForm').on('reset', function() {
-			var updateScannerState = function() {
+			var updateModeState = function() {
 				applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
+				applyBatchModeState($('#moveContainerBatchMode').prop('checked'));
 			};
 			if (window.requestAnimationFrame) {
-				window.requestAnimationFrame(updateScannerState);
+				window.requestAnimationFrame(updateModeState);
 			} else {
-				updateScannerState();
+				updateModeState();
 			}
 		});
 		setTimestampToNow();
+		applyBatchModeState($('#moveContainerBatchMode').prop('checked'));
 		applyBarcodeScannerModeState($('#moveContainerScannerMode').prop('checked'));
-		if ($.trim($('#child_barcode').val()).length > 0 && $.trim($('#parent_barcode').val()).length > 0) {
+		if (!$('#moveContainerBatchMode').prop('checked') && $.trim($('#child_barcode').val()).length > 0 && $.trim($('#parent_barcode').val()).length > 0) {
 			submitMoveContainer();
 		}
 	});
