@@ -3538,7 +3538,7 @@ per this redesign's rule that every mutating method must enforce it inline as we
 				SELECT description FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			</cfquery>
 			<cfif local.queryCurrent.recordcount GT 0 AND len(trim(local.queryCurrent.description)) GT 0>
-				<cfset local.newDescription = local.queryCurrent.description & chr(10) & arguments.description_value>
+				<cfset local.newDescription = local.queryCurrent.description & "; " & arguments.description_value>
 			<cfelse>
 				<cfset local.newDescription = arguments.description_value>
 			</cfif>
@@ -3553,7 +3553,7 @@ per this redesign's rule that every mutating method must enforce it inline as we
 				SELECT container_remarks FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			</cfquery>
 			<cfif local.queryCurrentRemarks.recordcount GT 0 AND len(trim(local.queryCurrentRemarks.container_remarks)) GT 0>
-				<cfset local.newRemarks = local.queryCurrentRemarks.container_remarks & chr(10) & arguments.container_remarks_value>
+				<cfset local.newRemarks = local.queryCurrentRemarks.container_remarks & "; " & arguments.container_remarks_value>
 			<cfelse>
 				<cfset local.newRemarks = arguments.container_remarks_value>
 			</cfif>
