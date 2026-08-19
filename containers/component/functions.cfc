@@ -960,9 +960,9 @@ Function createContainer.  Creates a new container record.
 					</cfif>,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#" null="#len(trim(arguments.barcode)) EQ 0#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#" null="#len(trim(arguments.number_positions)) EQ 0#">,
 					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
@@ -1080,9 +1080,9 @@ Function saveContainer.  Updates an existing container record.
 							<cfqueryparam cfsqltype="CF_SQL_DATE" value="" null="yes">
 						</cfif>,
 					container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.container_remarks)#" null="#len(trim(arguments.container_remarks)) EQ 0#">,
-					width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
-					height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
-					length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
+					width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.width)#" null="#len(trim(arguments.width)) EQ 0#">,
+					height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.height)#" null="#len(trim(arguments.height)) EQ 0#">,
+					length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#trim(arguments.length)#" null="#len(trim(arguments.length)) EQ 0#">,
 					institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.institution_acronym)#">
 				WHERE
 					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
