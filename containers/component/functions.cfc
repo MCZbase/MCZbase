@@ -3136,6 +3136,54 @@ type the database driver already gave it, without needing to hand-build a new ty
 </cffunction>
 
 <!---
+Function summarizeContainerProperties. Counts how many containers in a set (as returned by
+getContainersInRange) have a value for each of description, container_remarks, height, length,
+width, and number_positions -- used by the bulk retype tool's range-analysis and change-entry pages
+to show what's actually populated before deciding what to overwrite. For the numeric dimension/
+position fields, 0 counts as not-set (this data uses 0 to mean "no value recorded", not a real
+zero-size dimension), not just blank/null.
+@param containers array of structs as returned by getContainersInRange.
+@return a struct: totalCount, descriptionCount, remarksCount, heightCount, lengthCount, widthCount,
+	positionsCount.
+--->
+<cffunction name="summarizeContainerProperties" access="public" returntype="struct" output="false">
+	<cfargument name="containers" type="array" required="yes">
+
+	<cfset var summary = StructNew()>
+	<cfset var i = 0>
+	<cfset summary["totalCount"] = ArrayLen(arguments.containers)>
+	<cfset summary["descriptionCount"] = 0>
+	<cfset summary["remarksCount"] = 0>
+	<cfset summary["heightCount"] = 0>
+	<cfset summary["lengthCount"] = 0>
+	<cfset summary["widthCount"] = 0>
+	<cfset summary["positionsCount"] = 0>
+
+	<cfloop from="1" to="#ArrayLen(arguments.containers)#" index="i">
+		<cfif len(trim(arguments.containers[i].description)) GT 0>
+			<cfset summary["descriptionCount"] = summary["descriptionCount"] + 1>
+		</cfif>
+		<cfif len(trim(arguments.containers[i].container_remarks)) GT 0>
+			<cfset summary["remarksCount"] = summary["remarksCount"] + 1>
+		</cfif>
+		<cfif len(trim(arguments.containers[i].height)) GT 0 AND val(arguments.containers[i].height) NEQ 0>
+			<cfset summary["heightCount"] = summary["heightCount"] + 1>
+		</cfif>
+		<cfif len(trim(arguments.containers[i].length)) GT 0 AND val(arguments.containers[i].length) NEQ 0>
+			<cfset summary["lengthCount"] = summary["lengthCount"] + 1>
+		</cfif>
+		<cfif len(trim(arguments.containers[i].width)) GT 0 AND val(arguments.containers[i].width) NEQ 0>
+			<cfset summary["widthCount"] = summary["widthCount"] + 1>
+		</cfif>
+		<cfif len(trim(arguments.containers[i].number_positions)) GT 0 AND val(arguments.containers[i].number_positions) NEQ 0>
+			<cfset summary["positionsCount"] = summary["positionsCount"] + 1>
+		</cfif>
+	</cfloop>
+
+	<cfreturn summary>
+</cffunction>
+
+<!---
 Function validateContainerRetype. Checks whether changing an existing container's type to a new type
 is still compatible with its CURRENT parent and CURRENT children. There is no database trigger
 protecting a bare container_type change today (unlike moves, which MCZBASE.MOVE_CONTAINER enforces --
