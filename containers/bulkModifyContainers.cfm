@@ -122,7 +122,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 				return partOrDash(h) + ' × ' + partOrDash(l) + ' × ' + partOrDash(w);
 			};
 			var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
-			table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Description</th><th>Remarks</th><th>Dimensions (H&times;L&times;W)</th><th>Actions</th></tr></thead>');
+			table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Description</th><th>Remarks</th><th>Dimensions (H&times;L&times;W, cm)</th><th>Actions</th></tr></thead>');
 			var tbody = $('<tbody></tbody>');
 			$.each(rows, function(i, row) {
 				var displayName = formatContainerDisplay(row.barcode, row.label);
