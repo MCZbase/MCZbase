@@ -432,22 +432,22 @@ validated per container) -> apply (commit, skipping any container whose retype i
 					<div class="form-row">
 						<div class="col-6 col-md-3 mb-2">
 							<label for="height" class="data-entry-label">New Height (cm, optional)</label>
-							<input type="text" name="height" id="height" class="data-entry-input col-12">
+							<input type="text" name="height" id="height" class="data-entry-input">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="length" class="data-entry-label">New Length (cm, optional)</label>
-							<input type="text" name="length" id="length" class="data-entry-input col-12">
+							<input type="text" name="length" id="length" class="data-entry-input">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="width" class="data-entry-label">New Width (cm, optional)</label>
-							<input type="text" name="width" id="width" class="data-entry-input col-12">
+							<input type="text" name="width" id="width" class="data-entry-input">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="number_positions" class="data-entry-label">New Number of Positions (optional)</label>
-							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12">
+							<input type="text" name="number_positions" id="number_positions" class="data-entry-input">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 					</div>
