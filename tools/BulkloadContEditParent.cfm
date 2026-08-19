@@ -41,6 +41,8 @@ limitations under the License.
 
 <cfset fieldlist = "CONTAINER_UNIQUE_ID,PARENT_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME,DESCRIPTION,REMARKS,WIDTH,HEIGHT,LENGTH,NUMBER_POSITIONS">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<!--- scale is ignored by cfqueryparam for non-decimal types; only WIDTH/HEIGHT/LENGTH need better than whole-number precision, NUMBER_POSITIONS is genuinely integer --->
+<cfset fieldScales ="0,0,0,0,0,0,4,4,4,0">
 <cfset requiredfieldlist = "CONTAINER_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME">
 
 <!--- special case handling to dump column headers as csv --->
@@ -195,6 +197,7 @@ limitations under the License.
 				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+				<cfset scaleArray = listToArray(fieldScales)><!--- the cfqueryparam scale for the full list of fields --->
 				<div class="col-12 px-0 my-4">
 					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
 					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
@@ -259,7 +262,7 @@ limitations under the License.
 										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" scale="#scaleArray[col]#" value="#val#">
 										</cfif>
 									<cfelse>
 										#separator#NULL
@@ -500,13 +503,13 @@ limitations under the License.
 								PARENT_INSTALL_DATE=sysdate,
 								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 								<cfif len(#WIDTH#) gt 0>
-									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
+									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#WIDTH#">
 								</cfif>
 								<cfif len(#HEIGHT#) gt 0>
-									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
+									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#HEIGHT#">
 								</cfif>
 								<cfif len(#LENGTH#) gt 0>
-									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
+									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#LENGTH#">
 								</cfif>
 								<cfif len(#NUMBER_POSITIONS#) gt 0>
 									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
