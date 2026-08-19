@@ -20,6 +20,31 @@ containers identified by a shared barcode prefix and a contiguous integer range.
 /labels2containers.cfm. A five-step self-posting flow: entryPoint (pick the range) -> preview
 (report what's actually in the range) -> dataEntry (choose the changes) -> test (optional dry run,
 validated per container) -> apply (commit, skipping any container whose retype is blocked).
+
+Scalability: the test and apply actions validate every matched container synchronously within
+one page request -- validateContainerRetype alone runs up to 8 queries per container (parent/
+child rank and role checks), and apply adds a few more per container on top of that (an optional
+pre-fetch of the existing description/remark when appending, the UPDATE, and a re-SELECT of the
+updated row). With no query taking more than a couple hundred milliseconds, a range of a few
+hundred containers stays comfortably inside ColdFusion's default 60-second request timeout, but a
+range in the low thousands (the legacy page's own stated ceiling) risks timing out before the
+request finishes -- there is no chunking or resumption if it does. This hasn't been hit in
+practice, so it isn't fixed here, but a few ways to scale this page into the low thousands without
+a request timing out mid-run:
+	- Rewrite validation/apply as set-based SQL operating on the whole matched range at once,
+	  rather than a per-row loop issuing per-row queries -- the biggest win, but the most
+	  invasive, since the current per-row queries are what let each container get its own
+	  ok/warn/blocked outcome and its own independent success/failure on apply.
+	- Move the actual work to a background job (e.g. a <cfthread> or a scheduled task) that the
+	  page kicks off and then polls for progress/completion, so the HTTP request returns quickly
+	  regardless of range size. Adds real complexity: job state has to be tracked and surfaced
+	  somewhere the user can come back to.
+	- Have the browser drive the loop instead of the server: after Dry Run/Apply Changes is
+	  pressed, JS repeatedly calls validateContainerRetype/applyBulkRetypeContainer in small
+	  batches via AJAX, rendering each batch's results as they arrive. Keeps the existing
+	  per-container queries and per-container outcomes, trading a bigger page-side rewrite (this
+	  page is currently a traditional multi-step self-posting form, not an AJAX-driven one) for
+	  avoiding both the timeout and a background job's added state-tracking.
 --->
 <cf_rolecheck>
 <cfparam name="form.formAction" default="">
