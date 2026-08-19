@@ -345,7 +345,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 			 * @returns {void}
 			 */
 			function renderBulkModifyCandidateTable(rows) {
-				var target = $('#bulkModifyCandidateList');
+				var target = $('##bulkModifyCandidateList');
 				if (!rows || rows.length === 0) {
 					target.html('<p class="text-muted my-2">No candidate containers.</p>');
 					return;
