@@ -540,6 +540,31 @@ validated per container) -> apply (commit, skipping any container whose retype i
 			</cfif>
 		</cfloop>
 
+		<cfset variables.clearDescriptionPreview = false>
+		<cfif form.description_mode EQ "overwrite" AND UCase(trim(form.description)) EQ "NULL">
+			<cfset variables.clearDescriptionPreview = true>
+		</cfif>
+		<cfset variables.clearRemarksPreview = false>
+		<cfif form.container_remarks_mode EQ "overwrite" AND UCase(trim(form.container_remarks)) EQ "NULL">
+			<cfset variables.clearRemarksPreview = true>
+		</cfif>
+		<cfset variables.clearHeightPreview = false>
+		<cfif UCase(trim(form.height)) EQ "NULL">
+			<cfset variables.clearHeightPreview = true>
+		</cfif>
+		<cfset variables.clearLengthPreview = false>
+		<cfif UCase(trim(form.length)) EQ "NULL">
+			<cfset variables.clearLengthPreview = true>
+		</cfif>
+		<cfset variables.clearWidthPreview = false>
+		<cfif UCase(trim(form.width)) EQ "NULL">
+			<cfset variables.clearWidthPreview = true>
+		</cfif>
+		<cfset variables.clearNumberPositionsPreview = false>
+		<cfif UCase(trim(form.number_positions)) EQ "NULL">
+			<cfset variables.clearNumberPositionsPreview = true>
+		</cfif>
+
 		<cfif variables.action EQ "test">
 			<cfset variables.detailedRowCount = ArrayLen(variables.containers)>
 			<cfif variables.detailedRowCount GT variables.MAX_DETAILED_ROWS>
@@ -554,6 +579,79 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<strong>#variables.warnCount#</strong> need review (see below),
 						<strong>#variables.blockCount#</strong> blocked (Apply Changes will skip these).
 					</p>
+					<div class="mb-3">
+						<h2 class="h5 mb-1">Proposed Changes</h2>
+						<ul class="mb-0">
+							<li>
+								Container Type:
+								<cfif form.newContType NEQ form.origContType>
+									#encodeForHtml(form.origContType)# &rarr; #encodeForHtml(form.newContType)#
+								<cfelse>
+									no change (#encodeForHtml(form.origContType)#)
+								</cfif>
+							</li>
+							<li>
+								Description:
+								<cfif variables.clearDescriptionPreview>
+									cleared
+								<cfelseif len(trim(form.description)) GT 0>
+									#encodeForHtml(form.description_mode)# &ndash; "#encodeForHtml(form.description)#"
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+							<li>
+								Remark:
+								<cfif variables.clearRemarksPreview>
+									cleared
+								<cfelseif len(trim(form.container_remarks)) GT 0>
+									#encodeForHtml(form.container_remarks_mode)# &ndash; "#encodeForHtml(form.container_remarks)#"
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+							<li>
+								Height:
+								<cfif variables.clearHeightPreview>
+									cleared
+								<cfelseif len(trim(form.height)) GT 0>
+									set to #encodeForHtml(form.height)#
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+							<li>
+								Length:
+								<cfif variables.clearLengthPreview>
+									cleared
+								<cfelseif len(trim(form.length)) GT 0>
+									set to #encodeForHtml(form.length)#
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+							<li>
+								Width:
+								<cfif variables.clearWidthPreview>
+									cleared
+								<cfelseif len(trim(form.width)) GT 0>
+									set to #encodeForHtml(form.width)#
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+							<li>
+								Number of Positions:
+								<cfif variables.clearNumberPositionsPreview>
+									cleared
+								<cfelseif len(trim(form.number_positions)) GT 0>
+									set to #encodeForHtml(form.number_positions)#
+								<cfelse>
+									no change
+								</cfif>
+							</li>
+						</ul>
+					</div>
 					<div class="positions-grid positions-grid-autofill" id="dryRunGrid">
 						<cfloop from="1" to="#variables.detailedRowCount#" index="variables.i">
 							<div class="positions-grid-cell positions-grid-cell-empty">
