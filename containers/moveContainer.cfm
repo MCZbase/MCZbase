@@ -25,10 +25,14 @@ limitations under the License.
 <cfparam name="url.parent_barcode" default="">
 <cfparam name="url.barcode_scanner_mode" default="0">
 <cfparam name="url.batch_mode" default="0">
-<cfset variables.scannerModeParam = lcase(trim(url.barcode_scanner_mode))>
-<cfset variables.scannerModeEnabled = listFindNoCase("1,true,yes,on", variables.scannerModeParam) GT 0>
-<cfset variables.batchModeParam = lcase(trim(url.batch_mode))>
-<cfset variables.batchModeEnabled = listFindNoCase("1,true,yes,on", variables.batchModeParam) GT 0>
+<cfset variables.scannerModeEnabled = false>
+<cfif trim(url.barcode_scanner_mode) EQ "1">
+	<cfset variables.scannerModeEnabled = true>
+</cfif>
+<cfset variables.batchModeEnabled = false>
+<cfif trim(url.batch_mode) EQ "1">
+	<cfset variables.batchModeEnabled = true>
+</cfif>
 <cfif variables.batchModeEnabled>
 	<!--- batch mode and scanner mode are mutually exclusive in the UI; batch mode wins if both are requested --->
 	<cfset variables.scannerModeEnabled = false>
