@@ -83,6 +83,70 @@ validated per container) -> apply (commit, skipping any container whose retype i
 <main id="content" class="container py-3">
 	<cfoutput>
 
+	<script>
+		/** Render a read-only containers table for the bulk retype tool -- used by both the Enter
+		 * Changes page's candidate list and the report page's modified-containers list, which are
+		 * two separate page loads, so this is defined unconditionally here rather than inside either
+		 * action's own branch below. Styled and using the same per-row action buttons as the Find
+		 * Containers search results (containers.js's executeContainerSearch), plus Remarks and a
+		 * combined H×L×W Dimensions column that search doesn't show. Not a call into that function
+		 * directly -- it's tightly coupled to its own search inputs, panel ids, and tree-browsing
+		 * actions (Explore/Browse/Locate) that don't apply to this static review list -- but reuses
+		 * its exact button/badge builders.
+		 * @param {Array<Object>} rows - containers as returned by getContainersInRange (or the
+		 *   resulting-state fields returned by applyBulkRetypeContainer).
+		 * @param {string} targetSelector - jQuery selector for the element to render the table into.
+		 * @param {string} feedbackId - id of an <output> element for the Details dialog's AJAX status.
+		 * @returns {void}
+		 */
+		function renderBulkModifyCandidateTable(rows, targetSelector, feedbackId) {
+			var target = $(targetSelector);
+			if (!rows || rows.length === 0) {
+				target.html('<p class="text-muted my-2">No containers.</p>');
+				return;
+			}
+			/** A dimension of 0 means "not recorded" for this data, same as blank/null -- not a
+			 * real zero-size dimension. An en dash stands in for a missing dimension within the
+			 * combined H×L×W column so the position of the one that IS set stays clear. */
+			var displayOrBlank = function(value) {
+				return (value === null || value === undefined || Number(value) === 0) ? '' : value;
+			};
+			var formatDimensions = function(row) {
+				var h = displayOrBlank(row.height);
+				var l = displayOrBlank(row.length);
+				var w = displayOrBlank(row.width);
+				if (h === '' && l === '' && w === '') {
+					return '';
+				}
+				var partOrDash = function(v) { return v === '' ? '–' : v; };
+				return partOrDash(h) + ' × ' + partOrDash(l) + ' × ' + partOrDash(w);
+			};
+			var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
+			table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Description</th><th>Remarks</th><th>Dimensions (H&times;L&times;W)</th><th>Actions</th></tr></thead>');
+			var tbody = $('<tbody></tbody>');
+			$.each(rows, function(i, row) {
+				var displayName = formatContainerDisplay(row.barcode, row.label);
+				var typeTd = $('<td></td>').text(row.container_type || '');
+				typeTd.append(' ');
+				typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+				var actionCell = $('<td></td>');
+				actionCell.append(buildContainerDetailsActionButton(row.container_id, displayName, feedbackId));
+				actionCell.append(buildContainerViewLink(row.container_id));
+				actionCell.append(buildContainerEditLink(row.container_id));
+				var tr = $('<tr></tr>');
+				tr.append(typeTd);
+				tr.append($('<td></td>').text(displayName));
+				tr.append($('<td></td>').text(row.description || ''));
+				tr.append($('<td></td>').text(row.container_remarks || ''));
+				tr.append($('<td></td>').text(formatDimensions(row)));
+				tr.append(actionCell);
+				tbody.append(tr);
+			});
+			table.append(tbody);
+			target.empty().append(table);
+		}
+	</script>
+
 	<cfif len(variables.rangeError) GT 0>
 		<section class="row mx-0">
 			<div class="col-12">
@@ -101,7 +165,10 @@ validated per container) -> apply (commit, skipping any container whose retype i
 					integer range &mdash; for example barcodes <code>MCZ-ENT1001</code> through
 					<code>MCZ-ENT1250</code>. This tool does not create containers, and it can't be used
 					for an arbitrary or non-sequential list of barcodes; for that, edit containers
-					individually, or use one of the bulkloaders under Tools.
+					individually, or use one of the bulkloaders under Tools. Each container is checked
+					and updated individually, so a request covering more than a few hundred containers
+					at once risks hitting the page's request timeout before finishing &mdash; split a
+					larger range into a few hundred at a time.
 				</p>
 				<form class="col-12 px-0" name="bulkModifyEntry" id="bulkModifyEntry" method="post" action="/containers/bulkModifyContainers.cfm">
 					<input type="hidden" name="formAction" value="preview">
@@ -191,8 +258,24 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>#variables.propertySummary.heightCount# of #variables.propertySummary.totalCount# have a height</li>
 							<li>#variables.propertySummary.widthCount# of #variables.propertySummary.totalCount# have a width</li>
 							<li>#variables.propertySummary.lengthCount# of #variables.propertySummary.totalCount# have a length</li>
-							<li>#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description</li>
-							<li>#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark</li>
+							<li>
+								#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
+								<cfif variables.propertySummary.descriptionCount GT 0>
+									(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif>; for example:
+									<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
+										"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
+									</cfloop>)
+								</cfif>
+							</li>
+							<li>
+								#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
+								<cfif variables.propertySummary.remarksCount GT 0>
+									(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif>; for example:
+									<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
+										"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
+									</cfloop>)
+								</cfif>
+							</li>
 							<li>#variables.propertySummary.positionsCount# of #variables.propertySummary.totalCount# have a number of positions set</li>
 						</ul>
 					</div>
@@ -230,20 +313,26 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<li>#variables.propertySummary.heightCount# of #variables.propertySummary.totalCount# have a height</li>
 						<li>#variables.propertySummary.widthCount# of #variables.propertySummary.totalCount# have a width</li>
 						<li>#variables.propertySummary.lengthCount# of #variables.propertySummary.totalCount# have a length</li>
-						<li>#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description</li>
-						<li>#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark</li>
+						<li>
+							#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
+							<cfif variables.propertySummary.descriptionCount GT 0>
+								(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif>; for example:
+								<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
+									"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
+								</cfloop>)
+							</cfif>
+						</li>
+						<li>
+							#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
+							<cfif variables.propertySummary.remarksCount GT 0>
+								(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif>; for example:
+								<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
+									"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
+								</cfloop>)
+							</cfif>
+						</li>
 						<li>#variables.propertySummary.positionsCount# of #variables.propertySummary.totalCount# have a number of positions set</li>
 					</ul>
-				</div>
-				<div class="mb-3">
-					<h2 class="h5 mb-1">Candidate Containers</h2>
-					<output id="bulkModifyCandidateFeedback">&nbsp;</output>
-					<div id="bulkModifyCandidateList" class="table-responsive">
-						<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading&hellip;</div>
-					</div>
-					<cfif ArrayLen(variables.eligibleContainers) GT variables.MAX_LISTED_CANDIDATES>
-						<p class="text-muted small mb-0">Showing the first #variables.MAX_LISTED_CANDIDATES# of #ArrayLen(variables.eligibleContainers)#.</p>
-					</cfif>
 				</div>
 				<form method="post" action="/containers/bulkModifyContainers.cfm" id="bulkModifyDataEntry">
 					<input type="hidden" name="origContType" value="#encodeForHtml(form.origContType)#">
@@ -256,9 +345,14 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<select name="newContType" id="newContType" class="data-entry-select col-12 reqdClr" required aria-required="true">
 								<option value=""></option>
 								<cfloop query="variables.qAllowedTypes">
-									<option value="#encodeForHtml(variables.qAllowedTypes.container_type)#">#encodeForHtml(variables.qAllowedTypes.container_type)#</option>
+									<cfset variables.newTypeSelected = "">
+									<cfif variables.qAllowedTypes.container_type EQ form.origContType>
+										<cfset variables.newTypeSelected = "selected">
+									</cfif>
+									<option value="#encodeForHtml(variables.qAllowedTypes.container_type)#" #variables.newTypeSelected#>#encodeForHtml(variables.qAllowedTypes.container_type)#</option>
 								</cfloop>
 							</select>
+							<small class="text-muted">Defaults to the current type (#encodeForHtml(form.origContType)#) &mdash; leave it as-is to update other fields without retyping.</small>
 						</div>
 					</div>
 					<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
@@ -327,71 +421,25 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<div class="col-12">
 							<button type="submit" name="formAction" value="test" class="btn btn-xs btn-info">Dry Run</button>
 							<button type="submit" name="formAction" value="apply" class="btn btn-xs btn-primary ml-1">Apply Changes</button>
+							<button type="submit" name="formAction" value="entryPoint" formnovalidate class="btn btn-xs btn-warning ml-1">Start Over</button>
 						</div>
 					</div>
 				</form>
-				<p class="mt-3"><a href="/containers/bulkModifyContainers.cfm">Start Over</a></p>
+				<div class="mb-3 mt-3">
+					<h2 class="h5 mb-1">Candidate Containers</h2>
+					<output id="bulkModifyCandidateFeedback">&nbsp;</output>
+					<div id="bulkModifyCandidateList" class="table-responsive">
+						<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading&hellip;</div>
+					</div>
+					<cfif ArrayLen(variables.eligibleContainers) GT variables.MAX_LISTED_CANDIDATES>
+						<p class="text-muted small mb-0">Showing the first #variables.MAX_LISTED_CANDIDATES# of #ArrayLen(variables.eligibleContainers)#.</p>
+					</cfif>
+				</div>
 			</div>
 		</section>
 		<script>
-			/** Render a read-only candidate-containers table for the bulk retype tool's Enter
-			 * Changes page, styled and using the same per-row action buttons as the Find Containers
-			 * search results (containers.js's executeContainerSearch), plus Remarks and a combined
-			 * H×L×W Dimensions column that search doesn't show. Not a call into that function directly
-			 * -- it's tightly coupled to its own search inputs, panel ids, and tree-browsing actions
-			 * (Explore/Browse/Locate) that don't apply to this static review list -- but reuses its
-			 * exact button/badge builders.
-			 * @param {Array<Object>} rows - containers as returned by getContainersInRange.
-			 * @returns {void}
-			 */
-			function renderBulkModifyCandidateTable(rows) {
-				var target = $('##bulkModifyCandidateList');
-				if (!rows || rows.length === 0) {
-					target.html('<p class="text-muted my-2">No candidate containers.</p>');
-					return;
-				}
-				/** A dimension of 0 means "not recorded" for this data, same as blank/null -- not a
-				 * real zero-size dimension. An en dash stands in for a missing dimension within the
-				 * combined H×L×W column so the position of the one that IS set stays clear. */
-				var displayOrBlank = function(value) {
-					return (value === null || value === undefined || Number(value) === 0) ? '' : value;
-				};
-				var formatDimensions = function(row) {
-					var h = displayOrBlank(row.height);
-					var l = displayOrBlank(row.length);
-					var w = displayOrBlank(row.width);
-					if (h === '' && l === '' && w === '') {
-						return '';
-					}
-					var partOrDash = function(v) { return v === '' ? '–' : v; };
-					return partOrDash(h) + ' × ' + partOrDash(l) + ' × ' + partOrDash(w);
-				};
-				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
-				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Description</th><th>Remarks</th><th>Dimensions (H&times;L&times;W)</th><th>Actions</th></tr></thead>');
-				var tbody = $('<tbody></tbody>');
-				$.each(rows, function(i, row) {
-					var displayName = formatContainerDisplay(row.barcode, row.label);
-					var typeTd = $('<td></td>').text(row.container_type || '');
-					typeTd.append(' ');
-					typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
-					var actionCell = $('<td></td>');
-					actionCell.append(buildContainerDetailsActionButton(row.container_id, displayName, 'bulkModifyCandidateFeedback'));
-					actionCell.append(buildContainerViewLink(row.container_id));
-					actionCell.append(buildContainerEditLink(row.container_id));
-					var tr = $('<tr></tr>');
-					tr.append(typeTd);
-					tr.append($('<td></td>').text(displayName));
-					tr.append($('<td></td>').text(row.description || ''));
-					tr.append($('<td></td>').text(row.container_remarks || ''));
-					tr.append($('<td></td>').text(formatDimensions(row)));
-					tr.append(actionCell);
-					tbody.append(tr);
-				});
-				table.append(tbody);
-				target.empty().append(table);
-			}
 			$(document).ready(function() {
-				renderBulkModifyCandidateTable(#serializeJSON(variables.candidateRowsForDisplay)#);
+				renderBulkModifyCandidateTable(#serializeJSON(variables.candidateRowsForDisplay)#, '##bulkModifyCandidateList', 'bulkModifyCandidateFeedback');
 			});
 		</script>
 
@@ -405,6 +453,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 		<cfset variables.failedCount = 0>
 		<cfset variables.blockedDetails = ArrayNew(1)>
 		<cfset variables.failedDetails = ArrayNew(1)>
+		<cfset variables.updatedContainerRows = ArrayNew(1)>
 
 		<cfloop from="1" to="#ArrayLen(variables.containers)#" index="variables.i">
 			<cfset variables.validationJson = variables.containerFunctions.validateContainerRetype(container_id=variables.containers[variables.i].container_id, new_container_type=form.newContType)>
@@ -440,6 +489,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 				<cfset variables.applyResult = deserializeJSON(variables.applyResultJson)>
 				<cfif variables.applyResult.status EQ "updated">
 					<cfset variables.updatedCount = variables.updatedCount + 1>
+					<cfset ArrayAppend(variables.updatedContainerRows, variables.applyResult)>
 				<cfelse>
 					<cfset variables.failedCount = variables.failedCount + 1>
 					<cfset variables.failedDetail = StructNew()>
@@ -469,6 +519,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<div class="positions-grid-cell positions-grid-cell-empty">
 								<label class="positions-grid-label">#encodeForHtml(variables.containers[variables.i].barcode)#</label>
 								<div class="positions-grid-barcode-status small" id="dryRunBadge_#variables.containers[variables.i].container_id#" role="status"></div>
+								<cfif variables.containers[variables.i].outcome NEQ "ok">
+									<button type="button" class="btn btn-xs btn-outline-secondary mt-1 dry-run-details-btn" data-container-id="#variables.containers[variables.i].container_id#" data-display-name="#encodeForHtml(variables.containers[variables.i].barcode)#">Details</button>
+								</cfif>
 							</div>
 						</cfloop>
 					</div>
@@ -490,8 +543,8 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<input type="hidden" name="width" value="#encodeForHtml(form.width)#">
 						<input type="hidden" name="number_positions" value="#encodeForHtml(form.number_positions)#">
 						<button type="submit" name="formAction" value="apply" class="btn btn-xs btn-primary">Apply Changes</button>
+						<button type="submit" name="formAction" value="entryPoint" formnovalidate class="btn btn-xs btn-warning ml-1">Start Over</button>
 					</form>
-					<p class="mt-3"><a href="/containers/bulkModifyContainers.cfm">Start Over</a></p>
 				</div>
 			</section>
 			<script>
@@ -499,6 +552,10 @@ validated per container) -> apply (commit, skipping any container whose retype i
 					<cfloop from="1" to="#variables.detailedRowCount#" index="variables.i">
 						renderPlacementWarningBadge(#variables.containers[variables.i].validationJson#, 'dryRunBadge_#variables.containers[variables.i].container_id#');
 					</cfloop>
+					$('.dry-run-details-btn').on('click', function() {
+						var btn = $(this);
+						openContainerDetailsDialog(btn.data('containerId'), btn.data('displayName'), null, false);
+					});
 				});
 			</script>
 
@@ -511,6 +568,11 @@ validated per container) -> apply (commit, skipping any container whose retype i
 			<cfif form.container_remarks_mode EQ "append">
 				<cfset variables.remarksWord = "appended">
 			</cfif>
+			<cfset variables.MAX_LISTED_UPDATED = 200>
+			<cfset variables.updatedRowsForDisplay = ArrayNew(1)>
+			<cfloop from="1" to="#min(ArrayLen(variables.updatedContainerRows), variables.MAX_LISTED_UPDATED)#" index="variables.j">
+				<cfset ArrayAppend(variables.updatedRowsForDisplay, variables.updatedContainerRows[variables.j])>
+			</cfloop>
 			<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="reportHeading">
 				<div class="col-12">
 					<h1 class="h2 ml-1 mb-1" id="reportHeading">Bulk Modify Report</h1>
@@ -539,9 +601,33 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							</ul>
 						</div>
 					</cfif>
-					<p class="mt-3"><a href="/containers/bulkModifyContainers.cfm">Start a New Bulk Modify</a></p>
+					<cfif ArrayLen(variables.updatedContainerRows) GT 0>
+						<div class="mb-3">
+							<h2 class="h5 mb-1">Modified Containers</h2>
+							<output id="bulkModifyReportFeedback">&nbsp;</output>
+							<div id="bulkModifyReportList" class="table-responsive">
+								<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading&hellip;</div>
+							</div>
+							<cfif ArrayLen(variables.updatedContainerRows) GT variables.MAX_LISTED_UPDATED>
+								<p class="text-muted small mb-0">Showing the first #variables.MAX_LISTED_UPDATED# of #ArrayLen(variables.updatedContainerRows)#.</p>
+							</cfif>
+						</div>
+					</cfif>
+					<form method="post" action="/containers/bulkModifyContainers.cfm" class="mt-3">
+						<input type="hidden" name="barcode_prefix" value="#encodeForHtml(form.barcode_prefix)#">
+						<input type="hidden" name="begin_barcode" value="#encodeForHtml(form.begin_barcode)#">
+						<input type="hidden" name="end_barcode" value="#encodeForHtml(form.end_barcode)#">
+						<button type="submit" name="formAction" value="entryPoint" formnovalidate class="btn btn-xs btn-warning">Start a New Bulk Modify</button>
+						<button type="submit" name="formAction" value="preview" formnovalidate class="btn btn-xs btn-secondary ml-1" onclick="$('##reportOrigContType').val(#JSStringFormat(form.newContType)#);">Revisit This Batch</button>
+						<input type="hidden" name="origContType" id="reportOrigContType" value="#encodeForHtml(form.origContType)#">
+					</form>
 				</div>
 			</section>
+			<script>
+				$(document).ready(function() {
+					renderBulkModifyCandidateTable(#serializeJSON(variables.updatedRowsForDisplay)#, '##bulkModifyReportList', 'bulkModifyReportFeedback');
+				});
+			</script>
 		</cfif>
 	</cfif>
 

@@ -3141,19 +3141,29 @@ getContainersInRange) have a value for each of description, container_remarks, h
 width, and number_positions -- used by the bulk retype tool's range-analysis and change-entry pages
 to show what's actually populated before deciding what to overwrite. For the numeric dimension/
 position fields, 0 counts as not-set (this data uses 0 to mean "no value recorded", not a real
-zero-size dimension), not just blank/null.
+zero-size dimension), not just blank/null. For description and container_remarks, also reports how
+many distinct non-blank values exist and up to 3 example values, since "N have a description" alone
+doesn't say whether that's one shared boilerplate value or genuinely varied text.
 @param containers array of structs as returned by getContainersInRange.
-@return a struct: totalCount, descriptionCount, remarksCount, heightCount, lengthCount, widthCount,
-	positionsCount.
+@return a struct: totalCount, descriptionCount, descriptionDistinctCount, descriptionExamples (array,
+	up to 3), remarksCount, remarksDistinctCount, remarksExamples (array, up to 3), heightCount,
+	lengthCount, widthCount, positionsCount.
 --->
 <cffunction name="summarizeContainerProperties" access="public" returntype="struct" output="false">
 	<cfargument name="containers" type="array" required="yes">
 
+	<cfset var MAX_EXAMPLES = 3>
 	<cfset var summary = StructNew()>
 	<cfset var i = 0>
+	<cfset var seenDescriptions = StructNew()>
+	<cfset var seenRemarks = StructNew()>
 	<cfset summary["totalCount"] = ArrayLen(arguments.containers)>
 	<cfset summary["descriptionCount"] = 0>
+	<cfset summary["descriptionDistinctCount"] = 0>
+	<cfset summary["descriptionExamples"] = ArrayNew(1)>
 	<cfset summary["remarksCount"] = 0>
+	<cfset summary["remarksDistinctCount"] = 0>
+	<cfset summary["remarksExamples"] = ArrayNew(1)>
 	<cfset summary["heightCount"] = 0>
 	<cfset summary["lengthCount"] = 0>
 	<cfset summary["widthCount"] = 0>
@@ -3162,9 +3172,23 @@ zero-size dimension), not just blank/null.
 	<cfloop from="1" to="#ArrayLen(arguments.containers)#" index="i">
 		<cfif len(trim(arguments.containers[i].description)) GT 0>
 			<cfset summary["descriptionCount"] = summary["descriptionCount"] + 1>
+			<cfif NOT structKeyExists(seenDescriptions, arguments.containers[i].description)>
+				<cfset seenDescriptions[arguments.containers[i].description] = true>
+				<cfset summary["descriptionDistinctCount"] = summary["descriptionDistinctCount"] + 1>
+				<cfif ArrayLen(summary["descriptionExamples"]) LT MAX_EXAMPLES>
+					<cfset ArrayAppend(summary["descriptionExamples"], arguments.containers[i].description)>
+				</cfif>
+			</cfif>
 		</cfif>
 		<cfif len(trim(arguments.containers[i].container_remarks)) GT 0>
 			<cfset summary["remarksCount"] = summary["remarksCount"] + 1>
+			<cfif NOT structKeyExists(seenRemarks, arguments.containers[i].container_remarks)>
+				<cfset seenRemarks[arguments.containers[i].container_remarks] = true>
+				<cfset summary["remarksDistinctCount"] = summary["remarksDistinctCount"] + 1>
+				<cfif ArrayLen(summary["remarksExamples"]) LT MAX_EXAMPLES>
+					<cfset ArrayAppend(summary["remarksExamples"], arguments.containers[i].container_remarks)>
+				</cfif>
+			</cfif>
 		</cfif>
 		<cfif len(trim(arguments.containers[i].height)) GT 0 AND val(arguments.containers[i].height) NEQ 0>
 			<cfset summary["heightCount"] = summary["heightCount"] + 1>
@@ -3446,7 +3470,10 @@ per this redesign's rule that every mutating method must enforce it inline as we
 @param length_value new length; ignored if blank.
 @param width_value new width; ignored if blank.
 @param number_positions_value new number_positions; ignored if blank.
-@return JSON: status (updated|error), message.
+@return JSON: status (updated|error), message; on success also the container's resulting state
+	(re-fetched, not just echoed back) -- container_id, barcode, label, container_type, description,
+	container_remarks, height, length, width, number_positions -- so a caller can show what a
+	container actually looks like now without re-deriving append/overwrite logic itself.
 --->
 <cffunction name="applyBulkRetypeContainer" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -3550,8 +3577,23 @@ per this redesign's rule that every mutating method must enforce it inline as we
 		</cfcatch>
 		</cftry>
 
+		<cfquery name="local.queryUpdated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, barcode, label, container_type, description, container_remarks, height, length, width, number_positions
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
 		<cfset local.retval["status"] = "updated">
 		<cfset local.retval["message"] = "Updated.">
+		<cfset local.retval["container_id"] = local.queryUpdated.container_id>
+		<cfset local.retval["barcode"] = local.queryUpdated.barcode>
+		<cfset local.retval["label"] = local.queryUpdated.label>
+		<cfset local.retval["container_type"] = local.queryUpdated.container_type>
+		<cfset local.retval["description"] = local.queryUpdated.description>
+		<cfset local.retval["container_remarks"] = local.queryUpdated.container_remarks>
+		<cfset local.retval["height"] = local.queryUpdated.height>
+		<cfset local.retval["length"] = local.queryUpdated.length>
+		<cfset local.retval["width"] = local.queryUpdated.width>
+		<cfset local.retval["number_positions"] = local.queryUpdated.number_positions>
 		<cfreturn serializeJSON(local.retval)>
 	<cfcatch>
 		<cfset local.retval["status"] = "error">
