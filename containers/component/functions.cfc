@@ -2945,4 +2945,572 @@ viewContainer.cfm.  Returns status JSON and never aborts on trigger errors.
 	</cftry>
 </cffunction>
 
+<!---
+Function getBulkRetypeGuardedContainerTypes. Returns the container_type values that must never be
+used as the Original or New Container Type on the bulk retype tool (containers/bulkModifyContainers.cfm)
+-- the root/administrative hierarchy levels (institution, campus, building) and collection object
+(a specimen record, not a physical container). Centralized here so the guard can't drift between the
+dropdown-exclusion list and the server-side check.
+@return an array of lowercase container_type strings.
+--->
+<cffunction name="getBulkRetypeGuardedContainerTypes" access="public" returntype="array" output="false">
+	<cfset var guarded = ArrayNew(1)>
+	<cfset ArrayAppend(guarded, "collection object")>
+	<cfset ArrayAppend(guarded, "institution")>
+	<cfset ArrayAppend(guarded, "campus")>
+	<cfset ArrayAppend(guarded, "building")>
+	<cfreturn guarded>
+</cffunction>
+
+<!---
+Function getBulkRetypeableContainerTypes. Returns the container_type values selectable as either the
+Original or New Container Type on the bulk retype tool, excluding the guarded types (see
+getBulkRetypeGuardedContainerTypes) that must never be bulk-retyped into or out of.
+@return a query of container_type, ordered alphabetically.
+--->
+<cffunction name="getBulkRetypeableContainerTypes" access="public" returntype="query" output="false">
+	<cfset var guardedList = ArrayToList(getBulkRetypeGuardedContainerTypes())>
+	<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT DISTINCT container_type
+		FROM ctcontainer_type
+		WHERE
+			container_type NOT IN (<cfqueryparam value="#guardedList#" cfsqltype="CF_SQL_VARCHAR" list="true">)
+		ORDER BY container_type
+	</cfquery>
+	<cfreturn getTypes>
+</cffunction>
+
+<!---
+Function previewBulkRetypeRange. Resolves a barcode_prefix + integer range into actual containers,
+for the range-analysis step of the bulk retype tool. Fetches candidates with a single parameterized
+LIKE query rather than a WHERE barcode IN (...) built from the whole range, since Oracle caps an
+IN-list at 1000 expressions and this tool is expected to handle ranges of a few thousand; each range
+member is then confirmed with an exact string match in CF (barcode = barcode_prefix & i), matching
+the original tool's exact matching logic rather than trusting the LIKE pattern alone (which would
+also match longer barcodes that merely share the same prefix).
+@param barcode_prefix literal prefix shared by every barcode in the range.
+@param begin_barcode low end of the inclusive integer range.
+@param end_barcode high end of the inclusive integer range.
+@return a struct: rangeSize, matchedCount, missingCount, missingBarcodes (array, capped at 100),
+	missingBarcodesTruncated (boolean), typeCounts (array of {container_type, type_count}, sorted
+	by type_count descending).
+--->
+<cffunction name="previewBulkRetypeRange" access="public" returntype="struct" output="false">
+	<cfargument name="barcode_prefix" type="string" required="yes">
+	<cfargument name="begin_barcode" type="numeric" required="yes">
+	<cfargument name="end_barcode" type="numeric" required="yes">
+
+	<cfset var MAX_LISTED_MISSING = 100>
+	<cfset var result = StructNew()>
+	<cfset var candidates = "">
+	<cfset var foundByBarcode = StructNew()>
+	<cfset var typeCounts = StructNew()>
+	<cfset var typeCountsArray = ArrayNew(1)>
+	<cfset var sortedTypeCounts = ArrayNew(1)>
+	<cfset var remaining = "">
+	<cfset var expectedBarcode = "">
+	<cfset var thisType = "">
+	<cfset var i = 0>
+	<cfset var j = 0>
+	<cfset var maxIndex = 0>
+	<cfset var typeName = "">
+	<cfset var row = StructNew()>
+
+	<cfset result["rangeSize"] = (arguments.end_barcode - arguments.begin_barcode) + 1>
+	<cfset result["matchedCount"] = 0>
+	<cfset result["missingCount"] = 0>
+	<cfset result["missingBarcodes"] = ArrayNew(1)>
+	<cfset result["missingBarcodesTruncated"] = false>
+
+	<cfquery name="candidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT barcode, container_type
+		FROM container
+		WHERE barcode LIKE <cfqueryparam value="#arguments.barcode_prefix#%" cfsqltype="CF_SQL_VARCHAR">
+	</cfquery>
+
+	<cfloop query="candidates">
+		<cfset foundByBarcode[candidates.barcode] = candidates.container_type>
+	</cfloop>
+
+	<cfloop from="#arguments.begin_barcode#" to="#arguments.end_barcode#" index="i">
+		<cfset expectedBarcode = arguments.barcode_prefix & i>
+		<cfif structKeyExists(foundByBarcode, expectedBarcode)>
+			<cfset result["matchedCount"] = result["matchedCount"] + 1>
+			<cfset thisType = foundByBarcode[expectedBarcode]>
+			<cfif NOT structKeyExists(typeCounts, thisType)>
+				<cfset typeCounts[thisType] = 0>
+			</cfif>
+			<cfset typeCounts[thisType] = typeCounts[thisType] + 1>
+		<cfelse>
+			<cfset result["missingCount"] = result["missingCount"] + 1>
+			<cfif ArrayLen(result["missingBarcodes"]) LT MAX_LISTED_MISSING>
+				<cfset ArrayAppend(result["missingBarcodes"], expectedBarcode)>
+			<cfelse>
+				<cfset result["missingBarcodesTruncated"] = true>
+			</cfif>
+		</cfif>
+	</cfloop>
+
+	<cfloop collection="#typeCounts#" item="typeName">
+		<cfset row = StructNew()>
+		<cfset row["container_type"] = typeName>
+		<cfset row["type_count"] = typeCounts[typeName]>
+		<cfset ArrayAppend(typeCountsArray, row)>
+	</cfloop>
+
+	<!--- manual selection sort by type_count descending -- avoids relying on closure-based ArraySort
+		callbacks that may not be available on every CFML engine this application is deployed to --->
+	<cfset remaining = typeCountsArray>
+	<cfloop condition="ArrayLen(remaining) GT 0">
+		<cfset maxIndex = 1>
+		<cfloop from="2" to="#ArrayLen(remaining)#" index="j">
+			<cfif remaining[j].type_count GT remaining[maxIndex].type_count>
+				<cfset maxIndex = j>
+			</cfif>
+		</cfloop>
+		<cfset ArrayAppend(sortedTypeCounts, remaining[maxIndex])>
+		<cfset ArrayDeleteAt(remaining, maxIndex)>
+	</cfloop>
+	<cfset result["typeCounts"] = sortedTypeCounts>
+
+	<cfreturn result>
+</cffunction>
+
+<!---
+Function getContainersInRange. Resolves a barcode_prefix + integer range, filtered to containers
+currently of orig_container_type, for the change-entry/dry-run/apply steps of the bulk retype tool.
+Uses the same LIKE-then-exact-match approach as previewBulkRetypeRange to avoid Oracle's IN-list
+size limit, and returns an array of structs rather than a query object so each field keeps whatever
+type the database driver already gave it, without needing to hand-build a new typed query.
+@param barcode_prefix literal prefix shared by every barcode in the range.
+@param begin_barcode low end of the inclusive integer range.
+@param end_barcode high end of the inclusive integer range.
+@param orig_container_type only containers currently of this type are included.
+@return an array of structs: container_id, barcode, label, container_type, parent_container_id,
+	description, container_remarks, height, length, width, number_positions.
+--->
+<cffunction name="getContainersInRange" access="public" returntype="array" output="false">
+	<cfargument name="barcode_prefix" type="string" required="yes">
+	<cfargument name="begin_barcode" type="numeric" required="yes">
+	<cfargument name="end_barcode" type="numeric" required="yes">
+	<cfargument name="orig_container_type" type="string" required="yes">
+
+	<cfset var candidates = "">
+	<cfset var matchedBarcodes = StructNew()>
+	<cfset var results = ArrayNew(1)>
+	<cfset var i = 0>
+	<cfset var row = StructNew()>
+
+	<cfquery name="candidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container_id, barcode, label, container_type, parent_container_id,
+			description, container_remarks, height, length, width, number_positions
+		FROM container
+		WHERE
+			barcode LIKE <cfqueryparam value="#arguments.barcode_prefix#%" cfsqltype="CF_SQL_VARCHAR">
+			AND container_type = <cfqueryparam value="#arguments.orig_container_type#" cfsqltype="CF_SQL_VARCHAR">
+	</cfquery>
+
+	<cfloop from="#arguments.begin_barcode#" to="#arguments.end_barcode#" index="i">
+		<cfset matchedBarcodes[arguments.barcode_prefix & i] = true>
+	</cfloop>
+
+	<cfloop query="candidates">
+		<cfif structKeyExists(matchedBarcodes, candidates.barcode)>
+			<cfset row = StructNew()>
+			<cfset row["container_id"] = candidates.container_id>
+			<cfset row["barcode"] = candidates.barcode>
+			<cfset row["label"] = candidates.label>
+			<cfset row["container_type"] = candidates.container_type>
+			<cfset row["parent_container_id"] = candidates.parent_container_id>
+			<cfset row["description"] = candidates.description>
+			<cfset row["container_remarks"] = candidates.container_remarks>
+			<cfset row["height"] = candidates.height>
+			<cfset row["length"] = candidates.length>
+			<cfset row["width"] = candidates.width>
+			<cfset row["number_positions"] = candidates.number_positions>
+			<cfset ArrayAppend(results, row)>
+		</cfif>
+	</cfloop>
+
+	<cfreturn results>
+</cffunction>
+
+<!---
+Function validateContainerRetype. Checks whether changing an existing container's type to a new type
+is still compatible with its CURRENT parent and CURRENT children. There is no database trigger
+protecting a bare container_type change today (unlike moves, which MCZBASE.MOVE_CONTAINER enforces --
+confirmed by inspecting saveContainer below, which updates container_type in the same statement as
+parent_container_id but has none of moveContainerById's ORA- message-scrubbing for a trigger error),
+so this is a new, app-only safety net for the bulk retype tool, not a mirror of an existing trigger.
+Mirrors validateContainerPlacement's severity/warnings/blocks/field shape so the shared
+renderPlacementWarningBadge JS function can render its result unmodified.
+@param container_id the container being considered for retype.
+@param new_container_type the proposed new container_type.
+@return JSON: allowed, severity (ok|warn|block), warnings[], blocks[], child_type (set to
+	new_container_type, named for badge-renderer compatibility), expected_parent_types,
+	force_expected_parent_type, is_root_placement, current_type, parent_type, child_count.
+--->
+<cffunction name="validateContainerRetype" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="new_container_type" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["allowed"] = true>
+	<cfset local.retval["severity"] = "ok">
+	<cfset local.retval["warnings"] = ArrayNew(1)>
+	<cfset local.retval["blocks"] = ArrayNew(1)>
+	<cfset local.retval["child_type"] = arguments.new_container_type>
+
+	<cfif listFindNoCase(ArrayToList(getBulkRetypeGuardedContainerTypes()), arguments.new_container_type) GT 0>
+		<cfset local.retval["allowed"] = false>
+		<cfset local.retval["severity"] = "block">
+		<cfset ArrayAppend(local.retval["blocks"], "#arguments.new_container_type# is not a type containers can be bulk-retyped into.")>
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, container_type, parent_container_id
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfif local.queryContainer.recordcount EQ 0>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "Container was not found.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="local.queryNewType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT role, NVL(expects_leaf_child_count, 0) AS expects_leaf_child_count,
+				NVL(expected_parent_types, 'any') AS expected_parent_types,
+				NVL(force_expected_parent_type, 0) AS force_expected_parent_type,
+				rank_order, NVL(variable_rank, 0) AS variable_rank
+			FROM ctcontainer_type
+			WHERE container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.new_container_type#">
+		</cfquery>
+		<cfif local.queryNewType.recordcount EQ 0>
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "The new container type was not found.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.newRole = lCase(trim(local.queryNewType.role))>
+		<cfset local.newExpectsLeafChildCount = val(local.queryNewType.expects_leaf_child_count)>
+		<cfset local.newExpectedParentTypes = lCase(trim(local.queryNewType.expected_parent_types))>
+		<cfset local.newForceExpectedParentType = val(local.queryNewType.force_expected_parent_type)>
+		<cfset local.newRankOrder = local.queryNewType.rank_order>
+		<cfset local.newVariableRank = val(local.queryNewType.variable_rank)>
+		<cfset local.isRootPlacement = (val(local.queryContainer.parent_container_id) EQ 0)>
+
+		<cfset local.retval["expected_parent_types"] = local.newExpectedParentTypes>
+		<cfset local.retval["force_expected_parent_type"] = local.newForceExpectedParentType>
+		<cfset local.retval["is_root_placement"] = local.isRootPlacement>
+		<cfset local.retval["current_type"] = local.queryContainer.container_type>
+
+		<cfset local.parentType = "">
+		<cfset local.parentRole = "">
+		<cfset local.parentRankOrder = "">
+		<cfset local.parentVariableRank = 0>
+
+		<cfif NOT local.isRootPlacement>
+			<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT c.container_type, ct.role, ct.rank_order, NVL(ct.variable_rank,0) AS variable_rank
+				FROM container c
+					LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+				WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(local.queryContainer.parent_container_id)#">
+			</cfquery>
+			<cfif local.queryParent.recordcount GT 0>
+				<cfset local.parentType = local.queryParent.container_type>
+				<cfset local.parentRole = lCase(trim(local.queryParent.role))>
+				<cfset local.parentRankOrder = local.queryParent.rank_order>
+				<cfset local.parentVariableRank = val(local.queryParent.variable_rank)>
+			</cfif>
+		</cfif>
+		<cfset local.retval["parent_type"] = local.parentType>
+
+		<!--- GROUP 1 -- PARENT COMPATIBILITY (new app-only checks; no DB trigger covers a bare
+			container_type change today, unlike MOVE_CONTAINER for moves) --->
+
+		<!--- RT1: new type expects to be root, but this container currently has a parent --->
+		<cfif NOT local.isRootPlacement AND local.newExpectedParentTypes EQ "none">
+			<cfif local.newForceExpectedParentType EQ 1>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "A #arguments.new_container_type# must be placed at the root, but this container currently has a parent.")>
+				<cfreturn serializeJSON(local.retval)>
+			<cfelse>
+				<cfset ArrayAppend(local.retval["warnings"], "Containers of type #arguments.new_container_type# are expected to be root containers, but this one currently has a parent.")>
+			</cfif>
+		</cfif>
+
+		<!--- RT2: new type's expected parent list doesn't include the actual current parent's type --->
+		<cfif NOT local.isRootPlacement AND local.newExpectedParentTypes NEQ "any" AND local.newExpectedParentTypes NEQ "none"
+			AND NOT listFindNoCase(local.newExpectedParentTypes, local.parentType)>
+			<cfif local.newForceExpectedParentType EQ 1>
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "A #arguments.new_container_type# must be placed inside one of: #local.newExpectedParentTypes#. This container's current parent is a #local.parentType#.")>
+				<cfreturn serializeJSON(local.retval)>
+			<cfelse>
+				<cfset ArrayAppend(local.retval["warnings"], "A #arguments.new_container_type# is normally placed inside a #local.newExpectedParentTypes#. This container's current parent is a #local.parentType#.")>
+			</cfif>
+		</cfif>
+
+		<!--- RT3: current parent is a single-occupant (proxy) container, but the new type isn't a leaf --->
+		<cfif NOT local.isRootPlacement AND local.parentRole EQ "proxy" AND local.newRole NEQ "leaf">
+			<cfset local.retval["allowed"] = false>
+			<cfset local.retval["severity"] = "block">
+			<cfset ArrayAppend(local.retval["blocks"], "This container's current parent (#local.parentType#) is a single-occupant container and can only hold a collection object leaf container.")>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<!--- RT4: same-type nesting relative to current parent --->
+		<cfif NOT local.isRootPlacement AND local.newVariableRank EQ 0 AND lCase(arguments.new_container_type) EQ lCase(local.parentType)>
+			<cfset ArrayAppend(local.retval["warnings"], "This would make a #arguments.new_container_type# the parent of another #arguments.new_container_type#. Containers of the same type are not normally nested.")>
+		</cfif>
+
+		<!--- RT5: rank order reversal relative to current parent --->
+		<cfif NOT local.isRootPlacement
+			AND local.newVariableRank EQ 0
+			AND local.parentVariableRank EQ 0
+			AND isNumeric(local.newRankOrder)
+			AND isNumeric(local.parentRankOrder)
+			AND val(local.newRankOrder) LTE val(local.parentRankOrder)>
+			<cfset ArrayAppend(local.retval["warnings"], "This placement would reverse the expected nesting depth. A #arguments.new_container_type# (rank #local.newRankOrder#) would be inside a #local.parentType# (rank #local.parentRankOrder#).")>
+		</cfif>
+
+		<!--- RT6 (mirrors validateContainerPlacement's AO1): container is currently at the root, but
+			the new type normally expects a parent --->
+		<cfif local.isRootPlacement AND local.newExpectedParentTypes NEQ "none" AND local.newExpectedParentTypes NEQ "any">
+			<cfset ArrayAppend(local.retval["warnings"], "This container is at the root level. Containers of type #arguments.new_container_type# are normally placed inside #local.newExpectedParentTypes#.")>
+		</cfif>
+
+		<!--- GROUP 2 -- EXISTING CHILDREN COMPATIBILITY --->
+		<cfquery name="local.queryChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT c.container_id, c.container_type, ct.role, ct.rank_order, NVL(ct.variable_rank,0) AS variable_rank
+			FROM container c
+				LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
+			WHERE c.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+		</cfquery>
+		<cfset local.childCount = local.queryChildren.recordcount>
+		<cfset local.retval["child_count"] = local.childCount>
+		<cfset local.childWord = "children">
+		<cfif local.childCount EQ 1>
+			<cfset local.childWord = "child">
+		</cfif>
+
+		<cfif local.childCount GT 0>
+			<!--- RT7: new type is a leaf, but this container currently holds children --->
+			<cfif local.newRole EQ "leaf">
+				<cfset local.retval["allowed"] = false>
+				<cfset local.retval["severity"] = "block">
+				<cfset ArrayAppend(local.retval["blocks"], "A #arguments.new_container_type# is a collection-object leaf type and cannot contain other containers, but this container currently holds #local.childCount# #local.childWord#.")>
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+
+			<!--- RT8: new type is a single-occupant (proxy) type, but doesn't currently hold exactly one leaf child --->
+			<cfif local.newRole EQ "proxy">
+				<cfset local.nonLeafChildCount = 0>
+				<cfloop query="local.queryChildren">
+					<cfif lCase(trim(local.queryChildren.role)) NEQ "leaf">
+						<cfset local.nonLeafChildCount = local.nonLeafChildCount + 1>
+					</cfif>
+				</cfloop>
+				<cfif local.childCount NEQ 1 OR local.nonLeafChildCount GT 0>
+					<cfset local.retval["allowed"] = false>
+					<cfset local.retval["severity"] = "block">
+					<cfset ArrayAppend(local.retval["blocks"], "A #arguments.new_container_type# is a single-occupant container and can only hold exactly one collection object leaf, but this container currently holds #local.childCount# #local.childWord#.")>
+					<cfreturn serializeJSON(local.retval)>
+				</cfif>
+			</cfif>
+
+			<!--- RT9: new type not expected to hold leaves directly, but it currently holds at least one --->
+			<cfif local.newExpectsLeafChildCount EQ 0>
+				<cfset local.hasLeafChild = false>
+				<cfloop query="local.queryChildren">
+					<cfif lCase(trim(local.queryChildren.role)) EQ "leaf">
+						<cfset local.hasLeafChild = true>
+					</cfif>
+				</cfloop>
+				<cfif local.hasLeafChild>
+					<cfset ArrayAppend(local.retval["warnings"], "Containers of type #arguments.new_container_type# are not expected to hold collection objects directly, but this container currently holds at least one.")>
+				</cfif>
+			</cfif>
+
+			<!--- RT10: rank order reversal / same-type nesting relative to existing children --->
+			<cfif local.newVariableRank EQ 0>
+				<cfset local.rankReversedChild = false>
+				<cfset local.sameTypeChild = false>
+				<cfloop query="local.queryChildren">
+					<cfif val(local.queryChildren.variable_rank) EQ 0 AND isNumeric(local.newRankOrder) AND isNumeric(local.queryChildren.rank_order)
+						AND val(local.newRankOrder) GTE val(local.queryChildren.rank_order)>
+						<cfset local.rankReversedChild = true>
+					</cfif>
+					<cfif val(local.queryChildren.variable_rank) EQ 0 AND lCase(trim(local.queryChildren.container_type)) EQ lCase(arguments.new_container_type)>
+						<cfset local.sameTypeChild = true>
+					</cfif>
+				</cfloop>
+				<cfif local.rankReversedChild>
+					<cfset ArrayAppend(local.retval["warnings"], "This would reverse the expected nesting depth relative to at least one existing child.")>
+				</cfif>
+				<cfif local.sameTypeChild>
+					<cfset ArrayAppend(local.retval["warnings"], "At least one existing child is also a #arguments.new_container_type#. Containers of the same type are not normally nested.")>
+				</cfif>
+			</cfif>
+		</cfif>
+
+		<cfif ArrayLen(local.retval["warnings"]) GT 0 AND local.retval["severity"] EQ "ok">
+			<cfset local.retval["severity"] = "warn">
+		</cfif>
+
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfset local.safe = StructNew()>
+		<cfset local.safe["allowed"] = false>
+		<cfset local.safe["severity"] = "block">
+		<cfset local.safe["warnings"] = ArrayNew(1)>
+		<cfset local.safe["blocks"] = ArrayNew(1)>
+		<cfset ArrayAppend(local.safe["blocks"], "Validation error occurred. Please try again.")>
+		<cfset local.safe["child_type"] = arguments.new_container_type>
+		<cfreturn serializeJSON(local.safe)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function applyBulkRetypeContainer. Applies a bulk-retype change to one container -- called once per
+matched container by the bulk retype tool's apply step, independently per container (not wrapped in
+one all-or-nothing transaction like the legacy labels2containers.cfm), so one container's failure
+doesn't roll back the rest of the batch. Requires manage_container on top of this file's <cf_rolecheck>,
+per this redesign's rule that every mutating method must enforce it inline as well.
+@param container_id the container to update.
+@param new_container_type the new container_type to set.
+@param description_value new value for description; ignored if blank.
+@param description_mode "append" or "overwrite"; only meaningful if description_value is non-blank.
+@param container_remarks_value new value for container_remarks; ignored if blank.
+@param container_remarks_mode "append" or "overwrite"; only meaningful if container_remarks_value is non-blank.
+@param height_value new height; ignored if blank.
+@param length_value new length; ignored if blank.
+@param width_value new width; ignored if blank.
+@param number_positions_value new number_positions; ignored if blank.
+@return JSON: status (updated|error), message.
+--->
+<cffunction name="applyBulkRetypeContainer" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="new_container_type" type="string" required="yes">
+	<cfargument name="description_value" type="string" required="no" default="">
+	<cfargument name="description_mode" type="string" required="no" default="overwrite">
+	<cfargument name="container_remarks_value" type="string" required="no" default="">
+	<cfargument name="container_remarks_mode" type="string" required="no" default="overwrite">
+	<cfargument name="height_value" type="string" required="no" default="">
+	<cfargument name="length_value" type="string" required="no" default="">
+	<cfargument name="width_value" type="string" required="no" default="">
+	<cfargument name="number_positions_value" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "You do not have permission to modify containers.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfif listFindNoCase(ArrayToList(getBulkRetypeGuardedContainerTypes()), arguments.new_container_type) GT 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "#arguments.new_container_type# is not a type containers can be bulk-retyped into.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfset local.newDescription = "">
+		<cfset local.newRemarks = "">
+
+		<cfif len(trim(arguments.description_value)) GT 0 AND arguments.description_mode EQ "append">
+			<cfquery name="local.queryCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT description FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfif local.queryCurrent.recordcount GT 0 AND len(trim(local.queryCurrent.description)) GT 0>
+				<cfset local.newDescription = local.queryCurrent.description & chr(10) & arguments.description_value>
+			<cfelse>
+				<cfset local.newDescription = arguments.description_value>
+			</cfif>
+		<cfelseif len(trim(arguments.description_value)) GT 0>
+			<cfset local.newDescription = arguments.description_value>
+		</cfif>
+
+		<cfif len(trim(arguments.container_remarks_value)) GT 0 AND arguments.container_remarks_mode EQ "append">
+			<cfquery name="local.queryCurrentRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT container_remarks FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfif local.queryCurrentRemarks.recordcount GT 0 AND len(trim(local.queryCurrentRemarks.container_remarks)) GT 0>
+				<cfset local.newRemarks = local.queryCurrentRemarks.container_remarks & chr(10) & arguments.container_remarks_value>
+			<cfelse>
+				<cfset local.newRemarks = arguments.container_remarks_value>
+			</cfif>
+		<cfelseif len(trim(arguments.container_remarks_value)) GT 0>
+			<cfset local.newRemarks = arguments.container_remarks_value>
+		</cfif>
+
+		<cftry>
+			<cfquery name="local.updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="local.updateContainer_result">
+				UPDATE container
+				SET
+					container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.new_container_type#">
+					<cfif len(trim(arguments.description_value)) GT 0>
+						, description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.newDescription#">
+					</cfif>
+					<cfif len(trim(arguments.container_remarks_value)) GT 0>
+						, container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.newRemarks#">
+					</cfif>
+					<cfif len(trim(arguments.height_value)) GT 0>
+						, height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.height_value#">
+					</cfif>
+					<cfif len(trim(arguments.length_value)) GT 0>
+						, length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.length_value#">
+					</cfif>
+					<cfif len(trim(arguments.width_value)) GT 0>
+						, width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.width_value#">
+					</cfif>
+					<cfif len(trim(arguments.number_positions_value)) GT 0>
+						, number_positions = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.number_positions_value#">
+					</cfif>
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfif local.updateContainer_result.recordCount EQ 0>
+				<cfthrow type="ContainerNotFound" message="No rows updated.">
+			</cfif>
+		<cfcatch>
+			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\s*", "", "one"))>
+			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
+			<cfif local.matchPos GT 0>
+				<cfset local.userMessage = mid(local.userMessage, local.matchPos, len(local.userMessage) - local.matchPos + 1)>
+			</cfif>
+			<cfif len(trim(local.userMessage)) EQ 0>
+				<cfset local.userMessage = "Unable to update container due to a placement or type rule. Please review the new type and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ContainerNotFound">
+				<cfset local.userMessage = "Container was not found. It may have been deleted or changed by another user.">
+			</cfif>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.userMessage>
+			<cfreturn serializeJSON(local.retval)>
+		</cfcatch>
+		</cftry>
+
+		<cfset local.retval["status"] = "updated">
+		<cfset local.retval["message"] = "Updated.">
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
 </cfcomponent>

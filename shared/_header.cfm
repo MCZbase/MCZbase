@@ -589,11 +589,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/containers/moveContainer.cfm">Move Container</a>
 											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1">Batch Scan</a>
 								
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/labels2containers.cfm">Label > Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Label > Container</a> 
-											</cfif>
+											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm">Bulk Modify Containers</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
 											<cfelse>
