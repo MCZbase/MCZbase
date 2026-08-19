@@ -585,7 +585,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Container Type:
 								<cfif form.newContType NEQ form.origContType>
-									#encodeForHtml(form.origContType)# &rarr; #encodeForHtml(form.newContType)#
+									<strong>#encodeForHtml(form.origContType)# &rarr; #encodeForHtml(form.newContType)#</strong>
 								<cfelse>
 									no change (#encodeForHtml(form.origContType)#)
 								</cfif>
@@ -593,9 +593,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Description:
 								<cfif variables.clearDescriptionPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.description)) GT 0>
-									#encodeForHtml(form.description_mode)# &ndash; "#encodeForHtml(form.description)#"
+									<strong>#encodeForHtml(form.description_mode)# &ndash; "#encodeForHtml(form.description)#"</strong>
 								<cfelse>
 									no change
 								</cfif>
@@ -603,9 +603,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Remark:
 								<cfif variables.clearRemarksPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.container_remarks)) GT 0>
-									#encodeForHtml(form.container_remarks_mode)# &ndash; "#encodeForHtml(form.container_remarks)#"
+									<strong>#encodeForHtml(form.container_remarks_mode)# &ndash; "#encodeForHtml(form.container_remarks)#"</strong>
 								<cfelse>
 									no change
 								</cfif>
@@ -613,9 +613,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Height (cm):
 								<cfif variables.clearHeightPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.height)) GT 0>
-									set to #encodeForHtml(form.height)#
+									<strong>set to #encodeForHtml(form.height)#</strong>
 								<cfelse>
 									no change
 								</cfif>
@@ -623,9 +623,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Length (cm):
 								<cfif variables.clearLengthPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.length)) GT 0>
-									set to #encodeForHtml(form.length)#
+									<strong>set to #encodeForHtml(form.length)#</strong>
 								<cfelse>
 									no change
 								</cfif>
@@ -633,9 +633,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Width (cm):
 								<cfif variables.clearWidthPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.width)) GT 0>
-									set to #encodeForHtml(form.width)#
+									<strong>set to #encodeForHtml(form.width)#</strong>
 								<cfelse>
 									no change
 								</cfif>
@@ -643,9 +643,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								Number of Positions:
 								<cfif variables.clearNumberPositionsPreview>
-									cleared
+									<strong>cleared</strong>
 								<cfelseif len(trim(form.number_positions)) GT 0>
-									set to #encodeForHtml(form.number_positions)#
+									<strong>set to #encodeForHtml(form.number_positions)#</strong>
 								<cfelse>
 									no change
 								</cfif>
