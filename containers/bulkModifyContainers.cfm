@@ -715,7 +715,79 @@ validated per container) -> apply (commit, skipping any container whose retype i
 				<div class="col-12">
 					<h1 class="h2 ml-1 mb-1" id="reportHeading">Bulk Modify Report</h1>
 					<ul>
-						<li><strong>#variables.updatedCount#</strong> container(s) updated: retyped from #encodeForHtml(form.origContType)# to #encodeForHtml(form.newContType)#<cfif len(trim(form.description)) GT 0>, description #variables.descriptionWord#</cfif><cfif len(trim(form.container_remarks)) GT 0>, remark #variables.remarksWord#</cfif>.</li>
+						<li>
+							<strong>#variables.updatedCount#</strong> container(s) updated:
+							<ul class="mb-0">
+								<li>
+									Container Type:
+									<cfif form.newContType NEQ form.origContType>
+										<strong>#encodeForHtml(form.origContType)# &rarr; #encodeForHtml(form.newContType)#</strong>
+									<cfelse>
+										no change (#encodeForHtml(form.origContType)#)
+									</cfif>
+								</li>
+								<li>
+									Description:
+									<cfif variables.clearDescriptionPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.description)) GT 0>
+										<strong>#variables.descriptionWord# &ndash; "#encodeForHtml(form.description)#"</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+								<li>
+									Remark:
+									<cfif variables.clearRemarksPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.container_remarks)) GT 0>
+										<strong>#variables.remarksWord# &ndash; "#encodeForHtml(form.container_remarks)#"</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+								<li>
+									Height (cm):
+									<cfif variables.clearHeightPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.height)) GT 0>
+										<strong>set to #encodeForHtml(form.height)#</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+								<li>
+									Length (cm):
+									<cfif variables.clearLengthPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.length)) GT 0>
+										<strong>set to #encodeForHtml(form.length)#</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+								<li>
+									Width (cm):
+									<cfif variables.clearWidthPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.width)) GT 0>
+										<strong>set to #encodeForHtml(form.width)#</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+								<li>
+									Number of Positions:
+									<cfif variables.clearNumberPositionsPreview>
+										<strong>cleared</strong>
+									<cfelseif len(trim(form.number_positions)) GT 0>
+										<strong>set to #encodeForHtml(form.number_positions)#</strong>
+									<cfelse>
+										no change
+									</cfif>
+								</li>
+							</ul>
+						</li>
 						<li><strong>#variables.blockCount#</strong> container(s) skipped because the retype was not allowed.</li>
 						<li><strong>#variables.failedCount#</strong> container(s) failed to update due to an error.</li>
 					</ul>
