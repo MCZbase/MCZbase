@@ -375,9 +375,9 @@ validated per container) -> apply (commit, skipping any container whose retype i
 					<input type="hidden" name="begin_barcode" value="#encodeForHtml(form.begin_barcode)#">
 					<input type="hidden" name="end_barcode" value="#encodeForHtml(form.end_barcode)#">
 					<div class="form-row">
-						<div class="col-12 col-md-4 mb-2">
+						<div class="col-12 col-sm-6 col-md-3 mb-2">
 							<label for="newContType" class="data-entry-label">New Container Type</label>
-							<select name="newContType" id="newContType" class="data-entry-select col-12 reqdClr" required aria-required="true">
+							<select name="newContType" id="newContType" class="data-entry-select reqdClr" required aria-required="true">
 								<option value=""></option>
 								<cfloop query="variables.qAllowedTypes">
 									<cfset variables.newTypeSelected = "">
@@ -389,52 +389,46 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							</select>
 						</div>
 					</div>
-					<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
-						<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Description</legend>
-						<div class="form-row pt-2">
-							<div class="col-12 col-md-8 mb-2">
-								<label for="description" class="data-entry-label">New Description Text (optional)</label>
-								<input type="text" name="description" id="description" class="data-entry-input col-12">
-								<small class="text-muted">Enter NULL with Overwrite selected to clear the description.</small>
-							</div>
-							<div class="col-12 col-md-4 mb-2">
-								<span class="data-entry-label" id="descriptionModeLabel">If a value is given</span>
-								<div role="radiogroup" aria-labelledby="descriptionModeLabel">
-									<div>
-										<input type="radio" name="description_mode" id="description_mode_append" value="append" checked>
-										<label for="description_mode_append">Append to existing text</label>
-									</div>
-									<div>
-										<input type="radio" name="description_mode" id="description_mode_overwrite" value="overwrite">
-										<label for="description_mode_overwrite">Overwrite existing text</label>
-									</div>
+					<div class="row border rounded bg-light mx-0 my-2 pt-2 pb-1 px-2">
+						<div class="col-12 col-md-8 mb-2">
+							<label for="description" class="data-entry-label">New Description Text (optional)</label>
+							<input type="text" name="description" id="description" class="data-entry-input">
+							<small class="text-muted">Enter NULL with Overwrite selected to clear the description.</small>
+						</div>
+						<div class="col-12 col-md-4 mb-2">
+							<span class="data-entry-label" id="descriptionModeLabel">If a value is given</span>
+							<div role="radiogroup" aria-labelledby="descriptionModeLabel">
+								<div>
+									<input type="radio" name="description_mode" id="description_mode_append" value="append" checked>
+									<label for="description_mode_append">Append to existing text</label>
+								</div>
+								<div>
+									<input type="radio" name="description_mode" id="description_mode_overwrite" value="overwrite">
+									<label for="description_mode_overwrite">Overwrite existing text</label>
 								</div>
 							</div>
 						</div>
-					</fieldset>
-					<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
-						<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Remark</legend>
-						<div class="form-row pt-2">
-							<div class="col-12 col-md-8 mb-2">
-								<label for="container_remarks" class="data-entry-label">New Remark Text (optional)</label>
-								<input type="text" name="container_remarks" id="container_remarks" class="data-entry-input col-12">
-								<small class="text-muted">Enter NULL with Overwrite selected to clear the remark.</small>
-							</div>
-							<div class="col-12 col-md-4 mb-2">
-								<span class="data-entry-label" id="remarksModeLabel">If a value is given</span>
-								<div role="radiogroup" aria-labelledby="remarksModeLabel">
-									<div>
-										<input type="radio" name="container_remarks_mode" id="container_remarks_mode_append" value="append" checked>
-										<label for="container_remarks_mode_append">Append to existing text</label>
-									</div>
-									<div>
-										<input type="radio" name="container_remarks_mode" id="container_remarks_mode_overwrite" value="overwrite">
-										<label for="container_remarks_mode_overwrite">Overwrite existing text</label>
-									</div>
+					</div>
+					<div class="row border rounded bg-light mx-0 my-2 pt-2 pb-1 px-2">
+						<div class="col-12 col-md-8 mb-2">
+							<label for="container_remarks" class="data-entry-label">New Remark Text (optional)</label>
+							<input type="text" name="container_remarks" id="container_remarks" class="data-entry-input">
+							<small class="text-muted">Enter NULL with Overwrite selected to clear the remark.</small>
+						</div>
+						<div class="col-12 col-md-4 mb-2">
+							<span class="data-entry-label" id="remarksModeLabel">If a value is given</span>
+							<div role="radiogroup" aria-labelledby="remarksModeLabel">
+								<div>
+									<input type="radio" name="container_remarks_mode" id="container_remarks_mode_append" value="append" checked>
+									<label for="container_remarks_mode_append">Append to existing text</label>
+								</div>
+								<div>
+									<input type="radio" name="container_remarks_mode" id="container_remarks_mode_overwrite" value="overwrite">
+									<label for="container_remarks_mode_overwrite">Overwrite existing text</label>
 								</div>
 							</div>
 						</div>
-					</fieldset>
+					</div>
 					<div class="form-row">
 						<div class="col-6 col-md-3 mb-2">
 							<label for="height" class="data-entry-label">New Height (cm, optional)</label>
@@ -564,6 +558,14 @@ validated per container) -> apply (commit, skipping any container whose retype i
 		<cfif UCase(trim(form.number_positions)) EQ "NULL">
 			<cfset variables.clearNumberPositionsPreview = true>
 		</cfif>
+		<cfset variables.appendNullDescriptionWarning = false>
+		<cfif form.description_mode EQ "append" AND UCase(trim(form.description)) EQ "NULL">
+			<cfset variables.appendNullDescriptionWarning = true>
+		</cfif>
+		<cfset variables.appendNullRemarksWarning = false>
+		<cfif form.container_remarks_mode EQ "append" AND UCase(trim(form.container_remarks)) EQ "NULL">
+			<cfset variables.appendNullRemarksWarning = true>
+		</cfif>
 
 		<cfif variables.action EQ "test">
 			<cfset variables.detailedRowCount = ArrayLen(variables.containers)>
@@ -579,6 +581,16 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<strong>#variables.warnCount#</strong> need review (see below),
 						<strong>#variables.blockCount#</strong> blocked (Apply Changes will skip these).
 					</p>
+					<cfif variables.appendNullDescriptionWarning OR variables.appendNullRemarksWarning>
+						<div class="alert alert-warning" role="alert">
+							<cfif variables.appendNullDescriptionWarning>
+								<p class="mb-0">New Description Text is "NULL" with Append to existing text selected -- this will append the literal text "NULL" rather than clearing the description. Select Overwrite existing text instead if the description should be cleared.</p>
+							</cfif>
+							<cfif variables.appendNullRemarksWarning>
+								<p class="mb-0">New Remark Text is "NULL" with Append to existing text selected -- this will append the literal text "NULL" rather than clearing the remark. Select Overwrite existing text instead if the remark should be cleared.</p>
+							</cfif>
+						</div>
+					</cfif>
 					<div class="mb-3">
 						<h2 class="h5 mb-1">Proposed Changes</h2>
 						<ul class="mb-0">
