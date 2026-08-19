@@ -189,7 +189,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<div class="col-12 col-md-3 mb-2">
 							<label for="barcode_prefix" class="data-entry-label">Unique ID Prefix</label>
 							<input type="text" name="barcode_prefix" id="barcode_prefix" class="data-entry-input col-12" aria-describedby="barcodePrefixHelp" value="#encodeForHtml(form.barcode_prefix)#">
-							<small id="barcodePrefixHelp" class="text-muted">Include spaces or leading zeros if they're part of every identifier in the range.</small>
+							<small id="barcodePrefixHelp" class="text-muted">Include spaces or leading zeros if they are part of every identifier in the range.</small>
 						</div>
 						<div class="col-6 col-md-2 mb-2">
 							<label for="begin_barcode" class="data-entry-label">Low Unique ID</label>
@@ -238,7 +238,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 		<cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>
 			<cfset variables.remarksExampleText = "; for example:">
 		</cfif>
-		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="previewHeading">
+		<section class="row mx-0 border rounded my-2 py-2 mb-4" aria-labelledby="previewHeading">
 			<div class="col-12">
 				<h1 class="h2 ml-1 mb-1" id="previewHeading">Range Analysis</h1>
 				<p>
@@ -264,7 +264,8 @@ validated per container) -> apply (commit, skipping any container whose retype i
 				<cfif variables.preview.missingCount GT 0 AND ArrayLen(variables.preview.missingBarcodes) GT 0>
 					<div class="alert alert-secondary" role="alert">
 						Unique identifiers with no matching container:
-						#encodeForHtml(ArrayToList(variables.preview.missingBarcodes, ", "))#<cfif variables.preview.missingBarcodesTruncated> (showing the first 100)</cfif>
+						#encodeForHtml(ArrayToList(variables.preview.missingBarcodes, ", "))#
+						<cfif variables.preview.missingBarcodesTruncated> (showing the first 100)</cfif>
 					</div>
 				</cfif>
 				<cfif variables.matchingOrigTypeCount GT 0>
@@ -279,7 +280,8 @@ validated per container) -> apply (commit, skipping any container whose retype i
 								<cfif variables.propertySummary.descriptionCount GT 0>
 									(#variables.propertySummary.descriptionDistinctCount# distinct value#variables.descriptionPlural##variables.descriptionExampleText#
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
-										"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
+										"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"
+										<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
 									</cfloop>)
 								</cfif>
 							</li>
@@ -288,7 +290,8 @@ validated per container) -> apply (commit, skipping any container whose retype i
 								<cfif variables.propertySummary.remarksCount GT 0>
 									(#variables.propertySummary.remarksDistinctCount# distinct value#variables.remarksPlural##variables.remarksExampleText#
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
-										"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
+										"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"
+										<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
 									</cfloop>)
 								</cfif>
 							</li>
