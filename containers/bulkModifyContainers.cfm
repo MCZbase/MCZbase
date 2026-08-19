@@ -156,7 +156,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 	</cfif>
 
 	<cfif variables.action EQ "entryPoint">
-		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="bulkModifyHeading">
+		<section class="row mx-0 border rounded my-2 py-2 mb-4" aria-labelledby="bulkModifyHeading">
 			<div class="col-12">
 				<h1 class="h2 ml-1 mb-1" id="bulkModifyHeading">Bulk Modify Containers</h1>
 				<p class="small text-muted">
@@ -711,7 +711,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 			<cfloop from="1" to="#min(ArrayLen(variables.updatedContainerRows), variables.MAX_LISTED_UPDATED)#" index="variables.j">
 				<cfset ArrayAppend(variables.updatedRowsForDisplay, variables.updatedContainerRows[variables.j])>
 			</cfloop>
-			<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="reportHeading">
+			<section class="row mx-0 border rounded my-2 py-2 mb-4" aria-labelledby="reportHeading">
 				<div class="col-12">
 					<h1 class="h2 ml-1 mb-1" id="reportHeading">Bulk Modify Report</h1>
 					<ul>
