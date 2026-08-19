@@ -222,6 +222,22 @@ validated per container) -> apply (commit, skipping any container whose retype i
 		</cfloop>
 		<cfset variables.eligibleContainers = variables.containerFunctions.getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
 		<cfset variables.propertySummary = variables.containerFunctions.summarizeContainerProperties(variables.eligibleContainers)>
+		<cfset variables.descriptionPlural = "">
+		<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>
+			<cfset variables.descriptionPlural = "s">
+		</cfif>
+		<cfset variables.descriptionExampleText = ":">
+		<cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>
+			<cfset variables.descriptionExampleText = "; for example:">
+		</cfif>
+		<cfset variables.remarksPlural = "">
+		<cfif variables.propertySummary.remarksDistinctCount NEQ 1>
+			<cfset variables.remarksPlural = "s">
+		</cfif>
+		<cfset variables.remarksExampleText = ":">
+		<cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>
+			<cfset variables.remarksExampleText = "; for example:">
+		</cfif>
 		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="previewHeading">
 			<div class="col-12">
 				<h1 class="h2 ml-1 mb-1" id="previewHeading">Range Analysis</h1>
@@ -261,7 +277,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
 								<cfif variables.propertySummary.descriptionCount GT 0>
-									(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>; for example</cfif>:
+									(#variables.propertySummary.descriptionDistinctCount# distinct value#variables.descriptionPlural##variables.descriptionExampleText#
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
 										"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
 									</cfloop>)
@@ -270,7 +286,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
 								<cfif variables.propertySummary.remarksCount GT 0>
-									(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>; for example</cfif>:
+									(#variables.propertySummary.remarksDistinctCount# distinct value#variables.remarksPlural##variables.remarksExampleText#
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
 										"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
 									</cfloop>)
@@ -299,6 +315,22 @@ validated per container) -> apply (commit, skipping any container whose retype i
 		<cfset variables.MAX_LISTED_CANDIDATES = 200>
 		<cfset variables.eligibleContainers = variables.containerFunctions.getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
 		<cfset variables.propertySummary = variables.containerFunctions.summarizeContainerProperties(variables.eligibleContainers)>
+		<cfset variables.descriptionPlural = "">
+		<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>
+			<cfset variables.descriptionPlural = "s">
+		</cfif>
+		<cfset variables.descriptionExampleText = ":">
+		<cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>
+			<cfset variables.descriptionExampleText = "; for example:">
+		</cfif>
+		<cfset variables.remarksPlural = "">
+		<cfif variables.propertySummary.remarksDistinctCount NEQ 1>
+			<cfset variables.remarksPlural = "s">
+		</cfif>
+		<cfset variables.remarksExampleText = ":">
+		<cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>
+			<cfset variables.remarksExampleText = "; for example:">
+		</cfif>
 		<cfset variables.candidateRowsForDisplay = ArrayNew(1)>
 		<cfloop from="1" to="#min(ArrayLen(variables.eligibleContainers), variables.MAX_LISTED_CANDIDATES)#" index="variables.j">
 			<cfset ArrayAppend(variables.candidateRowsForDisplay, variables.eligibleContainers[variables.j])>
@@ -316,7 +348,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<li>
 							#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
 							<cfif variables.propertySummary.descriptionCount GT 0>
-								(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>; for example</cfif>:
+								(#variables.propertySummary.descriptionDistinctCount# distinct value#variables.descriptionPlural##variables.descriptionExampleText#
 								<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
 									"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
 								</cfloop>)
@@ -325,7 +357,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<li>
 							#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
 							<cfif variables.propertySummary.remarksCount GT 0>
-								(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>; for example</cfif>:
+								(#variables.propertySummary.remarksDistinctCount# distinct value#variables.remarksPlural##variables.remarksExampleText#
 								<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
 									"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
 								</cfloop>)
@@ -352,7 +384,6 @@ validated per container) -> apply (commit, skipping any container whose retype i
 									<option value="#encodeForHtml(variables.qAllowedTypes.container_type)#" #variables.newTypeSelected#>#encodeForHtml(variables.qAllowedTypes.container_type)#</option>
 								</cfloop>
 							</select>
-							<small class="text-muted">Defaults to the current type (#encodeForHtml(form.origContType)#) &mdash; leave it as-is to update other fields without retyping.</small>
 						</div>
 					</div>
 					<fieldset class="my-2 px-2 pb-1 border-top border-right border-bottom border-left field-set">
@@ -361,6 +392,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<div class="col-12 col-md-8 mb-2">
 								<label for="description" class="data-entry-label">New Description Text (optional)</label>
 								<input type="text" name="description" id="description" class="data-entry-input col-12">
+								<small class="text-muted">Enter NULL with Overwrite selected to clear the description.</small>
 							</div>
 							<div class="col-12 col-md-4 mb-2">
 								<span class="data-entry-label" id="descriptionModeLabel">If a value is given</span>
@@ -383,6 +415,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<div class="col-12 col-md-8 mb-2">
 								<label for="container_remarks" class="data-entry-label">New Remark Text (optional)</label>
 								<input type="text" name="container_remarks" id="container_remarks" class="data-entry-input col-12">
+								<small class="text-muted">Enter NULL with Overwrite selected to clear the remark.</small>
 							</div>
 							<div class="col-12 col-md-4 mb-2">
 								<span class="data-entry-label" id="remarksModeLabel">If a value is given</span>
@@ -403,18 +436,22 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<div class="col-6 col-md-3 mb-2">
 							<label for="height" class="data-entry-label">New Height (optional)</label>
 							<input type="text" name="height" id="height" class="data-entry-input col-12">
+							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="length" class="data-entry-label">New Length (optional)</label>
 							<input type="text" name="length" id="length" class="data-entry-input col-12">
+							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="width" class="data-entry-label">New Width (optional)</label>
 							<input type="text" name="width" id="width" class="data-entry-input col-12">
+							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
 							<label for="number_positions" class="data-entry-label">New Number of Positions (optional)</label>
 							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12">
+							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 					</div>
 					<div class="form-row mb-2">

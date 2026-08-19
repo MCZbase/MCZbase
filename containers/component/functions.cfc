@@ -3501,11 +3501,39 @@ per this redesign's rule that every mutating method must enforce it inline as we
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
+	<!--- Oracle treats '' and NULL as equivalent; typing NULL is how a user clears one of these fields --->
+	<cfset local.clearDescription = false>
+	<cfif arguments.description_mode EQ "overwrite" AND UCase(trim(arguments.description_value)) EQ "NULL">
+		<cfset local.clearDescription = true>
+	</cfif>
+	<cfset local.clearRemarks = false>
+	<cfif arguments.container_remarks_mode EQ "overwrite" AND UCase(trim(arguments.container_remarks_value)) EQ "NULL">
+		<cfset local.clearRemarks = true>
+	</cfif>
+	<cfset local.clearHeight = false>
+	<cfif UCase(trim(arguments.height_value)) EQ "NULL">
+		<cfset local.clearHeight = true>
+	</cfif>
+	<cfset local.clearLength = false>
+	<cfif UCase(trim(arguments.length_value)) EQ "NULL">
+		<cfset local.clearLength = true>
+	</cfif>
+	<cfset local.clearWidth = false>
+	<cfif UCase(trim(arguments.width_value)) EQ "NULL">
+		<cfset local.clearWidth = true>
+	</cfif>
+	<cfset local.clearNumberPositions = false>
+	<cfif UCase(trim(arguments.number_positions_value)) EQ "NULL">
+		<cfset local.clearNumberPositions = true>
+	</cfif>
+
 	<cftry>
 		<cfset local.newDescription = "">
 		<cfset local.newRemarks = "">
 
-		<cfif len(trim(arguments.description_value)) GT 0 AND arguments.description_mode EQ "append">
+		<cfif local.clearDescription>
+			<!--- newDescription stays blank; local.clearDescription drives the NULL in the UPDATE below --->
+		<cfelseif len(trim(arguments.description_value)) GT 0 AND arguments.description_mode EQ "append">
 			<cfquery name="local.queryCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT description FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			</cfquery>
@@ -3518,7 +3546,9 @@ per this redesign's rule that every mutating method must enforce it inline as we
 			<cfset local.newDescription = arguments.description_value>
 		</cfif>
 
-		<cfif len(trim(arguments.container_remarks_value)) GT 0 AND arguments.container_remarks_mode EQ "append">
+		<cfif local.clearRemarks>
+			<!--- newRemarks stays blank; local.clearRemarks drives the NULL in the UPDATE below --->
+		<cfelseif len(trim(arguments.container_remarks_value)) GT 0 AND arguments.container_remarks_mode EQ "append">
 			<cfquery name="local.queryCurrentRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT container_remarks FROM container WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			</cfquery>
@@ -3536,22 +3566,34 @@ per this redesign's rule that every mutating method must enforce it inline as we
 				UPDATE container
 				SET
 					container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.new_container_type#">
-					<cfif len(trim(arguments.description_value)) GT 0>
+					<cfif local.clearDescription>
+						, description = NULL
+					<cfelseif len(trim(arguments.description_value)) GT 0>
 						, description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.newDescription#">
 					</cfif>
-					<cfif len(trim(arguments.container_remarks_value)) GT 0>
+					<cfif local.clearRemarks>
+						, container_remarks = NULL
+					<cfelseif len(trim(arguments.container_remarks_value)) GT 0>
 						, container_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.newRemarks#">
 					</cfif>
-					<cfif len(trim(arguments.height_value)) GT 0>
+					<cfif local.clearHeight>
+						, height = NULL
+					<cfelseif len(trim(arguments.height_value)) GT 0>
 						, height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.height_value#">
 					</cfif>
-					<cfif len(trim(arguments.length_value)) GT 0>
+					<cfif local.clearLength>
+						, length = NULL
+					<cfelseif len(trim(arguments.length_value)) GT 0>
 						, length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.length_value#">
 					</cfif>
-					<cfif len(trim(arguments.width_value)) GT 0>
+					<cfif local.clearWidth>
+						, width = NULL
+					<cfelseif len(trim(arguments.width_value)) GT 0>
 						, width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.width_value#">
 					</cfif>
-					<cfif len(trim(arguments.number_positions_value)) GT 0>
+					<cfif local.clearNumberPositions>
+						, number_positions = NULL
+					<cfelseif len(trim(arguments.number_positions_value)) GT 0>
 						, number_positions = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.number_positions_value#">
 					</cfif>
 				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
