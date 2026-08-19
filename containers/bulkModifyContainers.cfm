@@ -545,7 +545,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 			<cfif variables.detailedRowCount GT variables.MAX_DETAILED_ROWS>
 				<cfset variables.detailedRowCount = variables.MAX_DETAILED_ROWS>
 			</cfif>
-			<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="dryRunHeading">
+			<section class="row mx-0 border rounded my-2 py-2 mb-4" aria-labelledby="dryRunHeading">
 				<div class="col-12">
 					<h1 class="h2 ml-1 mb-1" id="dryRunHeading">Dry Run Results</h1>
 					<p>
