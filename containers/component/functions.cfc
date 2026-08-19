@@ -3579,17 +3579,17 @@ per this redesign's rule that every mutating method must enforce it inline as we
 					<cfif local.clearHeight>
 						, height = NULL
 					<cfelseif len(trim(arguments.height_value)) GT 0>
-						, height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.height_value#">
+						, height = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.height_value#">
 					</cfif>
 					<cfif local.clearLength>
 						, length = NULL
 					<cfelseif len(trim(arguments.length_value)) GT 0>
-						, length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.length_value#">
+						, length = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.length_value#">
 					</cfif>
 					<cfif local.clearWidth>
 						, width = NULL
 					<cfelseif len(trim(arguments.width_value)) GT 0>
-						, width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.width_value#">
+						, width = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.width_value#">
 					</cfif>
 					<cfif local.clearNumberPositions>
 						, number_positions = NULL
