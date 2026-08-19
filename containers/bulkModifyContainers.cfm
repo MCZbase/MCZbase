@@ -261,7 +261,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
 								<cfif variables.propertySummary.descriptionCount GT 0>
-									(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif>; for example:
+									(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>; for example</cfif>:
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
 										"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
 									</cfloop>)
@@ -270,7 +270,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 							<li>
 								#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
 								<cfif variables.propertySummary.remarksCount GT 0>
-									(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif>; for example:
+									(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>; for example</cfif>:
 									<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
 										"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
 									</cfloop>)
@@ -316,7 +316,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<li>
 							#variables.propertySummary.descriptionCount# of #variables.propertySummary.totalCount# have a description
 							<cfif variables.propertySummary.descriptionCount GT 0>
-								(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif>; for example:
+								(#variables.propertySummary.descriptionDistinctCount# distinct value<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.descriptionDistinctCount GT ArrayLen(variables.propertySummary.descriptionExamples)>; for example</cfif>:
 								<cfloop from="1" to="#ArrayLen(variables.propertySummary.descriptionExamples)#" index="variables.exIdx">
 									"#encodeForHtml(variables.propertySummary.descriptionExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.descriptionExamples)>,</cfif>
 								</cfloop>)
@@ -325,7 +325,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 						<li>
 							#variables.propertySummary.remarksCount# of #variables.propertySummary.totalCount# have a remark
 							<cfif variables.propertySummary.remarksCount GT 0>
-								(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif>; for example:
+								(#variables.propertySummary.remarksDistinctCount# distinct value<cfif variables.propertySummary.remarksDistinctCount NEQ 1>s</cfif><cfif variables.propertySummary.remarksDistinctCount GT ArrayLen(variables.propertySummary.remarksExamples)>; for example</cfif>:
 								<cfloop from="1" to="#ArrayLen(variables.propertySummary.remarksExamples)#" index="variables.exIdx">
 									"#encodeForHtml(variables.propertySummary.remarksExamples[variables.exIdx])#"<cfif variables.exIdx LT ArrayLen(variables.propertySummary.remarksExamples)>,</cfif>
 								</cfloop>)
