@@ -437,17 +437,17 @@ validated per container) -> apply (commit, skipping any container whose retype i
 					</fieldset>
 					<div class="form-row">
 						<div class="col-6 col-md-3 mb-2">
-							<label for="height" class="data-entry-label">New Height (optional)</label>
+							<label for="height" class="data-entry-label">New Height (cm, optional)</label>
 							<input type="text" name="height" id="height" class="data-entry-input col-12">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
-							<label for="length" class="data-entry-label">New Length (optional)</label>
+							<label for="length" class="data-entry-label">New Length (cm, optional)</label>
 							<input type="text" name="length" id="length" class="data-entry-input col-12">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
 						<div class="col-6 col-md-3 mb-2">
-							<label for="width" class="data-entry-label">New Width (optional)</label>
+							<label for="width" class="data-entry-label">New Width (cm, optional)</label>
 							<input type="text" name="width" id="width" class="data-entry-input col-12">
 							<small class="text-muted">Enter NULL to clear.</small>
 						</div>
@@ -611,7 +611,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 								</cfif>
 							</li>
 							<li>
-								Height:
+								Height (cm):
 								<cfif variables.clearHeightPreview>
 									cleared
 								<cfelseif len(trim(form.height)) GT 0>
@@ -621,7 +621,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 								</cfif>
 							</li>
 							<li>
-								Length:
+								Length (cm):
 								<cfif variables.clearLengthPreview>
 									cleared
 								<cfelseif len(trim(form.length)) GT 0>
@@ -631,7 +631,7 @@ validated per container) -> apply (commit, skipping any container whose retype i
 								</cfif>
 							</li>
 							<li>
-								Width:
+								Width (cm):
 								<cfif variables.clearWidthPreview>
 									cleared
 								<cfelseif len(trim(form.width)) GT 0>
