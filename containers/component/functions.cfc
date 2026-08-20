@@ -2985,8 +2985,8 @@ in-collection disposition is expected once a part is placed below campus level (
 "external" container_type entirely, since containers held externally -- on loan, at a lab, etc. --
 aren't expected to carry an in-collection disposition regardless of rank), and a deaccessioned
 disposition is expected specifically for the container named "Deaccessioned" -- checked by label,
-not container_type, since that container is currently mistyped as "campus" in production (it should
-be "external") and rank/type alone wouldn't otherwise flag it.
+not container_type, since "external" also covers other, non-deaccessioned containers (loans, etc.)
+that shouldn't get this hint.
 @param container_id the candidate destination container.
 @return a struct: {expected_disposition_hint: ""|"in_collection"|"deaccessioned", message}.
 --->
