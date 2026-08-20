@@ -1,6 +1,7 @@
 /**
- * Backing JS for containers/placePartInContainer.cfm -- loads the specimen-search results and the
- * New Part dialog as server-rendered HTML from containers/component/functions.cfc's
+ * Backing JS for containers/placePartInContainer.cfm -- loads the specimen-search results (a
+ * table of every part found, each with a checkbox to include it in the move) and the New Part
+ * dialog as server-rendered HTML from containers/component/functions.cfc's
  * getPartsForContainerPlacementHTML/getNewPartFormHTML (the same pattern
  * specimens/component/functions.cfc's getEditPartsHTML/getPartContainersHTML already use), then
  * runs placement/retype preflight and commit against the small JSON+badge convention already
@@ -9,13 +10,12 @@
 
 var placePartState = {
 	currentParentType: '',
-	part1Preflight: null,
-	part2Preflight: null,
+	partPreflights: {},
 	retypeChecked: false
 };
 
 /**
- * Loads the specimen-search results (specimen context, Part selects, placement controls) as one
+ * Loads the specimen-search results (specimen context, parts table, placement controls) as one
  * server-rendered HTML fragment.
  * @returns {void}
  */
@@ -36,8 +36,7 @@ function searchSpecimenParts() {
 		noBarcode: $('#noBarcode').prop('checked'),
 		noSubsample: $('#noSubsample').prop('checked')
 	}, function(html) {
-		placePartState.part1Preflight = null;
-		placePartState.part2Preflight = null;
+		placePartState.partPreflights = {};
 		placePartState.currentParentType = '';
 		area.html(html);
 		previewCurrentPlacement();
@@ -47,10 +46,9 @@ function searchSpecimenParts() {
 }
 
 /**
- * Each found part's current-container breadcrumb is shown with its own placement badge -- checks
- * that part's existing placement against its actual current parent (reusing the same
- * preflight/badge convention as a proposed move), so a pre-existing placement problem is visible
- * without having to enter a Parent Unique Identifier first.
+ * Every found part's row starts out showing a placement badge for its existing (pre-move)
+ * placement, checked against its actual current parent -- so a pre-existing placement problem is
+ * visible before anything is selected to move.
  * @returns {void}
  */
 function previewCurrentPlacement() {
@@ -66,24 +64,8 @@ function previewCurrentPlacement() {
 }
 
 /**
- * Shows/hides the Part 2 select based on the "move a second part" checkbox.
- * @returns {void}
- */
-function toggleSecondPart() {
-	if ($('#useSecondPart').prop('checked')) {
-		$('#secondPartWrap').show();
-	} else {
-		$('#secondPartWrap').hide();
-		$('#part_name_2').val('');
-		$('#part2Badge').empty();
-		placePartState.part2Preflight = null;
-	}
-	updateMoveButtonState();
-}
-
-/**
- * Parent Barcode change handler -- previews the placement (and any pending retype) without
- * committing anything.
+ * Parent Barcode change handler -- previews the placement (and any pending retype) for every
+ * currently-selected part, without committing anything.
  * @returns {void}
  */
 function onParentBarcodeChange() {
@@ -110,36 +92,73 @@ function openParentContainerPicker() {
 }
 
 /**
- * Runs placement preflight for part 1 (and part 2, if selected) against the current Parent
- * Barcode, rendering badges and updating the current-type display and Move button state.
+ * A part's "include in move" checkbox changed -- if a Parent Barcode is already entered, preview
+ * the proposed placement for just that part; otherwise revert its badge to showing its existing
+ * (pre-move) placement.
+ * @param {HTMLElement} checkboxEl
+ * @returns {void}
+ */
+function onPartSelectionChange(checkboxEl) {
+	var checkbox = $(checkboxEl);
+	var partId = checkbox.val();
+	var badgeId = 'currentPlacementBadge_' + partId;
+	if (checkbox.prop('checked')) {
+		var parentBarcode = $('#parent_barcode').val();
+		if (parentBarcode) {
+			runPartPreflight(partId, parentBarcode, badgeId, function(result) {
+				placePartState.partPreflights[partId] = result;
+				if (result && result.status === 'ok') {
+					updateCurrentParentType(result);
+				}
+				updateMoveButtonState();
+			});
+		}
+	} else {
+		delete placePartState.partPreflights[partId];
+		var currentParentBarcode = $('#' + badgeId).data('currentParentBarcode');
+		if (currentParentBarcode) {
+			runPartPreflight(partId, currentParentBarcode, badgeId, function() {});
+		} else {
+			$('#' + badgeId).empty();
+		}
+	}
+	updateMoveButtonState();
+}
+
+/**
+ * Runs placement preflight for every currently-selected part against the current Parent Barcode,
+ * updating each row's badge and the current-type display.
  * @returns {void}
  */
 function previewPlacement() {
 	var parentBarcode = $('#parent_barcode').val();
-	var part1Id = $('#part_name').val();
-	if (!parentBarcode || !part1Id) {
+	var selected = $('.part-select-checkbox:checked');
+	if (!parentBarcode || !selected.length) {
 		return;
 	}
-	runPartPreflight(part1Id, parentBarcode, 'part1Badge', function(result) {
-		placePartState.part1Preflight = result;
-		if (result && result.status === 'ok') {
-			placePartState.currentParentType = result.parent_type || '';
-			$('#currentParentType').text(placePartState.currentParentType || '(none)');
-			if ($('#keepCurrentType').prop('checked')) {
-				$('#new_container_type').val(placePartState.currentParentType);
+	selected.each(function() {
+		var partId = $(this).val();
+		runPartPreflight(partId, parentBarcode, 'currentPlacementBadge_' + partId, function(result) {
+			placePartState.partPreflights[partId] = result;
+			if (result && result.status === 'ok') {
+				updateCurrentParentType(result);
 			}
-		}
-		updateMoveButtonState();
-	});
-	var part2Id = $('#useSecondPart').prop('checked') ? $('#part_name_2').val() : '';
-	if (part2Id) {
-		runPartPreflight(part2Id, parentBarcode, 'part2Badge', function(result) {
-			placePartState.part2Preflight = result;
 			updateMoveButtonState();
 		});
-	} else {
-		$('#part2Badge').empty();
-		placePartState.part2Preflight = null;
+	});
+}
+
+/**
+ * Records the proposed parent's current type from a preflight result and, if "Keep current type"
+ * is still checked, keeps the New Container Type select in sync with it.
+ * @param {Object} result
+ * @returns {void}
+ */
+function updateCurrentParentType(result) {
+	placePartState.currentParentType = result.parent_type || '';
+	$('#currentParentType').text(placePartState.currentParentType || '(none)');
+	if ($('#keepCurrentType').prop('checked')) {
+		$('#new_container_type').val(placePartState.currentParentType);
 	}
 }
 
@@ -201,7 +220,7 @@ function onNewContainerTypeChange() {
 		updateMoveButtonState();
 		return;
 	}
-	var parentContainerId = placePartState.part1Preflight ? placePartState.part1Preflight.parent_container_id : null;
+	var parentContainerId = firstSelectedParentContainerId();
 	if (!parentContainerId) {
 		return;
 	}
@@ -222,15 +241,38 @@ function onNewContainerTypeChange() {
 }
 
 /**
- * Enables the Move button only when part 1's placement is allowed (and part 2's, if selected),
- * and the retype (if one is pending) is itself allowed.
+ * Returns the proposed parent_container_id from any one selected part's stored preflight -- they
+ * all target the same Parent Barcode, so any of them will do.
+ * @returns {?number}
+ */
+function firstSelectedParentContainerId() {
+	var found = null;
+	$('.part-select-checkbox:checked').each(function() {
+		if (found) {
+			return;
+		}
+		var preflight = placePartState.partPreflights[$(this).val()];
+		if (preflight && preflight.parent_container_id) {
+			found = preflight.parent_container_id;
+		}
+	});
+	return found;
+}
+
+/**
+ * Enables the Move button only when at least one part is selected, every selected part's
+ * placement preflight is allowed, and the retype (if one is pending) is itself allowed.
  * @returns {void}
  */
 function updateMoveButtonState() {
-	var ok = !!(placePartState.part1Preflight && placePartState.part1Preflight.allowed);
-	if ($('#useSecondPart').prop('checked')) {
-		ok = ok && !!(placePartState.part2Preflight && placePartState.part2Preflight.allowed);
-	}
+	var selected = $('.part-select-checkbox:checked');
+	var ok = selected.length > 0;
+	selected.each(function() {
+		var preflight = placePartState.partPreflights[$(this).val()];
+		if (!preflight || !preflight.allowed) {
+			ok = false;
+		}
+	});
 	if (!$('#keepCurrentType').prop('checked') && $('#new_container_type').val() !== placePartState.currentParentType) {
 		ok = ok && placePartState.retypeChecked;
 	}
@@ -246,16 +288,13 @@ function updateMoveButtonState() {
  */
 function commitPlacement() {
 	var parentBarcode = $('#parent_barcode').val();
-	var part1Id = $('#part_name').val();
-	if (!parentBarcode || !part1Id) {
+	var selected = $('.part-select-checkbox:checked');
+	if (!parentBarcode || !selected.length) {
 		return;
 	}
 	var messages = [];
-	var preflights = [placePartState.part1Preflight];
-	if ($('#useSecondPart').prop('checked')) {
-		preflights.push(placePartState.part2Preflight);
-	}
-	$.each(preflights, function(i, preflight) {
+	selected.each(function() {
+		var preflight = placePartState.partPreflights[$(this).val()];
 		if (!preflight) {
 			return;
 		}
@@ -268,27 +307,25 @@ function commitPlacement() {
 	});
 	if (messages.length) {
 		confirmDialog(messages.join(' '), 'Confirm Move', function() {
-			doCommitPlacement(parentBarcode, part1Id);
+			doCommitPlacement(parentBarcode);
 		});
 	} else {
-		doCommitPlacement(parentBarcode, part1Id);
+		doCommitPlacement(parentBarcode);
 	}
 }
 
 /**
- * Retypes the parent (if requested) then moves part 1 and, if selected, part 2, each
- * independently, appending a Move Log entry per outcome. Called directly by commitPlacement, or
- * after the user confirms a warning/depth prompt.
+ * Retypes the parent (if requested) then moves every currently-selected part, called directly by
+ * commitPlacement, or after the user confirms a warning/depth prompt.
  * @param {string} parentBarcode
- * @param {string} part1Id
  * @returns {void}
  */
-function doCommitPlacement(parentBarcode, part1Id) {
+function doCommitPlacement(parentBarcode) {
 	$('#moveBtn').prop('disabled', true);
 	var keepType = $('#keepCurrentType').prop('checked');
 	var newType = $('#new_container_type').val();
 	var needsRetype = !keepType && newType && newType !== placePartState.currentParentType;
-	var parentContainerId = placePartState.part1Preflight ? placePartState.part1Preflight.parent_container_id : null;
+	var parentContainerId = firstSelectedParentContainerId();
 
 	if (needsRetype && parentContainerId) {
 		$.getJSON('/containers/component/functions.cfc', {
@@ -300,7 +337,7 @@ function doCommitPlacement(parentBarcode, part1Id) {
 			if (result && result.status === 'updated') {
 				appendMoveLogEntry('Parent container retyped to ' + newType + '.', true);
 				placePartState.currentParentType = newType;
-				movePartsAfterRetype(parentBarcode, part1Id);
+				moveSelectedParts(parentBarcode);
 			} else {
 				appendMoveLogEntry('Retype failed: ' + ((result && result.message) || 'unknown error') + ' -- move not attempted.', false);
 				$('#moveBtn').prop('disabled', false);
@@ -310,38 +347,38 @@ function doCommitPlacement(parentBarcode, part1Id) {
 			$('#moveBtn').prop('disabled', false);
 		});
 	} else {
-		movePartsAfterRetype(parentBarcode, part1Id);
+		moveSelectedParts(parentBarcode);
 	}
 }
 
 /**
- * Moves part 1 (and part 2, if selected), called after any requested retype has succeeded (or
- * was not requested at all).
+ * Moves every currently-selected part into the Parent Barcode, one at a time, each independently
+ * (one failing doesn't block the rest), appending a Move Log entry per outcome.
  * @param {string} parentBarcode
- * @param {string} part1Id
  * @returns {void}
  */
-function movePartsAfterRetype(parentBarcode, part1Id) {
-	var part1Name = $('#part_name option:selected').text();
-	movePart(part1Id, part1Name, parentBarcode, function() {
-		var part2Id = $('#useSecondPart').prop('checked') ? $('#part_name_2').val() : '';
-		if (part2Id) {
-			var part2Name = $('#part_name_2 option:selected').text();
-			movePart(part2Id, part2Name, parentBarcode, function() {
-				$('#moveBtn').prop('disabled', false);
-				searchSpecimenParts();
-			});
-		} else {
+function moveSelectedParts(parentBarcode) {
+	var queue = [];
+	$('.part-select-checkbox:checked').each(function() {
+		queue.push({id: $(this).val(), name: $(this).data('partName')});
+	});
+	var advance = function(index) {
+		if (index >= queue.length) {
 			$('#moveBtn').prop('disabled', false);
 			searchSpecimenParts();
+			return;
 		}
-	});
+		movePart(queue[index].id, queue[index].name, parentBarcode, function() {
+			advance(index + 1);
+		});
+	};
+	advance(0);
 }
 
 /**
  * AJAX call to placePartByBarcode, appending a Move Log entry with the outcome.
  * @param {string} partId
- * @param {string} partName - display text of the part, read from its select option.
+ * @param {string} partName - display text of the part, read from its checkbox's data attribute.
  * @param {string} parentBarcode
  * @param {Function} callback - called once the move attempt completes (success or failure).
  * @returns {void}

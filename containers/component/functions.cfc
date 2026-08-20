@@ -3051,6 +3051,7 @@ already filed away several levels deep.
 					specimen_part.preserve_method,
 					coll_object.lot_count,
 					coll_object.lot_count_modifier,
+					coll_object_remark.coll_object_remarks AS part_remarks,
 					part_container.container_id AS part_container_id
 				FROM
 					specimen_part
@@ -3058,6 +3059,7 @@ already filed away several levels deep.
 						AND coll_obj_cont_hist.current_container_fg = 1
 					JOIN container part_container ON coll_obj_cont_hist.container_id = part_container.container_id
 					LEFT JOIN coll_object ON coll_object.collection_object_id = specimen_part.collection_object_id
+					LEFT JOIN coll_object_remark ON coll_object_remark.collection_object_id = specimen_part.collection_object_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
 					<cfif arguments.noBarcode>
@@ -3092,91 +3094,81 @@ already filed away several levels deep.
 					Type status: #encodeForHtml(ValueList(local.queryTypeStatus.type_status, ", "))#.
 				</cfif>
 			</p>
-				<ul class="list-unstyled small text-muted my-2">
-					<cfloop query="local.queryParts">
-						<cfquery name="local.queryBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-							SELECT label, barcode, container_type, LEVEL AS lvl
-							FROM container
-							START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryParts.part_container_id#">
-							CONNECT BY PRIOR parent_container_id = container_id
-							ORDER BY lvl DESC
-						</cfquery>
-						<cfset local.thisPartInfo = local.partInfo[local.queryParts.part_id]>
-						<li class="mb-1">
-							<strong>#encodeForHtml(local.queryParts.part_name)#</strong>:
-							<cfloop query="local.queryBreadcrumb">
-								<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
-								<cfif len(trim(local.crumbLabel)) EQ 0>
-									<cfset local.crumbLabel = local.queryBreadcrumb.label>
-								</cfif>
-								#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
-							</cfloop>
-							<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
-							<span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.thisPartInfo.current_parent_barcode)#"></span>
-							<cfif local.thisPartInfo.is_proxy>
-								<div class="text-muted">This part's #encodeForHtml(local.thisPartInfo.leaf_type)# is held inside a #encodeForHtml(local.thisPartInfo.move_type)# (a single-occupant container) -- moving this part will move the #encodeForHtml(local.thisPartInfo.move_type)#, not the #encodeForHtml(local.thisPartInfo.leaf_type)# directly.</div>
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
-				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
-					<div class="col-12 col-md-5 mb-2">
-						<label for="part_name" class="data-entry-label">Part</label>
-						<select name="part_name" id="part_name" class="data-entry-select reqdClr" required aria-required="true">
+				<div class="table-responsive">
+					<table class="table table-sm table-striped" id="partsTable">
+						<thead>
+							<tr>
+								<th><span class="sr-only">Include in move</span></th>
+								<th>Part</th>
+								<th>Prep. Type</th>
+								<th>Lot Count</th>
+								<th>Modifier</th>
+								<th>Remarks</th>
+								<th>Current Placement</th>
+								<th>Placement</th>
+							</tr>
+						</thead>
+						<tbody>
 							<cfloop query="local.queryParts">
-								<cfset local.optionLabel = local.queryParts.part_name>
-								<cfif len(trim(local.queryParts.preserve_method)) GT 0>
-									<cfset local.optionLabel = "#local.optionLabel# (#local.queryParts.preserve_method#)">
-								</cfif>
-								<cfif len(trim(local.queryParts.lot_count)) GT 0>
-									<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
-								</cfif>
-								<cfif len(local.partInfo[local.queryParts.part_id].current_parent_barcode) GT 0>
-									<cfset local.optionLabel = "#local.optionLabel# [#local.partInfo[local.queryParts.part_id].current_parent_barcode#]">
-								</cfif>
-								<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
+								<cfset local.thisPartInfo = local.partInfo[local.queryParts.part_id]>
+								<cfquery name="local.queryBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+									SELECT label, barcode, container_type, LEVEL AS lvl
+									FROM container
+									START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryParts.part_container_id#">
+									CONNECT BY PRIOR parent_container_id = container_id
+									ORDER BY lvl DESC
+								</cfquery>
+								<tr>
+									<td>
+										<input type="checkbox" class="form-check-input part-select-checkbox" id="partSelect_#local.queryParts.part_id#" value="#local.queryParts.part_id#" data-part-name="#encodeForHtml(local.queryParts.part_name)#" onchange="onPartSelectionChange(this);">
+										<label class="sr-only" for="partSelect_#local.queryParts.part_id#">Include #encodeForHtml(local.queryParts.part_name)# in move</label>
+									</td>
+									<td>#encodeForHtml(local.queryParts.part_name)#</td>
+									<td>#encodeForHtml(local.queryParts.preserve_method)#</td>
+									<td>#encodeForHtml(local.queryParts.lot_count)#</td>
+									<td>#encodeForHtml(local.queryParts.lot_count_modifier)#</td>
+									<td>#encodeForHtml(local.queryParts.part_remarks)#</td>
+									<td>
+										<cfif len(trim(local.thisPartInfo.current_parent_barcode)) GT 0>
+											#encodeForHtml(local.thisPartInfo.current_parent_barcode)#
+										<cfelse>
+											<span class="text-muted">unplaced</span>
+										</cfif>
+									</td>
+									<td><span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.thisPartInfo.current_parent_barcode)#"></span></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td colspan="7" class="small text-muted pt-0 pb-2">
+										<cfloop query="local.queryBreadcrumb">
+											<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
+											<cfif len(trim(local.crumbLabel)) EQ 0>
+												<cfset local.crumbLabel = local.queryBreadcrumb.label>
+											</cfif>
+											#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
+										</cfloop>
+										<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
+										<cfif local.thisPartInfo.is_proxy>
+											<div>This part's #encodeForHtml(local.thisPartInfo.leaf_type)# is held inside a #encodeForHtml(local.thisPartInfo.move_type)# (a single-occupant container) -- moving this part will move the #encodeForHtml(local.thisPartInfo.move_type)#, not the #encodeForHtml(local.thisPartInfo.leaf_type)# directly.</div>
+										</cfif>
+									</td>
+								</tr>
 							</cfloop>
-						</select>
-					</div>
-					<cfif local.queryParts.recordcount GT 1>
-						<div class="col-12 col-md-5 mb-2">
-							<div class="form-check">
-								<input type="checkbox" class="form-check-input" id="useSecondPart" onchange="toggleSecondPart();">
-								<label class="form-check-label" for="useSecondPart">Move a second part with this one</label>
-							</div>
-							<div id="secondPartWrap" style="display:none;">
-								<label for="part_name_2" class="data-entry-label">Part 2</label>
-								<select name="part_name_2" id="part_name_2" class="data-entry-select">
-									<option value=""></option>
-									<cfloop query="local.queryParts">
-										<cfset local.optionLabel = local.queryParts.part_name>
-										<cfif len(trim(local.queryParts.preserve_method)) GT 0>
-											<cfset local.optionLabel = "#local.optionLabel# (#local.queryParts.preserve_method#)">
-										</cfif>
-										<cfif len(trim(local.queryParts.lot_count)) GT 0>
-											<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
-										</cfif>
-										<cfif len(local.partInfo[local.queryParts.part_id].current_parent_barcode) GT 0>
-											<cfset local.optionLabel = "#local.optionLabel# [#local.partInfo[local.queryParts.part_id].current_parent_barcode#]">
-										</cfif>
-										<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
-									</cfloop>
-								</select>
-								<span id="part2Badge" role="status"></span>
-							</div>
-						</div>
-					</cfif>
-					<div class="col-12 col-md-2 mb-2 d-flex align-items-start">
-						<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary" onclick="openNewPartDialog();">New Part</button>
-					</div>
+						</tbody>
+					</table>
 				</div>
+				<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary my-2" onclick="openNewPartDialog();">New Part</button>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
 					<h2 class="h5 col-12 mb-1">Place into Container:</h2>
 					<div class="col-12 col-xl-4 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Container to place into</label>
-						<div class="d-flex align-items-center">
-							<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
-							<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1" onclick="openParentContainerPicker();">Choose...</button>
+						<div class="d-flex align-items-center form-row">
+							<div class="col-8 pr-1">
+								<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
+							</div>
+							<div class="col-4 pl-0">
+								<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary" onclick="openParentContainerPicker();">Choose...</button>
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-xl-3 mb-2">
@@ -3201,7 +3193,6 @@ already filed away several levels deep.
 					</div>
 					<div class="col-12">
 						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
-						<span id="part1Badge" role="status"></span>
 					</div>
 				</div>
 			</cfif>

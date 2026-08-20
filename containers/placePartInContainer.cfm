@@ -25,7 +25,38 @@ limitations under the License.
 <cfparam name="url.collection_id" default="">
 <cfparam name="url.other_id_type" default="catalog_number">
 <cfparam name="url.oidnum" default="">
+<cfparam name="url.guid" default="">
 <cfparam name="url.execute" default="">
+
+<cfset variables.prefillCollectionId = url.collection_id>
+<cfset variables.prefillOtherIdType = url.other_id_type>
+<cfset variables.prefillOidnum = url.oidnum>
+<cfset variables.prefillExecute = url.execute>
+
+<!--- A guid is a friendlier deep-link than the raw collection_id/other_id_type/oidnum triple --
+	resolve it to those same prefill values the same way the real /guid/ route resolves one
+	(guid/handler.cfm), via the flat/filtered_flat view chosen per session.flatTableName, rather
+	than re-deriving a match by splitting and joining on institution_acronym/collection_cde. --->
+<cfif len(trim(url.guid)) GT 0>
+	<cfquery name="variables.qGuidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT collection_object_id
+		FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+		WHERE guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(url.guid)#">
+	</cfquery>
+	<cfif variables.qGuidLookup.recordcount EQ 1>
+		<cfquery name="variables.qGuidCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT collection_id, cat_num
+			FROM cataloged_item
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.qGuidLookup.collection_object_id#">
+		</cfquery>
+		<cfif variables.qGuidCatItem.recordcount EQ 1>
+			<cfset variables.prefillCollectionId = variables.qGuidCatItem.collection_id>
+			<cfset variables.prefillOtherIdType = "catalog_number">
+			<cfset variables.prefillOidnum = variables.qGuidCatItem.cat_num>
+			<cfset variables.prefillExecute = "true">
+		</cfif>
+	</cfif>
+</cfif>
 
 <cfquery name="variables.qCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT collection, collection_id FROM collection ORDER BY collection
@@ -45,9 +76,9 @@ limitations under the License.
 		<div class="col-12">
 			<h1 class="h2 ml-1 mb-1" id="placePartHeading">Put Parts in Containers</h1>
 			<p class="small text-muted">
-				Find a cataloged item's specimen parts, then place one -- or two together -- into a
-				parent container by barcode. Parts already inside a barcoded container show that
-				container's barcode in the parts list.
+				Find a cataloged item's specimen parts, check off any that need to move, then place
+				them into a container together by barcode. Each part shows its current placement, so
+				parts already accounted for can be left unchecked.
 			</p>
 
 			<div class="row border rounded bg-light mx-0 my-2 pt-2 pb-1 px-2">
@@ -57,7 +88,7 @@ limitations under the License.
 						<option value=""></option>
 						<cfloop query="variables.qCollections">
 							<cfset variables.collectionSelected = "">
-							<cfif ToString(variables.qCollections.collection_id) EQ url.collection_id>
+							<cfif ToString(variables.qCollections.collection_id) EQ variables.prefillCollectionId>
 								<cfset variables.collectionSelected = "selected">
 							</cfif>
 							<option value="#variables.qCollections.collection_id#" #variables.collectionSelected#>#encodeForHtml(variables.qCollections.collection)#</option>
@@ -68,13 +99,13 @@ limitations under the License.
 					<label for="other_id_type" class="data-entry-label">ID Type</label>
 					<select name="other_id_type" id="other_id_type" class="data-entry-select" onchange="searchSpecimenParts();">
 						<cfset variables.catalogSelected = "">
-						<cfif url.other_id_type EQ "catalog_number">
+						<cfif variables.prefillOtherIdType EQ "catalog_number">
 							<cfset variables.catalogSelected = "selected">
 						</cfif>
 						<option value="catalog_number" #variables.catalogSelected#>Catalog Number</option>
 						<cfloop query="variables.qOtherIdTypes">
 							<cfset variables.otherIdSelected = "">
-							<cfif variables.qOtherIdTypes.other_id_type EQ url.other_id_type>
+							<cfif variables.qOtherIdTypes.other_id_type EQ variables.prefillOtherIdType>
 								<cfset variables.otherIdSelected = "selected">
 							</cfif>
 							<option value="#encodeForHtml(variables.qOtherIdTypes.other_id_type)#" #variables.otherIdSelected#>#encodeForHtml(variables.qOtherIdTypes.other_id_type)#</option>
@@ -83,7 +114,7 @@ limitations under the License.
 				</div>
 				<div class="col-12 col-md-3 mb-2">
 					<label for="oidnum" class="data-entry-label">ID Number</label>
-					<input type="text" name="oidnum" id="oidnum" class="data-entry-input reqdClr" required aria-required="true" value="#encodeForHtml(url.oidnum)#" onchange="searchSpecimenParts();">
+					<input type="text" name="oidnum" id="oidnum" class="data-entry-input reqdClr" required aria-required="true" value="#encodeForHtml(variables.prefillOidnum)#" onchange="searchSpecimenParts();">
 				</div>
 				<div class="col-12 col-md-2 mb-2 d-flex align-items-end">
 					<button type="button" id="findPartsBtn" class="btn btn-xs btn-primary" onclick="searchSpecimenParts();">Find Parts</button>
@@ -112,7 +143,7 @@ limitations under the License.
 
 	<script>
 		$(document).ready(function() {
-			<cfif len(trim(url.collection_id)) GT 0 AND len(trim(url.oidnum)) GT 0 AND url.execute EQ "true">
+			<cfif len(trim(variables.prefillCollectionId)) GT 0 AND len(trim(variables.prefillOidnum)) GT 0 AND variables.prefillExecute EQ "true">
 				searchSpecimenParts();
 			</cfif>
 		});
