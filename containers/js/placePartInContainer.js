@@ -59,6 +59,7 @@ function searchSpecimenParts() {
 		placePartState.currentParentType = '';
 		area.html(html);
 		previewCurrentPlacement();
+		updateMoveButtonState();
 	}).fail(function() {
 		area.html('<p class="text-danger">Error: could not reach the server.</p>');
 	});
@@ -323,6 +324,7 @@ function updateMoveButtonState() {
 		ok = ok && placePartState.retypeChecked;
 	}
 	$('#moveBtn').prop('disabled', !ok);
+	$('#moveButtonHint').text(selected.length === 0 ? 'Select one or more parts to move.' : '');
 }
 
 /**

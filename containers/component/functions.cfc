@@ -3277,7 +3277,6 @@ can't be relied on for this).
 					<div class="col-12 col-xl-3 mb-2">
 						<span class="data-entry-label">Container Type</span>
 						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
-						<div id="dispositionHint" class="small text-muted"></div>
 					</div>
 					<div class="col-12 col-xl-5 mb-2">
 						<span class="data-entry-label">Change Type</span>
@@ -3303,9 +3302,11 @@ can't be relied on for this).
 								<option value="#encodeForHtml(local.qDispositions.coll_obj_disposition)#">#encodeForHtml(local.qDispositions.coll_obj_disposition)#</option>
 							</cfloop>
 						</select>
+						<div id="dispositionHint" class="small text-muted"></div>
 					</div>
 					<div class="col-12">
 						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
+						<span id="moveButtonHint" class="small text-muted ml-1"></span>
 					</div>
 				</div>
 			</cfif>
