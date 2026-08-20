@@ -1,5 +1,5 @@
 <!---
-containers/browseContainer.cfm
+containers/browseContainers.cfm
 
 Copyright 2021 President and Fellows of Harvard College
 
@@ -97,11 +97,11 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<ul>
-							<li><a href = "/containers/browseContainer.cfm?action=qc">Quality Control Containers</a></li>
+							<li><a href = "/containers/browseContainers.cfm?action=qc">Quality Control Containers</a></li>
 							<li>List fixtures starting with:</li>
 							<ul style="padding-left: 2em; line-height: 1.5em;">
 								<cfloop query="fixturePrefixes">
-									<li><a href = "/containers/browseContainer.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
+									<li><a href = "/containers/browseContainers.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
 								</cfloop>
 							</ul>
 						</ul>
