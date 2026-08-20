@@ -67,12 +67,12 @@ a request timing out mid-run:
 	<cfset variables.action = form.formAction>
 </cfif>
 
-<cfset variables.containerFunctions = createObject("component", "containers.component.functions")>
+<cfinclude template="/containers/component/functions.cfc" runOnce="true">
 
 <!--- Validated below, not just used for the dropdowns -- these values later get embedded
 	unescaped into an inline <script> block, and serializeJSON won't neutralize a literal
 	"</script>" in a tampered form field. --->
-<cfset variables.qAllowedTypes = variables.containerFunctions.getBulkRetypeableContainerTypes()>
+<cfset variables.qAllowedTypes = getBulkRetypeableContainerTypes()>
 <cfset variables.allowedTypesList = ValueList(variables.qAllowedTypes.container_type)>
 
 <cfset variables.rangeError = "">
@@ -235,7 +235,7 @@ a request timing out mid-run:
 		</section>
 
 	<cfelseif variables.action EQ "preview">
-		<cfset variables.preview = variables.containerFunctions.previewBulkRetypeRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode))>
+		<cfset variables.preview = previewBulkRetypeRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode))>
 		<cfset variables.matchingOrigTypeCount = 0>
 		<cfset variables.otherTypesCount = 0>
 		<cfloop array="#variables.preview.typeCounts#" index="variables.typeRow">
@@ -245,8 +245,8 @@ a request timing out mid-run:
 				<cfset variables.otherTypesCount = variables.otherTypesCount + variables.typeRow.type_count>
 			</cfif>
 		</cfloop>
-		<cfset variables.eligibleContainers = variables.containerFunctions.getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
-		<cfset variables.propertySummary = variables.containerFunctions.summarizeContainerProperties(variables.eligibleContainers)>
+		<cfset variables.eligibleContainers = getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
+		<cfset variables.propertySummary = summarizeContainerProperties(variables.eligibleContainers)>
 		<cfset variables.descriptionPlural = "">
 		<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>
 			<cfset variables.descriptionPlural = "s">
@@ -341,8 +341,8 @@ a request timing out mid-run:
 
 	<cfelseif variables.action EQ "dataEntry">
 		<cfset variables.MAX_LISTED_CANDIDATES = 200>
-		<cfset variables.eligibleContainers = variables.containerFunctions.getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
-		<cfset variables.propertySummary = variables.containerFunctions.summarizeContainerProperties(variables.eligibleContainers)>
+		<cfset variables.eligibleContainers = getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
+		<cfset variables.propertySummary = summarizeContainerProperties(variables.eligibleContainers)>
 		<cfset variables.descriptionPlural = "">
 		<cfif variables.propertySummary.descriptionDistinctCount NEQ 1>
 			<cfset variables.descriptionPlural = "s">
@@ -504,7 +504,7 @@ a request timing out mid-run:
 
 	<cfelseif variables.action EQ "test" OR variables.action EQ "apply">
 		<cfset variables.MAX_DETAILED_ROWS = 200>
-		<cfset variables.containers = variables.containerFunctions.getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
+		<cfset variables.containers = getContainersInRange(barcode_prefix=form.barcode_prefix, begin_barcode=val(form.begin_barcode), end_barcode=val(form.end_barcode), orig_container_type=form.origContType)>
 		<cfset variables.okCount = 0>
 		<cfset variables.warnCount = 0>
 		<cfset variables.blockCount = 0>
@@ -515,7 +515,7 @@ a request timing out mid-run:
 		<cfset variables.updatedContainerRows = ArrayNew(1)>
 
 		<cfloop from="1" to="#ArrayLen(variables.containers)#" index="variables.i">
-			<cfset variables.validationJson = variables.containerFunctions.validateContainerRetype(container_id=variables.containers[variables.i].container_id, new_container_type=form.newContType)>
+			<cfset variables.validationJson = validateContainerRetype(container_id=variables.containers[variables.i].container_id, new_container_type=form.newContType)>
 			<cfset variables.containers[variables.i]["validationJson"] = variables.validationJson>
 			<cfset variables.validation = deserializeJSON(variables.validationJson)>
 			<cfset variables.containers[variables.i]["outcome"] = variables.validation.severity>
@@ -533,7 +533,7 @@ a request timing out mid-run:
 			</cfif>
 
 			<cfif variables.action EQ "apply" AND variables.validation.allowed>
-				<cfset variables.applyResultJson = variables.containerFunctions.applyBulkRetypeContainer(
+				<cfset variables.applyResultJson = applyBulkRetypeContainer(
 					container_id=variables.containers[variables.i].container_id,
 					new_container_type=form.newContType,
 					description_value=form.description,
