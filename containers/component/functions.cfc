@@ -2996,27 +2996,29 @@ convention of rendering a whole form region server-side rather than having JS as
 					Type status: #encodeForHtml(ValueList(local.queryTypeStatus.type_status, ", "))#.
 				</cfif>
 			</p>
-				<cfif local.queryParts.recordcount EQ 1>
-					<cfquery name="local.queryBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-						SELECT label, barcode, container_type, LEVEL AS lvl
-						FROM container
-						START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryParts.part_container_id#">
-						CONNECT BY PRIOR parent_container_id = container_id
-						ORDER BY lvl DESC
-					</cfquery>
-					<p class="small text-muted">
-						Current container:
-						<cfloop query="local.queryBreadcrumb">
-							<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
-							<cfif len(trim(local.crumbLabel)) EQ 0>
-								<cfset local.crumbLabel = local.queryBreadcrumb.label>
-							</cfif>
-							#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
-						</cfloop>
-						<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
-						<span id="currentPlacementBadge" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.queryParts.current_parent_barcode)#"></span>
-					</p>
-				</cfif>
+				<ul class="list-unstyled small text-muted my-2">
+					<cfloop query="local.queryParts">
+						<cfquery name="local.queryBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+							SELECT label, barcode, container_type, LEVEL AS lvl
+							FROM container
+							START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryParts.part_container_id#">
+							CONNECT BY PRIOR parent_container_id = container_id
+							ORDER BY lvl DESC
+						</cfquery>
+						<li class="mb-1">
+							<strong>#encodeForHtml(local.queryParts.part_name)#</strong>:
+							<cfloop query="local.queryBreadcrumb">
+								<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
+								<cfif len(trim(local.crumbLabel)) EQ 0>
+									<cfset local.crumbLabel = local.queryBreadcrumb.label>
+								</cfif>
+								#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
+							</cfloop>
+							<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
+							<span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.queryParts.current_parent_barcode)#"></span>
+						</li>
+					</cfloop>
+				</ul>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
 					<div class="col-12 col-md-5 mb-2">
 						<label for="part_name" class="data-entry-label">Part</label>

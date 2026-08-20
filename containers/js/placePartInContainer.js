@@ -47,23 +47,22 @@ function searchSpecimenParts() {
 }
 
 /**
- * When exactly one part was found, its current-container breadcrumb is shown with its own
- * placement badge -- checks that part's existing placement against its actual current parent
- * (reusing the same preflight/badge convention as a proposed move), so a pre-existing placement
- * problem is visible without having to enter a Parent Unique Identifier first.
+ * Each found part's current-container breadcrumb is shown with its own placement badge -- checks
+ * that part's existing placement against its actual current parent (reusing the same
+ * preflight/badge convention as a proposed move), so a pre-existing placement problem is visible
+ * without having to enter a Parent Unique Identifier first.
  * @returns {void}
  */
 function previewCurrentPlacement() {
-	var badge = $('#currentPlacementBadge');
-	if (!badge.length) {
-		return;
-	}
-	var partId = badge.data('partId');
-	var currentParentBarcode = badge.data('currentParentBarcode');
-	if (!partId || !currentParentBarcode) {
-		return;
-	}
-	runPartPreflight(partId, currentParentBarcode, 'currentPlacementBadge', function() {});
+	$('[id^="currentPlacementBadge_"]').each(function() {
+		var badge = $(this);
+		var partId = badge.data('partId');
+		var currentParentBarcode = badge.data('currentParentBarcode');
+		if (!partId || !currentParentBarcode) {
+			return;
+		}
+		runPartPreflight(partId, currentParentBarcode, badge.attr('id'), function() {});
+	});
 }
 
 /**
