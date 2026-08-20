@@ -62,16 +62,12 @@ function toggleSecondPart() {
 }
 
 /**
- * Parent Barcode change handler -- either previews or, if "Submit on Parent Barcode Change" is
- * checked, immediately commits.
+ * Parent Barcode change handler -- previews the placement (and any pending retype) without
+ * committing anything.
  * @returns {void}
  */
 function onParentBarcodeChange() {
-	if ($('#submitOnChange').prop('checked')) {
-		commitPlacement();
-	} else {
-		previewPlacement();
-	}
+	previewPlacement();
 }
 
 /**

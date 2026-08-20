@@ -2914,8 +2914,9 @@ convention of rendering a whole form region server-side rather than having JS as
 	<cfoutput>
 	<cftry>
 		<cfquery name="local.queryCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT cataloged_item.collection_object_id
+			SELECT cataloged_item.collection_object_id, cataloged_item.cat_num, collection.collection_cde, collection.institution_acronym
 			FROM cataloged_item
+				JOIN collection ON cataloged_item.collection_id = collection.collection_id
 				<cfif arguments.other_id_type NEQ "catalog_number">
 					JOIN coll_obj_other_id_num ON cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
 				</cfif>
@@ -2934,6 +2935,22 @@ convention of rendering a whole form region server-side rather than having JS as
 			<p class="text-danger">#local.queryCatItem.recordcount# specimens match that identifier -- it is not unique within this collection.</p>
 		<cfelse>
 			<cfset local.catalogedItemId = local.queryCatItem.collection_object_id>
+			<cfset local.guid = "#local.queryCatItem.institution_acronym#:#local.queryCatItem.collection_cde#:#local.queryCatItem.cat_num#">
+			<cfquery name="local.queryId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT MIN(scientific_name) AS scientific_name
+				FROM identification
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
+					AND accepted_id_fg = 1
+			</cfquery>
+			<cfquery name="local.queryTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT type_status
+				FROM citation
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
+					AND type_status IS NOT NULL
+				ORDER BY type_status
+			</cfquery>
 			<cfquery name="local.queryParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
 					specimen_part.collection_object_id AS part_id,
@@ -2959,8 +2976,20 @@ convention of rendering a whole form region server-side rather than having JS as
 				<p class="text-muted">No parts found for this specimen.</p>
 			<cfelse>
 				<cfset local.qNewTypes = getBulkRetypeableContainerTypes()>
+				<cfset local.partWord = "parts">
+				<cfif local.queryParts.recordcount EQ 1>
+					<cfset local.partWord = "part">
+				</cfif>
 				<input type="hidden" id="catalogedItemId" value="#local.catalogedItemId#">
-				<p>#local.queryParts.recordcount# part(s) found.</p>
+				<p>
+				#local.queryParts.recordcount# #local.partWord# found for <a href="/guid/#encodeForUrl(local.guid)#" target="_blank">#encodeForHtml(local.guid)#</a>.
+				<cfif len(trim(local.queryId.scientific_name)) GT 0>
+					Identified as <em>#encodeForHtml(local.queryId.scientific_name)#</em>.
+				</cfif>
+				<cfif local.queryTypeStatus.recordcount GT 0>
+					Type status: #encodeForHtml(ValueList(local.queryTypeStatus.type_status, ", "))#.
+				</cfif>
+			</p>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
 					<div class="col-12 col-md-5 mb-2">
 						<label for="part_name" class="data-entry-label">Part</label>
@@ -2974,41 +3003,44 @@ convention of rendering a whole form region server-side rather than having JS as
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-5 mb-2">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="useSecondPart" onchange="toggleSecondPart();">
-							<label class="form-check-label" for="useSecondPart">Move a second part with this one</label>
+					<cfif local.queryParts.recordcount GT 1>
+						<div class="col-12 col-md-5 mb-2">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="useSecondPart" onchange="toggleSecondPart();">
+								<label class="form-check-label" for="useSecondPart">Move a second part with this one</label>
+							</div>
+							<div id="secondPartWrap" style="display:none;">
+								<label for="part_name_2" class="data-entry-label">Part 2</label>
+								<select name="part_name_2" id="part_name_2" class="data-entry-select">
+									<option value=""></option>
+									<cfloop query="local.queryParts">
+										<cfset local.optionLabel = local.queryParts.part_name>
+										<cfif len(local.queryParts.current_parent_barcode) GT 0>
+											<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
+										</cfif>
+										<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
+									</cfloop>
+								</select>
+								<span id="part2Badge" role="status"></span>
+							</div>
 						</div>
-						<div id="secondPartWrap" style="display:none;">
-							<label for="part_name_2" class="data-entry-label">Part 2</label>
-							<select name="part_name_2" id="part_name_2" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="local.queryParts">
-									<cfset local.optionLabel = local.queryParts.part_name>
-									<cfif len(local.queryParts.current_parent_barcode) GT 0>
-										<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
-									</cfif>
-									<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
-								</cfloop>
-							</select>
-						</div>
-					</div>
+					</cfif>
 					<div class="col-12 col-md-2 mb-2 d-flex align-items-start">
 						<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary" onclick="openNewPartDialog();">New Part</button>
 					</div>
 				</div>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
-					<div class="col-12 col-md-4 mb-2">
+					<h2 class="h5 col-12 mb-1">Place into Container:</h2>
+					<div class="col-12 col-xl-4 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
 						<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
-						<div class="form-check mt-1">
-							<input type="checkbox" class="form-check-input" id="submitOnChange">
-							<label class="form-check-label" for="submitOnChange">Submit on Parent Barcode Change</label>
-						</div>
 					</div>
-					<div class="col-12 col-md-4 mb-2">
+					<div class="col-12 col-xl-4 mb-2">
 						<span class="data-entry-label">Parent Container Type</span>
-						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
+						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small> <span id="part1Badge" role="status"></span></div>
+					</div>
+					<div class="col-12 col-xl-4 mb-2">
+						<span class="data-entry-label">Change Type</span>
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" id="keepCurrentType" checked onchange="onKeepCurrentTypeChange();">
 							<label class="form-check-label" for="keepCurrentType">Keep current type</label>
@@ -3019,11 +3051,7 @@ convention of rendering a whole form region server-side rather than having JS as
 								<option value="#encodeForHtml(local.qNewTypes.container_type)#">#encodeForHtml(local.qNewTypes.container_type)#</option>
 							</cfloop>
 						</select>
-					</div>
-					<div class="col-12 col-md-4 mb-2">
-						<div id="part1Badge" class="mb-1" role="status"></div>
-						<div id="part2Badge" class="mb-1" role="status"></div>
-						<div id="retypeBadge" class="mb-1" role="status"></div>
+						<span id="retypeBadge" role="status"></span>
 					</div>
 					<div class="col-12">
 						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
