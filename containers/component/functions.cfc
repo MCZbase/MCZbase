@@ -2980,13 +2980,11 @@ already filed away several levels deep.
 
 <!---
 Function getExpectedDisposition. Works out what disposition a part is expected to have once placed
-into a given container, for containers/placePartInContainer.cfm's disposition guidance: an
-in-collection disposition is expected once a part is placed below campus level (excluding the
-"external" container_type entirely, since containers held externally -- on loan, at a lab, etc. --
-aren't expected to carry an in-collection disposition regardless of rank), and a deaccessioned
-disposition is expected specifically for the container named "Deaccessioned" -- checked by label,
-not container_type, since "external" also covers other, non-deaccessioned containers (loans, etc.)
-that shouldn't get this hint.
+into a given container, for containers/placePartInContainer.cfm's disposition guidance: a
+deaccessioned disposition is expected once a part is placed into an "external" container_type --
+Deaccessioned is the canonical container of this type, so checking container_type is the correct way
+to identify this case, not the container's label -- and an in-collection disposition is expected once
+a part is placed below campus level in any other (non-external) container.
 @param container_id the candidate destination container.
 @return a struct: {expected_disposition_hint: ""|"in_collection"|"deaccessioned", message}.
 --->
@@ -3007,22 +3005,20 @@ that shouldn't get this hint.
 		<cfreturn local.retval>
 	</cfif>
 
-	<cfif trim(local.queryContainer.label) EQ "Deaccessioned">
+	<cfif local.queryContainer.container_type EQ "external">
 		<cfset local.retval["expected_disposition_hint"] = "deaccessioned">
-		<cfset local.retval["message"] = "This is the Deaccessioned location -- a deaccessioned disposition is expected.">
+		<cfset local.retval["message"] = "This container is external to the collection -- a deaccessioned disposition is expected.">
 		<cfreturn local.retval>
 	</cfif>
 
-	<cfif local.queryContainer.container_type NEQ "external">
-		<cfquery name="local.queryCampus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT rank_order FROM ctcontainer_type WHERE container_type = 'campus'
-		</cfquery>
-		<cfif local.queryCampus.recordcount GT 0
-			AND isNumeric(local.queryContainer.rank_order) AND isNumeric(local.queryCampus.rank_order)
-			AND val(local.queryContainer.rank_order) GT val(local.queryCampus.rank_order)>
-			<cfset local.retval["expected_disposition_hint"] = "in_collection">
-			<cfset local.retval["message"] = "This container is below campus level -- an in-collection disposition is expected.">
-		</cfif>
+	<cfquery name="local.queryCampus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT rank_order FROM ctcontainer_type WHERE container_type = 'campus'
+	</cfquery>
+	<cfif local.queryCampus.recordcount GT 0
+		AND isNumeric(local.queryContainer.rank_order) AND isNumeric(local.queryCampus.rank_order)
+		AND val(local.queryContainer.rank_order) GT val(local.queryCampus.rank_order)>
+		<cfset local.retval["expected_disposition_hint"] = "in_collection">
+		<cfset local.retval["message"] = "This container is below campus level -- an in-collection disposition is expected.">
 	</cfif>
 
 	<cfreturn local.retval>
