@@ -2887,23 +2887,6 @@ Returns status JSON and never aborts on trigger errors.
 </cffunction>
 
 <!---
-Function getPartsForContainerPlacementHTML. Resolves a cataloged item (by collection plus either
-an other-ID type/value or a catalog number), then renders the specimen-context line and the whole
-placement form -- Part selects (each option showing the barcode of whatever container currently
-holds that part, if any), New Part button, Parent Barcode field, parent-retype controls (current
-type, keep-current-type checkbox, New Container Type select excluding guarded types), badge
-placeholders, and Move button -- as one HTML fragment for containers/placePartInContainer.cfm to
-drop into its results area. Matches the specimens/component/functions.cfc getEditPartsHTML
-convention of rendering a whole form region server-side rather than having JS assemble it.
-@param collection_id the collection to search within.
-@param other_id_type the other-ID type to match oidnum against, or the literal "catalog_number".
-@param oidnum the ID number/value to match.
-@param noBarcode when true, only include parts whose current container has no parent container
-	(i.e. not yet placed inside another, barcoded container).
-@param noSubsample when true, exclude parts that are themselves subsamples of another part.
-@return HTML (plain text, not JSON) -- either an error message, or the full placement form.
---->
-<!---
 Function resolvePartCurrentContainer. Resolves a specimen part's actual current container to move
 for placement purposes -- the part's own "collection object" leaf container, unless that leaf's
 immediate parent is a "proxy"-role container (a single-occupant container type, e.g. pin/slide/
@@ -3088,6 +3071,26 @@ can't be relied on for this).
 	</cftry>
 </cffunction>
 
+<!---
+Function getPartsForContainerPlacementHTML. Resolves a cataloged item (by collection plus either
+an other-ID type/value or a catalog number), then renders the specimen-context line (guid,
+identification, type status) and the whole placement form as one HTML fragment for
+containers/placePartInContainer.cfm to drop into its results area: a table of every part found
+(checkbox to include it in the move, name, preparation type, combined lot count, disposition,
+remarks, current placement, and its own placement badge, with a breadcrumb-trail-and-Details-button
+line below each row), a New Part button, the Parent Barcode field plus a container-picker Choose...
+button, parent-retype controls (current type, keep-current-type checkbox, New Container Type select
+excluding guarded types), a Change Disposition of Selected Parts picklist with expected-disposition
+guidance, and the Move button. Matches the specimens/component/functions.cfc getEditPartsHTML
+convention of rendering a whole form region server-side rather than having JS assemble it.
+@param collection_id the collection to search within.
+@param other_id_type the other-ID type to match oidnum against, or the literal "catalog_number".
+@param oidnum the ID number/value to match.
+@param noBarcode when true, only include parts whose current container has no parent container
+	(i.e. not yet placed inside another, barcoded container).
+@param noSubsample when true, exclude parts that are themselves subsamples of another part.
+@return HTML (plain text, not JSON) -- either an error message, or the full placement form.
+--->
 <cffunction name="getPartsForContainerPlacementHTML" access="remote" returntype="string" returnformat="plain" output="false">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
