@@ -3044,7 +3044,7 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 	<cfoutput>
 	<cftry>
 		<cfquery name="local.queryCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT cataloged_item.collection_object_id, cataloged_item.cat_num, collection.collection_cde, collection.institution_acronym
+			SELECT DISTINCT cataloged_item.collection_object_id, cataloged_item.cat_num, collection.collection_cde, collection.institution_acronym
 			FROM cataloged_item
 				JOIN collection ON cataloged_item.collection_id = collection.collection_id
 				<cfif arguments.other_id_type NEQ "catalog_number">
@@ -3195,9 +3195,11 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 						</tbody>
 					</table>
 				</div>
-				<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary my-2" onclick="openNewPartDialog();">New Part</button>
+				<div class="text-right my-2">
+					<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary" onclick="openNewPartDialog();">Add a New Part to #encodeForHtml(local.guid)#</button>
+				</div>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
-					<h2 class="h5 col-12 mb-1">Place into Container:</h2>
+					<h2 class="h5 col-12 mb-1">Place selected parts (<span id="selectedPartCount">0</span>) into Container:</h2>
 					<div class="col-12 col-xl-4 mb-2">
 						<label for="parent_barcode" class="data-entry-label">Container to place into</label>
 						<div class="d-flex align-items-center form-row">

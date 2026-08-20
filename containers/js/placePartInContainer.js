@@ -309,6 +309,7 @@ function firstSelectedParentContainerId() {
  */
 function updateMoveButtonState() {
 	var selected = $('.part-select-checkbox:checked');
+	$('#selectedPartCount').text(selected.length);
 	var ok = selected.length > 0;
 	selected.each(function() {
 		var preflight = placePartState.partPreflights[$(this).val()];
