@@ -311,21 +311,23 @@ function commitPlacement() {
 	if (!parentBarcode || !selected.length) {
 		return;
 	}
-	var messages = [];
+	var messageList = $('<ul class="mb-0 pl-3"></ul>');
 	selected.each(function() {
-		var preflight = placePartState.partPreflights[$(this).val()];
+		var checkbox = $(this);
+		var preflight = placePartState.partPreflights[checkbox.val()];
 		if (!preflight) {
 			return;
 		}
+		var partName = checkbox.data('partName') || 'this part';
 		if (preflight.severity === 'warn') {
-			messages.push('This placement has a warning -- proceed anyway?');
+			messageList.append($('<li></li>').text('This part (' + partName + ') has a placement warning -- proceed anyway?'));
 		}
 		if (preflight.current_depth > 2) {
-			messages.push('This part is currently filed several levels below the root/institution container. Move it from its current container?');
+			messageList.append($('<li></li>').text('This part (' + partName + ') is currently filed several levels below the root/institution container. Move it from its current container?'));
 		}
 	});
-	if (messages.length) {
-		confirmDialog(messages.join(' '), 'Confirm Move', function() {
+	if (messageList.children().length) {
+		confirmDialog($('<div></div>').append(messageList).html(), 'Confirm Move', function() {
 			doCommitPlacement(parentBarcode);
 		});
 	} else {
