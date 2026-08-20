@@ -138,7 +138,7 @@ function runPartPreflight(partId, parentBarcode, badgeId, callback) {
  */
 function onKeepCurrentTypeChange() {
 	var keep = $('#keepCurrentType').prop('checked');
-	$('#new_container_type').prop('disabled', keep);
+	$('#new_container_type').toggle(!keep);
 	if (keep) {
 		$('#new_container_type').val(placePartState.currentParentType);
 		$('#retypeBadge').empty();

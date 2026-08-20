@@ -2936,6 +2936,7 @@ convention of rendering a whole form region server-side rather than having JS as
 		<cfelse>
 			<cfset local.catalogedItemId = local.queryCatItem.collection_object_id>
 			<cfset local.guid = "#local.queryCatItem.institution_acronym#:#local.queryCatItem.collection_cde#:#local.queryCatItem.cat_num#">
+			<cfset local.guidUrl = "/guid/#encodeForURL(local.queryCatItem.institution_acronym)#:#encodeForURL(local.queryCatItem.collection_cde)#:#encodeForURL(local.queryCatItem.cat_num)#">
 			<cfquery name="local.queryId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT MIN(scientific_name) AS scientific_name
 				FROM identification
@@ -2955,6 +2956,10 @@ convention of rendering a whole form region server-side rather than having JS as
 				SELECT
 					specimen_part.collection_object_id AS part_id,
 					decode(specimen_part.sampled_from_obj_id, null, specimen_part.part_name, specimen_part.part_name || ' SAMPLE') AS part_name,
+					specimen_part.preserve_method,
+					coll_object.lot_count,
+					coll_object.lot_count_modifier,
+					part_container.container_id AS part_container_id,
 					decode(parent_container.barcode, '0', null, parent_container.barcode) AS current_parent_barcode
 				FROM
 					specimen_part
@@ -2962,6 +2967,7 @@ convention of rendering a whole form region server-side rather than having JS as
 						AND coll_obj_cont_hist.current_container_fg = 1
 					JOIN container part_container ON coll_obj_cont_hist.container_id = part_container.container_id
 					LEFT JOIN container parent_container ON part_container.parent_container_id = parent_container.container_id
+					LEFT JOIN coll_object ON coll_object.collection_object_id = specimen_part.collection_object_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
 					<cfif arguments.noBarcode>
@@ -2982,7 +2988,7 @@ convention of rendering a whole form region server-side rather than having JS as
 				</cfif>
 				<input type="hidden" id="catalogedItemId" value="#local.catalogedItemId#">
 				<p>
-				#local.queryParts.recordcount# #local.partWord# found for <a href="/guid/#encodeForUrl(local.guid)#" target="_blank">#encodeForHtml(local.guid)#</a>.
+				#local.queryParts.recordcount# #local.partWord# found for <a href="#local.guidUrl#" target="_blank">#encodeForHtml(local.guid)#</a>.
 				<cfif len(trim(local.queryId.scientific_name)) GT 0>
 					Identified as <em>#encodeForHtml(local.queryId.scientific_name)#</em>.
 				</cfif>
@@ -2990,12 +2996,38 @@ convention of rendering a whole form region server-side rather than having JS as
 					Type status: #encodeForHtml(ValueList(local.queryTypeStatus.type_status, ", "))#.
 				</cfif>
 			</p>
+				<cfif local.queryParts.recordcount EQ 1>
+					<cfquery name="local.queryBreadcrumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT label, barcode, container_type, LEVEL AS lvl
+						FROM container
+						START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryParts.part_container_id#">
+						CONNECT BY PRIOR parent_container_id = container_id
+						ORDER BY lvl DESC
+					</cfquery>
+					<p class="small text-muted">
+						Current container:
+						<cfloop query="local.queryBreadcrumb">
+							<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
+							<cfif len(trim(local.crumbLabel)) EQ 0>
+								<cfset local.crumbLabel = local.queryBreadcrumb.label>
+							</cfif>
+							#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
+						</cfloop>
+						<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
+					</p>
+				</cfif>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
 					<div class="col-12 col-md-5 mb-2">
 						<label for="part_name" class="data-entry-label">Part</label>
 						<select name="part_name" id="part_name" class="data-entry-select reqdClr" required aria-required="true">
 							<cfloop query="local.queryParts">
 								<cfset local.optionLabel = local.queryParts.part_name>
+								<cfif len(trim(local.queryParts.preserve_method)) GT 0>
+									<cfset local.optionLabel = "#local.optionLabel# (#local.queryParts.preserve_method#)">
+								</cfif>
+								<cfif len(trim(local.queryParts.lot_count)) GT 0>
+									<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
+								</cfif>
 								<cfif len(local.queryParts.current_parent_barcode) GT 0>
 									<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
 								</cfif>
@@ -3015,6 +3047,12 @@ convention of rendering a whole form region server-side rather than having JS as
 									<option value=""></option>
 									<cfloop query="local.queryParts">
 										<cfset local.optionLabel = local.queryParts.part_name>
+										<cfif len(trim(local.queryParts.preserve_method)) GT 0>
+											<cfset local.optionLabel = "#local.optionLabel# (#local.queryParts.preserve_method#)">
+										</cfif>
+										<cfif len(trim(local.queryParts.lot_count)) GT 0>
+											<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
+										</cfif>
 										<cfif len(local.queryParts.current_parent_barcode) GT 0>
 											<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
 										</cfif>
@@ -3035,22 +3073,24 @@ convention of rendering a whole form region server-side rather than having JS as
 						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
 						<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
 					</div>
-					<div class="col-12 col-xl-4 mb-2">
+					<div class="col-12 col-xl-3 mb-2">
 						<span class="data-entry-label">Parent Container Type</span>
 						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small> <span id="part1Badge" role="status"></span></div>
 					</div>
-					<div class="col-12 col-xl-4 mb-2">
+					<div class="col-12 col-xl-5 mb-2">
 						<span class="data-entry-label">Change Type</span>
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="keepCurrentType" checked onchange="onKeepCurrentTypeChange();">
-							<label class="form-check-label" for="keepCurrentType">Keep current type</label>
+						<div class="d-flex align-items-center flex-wrap">
+							<div class="form-check mr-2">
+								<input type="checkbox" class="form-check-input" id="keepCurrentType" checked onchange="onKeepCurrentTypeChange();">
+								<label class="form-check-label" for="keepCurrentType">Keep current type</label>
+							</div>
+							<select name="new_container_type" id="new_container_type" class="data-entry-select" style="display:none;" onchange="onNewContainerTypeChange();">
+								<option value=""></option>
+								<cfloop query="local.qNewTypes">
+									<option value="#encodeForHtml(local.qNewTypes.container_type)#">#encodeForHtml(local.qNewTypes.container_type)#</option>
+								</cfloop>
+							</select>
 						</div>
-						<select name="new_container_type" id="new_container_type" class="data-entry-select" disabled onchange="onNewContainerTypeChange();">
-							<option value=""></option>
-							<cfloop query="local.qNewTypes">
-								<option value="#encodeForHtml(local.qNewTypes.container_type)#">#encodeForHtml(local.qNewTypes.container_type)#</option>
-							</cfloop>
-						</select>
 						<span id="retypeBadge" role="status"></span>
 					</div>
 					<div class="col-12">
