@@ -3095,7 +3095,7 @@ already filed away several levels deep.
 				</cfif>
 			</p>
 				<div class="table-responsive">
-					<table class="table table-sm table-striped" id="partsTable">
+					<table class="table table-sm" id="partsTable">
 						<thead>
 							<tr>
 								<th><span class="sr-only">Include in move</span></th>
@@ -3120,7 +3120,7 @@ already filed away several levels deep.
 								</cfquery>
 								<tr>
 									<td>
-										<input type="checkbox" class="form-check-input part-select-checkbox" id="partSelect_#local.queryParts.part_id#" value="#local.queryParts.part_id#" data-part-name="#encodeForHtml(local.queryParts.part_name)#" onchange="onPartSelectionChange(this);">
+										<input type="checkbox" class="part-select-checkbox" id="partSelect_#local.queryParts.part_id#" value="#local.queryParts.part_id#" data-part-name="#encodeForHtml(local.queryParts.part_name)#" onchange="onPartSelectionChange(this);">
 										<label class="sr-only" for="partSelect_#local.queryParts.part_id#">Include #encodeForHtml(local.queryParts.part_name)# in move</label>
 									</td>
 									<td>#encodeForHtml(local.queryParts.part_name)#</td>
@@ -3138,8 +3138,8 @@ already filed away several levels deep.
 									<td><span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.thisPartInfo.current_parent_barcode)#"></span></td>
 								</tr>
 								<tr>
-									<td></td>
-									<td colspan="7" class="small text-muted pt-0 pb-2">
+									<td class="border-top-0"></td>
+									<td colspan="7" class="small text-muted border-top-0 pt-1 pb-2">
 										<cfloop query="local.queryBreadcrumb">
 											<cfset local.crumbLabel = local.queryBreadcrumb.barcode>
 											<cfif len(trim(local.crumbLabel)) EQ 0>
