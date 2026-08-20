@@ -2995,6 +2995,44 @@ already filed away several levels deep.
 	<cfreturn local.retval>
 </cffunction>
 
+<!---
+Function getContainerByBarcode. Resolves a barcode to its container's id/label/type -- used by
+containers/placePartInContainer.cfm to show the target container's current type as soon as one is
+chosen (via typing or the Choose... picker), independent of whether any part is checked yet (the
+per-part placement preflight only runs once a part is selected, so it can't be relied on for this).
+@param barcode barcode to resolve.
+@return a JSON object: {status: "ok"|"notfound"|"error", message, container_id, label, barcode,
+	container_type}.
+--->
+<cffunction name="getContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="barcode" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.barcode)#">
+		</cfquery>
+		<cfif local.queryContainer.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Barcode was not found.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+		<cfset local.retval["status"] = "ok">
+		<cfset local.retval["container_id"] = local.queryContainer.container_id>
+		<cfset local.retval["label"] = local.queryContainer.label>
+		<cfset local.retval["barcode"] = local.queryContainer.barcode>
+		<cfset local.retval["container_type"] = local.queryContainer.container_type>
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
 <cffunction name="getPartsForContainerPlacementHTML" access="remote" returntype="string" returnformat="plain" output="false">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -3172,7 +3210,7 @@ already filed away several levels deep.
 						</div>
 					</div>
 					<div class="col-12 col-xl-3 mb-2">
-						<span class="data-entry-label">Parent Container Type</span>
+						<span class="data-entry-label">Container Type</span>
 						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
 					</div>
 					<div class="col-12 col-xl-5 mb-2">

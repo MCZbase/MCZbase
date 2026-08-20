@@ -83,12 +83,36 @@ function previewCurrentPlacement() {
 }
 
 /**
- * Parent Barcode change handler -- previews the placement (and any pending retype) for every
- * currently-selected part, without committing anything.
+ * Parent Barcode change handler -- looks up the target container's current type (independent of
+ * whether any part is checked yet, since the per-part preflight that would otherwise report it
+ * only runs once a part is selected), then previews the placement for every currently-selected
+ * part, without committing anything.
  * @returns {void}
  */
 function onParentBarcodeChange() {
+	lookupContainerType();
 	previewPlacement();
+}
+
+/**
+ * Looks up the current Parent Barcode's container type and updates the Container Type display
+ * (and the New Container Type select, if "Keep current type" is still checked).
+ * @returns {void}
+ */
+function lookupContainerType() {
+	var parentBarcode = $('#parent_barcode').val();
+	if (!parentBarcode) {
+		return;
+	}
+	$.getJSON('/containers/component/functions.cfc', {
+		method: 'getContainerByBarcode',
+		barcode: parentBarcode,
+		returnformat: 'json'
+	}, function(result) {
+		if (result && result.status === 'ok') {
+			updateCurrentParentType({parent_type: result.container_type});
+		}
+	});
 }
 
 /**
