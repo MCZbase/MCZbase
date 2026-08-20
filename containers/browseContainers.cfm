@@ -111,4 +111,4 @@ limitations under the License.
 		</cfswitch>
 	</main>
 </cfoutput>
-<cfinclude template="shared/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
