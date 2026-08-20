@@ -25,7 +25,7 @@
           parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
    <cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
         select count(*) ct, container_type from container 
-        where parent_container_id < 2 and container_type <> 'campus' 
+        where parent_container_id < 2 and container_type not in ('campus','external') 
         group by container_type
    </cfquery>
    <div class="container_qc_cascade">
@@ -35,7 +35,7 @@
       <cfif parentlessNodes.ct LT 100>
           <cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
               select label, container_type from container 
-              where parent_container_id < 2 and container_type <> 'campus' 
+              where parent_container_id < 2 and container_type not in ('campus','external')
                  and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
           </cfquery>
           <ul>
