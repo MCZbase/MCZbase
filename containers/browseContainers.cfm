@@ -33,12 +33,12 @@ limitations under the License.
 		<cfswitch expression="#action#">
 			<cfcase value="qc">
 				<h1 class="h3">Containers which should be placed in another container, but are not.</h2>
-				<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned.
+				<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned (type = external).
 				parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
 				<cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct, container_type 
 					FROM container 
-					WHERE parent_container_id < 2 and container_type <> 'campus' 
+					WHERE parent_container_id < 2 and container_type not in ('campus','external')
 					GROUP BY container_type
 				</cfquery>
 				<div class="row">
@@ -50,7 +50,7 @@ limitations under the License.
 									<cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT label, container_type 
 										FROM container 
-										WHERE parent_container_id < 2 and container_type <> 'campus' 
+										WHERE parent_container_id < 2 and container_type not in ('campus','external') 
 											and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
 									</cfquery>
 									<ul>
