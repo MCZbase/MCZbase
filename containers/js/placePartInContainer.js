@@ -96,7 +96,8 @@ function onParentBarcodeChange() {
 
 /**
  * Looks up the current Parent Barcode's container type and updates the Container Type display
- * (and the New Container Type select, if "Keep current type" is still checked).
+ * (and the New Container Type select, if "Keep current type" is still checked), plus the
+ * disposition-guidance hint for whatever gets placed there.
  * @returns {void}
  */
 function lookupContainerType() {
@@ -111,6 +112,7 @@ function lookupContainerType() {
 	}, function(result) {
 		if (result && result.status === 'ok') {
 			updateCurrentParentType({parent_type: result.container_type});
+			$('#dispositionHint').text(result.expected_disposition_message || '');
 		}
 	});
 }
@@ -438,12 +440,47 @@ function movePart(partId, partName, parentBarcode, callback) {
 	}, function(result) {
 		if (result && result.status === 'moved') {
 			appendMoveLogEntry('Moved ' + partName + ' into ' + parentBarcode + '.', true);
+			applyDispositionChange(partId, partName, callback);
 		} else {
 			appendMoveLogEntry('Failed to move ' + partName + ': ' + ((result && result.message) || 'unknown error'), false);
+			callback();
+		}
+	}).fail(function() {
+		appendMoveLogEntry('Failed to move ' + partName + ': could not reach the server.', false);
+		callback();
+	});
+}
+
+/**
+ * Applies the "Change Disposition of Selected Parts" select's value (if any) to one just-moved
+ * part, appending a Move Log entry with the outcome. No-ops immediately if no disposition change
+ * was requested. Calls specimens/component/functions.cfc's updatePartDisposition, not
+ * containers/component/functions.cfc, since a part's disposition isn't container-entangled.
+ * @param {string} partId
+ * @param {string} partName
+ * @param {Function} callback
+ * @returns {void}
+ */
+function applyDispositionChange(partId, partName, callback) {
+	var disposition = $('#change_disposition').val();
+	if (!disposition) {
+		callback();
+		return;
+	}
+	$.getJSON('/specimens/component/functions.cfc', {
+		method: 'updatePartDisposition',
+		part_collection_object_id: partId,
+		disposition: disposition,
+		returnformat: 'json'
+	}, function(result) {
+		if (result && result.status === 'updated') {
+			appendMoveLogEntry('Set disposition of ' + partName + ' to ' + disposition + '.', true);
+		} else {
+			appendMoveLogEntry('Failed to set disposition of ' + partName + ': ' + ((result && result.message) || 'unknown error'), false);
 		}
 		callback();
 	}).fail(function() {
-		appendMoveLogEntry('Failed to move ' + partName + ': could not reach the server.', false);
+		appendMoveLogEntry('Failed to set disposition of ' + partName + ': could not reach the server.', false);
 		callback();
 	});
 }

@@ -2996,13 +2996,65 @@ already filed away several levels deep.
 </cffunction>
 
 <!---
-Function getContainerByBarcode. Resolves a barcode to its container's id/label/type -- used by
-containers/placePartInContainer.cfm to show the target container's current type as soon as one is
-chosen (via typing or the Choose... picker), independent of whether any part is checked yet (the
-per-part placement preflight only runs once a part is selected, so it can't be relied on for this).
+Function getExpectedDisposition. Works out what disposition a part is expected to have once placed
+into a given container, for containers/placePartInContainer.cfm's disposition guidance: an
+in-collection disposition is expected once a part is placed below campus level (excluding the
+"external" container_type entirely, since containers held externally -- on loan, at a lab, etc. --
+aren't expected to carry an in-collection disposition regardless of rank), and a deaccessioned
+disposition is expected specifically for the container named "Deaccessioned" -- checked by label,
+not container_type, since that container is currently mistyped as "campus" in production (it should
+be "external") and rank/type alone wouldn't otherwise flag it.
+@param container_id the candidate destination container.
+@return a struct: {expected_disposition_hint: ""|"in_collection"|"deaccessioned", message}.
+--->
+<cffunction name="getExpectedDisposition" access="public" returntype="any" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["expected_disposition_hint"] = "">
+	<cfset local.retval["message"] = "">
+
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT c.label, c.container_type, ct.rank_order
+		FROM container c
+			JOIN ctcontainer_type ct ON c.container_type = ct.container_type
+		WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfreturn local.retval>
+	</cfif>
+
+	<cfif trim(local.queryContainer.label) EQ "Deaccessioned">
+		<cfset local.retval["expected_disposition_hint"] = "deaccessioned">
+		<cfset local.retval["message"] = "This is the Deaccessioned location -- a deaccessioned disposition is expected.">
+		<cfreturn local.retval>
+	</cfif>
+
+	<cfif local.queryContainer.container_type NEQ "external">
+		<cfquery name="local.queryCampus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT rank_order FROM ctcontainer_type WHERE container_type = 'campus'
+		</cfquery>
+		<cfif local.queryCampus.recordcount GT 0
+			AND isNumeric(local.queryContainer.rank_order) AND isNumeric(local.queryCampus.rank_order)
+			AND val(local.queryContainer.rank_order) GT val(local.queryCampus.rank_order)>
+			<cfset local.retval["expected_disposition_hint"] = "in_collection">
+			<cfset local.retval["message"] = "This container is below campus level -- an in-collection disposition is expected.">
+		</cfif>
+	</cfif>
+
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
+Function getContainerByBarcode. Resolves a barcode to its container's id/label/type, plus the
+disposition expected of a part placed into it (see getExpectedDisposition) -- used by
+containers/placePartInContainer.cfm to show the target container's current type and disposition
+guidance as soon as one is chosen (via typing or the Choose... picker), independent of whether any
+part is checked yet (the per-part placement preflight only runs once a part is selected, so it
+can't be relied on for this).
 @param barcode barcode to resolve.
 @return a JSON object: {status: "ok"|"notfound"|"error", message, container_id, label, barcode,
-	container_type}.
+	container_type, expected_disposition_hint, expected_disposition_message}.
 --->
 <cffunction name="getContainerByBarcode" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="barcode" type="string" required="yes">
@@ -3019,11 +3071,14 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 			<cfset local.retval["message"] = "Barcode was not found.">
 			<cfreturn serializeJSON(local.retval)>
 		</cfif>
+		<cfset local.expected = getExpectedDisposition(local.queryContainer.container_id)>
 		<cfset local.retval["status"] = "ok">
 		<cfset local.retval["container_id"] = local.queryContainer.container_id>
 		<cfset local.retval["label"] = local.queryContainer.label>
 		<cfset local.retval["barcode"] = local.queryContainer.barcode>
 		<cfset local.retval["container_type"] = local.queryContainer.container_type>
+		<cfset local.retval["expected_disposition_hint"] = local.expected.expected_disposition_hint>
+		<cfset local.retval["expected_disposition_message"] = local.expected.message>
 		<cfreturn serializeJSON(local.retval)>
 	<cfcatch>
 		<cfset local.retval["status"] = "error">
@@ -3089,6 +3144,7 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 					specimen_part.preserve_method,
 					coll_object.lot_count,
 					coll_object.lot_count_modifier,
+					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks AS part_remarks,
 					part_container.container_id AS part_container_id
 				FROM
@@ -3112,6 +3168,9 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 				<p class="text-muted">No parts found for this specimen.</p>
 			<cfelse>
 				<cfset local.qNewTypes = getBulkRetypeableContainerTypes()>
+				<cfquery name="local.qDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT coll_obj_disposition FROM ctcoll_obj_disp ORDER BY coll_obj_disposition
+				</cfquery>
 				<cfset local.partWord = "parts">
 				<cfif local.queryParts.recordcount EQ 1>
 					<cfset local.partWord = "part">
@@ -3140,7 +3199,7 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 								<th>Part</th>
 								<th>Prep. Type</th>
 								<th>Lot Count</th>
-								<th>Modifier</th>
+								<th>Disposition</th>
 								<th>Remarks</th>
 								<th>Current Placement</th>
 								<th>Placement</th>
@@ -3156,6 +3215,10 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 									CONNECT BY PRIOR parent_container_id = container_id
 									ORDER BY lvl DESC
 								</cfquery>
+								<cfset local.displayLotCount = local.queryParts.lot_count>
+								<cfif len(trim(local.queryParts.lot_count_modifier)) GT 0>
+									<cfset local.displayLotCount = "#local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
+								</cfif>
 								<tr>
 									<td>
 										<input type="checkbox" class="part-select-checkbox" id="partSelect_#local.queryParts.part_id#" value="#local.queryParts.part_id#" data-part-name="#encodeForHtml(local.queryParts.part_name)#" onchange="onPartSelectionChange(this);">
@@ -3163,8 +3226,8 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 									</td>
 									<td>#encodeForHtml(local.queryParts.part_name)#</td>
 									<td>#encodeForHtml(local.queryParts.preserve_method)#</td>
-									<td>#encodeForHtml(local.queryParts.lot_count)#</td>
-									<td>#encodeForHtml(local.queryParts.lot_count_modifier)#</td>
+									<td>#encodeForHtml(local.displayLotCount)#</td>
+									<td>#encodeForHtml(local.queryParts.coll_obj_disposition)#</td>
 									<td>#encodeForHtml(local.queryParts.part_remarks)#</td>
 									<td>
 										<cfif len(trim(local.thisPartInfo.current_parent_barcode)) GT 0>
@@ -3214,6 +3277,7 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 					<div class="col-12 col-xl-3 mb-2">
 						<span class="data-entry-label">Container Type</span>
 						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
+						<div id="dispositionHint" class="small text-muted"></div>
 					</div>
 					<div class="col-12 col-xl-5 mb-2">
 						<span class="data-entry-label">Change Type</span>
@@ -3230,6 +3294,15 @@ per-part placement preflight only runs once a part is selected, so it can't be r
 							</select>
 						</div>
 						<span id="retypeBadge" role="status"></span>
+					</div>
+					<div class="col-12 col-xl-4 mb-2">
+						<label for="change_disposition" class="data-entry-label">Change Disposition of Selected Parts</label>
+						<select name="change_disposition" id="change_disposition" class="data-entry-select">
+							<option value="">(no change)</option>
+							<cfloop query="local.qDispositions">
+								<option value="#encodeForHtml(local.qDispositions.coll_obj_disposition)#">#encodeForHtml(local.qDispositions.coll_obj_disposition)#</option>
+							</cfloop>
+						</select>
 					</div>
 					<div class="col-12">
 						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
