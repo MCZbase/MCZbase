@@ -3014,6 +3014,7 @@ convention of rendering a whole form region server-side rather than having JS as
 							#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
 						</cfloop>
 						<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
+						<span id="currentPlacementBadge" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.queryParts.current_parent_barcode)#"></span>
 					</p>
 				</cfif>
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">

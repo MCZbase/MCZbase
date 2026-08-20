@@ -40,9 +40,30 @@ function searchSpecimenParts() {
 		placePartState.part2Preflight = null;
 		placePartState.currentParentType = '';
 		area.html(html);
+		previewCurrentPlacement();
 	}).fail(function() {
 		area.html('<p class="text-danger">Error: could not reach the server.</p>');
 	});
+}
+
+/**
+ * When exactly one part was found, its current-container breadcrumb is shown with its own
+ * placement badge -- checks that part's existing placement against its actual current parent
+ * (reusing the same preflight/badge convention as a proposed move), so a pre-existing placement
+ * problem is visible without having to enter a Parent Unique Identifier first.
+ * @returns {void}
+ */
+function previewCurrentPlacement() {
+	var badge = $('#currentPlacementBadge');
+	if (!badge.length) {
+		return;
+	}
+	var partId = badge.data('partId');
+	var currentParentBarcode = badge.data('currentParentBarcode');
+	if (!partId || !currentParentBarcode) {
+		return;
+	}
+	runPartPreflight(partId, currentParentBarcode, 'currentPlacementBadge', function() {});
 }
 
 /**
