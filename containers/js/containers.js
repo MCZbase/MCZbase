@@ -1388,6 +1388,23 @@ function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
  * @param {string} occupantLabel - fallback label when no GUID is available.
  * @returns {jQuery} table cell containing a GUID link or fallback container display.
  */
+/**
+ * Builds a "Place Part" action link opening containers/placePartInContainer.cfm prefilled (by
+ * guid) for a row's cataloged item, for tables listing collection-object occupants.
+ * @param {Object} row - must carry cat_num, collection_cde, and institution_acronym.
+ * @returns {?jQuery} the link, or null if the row doesn't carry enough specimen identity.
+ */
+function buildPlacePartLink(row) {
+	if (!row || !row.cat_num || !row.collection_cde || !row.institution_acronym) {
+		return null;
+	}
+	var guidText = row.institution_acronym + ':' + row.collection_cde + ':' + row.cat_num;
+	return $('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/placePartInContainer.cfm?guid=' + encodeURIComponent(guidText) + '&execute=true')
+		.attr('title', "Place this specimen's parts into a container")
+		.text('Place Part');
+}
+
 function buildSpecimenGuidCell(row, occupantBarcode, occupantLabel) {
 	var guidTd = $('<td></td>');
 	if (row.cat_num && row.collection_cde && row.institution_acronym) {
@@ -1562,6 +1579,10 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 						.attr('href', occupantSpecUrl)
 						.text('View specimen')
 				);
+			}
+			var placePartLink = buildPlacePartLink(row);
+			if (placePartLink) {
+				actionTd.append(placePartLink);
 			}
 			var typeTd = $('<td></td>').text(row.container_type || '');
 			typeTd.append(' ');
@@ -2757,6 +2778,10 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 								.attr('title', 'View this specimen in the specimen search')
 								.text('View specimen')
 						);
+					}
+					var placePartLink = buildPlacePartLink(row);
+					if (placePartLink) {
+						actionTd.append(placePartLink);
 					}
 					tr.append(actionTd);
 					tbody.append(tr);
