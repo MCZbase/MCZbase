@@ -91,6 +91,25 @@ function onParentBarcodeChange() {
 }
 
 /**
+ * Opens the shared container picker dialog (containers.js), matching moveContainer.cfm's "Choose
+ * Parent" convention, to choose the container to place the part(s) into.
+ * @returns {void}
+ */
+function openParentContainerPicker() {
+	openContainerPickerDialog({
+		mode: 'find',
+		dialogTitle: 'Select Container to Place Into',
+		onSelect: function(selectedId, selectedLabel, wrapper, controls, selectedItem) {
+			var barcode = (selectedItem && selectedItem.barcode) ? $.trim(selectedItem.barcode) : '';
+			var label = (selectedItem && selectedItem.label) ? $.trim(selectedItem.label) : '';
+			var valueToSet = barcode || label || $.trim(selectedLabel || '');
+			$('#parent_barcode').val(valueToSet).trigger('change').focus();
+			wrapper.dialog('close');
+		}
+	});
+}
+
+/**
  * Runs placement preflight for part 1 (and part 2, if selected) against the current Parent
  * Barcode, rendering badges and updating the current-type display and Move button state.
  * @returns {void}
@@ -219,8 +238,10 @@ function updateMoveButtonState() {
 }
 
 /**
- * Explicit commit: retypes the parent (if requested) then moves part 1 and, if selected, part 2,
- * each independently, appending a Move Log entry per outcome.
+ * Explicit commit handler for the Move button -- confirms first if any selected part's placement
+ * came back as a warning, or if a part is currently filed more than one level below root/an
+ * institution container (moving it out of what's likely a deliberate, specific location), then
+ * proceeds to the actual retype/move sequence.
  * @returns {void}
  */
 function commitPlacement() {
@@ -229,6 +250,40 @@ function commitPlacement() {
 	if (!parentBarcode || !part1Id) {
 		return;
 	}
+	var messages = [];
+	var preflights = [placePartState.part1Preflight];
+	if ($('#useSecondPart').prop('checked')) {
+		preflights.push(placePartState.part2Preflight);
+	}
+	$.each(preflights, function(i, preflight) {
+		if (!preflight) {
+			return;
+		}
+		if (preflight.severity === 'warn') {
+			messages.push('This placement has a warning -- proceed anyway?');
+		}
+		if (preflight.current_depth > 2) {
+			messages.push('This part is currently filed several levels below the root/institution container. Move it from its current container?');
+		}
+	});
+	if (messages.length) {
+		confirmDialog(messages.join(' '), 'Confirm Move', function() {
+			doCommitPlacement(parentBarcode, part1Id);
+		});
+	} else {
+		doCommitPlacement(parentBarcode, part1Id);
+	}
+}
+
+/**
+ * Retypes the parent (if requested) then moves part 1 and, if selected, part 2, each
+ * independently, appending a Move Log entry per outcome. Called directly by commitPlacement, or
+ * after the user confirms a warning/depth prompt.
+ * @param {string} parentBarcode
+ * @param {string} part1Id
+ * @returns {void}
+ */
+function doCommitPlacement(parentBarcode, part1Id) {
 	$('#moveBtn').prop('disabled', true);
 	var keepType = $('#keepCurrentType').prop('checked');
 	var newType = $('#new_container_type').val();

@@ -2903,6 +2903,98 @@ convention of rendering a whole form region server-side rather than having JS as
 @param noSubsample when true, exclude parts that are themselves subsamples of another part.
 @return HTML (plain text, not JSON) -- either an error message, or the full placement form.
 --->
+<!---
+Function resolvePartCurrentContainer. Resolves a specimen part's actual current container to move
+for placement purposes -- the part's own "collection object" leaf container, unless that leaf's
+immediate parent is a "proxy"-role container (a single-occupant container type, e.g. pin/slide/
+cryovial/envelope/glass vial, that can only ever hold one leaf -- see validateContainerPlacement's
+CT3 rule), in which case the proxy is what actually gets re-parented, not the leaf trapped inside
+it. Also resolves that entity's own current parent (needed to preflight/describe its *existing*
+placement) and its current depth in the container tree (1 = root itself, 2 = directly under a
+root/institution-level container, >2 = nested further) so callers can warn before moving something
+already filed away several levels deep.
+@param part_collection_object_id the specimen_part's own collection_object_id.
+@return a struct: {found, leaf_container_id, leaf_label, leaf_barcode, leaf_type, is_proxy,
+	move_container_id, move_label, move_barcode, move_type, current_parent_container_id,
+	current_parent_label, current_parent_barcode, current_depth}.
+--->
+<cffunction name="resolvePartCurrentContainer" access="public" returntype="any" output="false">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["found"] = false>
+
+	<cfquery name="local.queryLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container.container_id, container.label, container.barcode, container.container_type, container.parent_container_id
+		FROM coll_obj_cont_hist
+			JOIN container ON coll_obj_cont_hist.container_id = container.container_id
+		WHERE
+			coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			AND coll_obj_cont_hist.current_container_fg = 1
+	</cfquery>
+	<cfif local.queryLeaf.recordcount EQ 0>
+		<cfreturn local.retval>
+	</cfif>
+
+	<cfset local.retval["found"] = true>
+	<cfset local.retval["leaf_container_id"] = local.queryLeaf.container_id>
+	<cfset local.retval["leaf_label"] = local.queryLeaf.label>
+	<cfset local.retval["leaf_barcode"] = local.queryLeaf.barcode>
+	<cfset local.retval["leaf_type"] = local.queryLeaf.container_type>
+	<cfset local.retval["is_proxy"] = false>
+	<cfset local.moveContainerId = local.queryLeaf.container_id>
+	<cfset local.moveLabel = local.queryLeaf.label>
+	<cfset local.moveBarcode = local.queryLeaf.barcode>
+	<cfset local.moveType = local.queryLeaf.container_type>
+
+	<cfif val(local.queryLeaf.parent_container_id) GT 0>
+		<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container.container_id, container.label, container.barcode, container.container_type, ctcontainer_type.role
+			FROM container
+				JOIN ctcontainer_type ON container.container_type = ctcontainer_type.container_type
+			WHERE container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryLeaf.parent_container_id#">
+		</cfquery>
+		<cfif local.queryParent.recordcount GT 0 AND local.queryParent.role EQ "proxy">
+			<cfset local.retval["is_proxy"] = true>
+			<cfset local.moveContainerId = local.queryParent.container_id>
+			<cfset local.moveLabel = local.queryParent.label>
+			<cfset local.moveBarcode = local.queryParent.barcode>
+			<cfset local.moveType = local.queryParent.container_type>
+		</cfif>
+	</cfif>
+
+	<cfset local.retval["move_container_id"] = local.moveContainerId>
+	<cfset local.retval["move_label"] = local.moveLabel>
+	<cfset local.retval["move_barcode"] = local.moveBarcode>
+	<cfset local.retval["move_type"] = local.moveType>
+
+	<cfquery name="local.queryCurrentParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT p.container_id, p.label, p.barcode
+		FROM container c
+			JOIN container p ON c.parent_container_id = p.container_id
+		WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.moveContainerId#">
+	</cfquery>
+	<cfif local.queryCurrentParent.recordcount GT 0>
+		<cfset local.retval["current_parent_container_id"] = local.queryCurrentParent.container_id>
+		<cfset local.retval["current_parent_label"] = local.queryCurrentParent.label>
+		<cfset local.retval["current_parent_barcode"] = local.queryCurrentParent.barcode>
+	<cfelse>
+		<cfset local.retval["current_parent_container_id"] = 0>
+		<cfset local.retval["current_parent_label"] = "">
+		<cfset local.retval["current_parent_barcode"] = "">
+	</cfif>
+
+	<cfquery name="local.queryDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT COUNT(*) AS depth
+		FROM container
+		START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.moveContainerId#">
+		CONNECT BY PRIOR parent_container_id = container_id
+	</cfquery>
+	<cfset local.retval["current_depth"] = local.queryDepth.depth>
+
+	<cfreturn local.retval>
+</cffunction>
+
 <cffunction name="getPartsForContainerPlacementHTML" access="remote" returntype="string" returnformat="plain" output="false">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -2959,14 +3051,12 @@ convention of rendering a whole form region server-side rather than having JS as
 					specimen_part.preserve_method,
 					coll_object.lot_count,
 					coll_object.lot_count_modifier,
-					part_container.container_id AS part_container_id,
-					decode(parent_container.barcode, '0', null, parent_container.barcode) AS current_parent_barcode
+					part_container.container_id AS part_container_id
 				FROM
 					specimen_part
 					JOIN coll_obj_cont_hist ON specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 						AND coll_obj_cont_hist.current_container_fg = 1
 					JOIN container part_container ON coll_obj_cont_hist.container_id = part_container.container_id
-					LEFT JOIN container parent_container ON part_container.parent_container_id = parent_container.container_id
 					LEFT JOIN coll_object ON coll_object.collection_object_id = specimen_part.collection_object_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
@@ -2986,6 +3076,12 @@ convention of rendering a whole form region server-side rather than having JS as
 				<cfif local.queryParts.recordcount EQ 1>
 					<cfset local.partWord = "part">
 				</cfif>
+				<!--- Resolve each part's actual current container (proxy-aware) once, keyed by part_id,
+					so the option labels and the breadcrumb/badge list below don't each re-derive it. --->
+				<cfset local.partInfo = StructNew()>
+				<cfloop query="local.queryParts">
+					<cfset local.partInfo[local.queryParts.part_id] = resolvePartCurrentContainer(local.queryParts.part_id)>
+				</cfloop>
 				<input type="hidden" id="catalogedItemId" value="#local.catalogedItemId#">
 				<p>
 				#local.queryParts.recordcount# #local.partWord# found for <a href="#local.guidUrl#" target="_blank">#encodeForHtml(local.guid)#</a>.
@@ -3005,6 +3101,7 @@ convention of rendering a whole form region server-side rather than having JS as
 							CONNECT BY PRIOR parent_container_id = container_id
 							ORDER BY lvl DESC
 						</cfquery>
+						<cfset local.thisPartInfo = local.partInfo[local.queryParts.part_id]>
 						<li class="mb-1">
 							<strong>#encodeForHtml(local.queryParts.part_name)#</strong>:
 							<cfloop query="local.queryBreadcrumb">
@@ -3015,7 +3112,10 @@ convention of rendering a whole form region server-side rather than having JS as
 								#encodeForHtml(local.crumbLabel)# (#encodeForHtml(local.queryBreadcrumb.container_type)#)<cfif local.queryBreadcrumb.currentRow LT local.queryBreadcrumb.recordcount> &rsaquo; </cfif>
 							</cfloop>
 							<a href="/containers/viewContainer.cfm?container_id=#local.queryParts.part_container_id#" target="_blank" class="btn btn-xs btn-info ml-1">Details</a>
-							<span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.queryParts.current_parent_barcode)#"></span>
+							<span id="currentPlacementBadge_#local.queryParts.part_id#" role="status" data-part-id="#local.queryParts.part_id#" data-current-parent-barcode="#encodeForHtml(local.thisPartInfo.current_parent_barcode)#"></span>
+							<cfif local.thisPartInfo.is_proxy>
+								<div class="text-muted">This part's #encodeForHtml(local.thisPartInfo.leaf_type)# is held inside a #encodeForHtml(local.thisPartInfo.move_type)# (a single-occupant container) -- moving this part will move the #encodeForHtml(local.thisPartInfo.move_type)#, not the #encodeForHtml(local.thisPartInfo.leaf_type)# directly.</div>
+							</cfif>
 						</li>
 					</cfloop>
 				</ul>
@@ -3031,8 +3131,8 @@ convention of rendering a whole form region server-side rather than having JS as
 								<cfif len(trim(local.queryParts.lot_count)) GT 0>
 									<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
 								</cfif>
-								<cfif len(local.queryParts.current_parent_barcode) GT 0>
-									<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
+								<cfif len(local.partInfo[local.queryParts.part_id].current_parent_barcode) GT 0>
+									<cfset local.optionLabel = "#local.optionLabel# [#local.partInfo[local.queryParts.part_id].current_parent_barcode#]">
 								</cfif>
 								<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
 							</cfloop>
@@ -3056,8 +3156,8 @@ convention of rendering a whole form region server-side rather than having JS as
 										<cfif len(trim(local.queryParts.lot_count)) GT 0>
 											<cfset local.optionLabel = "#local.optionLabel#, lot #local.queryParts.lot_count_modifier##local.queryParts.lot_count#">
 										</cfif>
-										<cfif len(local.queryParts.current_parent_barcode) GT 0>
-											<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
+										<cfif len(local.partInfo[local.queryParts.part_id].current_parent_barcode) GT 0>
+											<cfset local.optionLabel = "#local.optionLabel# [#local.partInfo[local.queryParts.part_id].current_parent_barcode#]">
 										</cfif>
 										<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
 									</cfloop>
@@ -3073,12 +3173,15 @@ convention of rendering a whole form region server-side rather than having JS as
 				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
 					<h2 class="h5 col-12 mb-1">Place into Container:</h2>
 					<div class="col-12 col-xl-4 mb-2">
-						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
-						<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
+						<label for="parent_barcode" class="data-entry-label">Container to place into</label>
+						<div class="d-flex align-items-center">
+							<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input col-12 reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
+							<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1" onclick="openParentContainerPicker();">Choose...</button>
+						</div>
 					</div>
 					<div class="col-12 col-xl-3 mb-2">
 						<span class="data-entry-label">Parent Container Type</span>
-						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small> <span id="part1Badge" role="status"></span></div>
+						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
 					</div>
 					<div class="col-12 col-xl-5 mb-2">
 						<span class="data-entry-label">Change Type</span>
@@ -3098,6 +3201,7 @@ convention of rendering a whole form region server-side rather than having JS as
 					</div>
 					<div class="col-12">
 						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
+						<span id="part1Badge" role="status"></span>
 					</div>
 				</div>
 			</cfif>
@@ -3112,17 +3216,17 @@ convention of rendering a whole form region server-side rather than having JS as
 </cffunction>
 
 <!---
-Function preflightPlacePartByBarcode. Resolves a specimen part's current container (via
-coll_obj_cont_hist's current-placement flag, the same idiom specimens/component/functions.cfc's
-updatePart/createSpecimenPart already use) and a destination parent barcode, then runs placement
-preflight validation -- used before actually moving a part on
-containers/placePartInContainer.cfm.
+Function preflightPlacePartByBarcode. Resolves a specimen part's actual current container to move
+(the part's own leaf, or its proxy parent when one is present -- see resolvePartCurrentContainer)
+and a destination parent barcode, then runs placement preflight validation -- used before actually
+moving a part on containers/placePartInContainer.cfm.
 @param part_collection_object_id the specimen_part's own collection_object_id.
 @param parent_barcode barcode of the destination parent container.
 @return a JSON object with status (ok|notfound|error), placement validation keys from
 	validateContainerPlacement (allowed, severity, warnings, blocks, parent_type -- the parent's
 	current container_type, before any retype -- etc), and context keys: child_container_id,
-	parent_container_id, parent_label, parent_barcode.
+	parent_container_id, parent_label, parent_barcode, is_proxy, leaf_type, move_type,
+	current_depth (the moved container's current depth in the tree, 1=root).
 --->
 <cffunction name="preflightPlacePartByBarcode" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="part_collection_object_id" type="numeric" required="yes">
@@ -3130,15 +3234,8 @@ containers/placePartInContainer.cfm.
 
 	<cfset local.retval = StructNew()>
 	<cftry>
-		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container.container_id, container.label, container.barcode
-			FROM coll_obj_cont_hist
-				JOIN container ON coll_obj_cont_hist.container_id = container.container_id
-			WHERE
-				coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
-				AND coll_obj_cont_hist.current_container_fg = 1
-		</cfquery>
-		<cfif local.queryChild.recordcount EQ 0>
+		<cfset local.partContainer = resolvePartCurrentContainer(arguments.part_collection_object_id)>
+		<cfif NOT local.partContainer.found>
 			<cfset local.retval["status"] = "notfound">
 			<cfset local.retval["message"] = "This part's current container could not be found.">
 			<cfset local.retval["missing"] = "child">
@@ -3158,7 +3255,7 @@ containers/placePartInContainer.cfm.
 		</cfif>
 
 		<cfset local.validationResult = validateContainerPlacement(
-			child_container_id=local.queryChild.container_id,
+			child_container_id=local.partContainer.move_container_id,
 			proposed_parent_container_id=local.queryParent.container_id
 		)>
 		<cfif isSimpleValue(local.validationResult)>
@@ -3166,9 +3263,13 @@ containers/placePartInContainer.cfm.
 		</cfif>
 
 		<cfset local.validationResult["status"] = "ok">
-		<cfset local.validationResult["child_container_id"] = local.queryChild.container_id>
-		<cfset local.validationResult["child_label"] = local.queryChild.label>
-		<cfset local.validationResult["child_barcode"] = local.queryChild.barcode>
+		<cfset local.validationResult["child_container_id"] = local.partContainer.move_container_id>
+		<cfset local.validationResult["child_label"] = local.partContainer.move_label>
+		<cfset local.validationResult["child_barcode"] = local.partContainer.move_barcode>
+		<cfset local.validationResult["is_proxy"] = local.partContainer.is_proxy>
+		<cfset local.validationResult["leaf_type"] = local.partContainer.leaf_type>
+		<cfset local.validationResult["move_type"] = local.partContainer.move_type>
+		<cfset local.validationResult["current_depth"] = local.partContainer.current_depth>
 		<cfset local.validationResult["parent_container_id"] = local.queryParent.container_id>
 		<cfset local.validationResult["parent_label"] = local.queryParent.label>
 		<cfset local.validationResult["parent_barcode"] = local.queryParent.barcode>
@@ -3183,10 +3284,11 @@ containers/placePartInContainer.cfm.
 </cffunction>
 
 <!---
-Function placePartByBarcode. Moves a specimen part's current container into a new parent container
-by barcode -- the explicit commit step behind containers/placePartInContainer.cfm's preflight badge.
-Delegates the actual move (and its trigger-error handling) to moveContainerById once both containers
-are resolved.
+Function placePartByBarcode. Moves a specimen part's actual current container (the part's own leaf,
+or its proxy parent when one is present -- see resolvePartCurrentContainer) into a new parent
+container by barcode -- the explicit commit step behind containers/placePartInContainer.cfm's
+preflight badge. Delegates the actual move (and its trigger-error handling) to moveContainerById
+once both containers are resolved.
 @param part_collection_object_id the specimen_part's own collection_object_id.
 @param parent_barcode barcode of the destination parent container.
 @param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
@@ -3207,15 +3309,8 @@ are resolved.
 	</cfif>
 
 	<cftry>
-		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container.container_id
-			FROM coll_obj_cont_hist
-				JOIN container ON coll_obj_cont_hist.container_id = container.container_id
-			WHERE
-				coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
-				AND coll_obj_cont_hist.current_container_fg = 1
-		</cfquery>
-		<cfif local.queryChild.recordcount EQ 0>
+		<cfset local.partContainer = resolvePartCurrentContainer(arguments.part_collection_object_id)>
+		<cfif NOT local.partContainer.found>
 			<cfset local.retval["status"] = "notfound">
 			<cfset local.retval["message"] = "This part's current container could not be found.">
 			<cfset local.retval["missing"] = "child">
@@ -3235,7 +3330,7 @@ are resolved.
 		</cfif>
 
 		<cfreturn moveContainerById(
-			child_container_id=local.queryChild.container_id,
+			child_container_id=local.partContainer.move_container_id,
 			parent_container_id=local.queryParent.container_id,
 			move_timestamp=arguments.move_timestamp
 		)>
