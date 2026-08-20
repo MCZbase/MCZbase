@@ -216,6 +216,9 @@ limitations under the License.
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
 	<script type="text/javascript" src="/containers/js/containers.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/containers/placePartInContainer.cfm">
+	<script type="text/javascript" src="/containers/js/placePartInContainer.js"></script>
+</cfif>
 <cfif isDefined("pageHasTabs") AND pageHasTabs EQ "true">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
@@ -590,11 +593,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1">Batch Scan</a>
 								
 											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm">Bulk Modify Containers</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Put Parts in Containers</a> 
-											</cfif>
+											<a class="dropdown-item" href="/containers/placePartInContainer.cfm">Put Parts in Containers</a>
 								
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 

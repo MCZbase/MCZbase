@@ -2887,6 +2887,404 @@ Returns status JSON and never aborts on trigger errors.
 </cffunction>
 
 <!---
+Function getPartsForContainerPlacementHTML. Resolves a cataloged item (by collection plus either
+an other-ID type/value or a catalog number), then renders the specimen-context line and the whole
+placement form -- Part selects (each option showing the barcode of whatever container currently
+holds that part, if any), New Part button, Parent Barcode field, parent-retype controls (current
+type, keep-current-type checkbox, New Container Type select excluding guarded types), badge
+placeholders, and Move button -- as one HTML fragment for containers/placePartInContainer.cfm to
+drop into its results area. Matches the specimens/component/functions.cfc getEditPartsHTML
+convention of rendering a whole form region server-side rather than having JS assemble it.
+@param collection_id the collection to search within.
+@param other_id_type the other-ID type to match oidnum against, or the literal "catalog_number".
+@param oidnum the ID number/value to match.
+@param noBarcode when true, only include parts whose current container has no parent container
+	(i.e. not yet placed inside another, barcoded container).
+@param noSubsample when true, exclude parts that are themselves subsamples of another part.
+@return HTML (plain text, not JSON) -- either an error message, or the full placement form.
+--->
+<cffunction name="getPartsForContainerPlacementHTML" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfargument name="other_id_type" type="string" required="yes">
+	<cfargument name="oidnum" type="string" required="yes">
+	<cfargument name="noBarcode" type="boolean" required="no" default="false">
+	<cfargument name="noSubsample" type="boolean" required="no" default="false">
+
+	<cfsavecontent variable="local.html">
+	<cfoutput>
+	<cftry>
+		<cfquery name="local.queryCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT cataloged_item.collection_object_id
+			FROM cataloged_item
+				<cfif arguments.other_id_type NEQ "catalog_number">
+					JOIN coll_obj_other_id_num ON cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
+				</cfif>
+			WHERE
+				cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+				<cfif arguments.other_id_type NEQ "catalog_number">
+					AND coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">
+					AND coll_obj_other_id_num.display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.oidnum)#">
+				<cfelse>
+					AND cataloged_item.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.oidnum)#">
+				</cfif>
+		</cfquery>
+		<cfif local.queryCatItem.recordcount EQ 0>
+			<p class="text-danger">No specimen matches that collection and identifier.</p>
+		<cfelseif local.queryCatItem.recordcount GT 1>
+			<p class="text-danger">#local.queryCatItem.recordcount# specimens match that identifier -- it is not unique within this collection.</p>
+		<cfelse>
+			<cfset local.catalogedItemId = local.queryCatItem.collection_object_id>
+			<cfquery name="local.queryParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					specimen_part.collection_object_id AS part_id,
+					decode(specimen_part.sampled_from_obj_id, null, specimen_part.part_name, specimen_part.part_name || ' SAMPLE') AS part_name,
+					decode(parent_container.barcode, '0', null, parent_container.barcode) AS current_parent_barcode
+				FROM
+					specimen_part
+					JOIN coll_obj_cont_hist ON specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+						AND coll_obj_cont_hist.current_container_fg = 1
+					JOIN container part_container ON coll_obj_cont_hist.container_id = part_container.container_id
+					LEFT JOIN container parent_container ON part_container.parent_container_id = parent_container.container_id
+				WHERE
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.catalogedItemId#">
+					<cfif arguments.noBarcode>
+						AND (part_container.parent_container_id = 0 OR part_container.parent_container_id IS NULL)
+					</cfif>
+					<cfif arguments.noSubsample>
+						AND specimen_part.sampled_from_obj_id IS NULL
+					</cfif>
+				ORDER BY specimen_part.part_name
+			</cfquery>
+			<cfif local.queryParts.recordcount EQ 0>
+				<p class="text-muted">No parts found for this specimen.</p>
+			<cfelse>
+				<cfset local.qNewTypes = getBulkRetypeableContainerTypes()>
+				<input type="hidden" id="catalogedItemId" value="#local.catalogedItemId#">
+				<p>#local.queryParts.recordcount# part(s) found.</p>
+				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
+					<div class="col-12 col-md-5 mb-2">
+						<label for="part_name" class="data-entry-label">Part</label>
+						<select name="part_name" id="part_name" class="data-entry-select reqdClr" required aria-required="true">
+							<cfloop query="local.queryParts">
+								<cfset local.optionLabel = local.queryParts.part_name>
+								<cfif len(local.queryParts.current_parent_barcode) GT 0>
+									<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
+								</cfif>
+								<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-5 mb-2">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="useSecondPart" onchange="toggleSecondPart();">
+							<label class="form-check-label" for="useSecondPart">Move a second part with this one</label>
+						</div>
+						<div id="secondPartWrap" style="display:none;">
+							<label for="part_name_2" class="data-entry-label">Part 2</label>
+							<select name="part_name_2" id="part_name_2" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="local.queryParts">
+									<cfset local.optionLabel = local.queryParts.part_name>
+									<cfif len(local.queryParts.current_parent_barcode) GT 0>
+										<cfset local.optionLabel = "#local.optionLabel# [#local.queryParts.current_parent_barcode#]">
+									</cfif>
+									<option value="#local.queryParts.part_id#">#encodeForHtml(local.optionLabel)#</option>
+								</cfloop>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-2 mb-2 d-flex align-items-start">
+						<button type="button" id="newPartBtn" class="btn btn-xs btn-secondary" onclick="openNewPartDialog();">New Part</button>
+					</div>
+				</div>
+				<div class="row border rounded mx-0 my-2 pt-2 pb-1 px-2">
+					<div class="col-12 col-md-4 mb-2">
+						<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier</label>
+						<input type="text" name="parent_barcode" id="parent_barcode" class="data-entry-input reqdClr" required aria-required="true" onchange="onParentBarcodeChange();">
+						<div class="form-check mt-1">
+							<input type="checkbox" class="form-check-input" id="submitOnChange">
+							<label class="form-check-label" for="submitOnChange">Submit on Parent Barcode Change</label>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 mb-2">
+						<span class="data-entry-label">Parent Container Type</span>
+						<div><small class="text-muted">Currently: <strong id="currentParentType">&ndash;</strong></small></div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="keepCurrentType" checked onchange="onKeepCurrentTypeChange();">
+							<label class="form-check-label" for="keepCurrentType">Keep current type</label>
+						</div>
+						<select name="new_container_type" id="new_container_type" class="data-entry-select" disabled onchange="onNewContainerTypeChange();">
+							<option value=""></option>
+							<cfloop query="local.qNewTypes">
+								<option value="#encodeForHtml(local.qNewTypes.container_type)#">#encodeForHtml(local.qNewTypes.container_type)#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-4 mb-2">
+						<div id="part1Badge" class="mb-1" role="status"></div>
+						<div id="part2Badge" class="mb-1" role="status"></div>
+						<div id="retypeBadge" class="mb-1" role="status"></div>
+					</div>
+					<div class="col-12">
+						<button type="button" id="moveBtn" class="btn btn-xs btn-primary" disabled onclick="commitPlacement();">Move</button>
+					</div>
+				</div>
+			</cfif>
+		</cfif>
+	<cfcatch>
+		<p class="text-danger">Error: #encodeForHtml(cfcatch.message)#</p>
+	</cfcatch>
+	</cftry>
+	</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
+Function preflightPlacePartByBarcode. Resolves a specimen part's current container (via
+coll_obj_cont_hist's current-placement flag, the same idiom specimens/component/functions.cfc's
+updatePart/createSpecimenPart already use) and a destination parent barcode, then runs placement
+preflight validation -- used before actually moving a part on
+containers/placePartInContainer.cfm.
+@param part_collection_object_id the specimen_part's own collection_object_id.
+@param parent_barcode barcode of the destination parent container.
+@return a JSON object with status (ok|notfound|error), placement validation keys from
+	validateContainerPlacement (allowed, severity, warnings, blocks, parent_type -- the parent's
+	current container_type, before any retype -- etc), and context keys: child_container_id,
+	parent_container_id, parent_label, parent_barcode.
+--->
+<cffunction name="preflightPlacePartByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+	<cfargument name="parent_barcode" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container.container_id, container.label, container.barcode
+			FROM coll_obj_cont_hist
+				JOIN container ON coll_obj_cont_hist.container_id = container.container_id
+			WHERE
+				coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+				AND coll_obj_cont_hist.current_container_fg = 1
+		</cfquery>
+		<cfif local.queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "This part's current container could not be found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
+		</cfquery>
+		<cfif local.queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent barcode was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfset local.validationResult = validateContainerPlacement(
+			child_container_id=local.queryChild.container_id,
+			proposed_parent_container_id=local.queryParent.container_id
+		)>
+		<cfif isSimpleValue(local.validationResult)>
+			<cfset local.validationResult = deserializeJSON(local.validationResult)>
+		</cfif>
+
+		<cfset local.validationResult["status"] = "ok">
+		<cfset local.validationResult["child_container_id"] = local.queryChild.container_id>
+		<cfset local.validationResult["child_label"] = local.queryChild.label>
+		<cfset local.validationResult["child_barcode"] = local.queryChild.barcode>
+		<cfset local.validationResult["parent_container_id"] = local.queryParent.container_id>
+		<cfset local.validationResult["parent_label"] = local.queryParent.label>
+		<cfset local.validationResult["parent_barcode"] = local.queryParent.barcode>
+		<cfreturn serializeJSON(local.validationResult)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function placePartByBarcode. Moves a specimen part's current container into a new parent container
+by barcode -- the explicit commit step behind containers/placePartInContainer.cfm's preflight badge.
+Delegates the actual move (and its trigger-error handling) to moveContainerById once both containers
+are resolved.
+@param part_collection_object_id the specimen_part's own collection_object_id.
+@param parent_barcode barcode of the destination parent container.
+@param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, parent_container_id, missing (when notfound).
+--->
+<cffunction name="placePartByBarcode" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+	<cfargument name="parent_barcode" type="string" required="yes">
+	<cfargument name="move_timestamp" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "You do not have permission to move containers.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="local.queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container.container_id
+			FROM coll_obj_cont_hist
+				JOIN container ON coll_obj_cont_hist.container_id = container.container_id
+			WHERE
+				coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+				AND coll_obj_cont_hist.current_container_fg = 1
+		</cfquery>
+		<cfif local.queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "This part's current container could not be found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id
+			FROM container
+			WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.parent_barcode)#">
+		</cfquery>
+		<cfif local.queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent barcode was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfreturn moveContainerById(
+			child_container_id=local.queryChild.container_id,
+			parent_container_id=local.queryParent.container_id,
+			move_timestamp=arguments.move_timestamp
+		)>
+	<cfcatch>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function getNewPartFormHTML. Renders the "New Part" dialog's form fields for
+containers/placePartInContainer.cfm -- vocab selects (part name and preserve method filtered to
+the specimen's own collection via its collection_cde, disposition and lot-count modifier global,
+matching the vocab sources specimens/component/functions.cfc's getEditPartsHTML already uses for
+the same fields) plus the plain input fields createSpecimenPart also needs -- as one HTML fragment
+for the dialog container to be filled with.
+@param collection_id the collection the new part's cataloged item belongs to.
+@return HTML (plain text, not JSON) -- either an error message, or the New Part form fields.
+--->
+<cffunction name="getNewPartFormHTML" access="remote" returntype="string" returnformat="plain" output="false">
+	<cfargument name="collection_id" type="numeric" required="yes">
+
+	<cfsavecontent variable="local.html">
+	<cfoutput>
+	<cftry>
+		<cfquery name="local.queryCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT collection_cde FROM collection
+			WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+		</cfquery>
+		<cfif local.queryCollection.recordcount EQ 0>
+			<p class="text-danger">Collection was not found.</p>
+		<cfelse>
+			<cfquery name="local.queryDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT coll_obj_disposition FROM ctcoll_obj_disp ORDER BY coll_obj_disposition
+			</cfquery>
+			<cfquery name="local.queryModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT modifier FROM ctnumeric_modifiers ORDER BY modifier DESC
+			</cfquery>
+			<cfquery name="local.queryPartNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT part_name FROM ctspecimen_part_name
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.queryCollection.collection_cde#">
+				ORDER BY part_name
+			</cfquery>
+			<cfquery name="local.queryPreserveMethods" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT preserve_method FROM ctspecimen_preserv_method
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.queryCollection.collection_cde#">
+				ORDER BY preserve_method
+			</cfquery>
+			<div class="form-row mb-2">
+				<div class="col-12">
+					<label for="npart_name" class="data-entry-label">Part Name</label>
+					<select name="npart_name" id="npart_name" class="data-entry-select reqdClr" required aria-required="true">
+						<cfloop query="local.queryPartNames">
+							<option value="#encodeForHtml(local.queryPartNames.part_name)#">#encodeForHtml(local.queryPartNames.part_name)#</option>
+						</cfloop>
+					</select>
+				</div>
+			</div>
+			<div class="form-row mb-2">
+				<div class="col-6">
+					<label for="npreserve_method" class="data-entry-label">Preserve Method</label>
+					<select name="npreserve_method" id="npreserve_method" class="data-entry-select reqdClr" required aria-required="true">
+						<cfloop query="local.queryPreserveMethods">
+							<option value="#encodeForHtml(local.queryPreserveMethods.preserve_method)#">#encodeForHtml(local.queryPreserveMethods.preserve_method)#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-3">
+					<label for="nlot_count" class="data-entry-label">Lot Count</label>
+					<input type="text" name="nlot_count" id="nlot_count" class="data-entry-input reqdClr" required aria-required="true">
+				</div>
+				<div class="col-3">
+					<label for="nlot_count_modifier" class="data-entry-label">Modifier</label>
+					<select name="nlot_count_modifier" id="nlot_count_modifier" class="data-entry-select">
+						<option value=""></option>
+						<cfloop query="local.queryModifiers">
+							<option value="#encodeForHtml(local.queryModifiers.modifier)#">#encodeForHtml(local.queryModifiers.modifier)#</option>
+						</cfloop>
+					</select>
+				</div>
+			</div>
+			<div class="form-row mb-2">
+				<div class="col-6">
+					<label for="ncoll_obj_disposition" class="data-entry-label">Disposition</label>
+					<select name="ncoll_obj_disposition" id="ncoll_obj_disposition" class="data-entry-select reqdClr" required aria-required="true">
+						<cfloop query="local.queryDisp">
+							<option value="#encodeForHtml(local.queryDisp.coll_obj_disposition)#">#encodeForHtml(local.queryDisp.coll_obj_disposition)#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-6">
+					<label for="ncondition" class="data-entry-label">Condition</label>
+					<input type="text" name="ncondition" id="ncondition" class="data-entry-input reqdClr" required aria-required="true">
+				</div>
+			</div>
+			<div class="form-row mb-2">
+				<div class="col-6">
+					<label for="ncondition_remarks" class="data-entry-label">Condition Remarks</label>
+					<input type="text" name="ncondition_remarks" id="ncondition_remarks" class="data-entry-input">
+				</div>
+				<div class="col-6">
+					<label for="ncoll_object_remarks" class="data-entry-label">Remarks</label>
+					<input type="text" name="ncoll_object_remarks" id="ncoll_object_remarks" class="data-entry-input">
+				</div>
+			</div>
+			<output id="newPartFeedback" class="d-block my-2">&nbsp;</output>
+			<button type="button" id="createPartBtn" class="btn btn-xs btn-primary" onclick="submitNewPart();">Create</button>
+		</cfif>
+	<cfcatch>
+		<p class="text-danger">Error: #encodeForHtml(cfcatch.message)#</p>
+	</cfcatch>
+	</cftry>
+	</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
 Function placeContainerIntoPositionByBarcode.  Looks up a scanned/typed barcode and, if it
 matches an existing container, places that container into the given position container by
 delegating to moveContainerById.  Supports the positions-grid scan-to-place workflow on
