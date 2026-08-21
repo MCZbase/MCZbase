@@ -1040,7 +1040,9 @@ Function saveContainer.  Updates an existing container record.
 		<cftry>
 			<cfquery name="queryGetExisting" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
-					parent_container_id
+					parent_container_id,
+					container_type,
+					number_positions
 				FROM
 					container
 				WHERE
@@ -1061,11 +1063,33 @@ Function saveContainer.  Updates an existing container record.
 				<cfset lockedRoot = true>
 			</cfif>
 
-			<!--- Known, unaddressed gap (not new -- neither this nor the retired containerPositions.cfm
-				ever handled it): changing container_type here doesn't touch any existing position
-				sub-containers, so their width/height/length stay fixed at whatever preset applied
-				when createContainerPositions created them, even if the parent's type changes
-				afterward to something the preset no longer matches. --->
+			<!--- Validate an actual container_type change against this container's current parent and
+				children -- bulkModifyContainers.cfm's dedicated bulk-retype tool already runs every
+				retype through validateContainerRetype's ten rules (parent/child role conflicts,
+				expected-parent-type, rank order), but this single-container edit path never has,
+				which meant Container.cfm's own edit form could retype a container into something
+				its existing children (including position sub-containers) don't fit at all, with no
+				warning. Only runs when the type is actually changing -- otherwise an edit to an
+				unrelated field (a remark, a dimension) on a container whose pre-existing type/parent/
+				children combo predates these rules and wouldn't itself pass them today would get
+				blocked for a change that was never being requested. A "block" severity refuses the
+				save outright, matching this function's existing error-response shape; a "warn"
+				severity is returned to the caller rather than silently dropped, though Container.cfm's
+				save flow doesn't yet have anywhere to show a warning that doesn't block the save --
+				see Redmine #817 phase 5 notes. --->
+			<cfif NOT lockedRoot AND trim(arguments.container_type) NEQ queryGetExisting.container_type>
+				<cfset local.retypeCheck = validateContainerRetype(container_id=arguments.container_id, new_container_type=trim(arguments.container_type))>
+				<cfif isSimpleValue(local.retypeCheck)>
+					<cfset local.retypeCheck = deserializeJSON(local.retypeCheck)>
+				</cfif>
+				<cfif local.retypeCheck.severity EQ "block">
+					<cfset local.retval["status"] = "error">
+					<cfset local.retval["message"] = "Cannot change Container Type to #trim(arguments.container_type)# -- #ArrayToList(local.retypeCheck.blocks, ' ')#">
+					<cfreturn serializeJSON(local.retval)>
+				<cfelseif local.retypeCheck.severity EQ "warn">
+					<cfset local.retval["warnings"] = local.retypeCheck.warnings>
+				</cfif>
+			</cfif>
 
 			<!--- Guard against shrinking number_positions below existing position sub-containers --
 				the MOVE_CONTAINER trigger only validates a container's placement when its OWN
@@ -1073,8 +1097,17 @@ Function saveContainer.  Updates an existing container record.
 				being edited down below either occupied or merely-existing position records; the
 				positions grid isn't filtered by number_positions at all (it shows every actual
 				container_type='position' child regardless), so shrinking this silently leaves the
-				box's declared capacity out of sync with its real position records. --->
-			<cfif NOT lockedRoot AND len(trim(arguments.number_positions)) GT 0>
+				box's declared capacity out of sync with its real position records. Only runs when
+				the new value is actually lower than what's stored -- otherwise resubmitting an
+				unchanged (or increased) value on an unrelated edit to a container whose position
+				records already predate this guard would get blocked for a reduction that was never
+				being requested. --->
+			<cfset local.existingNumberPositions = val(queryGetExisting.number_positions)>
+			<cfset local.newNumberPositionsValue = 0>
+			<cfif len(trim(arguments.number_positions)) GT 0>
+				<cfset local.newNumberPositionsValue = val(arguments.number_positions)>
+			</cfif>
+			<cfif NOT lockedRoot AND local.newNumberPositionsValue LT local.existingNumberPositions>
 				<cfquery name="queryPositionsBeyondNewCount" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						pos.label,
@@ -1083,7 +1116,7 @@ Function saveContainer.  Updates an existing container record.
 					WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 						AND pos.container_type = 'position'
 						AND REGEXP_LIKE(pos.label, '^[0-9]+$')
-						AND TO_NUMBER(pos.label) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#">
+						AND TO_NUMBER(pos.label) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newNumberPositionsValue#">
 				</cfquery>
 				<cfif queryPositionsBeyondNewCount.recordcount GT 0>
 					<cfset local.occupiedBeyondCount = 0>
@@ -1094,9 +1127,9 @@ Function saveContainer.  Updates an existing container record.
 					</cfloop>
 					<cfset local.retval["status"] = "error">
 					<cfif local.occupiedBeyondCount GT 0>
-						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #trim(arguments.number_positions)# -- #local.occupiedBeyondCount# of the #queryPositionsBeyondNewCount.recordcount# position(s) beyond that count currently hold something. Move or remove their contents first.">
+						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #local.newNumberPositionsValue# -- #local.occupiedBeyondCount# of the #queryPositionsBeyondNewCount.recordcount# position(s) beyond that count currently hold something. Move or remove their contents first.">
 					<cfelse>
-						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #trim(arguments.number_positions)# -- #queryPositionsBeyondNewCount.recordcount# position record(s) beyond that count already exist (though currently empty). Number of Positions must stay at or above the highest existing position.">
+						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #local.newNumberPositionsValue# -- #queryPositionsBeyondNewCount.recordcount# position record(s) beyond that count already exist (though currently empty). Number of Positions must stay at or above the highest existing position.">
 					</cfif>
 					<cfreturn serializeJSON(local.retval)>
 				</cfif>
