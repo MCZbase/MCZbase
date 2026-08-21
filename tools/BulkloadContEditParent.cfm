@@ -25,10 +25,10 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT container_unique_id,parent_unique_id,container_type,container_name, 
+		SELECT container_unique_id,parent_unique_id,container_type,container_name,
 			description, remarks, width, height, length, number_positions,
-			status 
-		FROM cf_temp_cont_edit 
+			status, placement_severity, placement_message
+		FROM cf_temp_cont_edit
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
 	</cfquery>
@@ -40,11 +40,57 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "CONTAINER_UNIQUE_ID,PARENT_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME,DESCRIPTION,REMARKS,WIDTH,HEIGHT,LENGTH,NUMBER_POSITIONS">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<!--- SCAN_TIMESTAMP is optional -- populated only by a barcode scan-dump upload (see uploadType below), where it
+	carries that scan's own historical date/time through to the apply step's parent_install_date. A plain CSV
+	upload leaves it blank, and the apply step falls back to sysdate exactly as it always has. --->
+<cfset fieldlist = "CONTAINER_UNIQUE_ID,PARENT_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME,DESCRIPTION,REMARKS,WIDTH,HEIGHT,LENGTH,NUMBER_POSITIONS,SCAN_TIMESTAMP">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_TIMESTAMP">
 <!--- scale is ignored by cfqueryparam for non-decimal types; only WIDTH/HEIGHT/LENGTH need better than whole-number precision, NUMBER_POSITIONS is genuinely integer --->
-<cfset fieldScales ="0,0,0,0,0,0,4,4,4,0">
+<cfset fieldScales ="0,0,0,0,0,0,4,4,4,0,0">
 <cfset requiredfieldlist = "CONTAINER_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME">
+
+<!--- Function convertScanDumpToCSV. Rewrites a headerless barcode scan-dump upload (one
+	parent_barcode,child_barcode,date,time per line, matching a barcode scanner's raw log
+	output) into a synthetic CSV file with a PARENT_UNIQUE_ID,CONTAINER_UNIQUE_ID,SCAN_TIMESTAMP
+	header, so the rest of this page's column-matching/validation/insert pipeline (built for
+	loadCsvFile's header-driven CSVs) runs completely unchanged for either upload type. A line
+	whose date/time can't be parsed is still loaded, with SCAN_TIMESTAMP left blank for that row
+	(the apply step then falls back to sysdate for it) rather than aborting the whole upload.
+	@param scanDumpFilePath path to the raw uploaded scan-dump file.
+	@return path to a new temp CSV file suitable for loadCsvFile(format="DEFAULT").
+--->
+<cffunction name="convertScanDumpToCSV" returntype="string" access="private">
+	<cfargument name="scanDumpFilePath" type="string" required="yes">
+
+	<cffile action="READ" file="#arguments.scanDumpFilePath#" variable="local.rawContent">
+	<cfset local.csvLines = ArrayNew(1)>
+	<cfset ArrayAppend(local.csvLines,'"PARENT_UNIQUE_ID","CONTAINER_UNIQUE_ID","SCAN_TIMESTAMP"')>
+	<cfloop index="local.line" list="#local.rawContent#" delimiters="#chr(10)##chr(13)#">
+		<cfif len(trim(local.line)) GT 0>
+			<cfset local.parentBarcode = trim(ListGetAt(local.line,1,","))>
+			<cfset local.childBarcode = trim(ListGetAt(local.line,2,","))>
+			<cfset local.scanTimestamp = "">
+			<cftry>
+				<cfset local.scanDate = trim(ListGetAt(local.line,3,","))>
+				<cfset local.scanTime = trim(ListGetAt(local.line,4,","))>
+				<!--- uppercase HH for a 24-hour clock -- the legacy scan-dump reader this replaces
+					used lowercase hh with no am/pm marker, silently losing the afternoon/evening
+					distinction on every scan it loaded. --->
+				<cfset local.scanTimestamp = "#dateformat(local.scanDate,'yyyy-mm-dd')# #timeformat(local.scanTime,'HH:mm:ss')#">
+			<cfcatch>
+				<!--- leave local.scanTimestamp blank; container/parent barcode resolution and the
+					existing not-found checks still apply to this row during validation --->
+			</cfcatch>
+			</cftry>
+			<cfset local.escapedParent = Replace(local.parentBarcode,'"','""',"all")>
+			<cfset local.escapedChild = Replace(local.childBarcode,'"','""',"all")>
+			<cfset ArrayAppend(local.csvLines,'"#local.escapedParent#","#local.escapedChild#","#local.scanTimestamp#"')>
+		</cfif>
+	</cfloop>
+	<cfset local.tempFilePath = GetTempFile(GetTempDirectory(),"scandump")>
+	<cffile action="WRITE" file="#local.tempFilePath#" output="#ArrayToList(local.csvLines,chr(10))#">
+	<cfreturn local.tempFilePath>
+</cffunction>
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
@@ -63,6 +109,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Edit Container">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
+<cfinclude template="/containers/component/functions.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
@@ -70,6 +117,7 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
 			<p>The container_unique_id is the container&apos;s unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
+			<p>Moving containers from a barcode scanner's log instead? Choose <strong>Barcode scan dump</strong> below and upload it as-is -- each line's <code>parent_barcode,child_barcode,date,time</code> is read directly, with no header row and no other fields to fill in, and the scan's own date and time are recorded as the new parent placement's install date instead of the time of this upload.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -121,18 +169,29 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="">
-				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<h2 class="h4 mt-4">Upload a file</h2>
 				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 					<div class="form-row border rounded p-2">
 						<input type="hidden" name="action" value="getFile">
+						<fieldset class="col-12 mb-2">
+							<legend class="h6 mb-1">Upload type</legend>
+							<div class="form-check form-check-inline">
+								<input type="radio" name="uploadType" id="uploadTypeCsv" value="csv" class="form-check-input" checked onchange="toggleBulkUploadType(false);">
+								<label class="form-check-label" for="uploadTypeCsv">Comma-delimited text file (csv) with a header row</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" name="uploadType" id="uploadTypeScanDump" value="scanDump" class="form-check-input" onchange="toggleBulkUploadType(true);">
+								<label class="form-check-label" for="uploadTypeScanDump">Barcode scan dump (no header; one <code>parent_barcode,child_barcode,date,time</code> per line)</label>
+							</div>
+						</fieldset>
 						<div class="col-12 col-md-4">
-							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label>
 							<input type="file" name="FileToUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3" id="charsetSelectDiv">
 							<cfset charsetSelect = getCharsetSelectHTML()>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3" id="formatSelectDiv">
 							<cfset formatSelect = getFormatSelectHTML()>
 						</div>
 						<div class="col-12 col-md-2">
@@ -142,6 +201,17 @@ limitations under the License.
 					</div>
 				</form>
 			</div>
+			<script>
+				/** Function toggleBulkUploadType shows/hides the character-set and format pickers, which
+				  * only apply to the CSV upload path -- a scan dump is always plain comma-delimited text
+				  * with a fixed column order and no header, so there's nothing for those pickers to select.
+				  * @param isScanDump true when the scan-dump upload type is selected.
+				  */
+				function toggleBulkUploadType(isScanDump) {
+					document.getElementById('charsetSelectDiv').style.display = isScanDump ? 'none' : '';
+					document.getElementById('formatSelectDiv').style.display = isScanDump ? 'none' : '';
+				}
+			</script>
 			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
 					// Get the textarea element
@@ -171,9 +241,17 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif variables.action is "getFile">
 		<!--- get form variables --->
+		<cfparam name="form.uploadType" default="csv">
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+		<cfif form.uploadType EQ "scanDump">
+			<!--- a scan dump is always plain, headerless, comma-delimited text -- convert it to a
+				synthetic CSV up front so everything below runs the same for either upload type --->
+			<cfset variables.fileToUpload = convertScanDumpToCSV(variables.fileToUpload)>
+			<cfset variables.format = "DEFAULT">
+			<cfset variables.characterSet = "utf-8">
+		</cfif>
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -406,22 +484,62 @@ limitations under the License.
 					WHERE CONTAINER_NAME is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			
+
+				<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank order, etc.)
+					are validated with the same badge engine moveContainer.cfm/placePartInContainer.cfm use, rather
+					than a second, separately-maintained copy of those rules -- so this stays current automatically
+					as those rules evolve. Only rows where both ends of a proposed reparenting resolved to a real
+					container are checked. A "block" severity is folded into STATUS (the existing hard-stop gate);
+					a "warn" severity is recorded separately, since it should be surfaced but not force a restart. --->
+				<cfquery name="getPlacementCandidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT key, container_id, parent_container_id
+					FROM cf_temp_cont_edit
+					WHERE container_id is not null
+						AND parent_container_id is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query="getPlacementCandidates">
+					<cfset local.placementResult = validateContainerPlacement(child_container_id=getPlacementCandidates.container_id, proposed_parent_container_id=getPlacementCandidates.parent_container_id)>
+					<cfif local.placementResult.severity EQ "block">
+						<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_cont_edit
+							SET status = concat(nvl2(status, status || '; ', ''), 'placement_blocked, ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.blocks,'; ')#">),
+								placement_severity = 'block'
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						</cfquery>
+					<cfelseif local.placementResult.severity EQ "warn">
+						<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_cont_edit
+							SET placement_severity = 'warn',
+								placement_message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
-						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+						HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS, PLACEMENT_SEVERITY, PLACEMENT_MESSAGE
 					FROM cf_temp_cont_edit
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					ORDER BY key
 				</cfquery>
 				<cfquery name="pf" dbtype="query">
-					SELECT count(*) c 
-					FROM data 
+					SELECT count(*) c
+					FROM data
 					WHERE status is not null
+				</cfquery>
+				<cfquery name="warnOnly" dbtype="query">
+					SELECT count(*) c
+					FROM data
+					WHERE status is null
+						AND placement_severity = 'warn'
 				</cfquery>
 				<h3 class="mt-3">
 					<cfif pf.c gt 0>
 						There is a problem with #pf.c# of #data.recordcount# row(s) (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>). See the STATUS column. Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
+					<cfelseif warnOnly.c gt 0>
+						<span class="text-warning font-weight-bold">Validation found #warnOnly.c# placement warning(s)</span> — see the PLACEMENT WARNING column below. You may <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">load anyway</a>, or <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">fix and start again</a>.
 					<cfelse>
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
 					</cfif>
@@ -430,6 +548,7 @@ limitations under the License.
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
+						<th>PLACEMENT WARNING</th>
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>PARENT_UNIQUE_ID</th>
 						<th>CONTAINER_TYPE</th>
@@ -447,6 +566,7 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td><cfif data.placement_severity EQ "warn"><span class="text-warning">#data.placement_message#</span></cfif></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_UNIQUE_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>
@@ -501,7 +621,13 @@ limitations under the License.
 							SET
 								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
 								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
-								PARENT_INSTALL_DATE=sysdate,
+								<!--- a barcode scan-dump row carries its own historical placement timestamp;
+									an ordinary CSV row has none, and keeps using the load time as always --->
+								<cfif len(#SCAN_TIMESTAMP#) gt 0>
+									PARENT_INSTALL_DATE=<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#SCAN_TIMESTAMP#">,
+								<cfelse>
+									PARENT_INSTALL_DATE=sysdate,
+								</cfif>
 								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 								<cfif len(#WIDTH#) gt 0>
 									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#WIDTH#">
