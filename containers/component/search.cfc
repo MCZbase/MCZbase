@@ -490,6 +490,10 @@ a paginated JSON result for display in the browse panel.
   [numeric]     - parent position with exact numeric label/barcode match
   [text]        - parent position label/barcode contains text (case-insensitive)
   [=text]       - parent position label/barcode exact text match (case-insensitive)
+@param contains_guids optional comma/semicolon-separated list of specimen GUIDs; restricts results to
+  containers currently holding a part of any of the named cataloged items.
+@param contains_result_id optional saved search result_id (user_search_table); resolved the same way as
+  contains_guids, against that search's distinct cataloged items.
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -541,6 +545,25 @@ a paginated JSON result for display in the browse panel.
 					<cfloop query="local.queryGuidLookup">
 						<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryGuidLookup.collection_object_id)>
 					</cfloop>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- Resolve a saved search's result_id to distinct cataloged items here, eagerly, and fold
+			them into the same containsCatalogedItemIds list as the GUID path above, rather than
+			embedding this lookup as a live subquery inside the Contains filter below -- that filter
+			already joins the two largest tables in the schema (coll_obj_cont_hist, specimen_part), and
+			the optimizer can't push a selective predicate through a subquery wrapped in NVL() nearly as
+			well as it can a plain parameterized IN-list. --->
+		<cfif len(local.containsResultId) GT 0>
+			<cfquery name="local.queryContainsResultItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
+				FROM user_search_table ust
+					LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+				WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
+			</cfquery>
+			<cfloop query="local.queryContainsResultItems">
+				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
 				</cfif>
 			</cfloop>
 		</cfif>
@@ -662,7 +685,7 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			<!--- Contains: restrict to containers that are the *current* container of some part
 				derived from a given cataloged item (by GUID list, or by a saved search's result_id --
-				either resolves to a list of cataloged_item.collection_object_id, since a GUID always
+				both are resolved above into the same containsCatalogedItemIds list, since a GUID always
 				names a cataloged item and a saved search's rows may be either parts or cataloged items,
 				resolved the same way -- part's own id falls back to its derived_from_cat_item, a
 				cataloged item's own id is used as-is). --->
@@ -674,24 +697,10 @@ a paginated JSON result for display in the browse panel.
 					WHERE coch.current_container_fg = 1
 						AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
 				)
-			<cfelseif len(trim(arguments.contains_guids)) GT 0>
-				<!--- Contains was given but none of the GUIDs resolved -- force zero results rather
-					than silently ignoring the filter and returning an unfiltered search. --->
+			<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0>
+				<!--- Contains was given but nothing resolved -- force zero results rather than
+					silently ignoring the filter and returning an unfiltered search. --->
 				AND 1=0
-			</cfif>
-			<cfif len(local.containsResultId) GT 0>
-				AND c.container_id IN (
-					SELECT coch.container_id
-					FROM coll_obj_cont_hist coch
-						JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
-					WHERE coch.current_container_fg = 1
-						AND sp.derived_from_cat_item IN (
-							SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id)
-							FROM user_search_table ust
-								LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
-							WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
-						)
-				)
 			</cfif>
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
@@ -839,22 +848,8 @@ a paginated JSON result for display in the browse panel.
 							WHERE coch.current_container_fg = 1
 								AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
 						)
-					<cfelseif len(trim(arguments.contains_guids)) GT 0>
+					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0>
 						AND 1=0
-					</cfif>
-					<cfif len(local.containsResultId) GT 0>
-						AND c.container_id IN (
-							SELECT coch.container_id
-							FROM coll_obj_cont_hist coch
-								JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
-							WHERE coch.current_container_fg = 1
-								AND sp.derived_from_cat_item IN (
-									SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id)
-									FROM user_search_table ust
-										LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
-									WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
-								)
-						)
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)
