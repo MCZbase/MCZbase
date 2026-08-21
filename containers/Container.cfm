@@ -386,7 +386,7 @@ limitations under the License.
 							<cfif val(variables.formData.number_positions) LTE 0>
 								<cfset variables.positionsLinkClass = "#variables.positionsLinkClass# d-none">
 							</cfif>
-							<a class="#variables.positionsLinkClass#" id="legacyContainerPositionsLink" href="/containerPositions.cfm?container_id=#encodeForURL(variables.formData.container_id)#">Container Positions</a>
+							<a class="#variables.positionsLinkClass#" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">Container Positions</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
