@@ -319,6 +319,11 @@
 					<cfif len(#thisContainerId#) gt 0>
 
 						<cfset local.moveResult = moveContainerById(child_container_id=thisContainerId, parent_container_id=thisParentId)>
+						<!--- moveContainerById's returnformat="json" means it can come back as a JSON
+							string rather than a native struct even on this in-process call --->
+						<cfif isSimpleValue(local.moveResult)>
+							<cfset local.moveResult = deserializeJSON(local.moveResult)>
+						</cfif>
 						<cfif local.moveResult.status NEQ "moved">
 							<cfset oops = "#oops#; barcode #thisBarcode# could not be placed: #local.moveResult.message#!">
 						</cfif>

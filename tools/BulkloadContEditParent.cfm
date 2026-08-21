@@ -516,6 +516,13 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getPlacementCandidates">
 					<cfset local.placementResult = validateContainerPlacement(child_container_id=getPlacementCandidates.container_id, proposed_parent_container_id=getPlacementCandidates.parent_container_id)>
+					<!--- validateContainerPlacement's returnformat="json" means it can come back as a JSON
+						string rather than a native struct even on this in-process call -- every existing
+						caller of it/validateContainerRetype elsewhere in the codebase guards for this the
+						same way --->
+					<cfif isSimpleValue(local.placementResult)>
+						<cfset local.placementResult = deserializeJSON(local.placementResult)>
+					</cfif>
 					<cfif local.placementResult.severity EQ "block">
 						<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_cont_edit
