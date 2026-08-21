@@ -22,6 +22,12 @@ limitations under the License.
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
 <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 
+<!--- lets a link (e.g. the Curation menu's "Upload Scan File") land on the entryPoint form with the
+	scan-dump upload type pre-selected instead of the CSV default, via ?uploadType=scanDump --->
+<cfparam name="url.uploadType" default="csv">
+<cfset variables.entryUploadType = "csv">
+<cfif url.uploadType EQ "scanDump"><cfset variables.entryUploadType = "scanDump"></cfif>
+
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -170,17 +176,23 @@ limitations under the License.
 			</div>
 			<div class="">
 				<h2 class="h4 mt-4">Upload a file</h2>
+				<cfset csvChecked = "checked">
+				<cfset scanDumpChecked = "">
+				<cfif variables.entryUploadType EQ "scanDump">
+					<cfset csvChecked = "">
+					<cfset scanDumpChecked = "checked">
+				</cfif>
 				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 					<div class="form-row border rounded p-2">
 						<input type="hidden" name="action" value="getFile">
 						<fieldset class="col-12 mb-2">
 							<legend class="h6 mb-1">Upload type</legend>
 							<div class="form-check form-check-inline">
-								<input type="radio" name="uploadType" id="uploadTypeCsv" value="csv" class="form-check-input" checked onchange="toggleBulkUploadType(false);">
+								<input type="radio" name="uploadType" id="uploadTypeCsv" value="csv" class="form-check-input" #csvChecked# onchange="toggleBulkUploadType(false);">
 								<label class="form-check-label" for="uploadTypeCsv">Comma-delimited text file (csv) with a header row</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input type="radio" name="uploadType" id="uploadTypeScanDump" value="scanDump" class="form-check-input" onchange="toggleBulkUploadType(true);">
+								<input type="radio" name="uploadType" id="uploadTypeScanDump" value="scanDump" class="form-check-input" #scanDumpChecked# onchange="toggleBulkUploadType(true);">
 								<label class="form-check-label" for="uploadTypeScanDump">Barcode scan dump (no header; one <code>parent_barcode,child_barcode,date,time</code> per line)</label>
 							</div>
 						</fieldset>
@@ -211,6 +223,10 @@ limitations under the License.
 					document.getElementById('charsetSelectDiv').style.display = isScanDump ? 'none' : '';
 					document.getElementById('formatSelectDiv').style.display = isScanDump ? 'none' : '';
 				}
+				<!--- run once on load so a ?uploadType=scanDump deep link (e.g. from the Curation menu's
+					"Upload Scan File") starts with the charset/format pickers already hidden, matching
+					whichever radio button is pre-checked, rather than only reacting to a later onchange --->
+				toggleBulkUploadType(<cfif variables.entryUploadType EQ "scanDump">true<cfelse>false</cfif>);
 			</script>
 			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
