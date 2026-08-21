@@ -981,13 +981,19 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
+				var $positionsSummary = $('#containerPositionsSummary');
 				var $positionsLink = $('#containerPositionsLink');
 				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
-				if ($positionsLink.length > 0) {
+				if ($positionsSummary.length > 0 && $positionsLink.length > 0) {
 					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
-						$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
+						$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page');
+						// the accurate created/occupied counts are only known server-side; a saved change
+						// to Number of Positions falls back to this generic text rather than the fuller
+						// message shown on page load, until the page is reloaded
+						$('#containerPositionsSummaryText').text('This container declares ' + numberPositions + ' position' + (numberPositions === 1 ? '' : 's') + '.');
+						$positionsSummary.removeClass('d-none');
 					} else {
-						$positionsLink.addClass('d-none');
+						$positionsSummary.addClass('d-none');
 					}
 				}
 				if (shouldRefreshBreadcrumb) {
