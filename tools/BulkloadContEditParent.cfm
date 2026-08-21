@@ -123,7 +123,7 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
 			<p>The container_unique_id is the container&apos;s unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
-			<p>Moving containers from a barcode scanner's log instead? Choose <strong>Barcode scan dump</strong> below and upload it as-is -- each line's <code>parent_barcode,child_barcode,date,time</code> is read directly, with no header row and no other fields to fill in, and the scan's own date and time are recorded as the new parent placement's install date instead of the time of this upload.</p>
+			<p>Moving containers from a barcode scanner's log instead? Choose <strong>Barcode scan dump</strong> below and upload it as-is -- each line's <code>parent_barcode,child_barcode,date,time</code> is read directly, with no header row and no other fields to fill in, and the scan's own date and time are recorded as the new parent placement's install date instead of the time of this upload. Date may be written as <code>M/D/YYYY</code> or <code>YYYY-MM-DD</code>; time as 24-hour (<code>14:30:00</code>) or 12-hour with an AM/PM marker (<code>2:30:00 PM</code>) -- a 12-hour time with no AM/PM marker will be misread. A line whose date or time can't be read is still loaded, just without a placement date (it's set to the time of this upload instead).</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -217,11 +217,18 @@ limitations under the License.
 				/** Function toggleBulkUploadType shows/hides the character-set and format pickers, which
 				  * only apply to the CSV upload path -- a scan dump is always plain comma-delimited text
 				  * with a fixed column order and no header, so there's nothing for those pickers to select.
+				  * Both selects are marked required, so hiding them isn't enough on its own -- a hidden
+				  * required field can't be focused to show the browser's validation message, which
+				  * silently blocks the whole form's submit instead (logged only as a console warning:
+				  * "The invalid form control with name='characterSet' is not focusable."). Disabling
+				  * them removes them from constraint validation (and from the submitted form) entirely.
 				  * @param isScanDump true when the scan-dump upload type is selected.
 				  */
 				function toggleBulkUploadType(isScanDump) {
 					document.getElementById('charsetSelectDiv').style.display = isScanDump ? 'none' : '';
 					document.getElementById('formatSelectDiv').style.display = isScanDump ? 'none' : '';
+					document.getElementById('characterSet').disabled = isScanDump;
+					document.getElementById('format').disabled = isScanDump;
 				}
 				<!--- run once on load so a ?uploadType=scanDump deep link (e.g. from the Curation menu's
 					"Upload Scan File") starts with the charset/format pickers already hidden, matching
