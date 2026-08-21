@@ -2983,8 +2983,10 @@ Function getExpectedDisposition. Works out what disposition a part is expected t
 into a given container, for containers/placePartInContainer.cfm's disposition guidance: a
 deaccessioned disposition is expected once a part is placed into an "external" container_type --
 Deaccessioned is the canonical container of this type, so checking container_type is the correct way
-to identify this case, not the container's label -- and an in-collection disposition is expected once
-a part is placed below campus level in any other (non-external) container.
+to identify this case, not the container's label. Items on loan aren't a special case here: a loan
+doesn't move a part's storage container, so container_type=external isn't reached for loaned parts.
+An in-collection disposition is expected once a part is placed below campus level in any other
+(non-external) container.
 @param container_id the candidate destination container.
 @return a struct: {expected_disposition_hint: ""|"in_collection"|"deaccessioned", message}.
 --->
