@@ -603,7 +603,7 @@ limitations under the License.
 					<cfif pf.c gt 0>
 						There is a problem with #pf.c# of #data.recordcount# row(s) (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>). See the STATUS column. Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
 					<cfelseif warnOnly.c gt 0>
-						<span class="text-warning font-weight-bold">Validation found #warnOnly.c# placement warning(s)</span> — see the PLACEMENT WARNING column below. You may <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">load anyway</a>, or <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">fix and start again</a>.
+						<span class="badge badge-warning">Warning</span> Validation found #warnOnly.c# placement warning(s) — see the PLACEMENT WARNING column below. You may <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">load anyway</a>, or <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">fix and start again</a>.
 					<cfelse>
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
 					</cfif>
@@ -630,7 +630,7 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td><cfif data.placement_severity EQ "warn"><span class="text-warning">#data.placement_message#</span></cfif></td>
+							<td><cfif data.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#data.placement_message#</cfif></td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_UNIQUE_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>
