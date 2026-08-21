@@ -1,7 +1,7 @@
 <!--- tools/bulkloadContEditParent.cfm to move containers to new parents in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2024 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cf_rolecheck>
 
 <!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
