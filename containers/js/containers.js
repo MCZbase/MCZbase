@@ -2885,6 +2885,60 @@ function clearContainsResultSummary(inputId, resultIdFieldId, summaryId, labelId
 }
 
 /**
+ * Opens the location breadcrumb detail row for one search result container, inserting it
+ * immediately below the given row if not already present. Leaves an already-open row as is,
+ * so it can be called repeatedly (e.g. once per row from "Locate All") without re-fetching.
+ * @param {number|string} containerId - container_id to show the breadcrumb for.
+ * @param {jQuery} currentRow - the result row (<tr>) to insert the detail row after.
+ */
+function openLocateDetailRow(containerId, currentRow) {
+	var detailRowId = 'locate-detail-' + containerId;
+	var existingDetail = $('#' + detailRowId);
+	if (existingDetail.length > 0) {
+		existingDetail.removeClass('d-none');
+		return;
+	}
+	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
+	var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
+	detailRow.append(detailCell);
+	currentRow.after(detailRow);
+	detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: containerId },
+		dataType: 'json',
+		success: function(breadcrumbs) {
+			var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+			$.each(breadcrumbs, function(j, crumb) {
+				var display = formatContainerDisplay(crumb.barcode, crumb.label);
+				var crumbLi = $('<li class="breadcrumb-item small"></li>');
+				if (j === 0) {
+					crumbLi.addClass('arrowprefix');
+					crumbLi.append($('<span class="sr-only">Contained within: </span>'));
+				}
+				crumbLi.append(document.createTextNode(crumb.container_type + ': '));
+				if (j === breadcrumbs.length - 1) {
+					crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
+				} else {
+					var link = document.createElement('a');
+					link.classList.add('pl-1');
+					var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
+					link.href = '/containers/Containers.cfm?' + params.toString();
+					link.appendChild(document.createTextNode(display));
+					crumbLi.append(link);
+				}
+				breadcrumbEl.append(crumbLi);
+			});
+			detailCell.html(breadcrumbEl);
+		},
+		error: function(jqXHR, textStatus, error) {
+			detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+		}
+	});
+}
+
+/**
  * Executes the container search form and renders the paged results table.
  * @param {string} browsePanel - id of the main results panel to populate.
  * @param {string} leafPanel - id of the shared subordinate leaf/table panel.
@@ -3002,52 +3056,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>').text('Locate');
 					(function(nodeId) {
 						locateBtn.on('click', function() {
-							var btn = $(this);
-							var currentRow = btn.closest('tr');
-							var detailRowId = 'locate-detail-' + nodeId;
-							var existingDetail = $('#' + detailRowId);
-							if (existingDetail.length > 0) {
-								existingDetail.toggleClass('d-none');
+							var currentRow = $(this).closest('tr');
+							var existingDetail = $('#locate-detail-' + nodeId);
+							if (existingDetail.length > 0 && !existingDetail.hasClass('d-none')) {
+								existingDetail.addClass('d-none');
 								return;
 							}
-							var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
-							var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
-							detailRow.append(detailCell);
-							currentRow.after(detailRow);
-							detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
-							$.ajax({
-								url: '/containers/component/search.cfc',
-								data: { method: 'getContainerBreadcrumb', container_id: nodeId },
-								dataType: 'json',
-								success: function(breadcrumbs) {
-									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
-									$.each(breadcrumbs, function(j, crumb) {
-										var display = formatContainerDisplay(crumb.barcode, crumb.label);
-										var crumbLi = $('<li class="breadcrumb-item small"></li>');
-										if (j === 0) {
-											crumbLi.addClass('arrowprefix');
-											crumbLi.append($('<span class="sr-only">Contained within: </span>'));
-										}
-										crumbLi.append(document.createTextNode(crumb.container_type + ': '));
-										if (j === breadcrumbs.length - 1) {
-											crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
-										} else {
-											var link = document.createElement('a');
-											link.classList.add('pl-1');
-											var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
-											link.href = '/containers/Containers.cfm?' + params.toString();
-											link.appendChild(document.createTextNode(display));
-											crumbLi.append(link);
-										}
-										breadcrumbEl.append(crumbLi);
-									});
-									detailCell.html(breadcrumbEl);
-								},
-								error: function(jqXHR, textStatus, error) {
-									detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
-									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
-								}
-							});
+							openLocateDetailRow(nodeId, currentRow);
 						});
 					})(cid);
 					actionCell.append(locateBtn);
@@ -3091,7 +3106,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var typeTd = $('<td></td>').text(row.container_type || '');
 					typeTd.append(' ');
 					typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
-					var tr = $('<tr></tr>');
+					var tr = $('<tr></tr>').attr('data-container-id', cid);
 					tr.append(typeTd);
 					tr.append($('<td></td>').text(displayName));
 					tr.append(contentsTd);
@@ -3099,6 +3114,17 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					tr.append(actionCell);
 					tbody.append(tr);
 				});
+				headerDiv.append(
+					$('<button class="btn btn-xs btn-outline-secondary mt-1 ml-1" type="button"></button>')
+						.text('Locate All')
+						.attr('title', 'Show the location breadcrumb for every container in these search results')
+						.on('click', function() {
+							tbody.find('tr[data-container-id]').each(function() {
+								var row = $(this);
+								openLocateDetailRow(row.attr('data-container-id'), row);
+							});
+						})
+				);
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
 				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Contents</th><th>Description</th><th>Actions</th></tr></thead>');
 				table.append(tbody);
