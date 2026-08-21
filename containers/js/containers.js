@@ -2869,6 +2869,22 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 }
 
 /**
+ * Swaps the Contains field back from its read-only "N items from a Search" summary
+ * to the editable GUID input, clearing the saved-search result id it was standing in for.
+ * @param {string} inputId - id of the Contains GUID text input.
+ * @param {string} resultIdFieldId - id of the hidden contains_result_id field.
+ * @param {string} summaryId - id of the summary div shown in place of the input.
+ * @param {string} labelId - id of the label for the GUID input.
+ */
+function clearContainsResultSummary(inputId, resultIdFieldId, summaryId, labelId) {
+	$('#' + resultIdFieldId).val('');
+	$('#' + summaryId).addClass('d-none');
+	$('#' + inputId).removeClass('d-none');
+	$('#' + labelId).removeClass('d-none');
+	$('#' + inputId).val('').focus();
+}
+
+/**
  * Executes the container search form and renders the paged results table.
  * @param {string} browsePanel - id of the main results panel to populate.
  * @param {string} leafPanel - id of the shared subordinate leaf/table panel.

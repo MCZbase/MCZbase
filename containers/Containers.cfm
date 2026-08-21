@@ -178,7 +178,7 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.contains_result_id = trim(url.contains_result_id)>
 </cfif>
-<cfset variables.containsDisplayValue = variables.contains_guids>
+<cfset variables.containsSummaryText = "">
 <cfset variables.containsReadonly = false>
 
 <cfset pageTitle = "Containers">
@@ -237,7 +237,6 @@ editing behavior consistent across the application.
 		</cfquery>
 		<cfif resolveContainsGuid.recordcount EQ 1>
 			<cfset variables.contains_guids = resolveContainsGuid.guid>
-			<cfset variables.containsDisplayValue = variables.contains_guids>
 			<cfset variables.execute = "true">
 		</cfif>
 	</cfif>
@@ -262,12 +261,11 @@ editing behavior consistent across the application.
 			WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(resolveContainsResultItems.cataloged_item_id)#" list="true">)
 		</cfquery>
 		<cfset variables.contains_guids = valueList(resolveContainsResultGuids.guid)>
-		<cfset variables.containsDisplayValue = variables.contains_guids>
 		<cfset variables.execute = "true">
 	<cfelseif resolveContainsResultItems.recordcount GT variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
 		<cfset variables.contains_result_id = url.result_id>
 		<cfset variables.containsReadonly = true>
-		<cfset variables.containsDisplayValue = "#resolveContainsResultItems.recordcount# items from a saved search">
+		<cfset variables.containsSummaryText = "#resolveContainsResultItems.recordcount# items from a Search (via Manage)">
 		<cfset variables.execute = "true">
 	</cfif>
 </cfif>
@@ -400,12 +398,15 @@ editing behavior consistent across the application.
 									value="#encodeForHtml(variables.position_filter)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="contains_guids" class="data-entry-label">Contains (specimen GUID)</label>
+								<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
 								<input type="text" id="contains_guids" name="contains_guids"
-									class="data-entry-input col-12"
+									class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
 									placeholder="GUID, or a comma-separated list"
-									<cfif variables.containsReadonly>readonly</cfif>
-									value="#encodeForHtml(variables.containsDisplayValue)#">
+									value="#encodeForHtml(variables.contains_guids)#">
+								<div id="containsResultSummary" class="data-entry-input col-12 d-flex align-items-center justify-content-between<cfif NOT variables.containsReadonly> d-none</cfif>">
+									<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
+									<button type="button" class="btn btn-link btn-xs p-0 ml-2" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>
+								</div>
 								<input type="hidden" id="contains_id" value="">
 								<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
 							</div>
@@ -455,7 +456,6 @@ $(document).ready(function() {
 	makeCatalogedItemAutocompleteMeta('contains_guids', 'contains_id');
 	$('##contains_guids').on('input', function() {
 		$('##contains_result_id').val('');
-		$(this).prop('readonly', false);
 	});
 	$('##chooseSearchContainerBtn').on('click', function() {
 		openContainerPickerDialog({
