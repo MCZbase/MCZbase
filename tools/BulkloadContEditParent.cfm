@@ -62,6 +62,14 @@ limitations under the License.
 	loadCsvFile's header-driven CSVs) runs completely unchanged for either upload type. A line
 	whose date/time can't be parsed is still loaded, with SCAN_TIMESTAMP left blank for that row
 	(the apply step then falls back to sysdate for it) rather than aborting the whole upload.
+
+	A scan dump may legitimately scan the same child container more than once (e.g. staged
+	somewhere temporary before being filed correctly) -- rather than let that surface as a
+	duplicate-child validation failure, only the most recent scan of each distinct child barcode
+	is kept, so the set handed to validation never contains duplicate children by construction.
+	"Most recent" is by parsed date/time; when two scans of the same child tie (equal or both
+	unparseable), the one appearing later in the file wins, so the choice is always deterministic
+	regardless of parse success.
 	@param scanDumpFilePath path to the raw uploaded scan-dump file.
 	@return path to a new temp CSV file suitable for loadCsvFile(format="DEFAULT").
 --->
@@ -69,30 +77,61 @@ limitations under the License.
 	<cfargument name="scanDumpFilePath" type="string" required="yes">
 
 	<cffile action="READ" file="#arguments.scanDumpFilePath#" variable="local.rawContent">
-	<cfset local.csvLines = ArrayNew(1)>
-	<cfset ArrayAppend(local.csvLines,'"PARENT_UNIQUE_ID","CONTAINER_UNIQUE_ID","SCAN_TIMESTAMP"')>
+
+	<!--- First pass: parse every line, in file order, into a row struct. sortKey is the
+		zero-padded "yyyy-mm-dd HH:mm:ss" timestamp string (safely string-comparable in
+		chronological order) or "" when unparseable -- "" always sorts before any real
+		timestamp, so an unparseable scan never wins over a parseable one for the same child. --->
+	<cfset local.rows = ArrayNew(1)>
 	<cfloop index="local.line" list="#local.rawContent#" delimiters="#chr(10)##chr(13)#">
 		<cfif len(trim(local.line)) GT 0>
-			<cfset local.parentBarcode = trim(ListGetAt(local.line,1,","))>
-			<cfset local.childBarcode = trim(ListGetAt(local.line,2,","))>
-			<cfset local.scanTimestamp = "">
+			<cfset local.row = StructNew()>
+			<cfset local.row.parentBarcode = trim(ListGetAt(local.line,1,","))>
+			<cfset local.row.childBarcode = trim(ListGetAt(local.line,2,","))>
+			<cfset local.row.sortKey = "">
 			<cftry>
 				<cfset local.scanDate = trim(ListGetAt(local.line,3,","))>
 				<cfset local.scanTime = trim(ListGetAt(local.line,4,","))>
 				<!--- uppercase HH for a 24-hour clock -- the legacy scan-dump reader this replaces
 					used lowercase hh with no am/pm marker, silently losing the afternoon/evening
 					distinction on every scan it loaded. --->
-				<cfset local.scanTimestamp = "#dateformat(local.scanDate,'yyyy-mm-dd')# #timeformat(local.scanTime,'HH:mm:ss')#">
+				<cfset local.row.sortKey = "#dateformat(local.scanDate,'yyyy-mm-dd')# #timeformat(local.scanTime,'HH:mm:ss')#">
 			<cfcatch>
-				<!--- leave local.scanTimestamp blank; container/parent barcode resolution and the
+				<!--- leave local.row.sortKey blank; container/parent barcode resolution and the
 					existing not-found checks still apply to this row during validation --->
 			</cfcatch>
 			</cftry>
-			<cfset local.escapedParent = Replace(local.parentBarcode,'"','""',"all")>
-			<cfset local.escapedChild = Replace(local.childBarcode,'"','""',"all")>
-			<cfset ArrayAppend(local.csvLines,'"#local.escapedParent#","#local.escapedChild#","#local.scanTimestamp#"')>
+			<cfset ArrayAppend(local.rows, local.row)>
 		</cfif>
 	</cfloop>
+
+	<!--- Second pass: keep only the most-recent row per distinct child barcode, using a plain
+		string GTE comparison against whatever's currently winning for that child -- iterating
+		in file order and using GTE (not GT) means a later line always wins a tie, giving a
+		deterministic result independent of parse success. childOrder preserves each distinct
+		child's first-seen position so the output stays in a stable, readable order rather than
+		being resorted by timestamp. --->
+	<cfset local.bestIndexForChild = StructNew()>
+	<cfset local.childOrder = ArrayNew(1)>
+	<cfloop index="local.i" from="1" to="#ArrayLen(local.rows)#">
+		<cfset local.childBarcode = local.rows[local.i].childBarcode>
+		<cfif NOT StructKeyExists(local.bestIndexForChild, local.childBarcode)>
+			<cfset ArrayAppend(local.childOrder, local.childBarcode)>
+			<cfset local.bestIndexForChild[local.childBarcode] = local.i>
+		<cfelseif local.rows[local.i].sortKey GTE local.rows[local.bestIndexForChild[local.childBarcode]].sortKey>
+			<cfset local.bestIndexForChild[local.childBarcode] = local.i>
+		</cfif>
+	</cfloop>
+
+	<cfset local.csvLines = ArrayNew(1)>
+	<cfset ArrayAppend(local.csvLines,'"PARENT_UNIQUE_ID","CONTAINER_UNIQUE_ID","SCAN_TIMESTAMP"')>
+	<cfloop index="local.childBarcode" array="#local.childOrder#">
+		<cfset local.winner = local.rows[local.bestIndexForChild[local.childBarcode]]>
+		<cfset local.escapedParent = Replace(local.winner.parentBarcode,'"','""',"all")>
+		<cfset local.escapedChild = Replace(local.winner.childBarcode,'"','""',"all")>
+		<cfset ArrayAppend(local.csvLines,'"#local.escapedParent#","#local.escapedChild#","#local.winner.sortKey#"')>
+	</cfloop>
+
 	<cfset local.tempFilePath = GetTempFile(GetTempDirectory(),"scandump")>
 	<cffile action="WRITE" file="#local.tempFilePath#" output="#ArrayToList(local.csvLines,chr(10))#">
 	<cfreturn local.tempFilePath>
@@ -522,6 +561,26 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
+
+				<!--- Fail any row whose CONTAINER_UNIQUE_ID (the child being moved) appears more than
+					once in this batch -- ambiguous which row should actually apply for that container,
+					so this is a hard fail rather than a warning. A single query, grouping this user's
+					own batch by CONTAINER_UNIQUE_ID with a HAVING COUNT(*) > 1 subquery to find the
+					duplicated values, then flagging every row carrying one of them. (A scan-dump upload
+					can't hit this: convertScanDumpToCSV already collapses repeated scans of the same
+					child barcode down to the most recent one before this row ever reaches the batch.) --->
+				<cfquery name="miadup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_cont_edit
+					SET status = concat(nvl2(status, status || '; ', ''), 'duplicate_child, container_unique_id [' || container_unique_id || '] appears more than once in this batch.')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND container_unique_id IN (
+							SELECT container_unique_id
+							FROM cf_temp_cont_edit
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							GROUP BY container_unique_id
+							HAVING COUNT(*) > 1
+						)
+				</cfquery>
 
 				<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank order, etc.)
 					are validated with the same badge engine moveContainer.cfm/placePartInContainer.cfm use, rather
