@@ -95,6 +95,11 @@ editing behavior consistent across the application.
 <!--- Legacy params retained for old saved search links; mapped into position_filter below. --->
 <cfparam name="url.in_position" default="">
 <cfparam name="url.position_value" default="">
+<cfparam name="url.contains_guids" default="">
+<cfparam name="url.contains_result_id" default="">
+<!--- resolved to contains_guids/contains_result_id below, not handled as their own search fields --->
+<cfparam name="url.collection_object_id" default="">
+<cfparam name="url.result_id" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
@@ -163,6 +168,18 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.container_id = trim(url.container_id)>
 </cfif>
+<cfif isDefined("form.contains_guids")>
+	<cfset variables.contains_guids = trim(form.contains_guids)>
+<cfelse>
+	<cfset variables.contains_guids = trim(url.contains_guids)>
+</cfif>
+<cfif isDefined("form.contains_result_id")>
+	<cfset variables.contains_result_id = trim(form.contains_result_id)>
+<cfelse>
+	<cfset variables.contains_result_id = trim(url.contains_result_id)>
+</cfif>
+<cfset variables.containsDisplayValue = variables.contains_guids>
+<cfset variables.containsReadonly = false>
 
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
@@ -200,6 +217,58 @@ editing behavior consistent across the application.
 		<cfelse>
 			<cfset variables.barcode = "">
 		</cfif>
+	</cfif>
+</cfif>
+
+<!--- given either a part's or a cataloged item's own collection_object_id, resolve to the
+	cataloged item (a part's own id falls back to its derived_from_cat_item; otherwise it's
+	already a cataloged item id), then populate Contains with that one item's GUID. --->
+<cfif len(url.collection_object_id) GT 0 AND isNumeric(url.collection_object_id)>
+	<cfquery name="resolveContainsCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT NVL(sp.derived_from_cat_item, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.collection_object_id#">) AS cataloged_item_id
+		FROM dual
+			LEFT JOIN specimen_part sp ON sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.collection_object_id#">
+	</cfquery>
+	<cfif resolveContainsCatItem.recordcount EQ 1>
+		<cfquery name="resolveContainsGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT guid
+			FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolveContainsCatItem.cataloged_item_id#">
+		</cfquery>
+		<cfif resolveContainsGuid.recordcount EQ 1>
+			<cfset variables.contains_guids = resolveContainsGuid.guid>
+			<cfset variables.containsDisplayValue = variables.contains_guids>
+			<cfset variables.execute = "true">
+		</cfif>
+	</cfif>
+</cfif>
+
+<!--- given a saved search's result_id (a mix of part and/or cataloged item ids), resolve to
+	distinct cataloged items and populate Contains directly when there are few enough to be a
+	readable/editable list; otherwise pass contains_result_id through as its own search argument,
+	so the search query joins user_search_table directly instead of materializing a large list. --->
+<cfif len(url.result_id) GT 0>
+	<cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
+	<cfquery name="resolveContainsResultItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT NVL(sp.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
+		FROM user_search_table ust
+			LEFT JOIN specimen_part sp ON sp.collection_object_id = ust.collection_object_id
+		WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url.result_id#">
+	</cfquery>
+	<cfif resolveContainsResultItems.recordcount GT 0 AND resolveContainsResultItems.recordcount LTE variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+		<cfquery name="resolveContainsResultGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT guid
+			FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+			WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(resolveContainsResultItems.cataloged_item_id)#" list="true">)
+		</cfquery>
+		<cfset variables.contains_guids = valueList(resolveContainsResultGuids.guid)>
+		<cfset variables.containsDisplayValue = variables.contains_guids>
+		<cfset variables.execute = "true">
+	<cfelseif resolveContainsResultItems.recordcount GT variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+		<cfset variables.contains_result_id = url.result_id>
+		<cfset variables.containsReadonly = true>
+		<cfset variables.containsDisplayValue = "#resolveContainsResultItems.recordcount# items from a saved search">
+		<cfset variables.execute = "true">
 	</cfif>
 </cfif>
 
@@ -330,6 +399,16 @@ editing behavior consistent across the application.
 									placeholder="NULL, NOT NULL, position number, label, or barcode"
 									value="#encodeForHtml(variables.position_filter)#">
 							</div>
+							<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<label for="contains_guids" class="data-entry-label">Contains (specimen GUID)</label>
+								<input type="text" id="contains_guids" name="contains_guids"
+									class="data-entry-input col-12"
+									placeholder="GUID, or a comma-separated list"
+									<cfif variables.containsReadonly>readonly</cfif>
+									value="#encodeForHtml(variables.containsDisplayValue)#">
+								<input type="hidden" id="contains_id" value="">
+								<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
+							</div>
 							<div class="col-12 mb-2">
 								<button type="submit" class="btn btn-xs btn-primary">Search</button>
 								<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
@@ -373,6 +452,11 @@ editing behavior consistent across the application.
 <script>
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
+	makeCatalogedItemAutocompleteMeta('contains_guids', 'contains_id');
+	$('##contains_guids').on('input', function() {
+		$('##contains_result_id').val('');
+		$(this).prop('readonly', false);
+	});
 	$('##chooseSearchContainerBtn').on('click', function() {
 		openContainerPickerDialog({
 			mode: 'find',
@@ -405,6 +489,8 @@ $(document).ready(function() {
 		len(variables.tree_property) GT 0 OR
 		len(variables.has_positions) GT 0 OR
 		len(variables.position_filter) GT 0 OR
+		len(variables.contains_guids) GT 0 OR
+		len(variables.contains_result_id) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>

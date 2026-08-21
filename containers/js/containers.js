@@ -2885,6 +2885,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var treeProperty = $('#tree_property').val() || '';
 	var hasPositions = $('#has_positions').val() || '';
 	var positionFilter = $('#position_filter').val() || '';
+	var containsGuids = $('#contains_guids').val() || '';
+	var containsResultId = $('#contains_result_id').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2901,6 +2903,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				tree_property: treeProperty,
 				has_positions: hasPositions,
 				position_filter: positionFilter,
+				contains_guids: containsGuids,
+				contains_result_id: containsResultId,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -2921,6 +2925,11 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
 			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
 			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
+			if (containsResultId) {
+				searchLinkParts.push('result_id=' + encodeURIComponent(containsResultId));
+			} else if (containsGuids) {
+				searchLinkParts.push('contains_guids=' + encodeURIComponent(containsGuids));
+			}
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));

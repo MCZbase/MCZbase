@@ -505,6 +505,8 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="has_positions" type="string" required="no" default="">
 	<cfargument name="position_filter" type="string" required="no" default="">
+	<cfargument name="contains_guids" type="string" required="no" default="">
+	<cfargument name="contains_result_id" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -519,6 +521,29 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
 		<cfset local.positionFilter = trim(arguments.position_filter)>
 		<cfset local.positionFilterUpper = ucase(local.positionFilter)>
+		<cfset local.containsResultId = trim(arguments.contains_result_id)>
+		<!--- "Contains" resolves each GUID directly to its cataloged item's collection_object_id via
+			the flat view (a GUID always identifies a cataloged item, never a part, so no part/cataloged-
+			item ambiguity here) -- collects into a comma list for a parameterized IN-list below. Blank
+			(not zero) when nothing resolves, so the eventual filter can tell "no Contains value given"
+			apart from "Contains value given but resolved to nothing" (the latter should return zero
+			results, not silently ignore the filter). --->
+		<cfset local.containsCatalogedItemIds = "">
+		<cfif len(trim(arguments.contains_guids)) GT 0>
+			<cfloop list="#arguments.contains_guids#" delimiters=",;" index="local.oneGuid">
+				<cfset local.oneGuid = trim(local.oneGuid)>
+				<cfif len(local.oneGuid) GT 0>
+					<cfquery name="local.queryGuidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT collection_object_id
+						FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+						WHERE guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.oneGuid#">
+					</cfquery>
+					<cfloop query="local.queryGuidLookup">
+						<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryGuidLookup.collection_object_id)>
+					</cfloop>
+				</cfif>
+			</cfloop>
+		</cfif>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
 		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
@@ -634,6 +659,39 @@ a paginated JSON result for display in the browse panel.
 			<cfelseif local.treeProperty EQ "unplaced_leaf">
 				AND c.container_type = 'collection object'
 				AND c.parent_container_id IS NULL
+			</cfif>
+			<!--- Contains: restrict to containers that are the *current* container of some part
+				derived from a given cataloged item (by GUID list, or by a saved search's result_id --
+				either resolves to a list of cataloged_item.collection_object_id, since a GUID always
+				names a cataloged item and a saved search's rows may be either parts or cataloged items,
+				resolved the same way -- part's own id falls back to its derived_from_cat_item, a
+				cataloged item's own id is used as-is). --->
+			<cfif len(local.containsCatalogedItemIds) GT 0>
+				AND c.container_id IN (
+					SELECT coch.container_id
+					FROM coll_obj_cont_hist coch
+						JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+				)
+			<cfelseif len(trim(arguments.contains_guids)) GT 0>
+				<!--- Contains was given but none of the GUIDs resolved -- force zero results rather
+					than silently ignoring the filter and returning an unfiltered search. --->
+				AND 1=0
+			</cfif>
+			<cfif len(local.containsResultId) GT 0>
+				AND c.container_id IN (
+					SELECT coch.container_id
+					FROM coll_obj_cont_hist coch
+						JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND sp.derived_from_cat_item IN (
+							SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id)
+							FROM user_search_table ust
+								LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+							WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
+						)
+				)
 			</cfif>
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
@@ -772,6 +830,31 @@ a paginated JSON result for display in the browse panel.
 					<cfelseif local.treeProperty EQ "unplaced_leaf">
 						AND c.container_type = 'collection object'
 						AND c.parent_container_id IS NULL
+					</cfif>
+					<cfif len(local.containsCatalogedItemIds) GT 0>
+						AND c.container_id IN (
+							SELECT coch.container_id
+							FROM coll_obj_cont_hist coch
+								JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+						)
+					<cfelseif len(trim(arguments.contains_guids)) GT 0>
+						AND 1=0
+					</cfif>
+					<cfif len(local.containsResultId) GT 0>
+						AND c.container_id IN (
+							SELECT coch.container_id
+							FROM coll_obj_cont_hist coch
+								JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND sp.derived_from_cat_item IN (
+									SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id)
+									FROM user_search_table ust
+										LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+									WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
+								)
+						)
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)
