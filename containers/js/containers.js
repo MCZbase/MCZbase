@@ -981,13 +981,13 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
+				var $positionsLink = $('#containerPositionsLink');
 				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
-				if ($legacyPositionsLink.length > 0) {
+				if ($positionsLink.length > 0) {
 					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
-						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
+						$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
 					} else {
-						$legacyPositionsLink.addClass('d-none');
+						$positionsLink.addClass('d-none');
 					}
 				}
 				if (shouldRefreshBreadcrumb) {
@@ -2038,6 +2038,54 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  * @param {string} headingId - id of the "Positions" heading, forwarded to reload calls
  *	triggered from within this grid so its "(all occupied)" text stays current.
  */
+/**
+ * Function renderCreatePositionsPrompt renders a "Create N Positions" button in place of an
+ * empty positions grid, for a container that declares a non-zero number_positions but has no
+ * container_type='position' children yet -- createContainerPositions only supports a handful of
+ * known box/rack presets, so a failure response (e.g. "unsupported") is shown inline rather than
+ * assumed to always succeed.
+ * @param {number} numPositions - declared position count.
+ * @param {string} targetDivId - id of the panel to render into.
+ * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
+ * @param {number|string} containerId - container_id to create positions for.
+ * @param {boolean} canEditPositions - forwarded to the grid reload once positions exist.
+ * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
+ */
+function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
+	var target = $('#' + targetDivId);
+	var wrapper = $('<div></div>');
+	wrapper.append($('<p class="text-muted mb-2"></p>').text('This container declares ' + numPositions + ' positions, but none have been created yet.'));
+	var $errorDiv = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+	var $createBtn = $('<button class="btn btn-xs btn-primary" type="button"></button>').text('Create ' + numPositions + ' Positions');
+	$createBtn.on('click', function() {
+		$createBtn.prop('disabled', true);
+		$errorDiv.addClass('d-none').text('');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			method: 'POST',
+			data: {
+				method: 'createContainerPositions',
+				container_id: containerId
+			},
+			dataType: 'json',
+			success: function(result) {
+				if (result.status === 'created') {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
+				} else {
+					$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
+					$createBtn.prop('disabled', false);
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'creating container positions');
+				$createBtn.prop('disabled', false);
+			}
+		});
+	});
+	wrapper.append($createBtn).append($errorDiv);
+	target.html(wrapper);
+}
+
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
@@ -2049,7 +2097,11 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 	};
 	var layoutClass = layoutClassMap[parseInt(numPositions, 10)] || '';
 	if (!positions || positions.length === 0) {
-		target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		if (canEditPositions && parseInt(numPositions, 10) > 0) {
+			renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId);
+		} else {
+			target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		}
 		return;
 	}
 	if (!layoutClass) {

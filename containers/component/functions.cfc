@@ -1061,6 +1061,47 @@ Function saveContainer.  Updates an existing container record.
 				<cfset lockedRoot = true>
 			</cfif>
 
+			<!--- Known, unaddressed gap (not new -- neither this nor the retired containerPositions.cfm
+				ever handled it): changing container_type here doesn't touch any existing position
+				sub-containers, so their width/height/length stay fixed at whatever preset applied
+				when createContainerPositions created them, even if the parent's type changes
+				afterward to something the preset no longer matches. --->
+
+			<!--- Guard against shrinking number_positions below existing position sub-containers --
+				the MOVE_CONTAINER trigger only validates a container's placement when its OWN
+				parent_container_id changes, so nothing in the database stops number_positions from
+				being edited down below either occupied or merely-existing position records; the
+				positions grid isn't filtered by number_positions at all (it shows every actual
+				container_type='position' child regardless), so shrinking this silently leaves the
+				box's declared capacity out of sync with its real position records. --->
+			<cfif NOT lockedRoot AND len(trim(arguments.number_positions)) GT 0>
+				<cfquery name="queryPositionsBeyondNewCount" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						pos.label,
+						(SELECT COUNT(*) FROM container occ WHERE occ.parent_container_id = pos.container_id) AS occupant_count
+					FROM container pos
+					WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+						AND pos.container_type = 'position'
+						AND REGEXP_LIKE(pos.label, '^[0-9]+$')
+						AND TO_NUMBER(pos.label) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.number_positions)#">
+				</cfquery>
+				<cfif queryPositionsBeyondNewCount.recordcount GT 0>
+					<cfset local.occupiedBeyondCount = 0>
+					<cfloop query="queryPositionsBeyondNewCount">
+						<cfif val(queryPositionsBeyondNewCount.occupant_count) GT 0>
+							<cfset local.occupiedBeyondCount = local.occupiedBeyondCount + 1>
+						</cfif>
+					</cfloop>
+					<cfset local.retval["status"] = "error">
+					<cfif local.occupiedBeyondCount GT 0>
+						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #trim(arguments.number_positions)# -- #local.occupiedBeyondCount# of the #queryPositionsBeyondNewCount.recordcount# position(s) beyond that count currently hold something. Move or remove their contents first.">
+					<cfelse>
+						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #trim(arguments.number_positions)# -- #queryPositionsBeyondNewCount.recordcount# position record(s) beyond that count already exist (though currently empty). Number of Positions must stay at or above the highest existing position.">
+					</cfif>
+					<cfreturn serializeJSON(local.retval)>
+				</cfif>
+			</cfif>
+
 			<cfquery name="queryUpdateContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				UPDATE
 					container
@@ -1114,6 +1155,130 @@ Function saveContainer.  Updates an existing container record.
 			<cfset local.retval = StructNew()>
 			<cfset local.retval["status"] = "error">
 			<cfset local.retval["message"] = cfcatch.message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function createContainerPositions. Bulk-creates the position sub-containers for a container
+whose number_positions/container_type is one of a handful of known box/rack presets with
+established physical dimensions (matching the retired containerPositions.cfm's "Create all
+new positions" action, and the same 5 presets containers.js's positions-grid layout already
+special-cases: 25/81/100-position freezer boxes, 33/48-position freezers). Refuses for any
+other type/count combination, since there's no known physical dimension to give the created
+positions -- and refuses if the container already has any children at all, since positions
+can only be bulk-created once, before anything has been placed in the box (this also means
+there is currently no way to add more positions to a container that already has some; see
+Redmine #817 phase 5 notes).
+@param container_id the empty box/rack to populate with position sub-containers.
+@return a JSON object: {status: "created"|"exists"|"unsupported"|"error", message, count}.
+--->
+<cffunction name="createContainerPositions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container_type, number_positions, institution_acronym
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfset local.numberPositions = val(local.queryContainer.number_positions)>
+	<cfset local.containerType = local.queryContainer.container_type>
+	<cfset local.positionType = "">
+	<cfset local.positionWidth = 0>
+	<cfset local.positionHeight = 0>
+	<cfset local.positionLength = 0>
+	<!--- known (number_positions, container_type) presets and their position slots' physical
+		dimensions -- the same boundary containers.js's layoutClassMap already assumes for grid
+		display, and the exact set the legacy containerPositions.cfm supported --->
+	<cfif local.numberPositions EQ 100 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 81 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 25 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 48 AND local.containerType EQ "freezer">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 14><cfset local.positionLength = 14><cfset local.positionHeight = 80>
+	<cfelseif local.numberPositions EQ 33 AND local.containerType EQ "freezer">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 14><cfset local.positionLength = 14><cfset local.positionHeight = 80>
+	</cfif>
+	<cfif len(local.positionType) EQ 0>
+		<cfset local.retval["status"] = "unsupported">
+		<cfset local.retval["message"] = "Don't know the physical dimensions for #local.numberPositions# positions in a '#local.containerType#' -- positions can only be auto-created for known box/rack types. Submit a bug report to request an additional type.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.queryExistingChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT COUNT(*) AS c
+		FROM container
+		WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryExistingChildren.c GT 0>
+		<cfset local.retval["status"] = "exists">
+		<cfset local.retval["message"] = "This container already has #local.queryExistingChildren.c# item(s) in it -- positions can only be auto-created for a container that's still completely empty.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfset local.institutionAcronym = trim(local.queryContainer.institution_acronym)>
+	<cfif len(local.institutionAcronym) EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container has no institution acronym set -- can't create positions.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfloop from="1" to="#local.numberPositions#" index="local.i">
+				<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT sq_container_id.nextval AS next_container_id FROM dual
+				</cfquery>
+				<cfquery name="local.queryInsertPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					INSERT INTO container (
+						container_id,
+						parent_container_id,
+						container_type,
+						label,
+						parent_install_date,
+						width,
+						height,
+						length,
+						number_positions,
+						locked_position,
+						institution_acronym
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionType#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.i#">,
+						sysdate,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionWidth#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionHeight#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionLength#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">,
+						<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.institutionAcronym#">
+					)
+				</cfquery>
+			</cfloop>
+			<cfset local.retval["status"] = "created">
+			<cfset local.retval["count"] = local.numberPositions>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
 		</cfcatch>
 		</cftry>
 	</cftransaction>
