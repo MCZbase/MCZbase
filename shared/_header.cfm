@@ -594,15 +594,9 @@ limitations under the License.
 								
 											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm">Bulk Modify Containers</a>
 											<a class="dropdown-item" href="/containers/placePartInContainer.cfm">Put Parts in Containers</a>
-								
+
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Clear Part Flags</a> 
-											</cfif>
-												
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a> 
+												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a>
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
