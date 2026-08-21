@@ -268,12 +268,22 @@ limitations under the License.
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+		<!--- Persisted for the rest of this batch's lifecycle (validate, load), which happen on later
+			page loads -- a scan-dump batch never provides container_type/container_name/description/
+			remarks/dimensions at all (it's reparent-only), so those steps need to know not to require
+			or apply them, without re-deriving that from which cells happen to be blank. --->
+		<cfset session.bulkUploadType = form.uploadType>
+		<cfset variables.effectiveRequiredFieldList = requiredfieldlist>
 		<cfif form.uploadType EQ "scanDump">
 			<!--- a scan dump is always plain, headerless, comma-delimited text -- convert it to a
 				synthetic CSV up front so everything below runs the same for either upload type --->
 			<cfset variables.fileToUpload = convertScanDumpToCSV(variables.fileToUpload)>
 			<cfset variables.format = "DEFAULT">
 			<cfset variables.characterSet = "utf-8">
+			<!--- a scan dump only ever identifies the two containers involved -- container_type and
+				container_name are never provided and must not be required the way a full CSV edit
+				requires them --->
+			<cfset variables.effectiveRequiredFieldList = "CONTAINER_UNIQUE_ID,PARENT_UNIQUE_ID">
 		</cfif>
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
@@ -302,11 +312,11 @@ limitations under the License.
 				<cfset scaleArray = listToArray(fieldScales)><!--- the cfqueryparam scale for the full list of fields --->
 				<div class="col-12 px-0 my-4">
 					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
-					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).</h3>
+					<h3 class="h4">There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(variables.effectiveRequiredFieldList)# are required).</h3>
 				</div>
 
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=variables.effectiveRequiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 
 				<!--- Test for additional columns not in list, warn and ignore. --->
 				<cfset addFieldsResponse = checkAdditionalFields(fieldList=fieldList)>
@@ -501,12 +511,17 @@ limitations under the License.
 					WHERE container_type not in (select container_type from ctcontainer_type)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_cont_edit
-					SET status = concat(nvl2(status, status || '; ', ''), 'missing_label, container_name is required.')
-					WHERE CONTAINER_NAME is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+				<!--- a scan-dump batch never provides container_name at all -- only require it for a
+					full CSV edit batch, where it's meant to always be resupplied --->
+				<cfparam name="session.bulkUploadType" default="csv">
+				<cfif session.bulkUploadType NEQ "scanDump">
+					<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_cont_edit
+						SET status = concat(nvl2(status, status || '; ', ''), 'missing_label, container_name is required.')
+						WHERE CONTAINER_NAME is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 
 				<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank order, etc.)
 					are validated with the same badge engine moveContainer.cfm/placePartInContainer.cfm use, rather
@@ -637,6 +652,7 @@ limitations under the License.
 	<!-------------------------------------------------------------------------------------------->
 	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
+		<cfparam name="session.bulkUploadType" default="csv">
 		<cfoutput>
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -644,51 +660,64 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
-					<cfset stage = "containerType"> 
+					<cfset stage = "containerType">
 					<cfset container_type_updates = 0>
 					<cfset problem_key = "">
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
-							UPDATE
-								container 
-							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
-							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
-						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
-					</cfloop>
+					<!--- a scan-dump batch never provides container_type at all (it's reparent-only) --
+						skip this loop entirely rather than blanking every touched container's type --->
+					<cfif session.bulkUploadType NEQ "scanDump">
+						<cfloop query="getTempData">
+							<cfset problem_key = getTempData.key>
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+								UPDATE
+									container
+								SET
+									CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								WHERE
+									CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+							</cfquery>
+							<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
+						</cfloop>
+					</cfif>
 					<cfset problem_key = "">
-					<cfset stage = "containerUpdate"> 
+					<cfset stage = "containerUpdate">
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
+						<!--- a scan-dump row only ever identifies the two containers involved and,
+							optionally, its own historical timestamp -- it never provides label,
+							description, remarks, or dimensions, so those must not be touched here
+							the way a full CSV edit touches them (which would otherwise blank out
+							whatever a container already had). --->
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
-								container 
+								container
 							SET
-								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
-								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
+								<cfif session.bulkUploadType NEQ "scanDump">
+									label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
+									DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
+								</cfif>
 								<!--- a barcode scan-dump row carries its own historical placement timestamp;
 									an ordinary CSV row has none, and keeps using the load time as always --->
 								<cfif len(#SCAN_TIMESTAMP#) gt 0>
-									PARENT_INSTALL_DATE=<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#SCAN_TIMESTAMP#">,
+									PARENT_INSTALL_DATE=<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#SCAN_TIMESTAMP#">
 								<cfelse>
-									PARENT_INSTALL_DATE=sysdate,
+									PARENT_INSTALL_DATE=sysdate
 								</cfif>
-								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-								<cfif len(#WIDTH#) gt 0>
-									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#WIDTH#">
-								</cfif>
-								<cfif len(#HEIGHT#) gt 0>
-									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#HEIGHT#">
-								</cfif>
-								<cfif len(#LENGTH#) gt 0>
-									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#LENGTH#">
-								</cfif>
-								<cfif len(#NUMBER_POSITIONS#) gt 0>
-									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
+								<cfif session.bulkUploadType NEQ "scanDump">
+									,CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+									<cfif len(#WIDTH#) gt 0>
+										,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#WIDTH#">
+									</cfif>
+									<cfif len(#HEIGHT#) gt 0>
+										,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#HEIGHT#">
+									</cfif>
+									<cfif len(#LENGTH#) gt 0>
+										,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#LENGTH#">
+									</cfif>
+									<cfif len(#NUMBER_POSITIONS#) gt 0>
+										,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
+									</cfif>
 								</cfif>
 								<cfif len(#parent_container_id#) gt 0>
 									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
