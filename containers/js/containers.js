@@ -548,6 +548,18 @@ function buildContainerDetailsButton(containerId, displayName, feedbackId, spaci
 }
 
 /**
+ * Abandons the current search results (if any) and returns to the default container
+ * hierarchy view, clearing the subordinate leaf panel.
+ * @param {string} browsePanel - the id of the div to render the tree into (without leading #).
+ * @param {string} leafPanel - the id of the div for the leaf browser panel (without leading #).
+ * @param {string} feedbackEl - the id of the output element for status feedback (without leading #).
+ */
+function browseContainerHierarchy(browsePanel, leafPanel, feedbackEl) {
+	initContainerBrowse(browsePanel, leafPanel, feedbackEl);
+	$('#' + leafPanel).addClass('d-none').html('');
+}
+
+/**
  * Initializes the container browse panel.  Calls getTopLevelBrowse to retrieve
  * institution nodes (pre-opened to campus level) plus counts of orphaned nodes,
  * then delegates rendering to renderTopLevelBrowse.
@@ -3008,15 +3020,6 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					.attr('href', searchLinkUrl)
 					.attr('title', 'Link to this search (opens in new tab)')
 					.text('Link to this search')
-			);
-			headerDiv.append(
-				$('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
-					.text('⌂ Browse Hierarchy')
-					.attr('title', 'Return to the default container hierarchy view')
-					.on('click', function() {
-						initContainerBrowse(browsePanel, leafPanel, feedbackId);
-						$('#' + leafPanel).addClass('d-none').html('');
-					})
 			);
 			panel.append(headerDiv);
 			if (totalPages > 1) {

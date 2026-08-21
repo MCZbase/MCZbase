@@ -403,18 +403,23 @@ editing behavior consistent across the application.
 									class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
 									placeholder="GUID, or a comma-separated list"
 									value="#encodeForHtml(variables.contains_guids)#">
-								<div id="containsResultSummary" class="data-entry-input col-12 d-flex align-items-center justify-content-between<cfif NOT variables.containsReadonly> d-none</cfif>">
+								<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
 									<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
-									<button type="button" class="btn btn-link btn-xs p-0 ml-2" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>
+									(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>)
 								</div>
 								<input type="hidden" id="contains_id" value="">
 								<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
 							</div>
-							<div class="col-12 mb-2">
-								<button type="submit" class="btn btn-xs btn-primary">Search</button>
-								<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
-								<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
-								<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
+							<div class="col-12 mb-2 d-flex flex-wrap align-items-center">
+								<div>
+									<button type="submit" class="btn btn-xs btn-primary">Search</button>
+									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
+									<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
+									<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
+								</div>
+								<button type="button" class="btn btn-xs btn-warning ml-auto"
+									title="Abandon this search and browse the container hierarchy instead"
+									onclick="browseContainerHierarchy('containerBrowsePanel','containerLeafPanel','containerBrowseFeedback')">⌂ Browse Hierarchy</button>
 							</div>
 						</div>
 					</form>
