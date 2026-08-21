@@ -1204,7 +1204,9 @@ other type/count combination, since there's no known physical dimension to give 
 positions -- and refuses if the container already has any children at all, since positions
 can only be bulk-created once, before anything has been placed in the box (this also means
 there is currently no way to add more positions to a container that already has some; see
-Redmine #817 phase 5 notes).
+Redmine #817 phase 5 notes). Each position is labeled with the bare position number, and given
+a barcode built from the parent's own barcode plus an underscore plus that number when the
+parent has one.
 @param container_id the empty box/rack to populate with position sub-containers.
 @return a JSON object: {status: "created"|"exists"|"unsupported"|"error", message, count}.
 --->
@@ -1213,7 +1215,7 @@ Redmine #817 phase 5 notes).
 
 	<cfset local.retval = StructNew()>
 	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		SELECT container_type, number_positions, institution_acronym
+		SELECT container_type, number_positions, institution_acronym, barcode
 		FROM container
 		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 	</cfquery>
@@ -1267,6 +1269,15 @@ Redmine #817 phase 5 notes).
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
+	<!--- when the parent has its own barcode, give each position a barcode built from it, so a
+		position's barcode alone identifies which container it belongs to -- left blank (no
+		barcode at all) for a parent with no barcode of its own. The label stays the bare
+		position number either way. --->
+	<cfset local.positionBarcodePrefix = "">
+	<cfif len(trim(local.queryContainer.barcode)) GT 0>
+		<cfset local.positionBarcodePrefix = "#trim(local.queryContainer.barcode)#_">
+	</cfif>
+
 	<cftransaction>
 		<cftry>
 			<cfloop from="1" to="#local.numberPositions#" index="local.i">
@@ -1279,6 +1290,7 @@ Redmine #817 phase 5 notes).
 						parent_container_id,
 						container_type,
 						label,
+						barcode,
 						parent_install_date,
 						width,
 						height,
@@ -1291,6 +1303,7 @@ Redmine #817 phase 5 notes).
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionType#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.i#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionBarcodePrefix##local.i#" null="#len(local.positionBarcodePrefix) EQ 0#">,
 						sysdate,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionWidth#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionHeight#">,
