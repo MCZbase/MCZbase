@@ -2469,8 +2469,8 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 @param proposed_parent_container_id the target parent container_id (use 0 for root placement).
 @return a JSON object with keys: allowed, severity, warnings, blocks, child_type, child_role,
 	child_institution_acronym, child_rank_order, child_variable_rank, parent_type, parent_role,
-	parent_institution_acronym, parent_rank_order, expected_parent_types, force_expected_parent_type,
-	is_root_placement.
+	parent_institution_acronym, parent_rank_order, parent_variable_rank, expected_parent_types,
+	force_expected_parent_type, is_root_placement.
 --->
 <cffunction name="validateContainerPlacement" access="remote" returntype="any" returnformat="json" output="false">
 	<cfargument name="child_container_id" type="numeric" required="yes">
@@ -2490,6 +2490,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 	<cfset local.retval["parent_role"] = "">
 	<cfset local.retval["parent_institution_acronym"] = "">
 	<cfset local.retval["parent_rank_order"] = "">
+	<cfset local.retval["parent_variable_rank"] = 0>
 	<cfset local.retval["expected_parent_types"] = "any">
 	<cfset local.retval["force_expected_parent_type"] = 0>
 	<cfset local.retval["is_root_placement"] = (val(arguments.proposed_parent_container_id) EQ 0)>
@@ -2588,6 +2589,7 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 		<cfset local.retval["parent_role"] = local.parentRole>
 		<cfset local.retval["parent_institution_acronym"] = local.parentInst>
 		<cfset local.retval["parent_rank_order"] = local.parentRank>
+		<cfset local.retval["parent_variable_rank"] = local.parentVariableRank>
 		<cfset local.retval["expected_parent_types"] = local.expectedParentTypes>
 		<cfset local.retval["force_expected_parent_type"] = local.forceExpectedParentType>
 		<cfset local.retval["is_root_placement"] = local.isRootPlacement>

@@ -523,6 +523,21 @@ limitations under the License.
 					<cfif isSimpleValue(local.placementResult)>
 						<cfset local.placementResult = deserializeJSON(local.placementResult)>
 					</cfif>
+					<!--- A resolved parent ranking deeper than the resolved child is a strong signal that
+						a scan dump's parent_barcode/child_barcode columns got transposed for this row --
+						validateContainerPlacement's own CT6 rule already warns generically about a rank
+						reversal, but its message is written for interactive moves, not a bulk upload, so
+						it doesn't call out the transposition possibility specifically. Respects the same
+						variable_rank exemption CT6 itself does, since rank_order isn't meaningful to
+						compare for a variable-rank type. --->
+					<cfset local.transpositionWarning = "">
+					<cfif NOT local.placementResult.is_root_placement
+						AND val(local.placementResult.child_variable_rank) EQ 0
+						AND val(local.placementResult.parent_variable_rank) EQ 0
+						AND isNumeric(local.placementResult.child_rank_order) AND isNumeric(local.placementResult.parent_rank_order)
+						AND val(local.placementResult.parent_rank_order) GT val(local.placementResult.child_rank_order)>
+						<cfset local.transpositionWarning = "Possible column transposition: resolved parent type '#local.placementResult.parent_type#' (rank #local.placementResult.parent_rank_order#) ranks deeper than resolved child type '#local.placementResult.child_type#' (rank #local.placementResult.child_rank_order#) -- check whether parent_barcode and child_barcode were swapped for this row.">
+					</cfif>
 					<cfif local.placementResult.severity EQ "block">
 						<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_cont_edit
@@ -530,11 +545,15 @@ limitations under the License.
 								placement_severity = 'block'
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
 						</cfquery>
-					<cfelseif local.placementResult.severity EQ "warn">
+					<cfelseif local.placementResult.severity EQ "warn" OR len(local.transpositionWarning) GT 0>
+						<cfset local.warnMessages = local.placementResult.warnings>
+						<cfif len(local.transpositionWarning) GT 0>
+							<cfset ArrayAppend(local.warnMessages, local.transpositionWarning)>
+						</cfif>
 						<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_cont_edit
 							SET placement_severity = 'warn',
-								placement_message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">
+								placement_message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.warnMessages,'; ')#">
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
 						</cfquery>
 					</cfif>
