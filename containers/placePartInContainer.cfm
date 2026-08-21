@@ -76,7 +76,7 @@ limitations under the License.
 		<div class="col-12">
 			<h1 class="h2 ml-1 mb-1" id="placePartHeading">Put Parts in Containers</h1>
 			<p class="small text-muted">
-				Find a cataloged item&#39;s specimen parts, check off any that need to move, then place
+				Find a cataloged item&##39;s specimen parts, check off any that need to move, then place
 				them into a container together by barcode. Each part shows its current placement, so
 				parts already accounted for can be left unchecked.
 			</p>
