@@ -4122,11 +4122,21 @@ function gridLoaded(gridId, searchType) {
 		}
 	}
 	if (rowcount == 1) { plural = ""; } else { plural = "s"; }
-	if (transactionCountSummary === "") { 
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items);
-	} else { 
-		$('##resultCount').html(transactionCountSummary);
-	} 
+	// Loan/accession/deaccession results resolve to storage locations via transaction_id -- offer a
+	// bulk link to the containers holding all of a short result set's material at once, the same way
+	// the accession/deaccession specimen-count links above only appear for a small result set (a long
+	// transaction_id list isn't a usable link, and isn't worth passing through).
+	var storageLocationsLink = "";
+	if ((searchType == 'loan' || searchType == 'accn' || searchType == 'deacc') && rowcount > 0 && rowcount < 21) {
+		var rows = $("##"+gridId).jqxGrid('getrows');
+		var transactionIds = $.map(rows, function (row) { return row.transaction_id; });
+		storageLocationsLink = ' <a href="/containers/Containers.cfm?transaction_id=' + transactionIds.join(',') + '&execute=true" class="btn btn-xs btn-secondary" target="_blank">Storage Locations for these ' + rowcount + ' ' + searchType + plural + '</a>';
+	}
+	if (transactionCountSummary === "") {
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items + storageLocationsLink);
+	} else {
+		$('##resultCount').html(transactionCountSummary + storageLocationsLink);
+	}
 	// set maximum page size
 	if (rowcount > 100) { 
 		$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
