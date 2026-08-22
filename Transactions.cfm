@@ -2809,6 +2809,7 @@ limitations under the License.
 		content = content + "<ul class='list-group list-group-horizontal'><li class='list-group-item'><a href='/transactions/reviewLoanItems.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a></li>";
+		content = content + "<li class='list-group-item'><a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a></li>";
 		content = content + "<li class='list-group-item'><a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li></ul>";
 		content = content + "</div>";
 		$("##" + rowDetailsTargetId + rowIndex).html(content);
@@ -2876,7 +2877,7 @@ limitations under the License.
 		var transaction_id = datarecord['transaction_id'];
 		var accn_number = datarecord['accn_number'];
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
-		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
 		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 		content = content + "</div>";
@@ -2887,6 +2888,74 @@ limitations under the License.
 				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 				width: dialogWidth,
 				title: 'Accession Details'
+			}
+		);
+		// Workaround, expansion sits below row in zindex.
+		var maxZIndex = getMaxZIndex();
+		$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	}
+
+	/** createDeaccRowDetailsDialog, create a custom deaccession specific popup dialog to show details for
+		a row of deaccession data from the deaccession results grid.
+
+		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+	 */
+	function createDeaccRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+		var columns = $('##' + gridId).jqxGrid('columns').records;
+		var content = "<div id='" + gridId + "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+		if (columns.length < 21) {
+			// don't split into columns for shorter sets of columns.
+			content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+		}
+		var gridWidth = $('##' + gridId).width();
+		var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
+		var transaction_id = datarecord['transaction_id'];
+		if (dialogWidth < 150) { dialogWidth = 150; }
+		for (i = 1; i < columns.length; i++) {
+			var text = columns[i].text;
+			var datafield = columns[i].datafield;
+			if (datafield == 'deacc_number') {
+				if (transaction_id) {
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Deaccession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>Edit</a> "+ datarecord[datafield] + "</li>";
+				} else {
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+				}
+			} else if (datafield == 'project_name') {
+				if (pid) {
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/projects/showProject.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+				} else {
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+				}
+			} else if (datafield == 'permits') {
+				permits = datarecord[datafield];
+				if (permits.length > 0) {
+					permits = permits.replaceAll('|','</li><li>');
+		 			content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + permits + "</li></ul></li>";
+				}
+			} else if (datafield == 'id_link') {
+				// don't show to user (duplicates deacc number)
+				console.log(datarecord[datafield]);
+			} else if (datafield == 'transaction_id') {
+				// don't show to user
+				console.log(datarecord[datafield]);
+			} else {
+				content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+			}
+		}
+		content = content + "</ul>";
+		var transaction_id = datarecord['transaction_id'];
+		content = content + "<a href='/transactions/reviewDeaccItems.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Deaccession Items</a>";
+		content = content + "<a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/transactions/Deaccession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Deaccession</a>";
+		content = content + "</div>";
+		$("##" + rowDetailsTargetId + rowIndex).html(content);
+		$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+			{
+				autoOpen: true,
+				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+				width: dialogWidth,
+				title: 'Deaccession Details'
 			}
 		);
 		// Workaround, expansion sits below row in zindex.
@@ -3635,7 +3704,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createDeaccRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -3719,7 +3788,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createDeaccRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
