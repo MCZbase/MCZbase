@@ -490,6 +490,22 @@ a paginated JSON result for display in the browse panel.
   [numeric]     - parent position with exact numeric label/barcode match
   [text]        - parent position label/barcode contains text (case-insensitive)
   [=text]       - parent position label/barcode exact text match (case-insensitive)
+@param contains_guids optional comma/semicolon-separated list of specimen GUIDs; restricts results to
+  containers currently holding a part of any of the named cataloged items.
+@param contains_result_id optional saved search result_id (user_search_table); resolved the same way as
+  contains_guids, against that search's distinct cataloged items.
+@param contains_collection_object_ids optional comma-separated list of raw collection_object_id values
+  (each may be a part or a cataloged item, findContainer.cfm's own deep-link shape); resolved the same
+  way as contains_guids and contains_result_id.
+@param loan_number optional substring to match against loan.loan_number (case-insensitive); restricts
+  results to containers currently holding a part checked out on any matching loan.
+@param accn_number optional substring to match against accn.accn_number (case-insensitive); restricts
+  results to containers linked to any matching accession via trans_container.
+@param deacc_number optional substring to match against deaccession.deacc_number (case-insensitive);
+  resolved the same way as loan_number, since deaccession items relate to parts exactly like loan items.
+@param transaction_id optional comma-separated list of transaction_ids (a loan/accession/deaccession
+  deep link); each is looked up by its own transaction_type and resolved the same way as the matching
+  loan_number/accn_number/deacc_number case.
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -505,6 +521,13 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="has_positions" type="string" required="no" default="">
 	<cfargument name="position_filter" type="string" required="no" default="">
+	<cfargument name="contains_guids" type="string" required="no" default="">
+	<cfargument name="contains_result_id" type="string" required="no" default="">
+	<cfargument name="contains_collection_object_ids" type="string" required="no" default="">
+	<cfargument name="loan_number" type="string" required="no" default="">
+	<cfargument name="accn_number" type="string" required="no" default="">
+	<cfargument name="deacc_number" type="string" required="no" default="">
+	<cfargument name="transaction_id" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -519,6 +542,193 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
 		<cfset local.positionFilter = trim(arguments.position_filter)>
 		<cfset local.positionFilterUpper = ucase(local.positionFilter)>
+		<cfset local.containsResultId = trim(arguments.contains_result_id)>
+		<!--- "Contains" resolves each GUID directly to its cataloged item's collection_object_id via
+			the flat view (a GUID always identifies a cataloged item, never a part, so no part/cataloged-
+			item ambiguity here) -- collects into a comma list for a parameterized IN-list below. Blank
+			(not zero) when nothing resolves, so the eventual filter can tell "no Contains value given"
+			apart from "Contains value given but resolved to nothing" (the latter should return zero
+			results, not silently ignore the filter). --->
+		<cfset local.containsCatalogedItemIds = "">
+		<cfif len(trim(arguments.contains_guids)) GT 0>
+			<cfloop list="#arguments.contains_guids#" delimiters=",;" index="local.oneGuid">
+				<cfset local.oneGuid = trim(local.oneGuid)>
+				<cfif len(local.oneGuid) GT 0>
+					<cfquery name="local.queryGuidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT collection_object_id
+						FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+						WHERE guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.oneGuid#">
+					</cfquery>
+					<cfloop query="local.queryGuidLookup">
+						<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryGuidLookup.collection_object_id)>
+					</cfloop>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- Resolve a saved search's result_id to distinct cataloged items here, eagerly, and fold
+			them into the same containsCatalogedItemIds list as the GUID path above, rather than
+			embedding this lookup as a live subquery inside the Contains filter below -- that filter
+			already joins the two largest tables in the schema (coll_obj_cont_hist, specimen_part), and
+			the optimizer can't push a selective predicate through a subquery wrapped in NVL() nearly as
+			well as it can a plain parameterized IN-list. --->
+		<cfif len(local.containsResultId) GT 0>
+			<cfquery name="local.queryContainsResultItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
+				FROM user_search_table ust
+					LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+				WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containsResultId#">
+			</cfquery>
+			<cfloop query="local.queryContainsResultItems">
+				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- Resolve a raw list of collection_object_ids (findContainer.cfm's own deep-link shape --
+			each id may be a part or a cataloged item) the same way: one bulk lookup against
+			specimen_part rather than a query per id, since this list can run to hundreds of ids. Any
+			id not found there is assumed to already be a cataloged item's own id. --->
+		<cfset local.containsCollectionObjectIds = trim(arguments.contains_collection_object_ids)>
+		<cfif len(local.containsCollectionObjectIds) GT 0>
+			<cfquery name="local.queryContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT collection_object_id, derived_from_cat_item
+				FROM specimen_part
+				WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCollectionObjectIds#" list="true">)
+			</cfquery>
+			<cfset local.containsIdListFoundAsPart = "">
+			<cfloop query="local.queryContainsIdListParts">
+				<cfset local.containsIdListFoundAsPart = listAppend(local.containsIdListFoundAsPart, local.queryContainsIdListParts.collection_object_id)>
+				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+				</cfif>
+			</cfloop>
+			<cfloop list="#local.containsCollectionObjectIds#" index="local.oneRawId">
+				<cfif NOT listFind(local.containsIdListFoundAsPart, local.oneRawId) AND NOT listFind(local.containsCatalogedItemIds, local.oneRawId)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.oneRawId)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- Transaction search: loan_number/deacc_number resolve directly against
+			coll_obj_cont_hist via loan_item/deacc_item.collection_object_id (both relate to
+			specimen parts, not cataloged items, so no derived_from_cat_item hop is needed, unlike
+			the GUID/result_id/collection_object_id Contains paths above); accn_number resolves via
+			trans_container (the only transaction<->container link table in the schema, populated
+			only for accessions). transaction_id is the deep-link case -- each id is looked up by
+			its own transaction_type and dispatched to whichever of the two resolution paths
+			applies. All three contribute container_ids directly, not cataloged item ids, so this
+			is its own filter, independent of containsCatalogedItemIds. --->
+		<cfset local.loanNumberUpper = ucase(trim(arguments.loan_number))>
+		<cfset local.accnNumberUpper = ucase(trim(arguments.accn_number))>
+		<cfset local.deaccNumberUpper = ucase(trim(arguments.deacc_number))>
+		<cfset local.transactionIdList = trim(arguments.transaction_id)>
+		<cfset local.transactionContainerIds = "">
+		<cfset local.transactionFilterGiven = (
+			len(local.loanNumberUpper) GT 0 OR
+			len(local.accnNumberUpper) GT 0 OR
+			len(local.deaccNumberUpper) GT 0 OR
+			len(local.transactionIdList) GT 0
+		)>
+		<cfif len(local.loanNumberUpper) GT 0>
+			<cfquery name="local.queryLoanTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT coch.container_id
+				FROM loan l
+					JOIN loan_item li ON li.transaction_id = l.transaction_id
+					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+				WHERE coch.current_container_fg = 1
+					<cfif left(local.loanNumberUpper,1) EQ "=">
+						AND UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.loanNumberUpper,1,1)#">
+					<cfelse>
+						AND UPPER(l.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.loanNumberUpper#%">
+					</cfif>
+			</cfquery>
+			<cfloop query="local.queryLoanTransactionContainers">
+				<cfif NOT listFind(local.transactionContainerIds, local.queryLoanTransactionContainers.container_id)>
+					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryLoanTransactionContainers.container_id)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif len(local.deaccNumberUpper) GT 0>
+			<cfquery name="local.queryDeaccTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT coch.container_id
+				FROM deaccession d
+					JOIN deacc_item di ON di.transaction_id = d.transaction_id
+					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+				WHERE coch.current_container_fg = 1
+					<cfif left(local.deaccNumberUpper,1) EQ "=">
+						AND UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.deaccNumberUpper,1,1)#">
+					<cfelse>
+						AND UPPER(d.deacc_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.deaccNumberUpper#%">
+					</cfif>
+			</cfquery>
+			<cfloop query="local.queryDeaccTransactionContainers">
+				<cfif NOT listFind(local.transactionContainerIds, local.queryDeaccTransactionContainers.container_id)>
+					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryDeaccTransactionContainers.container_id)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif len(local.accnNumberUpper) GT 0>
+			<cfquery name="local.queryAccnTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT tc.container_id
+				FROM accn a
+					JOIN trans_container tc ON tc.transaction_id = a.transaction_id
+				WHERE
+					<cfif left(local.accnNumberUpper,1) EQ "=">
+						UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+					<cfelse>
+						UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+					</cfif>
+			</cfquery>
+			<cfloop query="local.queryAccnTransactionContainers">
+				<cfif NOT listFind(local.transactionContainerIds, local.queryAccnTransactionContainers.container_id)>
+					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryAccnTransactionContainers.container_id)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfif len(local.transactionIdList) GT 0>
+			<cfquery name="local.queryTransactionTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT transaction_id, transaction_type
+				FROM trans
+				WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+			</cfquery>
+			<cfset local.accnTransactionIds = "">
+			<cfset local.loanDeaccTransactionIds = "">
+			<cfloop query="local.queryTransactionTypes">
+				<cfif local.queryTransactionTypes.transaction_type EQ "accn">
+					<cfset local.accnTransactionIds = listAppend(local.accnTransactionIds, local.queryTransactionTypes.transaction_id)>
+				<cfelseif listFindNoCase("loan,deaccession", local.queryTransactionTypes.transaction_type)>
+					<cfset local.loanDeaccTransactionIds = listAppend(local.loanDeaccTransactionIds, local.queryTransactionTypes.transaction_id)>
+				</cfif>
+			</cfloop>
+			<cfif len(local.accnTransactionIds) GT 0>
+				<cfquery name="local.queryAccnIdContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT DISTINCT container_id
+					FROM trans_container
+					WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.accnTransactionIds#" list="true">)
+				</cfquery>
+				<cfloop query="local.queryAccnIdContainers">
+					<cfif NOT listFind(local.transactionContainerIds, local.queryAccnIdContainers.container_id)>
+						<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryAccnIdContainers.container_id)>
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cfif len(local.loanDeaccTransactionIds) GT 0>
+				<cfquery name="local.queryLoanDeaccIdContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT DISTINCT coch.container_id
+					FROM coll_obj_cont_hist coch
+					WHERE coch.current_container_fg = 1
+						AND coch.collection_object_id IN (
+							SELECT collection_object_id FROM loan_item WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.loanDeaccTransactionIds#" list="true">)
+							UNION
+							SELECT collection_object_id FROM deacc_item WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.loanDeaccTransactionIds#" list="true">)
+						)
+				</cfquery>
+				<cfloop query="local.queryLoanDeaccIdContainers">
+					<cfif NOT listFind(local.transactionContainerIds, local.queryLoanDeaccIdContainers.container_id)>
+						<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryLoanDeaccIdContainers.container_id)>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfif>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
 		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
@@ -634,6 +844,32 @@ a paginated JSON result for display in the browse panel.
 			<cfelseif local.treeProperty EQ "unplaced_leaf">
 				AND c.container_type = 'collection object'
 				AND c.parent_container_id IS NULL
+			</cfif>
+			<!--- Contains: restrict to containers that are the *current* container of some part
+				derived from a given cataloged item (by GUID list, or by a saved search's result_id --
+				both are resolved above into the same containsCatalogedItemIds list, since a GUID always
+				names a cataloged item and a saved search's rows may be either parts or cataloged items,
+				resolved the same way -- part's own id falls back to its derived_from_cat_item, a
+				cataloged item's own id is used as-is). --->
+			<cfif len(local.containsCatalogedItemIds) GT 0>
+				AND c.container_id IN (
+					SELECT coch.container_id
+					FROM coll_obj_cont_hist coch
+						JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+				)
+			<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
+				<!--- Contains was given but nothing resolved -- force zero results rather than
+					silently ignoring the filter and returning an unfiltered search. --->
+				AND 1=0
+			</cfif>
+			<!--- Transaction search: loan/accession/deaccession number or transaction_id, resolved
+				above directly to container_ids (not cataloged item ids), independent of Contains. --->
+			<cfif len(local.transactionContainerIds) GT 0>
+				AND c.container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionContainerIds#" list="true">)
+			<cfelseif local.transactionFilterGiven>
+				AND 1=0
 			</cfif>
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
@@ -772,6 +1008,22 @@ a paginated JSON result for display in the browse panel.
 					<cfelseif local.treeProperty EQ "unplaced_leaf">
 						AND c.container_type = 'collection object'
 						AND c.parent_container_id IS NULL
+					</cfif>
+					<cfif len(local.containsCatalogedItemIds) GT 0>
+						AND c.container_id IN (
+							SELECT coch.container_id
+							FROM coll_obj_cont_hist coch
+								JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+						)
+					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
+						AND 1=0
+					</cfif>
+					<cfif len(local.transactionContainerIds) GT 0>
+						AND c.container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionContainerIds#" list="true">)
+					<cfelseif local.transactionFilterGiven>
+						AND 1=0
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)

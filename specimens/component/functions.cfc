@@ -5505,6 +5505,51 @@ limitations under the License.
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+<!---
+Function updatePartDisposition. Sets a specimen part's disposition (coll_object.coll_obj_disposition)
+in isolation, without touching anything else about the part -- used by
+containers/placePartInContainer.cfm's optional "Change Disposition" step, applied alongside a move
+so a part can be marked in-collection/deaccessioned/etc. as it's placed. updatePart also sets
+disposition, but only as one field among many required arguments; this exists for callers that only
+ever need to change disposition and don't have (or want to re-fetch) the part's other current values.
+@param part_collection_object_id the specimen_part's own collection_object_id (same id space as
+	coll_object).
+@param disposition the new coll_obj_disposition value.
+@return a JSON object with status (updated|notfound|error) and message.
+--->
+<cffunction name="updatePartDisposition" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+	<cfargument name="disposition" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_specimens") GT 0)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "You do not have permission to update this part.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="local.queryUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.queryUpdate_result">
+			UPDATE coll_object
+			SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.disposition)#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+		</cfquery>
+		<cfif local.queryUpdate_result.recordCount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Part was not found.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+		<cfset local.retval["status"] = "updated">
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
 
 <!--- getEditCitationHTML returns the HTML for the edit citations dialog.
  @param collection_object_id the collection_object_id for the cataloged item to edit citations for.

@@ -91,6 +91,8 @@ limitations under the License.
 <cfset variables.parent_container_type = "">
 <cfset variables.parentRankOrder = "">
 <cfset variables.hasChildren = false>
+<cfset variables.positionRecordCount = 0>
+<cfset variables.positionOccupiedCount = 0>
 <cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
 
 <cfif variables.action EQ "edit">
@@ -131,6 +133,18 @@ limitations under the License.
 		WHERE
 			parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
 	</cfquery>
+	<!--- status only, for the read-only Positions summary below -- the editable grid itself lives
+		exclusively on viewContainer.cfm --->
+	<cfquery name="getPositionStatus" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			COUNT(*) AS position_count,
+			SUM(CASE WHEN EXISTS (SELECT 1 FROM container occ WHERE occ.parent_container_id = pos.container_id) THEN 1 ELSE 0 END) AS occupied_count
+		FROM container pos
+		WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
+			AND pos.container_type = 'position'
+	</cfquery>
+	<cfset variables.positionRecordCount = val(getPositionStatus.position_count)>
+	<cfset variables.positionOccupiedCount = val(getPositionStatus.occupied_count)>
 	<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			ch.install_date,
@@ -377,16 +391,40 @@ limitations under the License.
 					</div>
 				</div>
 
+				<cfif variables.action EQ "edit">
+					<!--- always rendered (visibility toggled by saveContainerForm's success handler when
+						Number of Positions changes from/to zero on save) so it can be revealed without a
+						page reload; the accurate created/occupied counts below only reflect the values as
+						of this page load, though, so they go stale if positions are added/removed elsewhere
+						while this form stays open --->
+					<cfset variables.positionsSummaryClass = "">
+					<cfif val(variables.formData.number_positions) LTE 0>
+						<cfset variables.positionsSummaryClass = " d-none">
+					</cfif>
+					<div class="form-row mb-2#variables.positionsSummaryClass#" id="containerPositionsSummary">
+						<div class="col-12 border rounded bg-light py-2">
+							<h2 class="h6 mb-1">Positions</h2>
+							<cfset variables.positionsWord = "positions">
+							<cfif val(variables.formData.number_positions) EQ 1><cfset variables.positionsWord = "position"></cfif>
+							<p class="small mb-1" id="containerPositionsSummaryText">
+								<cfif variables.positionRecordCount EQ 0>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#, but none have been created yet.
+								<cfelseif variables.positionRecordCount LT val(variables.formData.number_positions)>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#; #variables.positionRecordCount# have been created (#variables.positionOccupiedCount# occupied).
+								<cfelse>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#; all have been created (#variables.positionOccupiedCount# occupied).
+								</cfif>
+							</p>
+							<a class="btn btn-xs btn-secondary" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">View/Edit Positions</a>
+						</div>
+					</div>
+				</cfif>
+
 				<div class="form-row mb-4 mt-1">
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
 							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
 							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
-							<cfset variables.positionsLinkClass = "btn btn-xs btn-secondary ml-1">
-							<cfif val(variables.formData.number_positions) LTE 0>
-								<cfset variables.positionsLinkClass = "#variables.positionsLinkClass# d-none">
-							</cfif>
-							<a class="#variables.positionsLinkClass#" id="legacyContainerPositionsLink" href="/containerPositions.cfm?container_id=#encodeForURL(variables.formData.container_id)#">Container Positions</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>

@@ -138,6 +138,13 @@ limitations under the License.
 	color: #0f5132;
 }
 
+/* Despite the name, the positions-grid-* classes below are a general scan-box grid component:
+   a bordered cell with a short numeric label, a barcode input, and a status line beneath it.
+   Originally built for the container-positions scan-to-place grid (viewContainer.cfm), they're
+   also reused as-is by the batch child-move grid on moveContainer.cfm (#batchChildGrid), which
+   just adds its own layout variant (positions-grid-autofill) below rather than duplicating the
+   cell/label/input rules. The status line in both grids renders the shared placement-ok/warning/
+   blocked badge (renderPlacementWarningBadge in containers.js), not a bespoke color scheme. */
 .positions-grid-wrapper {
 	overflow-x: auto;
 }
@@ -165,6 +172,10 @@ limitations under the License.
 
 .positions-grid-11x3 {
 	grid-template-columns: repeat(3, minmax(5rem, 1fr));
+}
+
+.positions-grid-autofill {
+	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
 }
 
 .positions-grid-cell {
@@ -203,4 +214,14 @@ limitations under the License.
 
 .positions-grid-fallback td {
 	vertical-align: top;
+}
+
+/* batch child-move grid's cells aren't click-to-open-a-dialog like the positions grid's are */
+#batchChildGrid .positions-grid-cell {
+	cursor: default;
+}
+
+.positions-grid-barcode-status {
+	line-height: 1.15;
+	word-break: break-word;
 }

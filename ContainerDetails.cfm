@@ -151,7 +151,7 @@
          </cfif>
 			<tr>
 				<td colspan="2" class="lblval lblextra">
-					<a href="/containerPositions.cfm?container_id=#container_id#"
+					<a href="/containers/viewContainer.cfm?container_id=#container_id###containerPositionsHeading_page"
 						target="_blank">Positions</a> <span style="font-size: small;"> (new window)</span>
 				</td>
 			</tr>

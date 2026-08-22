@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/containers/component/functions.cfc" runOnce="true"><!--- for moveContainerById, used by the moveScans action below --->
 <style>
 	input.activeCell {
 		background-color:#FF0000;
@@ -271,12 +272,15 @@
 </cfif>
 <!------------------------------------------------------------------------------>
 <cfif #action# is "moveScans">
-	<!--- generate a list of child/parent/timestamp and put it into the standard container upload table ---->
+	<!--- Resolve each scanned cryovial barcode, then place it directly via moveContainerById
+		(containers/component/functions.cfc) -- this used to stage into the shared, unscoped
+		cf_temp_container_location table and then include LoadBarcodes.cfm with action="update"
+		to apply it, but that branch of LoadBarcodes.cfm is dead code (an unconditional <cfabort>),
+		so scans placed this way silently never actually moved. Applying immediately here instead
+		matches the trust level this page already applies elsewhere (each position's Barcode input
+		also moves its container immediately, via its own onChange handler). --->
 	<cfoutput>
 		<cfset oops = "">
-		<cfquery name="cleanup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from cf_temp_container_location
-		</cfquery>
 		<cftransaction>
 		<cfloop from="1" to="#number_positions#" index="bc">
 			<cfset thisContainerId = "">
@@ -314,16 +318,15 @@
 
 					<cfif len(#thisContainerId#) gt 0>
 
-						<cfquery name="putItIn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							INSERT INTO cf_temp_container_location (
-								CONTAINER_ID,
-								PARENT_CONTAINER_ID,
-								TIMESTAMP )
-							VALUES (
-								#thisContainerId#,
-								#thisParentId#,
-								sysdate)
-						</cfquery>
+						<cfset local.moveResult = moveContainerById(child_container_id=thisContainerId, parent_container_id=thisParentId)>
+						<!--- moveContainerById's returnformat="json" means it can come back as a JSON
+							string rather than a native struct even on this in-process call --->
+						<cfif isSimpleValue(local.moveResult)>
+							<cfset local.moveResult = deserializeJSON(local.moveResult)>
+						</cfif>
+						<cfif local.moveResult.status NEQ "moved">
+							<cfset oops = "#oops#; barcode #thisBarcode# could not be placed: #local.moveResult.message#!">
+						</cfif>
 					<cfelse>
 						<cfset oops = "#oops#; no container matched barcode #thisBarcode#!">
 					</cfif>
@@ -332,17 +335,8 @@
 		</cfloop>
 		</cftransaction>
 		<CFIF LEN(#oops#) gt 0>
-			<!--- cleanup on isle no container.... ---->
-			<cfquery name="cleanup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				delete from cf_temp_container_location
-			</cfquery>
 			<hr><font color="##FF0000">#oops#</font>
 		<cfelse>
-			<!--- check these, move them, and tell the user to go back ---->
-			<!---- include the mover over application ---->
-			<cfset action="update">
-			<cfset headless="true">
-			<cfinclude template="/LoadBarcodes.cfm">
 			<cflocation url="containerPositions.cfm?container_id=#container_id#">
 		</CFIF>
 	</cfoutput>

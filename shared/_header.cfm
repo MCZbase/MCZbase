@@ -216,6 +216,9 @@ limitations under the License.
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
 	<script type="text/javascript" src="/containers/js/containers.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/containers/placePartInContainer.cfm">
+	<script type="text/javascript" src="/containers/js/placePartInContainer.js"></script>
+</cfif>
 <cfif isDefined("pageHasTabs") AND pageHasTabs EQ "true">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
@@ -586,39 +589,12 @@ limitations under the License.
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 																					
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/moveContainer.cfm">Move Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Move Container</a> 
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/batchScan.cfm">Batch Scan</a>
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Batch Scan</a>
-											</cfif>	
+											<a class="dropdown-item" href="/containers/moveContainer.cfm">Move Container</a>
+											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1">Batch Scan</a>
 								
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/labels2containers.cfm">Label > Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Label > Container</a> 
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Put Parts in Containers</a> 
-											</cfif>
-								
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Clear Part Flags</a> 
-											</cfif>
-												
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
-											</cfif>
+											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm">Bulk Modify Containers</a>
+											<a class="dropdown-item" href="/containers/placePartInContainer.cfm">Put Parts in Containers</a>
+											<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm?uploadType=scanDump">Upload Scan File</a>
 										</div>
 									</cfif>
 									</cfif>

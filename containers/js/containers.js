@@ -548,6 +548,18 @@ function buildContainerDetailsButton(containerId, displayName, feedbackId, spaci
 }
 
 /**
+ * Abandons the current search results (if any) and returns to the default container
+ * hierarchy view, clearing the subordinate leaf panel.
+ * @param {string} browsePanel - the id of the div to render the tree into (without leading #).
+ * @param {string} leafPanel - the id of the div for the leaf browser panel (without leading #).
+ * @param {string} feedbackEl - the id of the output element for status feedback (without leading #).
+ */
+function browseContainerHierarchy(browsePanel, leafPanel, feedbackEl) {
+	initContainerBrowse(browsePanel, leafPanel, feedbackEl);
+	$('#' + leafPanel).addClass('d-none').html('');
+}
+
+/**
  * Initializes the container browse panel.  Calls getTopLevelBrowse to retrieve
  * institution nodes (pre-opened to campus level) plus counts of orphaned nodes,
  * then delegates rendering to renderTopLevelBrowse.
@@ -981,13 +993,19 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
+				var $positionsSummary = $('#containerPositionsSummary');
+				var $positionsLink = $('#containerPositionsLink');
 				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
-				if ($legacyPositionsLink.length > 0) {
+				if ($positionsSummary.length > 0 && $positionsLink.length > 0) {
 					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
-						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
+						$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page');
+						// the accurate created/occupied counts are only known server-side; a saved change
+						// to Number of Positions falls back to this generic text rather than the fuller
+						// message shown on page load, until the page is reloaded
+						$('#containerPositionsSummaryText').text('This container declares ' + numberPositions + ' position' + (numberPositions === 1 ? '' : 's') + '.');
+						$positionsSummary.removeClass('d-none');
 					} else {
-						$legacyPositionsLink.addClass('d-none');
+						$positionsSummary.addClass('d-none');
 					}
 				}
 				if (shouldRefreshBreadcrumb) {
@@ -1388,6 +1406,23 @@ function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
  * @param {string} occupantLabel - fallback label when no GUID is available.
  * @returns {jQuery} table cell containing a GUID link or fallback container display.
  */
+/**
+ * Builds a "Place Part" action link opening containers/placePartInContainer.cfm prefilled (by
+ * guid) for a row's cataloged item, for tables listing collection-object occupants.
+ * @param {Object} row - must carry cat_num, collection_cde, and institution_acronym.
+ * @returns {?jQuery} the link, or null if the row doesn't carry enough specimen identity.
+ */
+function buildPlacePartLink(row) {
+	if (!row || !row.cat_num || !row.collection_cde || !row.institution_acronym) {
+		return null;
+	}
+	var guidText = row.institution_acronym + ':' + row.collection_cde + ':' + row.cat_num;
+	return $('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/placePartInContainer.cfm?guid=' + encodeURIComponent(guidText) + '&execute=true')
+		.attr('title', "Place this specimen's parts into a container")
+		.text('Place Part');
+}
+
 function buildSpecimenGuidCell(row, occupantBarcode, occupantLabel) {
 	var guidTd = $('<td></td>');
 	if (row.cat_num && row.collection_cde && row.institution_acronym) {
@@ -1562,6 +1597,10 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 						.attr('href', occupantSpecUrl)
 						.text('View specimen')
 				);
+			}
+			var placePartLink = buildPlacePartLink(row);
+			if (placePartLink) {
+				actionTd.append(placePartLink);
 			}
 			var typeTd = $('<td></td>').text(row.container_type || '');
 			typeTd.append(' ');
@@ -2017,6 +2056,54 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  * @param {string} headingId - id of the "Positions" heading, forwarded to reload calls
  *	triggered from within this grid so its "(all occupied)" text stays current.
  */
+/**
+ * Function renderCreatePositionsPrompt renders a "Create N Positions" button in place of an
+ * empty positions grid, for a container that declares a non-zero number_positions but has no
+ * container_type='position' children yet -- createContainerPositions only supports a handful of
+ * known box/rack presets, so a failure response (e.g. "unsupported") is shown inline rather than
+ * assumed to always succeed.
+ * @param {number} numPositions - declared position count.
+ * @param {string} targetDivId - id of the panel to render into.
+ * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
+ * @param {number|string} containerId - container_id to create positions for.
+ * @param {boolean} canEditPositions - forwarded to the grid reload once positions exist.
+ * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
+ */
+function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
+	var target = $('#' + targetDivId);
+	var wrapper = $('<div></div>');
+	wrapper.append($('<p class="text-muted mb-2"></p>').text('This container declares ' + numPositions + ' positions, but none have been created yet.'));
+	var $errorDiv = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+	var $createBtn = $('<button class="btn btn-xs btn-primary" type="button"></button>').text('Create ' + numPositions + ' Positions');
+	$createBtn.on('click', function() {
+		$createBtn.prop('disabled', true);
+		$errorDiv.addClass('d-none').text('');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			method: 'POST',
+			data: {
+				method: 'createContainerPositions',
+				container_id: containerId
+			},
+			dataType: 'json',
+			success: function(result) {
+				if (result.status === 'created') {
+					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
+				} else {
+					$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
+					$createBtn.prop('disabled', false);
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'creating container positions');
+				$createBtn.prop('disabled', false);
+			}
+		});
+	});
+	wrapper.append($createBtn).append($errorDiv);
+	target.html(wrapper);
+}
+
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
@@ -2028,7 +2115,11 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 	};
 	var layoutClass = layoutClassMap[parseInt(numPositions, 10)] || '';
 	if (!positions || positions.length === 0) {
-		target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		if (canEditPositions && parseInt(numPositions, 10) > 0) {
+			renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId);
+		} else {
+			target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		}
 		return;
 	}
 	if (!layoutClass) {
@@ -2758,6 +2849,10 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 								.text('View specimen')
 						);
 					}
+					var placePartLink = buildPlacePartLink(row);
+					if (placePartLink) {
+						actionTd.append(placePartLink);
+					}
 					tr.append(actionTd);
 					tbody.append(tr);
 				});
@@ -2786,6 +2881,92 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 }
 
 /**
+ * Swaps the Contains field back from its read-only "N items from a Search" summary
+ * to the editable GUID input, clearing whichever hidden id-list field it was standing in for.
+ * @param {string} inputId - id of the Contains GUID text input.
+ * @param {string[]} hiddenFieldIds - ids of the hidden fields (contains_result_id,
+ *   contains_collection_object_ids) to clear.
+ * @param {string} summaryId - id of the summary div shown in place of the input.
+ * @param {string} labelId - id of the label for the GUID input.
+ */
+function clearContainsResultSummary(inputId, hiddenFieldIds, summaryId, labelId) {
+	hiddenFieldIds.forEach(function(hiddenFieldId) {
+		$('#' + hiddenFieldId).val('');
+	});
+	$('#' + summaryId).addClass('d-none');
+	$('#' + inputId).removeClass('d-none');
+	$('#' + labelId).removeClass('d-none');
+	$('#' + inputId).val('').focus();
+}
+
+/**
+ * Swaps the Loan/Accession/Deaccession Number fields back from their read-only transaction
+ * summary to the editable inputs, clearing the transaction_id it was standing in for.
+ * @param {string} fieldsContainerId - id of the div wrapping the three number inputs.
+ * @param {string} hiddenFieldId - id of the hidden transaction_id field.
+ * @param {string} summaryId - id of the summary div shown in place of the inputs.
+ */
+function clearTransactionSummary(fieldsContainerId, hiddenFieldId, summaryId) {
+	$('#' + hiddenFieldId).val('');
+	$('#' + summaryId).addClass('d-none');
+	$('#' + fieldsContainerId).removeClass('d-none');
+}
+
+/**
+ * Opens the location breadcrumb detail row for one search result container, inserting it
+ * immediately below the given row if not already present. Leaves an already-open row as is,
+ * so it can be called repeatedly (e.g. once per row from "Locate All") without re-fetching.
+ * @param {number|string} containerId - container_id to show the breadcrumb for.
+ * @param {jQuery} currentRow - the result row (<tr>) to insert the detail row after.
+ */
+function openLocateDetailRow(containerId, currentRow) {
+	var detailRowId = 'locate-detail-' + containerId;
+	var existingDetail = $('#' + detailRowId);
+	if (existingDetail.length > 0) {
+		existingDetail.removeClass('d-none');
+		return;
+	}
+	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
+	var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
+	detailRow.append(detailCell);
+	currentRow.after(detailRow);
+	detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: containerId },
+		dataType: 'json',
+		success: function(breadcrumbs) {
+			var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+			$.each(breadcrumbs, function(j, crumb) {
+				var display = formatContainerDisplay(crumb.barcode, crumb.label);
+				var crumbLi = $('<li class="breadcrumb-item small"></li>');
+				if (j === 0) {
+					crumbLi.addClass('arrowprefix');
+					crumbLi.append($('<span class="sr-only">Contained within: </span>'));
+				}
+				crumbLi.append(document.createTextNode(crumb.container_type + ': '));
+				if (j === breadcrumbs.length - 1) {
+					crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
+				} else {
+					var link = document.createElement('a');
+					link.classList.add('pl-1');
+					var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
+					link.href = '/containers/Containers.cfm?' + params.toString();
+					link.appendChild(document.createTextNode(display));
+					crumbLi.append(link);
+				}
+				breadcrumbEl.append(crumbLi);
+			});
+			detailCell.html(breadcrumbEl);
+		},
+		error: function(jqXHR, textStatus, error) {
+			detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+		}
+	});
+}
+
+/**
  * Executes the container search form and renders the paged results table.
  * @param {string} browsePanel - id of the main results panel to populate.
  * @param {string} leafPanel - id of the shared subordinate leaf/table panel.
@@ -2802,6 +2983,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var treeProperty = $('#tree_property').val() || '';
 	var hasPositions = $('#has_positions').val() || '';
 	var positionFilter = $('#position_filter').val() || '';
+	var containsGuids = $('#contains_guids').val() || '';
+	var containsResultId = $('#contains_result_id').val() || '';
+	var containsCollectionObjectIds = $('#contains_collection_object_ids').val() || '';
+	var loanNumber = $('#loan_number').val() || '';
+	var accnNumber = $('#accn_number').val() || '';
+	var deaccNumber = $('#deacc_number').val() || '';
+	var transactionId = $('#transaction_id').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2818,6 +3006,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				tree_property: treeProperty,
 				has_positions: hasPositions,
 				position_filter: positionFilter,
+				contains_guids: containsGuids,
+				contains_result_id: containsResultId,
+				contains_collection_object_ids: containsCollectionObjectIds,
+				loan_number: loanNumber,
+				accn_number: accnNumber,
+				deacc_number: deaccNumber,
+				transaction_id: transactionId,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -2838,6 +3033,20 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
 			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
 			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
+			if (containsResultId) {
+				searchLinkParts.push('result_id=' + encodeURIComponent(containsResultId));
+			} else if (containsCollectionObjectIds) {
+				searchLinkParts.push('collection_object_id=' + encodeURIComponent(containsCollectionObjectIds));
+			} else if (containsGuids) {
+				searchLinkParts.push('contains_guids=' + encodeURIComponent(containsGuids));
+			}
+			if (transactionId) {
+				searchLinkParts.push('transaction_id=' + encodeURIComponent(transactionId));
+			} else {
+				if (loanNumber) { searchLinkParts.push('loan_number=' + encodeURIComponent(loanNumber)); }
+				if (accnNumber) { searchLinkParts.push('accn_number=' + encodeURIComponent(accnNumber)); }
+				if (deaccNumber) { searchLinkParts.push('deacc_number=' + encodeURIComponent(deaccNumber)); }
+			}
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
@@ -2846,15 +3055,6 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					.attr('href', searchLinkUrl)
 					.attr('title', 'Link to this search (opens in new tab)')
 					.text('Link to this search')
-			);
-			headerDiv.append(
-				$('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
-					.text('⌂ Browse Hierarchy')
-					.attr('title', 'Return to the default container hierarchy view')
-					.on('click', function() {
-						initContainerBrowse(browsePanel, leafPanel, feedbackId);
-						$('#' + leafPanel).addClass('d-none').html('');
-					})
 			);
 			panel.append(headerDiv);
 			if (totalPages > 1) {
@@ -2891,55 +3091,20 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					actionCell.append(buildContainerViewLink(cid));
 					actionCell.append(buildAddChildContainerLink(cid, row.container_type));
 					actionCell.append(buildContainerEditLink(cid));
-					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>').text('Locate');
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1 locate-row-btn" type="button"></button>')
+						.text('Locate')
+						.attr('data-container-id', cid);
 					(function(nodeId) {
 						locateBtn.on('click', function() {
-							var btn = $(this);
-							var currentRow = btn.closest('tr');
-							var detailRowId = 'locate-detail-' + nodeId;
-							var existingDetail = $('#' + detailRowId);
-							if (existingDetail.length > 0) {
-								existingDetail.toggleClass('d-none');
+							var currentRow = $(this).closest('tr');
+							var existingDetail = $('#locate-detail-' + nodeId);
+							if (existingDetail.length > 0 && !existingDetail.hasClass('d-none')) {
+								existingDetail.addClass('d-none');
+								locateBtn.text('Locate');
 								return;
 							}
-							var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
-							var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
-							detailRow.append(detailCell);
-							currentRow.after(detailRow);
-							detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
-							$.ajax({
-								url: '/containers/component/search.cfc',
-								data: { method: 'getContainerBreadcrumb', container_id: nodeId },
-								dataType: 'json',
-								success: function(breadcrumbs) {
-									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
-									$.each(breadcrumbs, function(j, crumb) {
-										var display = formatContainerDisplay(crumb.barcode, crumb.label);
-										var crumbLi = $('<li class="breadcrumb-item small"></li>');
-										if (j === 0) {
-											crumbLi.addClass('arrowprefix');
-											crumbLi.append($('<span class="sr-only">Contained within: </span>'));
-										}
-										crumbLi.append(document.createTextNode(crumb.container_type + ': '));
-										if (j === breadcrumbs.length - 1) {
-											crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
-										} else {
-											var link = document.createElement('a');
-											link.classList.add('pl-1');
-											var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
-											link.href = '/containers/Containers.cfm?' + params.toString();
-											link.appendChild(document.createTextNode(display));
-											crumbLi.append(link);
-										}
-										breadcrumbEl.append(crumbLi);
-									});
-									detailCell.html(breadcrumbEl);
-								},
-								error: function(jqXHR, textStatus, error) {
-									detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
-									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
-								}
-							});
+							openLocateDetailRow(nodeId, currentRow);
+							locateBtn.text('Hide Location');
 						});
 					})(cid);
 					actionCell.append(locateBtn);
@@ -2983,7 +3148,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var typeTd = $('<td></td>').text(row.container_type || '');
 					typeTd.append(' ');
 					typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
-					var tr = $('<tr></tr>');
+					var tr = $('<tr></tr>').attr('data-container-id', cid);
 					tr.append(typeTd);
 					tr.append($('<td></td>').text(displayName));
 					tr.append(contentsTd);
@@ -2991,6 +3156,29 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					tr.append(actionCell);
 					tbody.append(tr);
 				});
+				headerDiv.append(
+					$('<button class="btn btn-xs btn-outline-secondary mt-1 ml-1" type="button"></button>')
+						.text('Locate All')
+						.attr('title', 'Show the location breadcrumb for every container in these search results')
+						.on('click', function() {
+							var locateAllBtn = $(this);
+							var opening = locateAllBtn.text() !== 'Hide Locations';
+							tbody.find('tr[data-container-id]').each(function() {
+								var row = $(this);
+								var containerId = row.attr('data-container-id');
+								var detail = $('#locate-detail-' + containerId);
+								var isOpen = detail.length > 0 && !detail.hasClass('d-none');
+								if (opening) {
+									openLocateDetailRow(containerId, row);
+									row.find('.locate-row-btn').text('Hide Location');
+								} else if (isOpen) {
+									detail.addClass('d-none');
+									row.find('.locate-row-btn').text('Locate');
+								}
+							});
+							locateAllBtn.text(opening ? 'Hide Locations' : 'Locate All');
+						})
+				);
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
 				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Contents</th><th>Description</th><th>Actions</th></tr></thead>');
 				table.append(tbody);
@@ -3201,7 +3389,20 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')
 			.attr('data-toggle', 'collapse')
 			.attr('data-target', '#' + detailId)
-			.text(labelText);
+			.attr('role', 'button')
+			.attr('tabindex', '0')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', detailId)
+			.text(labelText)
+			.on('keydown', function(event) {
+				if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+					event.preventDefault();
+					$(this).trigger('click');
+				}
+			})
+			.on('click', function() {
+				$(this).attr('aria-expanded', $(this).attr('aria-expanded') === 'true' ? 'false' : 'true');
+			});
 		var detail = $('<div class="collapse small mt-1"></div>').attr('id', detailId);
 		var list = $('<ul class="list-unstyled mb-0"></ul>');
 		$.each(items, function(i, item) {

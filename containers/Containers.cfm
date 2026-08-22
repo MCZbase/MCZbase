@@ -95,6 +95,16 @@ editing behavior consistent across the application.
 <!--- Legacy params retained for old saved search links; mapped into position_filter below. --->
 <cfparam name="url.in_position" default="">
 <cfparam name="url.position_value" default="">
+<cfparam name="url.contains_guids" default="">
+<cfparam name="url.contains_result_id" default="">
+<cfparam name="url.contains_collection_object_ids" default="">
+<!--- resolved to contains_guids/contains_result_id/contains_collection_object_ids below, not handled as their own search fields --->
+<cfparam name="url.collection_object_id" default="">
+<cfparam name="url.result_id" default="">
+<cfparam name="url.loan_number" default="">
+<cfparam name="url.accn_number" default="">
+<cfparam name="url.deacc_number" default="">
+<cfparam name="url.transaction_id" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
@@ -163,6 +173,46 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.container_id = trim(url.container_id)>
 </cfif>
+<cfif isDefined("form.contains_guids")>
+	<cfset variables.contains_guids = trim(form.contains_guids)>
+<cfelse>
+	<cfset variables.contains_guids = trim(url.contains_guids)>
+</cfif>
+<cfif isDefined("form.contains_result_id")>
+	<cfset variables.contains_result_id = trim(form.contains_result_id)>
+<cfelse>
+	<cfset variables.contains_result_id = trim(url.contains_result_id)>
+</cfif>
+<cfif isDefined("form.contains_collection_object_ids")>
+	<cfset variables.contains_collection_object_ids = trim(form.contains_collection_object_ids)>
+<cfelse>
+	<cfset variables.contains_collection_object_ids = trim(url.contains_collection_object_ids)>
+</cfif>
+<cfif isDefined("form.loan_number")>
+	<cfset variables.loan_number = trim(form.loan_number)>
+<cfelse>
+	<cfset variables.loan_number = trim(url.loan_number)>
+</cfif>
+<cfif isDefined("form.accn_number")>
+	<cfset variables.accn_number = trim(form.accn_number)>
+<cfelse>
+	<cfset variables.accn_number = trim(url.accn_number)>
+</cfif>
+<cfif isDefined("form.deacc_number")>
+	<cfset variables.deacc_number = trim(form.deacc_number)>
+<cfelse>
+	<cfset variables.deacc_number = trim(url.deacc_number)>
+</cfif>
+<cfif isDefined("form.transaction_id")>
+	<cfset variables.transaction_id = trim(form.transaction_id)>
+<cfelse>
+	<cfset variables.transaction_id = trim(url.transaction_id)>
+</cfif>
+<cfset variables.containsSummaryText = "">
+<cfset variables.containsReadonly = false>
+<cfset variables.transactionSummaryText = "">
+<cfset variables.transactionReadonly = false>
+<cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
@@ -203,6 +253,120 @@ editing behavior consistent across the application.
 	</cfif>
 </cfif>
 
+<!--- given one or more raw collection_object_ids (findContainer.cfm's own ?collection_object_id=
+	deep-link shape -- each may be a part or a cataloged item, and there may be hundreds of them,
+	e.g. from a classic specimen search results page), resolve to distinct cataloged items and
+	populate Contains directly when there are few enough to be a readable/editable list; otherwise
+	pass the raw id list through as its own search argument, the same threshold pattern used below
+	for a saved search's result_id. --->
+<cfif len(url.collection_object_id) GT 0>
+	<cfset variables.cleanedContainsIds = "">
+	<cfloop list="#url.collection_object_id#" index="variables.oneRawContainsId">
+		<cfif isNumeric(trim(variables.oneRawContainsId))>
+			<cfset variables.cleanedContainsIds = listAppend(variables.cleanedContainsIds, trim(variables.oneRawContainsId))>
+		</cfif>
+	</cfloop>
+	<cfif len(variables.cleanedContainsIds) GT 0>
+		<cfquery name="resolveContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT collection_object_id, derived_from_cat_item
+			FROM specimen_part
+			WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.cleanedContainsIds#" list="true">)
+		</cfquery>
+		<cfset variables.resolvedContainsCatalogedItemIds = "">
+		<cfset variables.containsIdListFoundAsPart = "">
+		<cfloop query="resolveContainsIdListParts">
+			<cfset variables.containsIdListFoundAsPart = listAppend(variables.containsIdListFoundAsPart, resolveContainsIdListParts.collection_object_id)>
+			<cfif NOT listFind(variables.resolvedContainsCatalogedItemIds, resolveContainsIdListParts.derived_from_cat_item)>
+				<cfset variables.resolvedContainsCatalogedItemIds = listAppend(variables.resolvedContainsCatalogedItemIds, resolveContainsIdListParts.derived_from_cat_item)>
+			</cfif>
+		</cfloop>
+		<cfloop list="#variables.cleanedContainsIds#" index="variables.oneRawContainsId">
+			<cfif NOT listFind(variables.containsIdListFoundAsPart, variables.oneRawContainsId) AND NOT listFind(variables.resolvedContainsCatalogedItemIds, variables.oneRawContainsId)>
+				<cfset variables.resolvedContainsCatalogedItemIds = listAppend(variables.resolvedContainsCatalogedItemIds, variables.oneRawContainsId)>
+			</cfif>
+		</cfloop>
+		<cfif listLen(variables.resolvedContainsCatalogedItemIds) GT 0 AND listLen(variables.resolvedContainsCatalogedItemIds) LTE variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+			<cfquery name="resolveContainsIdListGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT guid
+				FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+				WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.resolvedContainsCatalogedItemIds#" list="true">)
+			</cfquery>
+			<cfset variables.contains_guids = valueList(resolveContainsIdListGuids.guid)>
+			<cfset variables.execute = "true">
+		<cfelseif listLen(variables.resolvedContainsCatalogedItemIds) GT variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+			<cfset variables.contains_collection_object_ids = variables.cleanedContainsIds>
+			<cfset variables.containsReadonly = true>
+			<cfset variables.containsSummaryText = "#listLen(variables.resolvedContainsCatalogedItemIds)# items from a Search">
+			<cfset variables.execute = "true">
+		</cfif>
+	</cfif>
+</cfif>
+
+<!--- given a saved search's result_id (a mix of part and/or cataloged item ids), resolve to
+	distinct cataloged items and populate Contains directly when there are few enough to be a
+	readable/editable list; otherwise pass contains_result_id through as its own search argument,
+	so the search query joins user_search_table directly instead of materializing a large list. --->
+<cfif len(url.result_id) GT 0>
+	<cfquery name="resolveContainsResultItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT NVL(sp.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
+		FROM user_search_table ust
+			LEFT JOIN specimen_part sp ON sp.collection_object_id = ust.collection_object_id
+		WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url.result_id#">
+	</cfquery>
+	<cfif resolveContainsResultItems.recordcount GT 0 AND resolveContainsResultItems.recordcount LTE variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+		<cfquery name="resolveContainsResultGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT guid
+			FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+			WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(resolveContainsResultItems.cataloged_item_id)#" list="true">)
+		</cfquery>
+		<cfset variables.contains_guids = valueList(resolveContainsResultGuids.guid)>
+		<cfset variables.execute = "true">
+	<cfelseif resolveContainsResultItems.recordcount GT variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+		<cfset variables.contains_result_id = url.result_id>
+		<cfset variables.containsReadonly = true>
+		<cfset variables.containsSummaryText = "#resolveContainsResultItems.recordcount# items from a Search (via Manage)">
+		<cfset variables.execute = "true">
+	</cfif>
+</cfif>
+
+
+<!--- given one or more transaction_ids (a loan/accession/deaccession deep link, from an edit
+	page, item list, or search results), show a read-only summary in place of the Loan/Accession/
+	Deaccession Number fields -- there's no friendly way to type a raw transaction_id, so unlike
+	Contains this never falls back to populating an editable field. --->
+<cfif len(url.transaction_id) GT 0>
+	<cfquery name="resolveTransactionSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT t.transaction_id, t.transaction_type,
+			CASE t.transaction_type
+				WHEN 'loan' THEN l.loan_number
+				WHEN 'accn' THEN a.accn_number
+				WHEN 'deaccession' THEN d.deacc_number
+			END AS transaction_number
+		FROM trans t
+			LEFT JOIN loan l ON l.transaction_id = t.transaction_id AND t.transaction_type = 'loan'
+			LEFT JOIN accn a ON a.transaction_id = t.transaction_id AND t.transaction_type = 'accn'
+			LEFT JOIN deaccession d ON d.transaction_id = t.transaction_id AND t.transaction_type = 'deaccession'
+		WHERE t.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.transaction_id#" list="true">)
+	</cfquery>
+	<cfset variables.transaction_id = url.transaction_id>
+	<cfset variables.transactionReadonly = true>
+	<cfset variables.execute = "true">
+	<cfif resolveTransactionSummary.recordcount EQ 1>
+		<cfset variables.transactionTypeLabel = "">
+		<cfif resolveTransactionSummary.transaction_type EQ "loan">
+			<cfset variables.transactionTypeLabel = "Loan">
+		<cfelseif resolveTransactionSummary.transaction_type EQ "accn">
+			<cfset variables.transactionTypeLabel = "Accession">
+		<cfelseif resolveTransactionSummary.transaction_type EQ "deaccession">
+			<cfset variables.transactionTypeLabel = "Deaccession">
+		</cfif>
+		<cfset variables.transactionSummaryText = "#variables.transactionTypeLabel# #resolveTransactionSummary.transaction_number#">
+	<cfelseif resolveTransactionSummary.recordcount GT 1>
+		<cfset variables.transactionSummaryText = "#resolveTransactionSummary.recordcount# transactions from a Search">
+	<cfelse>
+		<cfset variables.transactionSummaryText = "Unknown transaction">
+	</cfif>
+</cfif>
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-2">
@@ -213,128 +377,180 @@ editing behavior consistent across the application.
 				<div class="col-12 px-3 py-3">
 					<cfoutput>
 					<form id="containerSearchForm" name="containerSearch" method="get" action="/containers/Containers.cfm">
-						<div class="form-row">
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="container_type" class="data-entry-label">Container Type</label>
-								<select id="container_type" name="container_type" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="ctcontainer_type">
-										<cfset variables.selectedType = "">
-										<cfif ctcontainer_type.container_type EQ variables.container_type>
-											<cfset variables.selectedType = " selected">
-										</cfif>
-										<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
-								<div class="parent-container-picker-row d-flex align-items-center form-row">
-									<div class="col-12 col-md-8 col-lg-9 pr-md-0">
-										<input type="text" id="search_term" name="search_term"
-											class="data-entry-input col-12"
-											placeholder="Label or barcode"
-											value="#encodeForHtml(variables.search_term)#">
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Container</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="container_type" class="data-entry-label">Container Type</label>
+									<select id="container_type" name="container_type" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="ctcontainer_type">
+											<cfset variables.selectedType = "">
+											<cfif ctcontainer_type.container_type EQ variables.container_type>
+												<cfset variables.selectedType = " selected">
+											</cfif>
+											<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
+									<div class="parent-container-picker-row d-flex align-items-center form-row">
+										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+											<input type="text" id="search_term" name="search_term"
+												class="data-entry-input col-12"
+												placeholder="Label or barcode"
+												value="#encodeForHtml(variables.search_term)#">
+										</div>
+										<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+											<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+										</div>
 									</div>
-									<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
-										<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+									<input type="hidden" id="container_id" name="container_id"
+										value="#encodeForHtml(variables.container_id)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
+									<input type="text" id="barcode" name="barcode"
+										class="data-entry-input col-12"
+										placeholder="Barcode substring"
+										value="#encodeForHtml(variables.barcode)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="description" class="data-entry-label">Description / Remarks</label>
+									<input type="text" id="description" name="description"
+										class="data-entry-input col-12"
+										placeholder="Description or remarks"
+										value="#encodeForHtml(variables.description)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<!--- obtain a list of department prefixes from the container labels predecated on convention for naming containers --->
+									<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
+										SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
+										FROM container 
+										WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+										GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
+									</cfquery>
+									<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
+									<select id="department" name="department" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="fixturePrefixes">
+											<cfset variables.selectedPrefix = "">
+											<cfif fixturePrefixes.prefix EQ variables.department>
+												<cfset variables.selectedPrefix = " selected">
+											</cfif>
+											<option value="#encodeForHtml(fixturePrefixes.prefix)#"#variables.selectedPrefix#>#encodeForHtml(fixturePrefixes.prefix)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="tree_property" class="data-entry-label">Tree Property</label>
+									<cfset variables.selEmpty = "">
+									<cfset variables.selMisplaced = "">
+									<cfset variables.selMixed = "">
+									<cfset variables.selUnplacedLeaf = "">
+									<cfif variables.tree_property EQ "empty">
+										<cfset variables.selEmpty = " selected">
+									<cfelseif variables.tree_property EQ "misplaced">
+										<cfset variables.selMisplaced = " selected">
+									<cfelseif variables.tree_property EQ "mixed">
+										<cfset variables.selMixed = " selected">
+									<cfelseif variables.tree_property EQ "unplaced_leaf">
+										<cfset variables.selUnplacedLeaf = " selected">
+									</cfif>
+									<select id="tree_property" name="tree_property" class="data-entry-select col-12">
+										<option value="">(any)</option>
+										<option value="empty"#variables.selEmpty#>Empty (no children)</option>
+										<option value="misplaced"#variables.selMisplaced#>Misplaced (single-occupant with &gt;1 object)</option>
+										<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
+										<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="has_positions" class="data-entry-label">Has Positions</label>
+									<select id="has_positions" name="has_positions" class="data-entry-select col-12">
+										<option value=""></option>
+										<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
+										<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
+										<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
+										<cfloop query="positionCountOptions">
+											<cfset variables.selectedPositionCount = "">
+											<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
+												<cfset variables.selectedPositionCount = " selected">
+											</cfif>
+											<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="position_filter" class="data-entry-label">
+										Container in Position
+										<span class="small ml-1">
+											<a href="javascript:void(0);" id="positionFilterAny">any</a>
+											|
+											<a href="javascript:void(0);" id="positionFilterNone">none</a>
+										</span>
+									</label>
+									<input type="text" id="position_filter" name="position_filter"
+										class="data-entry-input col-12"
+										placeholder="NULL, NOT NULL, position number, label, or barcode"
+										value="#encodeForHtml(variables.position_filter)#">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Cataloged Items</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
+									<input type="text" id="contains_guids" name="contains_guids"
+										class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
+										placeholder="GUID, or a comma-separated list"
+										value="#encodeForHtml(variables.contains_guids)#">
+									<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
+										<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
+										(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids',['contains_result_id','contains_collection_object_ids'],'containsResultSummary','contains_guids_label')">change</button>)
+									</div>
+									<input type="hidden" id="contains_id" value="">
+									<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
+									<input type="hidden" id="contains_collection_object_ids" name="contains_collection_object_ids" value="#encodeForHtml(variables.contains_collection_object_ids)#">
+								</div>
+								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif variables.transactionReadonly> d-none</cfif>" id="transactionNumberFields">
+									<div class="form-row">
+										<div class="col-12 col-md-4">
+											<label for="loan_number" class="data-entry-label">Loan Number</label>
+											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="Loan number" value="#encodeForHtml(variables.loan_number)#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="accn_number" class="data-entry-label">Accession Number</label>
+											<input type="text" id="accn_number" name="accn_number" class="data-entry-input col-12" placeholder="Accession number" value="#encodeForHtml(variables.accn_number)#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="deacc_number" class="data-entry-label">Deaccession Number</label>
+											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="Deaccession number" value="#encodeForHtml(variables.deacc_number)#">
+										</div>
 									</div>
 								</div>
-								<input type="hidden" id="container_id" name="container_id"
-									value="#encodeForHtml(variables.container_id)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
-								<input type="text" id="barcode" name="barcode"
-									class="data-entry-input col-12"
-									placeholder="Barcode substring"
-									value="#encodeForHtml(variables.barcode)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="description" class="data-entry-label">Description / Remarks</label>
-								<input type="text" id="description" name="description"
-									class="data-entry-input col-12"
-									placeholder="Description or remarks"
-									value="#encodeForHtml(variables.description)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<!--- obtain a list of department prefixes from the container labels predecated on convention for naming containers --->
-								<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
-									SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
-									FROM container 
-									WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
-									GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
-								</cfquery>
-								<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
-								<select id="department" name="department" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="fixturePrefixes">
-										<cfset variables.selectedPrefix = "">
-										<cfif fixturePrefixes.prefix EQ variables.department>
-											<cfset variables.selectedPrefix = " selected">
-										</cfif>
-										<option value="#encodeForHtml(fixturePrefixes.prefix)#"#variables.selectedPrefix#>#encodeForHtml(fixturePrefixes.prefix)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="tree_property" class="data-entry-label">Tree Property</label>
-								<cfset variables.selEmpty = "">
-								<cfset variables.selMisplaced = "">
-								<cfset variables.selMixed = "">
-								<cfset variables.selUnplacedLeaf = "">
-								<cfif variables.tree_property EQ "empty">
-									<cfset variables.selEmpty = " selected">
-								<cfelseif variables.tree_property EQ "misplaced">
-									<cfset variables.selMisplaced = " selected">
-								<cfelseif variables.tree_property EQ "mixed">
-									<cfset variables.selMixed = " selected">
-								<cfelseif variables.tree_property EQ "unplaced_leaf">
-									<cfset variables.selUnplacedLeaf = " selected">
-								</cfif>
-								<select id="tree_property" name="tree_property" class="data-entry-select col-12">
-									<option value="">(any)</option>
-									<option value="empty"#variables.selEmpty#>Empty (no children)</option>
-									<option value="misplaced"#variables.selMisplaced#>Misplaced (single-occupant with &gt;1 object)</option>
-									<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
-									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="has_positions" class="data-entry-label">Has Positions</label>
-								<select id="has_positions" name="has_positions" class="data-entry-select col-12">
-									<option value=""></option>
-									<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
-									<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
-									<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
-									<cfloop query="positionCountOptions">
-										<cfset variables.selectedPositionCount = "">
-										<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
-											<cfset variables.selectedPositionCount = " selected">
-										</cfif>
-										<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="position_filter" class="data-entry-label">
-									Container in Position
-									<span class="small ml-1">
-										<a href="javascript:void(0);" id="positionFilterAny">any</a>
-										|
-										<a href="javascript:void(0);" id="positionFilterNone">none</a>
+								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif NOT variables.transactionReadonly> d-none</cfif>" id="transactionSummary">
+									<span class="data-entry-label">
+										<span id="transactionSummaryText">#encodeForHtml(variables.transactionSummaryText)#</span>
+										(<button type="button" class="btn-link p-0 border-0" onclick="clearTransactionSummary('transactionNumberFields','transaction_id','transactionSummary')">change</button>)
 									</span>
-								</label>
-								<input type="text" id="position_filter" name="position_filter"
-									class="data-entry-input col-12"
-									placeholder="NULL, NOT NULL, position number, label, or barcode"
-									value="#encodeForHtml(variables.position_filter)#">
+								</div>
+								<input type="hidden" id="transaction_id" name="transaction_id" value="#encodeForHtml(variables.transaction_id)#">
 							</div>
-							<div class="col-12 mb-2">
-								<button type="submit" class="btn btn-xs btn-primary">Search</button>
-								<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
-								<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
-								<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
+						</fieldset>
+						<div class="form-row">
+							<div class="col-12 mb-2 d-flex flex-wrap align-items-center">
+								<div>
+									<button type="submit" class="btn btn-xs btn-primary">Search</button>
+									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
+									<a href="containerDiagnostics.cfm" class="btn btn-xs btn-secondary">Diagnostics</a>
+									<a href="/containers/moveContainer.cfm" class="btn btn-xs btn-secondary ml-1">Move Container</a>
+								</div>
+								<button type="button" class="btn btn-xs btn-warning ml-auto"
+									title="Abandon this search and browse the container hierarchy instead"
+									onclick="browseContainerHierarchy('containerBrowsePanel','containerLeafPanel','containerBrowseFeedback')">⌂ Browse Hierarchy</button>
 							</div>
 						</div>
 					</form>
@@ -373,6 +589,11 @@ editing behavior consistent across the application.
 <script>
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
+	makeCatalogedItemAutocompleteMeta('contains_guids', 'contains_id');
+	$('##contains_guids').on('input', function() {
+		$('##contains_result_id').val('');
+		$('##contains_collection_object_ids').val('');
+	});
 	$('##chooseSearchContainerBtn').on('click', function() {
 		openContainerPickerDialog({
 			mode: 'find',
@@ -405,6 +626,13 @@ $(document).ready(function() {
 		len(variables.tree_property) GT 0 OR
 		len(variables.has_positions) GT 0 OR
 		len(variables.position_filter) GT 0 OR
+		len(variables.contains_guids) GT 0 OR
+		len(variables.contains_result_id) GT 0 OR
+		len(variables.contains_collection_object_ids) GT 0 OR
+		len(variables.loan_number) GT 0 OR
+		len(variables.accn_number) GT 0 OR
+		len(variables.deacc_number) GT 0 OR
+		len(variables.transaction_id) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>
