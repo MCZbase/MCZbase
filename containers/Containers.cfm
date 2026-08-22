@@ -280,136 +280,146 @@ editing behavior consistent across the application.
 				<div class="col-12 px-3 py-3">
 					<cfoutput>
 					<form id="containerSearchForm" name="containerSearch" method="get" action="/containers/Containers.cfm">
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Container</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="container_type" class="data-entry-label">Container Type</label>
+									<select id="container_type" name="container_type" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="ctcontainer_type">
+											<cfset variables.selectedType = "">
+											<cfif ctcontainer_type.container_type EQ variables.container_type>
+												<cfset variables.selectedType = " selected">
+											</cfif>
+											<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
+									<div class="parent-container-picker-row d-flex align-items-center form-row">
+										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+											<input type="text" id="search_term" name="search_term"
+												class="data-entry-input col-12"
+												placeholder="Label or barcode"
+												value="#encodeForHtml(variables.search_term)#">
+										</div>
+										<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+											<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+										</div>
+									</div>
+									<input type="hidden" id="container_id" name="container_id"
+										value="#encodeForHtml(variables.container_id)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
+									<input type="text" id="barcode" name="barcode"
+										class="data-entry-input col-12"
+										placeholder="Barcode substring"
+										value="#encodeForHtml(variables.barcode)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="description" class="data-entry-label">Description / Remarks</label>
+									<input type="text" id="description" name="description"
+										class="data-entry-input col-12"
+										placeholder="Description or remarks"
+										value="#encodeForHtml(variables.description)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<!--- obtain a list of department prefixes from the container labels predecated on convention for naming containers --->
+									<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
+										SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
+										FROM container 
+										WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+										GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
+									</cfquery>
+									<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
+									<select id="department" name="department" class="data-entry-select col-12">
+										<option value=""></option>
+										<cfloop query="fixturePrefixes">
+											<cfset variables.selectedPrefix = "">
+											<cfif fixturePrefixes.prefix EQ variables.department>
+												<cfset variables.selectedPrefix = " selected">
+											</cfif>
+											<option value="#encodeForHtml(fixturePrefixes.prefix)#"#variables.selectedPrefix#>#encodeForHtml(fixturePrefixes.prefix)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="tree_property" class="data-entry-label">Tree Property</label>
+									<cfset variables.selEmpty = "">
+									<cfset variables.selMisplaced = "">
+									<cfset variables.selMixed = "">
+									<cfset variables.selUnplacedLeaf = "">
+									<cfif variables.tree_property EQ "empty">
+										<cfset variables.selEmpty = " selected">
+									<cfelseif variables.tree_property EQ "misplaced">
+										<cfset variables.selMisplaced = " selected">
+									<cfelseif variables.tree_property EQ "mixed">
+										<cfset variables.selMixed = " selected">
+									<cfelseif variables.tree_property EQ "unplaced_leaf">
+										<cfset variables.selUnplacedLeaf = " selected">
+									</cfif>
+									<select id="tree_property" name="tree_property" class="data-entry-select col-12">
+										<option value="">(any)</option>
+										<option value="empty"#variables.selEmpty#>Empty (no children)</option>
+										<option value="misplaced"#variables.selMisplaced#>Misplaced (single-occupant with &gt;1 object)</option>
+										<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
+										<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="has_positions" class="data-entry-label">Has Positions</label>
+									<select id="has_positions" name="has_positions" class="data-entry-select col-12">
+										<option value=""></option>
+										<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
+										<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
+										<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
+										<cfloop query="positionCountOptions">
+											<cfset variables.selectedPositionCount = "">
+											<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
+												<cfset variables.selectedPositionCount = " selected">
+											</cfif>
+											<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="position_filter" class="data-entry-label">
+										Container in Position
+										<span class="small ml-1">
+											<a href="javascript:void(0);" id="positionFilterAny">any</a>
+											|
+											<a href="javascript:void(0);" id="positionFilterNone">none</a>
+										</span>
+									</label>
+									<input type="text" id="position_filter" name="position_filter"
+										class="data-entry-input col-12"
+										placeholder="NULL, NOT NULL, position number, label, or barcode"
+										value="#encodeForHtml(variables.position_filter)#">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Cataloged Items</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
+									<input type="text" id="contains_guids" name="contains_guids"
+										class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
+										placeholder="GUID, or a comma-separated list"
+										value="#encodeForHtml(variables.contains_guids)#">
+									<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
+										<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
+										(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>)
+									</div>
+									<input type="hidden" id="contains_id" value="">
+									<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
+								</div>
+							</div>
+						</fieldset>
 						<div class="form-row">
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="container_type" class="data-entry-label">Container Type</label>
-								<select id="container_type" name="container_type" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="ctcontainer_type">
-										<cfset variables.selectedType = "">
-										<cfif ctcontainer_type.container_type EQ variables.container_type>
-											<cfset variables.selectedType = " selected">
-										</cfif>
-										<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
-								<div class="parent-container-picker-row d-flex align-items-center form-row">
-									<div class="col-12 col-md-8 col-lg-9 pr-md-0">
-										<input type="text" id="search_term" name="search_term"
-											class="data-entry-input col-12"
-											placeholder="Label or barcode"
-											value="#encodeForHtml(variables.search_term)#">
-									</div>
-									<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
-										<button type="button" id="chooseSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
-									</div>
-								</div>
-								<input type="hidden" id="container_id" name="container_id"
-									value="#encodeForHtml(variables.container_id)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
-								<input type="text" id="barcode" name="barcode"
-									class="data-entry-input col-12"
-									placeholder="Barcode substring"
-									value="#encodeForHtml(variables.barcode)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="description" class="data-entry-label">Description / Remarks</label>
-								<input type="text" id="description" name="description"
-									class="data-entry-input col-12"
-									placeholder="Description or remarks"
-									value="#encodeForHtml(variables.description)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<!--- obtain a list of department prefixes from the container labels predecated on convention for naming containers --->
-								<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
-									SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
-									FROM container 
-									WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
-									GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
-								</cfquery>
-								<label for="department" class="data-entry-label">Department (label prefix, e.g. IZ, Ent)</label>
-								<select id="department" name="department" class="data-entry-select col-12">
-									<option value=""></option>
-									<cfloop query="fixturePrefixes">
-										<cfset variables.selectedPrefix = "">
-										<cfif fixturePrefixes.prefix EQ variables.department>
-											<cfset variables.selectedPrefix = " selected">
-										</cfif>
-										<option value="#encodeForHtml(fixturePrefixes.prefix)#"#variables.selectedPrefix#>#encodeForHtml(fixturePrefixes.prefix)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="tree_property" class="data-entry-label">Tree Property</label>
-								<cfset variables.selEmpty = "">
-								<cfset variables.selMisplaced = "">
-								<cfset variables.selMixed = "">
-								<cfset variables.selUnplacedLeaf = "">
-								<cfif variables.tree_property EQ "empty">
-									<cfset variables.selEmpty = " selected">
-								<cfelseif variables.tree_property EQ "misplaced">
-									<cfset variables.selMisplaced = " selected">
-								<cfelseif variables.tree_property EQ "mixed">
-									<cfset variables.selMixed = " selected">
-								<cfelseif variables.tree_property EQ "unplaced_leaf">
-									<cfset variables.selUnplacedLeaf = " selected">
-								</cfif>
-								<select id="tree_property" name="tree_property" class="data-entry-select col-12">
-									<option value="">(any)</option>
-									<option value="empty"#variables.selEmpty#>Empty (no children)</option>
-									<option value="misplaced"#variables.selMisplaced#>Misplaced (single-occupant with &gt;1 object)</option>
-									<option value="mixed"#variables.selMixed#>AB Mixed (structural + object children)</option>
-									<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="has_positions" class="data-entry-label">Has Positions</label>
-								<select id="has_positions" name="has_positions" class="data-entry-select col-12">
-									<option value=""></option>
-									<option value="none"<cfif variables.has_positions EQ "none"> selected</cfif>>No positions</option>
-									<option value="any"<cfif variables.has_positions EQ "any"> selected</cfif>>Any number of positions</option>
-									<option value="has_empty"<cfif variables.has_positions EQ "has_empty"> selected</cfif>>Has empty positions</option>
-									<cfloop query="positionCountOptions">
-										<cfset variables.selectedPositionCount = "">
-										<cfif val(positionCountOptions.number_positions) EQ val(variables.has_positions)>
-											<cfset variables.selectedPositionCount = " selected">
-										</cfif>
-										<option value="#encodeForHtml(positionCountOptions.number_positions)#"#variables.selectedPositionCount#>#encodeForHtml(positionCountOptions.number_positions)#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="position_filter" class="data-entry-label">
-									Container in Position
-									<span class="small ml-1">
-										<a href="javascript:void(0);" id="positionFilterAny">any</a>
-										|
-										<a href="javascript:void(0);" id="positionFilterNone">none</a>
-									</span>
-								</label>
-								<input type="text" id="position_filter" name="position_filter"
-									class="data-entry-input col-12"
-									placeholder="NULL, NOT NULL, position number, label, or barcode"
-									value="#encodeForHtml(variables.position_filter)#">
-							</div>
-							<div class="col-12 col-md-4 col-xl-3 mb-2">
-								<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
-								<input type="text" id="contains_guids" name="contains_guids"
-									class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
-									placeholder="GUID, or a comma-separated list"
-									value="#encodeForHtml(variables.contains_guids)#">
-								<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
-									<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
-									(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>)
-								</div>
-								<input type="hidden" id="contains_id" value="">
-								<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
-							</div>
 							<div class="col-12 mb-2 d-flex flex-wrap align-items-center">
 								<div>
 									<button type="submit" class="btn btn-xs btn-primary">Search</button>
