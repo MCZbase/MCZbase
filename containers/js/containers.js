@@ -3056,16 +3056,20 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					actionCell.append(buildContainerViewLink(cid));
 					actionCell.append(buildAddChildContainerLink(cid, row.container_type));
 					actionCell.append(buildContainerEditLink(cid));
-					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>').text('Locate');
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1 locate-row-btn" type="button"></button>')
+						.text('Locate')
+						.attr('data-container-id', cid);
 					(function(nodeId) {
 						locateBtn.on('click', function() {
 							var currentRow = $(this).closest('tr');
 							var existingDetail = $('#locate-detail-' + nodeId);
 							if (existingDetail.length > 0 && !existingDetail.hasClass('d-none')) {
 								existingDetail.addClass('d-none');
+								locateBtn.text('Locate');
 								return;
 							}
 							openLocateDetailRow(nodeId, currentRow);
+							locateBtn.text('Hide Location');
 						});
 					})(cid);
 					actionCell.append(locateBtn);
@@ -3122,10 +3126,23 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						.text('Locate All')
 						.attr('title', 'Show the location breadcrumb for every container in these search results')
 						.on('click', function() {
-							tbody.find('tr[data-container-id]').each(function() {
-								var row = $(this);
-								openLocateDetailRow(row.attr('data-container-id'), row);
+							var locateAllBtn = $(this);
+							var rows = tbody.find('tr[data-container-id]');
+							var allOpen = rows.length > 0 && rows.toArray().every(function(rowEl) {
+								var detail = $('#locate-detail-' + $(rowEl).attr('data-container-id'));
+								return detail.length > 0 && !detail.hasClass('d-none');
 							});
+							rows.each(function() {
+								var row = $(this);
+								var containerId = row.attr('data-container-id');
+								if (allOpen) {
+									$('#locate-detail-' + containerId).addClass('d-none');
+								} else {
+									openLocateDetailRow(containerId, row);
+								}
+							});
+							tbody.find('.locate-row-btn').text(allOpen ? 'Locate' : 'Hide Location');
+							locateAllBtn.text(allOpen ? 'Locate All' : 'Hide Locations');
 						})
 				);
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
