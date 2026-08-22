@@ -97,7 +97,8 @@ editing behavior consistent across the application.
 <cfparam name="url.position_value" default="">
 <cfparam name="url.contains_guids" default="">
 <cfparam name="url.contains_result_id" default="">
-<!--- resolved to contains_guids/contains_result_id below, not handled as their own search fields --->
+<cfparam name="url.contains_collection_object_ids" default="">
+<!--- resolved to contains_guids/contains_result_id/contains_collection_object_ids below, not handled as their own search fields --->
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="url.result_id" default="">
 <cfparam name="url.execute" default="">
@@ -178,8 +179,14 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.contains_result_id = trim(url.contains_result_id)>
 </cfif>
+<cfif isDefined("form.contains_collection_object_ids")>
+	<cfset variables.contains_collection_object_ids = trim(form.contains_collection_object_ids)>
+<cfelse>
+	<cfset variables.contains_collection_object_ids = trim(url.contains_collection_object_ids)>
+</cfif>
 <cfset variables.containsSummaryText = "">
 <cfset variables.containsReadonly = false>
+<cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 
 <cfset pageTitle = "Containers">
 <cfset pageHasContainers = true>
@@ -220,23 +227,50 @@ editing behavior consistent across the application.
 	</cfif>
 </cfif>
 
-<!--- given either a part's or a cataloged item's own collection_object_id, resolve to the
-	cataloged item (a part's own id falls back to its derived_from_cat_item; otherwise it's
-	already a cataloged item id), then populate Contains with that one item's GUID. --->
-<cfif len(url.collection_object_id) GT 0 AND isNumeric(url.collection_object_id)>
-	<cfquery name="resolveContainsCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT NVL(sp.derived_from_cat_item, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.collection_object_id#">) AS cataloged_item_id
-		FROM dual
-			LEFT JOIN specimen_part sp ON sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.collection_object_id#">
-	</cfquery>
-	<cfif resolveContainsCatItem.recordcount EQ 1>
-		<cfquery name="resolveContainsGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT guid
-			FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
-			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolveContainsCatItem.cataloged_item_id#">
+<!--- given one or more raw collection_object_ids (findContainer.cfm's own ?collection_object_id=
+	deep-link shape -- each may be a part or a cataloged item, and there may be hundreds of them,
+	e.g. from a classic specimen search results page), resolve to distinct cataloged items and
+	populate Contains directly when there are few enough to be a readable/editable list; otherwise
+	pass the raw id list through as its own search argument, the same threshold pattern used below
+	for a saved search's result_id. --->
+<cfif len(url.collection_object_id) GT 0>
+	<cfset variables.cleanedContainsIds = "">
+	<cfloop list="#url.collection_object_id#" index="variables.oneRawContainsId">
+		<cfif isNumeric(trim(variables.oneRawContainsId))>
+			<cfset variables.cleanedContainsIds = listAppend(variables.cleanedContainsIds, trim(variables.oneRawContainsId))>
+		</cfif>
+	</cfloop>
+	<cfif len(variables.cleanedContainsIds) GT 0>
+		<cfquery name="resolveContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT collection_object_id, derived_from_cat_item
+			FROM specimen_part
+			WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.cleanedContainsIds#" list="true">)
 		</cfquery>
-		<cfif resolveContainsGuid.recordcount EQ 1>
-			<cfset variables.contains_guids = resolveContainsGuid.guid>
+		<cfset variables.resolvedContainsCatalogedItemIds = "">
+		<cfset variables.containsIdListFoundAsPart = "">
+		<cfloop query="resolveContainsIdListParts">
+			<cfset variables.containsIdListFoundAsPart = listAppend(variables.containsIdListFoundAsPart, resolveContainsIdListParts.collection_object_id)>
+			<cfif NOT listFind(variables.resolvedContainsCatalogedItemIds, resolveContainsIdListParts.derived_from_cat_item)>
+				<cfset variables.resolvedContainsCatalogedItemIds = listAppend(variables.resolvedContainsCatalogedItemIds, resolveContainsIdListParts.derived_from_cat_item)>
+			</cfif>
+		</cfloop>
+		<cfloop list="#variables.cleanedContainsIds#" index="variables.oneRawContainsId">
+			<cfif NOT listFind(variables.containsIdListFoundAsPart, variables.oneRawContainsId) AND NOT listFind(variables.resolvedContainsCatalogedItemIds, variables.oneRawContainsId)>
+				<cfset variables.resolvedContainsCatalogedItemIds = listAppend(variables.resolvedContainsCatalogedItemIds, variables.oneRawContainsId)>
+			</cfif>
+		</cfloop>
+		<cfif listLen(variables.resolvedContainsCatalogedItemIds) GT 0 AND listLen(variables.resolvedContainsCatalogedItemIds) LTE variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+			<cfquery name="resolveContainsIdListGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT guid
+				FROM <cfif ucase(session.flatTableName) EQ "FLAT">flat<cfelse>filtered_flat</cfif>
+				WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.resolvedContainsCatalogedItemIds#" list="true">)
+			</cfquery>
+			<cfset variables.contains_guids = valueList(resolveContainsIdListGuids.guid)>
+			<cfset variables.execute = "true">
+		<cfelseif listLen(variables.resolvedContainsCatalogedItemIds) GT variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD>
+			<cfset variables.contains_collection_object_ids = variables.cleanedContainsIds>
+			<cfset variables.containsReadonly = true>
+			<cfset variables.containsSummaryText = "#listLen(variables.resolvedContainsCatalogedItemIds)# items from a Search">
 			<cfset variables.execute = "true">
 		</cfif>
 	</cfif>
@@ -247,7 +281,6 @@ editing behavior consistent across the application.
 	readable/editable list; otherwise pass contains_result_id through as its own search argument,
 	so the search query joins user_search_table directly instead of materializing a large list. --->
 <cfif len(url.result_id) GT 0>
-	<cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 	<cfquery name="resolveContainsResultItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DISTINCT NVL(sp.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
 		FROM user_search_table ust
@@ -412,10 +445,11 @@ editing behavior consistent across the application.
 										value="#encodeForHtml(variables.contains_guids)#">
 									<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
 										<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
-										(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids','contains_result_id','containsResultSummary','contains_guids_label')">change</button>)
+										(<button type="button" class="btn-link p-0 border-0" onclick="clearContainsResultSummary('contains_guids',['contains_result_id','contains_collection_object_ids'],'containsResultSummary','contains_guids_label')">change</button>)
 									</div>
 									<input type="hidden" id="contains_id" value="">
 									<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
+									<input type="hidden" id="contains_collection_object_ids" name="contains_collection_object_ids" value="#encodeForHtml(variables.contains_collection_object_ids)#">
 								</div>
 							</div>
 						</fieldset>
@@ -471,6 +505,7 @@ $(document).ready(function() {
 	makeCatalogedItemAutocompleteMeta('contains_guids', 'contains_id');
 	$('##contains_guids').on('input', function() {
 		$('##contains_result_id').val('');
+		$('##contains_collection_object_ids').val('');
 	});
 	$('##chooseSearchContainerBtn').on('click', function() {
 		openContainerPickerDialog({
@@ -506,6 +541,7 @@ $(document).ready(function() {
 		len(variables.position_filter) GT 0 OR
 		len(variables.contains_guids) GT 0 OR
 		len(variables.contains_result_id) GT 0 OR
+		len(variables.contains_collection_object_ids) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>

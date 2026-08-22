@@ -2882,14 +2882,17 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 
 /**
  * Swaps the Contains field back from its read-only "N items from a Search" summary
- * to the editable GUID input, clearing the saved-search result id it was standing in for.
+ * to the editable GUID input, clearing whichever hidden id-list field it was standing in for.
  * @param {string} inputId - id of the Contains GUID text input.
- * @param {string} resultIdFieldId - id of the hidden contains_result_id field.
+ * @param {string[]} hiddenFieldIds - ids of the hidden fields (contains_result_id,
+ *   contains_collection_object_ids) to clear.
  * @param {string} summaryId - id of the summary div shown in place of the input.
  * @param {string} labelId - id of the label for the GUID input.
  */
-function clearContainsResultSummary(inputId, resultIdFieldId, summaryId, labelId) {
-	$('#' + resultIdFieldId).val('');
+function clearContainsResultSummary(inputId, hiddenFieldIds, summaryId, labelId) {
+	hiddenFieldIds.forEach(function(hiddenFieldId) {
+		$('#' + hiddenFieldId).val('');
+	});
 	$('#' + summaryId).addClass('d-none');
 	$('#' + inputId).removeClass('d-none');
 	$('#' + labelId).removeClass('d-none');
@@ -2969,6 +2972,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var positionFilter = $('#position_filter').val() || '';
 	var containsGuids = $('#contains_guids').val() || '';
 	var containsResultId = $('#contains_result_id').val() || '';
+	var containsCollectionObjectIds = $('#contains_collection_object_ids').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2987,6 +2991,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				position_filter: positionFilter,
 				contains_guids: containsGuids,
 				contains_result_id: containsResultId,
+				contains_collection_object_ids: containsCollectionObjectIds,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -3009,6 +3014,8 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
 			if (containsResultId) {
 				searchLinkParts.push('result_id=' + encodeURIComponent(containsResultId));
+			} else if (containsCollectionObjectIds) {
+				searchLinkParts.push('collection_object_id=' + encodeURIComponent(containsCollectionObjectIds));
 			} else if (containsGuids) {
 				searchLinkParts.push('contains_guids=' + encodeURIComponent(containsGuids));
 			}

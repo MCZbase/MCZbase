@@ -494,6 +494,9 @@ a paginated JSON result for display in the browse panel.
   containers currently holding a part of any of the named cataloged items.
 @param contains_result_id optional saved search result_id (user_search_table); resolved the same way as
   contains_guids, against that search's distinct cataloged items.
+@param contains_collection_object_ids optional comma-separated list of raw collection_object_id values
+  (each may be a part or a cataloged item, findContainer.cfm's own deep-link shape); resolved the same
+  way as contains_guids and contains_result_id.
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
@@ -511,6 +514,7 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="position_filter" type="string" required="no" default="">
 	<cfargument name="contains_guids" type="string" required="no" default="">
 	<cfargument name="contains_result_id" type="string" required="no" default="">
+	<cfargument name="contains_collection_object_ids" type="string" required="no" default="">
 	<cfargument name="page" type="numeric" required="no" default="1">
 	<cfargument name="pageSize" type="numeric" required="no" default="50">
 
@@ -564,6 +568,30 @@ a paginated JSON result for display in the browse panel.
 			<cfloop query="local.queryContainsResultItems">
 				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
 					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsResultItems.cataloged_item_id)>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- Resolve a raw list of collection_object_ids (findContainer.cfm's own deep-link shape --
+			each id may be a part or a cataloged item) the same way: one bulk lookup against
+			specimen_part rather than a query per id, since this list can run to hundreds of ids. Any
+			id not found there is assumed to already be a cataloged item's own id. --->
+		<cfset local.containsCollectionObjectIds = trim(arguments.contains_collection_object_ids)>
+		<cfif len(local.containsCollectionObjectIds) GT 0>
+			<cfquery name="local.queryContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT collection_object_id, derived_from_cat_item
+				FROM specimen_part
+				WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCollectionObjectIds#" list="true">)
+			</cfquery>
+			<cfset local.containsIdListFoundAsPart = "">
+			<cfloop query="local.queryContainsIdListParts">
+				<cfset local.containsIdListFoundAsPart = listAppend(local.containsIdListFoundAsPart, local.queryContainsIdListParts.collection_object_id)>
+				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+				</cfif>
+			</cfloop>
+			<cfloop list="#local.containsCollectionObjectIds#" index="local.oneRawId">
+				<cfif NOT listFind(local.containsIdListFoundAsPart, local.oneRawId) AND NOT listFind(local.containsCatalogedItemIds, local.oneRawId)>
+					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.oneRawId)>
 				</cfif>
 			</cfloop>
 		</cfif>
@@ -697,7 +725,7 @@ a paginated JSON result for display in the browse panel.
 					WHERE coch.current_container_fg = 1
 						AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
 				)
-			<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0>
+			<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
 				<!--- Contains was given but nothing resolved -- force zero results rather than
 					silently ignoring the filter and returning an unfiltered search. --->
 				AND 1=0
@@ -848,7 +876,7 @@ a paginated JSON result for display in the browse panel.
 							WHERE coch.current_container_fg = 1
 								AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
 						)
-					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0>
+					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
 						AND 1=0
 					</cfif>
 					ORDER BY c.label, c.barcode
