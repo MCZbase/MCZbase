@@ -667,12 +667,30 @@ a paginated JSON result for display in the browse panel.
 			</cfloop>
 		</cfif>
 		<cfif len(local.accnNumberUpper) GT 0>
+			<!--- Two independent ways an accession relates to a container: trans_container (the
+				container its material was physically received into, populated only when someone
+				used addAccnContainer -- rare in practice), and the accession's cataloged items'
+				parts' *current* container via coll_obj_cont_hist (cataloged_item.accn_id, the same
+				FK used throughout the codebase to relate a cataloged item to its accession) -- the
+				common case, and the only one most accessions actually have data for. --->
 			<cfquery name="local.queryAccnTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT DISTINCT tc.container_id
 				FROM accn a
 					JOIN trans_container tc ON tc.transaction_id = a.transaction_id
 				WHERE
 					<cfif left(local.accnNumberUpper,1) EQ "=">
+						UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+					<cfelse>
+						UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+					</cfif>
+				UNION
+				SELECT DISTINCT coch.container_id
+				FROM accn a
+					JOIN cataloged_item ci ON ci.accn_id = a.transaction_id
+					JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+				WHERE coch.current_container_fg = 1
+					AND <cfif left(local.accnNumberUpper,1) EQ "=">
 						UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
 					<cfelse>
 						UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
@@ -704,6 +722,13 @@ a paginated JSON result for display in the browse panel.
 					SELECT DISTINCT container_id
 					FROM trans_container
 					WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.accnTransactionIds#" list="true">)
+					UNION
+					SELECT DISTINCT coch.container_id
+					FROM cataloged_item ci
+						JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND ci.accn_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.accnTransactionIds#" list="true">)
 				</cfquery>
 				<cfloop query="local.queryAccnIdContainers">
 					<cfif NOT listFind(local.transactionContainerIds, local.queryAccnIdContainers.container_id)>
