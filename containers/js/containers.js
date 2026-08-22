@@ -2900,6 +2900,19 @@ function clearContainsResultSummary(inputId, hiddenFieldIds, summaryId, labelId)
 }
 
 /**
+ * Swaps the Loan/Accession/Deaccession Number fields back from their read-only transaction
+ * summary to the editable inputs, clearing the transaction_id it was standing in for.
+ * @param {string} fieldsContainerId - id of the div wrapping the three number inputs.
+ * @param {string} hiddenFieldId - id of the hidden transaction_id field.
+ * @param {string} summaryId - id of the summary div shown in place of the inputs.
+ */
+function clearTransactionSummary(fieldsContainerId, hiddenFieldId, summaryId) {
+	$('#' + hiddenFieldId).val('');
+	$('#' + summaryId).addClass('d-none');
+	$('#' + fieldsContainerId).removeClass('d-none');
+}
+
+/**
  * Opens the location breadcrumb detail row for one search result container, inserting it
  * immediately below the given row if not already present. Leaves an already-open row as is,
  * so it can be called repeatedly (e.g. once per row from "Locate All") without re-fetching.
@@ -2973,6 +2986,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var containsGuids = $('#contains_guids').val() || '';
 	var containsResultId = $('#contains_result_id').val() || '';
 	var containsCollectionObjectIds = $('#contains_collection_object_ids').val() || '';
+	var loanNumber = $('#loan_number').val() || '';
+	var accnNumber = $('#accn_number').val() || '';
+	var deaccNumber = $('#deacc_number').val() || '';
+	var transactionId = $('#transaction_id').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2992,6 +3009,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				contains_guids: containsGuids,
 				contains_result_id: containsResultId,
 				contains_collection_object_ids: containsCollectionObjectIds,
+				loan_number: loanNumber,
+				accn_number: accnNumber,
+				deacc_number: deaccNumber,
+				transaction_id: transactionId,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -3018,6 +3039,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				searchLinkParts.push('collection_object_id=' + encodeURIComponent(containsCollectionObjectIds));
 			} else if (containsGuids) {
 				searchLinkParts.push('contains_guids=' + encodeURIComponent(containsGuids));
+			}
+			if (transactionId) {
+				searchLinkParts.push('transaction_id=' + encodeURIComponent(transactionId));
+			} else {
+				if (loanNumber) { searchLinkParts.push('loan_number=' + encodeURIComponent(loanNumber)); }
+				if (accnNumber) { searchLinkParts.push('accn_number=' + encodeURIComponent(accnNumber)); }
+				if (deaccNumber) { searchLinkParts.push('deacc_number=' + encodeURIComponent(deaccNumber)); }
 			}
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');

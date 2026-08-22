@@ -101,6 +101,10 @@ editing behavior consistent across the application.
 <!--- resolved to contains_guids/contains_result_id/contains_collection_object_ids below, not handled as their own search fields --->
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="url.result_id" default="">
+<cfparam name="url.loan_number" default="">
+<cfparam name="url.accn_number" default="">
+<cfparam name="url.deacc_number" default="">
+<cfparam name="url.transaction_id" default="">
 <cfparam name="url.execute" default="">
 <cfparam name="url.container_id" default="">
 <!--- Resolve search params: form (POST) takes priority over url (GET) --->
@@ -184,8 +188,30 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.contains_collection_object_ids = trim(url.contains_collection_object_ids)>
 </cfif>
+<cfif isDefined("form.loan_number")>
+	<cfset variables.loan_number = trim(form.loan_number)>
+<cfelse>
+	<cfset variables.loan_number = trim(url.loan_number)>
+</cfif>
+<cfif isDefined("form.accn_number")>
+	<cfset variables.accn_number = trim(form.accn_number)>
+<cfelse>
+	<cfset variables.accn_number = trim(url.accn_number)>
+</cfif>
+<cfif isDefined("form.deacc_number")>
+	<cfset variables.deacc_number = trim(form.deacc_number)>
+<cfelse>
+	<cfset variables.deacc_number = trim(url.deacc_number)>
+</cfif>
+<cfif isDefined("form.transaction_id")>
+	<cfset variables.transaction_id = trim(form.transaction_id)>
+<cfelse>
+	<cfset variables.transaction_id = trim(url.transaction_id)>
+</cfif>
 <cfset variables.containsSummaryText = "">
 <cfset variables.containsReadonly = false>
+<cfset variables.transactionSummaryText = "">
+<cfset variables.transactionReadonly = false>
 <cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 
 <cfset pageTitle = "Containers">
@@ -303,6 +329,44 @@ editing behavior consistent across the application.
 	</cfif>
 </cfif>
 
+
+<!--- given one or more transaction_ids (a loan/accession/deaccession deep link, from an edit
+	page, item list, or search results), show a read-only summary in place of the Loan/Accession/
+	Deaccession Number fields -- there's no friendly way to type a raw transaction_id, so unlike
+	Contains this never falls back to populating an editable field. --->
+<cfif len(url.transaction_id) GT 0>
+	<cfquery name="resolveTransactionSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT t.transaction_id, t.transaction_type,
+			CASE t.transaction_type
+				WHEN 'loan' THEN l.loan_number
+				WHEN 'accn' THEN a.accn_number
+				WHEN 'deaccession' THEN d.deacc_number
+			END AS transaction_number
+		FROM trans t
+			LEFT JOIN loan l ON l.transaction_id = t.transaction_id AND t.transaction_type = 'loan'
+			LEFT JOIN accn a ON a.transaction_id = t.transaction_id AND t.transaction_type = 'accn'
+			LEFT JOIN deaccession d ON d.transaction_id = t.transaction_id AND t.transaction_type = 'deaccession'
+		WHERE t.transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.transaction_id#" list="true">)
+	</cfquery>
+	<cfset variables.transaction_id = url.transaction_id>
+	<cfset variables.transactionReadonly = true>
+	<cfset variables.execute = "true">
+	<cfif resolveTransactionSummary.recordcount EQ 1>
+		<cfset variables.transactionTypeLabel = "">
+		<cfif resolveTransactionSummary.transaction_type EQ "loan">
+			<cfset variables.transactionTypeLabel = "Loan">
+		<cfelseif resolveTransactionSummary.transaction_type EQ "accn">
+			<cfset variables.transactionTypeLabel = "Accession">
+		<cfelseif resolveTransactionSummary.transaction_type EQ "deaccession">
+			<cfset variables.transactionTypeLabel = "Deaccession">
+		</cfif>
+		<cfset variables.transactionSummaryText = "#variables.transactionTypeLabel# #resolveTransactionSummary.transaction_number#">
+	<cfelseif resolveTransactionSummary.recordcount GT 1>
+		<cfset variables.transactionSummaryText = "#resolveTransactionSummary.recordcount# transactions from a Search">
+	<cfelse>
+		<cfset variables.transactionSummaryText = "Unknown transaction">
+	</cfif>
+</cfif>
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-2">
@@ -451,6 +515,29 @@ editing behavior consistent across the application.
 									<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
 									<input type="hidden" id="contains_collection_object_ids" name="contains_collection_object_ids" value="#encodeForHtml(variables.contains_collection_object_ids)#">
 								</div>
+								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif variables.transactionReadonly> d-none</cfif>" id="transactionNumberFields">
+									<div class="form-row">
+										<div class="col-12 col-md-4">
+											<label for="loan_number" class="data-entry-label">Loan Number</label>
+											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="Loan number" value="#encodeForHtml(variables.loan_number)#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="accn_number" class="data-entry-label">Accession Number</label>
+											<input type="text" id="accn_number" name="accn_number" class="data-entry-input col-12" placeholder="Accession number" value="#encodeForHtml(variables.accn_number)#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="deacc_number" class="data-entry-label">Deaccession Number</label>
+											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="Deaccession number" value="#encodeForHtml(variables.deacc_number)#">
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif NOT variables.transactionReadonly> d-none</cfif>" id="transactionSummary">
+									<span class="data-entry-label">
+										<span id="transactionSummaryText">#encodeForHtml(variables.transactionSummaryText)#</span>
+										(<button type="button" class="btn-link p-0 border-0" onclick="clearTransactionSummary('transactionNumberFields','transaction_id','transactionSummary')">change</button>)
+									</span>
+								</div>
+								<input type="hidden" id="transaction_id" name="transaction_id" value="#encodeForHtml(variables.transaction_id)#">
 							</div>
 						</fieldset>
 						<div class="form-row">
@@ -542,6 +629,10 @@ $(document).ready(function() {
 		len(variables.contains_guids) GT 0 OR
 		len(variables.contains_result_id) GT 0 OR
 		len(variables.contains_collection_object_ids) GT 0 OR
+		len(variables.loan_number) GT 0 OR
+		len(variables.accn_number) GT 0 OR
+		len(variables.deacc_number) GT 0 OR
+		len(variables.transaction_id) GT 0 OR
 		variables.execute EQ "true"
 	)>
 	<cfif variables.hasSearchParams>
