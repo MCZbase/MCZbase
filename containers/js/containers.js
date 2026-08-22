@@ -3127,22 +3127,21 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 						.attr('title', 'Show the location breadcrumb for every container in these search results')
 						.on('click', function() {
 							var locateAllBtn = $(this);
-							var rows = tbody.find('tr[data-container-id]');
-							var allOpen = rows.length > 0 && rows.toArray().every(function(rowEl) {
-								var detail = $('#locate-detail-' + $(rowEl).attr('data-container-id'));
-								return detail.length > 0 && !detail.hasClass('d-none');
-							});
-							rows.each(function() {
+							var opening = locateAllBtn.text() !== 'Hide Locations';
+							tbody.find('tr[data-container-id]').each(function() {
 								var row = $(this);
 								var containerId = row.attr('data-container-id');
-								if (allOpen) {
-									$('#locate-detail-' + containerId).addClass('d-none');
-								} else {
+								var detail = $('#locate-detail-' + containerId);
+								var isOpen = detail.length > 0 && !detail.hasClass('d-none');
+								if (opening) {
 									openLocateDetailRow(containerId, row);
+									row.find('.locate-row-btn').text('Hide Location');
+								} else if (isOpen) {
+									detail.addClass('d-none');
+									row.find('.locate-row-btn').text('Locate');
 								}
 							});
-							tbody.find('.locate-row-btn').text(allOpen ? 'Locate' : 'Hide Location');
-							locateAllBtn.text(allOpen ? 'Locate All' : 'Hide Locations');
+							locateAllBtn.text(opening ? 'Hide Locations' : 'Locate All');
 						})
 				);
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
