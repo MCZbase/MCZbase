@@ -2828,9 +2828,9 @@ once both containers are resolved.
 
 	<cfset local.retval = StructNew()>
 
-	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0)>
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_specimens") GT 0)>
 		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = "You do not have permission to move containers.">
+		<cfset local.retval["message"] = "You do not have permission to place parts into containers.">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
