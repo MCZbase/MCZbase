@@ -21,7 +21,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id is the surrogate numeric identifier for the container to view --->
 <cfparam name="url.barcode" default=""><!--- barcode uniquely identifies a container, if given has priority over container_id --->
 <cf_rolecheck>
-<cfinclude template="/containers/component/functions.cfc" runonce="true">
+<cfinclude template="/containers/component/public.cfc" runonce="true">
 
 <!--- check validity of input values, if not valid, redirect to container search --->
 <!--- either container_id or barcode must be provided --->

@@ -381,7 +381,7 @@ function ensureContainerTypeMetadata(callback) {
 	}
 	containerTypeMetadataLoading = true;
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getContainerTypeMetadata' },
 		dataType: 'json',
 		success: function(data) {
@@ -478,7 +478,7 @@ function buildSpecimensButton(nodeId, barcode, directLeafChildren, hasLeafDescen
 		}
 		btn.prop('disabled', true).text('Checking\u2026');
 		$.ajax({
-			url: '/containers/component/functions.cfc',
+			url: '/containers/component/public.cfc',
 			data: { method: 'checkHasLeafDescendants', container_id: nodeId },
 			dataType: 'json',
 			success: function(data) {
@@ -573,7 +573,7 @@ function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 			$('#containerBrowseContext').text('Container Hierarchy');
 			$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				data: { method: 'getTopLevelBrowse' },
 				dataType: 'json',
 				success: function(data) {
@@ -599,7 +599,7 @@ function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 function loadContainerNode(containerId, targetDivId, feedbackId, parentContainerType) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectStructuralChildren', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
@@ -685,7 +685,7 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 				return;
 			}
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				data: { method: 'getTopLevelBrowse' },
 				dataType: 'json',
 				success: function(data) {
@@ -754,7 +754,7 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 		? breadcrumbs[breadcrumbs.length - 1]
 		: { container_id: containerId, container_type: '', label: '', barcode: '' };
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getNodeShape', container_id: containerId },
 		dataType: 'json',
 		success: function(shapeData) {
@@ -914,7 +914,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 		childDiv.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
 	}
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectStructuralChildren', container_id: nodeId },
 		dataType: 'json',
 		success: function(data) {
@@ -1199,7 +1199,7 @@ function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAc
 	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		data: {
 			method: 'getContainerDetailsHtml',
@@ -1238,7 +1238,7 @@ function loadContainerContentsSection(containerId, targetDivId, feedbackId) {
 	}
 	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		data: {
 			method: 'getContainerContentsHtml',
@@ -1641,7 +1641,7 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getOrphanedSingleOccupantContainers',
 			page: page || 1,
@@ -1747,7 +1747,7 @@ function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getOrphanedEmptyProxyContainers',
 			page: page || 1,
@@ -1846,7 +1846,7 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading…</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getOrphanedTopLevelStructural' },
 		dataType: 'json',
 		success: function(nodes) {
@@ -2289,7 +2289,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId, onRendered) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getContainerPositionsGrid',
 			container_id: containerId
@@ -2789,7 +2789,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 	containerBarcode = containerBarcode || '';
 	$('#' + leafPanelId).removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectLeafChildren', container_id: containerId, page: page },
 		dataType: 'json',
 		success: function(data) {
@@ -3324,7 +3324,7 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 		return;
 	}
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		dataType: 'json',
 		data: {
@@ -3459,7 +3459,7 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
 	var target = $('#' + targetDivId);
 	target.html('<span class="small text-muted"><img src="/shared/images/indicator.gif"> Checking…</span>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		dataType: 'json',
 		data: {

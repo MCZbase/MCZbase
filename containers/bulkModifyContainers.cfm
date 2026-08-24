@@ -68,6 +68,7 @@ a request timing out mid-run:
 </cfif>
 
 <cfinclude template="/containers/component/functions.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for getBulkRetypeableContainerTypes/validateContainerRetype/applyBulkRetypeContainer --->
 
 <!--- Validated below, not just used for the dropdowns -- these values later get embedded
 	unescaped into an inline <script> block, and serializeJSON won't neutralize a literal

@@ -154,7 +154,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Edit Container">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfinclude template="/containers/component/functions.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>

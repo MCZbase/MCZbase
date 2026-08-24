@@ -47,7 +47,7 @@ function searchSpecimenParts() {
 	}
 	var area = $('#specimenResultsArea');
 	area.html('<p class="text-muted">Searching...</p>');
-	$.get('/containers/component/functions.cfc', {
+	$.get('/containers/component/public.cfc', {
 		method: 'getPartsForContainerPlacementHTML',
 		collection_id: collectionId,
 		other_id_type: otherIdType,
@@ -106,7 +106,7 @@ function lookupContainerType() {
 	if (!parentBarcode) {
 		return;
 	}
-	$.getJSON('/containers/component/functions.cfc', {
+	$.getJSON('/containers/component/public.cfc', {
 		method: 'getContainerByBarcode',
 		barcode: parentBarcode,
 		returnformat: 'json'
@@ -218,7 +218,7 @@ function updateCurrentParentType(result) {
  * @returns {void}
  */
 function runPartPreflight(partId, parentBarcode, badgeId, callback) {
-	$.getJSON('/containers/component/functions.cfc', {
+	$.getJSON('/containers/component/public.cfc', {
 		method: 'preflightPlacePartByBarcode',
 		part_collection_object_id: partId,
 		parent_barcode: parentBarcode,
@@ -270,7 +270,7 @@ function onNewContainerTypeChange() {
 	if (!parentContainerId) {
 		return;
 	}
-	$.getJSON('/containers/component/functions.cfc', {
+	$.getJSON('/containers/component/public.cfc', {
 		method: 'validateContainerRetype',
 		container_id: parentContainerId,
 		new_container_type: newType,
@@ -378,7 +378,7 @@ function doCommitPlacement(parentBarcode) {
 	var parentContainerId = firstSelectedParentContainerId();
 
 	if (needsRetype && parentContainerId) {
-		$.getJSON('/containers/component/functions.cfc', {
+		$.getJSON('/containers/component/public.cfc', {
 			method: 'applyBulkRetypeContainer',
 			container_id: parentContainerId,
 			new_container_type: newType,
@@ -434,7 +434,7 @@ function moveSelectedParts(parentBarcode) {
  * @returns {void}
  */
 function movePart(partId, partName, parentBarcode, callback) {
-	$.getJSON('/containers/component/functions.cfc', {
+	$.getJSON('/containers/component/public.cfc', {
 		method: 'placePartByBarcode',
 		part_collection_object_id: partId,
 		parent_barcode: parentBarcode,
@@ -509,7 +509,7 @@ function openNewPartDialog() {
 		return;
 	}
 	var area = $('#newPartFormArea');
-	$.get('/containers/component/functions.cfc', {
+	$.get('/containers/component/public.cfc', {
 		method: 'getNewPartFormHTML',
 		collection_id: collectionId
 	}, function(html) {
