@@ -9897,7 +9897,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									</cfif>
 								</li>
 							<cfelse>
-								<li><#container_parentage.barcode#</a> (#container_parentage.container_type#)</li>
+								<li>#container_parentage.barcode# (#container_parentage.container_type#)</li>
 							</cfif>
 						</cfloop>
 					</ul>
