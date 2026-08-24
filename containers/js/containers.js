@@ -297,7 +297,7 @@ function openPlaceLeafIntoContainerDialog(parentContainerId, parentDisplayLabel,
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {
@@ -1092,7 +1092,7 @@ function putContainerBackFromHistory(childContainerId, parentContainerId, parent
 			setFeedbackControlState(feedbackId, 'saving', 'Moving...');
 		}
 		$.ajax({
-			url: '/containers/component/functions.cfc',
+			url: '/containers/component/public.cfc',
 			type: 'post',
 			dataType: 'json',
 			data: {
@@ -1902,7 +1902,7 @@ function openPositionPlacementDialog(positionContainerId, positionLabel, targetD
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {
@@ -1955,7 +1955,7 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {

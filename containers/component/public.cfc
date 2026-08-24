@@ -3449,4 +3449,112 @@ per this redesign's rule that every mutating method must enforce it inline as we
 	</cftry>
 </cffunction>
 
+<!---
+Function moveContainerById. Moves a child container into a new parent container by container_id.
+Returns status JSON and never aborts on trigger errors. Requires manage_container or manage_specimens
+on top of this file's <cf_rolecheck> -- reached both from generic move dialogs (manage_container) and
+from placePartByBarcode's specimens-placement workflow (manage_specimens), so it accepts either.
+@param child_container_id container_id of the container to move.
+@param parent_container_id container_id of the destination parent container.
+@param move_timestamp optional timestamp string (YYYY-MM-DD HH24:MI:SS) for parent_install_date.
+@return a JSON object with status (moved|notfound|error) and message, plus context fields:
+	child_container_id, parent_container_id, child_label, child_type, parent_label, parent_type.
+--->
+<cffunction name="moveContainerById" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="child_container_id" type="numeric" required="yes">
+	<cfargument name="parent_container_id" type="numeric" required="yes">
+	<cfargument name="move_timestamp" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+
+	<cfif NOT (isdefined("session.roles") AND (listfindnocase(session.roles, "manage_container") GT 0 OR listfindnocase(session.roles, "manage_specimens") GT 0))>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "You do not have permission to move containers.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="queryChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.child_container_id#">
+		</cfquery>
+		<cfif queryChild.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Child container was not found.">
+			<cfset local.retval["missing"] = "child">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfquery name="queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, label, barcode, container_type, institution_acronym
+			FROM container
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.parent_container_id#">
+		</cfquery>
+		<cfif queryParent.recordcount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Parent container was not found.">
+			<cfset local.retval["missing"] = "parent">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cfif len(trim(queryChild.institution_acronym)) GT 0
+			AND len(trim(queryParent.institution_acronym)) GT 0
+			AND queryChild.institution_acronym NEQ queryParent.institution_acronym>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = "A container cannot be placed into a container with a different institution acronym (#queryChild.institution_acronym# vs #queryParent.institution_acronym#).">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+
+		<cftry>
+			<cfquery name="queryDoMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="queryDoMove_result">
+				UPDATE container
+				SET
+					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryParent.container_id#">
+					<cfif len(trim(arguments.move_timestamp)) GT 0>
+						, parent_install_date = TO_DATE(
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.move_timestamp)#">,
+							'YYYY-MM-DD HH24:MI:SS'
+						)
+					</cfif>
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#queryChild.container_id#">
+			</cfquery>
+			<cfif queryDoMove_result.recordCount EQ 0>
+				<cfthrow type="ChildNotFound" message="No rows updated.">
+			</cfif>
+		<cfcatch>
+			<cfset local.userMessage = trim(REReplace(cfcatch.message, "^ORA-[0-9]+:\\s*", "", "one"))>
+			<cfset local.matchPos = REFindNoCase("(You cannot|This move|A container|Institution|The child|The position)", local.userMessage)>
+			<cfif local.matchPos GT 0>
+				<cfset local.userMessage = mid(local.userMessage, local.matchPos, len(local.userMessage) - local.matchPos + 1)>
+			</cfif>
+			<cfif len(trim(local.userMessage)) EQ 0>
+				<cfset local.userMessage = "Unable to move container due to a placement rule. Please review the selected parent and try again.">
+			</cfif>
+			<cfif cfcatch.type EQ "ChildNotFound">
+				<cfset local.userMessage = "Query Error: " + cfcatch.message + " Child container was not found. It may have been deleted or moved by another user.">
+			</cfif>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.userMessage>
+			<cfreturn serializeJSON(local.retval)>
+		</cfcatch>
+		</cftry>
+
+		<cfset local.retval["status"] = "moved">
+		<cfset local.retval["child_container_id"] = queryChild.container_id>
+		<cfset local.retval["child_label"] = queryChild.label>
+		<cfset local.retval["child_type"] = queryChild.container_type>
+		<cfset local.retval["parent_container_id"] = queryParent.container_id>
+		<cfset local.retval["parent_label"] = queryParent.label>
+		<cfset local.retval["parent_type"] = queryParent.container_type>
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval = StructNew()>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
 </cfcomponent>
