@@ -226,6 +226,11 @@ var SINGLE_OCCUPANT_TYPES = [];
 /** Default page size for container search results and leaf browser. */
 var CONTAINER_PAGE_SIZE = 50;
 
+/** Whether the current session can use edit affordances (Edit, Create Child) rendered by this
+ * file's search/browse builder functions -- false unless the including page overrides it after
+ * computing its own manage_container check server-side (only Containers.cfm does, today). */
+var canEditContainers = false;
+
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
 
@@ -1338,11 +1343,15 @@ function buildContainerViewLink(containerId, spacingClass) {
 
 /**
  * Builds an Edit link to the standalone container edit page.
+ * Returns null when the current session lacks edit rights (see canEditContainers).
  * @param {number} containerId - the container_id to edit.
  * @param {string} spacingClass - optional spacing class override for the action element.
- * @returns {jQuery} anchor element that opens the edit form in a new tab.
+ * @returns {jQuery|null} anchor element that opens the edit form in a new tab, or null.
  */
 function buildContainerEditLink(containerId, spacingClass) {
+	if (!canEditContainers) {
+		return null;
+	}
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
 		.addClass(buildContainerActionClass('btn btn-xs btn-secondary', spacingClass || TABLE_ACTION_SPACING_CLASS))
 		.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
@@ -1353,14 +1362,15 @@ function buildContainerEditLink(containerId, spacingClass) {
  * Builds an "Add Child Container" link button that opens the new-container form
  * in a new tab with the given container pre-set as the parent.
  * Returns null when containerType is a proxy or collection object type, as those
- * nodes cannot have child containers added to them.
+ * nodes cannot have child containers added to them, or when the current session
+ * lacks edit rights (see canEditContainers).
  *
  * @param {number} containerId   - the container_id to use as the parent.
  * @param {string} containerType - the container_type of the current node.
  * @returns {jQuery|null} an anchor element, or null if not applicable.
  */
 function buildAddChildContainerLink(containerId, containerType, spacingClass) {
-	if (!canCreateChildContainer(containerType)) {
+	if (!canEditContainers || !canCreateChildContainer(containerType)) {
 		return null;
 	}
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')

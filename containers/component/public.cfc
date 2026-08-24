@@ -1338,18 +1338,18 @@ details of a container for use in dialogs and page components.
 	<cfelseif listFindNoCase("0,false,no", trim(arguments.showBrowseAction))>
 		<cfset local.showBrowseAction = false>
 	</cfif>
-	<!--- position scan-to-place inputs are only ever offered on the full page, and only when this
-		session itself holds manage_container rights --->
-	<cfset local.canEditPositions = false>
-	<cfif local.safeDisplayMode EQ "page" AND isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0>
-		<cfset local.canEditPositions = true>
-	</cfif>
+	<!--- quick-action edit controls (Edit, Create/Place Child, Place Part) require manage_container
+		regardless of display mode; position scan-to-place inputs are additionally only ever offered
+		on the full page, since the compact dialog view has no room for them --->
+	<cfset local.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles, "manage_container") GT 0>
+	<cfset local.canEditPositions = local.canEditContainers AND local.safeDisplayMode EQ "page">
 	<cfthread
 		name="getContainerDetailsHtmlThread#local.tn#"
 		container_id="#arguments.container_id#"
 		safeDisplayMode="#local.safeDisplayMode#"
 		safeIdSuffix="#local.safeIdSuffix#"
 		showBrowseAction="#local.showBrowseAction#"
+		canEditContainers="#local.canEditContainers#"
 		canEditPositions="#local.canEditPositions#"
 	>
 		<cfoutput>
@@ -1463,23 +1463,27 @@ details of a container for use in dialogs and page components.
 										<div class="col-12 col-lg-6">
 											<div class="text-lg-right">
 												<div class="btn-toolbar justify-content-lg-end" role="toolbar" aria-label="Container quick actions">
-													<cfif NOT isProxyOrLeafType>
-														<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
-														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
-													</cfif>
-													<cfif NOT currentContainerIsEmpty><cfset disabledClass="disabled"><cfelse><cfset disabledClass=""></cfif>
-													<cfif isProxyOrBearerType>
-														<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1 #disabledClass#"
-															<cfif NOT currentContainerIsEmpty>
-																aria-disabled="true"
-																tabindex="-1"
-															<cfelse>
-																onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"
-															</cfif>
-														>Place Part into this Container</a>
+													<cfif canEditContainers>
+														<cfif NOT isProxyOrLeafType>
+															<a href="#createChildContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+															<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');">Place Child into this Container</a>
+														</cfif>
+														<cfif NOT currentContainerIsEmpty><cfset disabledClass="disabled"><cfelse><cfset disabledClass=""></cfif>
+														<cfif isProxyOrBearerType>
+															<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1 #disabledClass#"
+																<cfif NOT currentContainerIsEmpty>
+																	aria-disabled="true"
+																	tabindex="-1"
+																<cfelse>
+																	onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainerDetail.container_id)#, '#encodeForJavaScript(currentDisplay)#', '#encodeForJavaScript(getContainerDetail.institution_acronym)#', '#encodeForJavaScript(breadcrumbFeedbackId)#', '#encodeForJavaScript(contentsTargetId)#');"
+																</cfif>
+															>Place Part into this Container</a>
+														</cfif>
 													</cfif>
 													<a href="#viewContainerUrl#" class="btn btn-xs btn-primary mr-1 mb-1" target="_blank" rel="noopener noreferrer">View</a>
-													<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
+													<cfif canEditContainers>
+														<a href="#editContainerUrl#" class="btn btn-xs btn-secondary mr-1 mb-1" target="_blank" rel="noopener noreferrer">Edit</a>
+													</cfif>
 													<cfif showBrowseAction>
 														<a href="#browseTreeUrl#" class="btn btn-xs btn-info mb-1" target="_blank" rel="noopener noreferrer">Browse in Hierarchy</a>
 													</cfif>

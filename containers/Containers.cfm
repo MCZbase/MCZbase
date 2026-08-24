@@ -208,6 +208,7 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.transaction_id = trim(url.transaction_id)>
 </cfif>
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
 <cfset variables.containsSummaryText = "">
 <cfset variables.containsReadonly = false>
 <cfset variables.transactionSummaryText = "">
@@ -587,6 +588,7 @@ editing behavior consistent across the application.
 
 <cfoutput>
 <script>
+canEditContainers = <cfif variables.canEditContainers>true<cfelse>false</cfif>;
 $(document).ready(function() {
 	makeContainerAutocompleteMeta('search_term', 'container_id');
 	makeCatalogedItemAutocompleteMeta('contains_guids', 'contains_id');
