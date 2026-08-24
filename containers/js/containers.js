@@ -2863,6 +2863,23 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 					if (placePartLink) {
 						actionTd.append(placePartLink);
 					}
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1 locate-row-btn" type="button"></button>')
+						.text('Locate')
+						.attr('data-container-id', row.container_id);
+					(function(nodeId) {
+						locateBtn.on('click', function() {
+							var currentRow = $(this).closest('tr');
+							var existingDetail = $('#locate-detail-' + nodeId);
+							if (existingDetail.length > 0 && !existingDetail.hasClass('d-none')) {
+								existingDetail.addClass('d-none');
+								locateBtn.text('Locate');
+								return;
+							}
+							openLocateDetailRow(nodeId, currentRow);
+							locateBtn.text('Hide Location');
+						});
+					})(row.container_id);
+					actionTd.append(locateBtn);
 					tr.append(actionTd);
 					tbody.append(tr);
 				});
@@ -2923,11 +2940,12 @@ function clearTransactionSummary(fieldsContainerId, hiddenFieldId, summaryId) {
 }
 
 /**
- * Opens the location breadcrumb detail row for one search result container, inserting it
- * immediately below the given row if not already present. Leaves an already-open row as is,
- * so it can be called repeatedly (e.g. once per row from "Locate All") without re-fetching.
+ * Opens the location breadcrumb detail row for one container, inserting it immediately below
+ * the given row if not already present (spanning that row's own column count). Leaves an
+ * already-open row as is, so it can be called repeatedly (e.g. once per row from "Locate All")
+ * without re-fetching.
  * @param {number|string} containerId - container_id to show the breadcrumb for.
- * @param {jQuery} currentRow - the result row (<tr>) to insert the detail row after.
+ * @param {jQuery} currentRow - the row (<tr>) to insert the detail row after.
  */
 function openLocateDetailRow(containerId, currentRow) {
 	var detailRowId = 'locate-detail-' + containerId;
@@ -2937,7 +2955,7 @@ function openLocateDetailRow(containerId, currentRow) {
 		return;
 	}
 	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
-	var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
+	var detailCell = $('<td></td>').attr('colspan', currentRow.children('td').length || 5).addClass('bg-light p-2 small');
 	detailRow.append(detailCell);
 	currentRow.after(detailRow);
 	detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
