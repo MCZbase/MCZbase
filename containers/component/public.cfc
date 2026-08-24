@@ -104,7 +104,7 @@ limitations under the License.
 					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
 				</cfif>
 				<h2 class="h3"> 
-					<a href="/findContainer.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank">
+					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank">
 						#getContainer.label# 
 					</a>
 					<cfif getContainer.barcode is not getContainer.label and len(getContainer.barcode) gt 0>
@@ -202,7 +202,7 @@ limitations under the License.
 									<td>Deleted</td>
 								<cfelse>
 									<td>
-										<a href="/findContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#" target="_blank">
+										<a href="/containers/Containers.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#" target="_blank">
 											#label#
 										</a>
 										<cfif barcode is not label>
