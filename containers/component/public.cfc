@@ -139,7 +139,7 @@ limitations under the License.
 							#timeformat(getContainer.install_date,"HH:mm:ss")#
 						</td>
 						<td>
-							<a href="/findContainer.cfm?container_id=#encodeForURL(getContainer.parent_container_id)#" target="_blank">
+							<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.parent_container_id)#" target="_blank">
 								#getContainer.parent_label#
 							</a>
 							<cfif getContainer.parent_barcode is not getContainer.parent_label>
