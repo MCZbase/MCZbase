@@ -49,7 +49,7 @@ limitations under the License.
 				intend to print a series of labels, or wish to create a set of containers for a set of 
 				pre-printed barcodes, or wish to reserve a series of labels for any other
 				reason. This form does nothing to labels that already exist.
-				<strong>This form is limited to creating 1000 containers at the same time.</strong>
+				<strong>This form is limited to creating 10000 containers at the same time; a series larger than 1000 will ask you to confirm before proceeding.</strong>
 			</p>
 			<p>
 				The barcode will be <strong>Prefix{number}Suffix</strong> -- enter exactly what the scanner
@@ -286,54 +286,64 @@ limitations under the License.
 				return;
 			}
 
-			previewoutput.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Previewing...</div>');
-
-			$.ajax({
-				url: '/containers/component/functions.cfc',
-				type: 'post',
-				dataType: 'json',
-				data: {
-					method: 'createContainerSeries',
-					returnformat: 'json',
-					parent_container_id: parentContainerId,
-					container_type: containerType,
-					institution_acronym: $('##institution_acronym').val(),
-					cryo_barcode: $('##cryo_barcode').is(':checked'),
-					prefix: $('##prefix').val(),
-					suffix: $('##suffix').val(),
-					label_prefix: $('##label_prefix').val(),
-					label_suffix: $('##label_suffix').val(),
-					remarks: $('##remarks').val(),
-					begin_barcode: beginBarcode,
-					end_barcode: endBarcode,
-					place_in_positions: $('##place_in_positions').is(':checked'),
-					dry_run: "true"
-				},
-				success: function(resp) {
-					feedback.empty();
-					previewoutput.empty();
-					if (resp.status === 'created') {
-						var parentLink = $('<a target="_blank"></a>')
-							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
-							.text(resp.parent_label);
-						var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
-							.append($('<div></div>').text('Would Create ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
-						if (resp.placed_in_positions) {
-							successBox.append($('<div></div>').text('Would place into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
-						} else {
-							successBox.append($('<div></div>').text('Would Create as children of Parent Container: ').append(parentLink));
+			var sendPreview = function(confirmLargeBatch) {
+				previewoutput.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Previewing...</div>');
+				$.ajax({
+					url: '/containers/component/functions.cfc',
+					type: 'post',
+					dataType: 'json',
+					data: {
+						method: 'createContainerSeries',
+						returnformat: 'json',
+						parent_container_id: parentContainerId,
+						container_type: containerType,
+						institution_acronym: $('##institution_acronym').val(),
+						cryo_barcode: $('##cryo_barcode').is(':checked'),
+						prefix: $('##prefix').val(),
+						suffix: $('##suffix').val(),
+						label_prefix: $('##label_prefix').val(),
+						label_suffix: $('##label_suffix').val(),
+						remarks: $('##remarks').val(),
+						begin_barcode: beginBarcode,
+						end_barcode: endBarcode,
+						place_in_positions: $('##place_in_positions').is(':checked'),
+						dry_run: "true",
+						confirm_large_batch: !!confirmLargeBatch
+					},
+					success: function(resp) {
+						if (resp.status === 'confirm_large_batch') {
+							previewoutput.empty();
+							confirmDialog(resp.message, 'Large Batch', function() {
+								sendPreview(true);
+							});
+							return;
 						}
-						previewoutput.append(successBox);
-					} else {
-						previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Preview: Unable to create container records.'));
+						feedback.empty();
+						previewoutput.empty();
+						if (resp.status === 'created') {
+							var parentLink = $('<a target="_blank"></a>')
+								.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
+								.text(resp.parent_label);
+							var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
+								.append($('<div></div>').text('Would Create ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
+							if (resp.placed_in_positions) {
+								successBox.append($('<div></div>').text('Would place into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
+							} else {
+								successBox.append($('<div></div>').text('Would Create as children of Parent Container: ').append(parentLink));
+							}
+							previewoutput.append(successBox);
+						} else {
+							previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Preview: Unable to create container records.'));
+						}
+					},
+					error: function(jqXHR, textStatus, error) {
+						$('##createSeriesButton').prop('disabled', false);
+						previewoutput.empty();
+						handleFail(jqXHR, textStatus, error, 'previewing a container series');
 					}
-				},
-				error: function(jqXHR, textStatus, error) {
-					$('##createSeriesButton').prop('disabled', false);
-					previewoutput.empty();
-					handleFail(jqXHR, textStatus, error, 'previewing a container series');
-				}
-			});
+				});
+			};
+			sendPreview(false);
 		});
 
 		$('##createSeriesButton').on('click', function() {
@@ -358,54 +368,67 @@ limitations under the License.
 				return;
 			}
 
-			feedback.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Creating...</div>');
 			$('##createSeriesButton').prop('disabled', true);
 
-			$.ajax({
-				url: '/containers/component/functions.cfc',
-				type: 'post',
-				dataType: 'json',
-				data: {
-					method: 'createContainerSeries',
-					returnformat: 'json',
-					parent_container_id: parentContainerId,
-					container_type: containerType,
-					institution_acronym: $('##institution_acronym').val(),
-					cryo_barcode: $('##cryo_barcode').is(':checked'),
-					prefix: $('##prefix').val(),
-					suffix: $('##suffix').val(),
-					label_prefix: $('##label_prefix').val(),
-					label_suffix: $('##label_suffix').val(),
-					remarks: $('##remarks').val(),
-					begin_barcode: beginBarcode,
-					end_barcode: endBarcode,
-					place_in_positions: $('##place_in_positions').is(':checked')
-				},
-				success: function(resp) {
-					$('##createSeriesButton').prop('disabled', false);
-					feedback.empty();
-					if (resp.status === 'created') {
-						var parentLink = $('<a target="_blank"></a>')
-							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
-							.text(resp.parent_label);
-						var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
-							.append($('<div></div>').text('Created ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
-						if (resp.placed_in_positions) {
-							successBox.append($('<div></div>').text('Placed into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
-						} else {
-							successBox.append($('<div></div>').text('Created as children of Parent Container: ').append(parentLink));
+			var sendCreate = function(confirmLargeBatch) {
+				feedback.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Creating...</div>');
+				$.ajax({
+					url: '/containers/component/functions.cfc',
+					type: 'post',
+					dataType: 'json',
+					data: {
+						method: 'createContainerSeries',
+						returnformat: 'json',
+						parent_container_id: parentContainerId,
+						container_type: containerType,
+						institution_acronym: $('##institution_acronym').val(),
+						cryo_barcode: $('##cryo_barcode').is(':checked'),
+						prefix: $('##prefix').val(),
+						suffix: $('##suffix').val(),
+						label_prefix: $('##label_prefix').val(),
+						label_suffix: $('##label_suffix').val(),
+						remarks: $('##remarks').val(),
+						begin_barcode: beginBarcode,
+						end_barcode: endBarcode,
+						place_in_positions: $('##place_in_positions').is(':checked'),
+						confirm_large_batch: !!confirmLargeBatch
+					},
+					success: function(resp) {
+						if (resp.status === 'confirm_large_batch') {
+							feedback.empty();
+							confirmDialog(resp.message, 'Large Batch', function() {
+								sendCreate(true);
+							}, function() {
+								$('##createSeriesButton').prop('disabled', false);
+							});
+							return;
 						}
-						feedback.append(successBox);
-					} else {
-						feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Unable to create container records.'));
+						$('##createSeriesButton').prop('disabled', false);
+						feedback.empty();
+						if (resp.status === 'created') {
+							var parentLink = $('<a target="_blank"></a>')
+								.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
+								.text(resp.parent_label);
+							var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
+								.append($('<div></div>').text('Created ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
+							if (resp.placed_in_positions) {
+								successBox.append($('<div></div>').text('Placed into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
+							} else {
+								successBox.append($('<div></div>').text('Created as children of Parent Container: ').append(parentLink));
+							}
+							feedback.append(successBox);
+						} else {
+							feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Unable to create container records.'));
+						}
+					},
+					error: function(jqXHR, textStatus, error) {
+						$('##createSeriesButton').prop('disabled', false);
+						feedback.empty();
+						handleFail(jqXHR, textStatus, error, 'creating a container series');
 					}
-				},
-				error: function(jqXHR, textStatus, error) {
-					$('##createSeriesButton').prop('disabled', false);
-					feedback.empty();
-					handleFail(jqXHR, textStatus, error, 'creating a container series');
-				}
-			});
+				});
+			};
+			sendCreate(false);
 		});
 	});
 </script>

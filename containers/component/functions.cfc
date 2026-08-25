@@ -1036,7 +1036,9 @@ Two label-building modes: the normal case builds:
 width from begin_barcode across the whole run; the "PLACE" cryo-barcode special case instead builds both
 barcode and label as {first 4-digits of n}PLACE{last 4-digits of n}, ignoring every prefix/suffix argument. 
 
-Capped at 1000 containers per call to keep one request/transaction from running away.
+Hard-capped at 10000 containers per call to keep one request/transaction from running away; a
+series larger than 1000 (still allowed) requires the caller to pass confirm_large_batch=true after
+confirming with the user, rather than proceeding silently.
 
 @param parent_container_id the container_id of the parent box/rack to hold the new containers.
 @param container_type the container_type to assign to all new containers.
@@ -1053,9 +1055,12 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 @param place_in_positions if true, each new container is placed into one of the parent's own empty
 	position (container_type='position') children in sequence, instead of becoming a direct child
 	of the parent itself. Errors if the parent doesn't have enough empty positions for the series.
-@return a JSON object: {status: "created"|"error", count, first_barcode, last_barcode,
-	parent_container_id, parent_label, parent_barcode, placed_in_positions, first_position_label,
-	last_position_label, message}.
+@param confirm_large_batch if true, allows a series larger than SERIES_SOFT_CAP (but no larger
+	than SERIES_HARD_CAP) to proceed instead of coming back as status "confirm_large_batch" for
+	the caller to confirm with the user and retry.
+@return a JSON object: {status: "created"|"confirm_large_batch"|"error", count, first_barcode,
+	last_barcode, parent_container_id, parent_label, parent_barcode, placed_in_positions,
+	first_position_label, last_position_label, message}.
 --->
 <cffunction name="createContainerSeries" access="remote" returntype="any" returnformat="json">
 	<cfargument name="parent_container_id" type="string" required="no" default="">
@@ -1071,8 +1076,11 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 	<cfargument name="end_barcode" type="string" required="yes">
 	<cfargument name="dry_run" type="string" required="no" default="">
 	<cfargument name="place_in_positions" type="boolean" required="no" default="false">
+	<cfargument name="confirm_large_batch" type="boolean" required="no" default="false">
 
 	<cfset local.retval = StructNew()>
+	<cfset local.SERIES_SOFT_CAP = 1000>
+	<cfset local.SERIES_HARD_CAP = 10000>
 	<cfif len(trim(arguments.container_type)) EQ 0>
 		<cfset local.retval["status"] = "error">
 		<cfset local.retval["message"] = "Container type is required.">
@@ -1098,9 +1106,14 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 		<cfset local.retval["message"] = "High number in series must not be less than the low number.">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
-	<cfif local.count GT 1000>
+	<cfif local.count GT local.SERIES_HARD_CAP>
 		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = "This series would create #local.count# containers -- split it into batches of 1000 or fewer.">
+		<cfset local.retval["message"] = "This series would create #local.count# containers -- split it into batches of #local.SERIES_HARD_CAP# or fewer.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif local.count GT local.SERIES_SOFT_CAP AND NOT arguments.confirm_large_batch>
+		<cfset local.retval["status"] = "confirm_large_batch">
+		<cfset local.retval["message"] = "This series would create #local.count# containers, which is unusually large -- are you sure you want to continue?">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 	<cfset local.dryrun = FALSE>
