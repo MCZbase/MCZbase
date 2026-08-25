@@ -341,7 +341,9 @@
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 										</cfif>
-										<a class="dropdown-item" href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										<a class="dropdown-item" href="/containers/Containers.cfm" target="_top">Find Storage Location/Container</a>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
 										<a class="dropdown-item" href="/containers/Containers.cfm">Find Container (new)</a>

@@ -561,11 +561,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Browse Storage Locations</a>
 											</cfif>
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a>
-											</cfif>
-										<cfelse>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 											<a class="dropdown-item" href="/containers/Containers.cfm">Find Storage Location/Container</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
