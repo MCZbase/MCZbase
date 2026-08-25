@@ -2147,7 +2147,7 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 	// type/count combination without an explicit columns count from the user.
 	var promptForColumns = function(onColumnsChosen) {
 		$followUpDiv.empty();
-		var $columnsInput = $('<input type="number" min="1" class="data-entry-input" style="width:5em;">').attr('aria-label', 'Number of columns');
+		var $columnsInput = $('<input type="text" inputmode="numeric" class="data-entry-input" style="width:5em;">').attr('aria-label', 'Number of columns');
 		var $columnsBtn = $('<button class="btn btn-xs btn-secondary ml-1" type="button"></button>').text('Continue');
 		$columnsBtn.on('click', function() {
 			var columns = parseInt($columnsInput.val(), 10);
@@ -2515,6 +2515,9 @@ function openPositionsChangeDialog(containerId, onChanged) {
 					return !!position.content_container_id;
 				}).length;
 				var allEmpty = positions.length > 0 && occupiedCount === 0;
+				// trimContainerPositions removes from the highest-numbered position down, so
+				// shrinking by even 1 is only ever possible when that last position is empty.
+				var canShrink = positions.length > 0 && !positions[positions.length - 1].content_container_id;
 				var isKnownPreset = KNOWN_POSITION_PRESETS.some(function(preset) {
 					return preset.containerType === data.container_type && preset.numberPositions === numberPositions;
 				});
@@ -2537,7 +2540,7 @@ function openPositionsChangeDialog(containerId, onChanged) {
 
 				var $error = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
 
-				var $growInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
+				var $growInput = $('<input type="text" inputmode="numeric" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
 				var $growBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Grow');
 				$growBtn.on('click', function() {
 					var additionalCount = parseInt($growInput.val(), 10);
@@ -2578,8 +2581,12 @@ function openPositionsChangeDialog(containerId, onChanged) {
 					.append($growInput)
 					.append($growBtn);
 
-				var $shrinkInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of empty positions to remove from the end');
+				var $shrinkInput = $('<input type="text" inputmode="numeric" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of empty positions to remove from the end');
 				var $shrinkBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Shrink');
+				if (!canShrink) {
+					$shrinkInput.prop('disabled', true);
+					$shrinkBtn.prop('disabled', true);
+				}
 				$shrinkBtn.on('click', function() {
 					var removeCount = parseInt($shrinkInput.val(), 10);
 					if (!removeCount || removeCount < 1) {
@@ -2624,7 +2631,17 @@ function openPositionsChangeDialog(containerId, onChanged) {
 					.append($shrinkInput)
 					.append($shrinkBtn);
 
-				content.append(growRow).append(shrinkRow).append($error);
+				content.append(growRow).append(shrinkRow);
+				if (!canShrink) {
+					content.append(
+						$('<p class="small text-muted mb-2"></p>').text(
+							positions.length === 0
+								? 'Nothing to shrink -- no positions exist yet.'
+								: 'Cannot shrink -- the last position is occupied. Move its contents first.'
+						)
+					);
+				}
+				content.append($error);
 
 				// only offer Reset when it could actually succeed -- resetContainerPositions
 				// itself refuses outright if even one position is occupied.
