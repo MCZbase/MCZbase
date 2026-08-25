@@ -64,7 +64,13 @@ limitations under the License.
 				and the first 4 digits will be used as m before PLACE, and the last 4 digits will be used
 				as n after PLACE.  For example, enter 230001 as the low number and 230005 as the high number 
 				to create 0023PLACE0001 to 0023PLACE0005, or 12345601 to 12345610 to create 1234PLACE5601 to
-				1234PLACE5610.  
+				1234PLACE5610.
+			</p>
+			<p>
+				If the chosen Parent Container has its own declared positions (e.g. a freezer box or rack)
+				with empty slots available, a "Place into empty positions" option will appear -- checking it
+				places each new container into one empty position in sequence, instead of directly into the
+				parent itself.
 			</p>
 
 			<form class="col-12 px-0" id="createContainerSeriesForm" name="createContainerSeriesForm" novalidate onsubmit="return false;">
@@ -77,6 +83,11 @@ limitations under the License.
 							<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
 						</div>
 						<div id="createSeriesParentFeedback" class="small mt-1" role="status"></div>
+						<div id="placeInPositionsRow" class="form-check mt-1 d-none">
+							<input type="checkbox" class="form-check-input" name="place_in_positions" id="place_in_positions">
+							<label class="form-check-label" for="place_in_positions">Place the new containers into the parent's empty positions, in sequence, instead of directly into the parent</label>
+							<div id="placeInPositionsHint" class="text-muted"></div>
+						</div>
 					</div>
 				</div>
 				<div class="form-row">
@@ -154,8 +165,64 @@ limitations under the License.
 
 <cfoutput>
 <script>
+	/**
+	 * Look up the currently-selected parent container and show its type and position/occupancy
+	 * status under the Parent Container field, showing the "place into empty positions" checkbox
+	 * only when the parent actually has empty positions available.
+	 *
+	 * @return void
+	 */
+	function refreshParentContainerInfo() {
+		var parentContainerId = $.trim($('##parent_container_id').val());
+		var infoDiv = $('##createSeriesParentFeedback');
+		var positionsRow = $('##placeInPositionsRow');
+		infoDiv.empty();
+		positionsRow.addClass('d-none');
+		$('##place_in_positions').prop('checked', false);
+		if (!parentContainerId) {
+			return;
+		}
+		infoDiv.html('<img src="/shared/images/indicator.gif"> Loading container info...');
+		$.ajax({
+			url: '/containers/component/public.cfc',
+			type: 'get',
+			dataType: 'json',
+			data: {
+				method: 'getContainerPositionsGrid',
+				returnformat: 'json',
+				container_id: parentContainerId
+			},
+			success: function(resp) {
+				var typeText = resp.container_type ? (resp.container_type + '. ') : '';
+				var numberPositions = parseInt(resp.number_positions, 10) || 0;
+				if (numberPositions > 0) {
+					var emptyCount = 0;
+					$.each(resp.positions || [], function(i, position) {
+						if (!position.content_container_id) {
+							emptyCount++;
+						}
+					});
+					infoDiv.text(typeText + numberPositions + ' position(s) declared, ' + emptyCount + ' empty.');
+					if (emptyCount > 0) {
+						$('##placeInPositionsHint').text('Up to ' + emptyCount + ' empty position(s) available.');
+						positionsRow.removeClass('d-none');
+					}
+				} else {
+					infoDiv.text(typeText + 'No declared positions.');
+				}
+			},
+			error: function() {
+				infoDiv.text('Unable to load container info.');
+			}
+		});
+	}
+
 	$(document).ready(function() {
 		makeContainerAutocompleteMetaExcludeCO('parent_container', 'parent_container_id');
+		$('##parent_container').on('autocompleteselect autocompletechange', function() {
+			// allow the autocomplete widget's own select/change handlers to populate parent_container_id first.
+			window.setTimeout(refreshParentContainerInfo, 10);
+		});
 		$('##chooseParentContainerBtn').on('click', function() {
 			openContainerPickerDialog({
 				mode: 'find',
@@ -164,6 +231,7 @@ limitations under the License.
 					$('##parent_container_id').val(selectedId);
 					$('##parent_container').val(selectedLabel);
 					wrapper.dialog('close');
+					refreshParentContainerInfo();
 				}
 			});
 		});
@@ -212,6 +280,7 @@ limitations under the License.
 					remarks: $('##remarks').val(),
 					begin_barcode: beginBarcode,
 					end_barcode: endBarcode,
+					place_in_positions: $('##place_in_positions').is(':checked'),
 					dry_run: "true"
 				},
 				success: function(resp) {
@@ -222,8 +291,12 @@ limitations under the License.
 							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
 							.text(resp.parent_label);
 						var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
-							.append($('<div></div>').text('Would Create ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'))
-							.append($('<div></div>').text('Would Create as children of Parent Container: ').append(parentLink));
+							.append($('<div></div>').text('Would Create ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
+						if (resp.placed_in_positions) {
+							successBox.append($('<div></div>').text('Would place into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
+						} else {
+							successBox.append($('<div></div>').text('Would Create as children of Parent Container: ').append(parentLink));
+						}
 						previewoutput.append(successBox);
 					} else {
 						previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Preview: Unable to create container records.'));
@@ -279,7 +352,8 @@ limitations under the License.
 					label_suffix: $('##label_suffix').val(),
 					remarks: $('##remarks').val(),
 					begin_barcode: beginBarcode,
-					end_barcode: endBarcode
+					end_barcode: endBarcode,
+					place_in_positions: $('##place_in_positions').is(':checked')
 				},
 				success: function(resp) {
 					$('##createSeriesButton').prop('disabled', false);
@@ -289,8 +363,12 @@ limitations under the License.
 							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
 							.text(resp.parent_label);
 						var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
-							.append($('<div></div>').text('Created ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'))
-							.append($('<div></div>').text('Created as children of Parent Container: ').append(parentLink));
+							.append($('<div></div>').text('Created ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'));
+						if (resp.placed_in_positions) {
+							successBox.append($('<div></div>').text('Placed into positions ' + resp.first_position_label + ' through ' + resp.last_position_label + ' of: ').append(parentLink));
+						} else {
+							successBox.append($('<div></div>').text('Created as children of Parent Container: ').append(parentLink));
+						}
 						feedback.append(successBox);
 					} else {
 						feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Unable to create container records.'));

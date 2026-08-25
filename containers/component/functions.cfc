@@ -577,8 +577,12 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 @param begin_barcode the first number in the series (inclusive).
 @param end_barcode the last number in the series (inclusive).
 @param dry_run if true, does not actually create any containers, but returns the would-be first and last barcodes and the count of containers that would be created.
+@param place_in_positions if true, each new container is placed into one of the parent's own empty
+	position (container_type='position') children in sequence, instead of becoming a direct child
+	of the parent itself. Errors if the parent doesn't have enough empty positions for the series.
 @return a JSON object: {status: "created"|"error", count, first_barcode, last_barcode,
-	parent_container_id, parent_label, parent_barcode, message}.
+	parent_container_id, parent_label, parent_barcode, placed_in_positions, first_position_label,
+	last_position_label, message}.
 --->
 <cffunction name="createContainerSeries" access="remote" returntype="any" returnformat="json">
 	<cfargument name="parent_container_id" type="string" required="no" default="">
@@ -593,6 +597,7 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 	<cfargument name="begin_barcode" type="string" required="yes">
 	<cfargument name="end_barcode" type="string" required="yes">
 	<cfargument name="dry_run" type="string" required="no" default="">
+	<cfargument name="place_in_positions" type="boolean" required="no" default="false">
 
 	<cfset local.retval = StructNew()>
 	<cfif len(trim(arguments.container_type)) EQ 0>
@@ -641,6 +646,35 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
+	<cfset local.emptyPositionIds = ArrayNew(1)>
+	<cfset local.emptyPositionLabels = ArrayNew(1)>
+	<cfif arguments.place_in_positions>
+		<cfquery name="local.queryEmptyPositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT pos.container_id AS position_id, pos.label AS position_label
+			FROM container pos
+			WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">
+				AND pos.container_type = 'position'
+				AND NOT EXISTS (SELECT 1 FROM container occ WHERE occ.parent_container_id = pos.container_id)
+			ORDER BY
+				CASE WHEN REGEXP_LIKE(pos.label, '^[0-9]+$') THEN TO_NUMBER(pos.label) END NULLS LAST,
+				pos.label,
+				pos.container_id
+		</cfquery>
+		<cfloop query="local.queryEmptyPositions">
+			<cfset ArrayAppend(local.emptyPositionIds, local.queryEmptyPositions.position_id)>
+			<cfset ArrayAppend(local.emptyPositionLabels, local.queryEmptyPositions.position_label)>
+		</cfloop>
+		<cfif local.count GT ArrayLen(local.emptyPositionIds)>
+			<cfset local.retval["status"] = "error">
+			<cfif ArrayLen(local.emptyPositionIds) EQ 0>
+				<cfset local.retval["message"] = "#local.queryParent.label# has no empty positions available -- uncheck 'place into empty positions' or choose a different parent.">
+			<cfelse>
+				<cfset local.retval["message"] = "Only #ArrayLen(local.emptyPositionIds)# empty position(s) are available in #local.queryParent.label# -- reduce the series to #ArrayLen(local.emptyPositionIds)# or fewer, or uncheck 'place into empty positions'.">
+			</cfif>
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+	</cfif>
+
 	<!--- preserve begin_barcode's leading-zero width (e.g. "007") across the whole run, matching
 		the retired CreateContainersForBarcodes.cfm --->
 	<cfset local.numberMask = "">
@@ -658,6 +692,8 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 
 	<cfset local.firstBarcode = "">
 	<cfset local.lastBarcode = "">
+	<cfset local.firstPositionLabel = "">
+	<cfset local.lastPositionLabel = "">
 	<cftransaction>
 		<cftry>
 			<cfset local.n = val(arguments.begin_barcode)>
@@ -678,6 +714,15 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 				</cfif>
 				<cfset local.lastBarcode = local.barcode>
 
+				<cfset local.targetParentId = local.parentContainerId>
+				<cfif arguments.place_in_positions>
+					<cfset local.targetParentId = local.emptyPositionIds[local.i]>
+					<cfif local.i EQ 1>
+						<cfset local.firstPositionLabel = local.emptyPositionLabels[local.i]>
+					</cfif>
+					<cfset local.lastPositionLabel = local.emptyPositionLabels[local.i]>
+				</cfif>
+
 				<cfif NOT local.dryrun>
 					<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 						SELECT sq_container_id.nextval AS next_container_id FROM dual
@@ -694,7 +739,7 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 							institution_acronym
 						) VALUES (
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.targetParentId#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.barcode#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.label#">,
@@ -713,6 +758,9 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 			<cfset local.retval["parent_container_id"] = local.parentContainerId>
 			<cfset local.retval["parent_label"] = local.queryParent.label>
 			<cfset local.retval["parent_barcode"] = local.queryParent.barcode>
+			<cfset local.retval["placed_in_positions"] = arguments.place_in_positions>
+			<cfset local.retval["first_position_label"] = local.firstPositionLabel>
+			<cfset local.retval["last_position_label"] = local.lastPositionLabel>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">

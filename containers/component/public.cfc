@@ -1871,7 +1871,8 @@ Function getContainerPositionsGrid.  Returns the position children of a containe
 contained occupant of each position for rendering a read-only grid.
 
 @param container_id the container_id whose position children are returned.
-@return a JSON object with keys container_id, number_positions, positions.
+@return a JSON object with keys container_id, container_type, label, barcode, number_positions,
+	positions.
 --->
 <cffunction name="getContainerPositionsGrid" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -1879,14 +1880,20 @@ contained occupant of each position for rendering a read-only grid.
 	<cfset local.retval = StructNew()>
 	<cftry>
 		<cfquery name="queryGetContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			SELECT container_id, number_positions
+			SELECT container_id, container_type, label, barcode, number_positions
 			FROM container
 			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 		</cfquery>
 		<cfset local.retval["container_id"] = arguments.container_id>
+		<cfset local.retval["container_type"] = "">
+		<cfset local.retval["label"] = "">
+		<cfset local.retval["barcode"] = "">
 		<cfset local.retval["number_positions"] = 0>
 		<cfset local.retval["positions"] = ArrayNew(1)>
 		<cfif queryGetContainer.recordcount EQ 1>
+			<cfset local.retval["container_type"] = queryGetContainer.container_type>
+			<cfset local.retval["label"] = queryGetContainer.label>
+			<cfset local.retval["barcode"] = queryGetContainer.barcode>
 			<cfset local.retval["number_positions"] = queryGetContainer.number_positions>
 			<cfquery name="queryGetPositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
