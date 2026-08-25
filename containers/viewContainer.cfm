@@ -114,7 +114,35 @@ limitations under the License.
 <main id="content" class="container-fluid">
 
 <cfoutput>
-	<h1 class="h2">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
+	<div class="d-flex justify-content-between align-items-center flex-wrap">
+		<h1 class="h2 mt-1">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
+		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
+		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
+		<cfset variables.currentContainerIsEmpty = (val(getContainer.direct_structural_children) + val(getContainer.direct_leaf_children)) EQ 0>
+		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
+			<cfif variables.canEditContainers>
+				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
+				<cfif NOT variables.isProxyOrLeafType>
+					<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
+					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>
+				</cfif>
+				<cfif variables.isProxyOrBearerType>
+					<a
+						href="##"
+						class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>"
+						<cfif NOT variables.currentContainerIsEmpty>
+							aria-disabled="true"
+							tabindex="-1"
+						<cfelse>
+							onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');"
+						</cfif>
+					>Place Part into this Container</a>
+				</cfif>
+			</cfif>
+			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
+			<a class="btn btn-xs btn-secondary mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
+		</div>
+	</div>
 
 	#getContainerDetailsHtml(container_id=val(getContainer.container_id), displayMode="page", idSuffix="page")#
 
@@ -208,36 +236,6 @@ limitations under the License.
 				</table>
 			</div>
 		</cfif>
-	</section>
-
-	<section class="mb-4" aria-labelledby="containerActionsHeading">
-		<h2 class="h4" id="containerActionsHeading">Actions</h2>
-		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
-		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
-		<cfset variables.currentContainerIsEmpty = (val(getContainer.direct_structural_children) + val(getContainer.direct_leaf_children)) EQ 0>
-		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
-			<cfif variables.canEditContainers>
-				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
-				<cfif NOT variables.isProxyOrLeafType>
-					<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
-					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>	
-				</cfif>
-				<cfif variables.isProxyOrBearerType>
-					<a
-						href="##"
-						class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>"
-						<cfif NOT variables.currentContainerIsEmpty>
-							aria-disabled="true"
-							tabindex="-1"
-						<cfelse>
-							onclick="event.preventDefault(); openPlaceLeafIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');"
-						</cfif>
-					>Place Part into this Container</a>
-				</cfif>
-			</cfif>
-			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
-			<a class="btn btn-xs btn-secondary mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
-		</div>
 	</section>
 
 	<section class="mb-4">
