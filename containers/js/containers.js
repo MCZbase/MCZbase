@@ -964,6 +964,32 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
  * @param {string} [breadcrumbFeedbackId] - optional feedback element id for breadcrumb refresh after save.
  * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
+/**
+ * Updates Container.cfm's "Positions" summary box/link after Number of Positions changes, from
+ * either a regular save or the positions-change dialog -- shared so both entry points leave the
+ * summary in the same state instead of drifting apart.
+ * @param {number|string} containerId - container_id the summary box belongs to.
+ * @param {number|string} numberPositions - the container's current declared Number of Positions.
+ */
+function updateContainerPositionsSummary(containerId, numberPositions) {
+	var $positionsSummary = $('#containerPositionsSummary');
+	var $positionsLink = $('#containerPositionsLink');
+	if ($positionsSummary.length === 0 || $positionsLink.length === 0) {
+		return;
+	}
+	var numericNumberPositions = parseInt(numberPositions, 10);
+	var numericContainerId = parseInt(containerId, 10);
+	if (!isNaN(numericNumberPositions) && numericNumberPositions > 0 && !isNaN(numericContainerId)) {
+		$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page');
+		// the accurate created/occupied counts are only known server-side; this falls back to
+		// this generic text rather than the fuller message shown on page load, until reloaded
+		$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' position' + (numericNumberPositions === 1 ? '' : 's') + '.');
+		$positionsSummary.removeClass('d-none');
+	} else {
+		$positionsSummary.addClass('d-none');
+	}
+}
+
 function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
 	var $form = $('#' + formId);
 	var containerType = $.trim($form.find('[name=container_type]').val());
@@ -998,21 +1024,7 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				var $positionsSummary = $('#containerPositionsSummary');
-				var $positionsLink = $('#containerPositionsLink');
-				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
-				if ($positionsSummary.length > 0 && $positionsLink.length > 0) {
-					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
-						$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page');
-						// the accurate created/occupied counts are only known server-side; a saved change
-						// to Number of Positions falls back to this generic text rather than the fuller
-						// message shown on page load, until the page is reloaded
-						$('#containerPositionsSummaryText').text('This container declares ' + numberPositions + ' position' + (numberPositions === 1 ? '' : 's') + '.');
-						$positionsSummary.removeClass('d-none');
-					} else {
-						$positionsSummary.addClass('d-none');
-					}
-				}
+				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()));
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -2230,94 +2242,6 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 	target.html(wrapper);
 }
 
-/**
- * Function buildPositionsActionsToolbar renders the Grow/Reset controls shown above an existing
- * positions grid (Trim has no independent entry point here -- it's only ever offered as
- * saveContainerForm's own follow-up when its reduction guard blocks on Container.cfm).
- * @param {number} numPositions - declared position count, used only for the Reset confirm text.
- * @param {string} targetDivId - id of the panel whose grid should be reloaded after Grow/Reset.
- * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
- * @param {number|string} containerId - container_id whose positions are being managed.
- * @param {boolean} canEditPositions - forwarded to the grid reload.
- * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
- * @return {jQuery} the assembled toolbar element, not yet inserted into the document.
- */
-function buildPositionsActionsToolbar(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
-	var toolbar = $('<div class="positions-actions-toolbar mb-2 d-flex align-items-center flex-wrap"></div>');
-	var $growError = $('<div class="small text-danger w-100 d-none" role="alert"></div>');
-
-	var $growInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
-	var $growBtn = $('<button class="btn btn-xs btn-secondary mr-2" type="button"></button>').text('Grow');
-	$growBtn.on('click', function() {
-		var additionalCount = parseInt($growInput.val(), 10);
-		if (!additionalCount || additionalCount < 1) {
-			$growError.text('Enter a positive number of positions to add.').removeClass('d-none');
-			return;
-		}
-		$growBtn.prop('disabled', true);
-		$growError.addClass('d-none').text('');
-		$.ajax({
-			url: '/containers/component/functions.cfc',
-			type: 'post',
-			dataType: 'json',
-			data: {
-				method: 'growContainerPositions',
-				returnformat: 'json',
-				container_id: containerId,
-				additional_count: additionalCount
-			},
-			success: function(result) {
-				$growBtn.prop('disabled', false);
-				if (result.status === 'created') {
-					loadPositionsGrid(containerId, result.number_positions, targetDivId, feedbackId, canEditPositions, headingId);
-				} else {
-					$growError.text(result.message || 'Unable to grow positions.').removeClass('d-none');
-				}
-			},
-			error: function(jqXHR, textStatus, error) {
-				$growBtn.prop('disabled', false);
-				handleFail(jqXHR, textStatus, error, 'growing container positions');
-			}
-		});
-	});
-
-	var $resetBtn = $('<button class="btn btn-xs btn-warning" type="button"></button>').text('Reset Positions');
-	$resetBtn.on('click', function() {
-		confirmDialog(
-			'This will permanently delete all ' + numPositions + ' position record(s) for this container and clear its Number of Positions, only if none are currently occupied. Continue?',
-			'Reset Positions',
-			function() {
-				$resetBtn.prop('disabled', true);
-				$.ajax({
-					url: '/containers/component/functions.cfc',
-					type: 'post',
-					dataType: 'json',
-					data: {
-						method: 'resetContainerPositions',
-						returnformat: 'json',
-						container_id: containerId
-					},
-					success: function(result) {
-						$resetBtn.prop('disabled', false);
-						if (result.status === 'reset') {
-							loadPositionsGrid(containerId, 0, targetDivId, feedbackId, canEditPositions, headingId);
-						} else {
-							messageDialog('Error: ' + (result.message || 'Unable to reset positions.'), 'Error Resetting Positions');
-						}
-					},
-					error: function(jqXHR, textStatus, error) {
-						$resetBtn.prop('disabled', false);
-						handleFail(jqXHR, textStatus, error, 'resetting container positions');
-					}
-				});
-			}
-		);
-	});
-
-	toolbar.append($('<label class="mr-1 mb-0"></label>').text('Add:')).append($growInput).append($growBtn).append($resetBtn).append($growError);
-	return toolbar;
-}
-
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
@@ -2336,9 +2260,6 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		}
 		return;
 	}
-	var actionsToolbar = canEditPositions
-		? buildPositionsActionsToolbar(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId)
-		: null;
 	if (!layoutClass) {
 		var tbody = $('<tbody></tbody>');
 		$.each(positions, function(i, position) {
@@ -2403,11 +2324,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var table = $('<table class="table table-sm table-striped positions-grid-fallback"></table>');
 		table.append('<thead><tr><th>Position</th><th>Occupant</th><th>Occupant Type</th><th>Actions</th></tr></thead>');
 		table.append(tbody);
-		target.empty();
-		if (actionsToolbar) {
-			target.append(actionsToolbar);
-		}
-		target.append(table);
+		target.html(table);
 		return;
 	}
 	var wrapper = $('<div class="positions-grid-wrapper"></div>');
@@ -2490,11 +2407,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		}
 	});
 	wrapper.append(grid);
-	target.empty();
-	if (actionsToolbar) {
-		target.append(actionsToolbar);
-	}
-	target.append(wrapper);
+	target.html(wrapper);
 }
 
 /**
@@ -2540,6 +2453,224 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, c
 			handleFail(jqXHR, textStatus, error, 'loading container positions');
 		}
 	});
+}
+
+/**
+ * Known (number_positions, container_type) presets with established physical dimensions --
+ * mirrors containers/component/functions.cfc's createContainerPositions preset table, so the
+ * positions-change dialog can warn that growing/shrinking a standard box/rack's position count
+ * usually isn't what's wanted, since that physical hardware has a fixed number of slots.
+ */
+var KNOWN_POSITION_PRESETS = [
+	{ containerType: 'freezer box', numberPositions: 100 },
+	{ containerType: 'freezer box', numberPositions: 81 },
+	{ containerType: 'freezer box', numberPositions: 25 },
+	{ containerType: 'freezer', numberPositions: 48 },
+	{ containerType: 'freezer', numberPositions: 33 }
+];
+
+/**
+ * Opens a dialog with Grow/Shrink/Reset controls for one container's positions -- reached from
+ * Container.cfm's "Change..." button next to the Number of Positions field. Deliberately not
+ * shown inline on the edit form or on the read-only positions grid (viewContainer.cfm).
+ * @param {number|string} containerId - container_id whose positions are being managed.
+ * @param {Function} [onChanged] - called with the container's new number_positions value (an
+ *	empty string after a Reset) whenever Grow/Shrink/Reset succeeds.
+ */
+function openPositionsChangeDialog(containerId, onChanged) {
+	var wrapper = $('#positionsChangeDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="positionsChangeDialogWrapper"></div>').appendTo('body');
+	}
+	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	wrapper.dialog({
+		title: 'Change Positions',
+		modal: true,
+		width: 420,
+		autoOpen: true,
+		open: function() {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({ 'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({ 'z-index': maxZindex + 5 });
+		}
+	});
+
+	var render = function() {
+		$.ajax({
+			url: '/containers/component/public.cfc',
+			data: {
+				method: 'getContainerPositionsGrid',
+				container_id: containerId
+			},
+			dataType: 'json',
+			success: function(data) {
+				var positions = data.positions || [];
+				var numberPositions = parseInt(data.number_positions, 10) || 0;
+				var occupiedCount = positions.filter(function(position) {
+					return !!position.content_container_id;
+				}).length;
+				var allEmpty = positions.length > 0 && occupiedCount === 0;
+				var isKnownPreset = KNOWN_POSITION_PRESETS.some(function(preset) {
+					return preset.containerType === data.container_type && preset.numberPositions === numberPositions;
+				});
+
+				var content = $('<div></div>');
+				content.append(
+					$('<p class="small mb-2"></p>').text(
+						numberPositions + ' position(s) declared; ' + positions.length + ' created' +
+						(positions.length > 0 ? ' (' + occupiedCount + ' occupied)' : '') + '.'
+					)
+				);
+				if (isKnownPreset) {
+					content.append(
+						$('<div class="alert alert-warning small py-1 px-2"></div>').text(
+							'This is a standard ' + numberPositions + '-position ' + data.container_type +
+							' -- growing or shrinking it usually isn\'t what you want, since the physical hardware has a fixed number of slots.'
+						)
+					);
+				}
+
+				var $error = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+
+				var $growInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
+				var $growBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Grow');
+				$growBtn.on('click', function() {
+					var additionalCount = parseInt($growInput.val(), 10);
+					if (!additionalCount || additionalCount < 1) {
+						$error.text('Enter a positive number of positions to add.').removeClass('d-none');
+						return;
+					}
+					$growBtn.prop('disabled', true);
+					$.ajax({
+						url: '/containers/component/functions.cfc',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							method: 'growContainerPositions',
+							returnformat: 'json',
+							container_id: containerId,
+							additional_count: additionalCount
+						},
+						success: function(result) {
+							$growBtn.prop('disabled', false);
+							if (result.status === 'created') {
+								if (onChanged) {
+									onChanged(result.number_positions);
+								}
+								render();
+							} else {
+								$error.text(result.message || 'Unable to grow positions.').removeClass('d-none');
+							}
+						},
+						error: function(jqXHR, textStatus, error) {
+							$growBtn.prop('disabled', false);
+							handleFail(jqXHR, textStatus, error, 'growing container positions');
+						}
+					});
+				});
+				var growRow = $('<div class="d-flex align-items-center mb-2"></div>')
+					.append($('<label class="mb-0 mr-1"></label>').text('Add:'))
+					.append($growInput)
+					.append($growBtn);
+
+				var $shrinkInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of empty positions to remove from the end');
+				var $shrinkBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Shrink');
+				$shrinkBtn.on('click', function() {
+					var removeCount = parseInt($shrinkInput.val(), 10);
+					if (!removeCount || removeCount < 1) {
+						$error.text('Enter a positive number of positions to remove.').removeClass('d-none');
+						return;
+					}
+					var newCount = numberPositions - removeCount;
+					if (newCount < 0) {
+						$error.text('Cannot remove more positions than currently declared.').removeClass('d-none');
+						return;
+					}
+					$shrinkBtn.prop('disabled', true);
+					$.ajax({
+						url: '/containers/component/functions.cfc',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							method: 'trimContainerPositions',
+							returnformat: 'json',
+							container_id: containerId,
+							new_count: newCount
+						},
+						success: function(result) {
+							$shrinkBtn.prop('disabled', false);
+							if (result.status === 'trimmed') {
+								if (onChanged) {
+									onChanged(result.number_positions);
+								}
+								render();
+							} else {
+								$error.text(result.message || 'Unable to shrink positions.').removeClass('d-none');
+							}
+						},
+						error: function(jqXHR, textStatus, error) {
+							$shrinkBtn.prop('disabled', false);
+							handleFail(jqXHR, textStatus, error, 'shrinking container positions');
+						}
+					});
+				});
+				var shrinkRow = $('<div class="d-flex align-items-center mb-2"></div>')
+					.append($('<label class="mb-0 mr-1"></label>').text('Remove from end:'))
+					.append($shrinkInput)
+					.append($shrinkBtn);
+
+				content.append(growRow).append(shrinkRow).append($error);
+
+				// only offer Reset when it could actually succeed -- resetContainerPositions
+				// itself refuses outright if even one position is occupied.
+				if (allEmpty) {
+					var $resetBtn = $('<button class="btn btn-xs btn-warning" type="button"></button>').text('Reset Positions');
+					$resetBtn.on('click', function() {
+						confirmDialog(
+							'This will permanently delete all ' + numberPositions + ' position record(s) for this container and clear its Number of Positions. Continue?',
+							'Reset Positions',
+							function() {
+								$resetBtn.prop('disabled', true);
+								$.ajax({
+									url: '/containers/component/functions.cfc',
+									type: 'post',
+									dataType: 'json',
+									data: {
+										method: 'resetContainerPositions',
+										returnformat: 'json',
+										container_id: containerId
+									},
+									success: function(result) {
+										$resetBtn.prop('disabled', false);
+										if (result.status === 'reset') {
+											if (onChanged) {
+												onChanged('');
+											}
+											wrapper.dialog('close');
+										} else {
+											messageDialog('Error: ' + (result.message || 'Unable to reset positions.'), 'Error Resetting Positions');
+										}
+									},
+									error: function(jqXHR, textStatus, error) {
+										$resetBtn.prop('disabled', false);
+										handleFail(jqXHR, textStatus, error, 'resetting container positions');
+									}
+								});
+							}
+						);
+					});
+					content.append($('<div class="mt-2"></div>').append($resetBtn));
+				}
+
+				wrapper.html(content);
+			},
+			error: function(jqXHR, textStatus, error) {
+				wrapper.html('<p class="text-danger small mb-0">Unable to load position information.</p>');
+				handleFail(jqXHR, textStatus, error, 'loading container positions for the change dialog');
+			}
+		});
+	};
+	render();
 }
 
 /* These placement-heavy structural levels were explicitly requested to keep direct

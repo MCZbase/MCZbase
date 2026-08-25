@@ -385,6 +385,11 @@ limitations under the License.
 						<cfif lockedRoot>
 							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
 							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+						<cfelseif variables.action EQ "edit" AND variables.positionRecordCount GT 0>
+							<div class="d-flex align-items-center">
+								<input type="text" name="number_positions" id="number_positions" class="data-entry-input flex-grow-1" value="#encodeForHtml(variables.formData.number_positions)#">
+								<button type="button" class="btn btn-xs btn-secondary ml-1" id="changePositionsBtn">Change...</button>
+							</div>
 						<cfelse>
 							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
 						</cfif>
@@ -605,6 +610,17 @@ limitations under the License.
 					);
 				}
 			});
+			<cfif variables.positionRecordCount GT 0>
+				<cfoutput>
+				$('#changePositionsBtn').on('click', function() {
+					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(newNumberPositions) {
+						$('##number_positions').val(newNumberPositions);
+						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions);
+						changed();
+					});
+				});
+				</cfoutput>
+			</cfif>
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);
