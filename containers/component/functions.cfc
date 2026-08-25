@@ -626,9 +626,8 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 	<cfset local.dryrun = FALSE>
-		<cfif isDefined("arguments.dry_run") and len(arguments.dry_run) GT 0 and arguments.dry_run EQ "true">
-			<cfset local.dryrun = TRUE>
-		</cfif>
+	<cfif isDefined("arguments.dry_run") and len(arguments.dry_run) GT 0 and arguments.dry_run EQ "true">
+		<cfset local.dryrun = TRUE>
 	</cfif>
 
 	<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
