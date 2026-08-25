@@ -255,7 +255,7 @@ limitations under the License.
 									</cfif>
 							</cfquery>
 							<cfloop query="getParent">
-								<li>Parent Container: <a href="/findContainer.cfm?barcode=#getParent.barcode#">#getParent.label#</a> (#getParent.container_id#)</li>
+								<li>Parent Container: <a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & getParent.barcode)#&execute=true">#getParent.label#</a> (#getParent.container_id#)</li>
 							</cfloop>
 					</div>
 				</div>
@@ -279,7 +279,7 @@ limitations under the License.
 							</cfif>
 					</cfquery>
 					<cfloop query="getParent">
-						<p>Created as children of Parent Container: <a href="/findContainer.cfm?barcode=#getParent.barcode#">#getParent.label#</a> (#getParent.container_id#)</p>
+						<p>Created as children of Parent Container: <a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & getParent.barcode)#&execute=true">#getParent.label#</a> (#getParent.container_id#)</p>
 					</cfloop>
 					<p>
 						<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>

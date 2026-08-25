@@ -319,7 +319,7 @@ limitations under the License.
 							});
 						</script>
 					</cfif>
-					<p>View the current <a href="/findContainer.cfm?showControl=1&result_id=#result_id#" target="_blank">Container Placement</a> of these parts.</p>
+					<p>View the current <a href="/containers/Containers.cfm?result_id=#encodeForUrl(result_id)#&execute=true" target="_blank">Container Placement</a> of these parts.</p>
 					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
@@ -418,7 +418,7 @@ limitations under the License.
 					<h2>Successfully moved #move_result.recordcount# parts into #getTarget.container_type# #getTarget.label# </h2>
 					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
 					<h4 class="mt-2"><a href="#targeturl#">Return to move parts in bulk</a></h4>
-					<cfset targeturl="/findContainer.cfm?barcode=#getTarget.barcode#">
+					<cfset targeturl="/containers/Containers.cfm?barcode=#encodeForUrl('=' & getTarget.barcode)#&execute=true">
 					<h4 class="mt-2"><a href="#targeturl#">View Container</a></h4>
 				</div>
 			</div>

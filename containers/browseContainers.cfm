@@ -55,7 +55,7 @@ limitations under the License.
 									</cfquery>
 									<ul>
 										<cfloop query="plNode">
-											<li><a href="findContainer.cfm?container_label=#plNode.label#">#plNode.label# (#plNode.container_type#)</a> in [nothing]</li>
+											<li><a href="/containers/Containers.cfm?search_term=#encodeForUrl('=' & plNode.label)#&execute=true">#encodeForHtml(plNode.label)# (#encodeForHtml(plNode.container_type)#)</a> in [nothing]</li>
 										</cfloop>
 									</ul>
 								</cfif>
@@ -80,7 +80,7 @@ limitations under the License.
 					<div class="col-12">
 						<ul>
 							<cfloop query="fixtures">
-								<li><a href="findContainer.cfm?container_label=#fixtures.label#">#fixtures.label# (#fixtures.container_type#)</a> in #fixtures.parentage#</li>
+								<li><a href="/containers/Containers.cfm?search_term=#encodeForUrl('=' & fixtures.label)#&execute=true">#encodeForHtml(fixtures.label)# (#encodeForHtml(fixtures.container_type)#)</a> in #encodeForHtml(fixtures.parentage)#</li>
 							</cfloop>
 						</ul>
 					</div>

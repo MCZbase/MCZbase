@@ -3065,7 +3065,7 @@ STATE TRANSITION BEHAVIOR:
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6 pr-1">
-								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
+								<strong>Storage Location:</strong> <a href="/containers/Containers.cfm?container_id=#encodeForUrl(getParts.container_id)#&execute=true" target="_blank">#getParts.short_location#</a>
 								<ul class="mb-1">
 									<cfif len(previous_location) GT 0>
 										<li>

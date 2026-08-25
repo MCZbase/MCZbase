@@ -4655,7 +4655,7 @@ limitations under the License.
 			</cfif>
 			<h2 class="h3 pt-3 px-2">
 				Edit Existing Parts (#getParts.recordcount#)
-				<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+				<a href="/containers/Containers.cfm?collection_object_id=#encodeForUrl(collection_object_id)#&execute=true" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
 				<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
 			</h2>
 			<div class="col-12 px-0 my-1 float-left">
@@ -9869,7 +9869,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfquery>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 					<div class="w-100 border-bottom">
-						<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+						<a href="/containers/Containers.cfm?collection_object_id=#encodeForUrl(collection_object_id)#&execute=true" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
 					</div>
 				</cfif>
 				<cfloop query="getPart">
@@ -9890,7 +9890,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						<cfloop query="container_parentage">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 								<li class="listgroupitem">
-									<a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a>
+									<a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & container_parentage.barcode)#&execute=true" target="_blank">#container_parentage.barcode#</a>
 									(#container_parentage.container_type#) 
 									<cfif len(container_parentage.parent_install_date) GT 0>
 										install date #container_parentage.parent_install_date#

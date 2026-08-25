@@ -81,7 +81,7 @@ limitations under the License.
 								<cfoutput query="variables.singleOccViolations">
 									<tr>
 										<td>
-											<a href="/findContainer.cfm?container_id=#encodeForUrl(container_id)#" target="_blank">
+											<a href="/containers/Containers.cfm?container_id=#encodeForUrl(container_id)#&execute=true" target="_blank">
 												#encodeForHtml(container_id)#
 											</a>
 										</td>
@@ -268,7 +268,7 @@ limitations under the License.
 							</cfif>
 							<tr class="#trim(variables.hotspotRowClass)#">
 								<td>
-									<a href="/findContainer.cfm?container_id=#encodeForUrl(container_id)#" target="_blank">
+									<a href="/containers/Containers.cfm?container_id=#encodeForUrl(container_id)#&execute=true" target="_blank">
 										#encodeForHtml(container_id)#
 									</a>
 								</td>
