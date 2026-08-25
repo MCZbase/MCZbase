@@ -587,7 +587,24 @@ limitations under the License.
 					loadPlacementWarningBadge(#val(variables.formData.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');
 				</cfif>
 			</cfloop>
+			var positionRecordCount = #val(variables.positionRecordCount)#;
 			</cfoutput>
+			$('#number_positions').on('change', function() {
+				var $field = $(this);
+				var newValue = $.trim($field.val());
+				if (positionRecordCount === 0 && newValue.length > 0 && parseInt(newValue, 10) > 0) {
+					confirmDialog(
+						'Positions are individually trackable slots inside this container (e.g. spots in a freezer box or rack). Setting Number of Positions here does not create them yet -- you\'ll create the actual position records afterward from this container\'s own page. Continue with ' + newValue + ' position(s)?',
+						'Create Positions?',
+						function() {
+							changed();
+						},
+						function() {
+							$field.val('');
+						}
+					);
+				}
+			});
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);
