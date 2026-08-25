@@ -119,7 +119,7 @@ limitations under the License.
 		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
 		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
 		<cfset variables.currentContainerIsEmpty = (val(getContainer.direct_structural_children) + val(getContainer.direct_leaf_children)) EQ 0>
-		<div class="btn-toolbar" role="toolbar" aria-label="Container actions">
+		<div class="btn-toolbar pt-1" role="toolbar" aria-label="Container actions">
 			<cfif variables.canEditContainers>
 				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
 				<cfif NOT variables.isProxyOrLeafType>
@@ -127,9 +127,11 @@ limitations under the License.
 					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>
 				</cfif>
 				<cfif variables.isProxyOrBearerType>
-					<a
-						href="##"
-						class="btn btn-xs btn-secondary mr-1 mb-1<cfif NOT variables.currentContainerIsEmpty> disabled</cfif>"
+					<cfset disabledClass = "">
+					<cfif NOT variables.currentContainerIsEmpty>
+						<cfset disabledClass = " disabled">
+					</cfif>
+					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1 #disabledClass#"
 						<cfif NOT variables.currentContainerIsEmpty>
 							aria-disabled="true"
 							tabindex="-1"
