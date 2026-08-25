@@ -331,7 +331,7 @@ limitations under the License.
 				error: function(jqXHR, textStatus, error) {
 					$('##createSeriesButton').prop('disabled', false);
 					previewoutput.empty();
-					previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to preview container records: ' + extractAjaxErrorMessage(jqXHR, textStatus)));
+					handleFail(jqXHR, textStatus, error, 'previewing a container series');
 				}
 			});
 		});
@@ -403,7 +403,7 @@ limitations under the License.
 				error: function(jqXHR, textStatus, error) {
 					$('##createSeriesButton').prop('disabled', false);
 					feedback.empty();
-					feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to create container records: ' + extractAjaxErrorMessage(jqXHR, textStatus)));
+					handleFail(jqXHR, textStatus, error, 'creating a container series');
 				}
 			});
 		});
