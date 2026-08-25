@@ -198,6 +198,11 @@ limitations under the License.
 				container_id: parentContainerId
 			},
 			success: function(resp) {
+				// Discard a response for a parent that's no longer selected -- otherwise a slow
+				// lookup for an earlier selection can land after a faster one and show stale info.
+				if ($.trim($('##parent_container_id').val()) !== parentContainerId) {
+					return;
+				}
 				var infoText = resp.container_type || '';
 				var numberPositions = parseInt(resp.number_positions, 10) || 0;
 				if (numberPositions > 0) {
@@ -216,6 +221,9 @@ limitations under the License.
 				infoDiv.text(infoText);
 			},
 			error: function() {
+				if ($.trim($('##parent_container_id').val()) !== parentContainerId) {
+					return;
+				}
 				infoDiv.text('Unable to load container info.');
 			}
 		});
