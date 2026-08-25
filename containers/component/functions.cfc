@@ -554,6 +554,164 @@ parent has one.
 </cffunction>
 
 <!---
+Function createContainerSeries.  Bulk-creates a numbered series of container records sharing one
+parent and container_type, for pre-printing or reserving a run of barcode labels (ported from the
+retired /CreateContainersForBarcodes.cfm). Two label-building modes: the normal case builds
+barcode = prefix & n & suffix and label = label_prefix & n & label_suffix (falling back to
+prefix/suffix when label_prefix/label_suffix are blank), preserving a leading-zero width from
+begin_barcode across the whole run; the "PLACE" cryo-barcode special case instead builds both
+barcode and label as {4-digit n}PLACE{4-digit n}, ignoring every prefix/suffix argument. Capped at
+1000 containers per call to keep one request/transaction from running away.
+@return a JSON object: {status: "created"|"error", count, first_barcode, last_barcode,
+	parent_container_id, parent_label, parent_barcode, message}.
+--->
+<cffunction name="createContainerSeries" access="remote" returntype="any" returnformat="json">
+	<cfargument name="parent_container_id" type="string" required="no" default="">
+	<cfargument name="container_type" type="string" required="yes">
+	<cfargument name="institution_acronym" type="string" required="no" default="MCZ">
+	<cfargument name="cryo_barcode" type="boolean" required="no" default="false">
+	<cfargument name="prefix" type="string" required="no" default="">
+	<cfargument name="suffix" type="string" required="no" default="">
+	<cfargument name="label_prefix" type="string" required="no" default="">
+	<cfargument name="label_suffix" type="string" required="no" default="">
+	<cfargument name="remarks" type="string" required="no" default="">
+	<cfargument name="begin_barcode" type="string" required="yes">
+	<cfargument name="end_barcode" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfif len(trim(arguments.container_type)) EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container type is required.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif len(trim(arguments.parent_container_id)) GT 0 AND NOT isNumeric(arguments.parent_container_id)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Parent container must be numeric.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif NOT isNumeric(arguments.begin_barcode) OR NOT isNumeric(arguments.end_barcode)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Low and High number in series must both be numbers.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.parentContainerId = 1>
+	<cfif len(trim(arguments.parent_container_id)) GT 0>
+		<cfset local.parentContainerId = arguments.parent_container_id>
+	</cfif>
+	<cfset local.count = val(arguments.end_barcode) - val(arguments.begin_barcode) + 1>
+	<cfif local.count LT 1>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "High number in series must not be less than the low number.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif local.count GT 1000>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This series would create #local.count# containers -- split it into batches of 1000 or fewer.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT label, barcode
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">
+	</cfquery>
+	<cfif local.queryParent.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Parent container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<!--- preserve begin_barcode's leading-zero width (e.g. "007") across the whole run, matching
+		the retired CreateContainersForBarcodes.cfm --->
+	<cfset local.numberMask = "">
+	<cfif left(arguments.begin_barcode,1) EQ "0">
+		<cfset local.numberMask = RepeatString("0",len(arguments.begin_barcode))>
+	</cfif>
+	<cfset local.labelPrefix = arguments.label_prefix>
+	<cfif len(local.labelPrefix) EQ 0 AND len(arguments.prefix) GT 0>
+		<cfset local.labelPrefix = arguments.prefix>
+	</cfif>
+	<cfset local.labelSuffix = arguments.label_suffix>
+	<cfif len(local.labelSuffix) EQ 0 AND len(arguments.suffix) GT 0>
+		<cfset local.labelSuffix = arguments.suffix>
+	</cfif>
+
+	<cfset local.firstBarcode = "">
+	<cfset local.lastBarcode = "">
+	<cftransaction>
+		<cftry>
+			<cfset local.n = val(arguments.begin_barcode)>
+			<cfloop from="1" to="#local.count#" index="local.i">
+				<cfset local.displayNumber = local.n>
+				<cfif len(local.numberMask) GT 0>
+					<cfset local.displayNumber = NumberFormat(local.n, local.numberMask)>
+				</cfif>
+				<cfif arguments.cryo_barcode>
+					<cfset local.barcode = left(numberFormat(local.n,00000000),4) & "PLACE" & right(numberFormat(local.n,00000000),4)>
+					<cfset local.label = local.barcode>
+				<cfelse>
+					<cfset local.barcode = arguments.prefix & local.displayNumber & arguments.suffix>
+					<cfset local.label = local.labelPrefix & local.displayNumber & local.labelSuffix>
+				</cfif>
+				<cfif local.i EQ 1>
+					<cfset local.firstBarcode = local.barcode>
+				</cfif>
+				<cfset local.lastBarcode = local.barcode>
+
+				<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT sq_container_id.nextval AS next_container_id FROM dual
+				</cfquery>
+				<cfquery name="local.queryInsertContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					INSERT INTO container (
+						container_id,
+						parent_container_id,
+						container_type,
+						barcode,
+						label,
+						container_remarks,
+						locked_position,
+						institution_acronym
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.barcode#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.label#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.remarks#" null="#len(arguments.remarks) EQ 0#">,
+						<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.institution_acronym#">
+					)
+				</cfquery>
+				<cfset local.n = local.n + 1>
+			</cfloop>
+			<cfset local.retval["status"] = "created">
+			<cfset local.retval["count"] = local.count>
+			<cfset local.retval["first_barcode"] = local.firstBarcode>
+			<cfset local.retval["last_barcode"] = local.lastBarcode>
+			<cfset local.retval["parent_container_id"] = local.parentContainerId>
+			<cfset local.retval["parent_label"] = local.queryParent.label>
+			<cfset local.retval["parent_barcode"] = local.queryParent.barcode>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.clientMessage = cfcatch.message>
+			<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")
+					AND Find("ORA-00001: unique constraint (MCZBASE.U_BARCODE) violated",cfcatch.cause.message) GT 0>
+				<cfset local.clientMessage = "One or more of the identifiers/barcodes you're trying to create already exists (first failure at number #local.displayNumber#, identifier '#local.barcode#').">
+			</cfif>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.clientMessage>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
 Function deleteContainer.  Deletes a container record.
 --->
 <cffunction name="deleteContainer" access="remote" returntype="any" returnformat="json">

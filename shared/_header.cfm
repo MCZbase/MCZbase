@@ -575,7 +575,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Storage Location/Create Container</a>
 											</cfif>
-											<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
+											<a class="dropdown-item" href="/containers/createContainerSeries.cfm">Create Container Series</a>
 										</cfif>
 									</div>
 									</cfif>
