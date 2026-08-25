@@ -2221,13 +2221,15 @@ Returns a JSON structure with allow/block state, messages, and contextual metada
 			</cfif>
 		</cfif>
 
-		<!--- GROUP 2 (CT6): rank order reversal --->
+		<!--- GROUP 2 (CT6): rank order reversal -- a child ranked strictly higher (numerically
+			lower) than its proposed parent is a true reversal; equal rank (a different type at
+			the same nesting depth, e.g. a tank placed inside a fixture) is not --->
 		<cfif NOT local.isRootPlacement
 			AND local.childVariableRank EQ 0
 			AND local.parentVariableRank EQ 0
 			AND isNumeric(local.childRank)
 			AND isNumeric(local.parentRank)
-			AND val(local.childRank) LTE val(local.parentRank)>
+			AND val(local.childRank) LT val(local.parentRank)>
 			<cfset ArrayAppend(local.retval["warnings"], "This placement reverses the expected nesting depth. A #local.childType# (rank #local.childRank#) is being placed inside a #local.parentType# (rank #local.parentRank#).")>
 		</cfif>
 
@@ -3147,13 +3149,14 @@ renderPlacementWarningBadge JS function can render its result unmodified.
 			<cfset ArrayAppend(local.retval["warnings"], "This would make a #arguments.new_container_type# the parent of another #arguments.new_container_type#. Containers of the same type are not normally nested.")>
 		</cfif>
 
-		<!--- RT5: rank order reversal relative to current parent --->
+		<!--- RT5: rank order reversal relative to current parent -- equal rank (a different type
+			at the same nesting depth) is not a reversal, only strictly higher --->
 		<cfif NOT local.isRootPlacement
 			AND local.newVariableRank EQ 0
 			AND local.parentVariableRank EQ 0
 			AND isNumeric(local.newRankOrder)
 			AND isNumeric(local.parentRankOrder)
-			AND val(local.newRankOrder) LTE val(local.parentRankOrder)>
+			AND val(local.newRankOrder) LT val(local.parentRankOrder)>
 			<cfset ArrayAppend(local.retval["warnings"], "This placement would reverse the expected nesting depth. A #arguments.new_container_type# (rank #local.newRankOrder#) would be inside a #local.parentType# (rank #local.parentRankOrder#).")>
 		</cfif>
 
@@ -3215,13 +3218,14 @@ renderPlacementWarningBadge JS function can render its result unmodified.
 				</cfif>
 			</cfif>
 
-			<!--- RT10: rank order reversal / same-type nesting relative to existing children --->
+			<!--- RT10: rank order reversal / same-type nesting relative to existing children --
+				equal rank (a different type at the same nesting depth) is not a reversal --->
 			<cfif local.newVariableRank EQ 0>
 				<cfset local.rankReversedChild = false>
 				<cfset local.sameTypeChild = false>
 				<cfloop query="local.queryChildren">
 					<cfif val(local.queryChildren.variable_rank) EQ 0 AND isNumeric(local.newRankOrder) AND isNumeric(local.queryChildren.rank_order)
-						AND val(local.newRankOrder) GTE val(local.queryChildren.rank_order)>
+						AND val(local.newRankOrder) GT val(local.queryChildren.rank_order)>
 						<cfset local.rankReversedChild = true>
 					</cfif>
 					<cfif val(local.queryChildren.variable_rank) EQ 0 AND lCase(trim(local.queryChildren.container_type)) EQ lCase(arguments.new_container_type)>
