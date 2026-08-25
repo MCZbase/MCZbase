@@ -555,13 +555,28 @@ parent has one.
 
 <!---
 Function createContainerSeries.  Bulk-creates a numbered series of container records sharing one
-parent and container_type, for pre-printing or reserving a run of barcode labels (ported from the
-retired /CreateContainersForBarcodes.cfm). Two label-building modes: the normal case builds
-barcode = prefix & n & suffix and label = label_prefix & n & label_suffix (falling back to
-prefix/suffix when label_prefix/label_suffix are blank), preserving a leading-zero width from
-begin_barcode across the whole run; the "PLACE" cryo-barcode special case instead builds both
-barcode and label as {4-digit n}PLACE{4-digit n}, ignoring every prefix/suffix argument. Capped at
-1000 containers per call to keep one request/transaction from running away.
+parent and container_type, for pre-printing or reserving a run of barcode labels
+
+Two label-building modes: the normal case builds:
+ barcode = prefix & n & suffix and label = label_prefix & n & label_suffix 
+(falling back toprefix/suffix when label_prefix/label_suffix are blank), preserving a leading-zero 
+width from begin_barcode across the whole run; the "PLACE" cryo-barcode special case instead builds both
+barcode and label as {first 4-digits of n}PLACE{last 4-digits of n}, ignoring every prefix/suffix argument. 
+
+Capped at 1000 containers per call to keep one request/transaction from running away.
+
+@param parent_container_id the container_id of the parent box/rack to hold the new containers.
+@param container_type the container_type to assign to all new containers.
+@param institution_acronym the institution_acronym to assign to all new containers.
+@param cryo_barcode if true, builds barcodes and labels in the special {4-digit n}PLACE{4-digit n} format.
+@param prefix the string to prepend to each barcode (ignored if cryo_barcode is true).
+@param suffix the string to append to each barcode (ignored if cryo_barcode is true).
+@param label_prefix the string to prepend to each label (ignored if cryo_barcode is true).
+@param label_suffix the string to append to each label (ignored if cryo_barcode is true).
+@param remarks the string to assign to each container_remarks (ignored if cryo_barcode is true).
+@param begin_barcode the first number in the series (inclusive).
+@param end_barcode the last number in the series (inclusive).
+@param dry_run if true, does not actually create any containers, but returns the would-be first and last barcodes and the count of containers that would be created.
 @return a JSON object: {status: "created"|"error", count, first_barcode, last_barcode,
 	parent_container_id, parent_label, parent_barcode, message}.
 --->
@@ -577,6 +592,7 @@ barcode and label as {4-digit n}PLACE{4-digit n}, ignoring every prefix/suffix a
 	<cfargument name="remarks" type="string" required="no" default="">
 	<cfargument name="begin_barcode" type="string" required="yes">
 	<cfargument name="end_barcode" type="string" required="yes">
+	<cfargument name="dry_run" type="string" required="no" default="">
 
 	<cfset local.retval = StructNew()>
 	<cfif len(trim(arguments.container_type)) EQ 0>
@@ -608,6 +624,11 @@ barcode and label as {4-digit n}PLACE{4-digit n}, ignoring every prefix/suffix a
 		<cfset local.retval["status"] = "error">
 		<cfset local.retval["message"] = "This series would create #local.count# containers -- split it into batches of 1000 or fewer.">
 		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.dryrun = FALSE>
+		<cfif isDefined("arguments.dry_run") and len(arguments.dry_run) GT 0 and arguments.dry_run EQ "true">
+			<cfset local.dryrun = TRUE>
+		</cfif>
 	</cfif>
 
 	<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -658,30 +679,32 @@ barcode and label as {4-digit n}PLACE{4-digit n}, ignoring every prefix/suffix a
 				</cfif>
 				<cfset local.lastBarcode = local.barcode>
 
-				<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT sq_container_id.nextval AS next_container_id FROM dual
-				</cfquery>
-				<cfquery name="local.queryInsertContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					INSERT INTO container (
-						container_id,
-						parent_container_id,
-						container_type,
-						barcode,
-						label,
-						container_remarks,
-						locked_position,
-						institution_acronym
-					) VALUES (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.barcode#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.label#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.remarks#" null="#len(arguments.remarks) EQ 0#">,
-						<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.institution_acronym#">
-					)
-				</cfquery>
+				<cfif NOT local.dryrun>
+					<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						SELECT sq_container_id.nextval AS next_container_id FROM dual
+					</cfquery>
+					<cfquery name="local.queryInsertContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						INSERT INTO container (
+							container_id,
+							parent_container_id,
+							container_type,
+							barcode,
+							label,
+							container_remarks,
+							locked_position,
+							institution_acronym
+						) VALUES (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.barcode#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.label#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.remarks#" null="#len(arguments.remarks) EQ 0#">,
+							<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="0">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.institution_acronym#">
+						)
+					</cfquery>
+				</cfif>
 				<cfset local.n = local.n + 1>
 			</cfloop>
 			<cfset local.retval["status"] = "created">

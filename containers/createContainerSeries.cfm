@@ -44,16 +44,27 @@ limitations under the License.
 		<div class="col-12">
 			<h1 class="h2 ml-1 mb-1" id="createContainerSeriesHeading">Create Container Series</h1>
 			<p>
-				Containers (things you can stick a barcode to) in MCZbase should exist before they may be
+				Containers (things you can stick a barcode on) in MCZbase should exist before they may be
 				used. This form creates a series of containers -- use it if you have placed, will place, or
-				intend to print a series of labels, or wish to reserve a series of labels for any other
+				intend to print a series of labels, or wish to create a set of containers for a set of 
+				pre-printed barcodes, or wish to reserve a series of labels for any other
 				reason. This form does nothing to labels that already exist.
+				<strong>This form is limited to creating 1000 containers at the same time.</strong>
 			</p>
 			<p>
 				The barcode will be <strong>Prefix{number}Suffix</strong> -- enter exactly what the scanner
 				will read, including any spaces. Label Prefix/Suffix and Unique Identifier Prefix/Suffix are
 				the non-numeric parts of the label and identifier applied to each container; if Label
 				Prefix/Suffix are left blank, the Unique Identifier Prefix/Suffix are used for the label too.
+			</p>
+			<p>
+				Containers for a range of pre-printed PLACE barcodes can be created in the form {m}PLACE{n}, 
+				select the Create PLACE barcodes option and enter a number of  an up 8 digits as the
+				low number and high number series,  where the number will be zero padded to 8 digits 
+				and the first 4 digits will be used as m before PLACE, and the last 4 digits will be used
+				as n after PLACE.  For example, enter 230001 as the low number and 230005 as the high number 
+				to create 0023PLACE0001 to 0023PLACE0005, or 12345601 to 12345610 to create 1234PLACE5601 to
+				1234PLACE5610.  
 			</p>
 
 			<form class="col-12 px-0" id="createContainerSeriesForm" name="createContainerSeriesForm" novalidate onsubmit="return false;">
@@ -130,9 +141,11 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 mb-2">
 						<button type="button" class="btn btn-xs btn-primary" id="createSeriesButton">Create Series</button>
+						<button type="button" class="btn btn-xs btn-primary" id="previewSeriesButton">Preview Series</button>
 					</div>
 				</div>
 			</form>
+			<output id="createSeriesPreview"></output>
 			<output id="createSeriesFeedback"></output>
 		</div>
 	</section>
@@ -153,6 +166,75 @@ limitations under the License.
 					wrapper.dialog('close');
 				}
 			});
+		});
+		$('##previewSeriesButton').on('click', function() {
+			// TODO: Create preview of first and last barcodes in series, display in createSeriesPreview.
+			var feedback = $('##createSeriesFeedback');
+			feedback.empty();
+			var previewoutput = $('##createSeriesPreview');
+			previewoutput.empty();
+
+			var parentContainerId = $.trim($('##parent_container_id').val());
+			var beginBarcode = $.trim($('##beginBarcode').val());
+			var endBarcode = $.trim($('##endBarcode').val());
+			var containerType = $.trim($('##container_type').val());
+
+			if (!parentContainerId) {
+				feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Select a Parent Container for the new series.'));
+				return;
+			}
+			if (!containerType) {
+				feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Select a Container Type.'));
+				return;
+			}
+			if (!/^[0-9]+$/.test(beginBarcode) || !/^[0-9]+$/.test(endBarcode)) {
+				feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Low and High number in series must both be whole numbers.'));
+				return;
+			}
+
+			previewoutput.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Previewing...</div>');
+
+			$.ajax({
+				url: '/containers/component/functions.cfc',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					method: 'createContainerSeries',
+					returnformat: 'json',
+					parent_container_id: parentContainerId,
+					container_type: containerType,
+					institution_acronym: $('##institution_acronym').val(),
+					cryo_barcode: $('##cryo_barcode').is(':checked'),
+					prefix: $('##prefix').val(),
+					suffix: $('##suffix').val(),
+					label_prefix: $('##label_prefix').val(),
+					label_suffix: $('##label_suffix').val(),
+					remarks: $('##remarks').val(),
+					begin_barcode: beginBarcode,
+					end_barcode: endBarcode,
+					dry_run: "true"
+				},
+				success: function(resp) {
+					feedback.empty();
+					if (resp.status === 'created') {
+						var parentLink = $('<a target="_blank"></a>')
+							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
+							.text(resp.parent_label);
+						var successBox = $('<div class="alert alert-success py-2 px-2 small mb-2"></div>')
+							.append($('<div></div>').text('Would Create ' + resp.count + ' container(s), from ' + resp.first_barcode + ' to ' + resp.last_barcode + '.'))
+							.append($('<div></div>').text('Would Create as children of Parent Container: ').append(parentLink));
+						previewoutput.append(successBox);
+					} else {
+						previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text(resp.message || 'Preview: Unable to create container records.'));
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					$('##createSeriesButton').prop('disabled', false);
+					previewoutput.empty();
+					previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to preview container records: ' + textStatus));
+				}
+			});
+		});
 		});
 
 		$('##createSeriesButton').on('click', function() {
