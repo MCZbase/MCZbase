@@ -770,19 +770,19 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset local.function_called = "#GetFunctionCalledName()#">
-			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
-			<!--- reportError() sets an HTTP 500 status for its own (unused here) rendered error
-				page; this is an anticipated, user-correctable failure returned as an ordinary JSON
-				body, not a genuine internal-server-error page, so reset the status back to 200 or
-				jQuery's ajax error: handler intercepts this response before its JSON body is ever
-				read --->
-			<cfheader statuscode="200" statustext="OK">
 			<cfset local.clientMessage = cfcatch.message>
+			<!--- for this one known failure shape, use the same friendly, specific explanation for
+				both reportError()'s HTTP 500 status text (what the client's jQuery error: handler
+				actually surfaces, per this codebase's established handleFail()/reportError()
+				convention in shared/js/shared-scripts.js) and the JSON envelope's own message
+				field, instead of the generic diagnostic used for a genuinely unexpected error --->
 			<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")
 					AND Find("ORA-00001: unique constraint (MCZBASE.U_BARCODE) violated",cfcatch.cause.message) GT 0>
 				<cfset local.clientMessage = "One or more of the identifiers/barcodes you're trying to create already exists (first failure at number #local.displayNumber#, identifier '#local.barcode#').">
+				<cfset local.error_message = local.clientMessage>
 			</cfif>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
 			<cfset local.retval = StructNew()>
 			<cfset local.retval["status"] = "error">
 			<cfset local.retval["message"] = local.clientMessage>

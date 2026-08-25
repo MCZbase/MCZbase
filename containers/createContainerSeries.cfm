@@ -230,6 +230,27 @@ limitations under the License.
 	}
 
 	/**
+	 * Extract a user-facing message from a failed createContainerSeries ajax call. A genuinely
+	 * unexpected server-side exception is reported via reportError() (shared/component/
+	 * error_handler.cfc), which surfaces its message through the HTTP status text rather than a
+	 * JSON body -- the same convention this codebase's shared handleFail() (shared/js/
+	 * shared-scripts.js) already relies on -- so read it from there, not by parsing the response.
+	 *
+	 * @param jqXHR the jqXHR object from an ajax error callback.
+	 * @param textStatus the textStatus value from an ajax error callback.
+	 * @return {string} a message suitable for display.
+	 */
+	function extractAjaxErrorMessage(jqXHR, textStatus) {
+		if (textStatus === 'timeout') {
+			return 'Server took too long to respond.';
+		}
+		if (jqXHR.statusText) {
+			return jqXHR.statusText;
+		}
+		return 'Unable to reach the server.';
+	}
+
+	/**
 	 * Enable/disable the Unique Identifier Prefix/Suffix inputs based on whether "Create PLACE
 	 * barcodes for Cryo Collection" is checked -- both are ignored server-side in PLACE mode.
 	 *
@@ -331,7 +352,7 @@ limitations under the License.
 				error: function(jqXHR, textStatus, error) {
 					$('##createSeriesButton').prop('disabled', false);
 					previewoutput.empty();
-					previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to preview container records: ' + textStatus));
+					previewoutput.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to preview container records: ' + extractAjaxErrorMessage(jqXHR, textStatus)));
 				}
 			});
 		});
@@ -403,7 +424,7 @@ limitations under the License.
 				error: function(jqXHR, textStatus, error) {
 					$('##createSeriesButton').prop('disabled', false);
 					feedback.empty();
-					feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to create container records: ' + textStatus));
+					feedback.append($('<div class="alert alert-danger py-1 px-2 small mb-0"></div>').text('Unable to create container records: ' + extractAjaxErrorMessage(jqXHR, textStatus)));
 				}
 			});
 		});
