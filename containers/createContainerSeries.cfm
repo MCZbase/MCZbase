@@ -235,7 +235,6 @@ limitations under the License.
 				}
 			});
 		});
-		});
 
 		$('##createSeriesButton').on('click', function() {
 			var feedback = $('##createSeriesFeedback');
