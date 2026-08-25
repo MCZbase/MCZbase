@@ -772,6 +772,12 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset local.function_called = "#GetFunctionCalledName()#">
 			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<!--- reportError() sets an HTTP 500 status for its own (unused here) rendered error
+				page; this is an anticipated, user-correctable failure returned as an ordinary JSON
+				body, not a genuine internal-server-error page, so reset the status back to 200 or
+				jQuery's ajax error: handler intercepts this response before its JSON body is ever
+				read --->
+			<cfheader statuscode="200" statustext="OK">
 			<cfset local.clientMessage = cfcatch.message>
 			<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")
 					AND Find("ORA-00001: unique constraint (MCZBASE.U_BARCODE) violated",cfcatch.cause.message) GT 0>
