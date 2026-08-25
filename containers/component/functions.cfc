@@ -758,7 +758,12 @@ Capped at 1000 containers per call to keep one request/transaction from running 
 			<cfset local.retval["parent_container_id"] = local.parentContainerId>
 			<cfset local.retval["parent_label"] = local.queryParent.label>
 			<cfset local.retval["parent_barcode"] = local.queryParent.barcode>
-			<cfset local.retval["placed_in_positions"] = arguments.place_in_positions>
+			<!--- force a genuine boolean rather than passing arguments.place_in_positions straight
+				through -- a boolean-typed argument populated from a posted "true"/"false" string
+				still carries that string internally, and serializeJSON() emits it as a JSON
+				string rather than a boolean literal, which JavaScript then treats as truthy
+				regardless of its text --->
+			<cfset local.retval["placed_in_positions"] = (arguments.place_in_positions EQ true)>
 			<cfset local.retval["first_position_label"] = local.firstPositionLabel>
 			<cfset local.retval["last_position_label"] = local.lastPositionLabel>
 			<cftransaction action="commit">
