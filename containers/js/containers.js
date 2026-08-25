@@ -3086,7 +3086,9 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					/* Collection objects are leaf-only results, while root-parent and
 					   institution-parent proxies are the two top-level orphan-table cases. */
 					var isTopLevelProxyTableRow = isProxy && (parentInfo.hasRootParent || parentInfo.hasInstitutionParent);
-					var canExplore = containerTypeKey !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
+					var isLeafRow = containerTypeKey === COLLECTION_OBJECT_CONTAINER_TYPE;
+					var canExplore = !isLeafRow && !isTopLevelProxyTableRow;
+					var parentContainerId = parseInt(row.parent_container_id, 10);
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
 					if (descText.length > MAX_DESCRIPTION_LENGTH) {
@@ -3126,6 +3128,23 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									exploreContainerInTree(cid, displayName, browsePanel, leafPanel, feedbackId);
 								})
 						);
+					} else if (isLeafRow) {
+						if (!isNaN(parentContainerId) && parentContainerId > 0) {
+							actionCell.append(
+								$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button"></button>')
+									.text('Explore Parent')
+									.attr('title', 'Explore this collection object’s parent container in the hierarchy')
+									.on('click', function() {
+										exploreContainerInTree(parentContainerId, 'parent of ' + displayName, browsePanel, leafPanel, feedbackId);
+									})
+							);
+						} else {
+							actionCell.append(
+								$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button" disabled></button>')
+									.text('Explore')
+									.attr('title', 'This collection object has no parent container to explore')
+							);
+						}
 					}
 					if (leafKids > 0 && !isProxy) {
 						actionCell.append(
