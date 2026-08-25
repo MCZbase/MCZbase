@@ -612,7 +612,7 @@ limitations under the License.
 			});
 			<cfif variables.positionRecordCount GT 0>
 				<cfoutput>
-				$('#changePositionsBtn').on('click', function() {
+				$('##changePositionsBtn').on('click', function() {
 					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(newNumberPositions) {
 						$('##number_positions').val(newNumberPositions);
 						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions);
