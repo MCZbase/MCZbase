@@ -81,6 +81,7 @@ limitations under the License.
 						<div class="d-flex align-items-center">
 							<input type="text" name="parent_container" id="parent_container" class="data-entry-input reqdClr flex-grow-1" required aria-required="true">
 							<button type="button" id="chooseParentContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
+							<a href="##" target="_blank" rel="noopener noreferrer" id="viewParentContainerBtn" class="btn btn-xs btn-info ml-1 d-none">View</a>
 						</div>
 						<div id="createSeriesParentFeedback" class="small mt-1" role="status"></div>
 						<div id="placeInPositionsRow" class="form-check mt-1 d-none">
@@ -166,9 +167,10 @@ limitations under the License.
 <cfoutput>
 <script>
 	/**
-	 * Look up the currently-selected parent container and show its type and position/occupancy
-	 * status under the Parent Container field, showing the "place into empty positions" checkbox
-	 * only when the parent actually has empty positions available.
+	 * Look up the currently-selected parent container and show its type, and its position/
+	 * occupancy status only when it actually declares positions, under the Parent Container
+	 * field; shows the "place into empty positions" checkbox only when empty positions exist;
+	 * updates the "View" button to link to that container's own details page.
 	 *
 	 * @return void
 	 */
@@ -176,12 +178,15 @@ limitations under the License.
 		var parentContainerId = $.trim($('##parent_container_id').val());
 		var infoDiv = $('##createSeriesParentFeedback');
 		var positionsRow = $('##placeInPositionsRow');
+		var viewBtn = $('##viewParentContainerBtn');
 		infoDiv.empty();
 		positionsRow.addClass('d-none');
 		$('##place_in_positions').prop('checked', false);
 		if (!parentContainerId) {
+			viewBtn.addClass('d-none');
 			return;
 		}
+		viewBtn.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(parentContainerId)).removeClass('d-none');
 		infoDiv.html('<img src="/shared/images/indicator.gif"> Loading container info...');
 		$.ajax({
 			url: '/containers/component/public.cfc',
@@ -193,7 +198,7 @@ limitations under the License.
 				container_id: parentContainerId
 			},
 			success: function(resp) {
-				var typeText = resp.container_type ? (resp.container_type + '. ') : '';
+				var infoText = resp.container_type || '';
 				var numberPositions = parseInt(resp.number_positions, 10) || 0;
 				if (numberPositions > 0) {
 					var emptyCount = 0;
@@ -202,19 +207,30 @@ limitations under the License.
 							emptyCount++;
 						}
 					});
-					infoDiv.text(typeText + numberPositions + ' position(s) declared, ' + emptyCount + ' empty.');
+					infoText += (infoText ? '. ' : '') + numberPositions + ' position(s) declared, ' + emptyCount + ' empty.';
 					if (emptyCount > 0) {
 						$('##placeInPositionsHint').text('Up to ' + emptyCount + ' empty position(s) available.');
 						positionsRow.removeClass('d-none');
 					}
-				} else {
-					infoDiv.text(typeText + 'No declared positions.');
 				}
+				infoDiv.text(infoText);
 			},
 			error: function() {
 				infoDiv.text('Unable to load container info.');
 			}
 		});
+	}
+
+	/**
+	 * Enable/disable the Unique Identifier Prefix/Suffix inputs based on whether "Create PLACE
+	 * barcodes for Cryo Collection" is checked -- both are ignored server-side in PLACE mode.
+	 *
+	 * @return void
+	 */
+	function updateCryoBarcodeFieldState() {
+		var isCryo = $('##cryo_barcode').is(':checked');
+		$('##prefix').prop('disabled', isCryo);
+		$('##suffix').prop('disabled', isCryo);
 	}
 
 	$(document).ready(function() {
@@ -235,6 +251,8 @@ limitations under the License.
 				}
 			});
 		});
+		$('##cryo_barcode').on('change', updateCryoBarcodeFieldState);
+		updateCryoBarcodeFieldState();
 		$('##previewSeriesButton').on('click', function() {
 			// TODO: Create preview of first and last barcodes in series, display in createSeriesPreview.
 			var feedback = $('##createSeriesFeedback');
