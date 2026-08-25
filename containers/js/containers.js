@@ -2488,6 +2488,11 @@ function openPositionsChangeDialog(containerId, onChanged) {
 		modal: true,
 		width: 420,
 		autoOpen: true,
+		buttons: {
+			Close: function() {
+				$(this).dialog('destroy');
+			}
+		},
 		open: function() {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({ 'z-index': maxZindex + 6 });
