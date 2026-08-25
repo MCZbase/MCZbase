@@ -342,11 +342,8 @@
 											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 										</cfif>
 									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_specimens") or listcontainsnocase(session.roles,"manage_container") )>
 										<a class="dropdown-item" href="/containers/Containers.cfm" target="_top">Find Storage Location/Container</a>
-									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
-										<a class="dropdown-item" href="/containers/Containers.cfm">Find Container (new)</a>
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
