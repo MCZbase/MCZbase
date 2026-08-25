@@ -3145,6 +3145,12 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 									.attr('title', 'This collection object has no parent container to explore')
 							);
 						}
+					} else {
+						actionCell.append(
+							$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button" disabled></button>')
+								.text('Explore')
+								.attr('title', 'This top-level orphan row is already shown in context; there is no hierarchy position to explore')
+						);
 					}
 					if (leafKids > 0 && !isProxy) {
 						actionCell.append(
