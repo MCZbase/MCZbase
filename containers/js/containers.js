@@ -1027,7 +1027,45 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
-				messageDialog('Error: ' + message, 'Error Saving Container');
+				if (resp.trimmable) {
+					// every excess position beyond the requested count is unoccupied -- offer to
+					// trim them and retry the same save automatically, instead of just naming the
+					// block and leaving the user to go find a "Trim" control on their own.
+					var trimContainerId = containerId;
+					var excessCount = parseInt(resp.excess_count, 10) || 0;
+					var trimNewCount = resp.new_count;
+					confirmDialog(
+						'Cannot reduce Number of Positions to ' + trimNewCount + ' -- ' + excessCount + ' empty position(s) beyond that count still exist. Trim them and save?',
+						'Trim Positions',
+						function() {
+							$.ajax({
+								url: '/containers/component/functions.cfc',
+								type: 'post',
+								dataType: 'json',
+								data: {
+									method: 'trimContainerPositions',
+									returnformat: 'json',
+									container_id: trimContainerId,
+									new_count: trimNewCount
+								},
+								success: function(trimResp) {
+									if (trimResp.status === 'trimmed') {
+										saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId);
+									} else {
+										setFeedbackControlState(feedbackId, 'error');
+										messageDialog('Error: ' + (trimResp.message || 'Unable to trim positions.'), 'Error Trimming Positions');
+									}
+								},
+								error: function(jqXHR, textStatus, error) {
+									setFeedbackControlState(feedbackId, 'error');
+									handleFail(jqXHR, textStatus, error, 'trimming container positions');
+								}
+							});
+						}
+					);
+				} else {
+					messageDialog('Error: ' + message, 'Error Saving Container');
+				}
 			}
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -2070,8 +2108,9 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  * Function renderCreatePositionsPrompt renders a "Create N Positions" button in place of an
  * empty positions grid, for a container that declares a non-zero number_positions but has no
  * container_type='position' children yet -- createContainerPositions only supports a handful of
- * known box/rack presets, so a failure response (e.g. "unsupported") is shown inline rather than
- * assumed to always succeed.
+ * known box/rack presets, so a non-"created" response is handled inline rather than assumed to
+ * always succeed: "unsupported" offers a columns count to lay out an arbitrary grid instead, and
+ * "exists" (the container already holds content directly, not via positions) offers Retrofit.
  * @param {number} numPositions - declared position count.
  * @param {string} targetDivId - id of the panel to render into.
  * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
@@ -2084,24 +2123,54 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 	var wrapper = $('<div></div>');
 	wrapper.append($('<p class="text-muted mb-2"></p>').text('This container declares ' + numPositions + ' positions, but none have been created yet.'));
 	var $errorDiv = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+	var $followUpDiv = $('<div class="mb-2"></div>');
 	var $createBtn = $('<button class="btn btn-xs btn-primary" type="button"></button>').text('Create ' + numPositions + ' Positions');
-	$createBtn.on('click', function() {
+
+	var refresh = function() {
+		loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
+	};
+
+	// shared by the "unsupported" (createContainerPositions) and "needs_columns"
+	// (retrofitContainerPositions) cases -- neither knows a physical layout for this
+	// type/count combination without an explicit columns count from the user.
+	var promptForColumns = function(onColumnsChosen) {
+		$followUpDiv.empty();
+		var $columnsInput = $('<input type="number" min="1" class="data-entry-input" style="width:5em;">').attr('aria-label', 'Number of columns');
+		var $columnsBtn = $('<button class="btn btn-xs btn-secondary ml-1" type="button"></button>').text('Continue');
+		$columnsBtn.on('click', function() {
+			var columns = parseInt($columnsInput.val(), 10);
+			if (!columns || columns < 1) {
+				$errorDiv.text('Enter a positive number of columns.').removeClass('d-none');
+				return;
+			}
+			onColumnsChosen(columns);
+		});
+		$followUpDiv.append($('<label class="mr-1"></label>').text('Columns:')).append($columnsInput).append($columnsBtn);
+	};
+
+	var createPositions = function(columns) {
 		$createBtn.prop('disabled', true);
 		$errorDiv.addClass('d-none').text('');
+		var data = { method: 'createContainerPositions', container_id: containerId };
+		if (columns) {
+			data.columns = columns;
+		}
 		$.ajax({
 			url: '/containers/component/functions.cfc',
 			method: 'POST',
-			data: {
-				method: 'createContainerPositions',
-				container_id: containerId
-			},
+			data: data,
 			dataType: 'json',
 			success: function(result) {
+				$createBtn.prop('disabled', false);
 				if (result.status === 'created') {
-					loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
-				} else {
-					$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
-					$createBtn.prop('disabled', false);
+					refresh();
+					return;
+				}
+				$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
+				if (result.status === 'unsupported') {
+					promptForColumns(createPositions);
+				} else if (result.status === 'exists') {
+					offerRetrofit();
 				}
 			},
 			error: function(jqXHR, textStatus, error) {
@@ -2109,9 +2178,144 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 				$createBtn.prop('disabled', false);
 			}
 		});
+	};
+
+	var retrofitPositions = function(columns) {
+		$errorDiv.addClass('d-none').text('');
+		var data = { method: 'retrofitContainerPositions', container_id: containerId };
+		if (columns) {
+			data.columns = columns;
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			method: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result) {
+				if (result.status === 'retrofitted') {
+					refresh();
+					return;
+				}
+				$errorDiv.text(result.message || 'Unable to retrofit positions.').removeClass('d-none');
+				if (result.status === 'needs_columns') {
+					promptForColumns(retrofitPositions);
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'retrofitting container positions');
+			}
+		});
+	};
+
+	var offerRetrofit = function() {
+		$followUpDiv.empty();
+		var $retrofitBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Retrofit Existing Contents into Positions');
+		$retrofitBtn.on('click', function() {
+			confirmDialog(
+				'This will create ' + numPositions + ' position container(s) and move this container\'s existing numbered contents into the matching position. Continue?',
+				'Retrofit into Positions',
+				function() {
+					retrofitPositions();
+				}
+			);
+		});
+		$followUpDiv.append($retrofitBtn);
+	};
+
+	$createBtn.on('click', function() {
+		$followUpDiv.empty();
+		createPositions();
 	});
-	wrapper.append($createBtn).append($errorDiv);
+	wrapper.append($createBtn).append($errorDiv).append($followUpDiv);
 	target.html(wrapper);
+}
+
+/**
+ * Function buildPositionsActionsToolbar renders the Grow/Reset controls shown above an existing
+ * positions grid (Trim has no independent entry point here -- it's only ever offered as
+ * saveContainerForm's own follow-up when its reduction guard blocks on Container.cfm).
+ * @param {number} numPositions - declared position count, used only for the Reset confirm text.
+ * @param {string} targetDivId - id of the panel whose grid should be reloaded after Grow/Reset.
+ * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
+ * @param {number|string} containerId - container_id whose positions are being managed.
+ * @param {boolean} canEditPositions - forwarded to the grid reload.
+ * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
+ * @return {jQuery} the assembled toolbar element, not yet inserted into the document.
+ */
+function buildPositionsActionsToolbar(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
+	var toolbar = $('<div class="positions-actions-toolbar mb-2 d-flex align-items-center flex-wrap"></div>');
+	var $growError = $('<div class="small text-danger w-100 d-none" role="alert"></div>');
+
+	var $growInput = $('<input type="number" min="1" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
+	var $growBtn = $('<button class="btn btn-xs btn-secondary mr-2" type="button"></button>').text('Grow');
+	$growBtn.on('click', function() {
+		var additionalCount = parseInt($growInput.val(), 10);
+		if (!additionalCount || additionalCount < 1) {
+			$growError.text('Enter a positive number of positions to add.').removeClass('d-none');
+			return;
+		}
+		$growBtn.prop('disabled', true);
+		$growError.addClass('d-none').text('');
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				method: 'growContainerPositions',
+				returnformat: 'json',
+				container_id: containerId,
+				additional_count: additionalCount
+			},
+			success: function(result) {
+				$growBtn.prop('disabled', false);
+				if (result.status === 'created') {
+					loadPositionsGrid(containerId, result.number_positions, targetDivId, feedbackId, canEditPositions, headingId);
+				} else {
+					$growError.text(result.message || 'Unable to grow positions.').removeClass('d-none');
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				$growBtn.prop('disabled', false);
+				handleFail(jqXHR, textStatus, error, 'growing container positions');
+			}
+		});
+	});
+
+	var $resetBtn = $('<button class="btn btn-xs btn-warning" type="button"></button>').text('Reset Positions');
+	$resetBtn.on('click', function() {
+		confirmDialog(
+			'This will permanently delete all ' + numPositions + ' position record(s) for this container and clear its Number of Positions, only if none are currently occupied. Continue?',
+			'Reset Positions',
+			function() {
+				$resetBtn.prop('disabled', true);
+				$.ajax({
+					url: '/containers/component/functions.cfc',
+					type: 'post',
+					dataType: 'json',
+					data: {
+						method: 'resetContainerPositions',
+						returnformat: 'json',
+						container_id: containerId
+					},
+					success: function(result) {
+						$resetBtn.prop('disabled', false);
+						if (result.status === 'reset') {
+							loadPositionsGrid(containerId, 0, targetDivId, feedbackId, canEditPositions, headingId);
+						} else {
+							messageDialog('Error: ' + (result.message || 'Unable to reset positions.'), 'Error Resetting Positions');
+						}
+					},
+					error: function(jqXHR, textStatus, error) {
+						$resetBtn.prop('disabled', false);
+						handleFail(jqXHR, textStatus, error, 'resetting container positions');
+					}
+				});
+			}
+		);
+	});
+
+	toolbar.append($('<label class="mr-1 mb-0"></label>').text('Add:')).append($growInput).append($growBtn).append($resetBtn).append($growError);
+	return toolbar;
 }
 
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
@@ -2132,6 +2336,9 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		}
 		return;
 	}
+	var actionsToolbar = canEditPositions
+		? buildPositionsActionsToolbar(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId)
+		: null;
 	if (!layoutClass) {
 		var tbody = $('<tbody></tbody>');
 		$.each(positions, function(i, position) {
@@ -2196,7 +2403,11 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		var table = $('<table class="table table-sm table-striped positions-grid-fallback"></table>');
 		table.append('<thead><tr><th>Position</th><th>Occupant</th><th>Occupant Type</th><th>Actions</th></tr></thead>');
 		table.append(tbody);
-		target.html(table);
+		target.empty();
+		if (actionsToolbar) {
+			target.append(actionsToolbar);
+		}
+		target.append(table);
 		return;
 	}
 	var wrapper = $('<div class="positions-grid-wrapper"></div>');
@@ -2279,7 +2490,11 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 		}
 	});
 	wrapper.append(grid);
-	target.html(wrapper);
+	target.empty();
+	if (actionsToolbar) {
+		target.append(actionsToolbar);
+	}
+	target.append(wrapper);
 }
 
 /**

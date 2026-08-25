@@ -352,7 +352,35 @@ Function saveContainer.  Updates an existing container record.
 						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #local.newNumberPositionsValue# -- #local.occupiedBeyondCount# of the #queryPositionsBeyondNewCount.recordcount# position(s) beyond that count currently hold something. Move or remove their contents first.">
 					<cfelse>
 						<cfset local.retval["message"] = "Cannot reduce Number of Positions to #local.newNumberPositionsValue# -- #queryPositionsBeyondNewCount.recordcount# position record(s) beyond that count already exist (though currently empty). Number of Positions must stay at or above the highest existing position.">
+						<!--- every excess position is unoccupied -- trimContainerPositions can fix this
+							directly, so surface the pieces the client needs to offer that follow-up
+							without a second round-trip to re-derive the same information --->
+						<cfset local.retval["trimmable"] = true>
+						<cfset local.retval["excess_count"] = queryPositionsBeyondNewCount.recordcount>
+						<cfset local.retval["new_count"] = local.newNumberPositionsValue>
 					</cfif>
+					<cfreturn serializeJSON(local.retval)>
+				</cfif>
+			</cfif>
+
+			<!--- Symmetric guard against growing number_positions once real position records already
+				exist -- an unguarded increase here would leave new "phantom" position numbers with
+				no corresponding created position container, the same declared-count/actual-rows
+				mismatch the guard above already prevents in the other direction. Only runs when the
+				new value is actually higher than what's stored and at least one position record
+				already exists; a container that declares a count but has no position rows yet (its
+				normal state before createContainerPositions has ever run) stays freely editable
+				either direction -- use growContainerPositions instead once positions exist. --->
+			<cfif NOT lockedRoot AND local.newNumberPositionsValue GT local.existingNumberPositions>
+				<cfquery name="queryExistingPositionCount" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT COUNT(*) AS c
+					FROM container
+					WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+						AND container_type = 'position'
+				</cfquery>
+				<cfif queryExistingPositionCount.c GT 0>
+					<cfset local.retval["status"] = "error">
+					<cfset local.retval["message"] = "Cannot increase Number of Positions to #local.newNumberPositionsValue# once position records already exist -- use Grow Positions instead.">
 					<cfreturn serializeJSON(local.retval)>
 				</cfif>
 			</cfif>
@@ -417,23 +445,94 @@ Function saveContainer.  Updates an existing container record.
 </cffunction>
 
 <!---
-Function createContainerPositions. Bulk-creates the position sub-containers for a container
-whose number_positions/container_type is one of a handful of known box/rack presets with
-established physical dimensions (matching the retired containerPositions.cfm's "Create all
-new positions" action, and the same 5 presets containers.js's positions-grid layout already
-special-cases: 25/81/100-position freezer boxes, 33/48-position freezers). Refuses for any
-other type/count combination, since there's no known physical dimension to give the created
-positions -- and refuses if the container already has any children at all, since positions
-can only be bulk-created once, before anything has been placed in the box (this also means
-there is currently no way to add more positions to a container that already has some; see
-Redmine #817 phase 5 notes). Each position is labeled with the bare position number, and given
-a barcode built from the parent's own barcode plus an underscore plus that number when the
-parent has one.
+Function insertPositionRows.  Internal helper -- inserts a run of container_type='position'
+children under a parent, numbered sequentially starting at start_number. Not access="remote";
+callers (createContainerPositions, growContainerPositions, retrofitContainerPositions) each wrap
+their own <cftransaction> around this.
+@param container_id the parent container_id the new positions belong to.
+@param position_type the container_type to assign to each new position (usually "position").
+@param count how many position rows to insert.
+@param start_number the label number of the first row inserted; each subsequent row increments by 1.
+@param width position slot width, or blank when unknown.
+@param height position slot height, or blank when unknown.
+@param length position slot length, or blank when unknown.
+@param barcode_prefix prepended to each row's label to build its barcode; blank for no barcode.
+@param institution_acronym institution_acronym to assign to each new position.
+@return an array of the inserted container_ids, in label order.
+--->
+<cffunction name="insertPositionRows" access="public" returntype="array" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="position_type" type="string" required="yes">
+	<cfargument name="count" type="numeric" required="yes">
+	<cfargument name="start_number" type="numeric" required="yes">
+	<cfargument name="width" type="string" required="no" default="">
+	<cfargument name="height" type="string" required="no" default="">
+	<cfargument name="length" type="string" required="no" default="">
+	<cfargument name="barcode_prefix" type="string" required="no" default="">
+	<cfargument name="institution_acronym" type="string" required="yes">
+
+	<cfset local.insertedIds = ArrayNew(1)>
+	<cfloop from="1" to="#arguments.count#" index="local.i">
+		<cfset local.positionNumber = arguments.start_number + local.i - 1>
+		<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT sq_container_id.nextval AS next_container_id FROM dual
+		</cfquery>
+		<cfquery name="local.queryInsertPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			INSERT INTO container (
+				container_id,
+				parent_container_id,
+				container_type,
+				label,
+				barcode,
+				parent_install_date,
+				width,
+				height,
+				length,
+				number_positions,
+				locked_position,
+				institution_acronym
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.position_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionNumber#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.barcode_prefix##local.positionNumber#" null="#len(arguments.barcode_prefix) EQ 0#">,
+				sysdate,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.width#" null="#len(trim(arguments.width)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.height#" null="#len(trim(arguments.height)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#arguments.length#" null="#len(trim(arguments.length)) EQ 0#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">,
+				<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.institution_acronym#">
+			)
+		</cfquery>
+		<cfset ArrayAppend(local.insertedIds, local.queryNextId.next_container_id)>
+	</cfloop>
+	<cfreturn local.insertedIds>
+</cffunction>
+
+<!---
+Function createContainerPositions. Bulk-creates the position sub-containers for a container,
+either using one of a handful of known box/rack presets with established physical dimensions
+(matching the retired containerPositions.cfm's "Create all new positions" action, and the same 5
+presets containers.js's positions-grid layout already special-cases: 25/81/100-position freezer
+boxes, 33/48-position freezers), or -- when an explicit columns count is supplied -- an arbitrary
+grid shape for a type/count combination that isn't one of those presets, with no known slot
+dimensions (left blank). Refuses if the container already has any children at all, since positions
+can only be bulk-created once, before anything has been placed in the box -- see
+growContainerPositions to add more later, or retrofitContainerPositions when the container already
+holds content directly instead of via positions. Each position is labeled with the bare position
+number, and given a barcode built from the parent's own barcode plus an underscore plus that
+number when the parent has one.
 @param container_id the empty box/rack to populate with position sub-containers.
+@param columns optional; for a type/count combination that isn't a known preset, the number of
+	columns to lay the positions out in (rows derived as ceil(number_positions/columns)). Ignored
+	for a known preset, which already has an established layout.
 @return a JSON object: {status: "created"|"exists"|"unsupported"|"error", message, count}.
 --->
 <cffunction name="createContainerPositions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="columns" type="string" required="no" default="">
 
 	<cfset local.retval = StructNew()>
 	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -450,9 +549,9 @@ parent has one.
 	<cfset local.numberPositions = val(local.queryContainer.number_positions)>
 	<cfset local.containerType = local.queryContainer.container_type>
 	<cfset local.positionType = "">
-	<cfset local.positionWidth = 0>
-	<cfset local.positionHeight = 0>
-	<cfset local.positionLength = 0>
+	<cfset local.positionWidth = "">
+	<cfset local.positionHeight = "">
+	<cfset local.positionLength = "">
 	<!--- known (number_positions, container_type) presets and their position slots' physical
 		dimensions -- the same boundary containers.js's layoutClassMap already assumes for grid
 		display, and the exact set the legacy containerPositions.cfm supported --->
@@ -467,9 +566,14 @@ parent has one.
 	<cfelseif local.numberPositions EQ 33 AND local.containerType EQ "freezer">
 		<cfset local.positionType = "position"><cfset local.positionWidth = 14><cfset local.positionLength = 14><cfset local.positionHeight = 80>
 	</cfif>
+	<cfif len(local.positionType) EQ 0 AND isNumeric(arguments.columns) AND val(arguments.columns) GT 0>
+		<!--- no known preset, but the caller supplied an explicit column count -- lay out an
+			arbitrary grid shape with no known slot dimensions rather than refusing --->
+		<cfset local.positionType = "position">
+	</cfif>
 	<cfif len(local.positionType) EQ 0>
 		<cfset local.retval["status"] = "unsupported">
-		<cfset local.retval["message"] = "Don't know the physical dimensions for #local.numberPositions# positions in a '#local.containerType#' -- positions can only be auto-created for known box/rack types. Submit a bug report to request an additional type.">
+		<cfset local.retval["message"] = "Don't know the physical dimensions for #local.numberPositions# positions in a '#local.containerType#' -- provide a columns count to lay out an arbitrary grid, or submit a bug report to request a known preset for this type.">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
@@ -480,7 +584,7 @@ parent has one.
 	</cfquery>
 	<cfif local.queryExistingChildren.c GT 0>
 		<cfset local.retval["status"] = "exists">
-		<cfset local.retval["message"] = "This container already has #local.queryExistingChildren.c# item(s) in it -- positions can only be auto-created for a container that's still completely empty.">
+		<cfset local.retval["message"] = "This container already has #local.queryExistingChildren.c# item(s) in it -- positions can only be auto-created for a container that's still completely empty. Use Retrofit instead to wrap this container's existing contents into positions.">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 
@@ -502,42 +606,411 @@ parent has one.
 
 	<cftransaction>
 		<cftry>
-			<cfloop from="1" to="#local.numberPositions#" index="local.i">
-				<cfquery name="local.queryNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT sq_container_id.nextval AS next_container_id FROM dual
-				</cfquery>
-				<cfquery name="local.queryInsertPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					INSERT INTO container (
-						container_id,
-						parent_container_id,
-						container_type,
-						label,
-						barcode,
-						parent_install_date,
-						width,
-						height,
-						length,
-						number_positions,
-						locked_position,
-						institution_acronym
-					) VALUES (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.queryNextId.next_container_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionType#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.i#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.positionBarcodePrefix##local.i#" null="#len(local.positionBarcodePrefix) EQ 0#">,
-						sysdate,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionWidth#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionHeight#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="4" value="#local.positionLength#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">,
-						<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.institutionAcronym#">
-					)
-				</cfquery>
-			</cfloop>
+			<cfset insertPositionRows(container_id=arguments.container_id, position_type=local.positionType, count=local.numberPositions, start_number=1, width=local.positionWidth, height=local.positionHeight, length=local.positionLength, barcode_prefix=local.positionBarcodePrefix, institution_acronym=local.institutionAcronym)>
 			<cfset local.retval["status"] = "created">
 			<cfset local.retval["count"] = local.numberPositions>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function growContainerPositions. Adds more position sub-containers to a container that already
+has some, inferring the new positions' width/height/length from an existing sibling position row
+rather than the fixed preset table createContainerPositions uses (so growing isn't limited to the
+same 5 known box/rack types), continuing the numeric label sequence from the current highest
+existing label, and bumping number_positions to match. Safe regardless of occupancy since nothing
+existing is touched.
+@param container_id the container to add more positions to.
+@param additional_count how many new position rows to add.
+@return a JSON object: {status: "created"|"error", message, count, number_positions}.
+--->
+<cffunction name="growContainerPositions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="additional_count" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfif NOT isNumeric(arguments.additional_count) OR val(arguments.additional_count) LT 1>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Number to add must be a positive number.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.additionalCount = val(arguments.additional_count)>
+
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT number_positions, institution_acronym, barcode
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.querySibling" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT width, height, length
+		FROM (
+			SELECT width, height, length
+			FROM container
+			WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+				AND container_type = 'position'
+			ORDER BY container_id
+		)
+		WHERE ROWNUM = 1
+	</cfquery>
+	<cfif local.querySibling.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container has no existing positions to grow from -- use Create Positions first.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.queryHighestLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT MAX(CASE WHEN REGEXP_LIKE(label, '^[0-9]+$') THEN TO_NUMBER(label) END) AS highest_label
+		FROM container
+		WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			AND container_type = 'position'
+	</cfquery>
+	<cfset local.startNumber = val(local.queryHighestLabel.highest_label) + 1>
+
+	<cfset local.positionBarcodePrefix = "">
+	<cfif len(trim(local.queryContainer.barcode)) GT 0>
+		<cfset local.positionBarcodePrefix = "#trim(local.queryContainer.barcode)#_">
+	</cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfset insertPositionRows(container_id=arguments.container_id, position_type="position", count=local.additionalCount, start_number=local.startNumber, width=local.querySibling.width, height=local.querySibling.height, length=local.querySibling.length, barcode_prefix=local.positionBarcodePrefix, institution_acronym=trim(local.queryContainer.institution_acronym))>
+			<cfset local.newNumberPositions = val(local.queryContainer.number_positions) + local.additionalCount>
+			<cfquery name="local.queryUpdateCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				UPDATE container
+				SET number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newNumberPositions#">
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfset local.retval["status"] = "created">
+			<cfset local.retval["count"] = local.additionalCount>
+			<cfset local.retval["number_positions"] = local.newNumberPositions>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function trimContainerPositions. Shrinks a container's declared number_positions by deleting the
+empty excess position rows beyond the new count -- offered as saveContainer's own reduction
+guard's follow-up action when every excess position is unoccupied. Blocks outright, touching
+nothing, if even one of the excess positions is occupied.
+@param container_id the container whose excess positions should be removed.
+@param new_count the number_positions value to reduce to.
+@return a JSON object: {status: "trimmed"|"blocked"|"error", message, removed_count, number_positions}.
+--->
+<cffunction name="trimContainerPositions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="new_count" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfif NOT isNumeric(arguments.new_count) OR val(arguments.new_count) LT 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "New count must be zero or a positive number.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.newCount = val(arguments.new_count)>
+
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT number_positions
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif local.newCount GTE val(local.queryContainer.number_positions)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "New count must be less than the current Number of Positions.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.queryExcess" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			pos.container_id,
+			pos.label,
+			(SELECT COUNT(*) FROM container occ WHERE occ.parent_container_id = pos.container_id) AS occupant_count
+		FROM container pos
+		WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			AND pos.container_type = 'position'
+			AND REGEXP_LIKE(pos.label, '^[0-9]+$')
+			AND TO_NUMBER(pos.label) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newCount#">
+	</cfquery>
+	<cfset local.occupiedLabels = ArrayNew(1)>
+	<cfloop query="local.queryExcess">
+		<cfif val(local.queryExcess.occupant_count) GT 0>
+			<cfset ArrayAppend(local.occupiedLabels, local.queryExcess.label)>
+		</cfif>
+	</cfloop>
+	<cfif ArrayLen(local.occupiedLabels) GT 0>
+		<cfset local.retval["status"] = "blocked">
+		<cfset local.retval["message"] = "Cannot trim -- position(s) #ArrayToList(local.occupiedLabels, ', ')# are occupied. Move their contents first.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfset local.removedCount = local.queryExcess.recordcount>
+			<cfquery name="local.queryDeleteExcess" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				DELETE FROM container
+				WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					AND container_type = 'position'
+					AND REGEXP_LIKE(label, '^[0-9]+$')
+					AND TO_NUMBER(label) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newCount#">
+			</cfquery>
+			<cfquery name="local.queryUpdateCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				UPDATE container
+				SET number_positions = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newCount#">
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfset local.retval["status"] = "trimmed">
+			<cfset local.retval["removed_count"] = local.removedCount>
+			<cfset local.retval["number_positions"] = local.newCount>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function resetContainerPositions. Deletes every position sub-container of a container, only when
+none of them are occupied, returning it to a truly empty state -- for undoing a wrong preset/count
+choice before the box has ever actually been used. Also clears number_positions back to blank,
+since the point is to go back to Container.cfm, correct the value, and create positions again with
+the right one -- deleting the rows alone would already satisfy createContainerPositions's own
+"zero children" guard, but leaving the same wrong count in place would just recreate the same
+mistake.
+@param container_id the container whose position sub-containers should all be removed.
+@return a JSON object: {status: "reset"|"blocked"|"error", message, removed_count}.
+--->
+<cffunction name="resetContainerPositions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container_id
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfquery name="local.queryPositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			pos.container_id,
+			pos.label,
+			(SELECT COUNT(*) FROM container occ WHERE occ.parent_container_id = pos.container_id) AS occupant_count
+		FROM container pos
+		WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			AND pos.container_type = 'position'
+	</cfquery>
+	<cfif local.queryPositions.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container has no position records to reset.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.occupiedLabels = ArrayNew(1)>
+	<cfloop query="local.queryPositions">
+		<cfif val(local.queryPositions.occupant_count) GT 0>
+			<cfset ArrayAppend(local.occupiedLabels, local.queryPositions.label)>
+		</cfif>
+	</cfloop>
+	<cfif ArrayLen(local.occupiedLabels) GT 0>
+		<cfset local.retval["status"] = "blocked">
+		<cfset local.retval["message"] = "Cannot reset -- position(s) #ArrayToList(local.occupiedLabels, ', ')# are occupied. Move their contents first.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfset local.removedCount = local.queryPositions.recordcount>
+			<cfquery name="local.queryDeletePositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				DELETE FROM container
+				WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					AND container_type = 'position'
+			</cfquery>
+			<cfquery name="local.queryClearCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				UPDATE container
+				SET number_positions = NULL
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfset local.retval["status"] = "reset">
+			<cfset local.retval["removed_count"] = local.removedCount>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
+Function retrofitContainerPositions. Wraps a container's existing direct (non-position) children
+into newly-created position sub-containers, matching numbering -- for a fixture that declares
+number_positions but holds its content directly instead of via positions (found via a real
+fixture: 11 declared positions, but 10 numbered compartments sitting as direct children rather
+than inside position containers). For each target position number 1..N: if an existing direct
+child's own label matches that number, creates a new position container and reparents the
+existing child underneath it (a plain parent_container_id update -- whatever that child already
+contains moves with it, untouched); otherwise just creates an empty position there. Any existing
+direct child that doesn't match any target number is left alone. Deliberately bypasses
+createContainerPositions's "must have zero children" guard, since a fixture already holding
+un-positioned content is exactly the scenario this exists for. Refuses if this container already
+has position records -- retrofit is only for one that hasn't created any yet.
+@param container_id the container whose direct children should be wrapped into positions.
+@param columns optional; for a type/count combination that isn't a known preset, the number of
+	columns to lay the positions out in. Ignored for a known preset.
+@return a JSON object: {status: "retrofitted"|"needs_columns"|"error", message, positions_created,
+	children_reparented}.
+--->
+<cffunction name="retrofitContainerPositions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="columns" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+	<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container_type, number_positions, institution_acronym, barcode
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+	</cfquery>
+	<cfif local.queryContainer.recordcount EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.numberPositions = val(local.queryContainer.number_positions)>
+	<cfif local.numberPositions LT 1>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container has no declared Number of Positions to retrofit.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.containerType = local.queryContainer.container_type>
+
+	<cfquery name="local.queryExistingPositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT COUNT(*) AS c
+		FROM container
+		WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			AND container_type = 'position'
+	</cfquery>
+	<cfif local.queryExistingPositions.c GT 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container already has position records -- retrofit is only for a container that hasn't created any positions yet.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<!--- same known-preset lookup createContainerPositions uses --->
+	<cfset local.positionType = "">
+	<cfset local.positionWidth = "">
+	<cfset local.positionHeight = "">
+	<cfset local.positionLength = "">
+	<cfif local.numberPositions EQ 100 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 81 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 25 AND local.containerType EQ "freezer box">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
+	<cfelseif local.numberPositions EQ 48 AND local.containerType EQ "freezer">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 14><cfset local.positionLength = 14><cfset local.positionHeight = 80>
+	<cfelseif local.numberPositions EQ 33 AND local.containerType EQ "freezer">
+		<cfset local.positionType = "position"><cfset local.positionWidth = 14><cfset local.positionLength = 14><cfset local.positionHeight = 80>
+	</cfif>
+	<cfif len(local.positionType) EQ 0 AND isNumeric(arguments.columns) AND val(arguments.columns) GT 0>
+		<cfset local.positionType = "position">
+	</cfif>
+	<cfif len(local.positionType) EQ 0>
+		<cfset local.retval["status"] = "needs_columns">
+		<cfset local.retval["message"] = "Don't know the physical dimensions for #local.numberPositions# positions in a '#local.containerType#' -- provide a columns count to lay out an arbitrary grid.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cfset local.institutionAcronym = trim(local.queryContainer.institution_acronym)>
+	<cfif len(local.institutionAcronym) EQ 0>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "This container has no institution acronym set -- can't create positions.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.positionBarcodePrefix = "">
+	<cfif len(trim(local.queryContainer.barcode)) GT 0>
+		<cfset local.positionBarcodePrefix = "#trim(local.queryContainer.barcode)#_">
+	</cfif>
+
+	<cfquery name="local.queryDirectChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT container_id, label
+		FROM container
+		WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			AND container_type <> 'position'
+			AND REGEXP_LIKE(TRIM(label), '^[0-9]+$')
+	</cfquery>
+	<cfset local.childByNumber = StructNew()>
+	<cfloop query="local.queryDirectChildren">
+		<cfset local.childByNumber[val(trim(local.queryDirectChildren.label))] = local.queryDirectChildren.container_id>
+	</cfloop>
+
+	<cftransaction>
+		<cftry>
+			<cfset local.positionsCreated = 0>
+			<cfset local.childrenReparented = 0>
+			<cfloop from="1" to="#local.numberPositions#" index="local.i">
+				<cfset local.newPositionIds = insertPositionRows(container_id=arguments.container_id, position_type=local.positionType, count=1, start_number=local.i, width=local.positionWidth, height=local.positionHeight, length=local.positionLength, barcode_prefix=local.positionBarcodePrefix, institution_acronym=local.institutionAcronym)>
+				<cfset local.positionsCreated = local.positionsCreated + 1>
+				<cfif structKeyExists(local.childByNumber, local.i)>
+					<cfquery name="local.queryReparentChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+						UPDATE container
+						SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPositionIds[1]#">
+						WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.childByNumber[local.i]#">
+					</cfquery>
+					<cfset local.childrenReparented = local.childrenReparented + 1>
+				</cfif>
+			</cfloop>
+			<cfset local.retval["status"] = "retrofitted">
+			<cfset local.retval["positions_created"] = local.positionsCreated>
+			<cfset local.retval["children_reparented"] = local.childrenReparented>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
