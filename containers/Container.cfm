@@ -237,16 +237,19 @@ limitations under the License.
 <cfoutput>
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
-			<cfif variables.action EQ "edit">
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
-				<script>
-					$(document).ready(function () {
-						$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
-					});
-				</script>
-			<cfelse>
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
-			</cfif>
+			<div class="d-flex justify-content-between align-items-center flex-wrap">
+				<cfif variables.action EQ "edit">
+					<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
+					<script>
+						$(document).ready(function () {
+							$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
+						});
+					</script>
+					<a class="btn btn-xs btn-info" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
+				<cfelse>
+					<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
+				</cfif>
+			</div>
 			<cfif variables.action EQ "edit">
 				<!--- This section is populated via an ajax call to the showContainerBreadcrumb() function in the script below as the backing method returns json --->
 				<section class="mb-0" aria-label="Container breadcrumb trail">
@@ -430,7 +433,6 @@ limitations under the License.
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
 							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
-							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
