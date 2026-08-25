@@ -230,27 +230,6 @@ limitations under the License.
 	}
 
 	/**
-	 * Extract a user-facing message from a failed createContainerSeries ajax call. A genuinely
-	 * unexpected server-side exception is reported via reportError() (shared/component/
-	 * error_handler.cfc), which surfaces its message through the HTTP status text rather than a
-	 * JSON body -- the same convention this codebase's shared handleFail() (shared/js/
-	 * shared-scripts.js) already relies on -- so read it from there, not by parsing the response.
-	 *
-	 * @param jqXHR the jqXHR object from an ajax error callback.
-	 * @param textStatus the textStatus value from an ajax error callback.
-	 * @return {string} a message suitable for display.
-	 */
-	function extractAjaxErrorMessage(jqXHR, textStatus) {
-		if (textStatus === 'timeout') {
-			return 'Server took too long to respond.';
-		}
-		if (jqXHR.statusText) {
-			return jqXHR.statusText;
-		}
-		return 'Unable to reach the server.';
-	}
-
-	/**
 	 * Enable/disable the Unique Identifier Prefix/Suffix inputs based on whether "Create PLACE
 	 * barcodes for Cryo Collection" is checked -- both are ignored server-side in PLACE mode.
 	 *
