@@ -216,6 +216,7 @@ limitations under the License.
 				},
 				success: function(resp) {
 					feedback.empty();
+					previewoutput.empty();
 					if (resp.status === 'created') {
 						var parentLink = $('<a target="_blank"></a>')
 							.attr('href', '/containers/Containers.cfm?barcode=' + encodeURIComponent('=' + resp.parent_barcode) + '&execute=true')
