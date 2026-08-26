@@ -913,7 +913,10 @@ has position records -- retrofit is only for one that hasn't created any yet.
 @param columns optional; for a type/count combination that isn't a known preset, the number of
 	columns to lay the positions out in. Ignored for a known preset.
 @return a JSON object: {status: "retrofitted"|"needs_columns"|"error", message, positions_created,
-	children_reparented}.
+	children_found, children_reparented} -- children_found is every non-position direct child
+	examined (not just the ones that matched a position number), so the caller can tell the user
+	how many still need manual placement (children_found - children_reparented) rather than
+	silently leaving them wherever they already are.
 --->
 <cffunction name="retrofitContainerPositions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -1028,6 +1031,7 @@ has position records -- retrofit is only for one that hasn't created any yet.
 			</cfloop>
 			<cfset local.retval["status"] = "retrofitted">
 			<cfset local.retval["positions_created"] = local.positionsCreated>
+			<cfset local.retval["children_found"] = local.queryDirectChildren.recordcount>
 			<cfset local.retval["children_reparented"] = local.childrenReparented>
 			<cftransaction action="commit">
 		<cfcatch>

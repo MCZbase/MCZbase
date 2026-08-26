@@ -2336,6 +2336,20 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 			dataType: 'json',
 			success: function(result) {
 				if (result.status === 'retrofitted') {
+					var childrenFound = parseInt(result.children_found, 10) || 0;
+					var childrenReparented = parseInt(result.children_reparented, 10) || 0;
+					var childrenUnmatched = childrenFound - childrenReparented;
+					var summary = 'Created ' + result.positions_created + ' position(s).';
+					if (childrenFound > 0) {
+						summary += ' Placed ' + childrenReparented + ' of ' + childrenFound + ' existing item(s) into their matching position automatically.';
+					}
+					if (childrenUnmatched > 0) {
+						// no trailing digits found in that item's label or barcode to match it to a
+						// position number -- nothing left to guess, so it stays where it is until
+						// someone moves it by hand.
+						summary += ' ' + childrenUnmatched + ' item(s) had no recognizable position number in their label or barcode and were left in place -- find the still-empty position(s) below and use its "Place…" button to move each one in manually.';
+					}
+					messageDialog(summary, 'Retrofit Complete');
 					refresh();
 					return;
 				}
