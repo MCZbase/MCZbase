@@ -120,8 +120,9 @@ limitations under the License.
 		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
 		<cfset variables.currentContainerIsEmpty = (val(getContainer.direct_structural_children) + val(getContainer.direct_leaf_children)) EQ 0>
 		<div class="btn-toolbar pt-1" role="toolbar" aria-label="Container actions">
+			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
+			<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
 			<cfif variables.canEditContainers>
-				<a class="btn btn-xs btn-primary mr-1 mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
 				<cfif NOT variables.isProxyOrLeafType>
 					<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(getContainer.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
 					<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(getContainer.container_id)#, '#encodeForJavaScript(variables.pageTitleDisplay)#', '#encodeForJavaScript(getContainer.institution_acronym)#', 'containerViewFeedback', 'containerContentsSection_page');">Place Child into this Container</a>
@@ -140,9 +141,8 @@ limitations under the License.
 						</cfif>
 					>Place Part into this Container</a>
 				</cfif>
+				<a class="btn btn-xs btn-primary mb-1" href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForURL(getContainer.container_id)#">Edit Container</a>
 			</cfif>
-			<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#&amp;execute=true">Browse in Hierarchy</a>
-			<a class="btn btn-xs btn-secondary mb-1" href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForURL(getContainer.container_id)#">Leaf Nodes</a>
 		</div>
 	</div>
 
