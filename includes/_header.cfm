@@ -364,7 +364,6 @@
 											<a class="dropdown-item" href="/containers/moveContainer.cfm" target="_top">Move Container</a>
 											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1" target="_top">Batch Scan</a>
 											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm" target="_top">Bulk Modify Containers</a>
-											<a class="dropdown-item" href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 											<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm?uploadType=scanDump" target="_top">Upload Scan File</a>
 										</cfif>
 										<a class="dropdown-item" href="/containers/placePartInContainer.cfm" target="_top">Put Parts in Containers</a>
