@@ -1036,9 +1036,13 @@ Two label-building modes: the normal case builds:
 width from begin_barcode across the whole run; the "PLACE" cryo-barcode special case instead builds both
 barcode and label as {first 4-digits of n}PLACE{last 4-digits of n}, ignoring every prefix/suffix argument. 
 
-Hard-capped at 10000 containers per call to keep one request/transaction from running away; a
-series larger than 1000 (still allowed) requires the caller to pass confirm_large_batch=true after
-confirming with the user, rather than proceeding silently.
+Not hard-capped, but two confirm-first thresholds guard against an accidental huge/misplaced
+batch: a series over 10000 always requires the caller to pass confirm_abnormal_batch=true after
+confirming with the user (this size is well beyond even the normal large-batch workflow); a
+series over 1000 requires confirm_large_batch=true, but only when the parent's own container_type
+ranks below "building" (a specific location like a room/freezer/fixture/box, rather than the
+institution/campus/building level) -- the normal workflow prints large batches (up to 10000) of
+barcodes destined to be unplaced or placed at the institution, which needs no extra confirmation.
 
 @param parent_container_id the container_id of the parent box/rack to hold the new containers.
 @param container_type the container_type to assign to all new containers.
@@ -1055,12 +1059,13 @@ confirming with the user, rather than proceeding silently.
 @param place_in_positions if true, each new container is placed into one of the parent's own empty
 	position (container_type='position') children in sequence, instead of becoming a direct child
 	of the parent itself. Errors if the parent doesn't have enough empty positions for the series.
-@param confirm_large_batch if true, allows a series larger than SERIES_SOFT_CAP (but no larger
-	than SERIES_HARD_CAP) to proceed instead of coming back as status "confirm_large_batch" for
-	the caller to confirm with the user and retry.
-@return a JSON object: {status: "created"|"confirm_large_batch"|"error", count, first_barcode,
-	last_barcode, parent_container_id, parent_label, parent_barcode, placed_in_positions,
-	first_position_label, last_position_label, message}.
+@param confirm_large_batch if true, allows a series over SERIES_LARGE_THRESHOLD into a
+	below-building parent to proceed instead of coming back as status "confirm_large_batch".
+@param confirm_abnormal_batch if true, allows a series over SERIES_ABNORMAL_THRESHOLD to proceed
+	instead of coming back as status "confirm_abnormal_batch".
+@return a JSON object: {status: "created"|"confirm_large_batch"|"confirm_abnormal_batch"|"error",
+	count, first_barcode, last_barcode, parent_container_id, parent_label, parent_barcode,
+	placed_in_positions, first_position_label, last_position_label, message}.
 --->
 <cffunction name="createContainerSeries" access="remote" returntype="any" returnformat="json">
 	<cfargument name="parent_container_id" type="string" required="no" default="">
@@ -1077,10 +1082,11 @@ confirming with the user, rather than proceeding silently.
 	<cfargument name="dry_run" type="string" required="no" default="">
 	<cfargument name="place_in_positions" type="boolean" required="no" default="false">
 	<cfargument name="confirm_large_batch" type="boolean" required="no" default="false">
+	<cfargument name="confirm_abnormal_batch" type="boolean" required="no" default="false">
 
 	<cfset local.retval = StructNew()>
-	<cfset local.SERIES_SOFT_CAP = 1000>
-	<cfset local.SERIES_HARD_CAP = 10000>
+	<cfset local.SERIES_LARGE_THRESHOLD = 1000>
+	<cfset local.SERIES_ABNORMAL_THRESHOLD = 10000>
 	<cfif len(trim(arguments.container_type)) EQ 0>
 		<cfset local.retval["status"] = "error">
 		<cfset local.retval["message"] = "Container type is required.">
@@ -1106,29 +1112,48 @@ confirming with the user, rather than proceeding silently.
 		<cfset local.retval["message"] = "High number in series must not be less than the low number.">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
-	<cfif local.count GT local.SERIES_HARD_CAP>
-		<cfset local.retval["status"] = "error">
-		<cfset local.retval["message"] = "This series would create #local.count# containers -- split it into batches of #local.SERIES_HARD_CAP# or fewer.">
-		<cfreturn serializeJSON(local.retval)>
-	</cfif>
-	<cfif local.count GT local.SERIES_SOFT_CAP AND NOT arguments.confirm_large_batch>
-		<cfset local.retval["status"] = "confirm_large_batch">
-		<cfset local.retval["message"] = "This series would create #local.count# containers, which is unusually large -- are you sure you want to continue?">
-		<cfreturn serializeJSON(local.retval)>
-	</cfif>
 	<cfset local.dryrun = FALSE>
 	<cfif isDefined("arguments.dry_run") and len(arguments.dry_run) GT 0 and arguments.dry_run EQ "true">
 		<cfset local.dryrun = TRUE>
 	</cfif>
 
+	<!--- fetch the parent's own container_type alongside its rank_order and the rank_order of
+		"building" in the same query, purely to decide whether the parent is a specific location
+		(e.g. a room/freezer/fixture/box) rather than institution/campus/building level --->
 	<cfquery name="local.queryParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		SELECT label, barcode
-		FROM container
-		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">
+		SELECT
+			p.label,
+			p.barcode,
+			p.container_type,
+			pct.rank_order AS parent_rank_order,
+			bct.rank_order AS building_rank_order
+		FROM container p
+			LEFT JOIN ctcontainer_type pct ON pct.container_type = p.container_type
+			LEFT JOIN ctcontainer_type bct ON bct.container_type = 'building'
+		WHERE p.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.parentContainerId#">
 	</cfquery>
 	<cfif local.queryParent.recordcount EQ 0>
 		<cfset local.retval["status"] = "error">
 		<cfset local.retval["message"] = "Parent container was not found.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfset local.parentIsBelowBuilding = false>
+	<cfif isNumeric(local.queryParent.parent_rank_order) AND isNumeric(local.queryParent.building_rank_order)
+			AND val(local.queryParent.parent_rank_order) GT val(local.queryParent.building_rank_order)>
+		<cfset local.parentIsBelowBuilding = true>
+	</cfif>
+
+	<!--- these two thresholds are deliberately mutually exclusive by range -- a series over
+		SERIES_ABNORMAL_THRESHOLD only ever needs confirm_abnormal_batch, never also
+		confirm_large_batch on top of it, even under a below-building parent --->
+	<cfif local.count GT local.SERIES_ABNORMAL_THRESHOLD AND NOT arguments.confirm_abnormal_batch>
+		<cfset local.retval["status"] = "confirm_abnormal_batch">
+		<cfset local.retval["message"] = "This series would create #local.count# containers, which is abnormally large -- are you sure you want to continue?">
+		<cfreturn serializeJSON(local.retval)>
+	<cfelseif local.count GT local.SERIES_LARGE_THRESHOLD AND local.count LTE local.SERIES_ABNORMAL_THRESHOLD
+			AND local.parentIsBelowBuilding AND NOT arguments.confirm_large_batch>
+		<cfset local.retval["status"] = "confirm_large_batch">
+		<cfset local.retval["message"] = "This series would create #local.count# containers directly under #local.queryParent.label# (#local.queryParent.container_type#), a specific location below building level -- large batches are usually left unplaced or placed at the institution/building level instead. Are you sure you want to continue?">
 		<cfreturn serializeJSON(local.retval)>
 	</cfif>
 

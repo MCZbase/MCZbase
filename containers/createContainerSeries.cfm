@@ -49,7 +49,7 @@ limitations under the License.
 				intend to print a series of labels, or wish to create a set of containers for a set of 
 				pre-printed barcodes, or wish to reserve a series of labels for any other
 				reason. This form does nothing to labels that already exist.
-				<strong>This form is limited to creating 10000 containers at the same time; a series larger than 1000 will ask you to confirm before proceeding.</strong>
+				<strong>A series larger than 10000 is abnormally large and will ask you to confirm before proceeding; a series larger than 1000 will also ask you to confirm if the Parent Container is a specific location below building level (e.g. a room, freezer, or fixture), rather than left unplaced or placed at the institution/building level.</strong>
 			</p>
 			<p>
 				The barcode will be <strong>Prefix{number}Suffix</strong> -- enter exactly what the scanner
@@ -286,7 +286,7 @@ limitations under the License.
 				return;
 			}
 
-			var sendPreview = function(confirmLargeBatch) {
+			var sendPreview = function(confirmLargeBatch, confirmAbnormalBatch) {
 				previewoutput.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Previewing...</div>');
 				$.ajax({
 					url: '/containers/component/functions.cfc',
@@ -308,13 +308,15 @@ limitations under the License.
 						end_barcode: endBarcode,
 						place_in_positions: $('##place_in_positions').is(':checked'),
 						dry_run: "true",
-						confirm_large_batch: !!confirmLargeBatch
+						confirm_large_batch: !!confirmLargeBatch,
+						confirm_abnormal_batch: !!confirmAbnormalBatch
 					},
 					success: function(resp) {
-						if (resp.status === 'confirm_large_batch') {
+						if (resp.status === 'confirm_large_batch' || resp.status === 'confirm_abnormal_batch') {
 							previewoutput.empty();
-							confirmDialog(resp.message, 'Large Batch', function() {
-								sendPreview(true);
+							var title = resp.status === 'confirm_abnormal_batch' ? 'Abnormally Large Batch' : 'Large Batch';
+							confirmDialog(resp.message, title, function() {
+								sendPreview(resp.status === 'confirm_large_batch' || confirmLargeBatch, resp.status === 'confirm_abnormal_batch' || confirmAbnormalBatch);
 							});
 							return;
 						}
@@ -343,7 +345,7 @@ limitations under the License.
 					}
 				});
 			};
-			sendPreview(false);
+			sendPreview(false, false);
 		});
 
 		$('##createSeriesButton').on('click', function() {
@@ -370,7 +372,7 @@ limitations under the License.
 
 			$('##createSeriesButton').prop('disabled', true);
 
-			var sendCreate = function(confirmLargeBatch) {
+			var sendCreate = function(confirmLargeBatch, confirmAbnormalBatch) {
 				feedback.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Creating...</div>');
 				$.ajax({
 					url: '/containers/component/functions.cfc',
@@ -391,13 +393,15 @@ limitations under the License.
 						begin_barcode: beginBarcode,
 						end_barcode: endBarcode,
 						place_in_positions: $('##place_in_positions').is(':checked'),
-						confirm_large_batch: !!confirmLargeBatch
+						confirm_large_batch: !!confirmLargeBatch,
+						confirm_abnormal_batch: !!confirmAbnormalBatch
 					},
 					success: function(resp) {
-						if (resp.status === 'confirm_large_batch') {
+						if (resp.status === 'confirm_large_batch' || resp.status === 'confirm_abnormal_batch') {
 							feedback.empty();
-							confirmDialog(resp.message, 'Large Batch', function() {
-								sendCreate(true);
+							var title = resp.status === 'confirm_abnormal_batch' ? 'Abnormally Large Batch' : 'Large Batch';
+							confirmDialog(resp.message, title, function() {
+								sendCreate(resp.status === 'confirm_large_batch' || confirmLargeBatch, resp.status === 'confirm_abnormal_batch' || confirmAbnormalBatch);
 							}, function() {
 								$('##createSeriesButton').prop('disabled', false);
 							});
@@ -428,7 +432,7 @@ limitations under the License.
 					}
 				});
 			};
-			sendCreate(false);
+			sendCreate(false, false);
 		});
 	});
 </script>
