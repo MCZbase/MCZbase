@@ -234,6 +234,19 @@ limitations under the License.
 <link rel="stylesheet" href="/containers/css/containers.css">
 <main id="content" class="container py-3">
 
+<!--- mirrors the inline-styled #overlay pattern search pages like /Taxa.cfm already use (see
+	developer's guide, Search-Pages) -- this isn't a search page, so it doesn't use that pattern's
+	jqxgrid-specific classes, but the same "position:fixed, semi-transparent, spinner+text" shape
+	is reused here for the same reason: block interaction while a background AJAX step (applying a
+	queued Grow/Shrink before reloading, see applyPendingPositionsAction in containers.js) runs. --->
+<div id="containerSavingOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000;">
+	<div class="d-flex align-items-center justify-content-center h-100">
+		<div class="bg-white rounded p-3 text-center shadow">
+			<img src="/shared/images/indicator.gif"> Saving changes&hellip;
+		</div>
+	</div>
+</div>
+
 <cfoutput>
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
@@ -555,6 +568,11 @@ limitations under the License.
 		$('#containerSaveStatus').removeClass('text-success');
 		$('#containerSaveStatus').removeClass('text-warning');
 	}
+	// a Grow/Shrink queued via the "Change Positions" dialog, not yet applied -- see
+	// applyPendingPositionsAction (containers.js), run from saveContainerForm's success handler
+	// once Save Changes is pressed. Declared unconditionally (not just for action=edit) so
+	// saveContainerForm's typeof check always finds a real variable rather than throwing.
+	var pendingPositionsAction = null;
 	$(document).ready(function () {
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
@@ -633,16 +651,26 @@ limitations under the License.
 			<cfif variables.positionRecordCount GT 0>
 				<cfoutput>
 				$('##changePositionsBtn').on('click', function() {
-					openPositionsChangeDialog(#val(variables.formData.container_id)#, function() {
-						// Grow, Shrink, and Reset all change whether/how many position records
-						// exist -- Grow/Shrink change the declared count's Positions summary text
-						// (created/occupied counts this page loaded with go stale), and Reset
-						// additionally flips this field itself back to freely editable, dropping
-						// the Change button. Reload rather than trying to keep all of that in sync
-						// piecemeal on the client; growContainerPositions/trimContainerPositions/
-						// resetContainerPositions have already committed the change server-side by
-						// the time this callback runs.
-						window.location.reload();
+					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(data) {
+						if (data.action === 'reset') {
+							// Reset already committed from within the dialog and flips this field
+							// back to freely editable, dropping the Change button -- only the
+							// server-rendered markup knows how to redraw that, so reload outright.
+							window.location.reload();
+							return;
+						}
+						// Grow/Shrink -- not applied yet. Queue it and preview the resulting count,
+						// but leave ##number_positions (the value this form actually submits) at its
+						// real current value, so pressing Save Changes doesn't trip saveContainer's
+						// own guard against a manually-changed Number of Positions once position
+						// records exist. Applying the queue happens in saveContainerForm's success
+						// handler, after the rest of this save has gone through.
+						pendingPositionsAction = data;
+						$('##number_positions_display').val(data.previewCount);
+						$('##changePositionsBtn').prop('disabled', true);
+						updateContainerPositionsSummary(#val(variables.formData.container_id)#, data.previewCount, true);
+						$('##containerPositionsSummaryText').append(' <span class="text-warning">(pending -- applies on Save)</span>');
+						changed();
 					});
 				});
 				</cfoutput>

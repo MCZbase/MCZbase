@@ -965,17 +965,21 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
  * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
 /**
- * Updates Container.cfm's "Positions" summary box/link/create-prompt after a plain Save changes
- * Number of Positions. Only reachable for that path -- saveContainer blocks changing this field
- * at all once real position records exist, so a positive value reaching here can only ever mean
- * zero records exist yet. Growing, shrinking, or resetting an already-populated container's
- * positions (the "Change Positions" dialog) instead reloads the page outright, since those flip
- * whether records exist at all, which changes this field's own markup (plain input vs. locked
- * display + Change button) -- only the server-rendered page knows how to redraw that.
+ * Updates Container.cfm's "Positions" summary box/link/create-prompt after Number of Positions
+ * changes, from either a plain Save or the positions-change dialog's Grow/Shrink -- shared so
+ * both entry points leave the summary in the same state instead of drifting apart.
  * @param {number|string} containerId - container_id the summary box belongs to.
  * @param {number|string} numberPositions - the container's current declared Number of Positions.
+ * @param {boolean} [recordsExist] - whether container_type='position' records already exist for
+ *	this container -- false (a plain Save, which can only ever change a still-zero record count,
+ *	since saveContainer blocks changing this field at all once real records exist) renders the
+ *	"Create N Positions" prompt into #containerPositionsCreateArea; true (Grow/Shrink, where
+ *	records already existed beforehand and still do) just updates the summary text/link. Reset
+ *	isn't handled here at all -- it reloads the page immediately instead, since it flips whether
+ *	records exist to none, which changes this field's own markup (plain input vs. locked display
+ *	+ Change button) in a way only the server-rendered page can redraw.
  */
-function updateContainerPositionsSummary(containerId, numberPositions) {
+function updateContainerPositionsSummary(containerId, numberPositions, recordsExist) {
 	var $positionsSummary = $('#containerPositionsSummary');
 	var $positionsLink = $('#containerPositionsLink');
 	var $createArea = $('#containerPositionsCreateArea');
@@ -986,23 +990,75 @@ function updateContainerPositionsSummary(containerId, numberPositions) {
 	var numericContainerId = parseInt(containerId, 10);
 	if (!isNaN(numericNumberPositions) && numericNumberPositions > 0 && !isNaN(numericContainerId)) {
 		var positionWord = numericNumberPositions === 1 ? 'position' : 'positions';
-		// no position records exist yet -- nothing for View/Edit Positions to show on
-		// viewContainer.cfm, so it stays hidden until Create actually makes some
 		$positionsSummary.removeClass('d-none');
-		$positionsLink.addClass('d-none');
-		$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
-		if ($createArea.length) {
-			// reload rather than updating the summary in place -- position records now exist,
-			// so the Number of Positions field needs to switch to its locked display + Change
-			// button, which only the server-rendered markup knows how to do.
-			renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
-				window.location.reload();
-			});
+		if (recordsExist) {
+			$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
+			// the accurate created/occupied counts are only known server-side; this falls back to
+			// this generic text rather than the fuller message shown on page load, until the next
+			// Save Changes reloads the page (see the pending-reload flag in Container.cfm)
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + '.');
+			$createArea.empty();
+		} else {
+			// no position records exist yet -- nothing for View/Edit Positions to show on
+			// viewContainer.cfm, so it stays hidden until Create actually makes some
+			$positionsLink.addClass('d-none');
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
+			if ($createArea.length) {
+				// reload rather than updating the summary in place -- position records now exist,
+				// so the Number of Positions field needs to switch to its locked display + Change
+				// button, which only the server-rendered markup knows how to do.
+				renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
+					window.location.reload();
+				});
+			}
 		}
 	} else {
 		$positionsSummary.addClass('d-none');
 		$createArea.empty();
 	}
+}
+
+/**
+ * Applies a Grow/Shrink queued by the "Change Positions" dialog (see openPositionsChangeDialog),
+ * then reloads the page -- called from saveContainerForm's success handler once Container.cfm's
+ * own regular Save Changes has already gone through, so the queued position-count change and
+ * whatever else was just edited land together rather than the position change committing the
+ * instant Grow/Shrink is clicked. Shows #containerSavingOverlay for this extra round trip, since
+ * it happens after the page's own "Saved." feedback would otherwise already read as done.
+ * @param {number|string} containerId - container_id to apply the queued change to.
+ * @param {Object} pendingAction - {action: 'grow'|'shrink', params} from openPositionsChangeDialog.
+ */
+function applyPendingPositionsAction(containerId, pendingAction) {
+	var $overlay = $('#containerSavingOverlay');
+	$overlay.removeClass('d-none');
+	var method = pendingAction.action === 'grow' ? 'growContainerPositions' : 'trimContainerPositions';
+	var data = $.extend({ method: method, returnformat: 'json', container_id: containerId }, pendingAction.params);
+	var revertPreview = function() {
+		var actualValue = $.trim($('#number_positions').val());
+		$('#number_positions_display').val(actualValue);
+		$('#changePositionsBtn').prop('disabled', false);
+		updateContainerPositionsSummary(containerId, actualValue, true);
+	};
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: data,
+		success: function(result) {
+			if (result.status === 'created' || result.status === 'trimmed') {
+				window.location.reload();
+				return;
+			}
+			$overlay.addClass('d-none');
+			revertPreview();
+			messageDialog('Your other changes were saved, but applying the queued position change failed: ' + (result.message || 'Unknown error.') + ' Reopen Change to retry.', 'Error Applying Position Change');
+		},
+		error: function(jqXHR, textStatus, error) {
+			$overlay.addClass('d-none');
+			revertPreview();
+			handleFail(jqXHR, textStatus, error, 'applying the queued position change');
+		}
+	});
 }
 
 function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
@@ -1037,6 +1093,12 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			if (status === 'created') {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
+				if (typeof pendingPositionsAction !== 'undefined' && pendingPositionsAction) {
+					var queuedPositionsAction = pendingPositionsAction;
+					pendingPositionsAction = null;
+					applyPendingPositionsAction(containerId, queuedPositionsAction);
+					return;
+				}
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
 				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()));
@@ -2551,9 +2613,17 @@ var KNOWN_POSITION_PRESETS = [
  * Opens a dialog with Grow/Shrink/Reset controls for one container's positions -- reached from
  * Container.cfm's "Change..." button next to the Number of Positions field. Deliberately not
  * shown inline on the edit form or on the read-only positions grid (viewContainer.cfm).
+ * Grow and Shrink don't commit anything here -- when onChanged is supplied, clicking either one
+ * just validates, reports the pending change back to the caller, and closes the dialog, leaving
+ * the actual growContainerPositions/trimContainerPositions call for the caller to run whenever it
+ * sees fit (Container.cfm defers it to its own Save Changes button). Reset is the exception: it
+ * still commits immediately from within this dialog (it's confirmDialog-gated and destructive
+ * enough that queuing it doesn't make sense the same way).
  * @param {number|string} containerId - container_id whose positions are being managed.
- * @param {Function} [onChanged] - called with the container's new number_positions value (an
- *	empty string after a Reset) whenever Grow/Shrink/Reset succeeds.
+ * @param {Function} [onChanged] - called with a descriptor once Grow, Shrink, or Reset succeeds:
+ *	{action: 'grow'|'shrink', previewCount, params} for Grow/Shrink (not yet applied -- params is
+ *	the argument object the caller should eventually POST to growContainerPositions/
+ *	trimContainerPositions), or {action: 'reset'} for Reset (already applied).
  */
 function openPositionsChangeDialog(containerId, onChanged) {
 	var wrapper = $('#positionsChangeDialogWrapper');
@@ -2626,6 +2696,18 @@ function openPositionsChangeDialog(containerId, onChanged) {
 						$error.text('Enter a positive number of positions to add.').removeClass('d-none');
 						return;
 					}
+					if (onChanged) {
+						// defer the actual growContainerPositions call to Save Changes instead of
+						// committing it the moment Grow is clicked -- the caller (Container.cfm)
+						// queues this and applies it after the regular field save succeeds.
+						onChanged({
+							action: 'grow',
+							previewCount: numberPositions + additionalCount,
+							params: { additional_count: additionalCount }
+						});
+						wrapper.dialog('close');
+						return;
+					}
 					$growBtn.prop('disabled', true);
 					$.ajax({
 						url: '/containers/component/functions.cfc',
@@ -2640,15 +2722,7 @@ function openPositionsChangeDialog(containerId, onChanged) {
 						success: function(result) {
 							$growBtn.prop('disabled', false);
 							if (result.status === 'created') {
-								if (onChanged) {
-									// the caller (Container.cfm) reloads the page once notified of a
-									// change -- re-rendering this dialog's own grid here would race
-									// that navigation, and the aborted request would surface as a
-									// spurious error dialog, so skip it and let the reload happen.
-									onChanged(result.number_positions);
-								} else {
-									render();
-								}
+								render();
 							} else {
 								$error.text(result.message || 'Unable to grow positions.').removeClass('d-none');
 							}
@@ -2681,6 +2755,17 @@ function openPositionsChangeDialog(containerId, onChanged) {
 						$error.text('Cannot remove more positions than currently declared.').removeClass('d-none');
 						return;
 					}
+					if (onChanged) {
+						// see the matching comment in the Grow handler above -- defer the actual
+						// trimContainerPositions call to Save Changes instead of committing now.
+						onChanged({
+							action: 'shrink',
+							previewCount: newCount,
+							params: { new_count: newCount }
+						});
+						wrapper.dialog('close');
+						return;
+					}
 					$shrinkBtn.prop('disabled', true);
 					$.ajax({
 						url: '/containers/component/functions.cfc',
@@ -2695,13 +2780,7 @@ function openPositionsChangeDialog(containerId, onChanged) {
 						success: function(result) {
 							$shrinkBtn.prop('disabled', false);
 							if (result.status === 'trimmed') {
-								if (onChanged) {
-									// see the matching comment in the Grow handler above -- skip the
-									// re-render when the caller is about to reload the page instead.
-									onChanged(result.number_positions);
-								} else {
-									render();
-								}
+								render();
 							} else {
 								$error.text(result.message || 'Unable to shrink positions.').removeClass('d-none');
 							}
@@ -2751,8 +2830,12 @@ function openPositionsChangeDialog(containerId, onChanged) {
 									success: function(result) {
 										$resetBtn.prop('disabled', false);
 										if (result.status === 'reset') {
+											// unlike Grow/Shrink, Reset still commits immediately from
+											// within the dialog (it's already confirmDialog-gated and
+											// wipes the positions outright) -- the caller reloads the
+											// page right away rather than queuing anything for Save.
 											if (onChanged) {
-												onChanged('');
+												onChanged({ action: 'reset' });
 											}
 											wrapper.dialog('close');
 										} else {
