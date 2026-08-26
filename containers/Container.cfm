@@ -633,18 +633,16 @@ limitations under the License.
 			<cfif variables.positionRecordCount GT 0>
 				<cfoutput>
 				$('##changePositionsBtn').on('click', function() {
-					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(newNumberPositions) {
-						if (!newNumberPositions) {
-							// Reset -- position records no longer exist, so the field goes back to
-							// freely editable and the Change button should disappear; reload rather
-							// than trying to swap that markup back in place client-side.
-							window.location.reload();
-							return;
-						}
-						$('##number_positions').val(newNumberPositions);
-						$('##number_positions_display').val(newNumberPositions);
-						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions, true);
-						changed();
+					openPositionsChangeDialog(#val(variables.formData.container_id)#, function() {
+						// Grow, Shrink, and Reset all change whether/how many position records
+						// exist -- Grow/Shrink change the declared count's Positions summary text
+						// (created/occupied counts this page loaded with go stale), and Reset
+						// additionally flips this field itself back to freely editable, dropping
+						// the Change button. Reload rather than trying to keep all of that in sync
+						// piecemeal on the client; growContainerPositions/trimContainerPositions/
+						// resetContainerPositions have already committed the change server-side by
+						// the time this callback runs.
+						window.location.reload();
 					});
 				});
 				</cfoutput>

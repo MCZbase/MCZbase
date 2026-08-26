@@ -965,17 +965,17 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
  * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
 /**
- * Updates Container.cfm's "Positions" summary box/link/create-prompt after Number of Positions
- * changes, from either a regular save or the positions-change dialog -- shared so both entry
- * points leave the summary in the same state instead of drifting apart.
+ * Updates Container.cfm's "Positions" summary box/link/create-prompt after a plain Save changes
+ * Number of Positions. Only reachable for that path -- saveContainer blocks changing this field
+ * at all once real position records exist, so a positive value reaching here can only ever mean
+ * zero records exist yet. Growing, shrinking, or resetting an already-populated container's
+ * positions (the "Change Positions" dialog) instead reloads the page outright, since those flip
+ * whether records exist at all, which changes this field's own markup (plain input vs. locked
+ * display + Change button) -- only the server-rendered page knows how to redraw that.
  * @param {number|string} containerId - container_id the summary box belongs to.
  * @param {number|string} numberPositions - the container's current declared Number of Positions.
- * @param {boolean} [recordsExist] - whether container_type='position' records already exist for
- *	this container -- false (a plain Save, which can only ever change a still-zero record count)
- *	renders the "Create N Positions" prompt into #containerPositionsCreateArea; true (the
- *	positions-change dialog's Grow/Shrink, where records already existed beforehand) clears it.
  */
-function updateContainerPositionsSummary(containerId, numberPositions, recordsExist) {
+function updateContainerPositionsSummary(containerId, numberPositions) {
 	var $positionsSummary = $('#containerPositionsSummary');
 	var $positionsLink = $('#containerPositionsLink');
 	var $createArea = $('#containerPositionsCreateArea');
@@ -986,26 +986,18 @@ function updateContainerPositionsSummary(containerId, numberPositions, recordsEx
 	var numericContainerId = parseInt(containerId, 10);
 	if (!isNaN(numericNumberPositions) && numericNumberPositions > 0 && !isNaN(numericContainerId)) {
 		var positionWord = numericNumberPositions === 1 ? 'position' : 'positions';
+		// no position records exist yet -- nothing for View/Edit Positions to show on
+		// viewContainer.cfm, so it stays hidden until Create actually makes some
 		$positionsSummary.removeClass('d-none');
-		if (recordsExist) {
-			$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
-			// the accurate created/occupied counts are only known server-side; this falls back to
-			// this generic text rather than the fuller message shown on page load, until reloaded
-			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + '.');
-			$createArea.empty();
-		} else {
-			// no position records exist yet -- nothing for View/Edit Positions to show on
-			// viewContainer.cfm, so it stays hidden until Create actually makes some
-			$positionsLink.addClass('d-none');
-			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
-			if ($createArea.length) {
-				// reload rather than updating the summary in place -- position records now exist,
-				// so the Number of Positions field needs to switch to its locked display + Change
-				// button, which only the server-rendered markup knows how to do.
-				renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
-					window.location.reload();
-				});
-			}
+		$positionsLink.addClass('d-none');
+		$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
+		if ($createArea.length) {
+			// reload rather than updating the summary in place -- position records now exist,
+			// so the Number of Positions field needs to switch to its locked display + Change
+			// button, which only the server-rendered markup knows how to do.
+			renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
+				window.location.reload();
+			});
 		}
 	} else {
 		$positionsSummary.addClass('d-none');
@@ -1047,7 +1039,7 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()), false);
+				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()));
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
