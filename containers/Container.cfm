@@ -22,6 +22,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id for container to edit --->
 <cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
+<cfparam name="url.clone_from" default=""><!--- action=new only: container_id to pre-fill reusable fields from -->
 <cf_rolecheck>
 
 <cfset variables.action = lCase(trim(url.action))>
@@ -94,6 +95,61 @@ limitations under the License.
 <cfset variables.positionRecordCount = 0>
 <cfset variables.positionOccupiedCount = 0>
 <cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
+
+<!--- Clone: pre-fills a subset of the New Container form's fields from an existing container,
+	reached via a "Clone" button on that container's own edit page. Deliberately excludes label
+	and barcode (shown as a "Cloned from" note instead of populating the inputs -- both must be
+	unique, so blindly copying either would guarantee a save failure) and parent_install_date
+	(defaults fresh, as any new container's does). Unlike the legacy editContainer.cfm's Clone,
+	which didn't carry a parent at all (its own edit form had no parent_container_id field to
+	resubmit, so every clone landed unplaced at root), this one does default into the same
+	parent as the source, since that's the common case and action=new already supports
+	parent_container_id cleanly. Runs before the parent-preset lookup below so a clone-inherited
+	parent still gets that lookup's display text/type-limiting treatment. --->
+<cfset variables.cloneFromId = trim(url.clone_from)>
+<cfif len(variables.cloneFromId) GT 0 AND NOT isNumeric(variables.cloneFromId)>
+	<cfset variables.cloneFromId = "">
+</cfif>
+<cfset variables.cloneFromDisplay = "">
+<cfif variables.action EQ "new" AND len(variables.cloneFromId) GT 0>
+	<cfquery name="getCloneSource" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			container_type,
+			institution_acronym,
+			width,
+			height,
+			length,
+			number_positions,
+			container_remarks,
+			parent_container_id,
+			label,
+			barcode
+		FROM
+			container
+		WHERE
+			container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.cloneFromId#">
+	</cfquery>
+	<cfif getCloneSource.recordcount EQ 1>
+		<cfset variables.formData["container_type"] = getCloneSource.container_type>
+		<cfset variables.formData["width"] = getCloneSource.width>
+		<cfset variables.formData["height"] = getCloneSource.height>
+		<cfset variables.formData["length"] = getCloneSource.length>
+		<cfset variables.formData["number_positions"] = getCloneSource.number_positions>
+		<cfset variables.formData["container_remarks"] = getCloneSource.container_remarks>
+		<cfif len(trim(getCloneSource.institution_acronym)) GT 0>
+			<cfset variables.formData["institution_acronym"] = getCloneSource.institution_acronym>
+		</cfif>
+		<cfif len(trim(getCloneSource.barcode)) GT 0>
+			<cfset variables.cloneFromDisplay = getCloneSource.barcode>
+		<cfelseif len(trim(getCloneSource.label)) GT 0>
+			<cfset variables.cloneFromDisplay = getCloneSource.label>
+		</cfif>
+		<cfif len(variables.parentContainerId) EQ 0 AND val(getCloneSource.parent_container_id) GT 0>
+			<cfset variables.parentContainerId = getCloneSource.parent_container_id>
+			<cfset variables.formData["parent_container_id"] = variables.parentContainerId>
+		</cfif>
+	</cfif>
+</cfif>
 
 <cfif variables.action EQ "edit">
 	<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
@@ -272,6 +328,9 @@ limitations under the License.
 					<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
 				</cfif>
 			</div>
+			<cfif variables.action EQ "new" AND len(variables.cloneFromDisplay) GT 0>
+				<p class="small text-muted ml-1 mb-2">Cloned from #encodeForHtml(variables.cloneFromDisplay)# -- Unique Identifier and Container Name are left blank below; enter new values for this container.</p>
+			</cfif>
 			<cfif variables.action EQ "edit">
 				<!--- This section is populated via an ajax call to the showContainerBreadcrumb() function in the script below as the backing method returns json --->
 				<section class="mb-0" aria-label="Container breadcrumb trail">
@@ -460,6 +519,7 @@ limitations under the License.
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
 							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
+							<a class="btn btn-xs btn-secondary ml-1" href="/containers/Container.cfm?action=new&amp;clone_from=#encodeForURL(variables.formData.container_id)#">Clone</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
