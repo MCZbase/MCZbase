@@ -4430,3 +4430,17 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 		})
 		.appendTo(buttonContainer);
 }
+
+/** Switch the container_type field on the Containers.cfm search form back from the comma-list
+ * text input (used to show a multi-value container_type carried in from a link such as
+ * browseContainers.cfm's department picker) to the single-value picklist, blanking the list value.
+ * Only one of the two controls is ever enabled at a time -- a disabled field doesn't submit --
+ * so this both blanks and re-enables/hides the pair rather than editing form values directly.
+ * @param {string} selectId - id of the container_type <select>.
+ * @param {string} textInputId - id of the container_type comma-list text <input>.
+ * @returns {void}
+ */
+function clearContainerTypeList(selectId, textInputId) {
+	$('#' + textInputId).val('').prop('disabled', true).addClass('d-none');
+	$('#' + selectId).val('').prop('disabled', false).removeClass('d-none');
+}

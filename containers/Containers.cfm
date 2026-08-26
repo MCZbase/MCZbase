@@ -123,6 +123,10 @@ editing behavior consistent across the application.
 <cfelse>
 	<cfset variables.container_type = trim(url.container_type)>
 </cfif>
+<!--- a comma-list container_type (e.g. arriving from browseContainers.cfm's department
+	picker) can't be represented as a single selected <option>, so the search form shows
+	it as an editable text field instead of the picklist in that case. --->
+<cfset variables.containerTypeIsList = (listLen(variables.container_type) GT 1)>
 <cfif isDefined("form.barcode")>
 	<cfset variables.barcode = trim(form.barcode)>
 <cfelse>
@@ -382,8 +386,19 @@ editing behavior consistent across the application.
 							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Container</legend>
 							<div class="form-row">
 								<div class="col-12 col-md-4 col-xl-3 mb-2">
-									<label for="container_type" class="data-entry-label">Container Type</label>
-									<select id="container_type" name="container_type" class="data-entry-select col-12">
+									<label for="container_type" id="container_type_label" class="data-entry-label">Container Type</label>
+									<cfif variables.containerTypeIsList>
+										<cfset variables.containerTypeSelectClass = "data-entry-select col-12 d-none">
+										<cfset variables.containerTypeSelectDisabled = " disabled">
+										<cfset variables.containerTypeListClass = "input-group">
+										<cfset variables.containerTypeInputDisabled = "">
+									<cfelse>
+										<cfset variables.containerTypeSelectClass = "data-entry-select col-12">
+										<cfset variables.containerTypeSelectDisabled = "">
+										<cfset variables.containerTypeListClass = "input-group d-none">
+										<cfset variables.containerTypeInputDisabled = " disabled">
+									</cfif>
+									<select id="container_type" name="container_type" class="#variables.containerTypeSelectClass#"#variables.containerTypeSelectDisabled#>
 										<option value=""></option>
 										<cfloop query="ctcontainer_type">
 											<cfset variables.selectedType = "">
@@ -392,7 +407,22 @@ editing behavior consistent across the application.
 											</cfif>
 											<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
 										</cfloop>
+										<cfloop query="ctcontainer_type">
+											<cfset variables.selectedType = "">
+											<cfif variables.container_type EQ "!#ctcontainer_type.container_type#">
+												<cfset variables.selectedType = " selected">
+											</cfif>
+											<option value="!#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>not #encodeForHtml(ctcontainer_type.container_type)#</option>
+										</cfloop>
 									</select>
+									<div id="container_type_list_group" class="#variables.containerTypeListClass#">
+										<input type="text" id="container_type_list" name="container_type"
+											class="data-entry-input col-12" aria-labelledby="container_type_label"
+											value="#encodeForHtml(variables.container_type)#"#variables.containerTypeInputDisabled#>
+										<div class="input-group-append">
+											<button type="button" class="btn btn-xs btn-warning" onclick="clearContainerTypeList('container_type', 'container_type_list')">Clear</button>
+										</div>
+									</div>
 								</div>
 								<div class="col-12 col-md-4 col-xl-3 mb-2">
 									<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
