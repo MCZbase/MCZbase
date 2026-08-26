@@ -386,16 +386,16 @@ limitations under the License.
 					<div class="col-12 col-md-3 mb-2">
 						<label for="number_positions" class="data-entry-label">Number of Positions</label>
 						<cfif lockedRoot>
-							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
-							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+							<input type="hidden" name="number_positions" id="number_positions" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
 						<cfelseif variables.action EQ "edit" AND variables.positionRecordCount GT 0>
-							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="hidden" name="number_positions" id="number_positions" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#">
 							<div class="d-flex align-items-center">
-								<input type="text" id="number_positions_display" class="data-entry-input flex-grow-1 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly aria-label="Number of Positions">
+								<input type="text" id="number_positions_display" class="data-entry-input flex-grow-1 bg-lt-gray" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#" readonly aria-label="Number of Positions">
 								<button type="button" class="btn btn-xs btn-secondary ml-1" id="changePositionsBtn">Change...</button>
 							</div>
 						<cfelse>
-							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="text" name="number_positions" id="number_positions" autocomplete="off" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
 						</cfif>
 					</div>
 				</div>
@@ -602,6 +602,18 @@ limitations under the License.
 			</cfloop>
 			var positionRecordCount = #val(variables.positionRecordCount)#;
 			</cfoutput>
+			<cfif len(trim(variables.formData.number_positions)) GT 0>
+				<!--- some browsers restore a form field's own prior live value across a reload
+					rather than the freshly server-rendered one -- most visibly here, since the
+					Number of Positions field switches between a plain input and this locked
+					display+Change button pair depending on positionRecordCount, so the field a
+					browser thinks it's restoring isn't necessarily the one now in this DOM
+					position. Reassert the actual value explicitly rather than trust the browser. --->
+				<cfoutput>
+				$('##number_positions').val(#val(variables.formData.number_positions)#);
+				$('##number_positions_display').val(#val(variables.formData.number_positions)#);
+				</cfoutput>
+			</cfif>
 			$('#number_positions').on('change', function() {
 				var $field = $(this);
 				var newValue = $.trim($field.val());
