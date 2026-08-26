@@ -622,6 +622,13 @@ limitations under the License.
 				<cfoutput>
 				$('##changePositionsBtn').on('click', function() {
 					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(newNumberPositions) {
+						if (!newNumberPositions) {
+							// Reset -- position records no longer exist, so the field goes back to
+							// freely editable and the Change button should disappear; reload rather
+							// than trying to swap that markup back in place client-side.
+							window.location.reload();
+							return;
+						}
 						$('##number_positions').val(newNumberPositions);
 						$('##number_positions_display').val(newNumberPositions);
 						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions, true);
@@ -636,7 +643,10 @@ limitations under the License.
 					doesn't require one first --->
 				<cfoutput>
 				renderCreatePositionsPrompt(#val(variables.formData.number_positions)#, 'containerPositionsCreateArea', null, #val(variables.formData.container_id)#, true, null, function() {
-					updateContainerPositionsSummary(#val(variables.formData.container_id)#, #val(variables.formData.number_positions)#, true);
+					// reload rather than updating the summary in place -- position records now
+					// exist, so the Number of Positions field needs to switch to its locked
+					// display + Change button, which only the server-rendered markup knows how to do.
+					window.location.reload();
 				});
 				</cfoutput>
 			</cfif>

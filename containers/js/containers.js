@@ -999,8 +999,11 @@ function updateContainerPositionsSummary(containerId, numberPositions, recordsEx
 			$positionsLink.addClass('d-none');
 			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
 			if ($createArea.length) {
+				// reload rather than updating the summary in place -- position records now exist,
+				// so the Number of Positions field needs to switch to its locked display + Change
+				// button, which only the server-rendered markup knows how to do.
 				renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
-					updateContainerPositionsSummary(numericContainerId, numericNumberPositions, true);
+					window.location.reload();
 				});
 			}
 		}
