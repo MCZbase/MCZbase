@@ -509,11 +509,11 @@ function getContDetails_success (result) {
 	idateH.innerHTML = parent_install_date;
 	remH.innerHTML = container_remarks;
 	lblH.innerHTML = label;
-	admH.innerHTML = '<a href="/editContainer.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Edit</a>';
+	admH.innerHTML = '<a href="/containers/Container.cfm?action=edit&container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Edit</a>';
 	admH.innerHTML += '<br><a href="/info/ContHistory.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">History</a>';
 	admH.innerHTML += '<br><a href="/containers/viewContainer.cfm?container_id=' + container_id + '#containerPositionsHeading_page" target="_blank" onclick="closeDetails()">Positions</a>';
 	admH.innerHTML += '<br><a href="/containers/allContainerLeafNodes.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Leaf Nodes</a>';
-	admH.innerHTML += '<a href="/editContainer.cfm?action=newContainer&parent_container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Create Child Container</a>';
+	admH.innerHTML += '<a href="/containers/Container.cfm?action=new&parent_container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Create Child Container</a>';
 
 
 

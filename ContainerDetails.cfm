@@ -132,7 +132,7 @@
 			<cfelse>
 				<tr>
 					<td colspan="2" class="lblval lblextra">
-						<a href="editContainer.cfm?container_id=#container_id#" target="_blank">Edit this container</a> <span style="font-size: small"> (new window)</span>
+						<a href="/containers/Container.cfm?action=edit&container_id=#container_id#" target="_blank">Edit this container</a> <span style="font-size: small"> (new window)</span>
 					</td>
 				</tr>
 			</cfif>
@@ -145,7 +145,7 @@
          <cfif container_type NEQ 'collection object'>
 				<tr>
 					<td colspan="2" class="lblval lblextra">
-      		                          <a href="editContainer.cfm?action=newContainer&parent_container_id=#container_id#" class="newContBtn" target="blank">Create a Child of this Container</a>
+      		                          <a href="/containers/Container.cfm?action=new&parent_container_id=#container_id#" class="newContBtn" target="blank">Create a Child of this Container</a>
 					</td>
 				</tr>
          </cfif>

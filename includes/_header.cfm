@@ -351,7 +351,7 @@
 										<div class="h5 dropdown-header px-2 text-danger">Create</div>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
+											<a class="dropdown-item" href="/containers/Container.cfm?action=new" target="_top">Storage Location/Create Container</a>
 											<a class="dropdown-item" href="/containers/createContainerSeries.cfm" target="_top">Create Container Series</a>
 
 										</cfif>
