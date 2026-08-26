@@ -50,7 +50,6 @@
 
 
 <cfif #action# is "manage">
-<script type='text/javascript' src='/includes/_treeAjax.js'></script>
 <script type="text/javascript" language="javascript">
 	function killMe(canned_id) {
 		jQuery.getJSON("/component/functions.cfc",
