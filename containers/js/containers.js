@@ -2168,20 +2168,64 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 
 	// shared by the "unsupported" (createContainerPositions) and "needs_columns"
 	// (retrofitContainerPositions) cases -- neither knows a physical layout for this
-	// type/count combination without an explicit columns count from the user.
-	var promptForColumns = function(onColumnsChosen) {
-		$followUpDiv.empty();
-		var $columnsInput = $('<input type="text" inputmode="numeric" class="data-entry-input" style="width:5em;">').attr('aria-label', 'Number of columns');
-		var $columnsBtn = $('<button class="btn btn-xs btn-secondary ml-1" type="button"></button>').text('Continue');
-		$columnsBtn.on('click', function() {
+	// type/count combination without an explicit columns count from the user. A dialog
+	// (rather than an inline prompt) since the explanatory message is long enough to want
+	// its own space, and Cancel needs to mean "never mind" rather than just "clear this field".
+	var promptForColumnsDialog = function(message, onColumnsChosen) {
+		var inputId = 'positionsColumnsDialogInput_' + targetDivId;
+		var $body = $('<div></div>');
+		$body.append($('<p class="mb-3"></p>').text(message));
+		var $row = $('<div class="form-row align-items-center mb-2"></div>');
+		$row.append(
+			$('<div class="col-auto"></div>').append(
+				$('<label class="data-entry-label mb-0"></label>').attr('for', inputId).text('Columns')
+			)
+		);
+		var $columnsInput = $('<input type="text" inputmode="numeric" class="data-entry-input" style="width:5em;">').attr('id', inputId);
+		$row.append($('<div class="col-auto"></div>').append($columnsInput));
+		$body.append($row);
+		var $columnsError = $('<p class="small text-danger mb-0 d-none" role="alert"></p>');
+		$body.append($columnsError);
+
+		var submit = function() {
 			var columns = parseInt($columnsInput.val(), 10);
 			if (!columns || columns < 1) {
-				$errorDiv.text('Enter a positive number of columns.').removeClass('d-none');
+				$columnsError.text('Enter a positive number of columns.').removeClass('d-none');
 				return;
 			}
+			$body.dialog('destroy');
 			onColumnsChosen(columns);
+		};
+		$columnsInput.on('keydown', function(event) {
+			if (event.which === 13) {
+				event.preventDefault();
+				submit();
+			}
 		});
-		$followUpDiv.append($('<label class="mr-1"></label>').text('Columns:')).append($columnsInput).append($columnsBtn);
+
+		$body.dialog({
+			modal: true,
+			resizable: false,
+			draggable: true,
+			width: 'auto',
+			minWidth: 340,
+			title: 'Columns Needed',
+			buttons: {
+				Continue: submit,
+				Cancel: function() {
+					$(this).dialog('destroy');
+				}
+			},
+			close: function() {
+				$(this).dialog('destroy');
+			},
+			open: function() {
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({ 'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({ 'z-index': maxZindex + 5 });
+				$columnsInput.trigger('focus');
+			}
+		});
 	};
 
 	var createPositions = function(columns) {
@@ -2206,10 +2250,12 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 					}
 					return;
 				}
-				$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
 				if (result.status === 'unsupported') {
-					promptForColumns(createPositions);
-				} else if (result.status === 'exists') {
+					promptForColumnsDialog(result.message || 'Provide a columns count to lay out an arbitrary grid.', createPositions);
+					return;
+				}
+				$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
+				if (result.status === 'exists') {
 					offerRetrofit();
 				}
 			},
@@ -2236,10 +2282,11 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 					refresh();
 					return;
 				}
-				$errorDiv.text(result.message || 'Unable to retrofit positions.').removeClass('d-none');
 				if (result.status === 'needs_columns') {
-					promptForColumns(retrofitPositions);
+					promptForColumnsDialog(result.message || 'Provide a columns count to lay out an arbitrary grid.', retrofitPositions);
+					return;
 				}
+				$errorDiv.text(result.message || 'Unable to retrofit positions.').removeClass('d-none');
 			},
 			error: function(jqXHR, textStatus, error) {
 				handleFail(jqXHR, textStatus, error, 'retrofitting container positions');
