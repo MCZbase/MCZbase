@@ -425,7 +425,11 @@ limitations under the License.
 								</cfif>
 							</p>
 							<div id="containerPositionsCreateArea" class="mb-2"></div>
-							<a class="btn btn-xs btn-secondary" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">View/Edit Positions</a>
+							<cfset variables.positionsLinkClass = "">
+							<cfif variables.positionRecordCount EQ 0>
+								<cfset variables.positionsLinkClass = " d-none">
+							</cfif>
+							<a class="btn btn-xs btn-secondary#variables.positionsLinkClass#" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">View/Edit Positions</a>
 						</div>
 					</div>
 				</cfif>

@@ -985,17 +985,24 @@ function updateContainerPositionsSummary(containerId, numberPositions, recordsEx
 	var numericNumberPositions = parseInt(numberPositions, 10);
 	var numericContainerId = parseInt(containerId, 10);
 	if (!isNaN(numericNumberPositions) && numericNumberPositions > 0 && !isNaN(numericContainerId)) {
-		$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page');
-		// the accurate created/occupied counts are only known server-side; this falls back to
-		// this generic text rather than the fuller message shown on page load, until reloaded
-		$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' position' + (numericNumberPositions === 1 ? '' : 's') + '.');
+		var positionWord = numericNumberPositions === 1 ? 'position' : 'positions';
 		$positionsSummary.removeClass('d-none');
 		if (recordsExist) {
+			$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
+			// the accurate created/occupied counts are only known server-side; this falls back to
+			// this generic text rather than the fuller message shown on page load, until reloaded
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + '.');
 			$createArea.empty();
-		} else if ($createArea.length) {
-			renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
-				updateContainerPositionsSummary(numericContainerId, numericNumberPositions, true);
-			});
+		} else {
+			// no position records exist yet -- nothing for View/Edit Positions to show on
+			// viewContainer.cfm, so it stays hidden until Create actually makes some
+			$positionsLink.addClass('d-none');
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
+			if ($createArea.length) {
+				renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
+					updateContainerPositionsSummary(numericContainerId, numericNumberPositions, true);
+				});
+			}
 		}
 	} else {
 		$positionsSummary.addClass('d-none');
