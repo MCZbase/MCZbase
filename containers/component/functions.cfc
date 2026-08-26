@@ -895,11 +895,17 @@ Function retrofitContainerPositions. Wraps a container's existing direct (non-po
 into newly-created position sub-containers, matching numbering -- for a fixture that declares
 number_positions but holds its content directly instead of via positions (found via a real
 fixture: 11 declared positions, but 10 numbered compartments sitting as direct children rather
-than inside position containers). For each target position number 1..N: if an existing direct
-child's own label matches that number, creates a new position container and reparents the
-existing child underneath it (a plain parent_container_id update -- whatever that child already
-contains moves with it, untouched); otherwise just creates an empty position there. Any existing
-direct child that doesn't match any target number is left alone. Deliberately bypasses
+than inside position containers). A direct child's position number is read from the trailing run
+of digits at the end of its label (e.g. "Ent_Hym-6_drawer-11" -> 11), falling back to its barcode's
+trailing digits when the label has none -- real fixture labels are rarely bare numbers, they're
+usually a longer name ending in the number, and that naming convention itself varies fixture to
+fixture, so matching the whole label exactly (as originally implemented) matched nothing in
+practice. For each target position number 1..N: if an existing direct child's extracted number
+matches, creates a new position container and reparents the existing child underneath it (a plain
+parent_container_id update -- whatever that child already contains moves with it, untouched);
+otherwise just creates an empty position there. Any existing direct child that doesn't match any
+target number is left alone -- it can still be moved into its correct position afterward via the
+positions grid's normal "Place..." action on that now-empty position. Deliberately bypasses
 createContainerPositions's "must have zero children" guard, since a fixture already holding
 un-positioned content is exactly the scenario this exists for. Refuses if this container already
 has position records -- retrofit is only for one that hasn't created any yet.
@@ -981,15 +987,27 @@ has position records -- retrofit is only for one that hasn't created any yet.
 	</cfif>
 
 	<cfquery name="local.queryDirectChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		SELECT container_id, label
+		SELECT container_id, label, barcode
 		FROM container
 		WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 			AND container_type <> 'position'
-			AND REGEXP_LIKE(TRIM(label), '^[0-9]+$')
 	</cfquery>
+	<!--- position number comes from the trailing digits of the label, falling back to the
+		barcode's trailing digits -- see the function doc comment above for why matching the
+		whole label exactly (the original implementation) doesn't hold up against real data --->
 	<cfset local.childByNumber = StructNew()>
 	<cfloop query="local.queryDirectChildren">
-		<cfset local.childByNumber[val(trim(local.queryDirectChildren.label))] = local.queryDirectChildren.container_id>
+		<cfset local.candidateNumber = "">
+		<cfset local.trimmedLabel = trim(local.queryDirectChildren.label)>
+		<cfset local.trimmedBarcode = trim(local.queryDirectChildren.barcode)>
+		<cfif REFind("[0-9]+$", local.trimmedLabel) GT 0>
+			<cfset local.candidateNumber = REReplace(local.trimmedLabel, "^.*?([0-9]+)$", "\1")>
+		<cfelseif REFind("[0-9]+$", local.trimmedBarcode) GT 0>
+			<cfset local.candidateNumber = REReplace(local.trimmedBarcode, "^.*?([0-9]+)$", "\1")>
+		</cfif>
+		<cfif len(local.candidateNumber) GT 0>
+			<cfset local.childByNumber[val(local.candidateNumber)] = local.queryDirectChildren.container_id>
+		</cfif>
 	</cfloop>
 
 	<cftransaction>
