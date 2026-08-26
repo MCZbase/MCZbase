@@ -1061,6 +1061,70 @@ function applyPendingPositionsAction(containerId, pendingAction) {
 	});
 }
 
+/**
+ * Loads Container.cfm's Container Check Log history table -- ported from editContainer.cfm's
+ * "Checked" sub-form, the one legacy action with no redesigned equivalent before this.
+ * @param {number|string} containerId - container_id whose check history to load.
+ */
+function loadContainerCheckHistory(containerId) {
+	$('#containerCheckHistory').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/public.cfc',
+		data: { method: 'getContainerCheckHistoryHtml', container_id: containerId },
+		success: function(html) {
+			$('#containerCheckHistory').html(html);
+		},
+		error: function(jqXHR, textStatus, error) {
+			$('#containerCheckHistory').html('<p class="text-danger small mb-0">Unable to load check history.</p>');
+			handleFail(jqXHR, textStatus, error, 'loading container check history');
+		}
+	});
+}
+
+/**
+ * Logs a container check from Container.cfm's Container Check Log section, then clears the
+ * Remark field and refreshes the history table. Checked By is read-only and purely informational
+ * on this page -- logContainerCheck (functions.cfc) always resolves the actual logged-in user
+ * server-side, so nothing from this field is sent.
+ * @param {number|string} containerId - container_id being checked.
+ */
+function logContainerCheck(containerId) {
+	var checkDate = $.trim($('#checkDate').val());
+	var checkRemark = $.trim($('#checkRemark').val());
+	if (!checkDate) {
+		setFeedbackControlState('containerCheckStatus', 'error');
+		messageDialog('Check Date is required.', 'Validation Error');
+		return;
+	}
+	setFeedbackControlState('containerCheckStatus', 'saving');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			method: 'logContainerCheck',
+			returnformat: 'json',
+			container_id: containerId,
+			check_date: checkDate,
+			check_remark: checkRemark
+		},
+		success: function(result) {
+			if (result.status === 'logged') {
+				setFeedbackControlState('containerCheckStatus', 'saved');
+				$('#checkRemark').val('');
+				loadContainerCheckHistory(containerId);
+			} else {
+				setFeedbackControlState('containerCheckStatus', 'error');
+				messageDialog('Error: ' + (result.message || 'Unable to log check.'), 'Error Logging Check');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState('containerCheckStatus', 'error');
+			handleFail(jqXHR, textStatus, error, 'logging container check');
+		}
+	});
+}
+
 function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
 	var $form = $('#' + formId);
 	var containerType = $.trim($form.find('[name=container_type]').val());

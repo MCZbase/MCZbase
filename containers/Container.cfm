@@ -627,6 +627,33 @@ limitations under the License.
 				</cfif>
 			</div>
 		</section>
+		<!--- ported from editContainer.cfm's "Checked" sub-form -- the one legacy action with no
+			redesigned equivalent yet. Checked By is read-only rather than a typeahead agent picker
+			like the legacy field was, since checked_agent_id is always resolved server-side from
+			the logged-in session (see logContainerCheck) regardless of what's typed here -- an
+			editable-but-ignored field would just be misleading. --->
+		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerCheckHeading">
+			<div class="col-12">
+				<h2 class="h4 ml-1 mb-2" id="containerCheckHeading">Container Check Log</h2>
+				<div class="form-row mb-2">
+					<div class="col-12 col-md-4 mb-2">
+						<label for="checkCheckedBy" class="data-entry-label">Checked By</label>
+						<input type="text" id="checkCheckedBy" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(session.username)#" readonly>
+					</div>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="checkDate" class="data-entry-label">Check Date</label>
+						<input type="text" id="checkDate" class="data-entry-input col-12" value="#dateformat(now(),'yyyy-mm-dd')#">
+					</div>
+					<div class="col-12 col-md-5 mb-2">
+						<label for="checkRemark" class="data-entry-label">Remark</label>
+						<input type="text" id="checkRemark" class="data-entry-input col-12">
+					</div>
+				</div>
+				<button type="button" class="btn btn-xs btn-primary mb-2" id="logContainerCheckButton">Log Check</button>
+				<output id="containerCheckStatus"></output>
+				<div id="containerCheckHistory"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
+			</div>
+		</section>
 	</cfif>
 </cfoutput>
 
@@ -682,6 +709,11 @@ limitations under the License.
 		<cfif variables.action EQ "edit">
 			<cfoutput>
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
+			$('##checkDate').datepicker({ dateFormat: 'yy-mm-dd' });
+			loadContainerCheckHistory(#val(variables.formData.container_id)#);
+			$('##logContainerCheckButton').on('click', function() {
+				logContainerCheck(#val(variables.formData.container_id)#);
+			});
 			<cfloop query="getHistory">
 				<cfif val(getHistory.parent_container_id) GT 0>
 					loadPlacementWarningBadge(#val(variables.formData.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');

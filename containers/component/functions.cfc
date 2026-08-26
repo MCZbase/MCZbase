@@ -1049,6 +1049,76 @@ has position records -- retrofit is only for one that hasn't created any yet.
 </cffunction>
 
 <!---
+Function logContainerCheck. Records a physical check of a container (e.g. a periodic freezer/
+cabinet inspection) into container_check -- ported from editContainer.cfm's "Checked" sub-form,
+the one editContainer.cfm feature with no equivalent anywhere in the redesign. checked_agent_id is
+always resolved from session.myAgentId server-side, never trusted from the caller -- the legacy
+page posted it as a plain hidden form field, so a modified request could have credited the check
+to anyone.
+@param container_id the container being checked.
+@param check_date the date of the check (yyyy-mm-dd).
+@param check_remark optional remark about the check.
+@return a JSON object: {status: "logged"|"error", message}.
+--->
+<cffunction name="logContainerCheck" access="remote" returntype="any" returnformat="json">
+	<cfargument name="container_id" type="numeric" required="yes">
+	<cfargument name="check_date" type="string" required="yes">
+	<cfargument name="check_remark" type="string" required="no" default="">
+
+	<cfset local.retval = StructNew()>
+	<cfif NOT isDate(arguments.check_date)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Check Date must be a valid date.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+	<cfif NOT (isdefined("session.myAgentId") AND val(session.myAgentId) GT 0)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "Your session has no associated agent record -- can't log a check.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="local.queryContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT container_id FROM container
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			</cfquery>
+			<cfif local.queryContainer.recordcount EQ 0>
+				<cfset local.retval["status"] = "error">
+				<cfset local.retval["message"] = "Container was not found.">
+				<cftransaction action="rollback">
+				<cfreturn serializeJSON(local.retval)>
+			</cfif>
+			<cfquery name="local.queryInsertCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				INSERT INTO container_check (
+					container_id,
+					check_date,
+					checked_agent_id,
+					check_remark
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#createODBCDate(parseDateTime(arguments.check_date))#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.check_remark)#" null="#len(trim(arguments.check_remark)) EQ 0#">
+				)
+			</cfquery>
+			<cfset local.retval["status"] = "logged">
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset local.function_called = "#GetFunctionCalledName()#">
+			<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+			<cfset local.retval = StructNew()>
+			<cfset local.retval["status"] = "error">
+			<cfset local.retval["message"] = local.error_message>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
 Function createContainerSeries.  Bulk-creates a numbered series of container records sharing one
 parent and container_type, for pre-printing or reserving a run of barcode labels
 

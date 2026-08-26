@@ -1597,6 +1597,69 @@ details of a container for use in dialogs and page components.
 </cffunction>
 
 <!---
+Function getContainerCheckHistoryHtml. Returns an HTML fragment listing every physical check
+logged for a container (see functions.cfc's logContainerCheck), most recent first -- read-only,
+so it lives here alongside getContainerDetailsHtml rather than in functions.cfc.
+@param container_id the container whose check history to return.
+@return an HTML fragment: a table if any checks exist, otherwise a "no checks logged yet" message.
+--->
+<cffunction name="getContainerCheckHistoryHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cftry>
+		<cfquery name="local.queryHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT
+				cc.check_date,
+				cc.check_remark,
+				pan.agent_name
+			FROM
+				container_check cc
+				LEFT JOIN preferred_agent_name pan ON cc.checked_agent_id = pan.agent_id
+			WHERE
+				cc.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+			ORDER BY
+				cc.check_date DESC
+		</cfquery>
+		<cfsavecontent variable="local.html">
+			<cfoutput>
+				<cfif local.queryHistory.recordcount EQ 0>
+					<p class="text-muted mb-0">No checks logged yet.</p>
+				<cfelse>
+					<div class="table-responsive">
+						<table class="table table-sm table-striped mb-0">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Checked By</th>
+									<th>Remark</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="local.queryHistory">
+									<tr>
+										<td>#dateformat(local.queryHistory.check_date, "yyyy-mm-dd")#</td>
+										<td>#encodeForHtml(local.queryHistory.agent_name)#</td>
+										<td>#encodeForHtml(local.queryHistory.check_remark)#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</div>
+				</cfif>
+			</cfoutput>
+		</cfsavecontent>
+		<cfreturn local.html>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfsavecontent variable="local.html"><p class="text-danger">Unable to load check history.</p></cfsavecontent>
+		<cfreturn local.html>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
 Function getOrphanedEmptyProxyContainers.  Returns a paginated list of empty proxy-role
 containers located at institution or root level.
 
