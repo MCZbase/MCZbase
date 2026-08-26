@@ -22,7 +22,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id for container to edit --->
 <cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
-<cfparam name="url.clone_from" default=""><!--- action=new only: container_id to pre-fill reusable fields from -->
+<cfparam name="url.clone_from" default=""><!--- action=new only: container_id to pre-fill reusable fields from --->
 <cf_rolecheck>
 
 <cfset variables.action = lCase(trim(url.action))>
