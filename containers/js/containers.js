@@ -965,15 +965,20 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
  * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
 /**
- * Updates Container.cfm's "Positions" summary box/link after Number of Positions changes, from
- * either a regular save or the positions-change dialog -- shared so both entry points leave the
- * summary in the same state instead of drifting apart.
+ * Updates Container.cfm's "Positions" summary box/link/create-prompt after Number of Positions
+ * changes, from either a regular save or the positions-change dialog -- shared so both entry
+ * points leave the summary in the same state instead of drifting apart.
  * @param {number|string} containerId - container_id the summary box belongs to.
  * @param {number|string} numberPositions - the container's current declared Number of Positions.
+ * @param {boolean} [recordsExist] - whether container_type='position' records already exist for
+ *	this container -- false (a plain Save, which can only ever change a still-zero record count)
+ *	renders the "Create N Positions" prompt into #containerPositionsCreateArea; true (the
+ *	positions-change dialog's Grow/Shrink, where records already existed beforehand) clears it.
  */
-function updateContainerPositionsSummary(containerId, numberPositions) {
+function updateContainerPositionsSummary(containerId, numberPositions, recordsExist) {
 	var $positionsSummary = $('#containerPositionsSummary');
 	var $positionsLink = $('#containerPositionsLink');
+	var $createArea = $('#containerPositionsCreateArea');
 	if ($positionsSummary.length === 0 || $positionsLink.length === 0) {
 		return;
 	}
@@ -985,8 +990,16 @@ function updateContainerPositionsSummary(containerId, numberPositions) {
 		// this generic text rather than the fuller message shown on page load, until reloaded
 		$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' position' + (numericNumberPositions === 1 ? '' : 's') + '.');
 		$positionsSummary.removeClass('d-none');
+		if (recordsExist) {
+			$createArea.empty();
+		} else if ($createArea.length) {
+			renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
+				updateContainerPositionsSummary(numericContainerId, numericNumberPositions, true);
+			});
+		}
 	} else {
 		$positionsSummary.addClass('d-none');
+		$createArea.empty();
 	}
 }
 
@@ -1024,7 +1037,7 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			} else if (status === 'saved') {
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()));
+				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()), false);
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -2117,23 +2130,27 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  *	triggered from within this grid so its "(all occupied)" text stays current.
  */
 /**
- * Function renderCreatePositionsPrompt renders a "Create N Positions" button in place of an
- * empty positions grid, for a container that declares a non-zero number_positions but has no
- * container_type='position' children yet -- createContainerPositions only supports a handful of
- * known box/rack presets, so a non-"created" response is handled inline rather than assumed to
- * always succeed: "unsupported" offers a columns count to lay out an arbitrary grid instead, and
- * "exists" (the container already holds content directly, not via positions) offers Retrofit.
+ * Function renderCreatePositionsPrompt renders a "Create N Positions" button, for a container
+ * that declares a non-zero number_positions but has no container_type='position' children yet.
+ * Reached only from Container.cfm's edit-page Positions summary box -- creation is not offered
+ * from viewContainer.cfm, which shows a plain "edit to add" message instead once declared.
+ * createContainerPositions only supports a handful of known box/rack presets, so a non-"created"
+ * response is handled inline rather than assumed to always succeed: "unsupported" offers a
+ * columns count to lay out an arbitrary grid instead, and "exists" (the container already holds
+ * content directly, not via positions) offers Retrofit.
  * @param {number} numPositions - declared position count.
  * @param {string} targetDivId - id of the panel to render into.
  * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
  * @param {number|string} containerId - container_id to create positions for.
  * @param {boolean} canEditPositions - forwarded to the grid reload once positions exist.
  * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
+ * @param {Function} [onCreated] - called instead of reloading the positions grid once creation
+ *	succeeds -- Container.cfm has no grid on the page to reload, so it uses this to update its
+ *	own Positions summary text/link instead.
  */
-function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
+function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId, onCreated) {
 	var target = $('#' + targetDivId);
 	var wrapper = $('<div></div>');
-	wrapper.append($('<p class="text-muted mb-2"></p>').text('This container declares ' + numPositions + ' positions, but none have been created yet.'));
 	var $errorDiv = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
 	var $followUpDiv = $('<div class="mb-2"></div>');
 	var $createBtn = $('<button class="btn btn-xs btn-primary" type="button"></button>').text('Create ' + numPositions + ' Positions');
@@ -2175,7 +2192,11 @@ function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, cont
 			success: function(result) {
 				$createBtn.prop('disabled', false);
 				if (result.status === 'created') {
-					refresh();
+					if (typeof onCreated === 'function') {
+						onCreated(result);
+					} else {
+						refresh();
+					}
 					return;
 				}
 				$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
@@ -2253,8 +2274,16 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 	};
 	var layoutClass = layoutClassMap[parseInt(numPositions, 10)] || '';
 	if (!positions || positions.length === 0) {
-		if (canEditPositions && parseInt(numPositions, 10) > 0) {
-			renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId);
+		if (parseInt(numPositions, 10) > 0) {
+			var $notCreatedMsg = $('<p class="text-muted mb-0"></p>').text('This container declares ' + numPositions + ' position(s), but none have been created yet.');
+			if (canEditPositions) {
+				$notCreatedMsg.append(' ').append(
+					$('<a></a>')
+						.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
+						.text('Edit to add.')
+				);
+			}
+			target.html($notCreatedMsg);
 		} else {
 			target.html('<p class="text-muted mb-0">No position containers found.</p>');
 		}

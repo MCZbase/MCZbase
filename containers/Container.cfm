@@ -424,6 +424,7 @@ limitations under the License.
 									This container declares #variables.formData.number_positions# #variables.positionsWord#; all have been created (#variables.positionOccupiedCount# occupied).
 								</cfif>
 							</p>
+							<div id="containerPositionsCreateArea" class="mb-2"></div>
 							<a class="btn btn-xs btn-secondary" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">View/Edit Positions</a>
 						</div>
 					</div>
@@ -619,9 +620,19 @@ limitations under the License.
 					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(newNumberPositions) {
 						$('##number_positions').val(newNumberPositions);
 						$('##number_positions_display').val(newNumberPositions);
-						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions);
+						updateContainerPositionsSummary(#val(variables.formData.container_id)#, newNumberPositions, true);
 						changed();
 					});
+				});
+				</cfoutput>
+			<cfelseif val(variables.formData.number_positions) GT 0>
+				<!--- no position records exist yet, but a count is already declared (either from page
+					load, or set moments ago and saved) -- render the same "Create N Positions" prompt
+					this container's own summary box would show after a plain save, so a page load
+					doesn't require one first --->
+				<cfoutput>
+				renderCreatePositionsPrompt(#val(variables.formData.number_positions)#, 'containerPositionsCreateArea', null, #val(variables.formData.container_id)#, true, null, function() {
+					updateContainerPositionsSummary(#val(variables.formData.container_id)#, #val(variables.formData.number_positions)#, true);
 				});
 				</cfoutput>
 			</cfif>
