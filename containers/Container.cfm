@@ -114,12 +114,10 @@ limitations under the License.
 			c.locked_position,
 			p.label AS parent_label,
 			p.barcode AS parent_barcode,
-			p.container_type AS parent_container_type,
-			ct.role AS container_role
+			p.container_type AS parent_container_type
 		FROM
 			container c
 			LEFT JOIN container p ON c.parent_container_id = p.container_id
-			LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 		WHERE
 			c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
 	</cfquery>
@@ -163,9 +161,6 @@ limitations under the License.
 			ch.install_date DESC NULLS LAST
 	</cfquery>
 	<cfset variables.hasChildren = (getChildCount.child_count GT 0)>
-	<!--- matches viewContainer.cfm's own isProxyOrLeafType -- a leaf/proxy container can't have
-		children, so Create Child/Place Child are hidden here for the same reason they are there --->
-	<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
 	<cfset variables.formData["container_id"] = getContainer.container_id>
 	<cfset variables.formData["container_type"] = getContainer.container_type>
 	<cfset variables.formData["label"] = getContainer.label>
@@ -265,13 +260,12 @@ limitations under the License.
 					</script>
 					<!--- unlike viewContainer.cfm's toolbar, no canEditContainers check is needed here --
 						loading this page at all already requires manage_container via cf_rolecheck, so
-						there's no broader-audience case to gate against --->
+						there's no broader-audience case to gate against. Create Child/Place Child are
+						deliberately left off this toolbar -- unlike viewContainer.cfm, this page never
+						shows what the container currently contains, so there isn't enough context here
+						for either action, even though both are logically edit-ish actions. --->
 					<div class="btn-toolbar pt-1" role="toolbar" aria-label="Container actions">
 						<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(variables.formData.container_id)#&amp;execute=true">Browse in Hierarchy</a>
-						<cfif NOT variables.isProxyOrLeafType>
-							<a class="btn btn-xs btn-secondary mr-1 mb-1" href="/containers/Container.cfm?action=new&amp;parent_container_id=#encodeForURL(variables.formData.container_id)#" target="_blank" rel="noopener noreferrer">Create Child of this Container</a>
-							<a href="##" class="btn btn-xs btn-secondary mr-1 mb-1" onclick="event.preventDefault(); openPlaceChildIntoContainerDialog(#val(variables.formData.container_id)#, '#encodeForJavaScript(container_name)#', '#encodeForJavaScript(variables.formData.institution_acronym)#', 'containerSaveStatus', '');">Place Child into this Container</a>
-						</cfif>
 						<a class="btn btn-xs btn-info mb-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
 					</div>
 				<cfelse>
