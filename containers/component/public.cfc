@@ -1626,7 +1626,7 @@ so it lives here alongside getContainerDetailsHtml rather than in functions.cfc.
 					<p class="text-muted mb-0">No checks logged yet.</p>
 				<cfelse>
 					<div class="table-responsive">
-						<table class="table table-sm table-striped mb-0">
+						<table class="table table-sm table-striped mb-1">
 							<thead>
 								<tr>
 									<th>Date</th>

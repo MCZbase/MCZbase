@@ -240,6 +240,16 @@ limitations under the License.
 		</cfif>
 	</section>
 
+	<cfif variables.canEditContainers>
+		<!--- read-only here -- logging a new check is only offered on the edit page
+			(Container.cfm), which this shares getContainerCheckHistoryHtml/
+			loadContainerCheckHistory with. --->
+		<section class="mb-3" aria-labelledby="containerCheckHeading">
+			<h2 class="h4" id="containerCheckHeading">Container Check Log</h2>
+			<div id="containerCheckHistory"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
+		</section>
+	</cfif>
+
 	<section class="mb-4">
 		<output id="containerViewFeedback" aria-live="polite"></output>
 	</section>
@@ -256,6 +266,9 @@ limitations under the License.
 				loadPlacementWarningBadge(#val(getContainer.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("viewContainerHistoryBadge_#getHistory.currentRow#")#');
 			</cfif>
 		</cfloop>
+		<cfif variables.canEditContainers>
+			loadContainerCheckHistory(#val(getContainer.container_id)#);
+		</cfif>
 	});
 </script>
 </cfoutput>
