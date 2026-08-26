@@ -2641,9 +2641,14 @@ function openPositionsChangeDialog(containerId, onChanged) {
 							$growBtn.prop('disabled', false);
 							if (result.status === 'created') {
 								if (onChanged) {
+									// the caller (Container.cfm) reloads the page once notified of a
+									// change -- re-rendering this dialog's own grid here would race
+									// that navigation, and the aborted request would surface as a
+									// spurious error dialog, so skip it and let the reload happen.
 									onChanged(result.number_positions);
+								} else {
+									render();
 								}
-								render();
 							} else {
 								$error.text(result.message || 'Unable to grow positions.').removeClass('d-none');
 							}
@@ -2691,9 +2696,12 @@ function openPositionsChangeDialog(containerId, onChanged) {
 							$shrinkBtn.prop('disabled', false);
 							if (result.status === 'trimmed') {
 								if (onChanged) {
+									// see the matching comment in the Grow handler above -- skip the
+									// re-render when the caller is about to reload the page instead.
 									onChanged(result.number_positions);
+								} else {
+									render();
 								}
-								render();
 							} else {
 								$error.text(result.message || 'Unable to shrink positions.').removeClass('d-none');
 							}
