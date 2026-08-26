@@ -182,7 +182,7 @@ limitations under the License.
 						<cfelse>
 							This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
 						</cfif>
-						<a href="/findContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
+						<a href="/containers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
 			   			#getContainerInfo.container_type#: #getContainerInfo.barcode#
 						</a>.
 						<cfif variables.show IS "all">
@@ -196,6 +196,7 @@ limitations under the License.
 						</cfif>
 						<!--- add info link to view this container in viewContainer.cfm --->
 						<a class="btn btn-xs btn-primary" role="button"  href="/containers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_blank">View</a>
+						<a class="btn btn-xs btn-info" role="button" href="/containers/Containers.cfm?container_id=#encodeForUrl(variables.container_id)#&amp;execute=true" target="_blank">Browse in Hierarchy</a>
 					</p>
 					<cfif variables.show is "immediate">
 						<p>
@@ -239,7 +240,7 @@ limitations under the License.
 							</cfquery>
 							<cfloop query="specData">
 								<tr>
-									<td> <a href="/findContainer.cfm?container_id=#leaf.container_id#" target="_blank">#leaf.label#</a> &nbsp;</td>
+									<td> <a href="/containers/viewContainer.cfm?container_id=#leaf.container_id#" target="_blank">#leaf.label#</a> &nbsp;</td>
 									<td>#leaf.description#&nbsp;</td>
 									<td>#leaf.barcode#&nbsp;</td>
 									<td>#leaf.container_remarks#&nbsp;</td>
@@ -261,184 +262,5 @@ limitations under the License.
 		</cfif>
 	</cfoutput>
 
-	<!---------------- start search by container ---------------->
-	<cfif #action# is "nothing">
-		<!--- redirect to redesigned container seaarch/browse --->
-		<cflocation url="/containers/Containers.cfm" addtoken="no">
-
-		<!--- TODO: The following code appears to be unused, and is broken --->
-		<cfif not isdefined ("srch")>
-			<cfabort>
-		</cfif>
-		<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT
-				container.container_id,
-				container.parent_container_id,
-				container_type,
-				label
-			FROM
-				container
-				<cfif srch is "Part">
-					, coll_obj_cont_hist, specimen_part, cataloged_item
-				</cfif>
-				<cfif srch is "Container">
-					, fluid_container_history
-				</cfif>
-				<cfif isdefined("af_num")>
-					, af_num
-				</cfif>
-				<cfif isdefined("Scientific_Name")>
-					, identification, taxonomy
-				</cfif>
-			WHERE
-				1=1
-				<cfif srch is "Part">
-					AND container.container_id = coll_obj_cont_hist.container_id
-					AND coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
-					AND specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-				</cfif>
-				<cfif srch is "Container">
-					AND container.container_id = fluid_container_history.container_id (+)
-				</cfif>
-				<cfif isdefined("af_num")>
-					AND cataloged_item.collection_object_id = af_num.collection_object_id
-					AND af_num.af_num IN (
-						<cfqueryparam value="#listToArray(af_num)#" cfsqltype="CF_SQL_VARCHAR" list="true">
-					)
-				</cfif>
-				<cfif isdefined("cat_num")>
-					AND cataloged_item.cat_num IN (
-						<cfqueryparam value="#listToArray(cat_num)#" cfsqltype="CF_SQL_VARCHAR" list="true">
-					)
-				</cfif>
-				<cfif isdefined("collection_cde")>
-					AND cataloged_item.collection_cde = <cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("Tissue_Type")>
-					AND Tissue_Type = <cfqueryparam value="#Tissue_Type#" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("Part_Name")>
-					AND part_Name = <cfqueryparam value="#Part_Name#" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("Scientific_Name")>
-					AND cataloged_item.collection_object_id = identification.collection_object_id
-					AND identification.accepted_id_fg = 1
-					AND identification.taxon_name_id = taxonomy.taxon_name_id
-					AND upper(Scientific_Name) LIKE <cfqueryparam value="%#ucase(Scientific_Name)#%" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("container_label")>
-					<cfif isdefined("wildLbl") and wildLbl is 1>
-						AND upper(label) LIKE <cfqueryparam value="%#ucase(container_label)#%" cfsqltype="CF_SQL_VARCHAR">
-					<cfelse>
-						AND label = <cfqueryparam value="#container_label#" cfsqltype="CF_SQL_VARCHAR">
-					</cfif>
-				</cfif>
-				<cfif isdefined("description")>
-					<cfif isdefined("wildLbl") and wildLbl is 1>
-						AND upper(description) LIKE <cfqueryparam value="%#ucase(description)#%" cfsqltype="CF_SQL_VARCHAR">
-					<cfelse>
-						AND description = <cfqueryparam value="#description#" cfsqltype="CF_SQL_VARCHAR">
-					</cfif>
-				</cfif>
-				<cfif isdefined("collection_object_id")>
-					AND cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfif>
-				<cfif isdefined("barcode")>
-					AND barcode IN (
-						<cfqueryparam value="#listToArray(barcode)#" cfsqltype="CF_SQL_VARCHAR" list="true">
-					)
-				</cfif>
-				<cfif isdefined("container_type")>
-					AND container_type = <cfqueryparam value="#container_type#" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("container_remarks")>
-					AND upper(container_remarks) LIKE <cfqueryparam value="%#ucase(container_remarks)#%" cfsqltype="CF_SQL_VARCHAR">
-				</cfif>
-				<cfif isdefined("container_id")>
-					AND container.container_id = <cfqueryparam value="#container_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfif>
-			ORDER BY
-				container.container_id
-		</cfquery>
-	</cfif>
-	<!---------------- end search by container ---------------->
-
-	<!---------------- search by container_id (ie, for all the containers in a container
-	from a previous search ---------------------------------->
-	<cfif #action# is "contentsSearch">
-		<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				container_id
-			FROM
-				container
-			WHERE
-				parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-		</cfquery>
-	</cfif>
-	<!-------------------------- end contents search ----------------------->
-
-	<cfif isDefined("allRecords")>
-		<cfif #allRecords.recordcount# is 0>
-			Your search returned no records. Use your browser&##39;s back button to try again.
-		<cfelse>
-			<cfform name="TissTree" enablecab="yes">
-				<!--- TODO: cftree has been removed from coldfusion. This will need to be replaced with a different tree control if this code is retained. --->
-				<cftree name="tt" height="600" width="400"  format="html">
-					<cftreeitem value="0" expand="yes" display="Location">
-					<!--- set up a list to keep track of the container_ids that we've put in the tree --->
-					<cfset placedContainers = "">
-	
-					<cfloop query="allRecords">
-						<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								container_id,
-								parent_container_id,
-								container_type,
-								description,
-								parent_install_date,
-								container_remarks,
-								label
-							FROM 
-								container
-							START WITH container_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#allRecords.container_id#">
-							CONNECT BY PRIOR parent_container_id = container_id
-						</cfquery>
-						<cfoutput>
-							<cfloop query="thisRecord">
-								<cfif not listfind(placedContainers,#thisRecord.container_id#)>
-									<cfif #thisRecord.container_type# is "collection object">
-										<cftreeitem
-											value="#thisRecord.container_id#--ContainerDetails.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
-											display="#thisRecord.label#"
-											parent="#thisRecord.parent_container_id#"
-											expand="yes"
-											href="ContainerDetails.cfm?container_id=#thisRecord.container_id#"
-											target="_detail">
-									<cfelse>
-										<cftreeitem 
-											value="#thisRecord.container_id#" 
-											display="#thisRecord.label#" 
-											parent="#thisRecord.parent_container_id#" 
-											href="ContainerDetails.cfm?container_id=#thisRecord.container_id#" 
-											target="_detail" 
-											expand="yes">
-									</cfif>
-									<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)>
-								</cfif>
-							</cfloop>
-						</cfoutput>
- 					</cfloop>
- 				</cftree>
-			</cfform>
-		</cfif>
-		<cfif isdefined("sql") and len(#sql#) gt 0>
-			<form method="post" action="/locDownload.cfm" target="_blank">
-				<cfoutput>
-					<input type="hidden" name="sql" value="#preservesinglequotes(sql)#">
-					<input type="submit" value="download summary">
-				</cfoutput>
-	 		</form>
-		</cfif>
-	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
