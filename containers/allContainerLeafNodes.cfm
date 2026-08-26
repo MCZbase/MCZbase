@@ -195,8 +195,8 @@ limitations under the License.
 							<a class="btn-secondary btn-xs" role="button"  href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>
 						</cfif>
 						<!--- add info link to view this container in viewContainer.cfm --->
-						<a class="btn btn-xs btn-primary" role="button"  href="/containers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_blank">View</a>
 						<a class="btn btn-xs btn-info" role="button" href="/containers/Containers.cfm?container_id=#encodeForUrl(variables.container_id)#&amp;execute=true" target="_blank">Browse in Hierarchy</a>
+						<a class="btn btn-xs btn-primary" role="button"  href="/containers/viewContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_blank">View</a>
 					</p>
 					<cfif variables.show is "immediate">
 						<p>
