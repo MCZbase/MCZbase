@@ -470,7 +470,8 @@ Function searchContainers.  Searches containers by one or more criteria and retu
 a paginated JSON result for display in the browse panel.
 
 @param search_term optional substring to match against label OR barcode (case-insensitive).
-@param container_type optional exact match on container_type.
+@param container_type optional match on container_type -- a single exact value, a leading "!"
+	for NOT, and/or a comma-separated list of values OR'd together (NOT-ed together if negated).
 @param barcode optional substring to match against barcode (case-insensitive).
 @param description optional substring to match against description OR container_remarks (case-insensitive).
 @param department optional prefix to match against label (case-insensitive, appends % wildcard).
@@ -538,6 +539,17 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.barcodeUpper = ucase(trim(arguments.barcode))>
 		<cfset local.descUpper = ucase(trim(arguments.description))>
 		<cfset local.deptUpper = ucase(trim(arguments.department))>
+		<!--- container_type supports: a single exact type (unchanged); a leading "!" for NOT;
+			and/or a comma-separated list of types OR'd together (NOT-ed together if negated) --
+			e.g. "fixture,cryovat,tank" or "!collection object". Parsed once, used by both the
+			count query and the paginated results query below. --->
+		<cfset local.containerTypeNegated = false>
+		<cfset local.containerType = trim(arguments.container_type)>
+		<cfif left(local.containerType, 1) EQ "!">
+			<cfset local.containerTypeNegated = true>
+			<cfset local.containerType = trim(right(local.containerType, len(local.containerType) - 1))>
+		</cfif>
+		<cfset local.containerTypeIsList = (listLen(local.containerType) GT 1)>
 		<cfset local.treeProperty = trim(arguments.tree_property)>
 		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
 		<cfset local.positionFilter = trim(arguments.position_filter)>
@@ -788,8 +800,14 @@ a paginated JSON result for display in the browse panel.
 					)
 				</cfif>
 			</cfif>
-			<cfif len(arguments.container_type) GT 0>
-				AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
+			<cfif len(local.containerType) GT 0>
+				<cfif local.containerTypeIsList>
+					AND c.container_type <cfif local.containerTypeNegated>NOT </cfif>IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#" list="true">)
+				<cfelseif local.containerTypeNegated>
+					AND c.container_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#">
+				<cfelse>
+					AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#">
+				</cfif>
 			</cfif>
 			<cfif len(local.barcodeUpper) GT 0>
 				<cfif left(local.barcodeUpper,1) EQ "=">
@@ -952,8 +970,14 @@ a paginated JSON result for display in the browse panel.
 							)
 						</cfif>
 					</cfif>
-					<cfif len(arguments.container_type) GT 0>
-						AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_type#">
+					<cfif len(local.containerType) GT 0>
+						<cfif local.containerTypeIsList>
+							AND c.container_type <cfif local.containerTypeNegated>NOT </cfif>IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#" list="true">)
+						<cfelseif local.containerTypeNegated>
+							AND c.container_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#">
+						<cfelse>
+							AND c.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.containerType#">
+						</cfif>
 					</cfif>
 					<cfif len(local.barcodeUpper) GT 0>
 						<cfif left(local.barcodeUpper,1) EQ "=">
