@@ -2490,7 +2490,7 @@ function openPositionsChangeDialog(containerId, onChanged) {
 		autoOpen: true,
 		buttons: {
 			Close: function() {
-				$(this).dialog('destroy');
+				$(this).dialog('close');
 			}
 		},
 		open: function() {
