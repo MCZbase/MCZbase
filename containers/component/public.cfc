@@ -2799,7 +2799,7 @@ different parts of the collection use different storage hierarchies.
 @param location_types required ordered, comma-separated list of container_type names (root-most
 	first) to render as columns.
 @return JSON object: { summary: "...", columns: [...], rows: [...] }. Each row has guid, guid_url,
-	part_name, preserve_method, display_lot_count, and one entry per column in "columns" (blank
+	part_name, preserve_method, display_lot_count, disposition, and one entry per column in "columns" (blank
 	string when that part's chain doesn't include that type). "summary" describes the input
 	resolved (e.g. "42 part(s) from a Search", "3 part(s) from Loan 2024-3-IZ") or an explicit
 	not-given/not-found message. A result_id/loan_number/deacc_number/transaction_id that resolves
@@ -2878,6 +2878,7 @@ different parts of the collection use different storage hierarchies.
 					sp.preserve_method,
 					co.lot_count,
 					co.lot_count_modifier,
+					co.coll_obj_disposition,
 					ci.cat_num,
 					col.collection_cde,
 					col.institution_acronym,
@@ -2994,6 +2995,7 @@ different parts of the collection use different storage hierarchies.
 				<cfif len(trim(local.queryPartIdentity.lot_count_modifier)) GT 0>
 					<cfset local.oneRow["display_lot_count"] = "#local.queryPartIdentity.lot_count_modifier##local.queryPartIdentity.lot_count#">
 				</cfif>
+				<cfset local.oneRow["disposition"] = local.queryPartIdentity.coll_obj_disposition>
 
 				<cfset local.oneChain = ArrayNew(1)>
 				<cfif len(trim(local.queryPartIdentity.current_container_id)) GT 0 AND structKeyExists(local.chainsByContainer, local.queryPartIdentity.current_container_id)>

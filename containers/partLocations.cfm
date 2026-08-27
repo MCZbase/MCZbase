@@ -56,7 +56,7 @@ limitations under the License.
 		transaction_id = variables.transaction_id,
 		location_types = variables.location_types
 	))>
-	<cfset variables.csvColumnNames = "GUID,Part Name,Preserve Method,Lot Count">
+	<cfset variables.csvColumnNames = "GUID,Part Name,Preserve Method,Lot Count,Disposition">
 	<cfloop array="#variables.report.columns#" index="variables.oneColumnName">
 		<cfset variables.csvColumnNames = listAppend(variables.csvColumnNames, variables.oneColumnName)>
 	</cfloop>
@@ -67,6 +67,7 @@ limitations under the License.
 		<cfset querySetCell(variables.csvQuery, "Part Name", variables.oneReportRow.part_name, variables.csvRowIndex)>
 		<cfset querySetCell(variables.csvQuery, "Preserve Method", variables.oneReportRow.preserve_method, variables.csvRowIndex)>
 		<cfset querySetCell(variables.csvQuery, "Lot Count", variables.oneReportRow.display_lot_count, variables.csvRowIndex)>
+		<cfset querySetCell(variables.csvQuery, "Disposition", variables.oneReportRow.disposition, variables.csvRowIndex)>
 		<cfloop array="#variables.report.columns#" index="variables.oneColumnName">
 			<cfset querySetCell(variables.csvQuery, variables.oneColumnName, variables.oneReportRow[variables.oneColumnName], variables.csvRowIndex)>
 		</cfloop>
@@ -83,6 +84,7 @@ limitations under the License.
 <cfset pageHasContainers = true>
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
+<script src="/lib/misc/sorttable.js"></script>
 
 <!--- all container types, in their usual nesting order, for the location-columns checklist below --->
 <cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -225,6 +227,7 @@ limitations under the License.
 			headRow.append($('<th></th>').text('Part Name'));
 			headRow.append($('<th></th>').text('Preserve Method'));
 			headRow.append($('<th></th>').text('Lot Count'));
+			headRow.append($('<th></th>').text('Disposition'));
 			$.each(data.columns, function(i, columnName) {
 				headRow.append($('<th></th>').text(titleCaseContainerType(columnName)));
 			});
@@ -240,6 +243,7 @@ limitations under the License.
 				tr.append($('<td></td>').text(row.part_name || ''));
 				tr.append($('<td></td>').text(row.preserve_method || ''));
 				tr.append($('<td></td>').text(row.display_lot_count || ''));
+				tr.append($('<td></td>').text(row.disposition || ''));
 				$.each(data.columns, function(j, columnName) {
 					tr.append($('<td></td>').text(row[columnName] || ''));
 				});
