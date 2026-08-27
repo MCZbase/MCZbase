@@ -29,12 +29,9 @@ limitations under the License.
 <cfparam name="url.execute" default="">
 <cfparam name="url.action" default="">
 
-<!--- this page's csvDump action streams a file and must run before any HTML (including the
-	shared header) is emitted, since HTTP headers can't be set once output has started -- so,
-	unlike most pages in this redesign, it needs its own standalone <cf_rolecheck> here to guard
-	that branch. The header include below still runs its own check too, on the normal render
-	path -- a harmless duplicate there, not a redundant tag to remove, the same trade-off already
-	made for tools/BulkloadContEditParent.cfm, metrics/Dashboard.cfm, and tools/downloadParts.cfm. --->
+<!--- csvDump (below) streams a file before the shared header runs, so needs its own
+	<cf_rolecheck> here; the header's own check further down is a harmless duplicate on the
+	normal render path, not a redundant tag to remove. --->
 <cf_rolecheck>
 
 <cfset variables.result_id = trim(url.result_id)>

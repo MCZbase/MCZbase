@@ -54,11 +54,8 @@ limitations under the License.
 	<cfif getContainerInfo.recordcount EQ 0>
 		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">
 	</cfif>
-	<!--- special case handling to dump as csv -- this branch streams a file and must run before
-		any HTML (including the shared header) is emitted, since HTTP headers can't be set once
-		output has started, so it needs its own <cf_rolecheck> here to guard it: this file has no
-		rolecheck anywhere else, so without this the export ran fully unauthenticated. Found while
-		building containers/partLocations.cfm's own csvDump action. --->
+	<!--- special case handling to dump as csv -- streams a file before the shared header runs,
+		so needs its own <cf_rolecheck> here since this file has no other role check. --->
 	<cfif isDefined("variables.action") AND variables.action is "csvDump">
 		<cf_rolecheck>
 		<cfquery name="allLeafData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
