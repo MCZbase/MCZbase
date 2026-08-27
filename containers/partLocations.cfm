@@ -105,9 +105,9 @@ limitations under the License.
 					<label for="location_types" class="data-entry-label">Location Columns (comma separated, root-most first)</label>
 					<input type="text" id="location_types" name="location_types" class="data-entry-input col-12" value="#encodeForHtml(variables.location_types)#">
 					<div class="mt-1">
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('freezer,freezer rack,rack slot,freezer box,cryovial')">Freezer/Rack/Box</button>
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('freezer,freezer box,cryovial')">Freezer/Box (no rack)</button>
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('grouping,fixture,compartment')">Dry Storage (Fixture/Compartment)</button>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,freezer,freezer rack,rack slot,freezer box,cryovial')">Freezer/Rack/Box</button>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,freezer,freezer box,cryovial')">Freezer/Box (no rack)</button>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,grouping,fixture,compartment')">Dry Storage (Fixture/Compartment)</button>
 					</div>
 				</div>
 				<div class="col-12 col-md-4 col-lg-3 mb-2">
