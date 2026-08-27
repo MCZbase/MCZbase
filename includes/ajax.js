@@ -1050,10 +1050,6 @@ function confirmDelete(formName,msg) {
 	var msg = msg || "this record";
 	confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable");
 }
-function getHistory(contID) {
-	var idcontID;
-	historyWin=windowOpener("/info/ContHistory.cfm?container_id="+contID,"historyWin","width=800,height=338, resizable,scrollbars");
-}
 function getQuadHelp() {
 	helpWin=windowOpener("/info/quad.cfm","quadHelpWin","width=800,height=600, resizable,scrollbars,status");
 }
