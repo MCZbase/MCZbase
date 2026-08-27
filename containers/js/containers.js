@@ -3599,7 +3599,7 @@ function openLocateDetailRow(containerId, currentRow) {
 function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	page = page || 1;
 	var searchTerm = $('#search_term').val() || '';
-	var containerType = $('#container_type').val() || '';
+	var containerType = $('[name=container_type]:not(:disabled)').val() || '';
 	var barcode = $('#barcode').val() || '';
 	var description = $('#description').val() || '';
 	var department = $('#department').val() || '';
