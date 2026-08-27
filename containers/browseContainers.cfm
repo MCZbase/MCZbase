@@ -64,26 +64,28 @@ limitations under the License.
 
 <cfoutput>
 	<main class="container" id="content">
-		<h1 class="h3">Browse Containers</h1>
-		<div class="row">
-			<div class="col-12">
-				<p>
-					Look up storage locations such as fixtures, freezers, cryovats, and tanks. Each is
-					grouped below by the first few characters of its name, which by convention is the
-					department that has material stored there -- though some prefixes are special
-					cases rather than departments (e.g. "Anox" for the CO2 anoxia treatment bubble,
-					"Env" for environmental chambers, or "Shared"), and others may simply be a typing
-					or naming error.
-					<cfif variables.canEditContainers>
-						You can also review a short list of containers that still need to be placed.
-					</cfif>
-				</p>
+		<cfif variables.action NEQ "qc">
+			<h1 class="h3">Browse Containers</h1>
+			<div class="row">
+				<div class="col-12">
+					<p>
+						Look up storage locations such as fixtures, freezers, cryovats, and tanks. Each is
+						grouped below by the first few characters of its name, which by convention is the
+						department that has material stored there -- though some prefixes are special
+						cases rather than departments (e.g. "Anox" for the CO2 anoxia treatment bubble,
+						"Env" for environmental chambers, or "Shared"), and others may simply be a typing
+						or naming error.
+						<cfif variables.canEditContainers>
+							You can also review a short list of containers that still need to be placed.
+						</cfif>
+					</p>
+				</div>
 			</div>
-		</div>
+		</cfif>
 		<cfswitch expression="#variables.action#">
 			<cfcase value="qc">
 				<cfif variables.canEditContainers>
-					<h2 class="h4">Container placement problems</h2>
+					<h1 class="h3">Container Placement Problems</h1>
 					<div class="row">
 						<div class="col-12">
 							<p>
