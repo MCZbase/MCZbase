@@ -56,20 +56,27 @@ limitations under the License.
 		transaction_id = variables.transaction_id,
 		location_types = variables.location_types
 	))>
-	<cfset variables.csvColumnNames = "GUID,Part Name,Preserve Method,Lot Count,Disposition">
+	<!--- queryNew() column names must be valid CFML identifiers (letters/numbers/underscores,
+		no spaces), so each location type name (e.g. "freezer rack") is sanitized into its own
+		CSV column key here; the JSON row itself is still read by its original, unsanitized type
+		name, since that's the key getPartLocationsReport actually used. --->
+	<cfset variables.csvColumnNames = "GUID,Part_Name,Preserve_Method,Lot_Count,Disposition">
+	<cfset variables.csvColumnKeys = ArrayNew(1)>
 	<cfloop array="#variables.report.columns#" index="variables.oneColumnName">
-		<cfset variables.csvColumnNames = listAppend(variables.csvColumnNames, variables.oneColumnName)>
+		<cfset variables.oneColumnKey = reReplace(trim(variables.oneColumnName), "[^A-Za-z0-9_]", "_", "all")>
+		<cfset ArrayAppend(variables.csvColumnKeys, variables.oneColumnKey)>
+		<cfset variables.csvColumnNames = listAppend(variables.csvColumnNames, variables.oneColumnKey)>
 	</cfloop>
 	<cfset variables.csvQuery = queryNew(variables.csvColumnNames)>
 	<cfloop array="#variables.report.rows#" index="variables.oneReportRow">
 		<cfset variables.csvRowIndex = queryAddRow(variables.csvQuery)>
 		<cfset querySetCell(variables.csvQuery, "GUID", variables.oneReportRow.guid, variables.csvRowIndex)>
-		<cfset querySetCell(variables.csvQuery, "Part Name", variables.oneReportRow.part_name, variables.csvRowIndex)>
-		<cfset querySetCell(variables.csvQuery, "Preserve Method", variables.oneReportRow.preserve_method, variables.csvRowIndex)>
-		<cfset querySetCell(variables.csvQuery, "Lot Count", variables.oneReportRow.display_lot_count, variables.csvRowIndex)>
+		<cfset querySetCell(variables.csvQuery, "Part_Name", variables.oneReportRow.part_name, variables.csvRowIndex)>
+		<cfset querySetCell(variables.csvQuery, "Preserve_Method", variables.oneReportRow.preserve_method, variables.csvRowIndex)>
+		<cfset querySetCell(variables.csvQuery, "Lot_Count", variables.oneReportRow.display_lot_count, variables.csvRowIndex)>
 		<cfset querySetCell(variables.csvQuery, "Disposition", variables.oneReportRow.disposition, variables.csvRowIndex)>
-		<cfloop array="#variables.report.columns#" index="variables.oneColumnName">
-			<cfset querySetCell(variables.csvQuery, variables.oneColumnName, variables.oneReportRow[variables.oneColumnName], variables.csvRowIndex)>
+		<cfloop from="1" to="#arrayLen(variables.report.columns)#" index="variables.colIdx">
+			<cfset querySetCell(variables.csvQuery, variables.csvColumnKeys[variables.colIdx], variables.oneReportRow[variables.report.columns[variables.colIdx]], variables.csvRowIndex)>
 		</cfloop>
 	</cfloop>
 	<cfinclude template="/shared/component/functions.cfc">
