@@ -17,6 +17,15 @@ limitations under the License.
 
 --->
 
+<!--- this page's csvDump action (below) streams a file and must run before any HTML (including
+	the shared header) is emitted, since HTTP headers can't be set once output has started -- so,
+	unlike most pages in this redesign, it needs its own standalone <cf_rolecheck> here to guard
+	that branch specifically. This was a real gap found while building containers/partLocations.cfm's
+	own csvDump action: this file had no rolecheck of any kind, so csvDump ran fully unauthenticated.
+	The header include further down still runs its own check too, on the normal render path -- a
+	harmless duplicate there, not a redundant tag to remove (see Phase 14's <cf_rolecheck> audit). --->
+<cf_rolecheck>
+
 <cfif isDefined("url.action")>
 	<cfset variables.action = url.action>
 <cfelse>
