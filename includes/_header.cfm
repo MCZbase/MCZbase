@@ -357,6 +357,7 @@
 											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1" target="_top">Batch Scan</a>
 											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm" target="_top">Bulk Modify Containers</a>
 											<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm?uploadType=scanDump" target="_top">Upload Scan File</a>
+											<a class="dropdown-item" href="/containers/browseContainers.cfm?action=qc" target="_top">Container Placement Problems</a>
 										</cfif>
 										<a class="dropdown-item" href="/containers/placePartInContainer.cfm" target="_top">Put Parts in Containers</a>
 										<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
