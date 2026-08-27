@@ -84,6 +84,13 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
 
+<!--- all container types, in their usual nesting order, for the location-columns checklist below --->
+<cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type, rank_order
+	FROM ctcontainer_type
+	ORDER BY rank_order, container_type
+</cfquery>
+
 <main id="content" class="container py-3">
 	<cfoutput>
 	<h1 class="h3">Part Storage Locations</h1>
@@ -91,26 +98,40 @@ limitations under the License.
 		<div class="col-12">
 			<p>
 				Reports each part of a search result, loan, or deaccession alongside its current
-				storage location. The location columns below are an editable, ordered list of
-				container types (root-most first) -- adjust them to match how a given part of the
-				collection is actually organized.
+				storage location. Check which container types (in their usual nesting order) should
+				each get their own column, to match how a given part of the collection is actually
+				organized.
 			</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12">
 			<output id="partLocationsSummary" class="d-block mb-2">&nbsp;</output>
-			<div class="form-row align-items-end">
-				<div class="col-12 col-md-8 col-lg-9 mb-2">
-					<label for="location_types" class="data-entry-label">Location Columns (comma separated, root-most first)</label>
-					<input type="text" id="location_types" name="location_types" class="data-entry-input col-12" value="#encodeForHtml(variables.location_types)#">
-					<div class="mt-1">
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,freezer,freezer rack,rack slot,freezer box,cryovial')">Freezer/Rack/Box</button>
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,freezer,freezer box,cryovial')">Freezer/Box (no rack)</button>
-						<button type="button" class="btn btn-xs btn-secondary" onclick="fillLocationTypes('room,grouping,fixture,compartment')">Dry Storage (Fixture/Compartment)</button>
-					</div>
+			<fieldset class="my-0 px-2 pb-2 border rounded mb-2">
+				<legend class="h6 mb-0 px-2 w-auto">Location Columns</legend>
+				<div class="mb-2 mt-1">
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('freezer,freezer rack,rack slot,freezer box,cryovial')">Freezer/Rack/Box</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('freezer,freezer box,cryovial')">Freezer/Box (no rack)</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('grouping,fixture,compartment')">Dry Storage (Fixture/Compartment)</button>
 				</div>
-				<div class="col-12 col-md-4 col-lg-3 mb-2">
+				<div class="form-row" id="locationTypesChecklist">
+					<cfloop query="ctcontainer_type">
+						<cfset variables.oneTypeId = replace(ctcontainer_type.container_type, " ", "_", "all")>
+						<cfset variables.oneTypeChecked = "">
+						<cfif listFindNoCase(variables.location_types, ctcontainer_type.container_type)>
+							<cfset variables.oneTypeChecked = " checked">
+						</cfif>
+						<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input location-type-checkbox" id="locType_#encodeForHtml(variables.oneTypeId)#" value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.oneTypeChecked# onchange="loadPartLocationsReport()">
+								<label class="form-check-label" for="locType_#encodeForHtml(variables.oneTypeId)#">#encodeForHtml(ctcontainer_type.container_type)#</label>
+							</div>
+						</div>
+					</cfloop>
+				</div>
+			</fieldset>
+			<div class="form-row">
+				<div class="col-12 mb-2">
 					<button type="button" id="updateReportBtn" class="btn btn-xs btn-primary" onclick="loadPartLocationsReport()">Update</button>
 					<a id="downloadCsvLink" class="btn btn-xs btn-secondary" href="##" target="_blank">Download as CSV</a>
 				</div>
@@ -125,22 +146,39 @@ limitations under the License.
 		</div>
 	</div>
 	<script>
-		/** Sets the Location Columns field to a preset value and reloads the report.
-		 * @param {string} value - comma-separated, ordered container_type list.
+		/** Checks the Location Columns checkboxes matching a preset list (unchecking every other
+		 * box) and reloads the report.
+		 * @param {string} commaList - comma-separated container_type values to check.
 		 * @returns {void}
 		 */
-		function fillLocationTypes(value) {
-			$('##location_types').val(value);
+		function applyLocationTypesPreset(commaList) {
+			var wanted = commaList.split(',');
+			$('.location-type-checkbox').each(function() {
+				$(this).prop('checked', wanted.indexOf($(this).val()) !== -1);
+			});
 			loadPartLocationsReport();
 		}
 
-		/** Reloads the part-locations report and the Download as CSV link from the current
-		 * Location Columns field value.
+		/** Collects the checked Location Columns checkboxes' values, in the order they appear
+		 * (already the container hierarchy's usual nesting order, since that's how the checklist
+		 * itself is rendered).
+		 * @returns {string} comma-separated, ordered container_type list.
+		 */
+		function collectLocationTypes() {
+			var types = [];
+			$('.location-type-checkbox:checked').each(function() {
+				types.push($(this).val());
+			});
+			return types.join(',');
+		}
+
+		/** Reloads the part-locations report and the Download as CSV link from the currently
+		 * checked Location Columns.
 		 * @returns {void}
 		 */
 		function loadPartLocationsReport() {
 			$('##partLocationsTableArea').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
-			var locationTypes = $('##location_types').val();
+			var locationTypes = collectLocationTypes();
 			$('##downloadCsvLink').attr('href', '/containers/partLocations.cfm?action=csvDump'
 				+ '&result_id=' + encodeURIComponent('#encodeForJavaScript(variables.result_id)#')
 				+ '&loan_number=' + encodeURIComponent('#encodeForJavaScript(variables.loan_number)#')

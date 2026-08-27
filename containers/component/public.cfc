@@ -2822,55 +2822,28 @@ different parts of the collection use different storage hierarchies.
 	</cfloop>
 	<cfset local.retval["rows"] = ArrayNew(1)>
 	<cftry>
-		<cfset local.partIds = "">
 		<cfset local.inputGiven = (
 			len(trim(arguments.result_id)) GT 0 OR
 			len(trim(arguments.loan_number)) GT 0 OR
 			len(trim(arguments.deacc_number)) GT 0 OR
 			len(trim(arguments.transaction_id)) GT 0
 		)>
+		<!--- resolves to one of a fixed set of modes, each with its own part-id subquery below --
+			never a materialized list of ids, since a search result can easily hold more ids than
+			Oracle's 1000-item cap on a literal IN-list, but an IN-subquery has no such cap. --->
+		<cfset local.inputMode = "">
+		<cfset local.summaryLabel = "">
 
 		<cfif len(trim(arguments.result_id)) GT 0>
-			<cfquery name="local.queryResultCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
-				FROM user_search_table ust
-					LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
-				WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.result_id)#">
-			</cfquery>
-			<cfif local.queryResultCatalogedItems.recordcount GT 0>
-				<cfquery name="local.queryResultParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT collection_object_id
-					FROM specimen_part
-					WHERE derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(local.queryResultCatalogedItems.cataloged_item_id)#" list="true">)
-				</cfquery>
-				<cfset local.partIds = valueList(local.queryResultParts.collection_object_id)>
-			</cfif>
-			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from a Search">
-		</cfif>
-
-		<cfif len(trim(arguments.loan_number)) GT 0>
-			<cfquery name="local.queryLoanParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT li.collection_object_id
-				FROM loan l
-					JOIN loan_item li ON li.transaction_id = l.transaction_id
-				WHERE UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.loan_number))#">
-			</cfquery>
-			<cfset local.partIds = valueList(local.queryLoanParts.collection_object_id)>
-			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Loan #encodeForHtml(trim(arguments.loan_number))#">
-		</cfif>
-
-		<cfif len(trim(arguments.deacc_number)) GT 0>
-			<cfquery name="local.queryDeaccParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT di.collection_object_id
-				FROM deaccession d
-					JOIN deacc_item di ON di.transaction_id = d.transaction_id
-				WHERE UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.deacc_number))#">
-			</cfquery>
-			<cfset local.partIds = valueList(local.queryDeaccParts.collection_object_id)>
-			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Deaccession #encodeForHtml(trim(arguments.deacc_number))#">
-		</cfif>
-
-		<cfif len(trim(arguments.transaction_id)) GT 0>
+			<cfset local.inputMode = "result_id">
+			<cfset local.summaryLabel = "a Search">
+		<cfelseif len(trim(arguments.loan_number)) GT 0>
+			<cfset local.inputMode = "loan_number">
+			<cfset local.summaryLabel = "Loan " & encodeForHtml(trim(arguments.loan_number))>
+		<cfelseif len(trim(arguments.deacc_number)) GT 0>
+			<cfset local.inputMode = "deacc_number">
+			<cfset local.summaryLabel = "Deaccession " & encodeForHtml(trim(arguments.deacc_number))>
+		<cfelseif len(trim(arguments.transaction_id)) GT 0>
 			<cfquery name="local.queryTransactionType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT t.transaction_id, t.transaction_type,
 					CASE t.transaction_type
@@ -2883,21 +2856,11 @@ different parts of the collection use different storage hierarchies.
 				WHERE t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
 			</cfquery>
 			<cfif local.queryTransactionType.recordcount EQ 1 AND local.queryTransactionType.transaction_type EQ "loan">
-				<cfquery name="local.queryTransLoanParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT collection_object_id
-					FROM loan_item
-					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
-				</cfquery>
-				<cfset local.partIds = valueList(local.queryTransLoanParts.collection_object_id)>
-				<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Loan #encodeForHtml(local.queryTransactionType.transaction_number)#">
+				<cfset local.inputMode = "transaction_loan">
+				<cfset local.summaryLabel = "Loan " & encodeForHtml(local.queryTransactionType.transaction_number)>
 			<cfelseif local.queryTransactionType.recordcount EQ 1 AND local.queryTransactionType.transaction_type EQ "deaccession">
-				<cfquery name="local.queryTransDeaccParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT collection_object_id
-					FROM deacc_item
-					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
-				</cfquery>
-				<cfset local.partIds = valueList(local.queryTransDeaccParts.collection_object_id)>
-				<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Deaccession #encodeForHtml(local.queryTransactionType.transaction_number)#">
+				<cfset local.inputMode = "transaction_deacc">
+				<cfset local.summaryLabel = "Deaccession " & encodeForHtml(local.queryTransactionType.transaction_number)>
 			<cfelse>
 				<cfset local.retval["summary"] = "Unsupported or unknown transaction.">
 			</cfif>
@@ -2905,8 +2868,9 @@ different parts of the collection use different storage hierarchies.
 
 		<cfif NOT local.inputGiven>
 			<cfset local.retval["summary"] = "No search, loan, or deaccession specified.">
-		<cfelseif len(local.partIds) GT 0>
-			<!--- part identity, current container, and GUID components in one query --->
+		<cfelseif len(local.inputMode) GT 0>
+			<!--- part identity, current container, and GUID components in one query; the part-id
+				scope is an IN-subquery matching local.inputMode, never a materialized CF list. --->
 			<cfquery name="local.queryPartIdentity" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
 					sp.collection_object_id AS part_id,
@@ -2924,19 +2888,42 @@ different parts of the collection use different storage hierarchies.
 					LEFT JOIN coll_object co ON co.collection_object_id = sp.collection_object_id
 					LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
 					LEFT JOIN collection col ON col.collection_id = ci.collection_id
-				WHERE sp.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partIds#" list="true">)
+				WHERE sp.collection_object_id IN (
+					<cfif local.inputMode EQ "result_id">
+						SELECT sp3.collection_object_id
+						FROM user_search_table ust
+							LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+							JOIN specimen_part sp3 ON sp3.derived_from_cat_item = NVL(sp2.derived_from_cat_item, ust.collection_object_id)
+						WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.result_id)#">
+					<cfelseif local.inputMode EQ "loan_number">
+						SELECT li.collection_object_id
+						FROM loan l
+							JOIN loan_item li ON li.transaction_id = l.transaction_id
+						WHERE UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.loan_number))#">
+					<cfelseif local.inputMode EQ "deacc_number">
+						SELECT di.collection_object_id
+						FROM deaccession d
+							JOIN deacc_item di ON di.transaction_id = d.transaction_id
+						WHERE UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.deacc_number))#">
+					<cfelseif local.inputMode EQ "transaction_loan">
+						SELECT collection_object_id
+						FROM loan_item
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+					<cfelseif local.inputMode EQ "transaction_deacc">
+						SELECT collection_object_id
+						FROM deacc_item
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+					</cfif>
+				)
 			</cfquery>
+			<cfset local.retval["summary"] = "#local.queryPartIdentity.recordcount# part(s) from #local.summaryLabel#">
 
 			<!--- batch every distinct current container's full ancestor chain in one query, tagged
-				by CONNECT_BY_ROOT, rather than one CONNECT BY per part. --->
-			<cfset local.containerIds = "">
-			<cfloop query="local.queryPartIdentity">
-				<cfif len(trim(local.queryPartIdentity.current_container_id)) GT 0 AND NOT listFind(local.containerIds, local.queryPartIdentity.current_container_id)>
-					<cfset local.containerIds = listAppend(local.containerIds, local.queryPartIdentity.current_container_id)>
-				</cfif>
-			</cfloop>
+				by CONNECT_BY_ROOT, rather than one CONNECT BY per part -- scoped by the identical
+				IN-subquery pattern above (via coll_obj_cont_hist), not a container_id list built
+				from queryPartIdentity's rows, for the same 1000-item-cap reason. --->
 			<cfset local.chainsByContainer = StructNew()>
-			<cfif len(local.containerIds) GT 0>
+			<cfif local.queryPartIdentity.recordcount GT 0>
 				<cfquery name="local.queryChains" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						CONNECT_BY_ROOT container_id AS start_container_id,
@@ -2944,7 +2931,38 @@ different parts of the collection use different storage hierarchies.
 						label,
 						LEVEL AS lvl
 					FROM container
-					START WITH container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containerIds#" list="true">)
+					START WITH container_id IN (
+						SELECT DISTINCT coch.container_id
+						FROM coll_obj_cont_hist coch
+						WHERE coch.current_container_fg = 1
+							AND coch.collection_object_id IN (
+								<cfif local.inputMode EQ "result_id">
+									SELECT sp3.collection_object_id
+									FROM user_search_table ust
+										LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+										JOIN specimen_part sp3 ON sp3.derived_from_cat_item = NVL(sp2.derived_from_cat_item, ust.collection_object_id)
+									WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.result_id)#">
+								<cfelseif local.inputMode EQ "loan_number">
+									SELECT li.collection_object_id
+									FROM loan l
+										JOIN loan_item li ON li.transaction_id = l.transaction_id
+									WHERE UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.loan_number))#">
+								<cfelseif local.inputMode EQ "deacc_number">
+									SELECT di.collection_object_id
+									FROM deaccession d
+										JOIN deacc_item di ON di.transaction_id = d.transaction_id
+									WHERE UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.deacc_number))#">
+								<cfelseif local.inputMode EQ "transaction_loan">
+									SELECT collection_object_id
+									FROM loan_item
+									WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+								<cfelseif local.inputMode EQ "transaction_deacc">
+									SELECT collection_object_id
+									FROM deacc_item
+									WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+								</cfif>
+							)
+					)
 					CONNECT BY PRIOR parent_container_id = container_id
 					ORDER BY start_container_id, lvl DESC
 				</cfquery>
