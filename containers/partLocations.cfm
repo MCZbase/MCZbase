@@ -110,8 +110,9 @@ limitations under the License.
 			<fieldset class="my-0 px-2 pb-2 border rounded mb-2">
 				<legend class="h6 mb-0 px-2 w-auto">Location Columns</legend>
 				<div class="mb-2 mt-1">
-					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,freezer,freezer rack,rack slot,freezer box,cryovial')">Freezer/Rack/Box</button>
-					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,freezer,freezer box,cryovial')">Freezer/Box (no rack)</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,freezer,freezer rack,rack slot,freezer box,position,cryovial')">Freezer/Rack/Box</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,freezer,freezer box,position,cryovial')">Freezer/Box (no rack)</button>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,cryovat,freezer rack,rack slot,freezer box,position,cryovial')">Cryovat</button>
 					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,grouping,tank')">Tanks</button>
 					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,grouping,fixture,compartment,jar,glass vial')">Wet Storage (Jar/Vial)</button>
 					<button type="button" class="btn btn-xs btn-secondary" onclick="applyLocationTypesPreset('room,grouping,fixture,compartment')">Dry Storage (Fixture/Compartment)</button>
