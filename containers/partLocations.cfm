@@ -144,7 +144,6 @@ limitations under the License.
 			</fieldset>
 			<div class="form-row">
 				<div class="col-12 mb-2">
-					<button type="button" id="updateReportBtn" class="btn btn-xs btn-primary" onclick="loadPartLocationsReport()">Update</button>
 					<a id="downloadCsvLink" class="btn btn-xs btn-secondary" href="##" target="_blank">Download as CSV</a>
 				</div>
 			</div>
