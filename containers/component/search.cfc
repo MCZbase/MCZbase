@@ -418,6 +418,39 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 
 
 <!---
+Function chunkNumericList.  Splits a comma-separated list of numeric ids into an array of
+  sub-lists, each capped below Oracle's 1000-expression IN-list limit, so a caller can OR
+  together one parameterized IN-list per chunk instead of building a single IN-list that can
+  exceed that cap (ORA-01795) when the source list is large (e.g. a saved search result set).
+
+@param idList comma-separated list of numeric ids; may be blank.
+@return array of comma-separated sub-lists (empty array if idList is blank).
+--->
+<cffunction name="chunkNumericList" access="private" returntype="array" output="false">
+	<cfargument name="idList" type="string" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.chunks = ArrayNew(1)>
+	<cfset local.chunkSize = 999>
+	<cfset local.currentChunk = "">
+	<cfset local.currentChunkLen = 0>
+	<cfloop list="#arguments.idList#" index="local.oneId">
+		<cfset local.currentChunk = listAppend(local.currentChunk, local.oneId)>
+		<cfset local.currentChunkLen = local.currentChunkLen + 1>
+		<cfif local.currentChunkLen EQ local.chunkSize>
+			<cfset ArrayAppend(local.chunks, local.currentChunk)>
+			<cfset local.currentChunk = "">
+			<cfset local.currentChunkLen = 0>
+		</cfif>
+	</cfloop>
+	<cfif local.currentChunkLen GT 0>
+		<cfset ArrayAppend(local.chunks, local.currentChunk)>
+	</cfif>
+	<cfreturn local.chunks>
+</cffunction>
+
+
+<!---
 Function searchContainers.  Searches containers by one or more criteria and returns
 a paginated JSON result for display in the browse panel.
 
@@ -552,20 +585,24 @@ a paginated JSON result for display in the browse panel.
 		<!--- Resolve a raw list of collection_object_ids (each id may be a part or a cataloged item)
 			the same way: one bulk lookup against specimen_part rather than a query per id, since
 			this list can run to hundreds of ids. Any
-			id not found there is assumed to already be a cataloged item's own id. --->
+			id not found there is assumed to already be a cataloged item's own id. Looked up in
+			chunks (chunkNumericList) rather than one IN-list, since this raw list can itself
+			exceed Oracle's 1000-item IN-list cap. --->
 		<cfset local.containsCollectionObjectIds = trim(arguments.contains_collection_object_ids)>
 		<cfif len(local.containsCollectionObjectIds) GT 0>
-			<cfquery name="local.queryContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT collection_object_id, derived_from_cat_item
-				FROM specimen_part
-				WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCollectionObjectIds#" list="true">)
-			</cfquery>
 			<cfset local.containsIdListFoundAsPart = "">
-			<cfloop query="local.queryContainsIdListParts">
-				<cfset local.containsIdListFoundAsPart = listAppend(local.containsIdListFoundAsPart, local.queryContainsIdListParts.collection_object_id)>
-				<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
-					<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
-				</cfif>
+			<cfloop array="#chunkNumericList(local.containsCollectionObjectIds)#" index="local.oneIdChunk">
+				<cfquery name="local.queryContainsIdListParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT collection_object_id, derived_from_cat_item
+					FROM specimen_part
+					WHERE collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.oneIdChunk#" list="true">)
+				</cfquery>
+				<cfloop query="local.queryContainsIdListParts">
+					<cfset local.containsIdListFoundAsPart = listAppend(local.containsIdListFoundAsPart, local.queryContainsIdListParts.collection_object_id)>
+					<cfif NOT listFind(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+						<cfset local.containsCatalogedItemIds = listAppend(local.containsCatalogedItemIds, local.queryContainsIdListParts.derived_from_cat_item)>
+					</cfif>
+				</cfloop>
 			</cfloop>
 			<cfloop list="#local.containsCollectionObjectIds#" index="local.oneRawId">
 				<cfif NOT listFind(local.containsIdListFoundAsPart, local.oneRawId) AND NOT listFind(local.containsCatalogedItemIds, local.oneRawId)>
@@ -573,6 +610,9 @@ a paginated JSON result for display in the browse panel.
 				</cfif>
 			</cfloop>
 		</cfif>
+		<!--- Chunked once here (not per usage site below) since containsCatalogedItemIds itself can
+			exceed Oracle's 1000-item IN-list cap, most commonly via a large saved search result_id. --->
+		<cfset local.containsCatalogedItemIdsChunks = chunkNumericList(local.containsCatalogedItemIds)>
 		<!--- Transaction search: loan_number/deacc_number resolve directly against
 			coll_obj_cont_hist via loan_item/deacc_item.collection_object_id (both relate to
 			specimen parts, not cataloged items, so no derived_from_cat_item hop is needed, unlike
@@ -725,14 +765,20 @@ a paginated JSON result for display in the browse panel.
 				both are resolved above into the same containsCatalogedItemIds list, since a GUID always
 				names a cataloged item and a saved search's rows may be either parts or cataloged items,
 				resolved the same way -- part's own id falls back to its derived_from_cat_item, a
-				cataloged item's own id is used as-is). --->
+				cataloged item's own id is used as-is). Chunked (containsCatalogedItemIdsChunks) and
+				OR'd rather than a single IN-list, since this list can exceed Oracle's 1000-item cap. --->
 			<cfif len(local.containsCatalogedItemIds) GT 0>
 				AND c.container_id IN (
 					SELECT coch.container_id
 					FROM coll_obj_cont_hist coch
 						JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
 					WHERE coch.current_container_fg = 1
-						AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+						AND (
+							<cfloop from="1" to="#arrayLen(local.containsCatalogedItemIdsChunks)#" index="local.containsChunkIdx">
+								<cfif local.containsChunkIdx GT 1>OR</cfif>
+								sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIdsChunks[local.containsChunkIdx]#" list="true">)
+							</cfloop>
+						)
 				)
 			<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
 				<!--- Contains was given but nothing resolved -- force zero results rather than
@@ -992,7 +1038,12 @@ a paginated JSON result for display in the browse panel.
 							FROM coll_obj_cont_hist coch
 								JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
 							WHERE coch.current_container_fg = 1
-								AND sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIds#" list="true">)
+								AND (
+									<cfloop from="1" to="#arrayLen(local.containsCatalogedItemIdsChunks)#" index="local.containsChunkIdx">
+										<cfif local.containsChunkIdx GT 1>OR</cfif>
+										sp.derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containsCatalogedItemIdsChunks[local.containsChunkIdx]#" list="true">)
+									</cfloop>
+								)
 						)
 					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
 						AND 1=0
