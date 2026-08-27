@@ -2774,6 +2774,238 @@ convention of rendering a whole form region server-side rather than having JS as
 </cffunction>
 
 <!---
+Function getPartLocationsReport. Given a set of specimen parts (resolved from a saved search's
+result_id, a loan_number, a deacc_number, or a transaction_id -- exactly one of these should be
+given), reports each part's identity (GUID, part name, preserve method, lot count) alongside its
+current container's ancestor chain, broken into columns named by location_types: an ordered,
+comma-separated list of container_type names (root-most first). For each requested type name, the
+first ancestor in the part's chain matching that type (scanning forward from wherever the previous
+match left off) fills that column; a chain that skips a requested type (e.g. a box placed directly
+in a freezer, with no intervening rack) leaves that column blank for that row, rather than
+misaligning the remaining columns. The type list is caller-supplied rather than fixed, since
+different parts of the collection use different storage hierarchies.
+@param result_id optional saved search result_id (user_search_table); resolved to every part of
+	every cataloged item in that search (Contains-style resolution stops at the cataloged item
+	level, but this report needs actual parts, since one cataloged item can have parts in different
+	containers).
+@param loan_number optional exact loan_number to report on; resolves via loan_item, which relates
+	directly to parts (no cataloged-item hop needed).
+@param deacc_number optional exact deacc_number to report on; resolved the same way as loan_number
+	via deacc_item.
+@param transaction_id optional transaction_id deep link; its transaction_type is looked up and
+	dispatched to the matching loan/deacc resolution above. Accession is not supported here -- an
+	accession's trans_container containers aren't tied to a specific part, so they don't fit this
+	per-part report.
+@param location_types required ordered, comma-separated list of container_type names (root-most
+	first) to render as columns.
+@return JSON object: { summary: "...", columns: [...], rows: [...] }. Each row has guid, guid_url,
+	part_name, preserve_method, display_lot_count, and one entry per column in "columns" (blank
+	string when that part's chain doesn't include that type). "summary" describes the input
+	resolved (e.g. "42 part(s) from a Search", "3 part(s) from Loan 2024-3-IZ") or an explicit
+	not-given/not-found message. A result_id/loan_number/deacc_number/transaction_id that resolves
+	to nothing returns zero rows rather than silently falling back to reporting on every part.
+--->
+<cffunction name="getPartLocationsReport" access="remote" returntype="any" returnformat="json" output="false">
+	<cfargument name="result_id" type="string" required="no" default="">
+	<cfargument name="loan_number" type="string" required="no" default="">
+	<cfargument name="deacc_number" type="string" required="no" default="">
+	<cfargument name="transaction_id" type="string" required="no" default="">
+	<cfargument name="location_types" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["summary"] = "">
+	<cfset local.retval["columns"] = ArrayNew(1)>
+	<cfloop list="#arguments.location_types#" index="local.oneRequestedType">
+		<cfif len(trim(local.oneRequestedType)) GT 0>
+			<cfset ArrayAppend(local.retval["columns"], trim(local.oneRequestedType))>
+		</cfif>
+	</cfloop>
+	<cfset local.retval["rows"] = ArrayNew(1)>
+	<cftry>
+		<cfset local.partIds = "">
+		<cfset local.inputGiven = (
+			len(trim(arguments.result_id)) GT 0 OR
+			len(trim(arguments.loan_number)) GT 0 OR
+			len(trim(arguments.deacc_number)) GT 0 OR
+			len(trim(arguments.transaction_id)) GT 0
+		)>
+
+		<cfif len(trim(arguments.result_id)) GT 0>
+			<cfquery name="local.queryResultCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT DISTINCT NVL(sp2.derived_from_cat_item, ust.collection_object_id) AS cataloged_item_id
+				FROM user_search_table ust
+					LEFT JOIN specimen_part sp2 ON sp2.collection_object_id = ust.collection_object_id
+				WHERE ust.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.result_id)#">
+			</cfquery>
+			<cfif local.queryResultCatalogedItems.recordcount GT 0>
+				<cfquery name="local.queryResultParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT collection_object_id
+					FROM specimen_part
+					WHERE derived_from_cat_item IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valueList(local.queryResultCatalogedItems.cataloged_item_id)#" list="true">)
+				</cfquery>
+				<cfset local.partIds = valueList(local.queryResultParts.collection_object_id)>
+			</cfif>
+			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from a Search">
+		</cfif>
+
+		<cfif len(trim(arguments.loan_number)) GT 0>
+			<cfquery name="local.queryLoanParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT li.collection_object_id
+				FROM loan l
+					JOIN loan_item li ON li.transaction_id = l.transaction_id
+				WHERE UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.loan_number))#">
+			</cfquery>
+			<cfset local.partIds = valueList(local.queryLoanParts.collection_object_id)>
+			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Loan #encodeForHtml(trim(arguments.loan_number))#">
+		</cfif>
+
+		<cfif len(trim(arguments.deacc_number)) GT 0>
+			<cfquery name="local.queryDeaccParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT di.collection_object_id
+				FROM deaccession d
+					JOIN deacc_item di ON di.transaction_id = d.transaction_id
+				WHERE UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(trim(arguments.deacc_number))#">
+			</cfquery>
+			<cfset local.partIds = valueList(local.queryDeaccParts.collection_object_id)>
+			<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Deaccession #encodeForHtml(trim(arguments.deacc_number))#">
+		</cfif>
+
+		<cfif len(trim(arguments.transaction_id)) GT 0>
+			<cfquery name="local.queryTransactionType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT t.transaction_id, t.transaction_type,
+					CASE t.transaction_type
+						WHEN 'loan' THEN l.loan_number
+						WHEN 'deaccession' THEN d.deacc_number
+					END AS transaction_number
+				FROM trans t
+					LEFT JOIN loan l ON l.transaction_id = t.transaction_id AND t.transaction_type = 'loan'
+					LEFT JOIN deaccession d ON d.transaction_id = t.transaction_id AND t.transaction_type = 'deaccession'
+				WHERE t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+			</cfquery>
+			<cfif local.queryTransactionType.recordcount EQ 1 AND local.queryTransactionType.transaction_type EQ "loan">
+				<cfquery name="local.queryTransLoanParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT collection_object_id
+					FROM loan_item
+					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+				</cfquery>
+				<cfset local.partIds = valueList(local.queryTransLoanParts.collection_object_id)>
+				<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Loan #encodeForHtml(local.queryTransactionType.transaction_number)#">
+			<cfelseif local.queryTransactionType.recordcount EQ 1 AND local.queryTransactionType.transaction_type EQ "deaccession">
+				<cfquery name="local.queryTransDeaccParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT collection_object_id
+					FROM deacc_item
+					WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(arguments.transaction_id)#">
+				</cfquery>
+				<cfset local.partIds = valueList(local.queryTransDeaccParts.collection_object_id)>
+				<cfset local.retval["summary"] = "#listLen(local.partIds)# part(s) from Deaccession #encodeForHtml(local.queryTransactionType.transaction_number)#">
+			<cfelse>
+				<cfset local.retval["summary"] = "Unsupported or unknown transaction.">
+			</cfif>
+		</cfif>
+
+		<cfif NOT local.inputGiven>
+			<cfset local.retval["summary"] = "No search, loan, or deaccession specified.">
+		<cfelseif len(local.partIds) GT 0>
+			<!--- part identity, current container, and GUID components in one query --->
+			<cfquery name="local.queryPartIdentity" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+				SELECT
+					sp.collection_object_id AS part_id,
+					sp.part_name,
+					sp.preserve_method,
+					co.lot_count,
+					co.lot_count_modifier,
+					ci.cat_num,
+					col.collection_cde,
+					col.institution_acronym,
+					coch.container_id AS current_container_id
+				FROM specimen_part sp
+					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+						AND coch.current_container_fg = 1
+					LEFT JOIN coll_object co ON co.collection_object_id = sp.collection_object_id
+					LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+					LEFT JOIN collection col ON col.collection_id = ci.collection_id
+				WHERE sp.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partIds#" list="true">)
+			</cfquery>
+
+			<!--- batch every distinct current container's full ancestor chain in one query, tagged
+				by CONNECT_BY_ROOT, rather than one CONNECT BY per part. --->
+			<cfset local.containerIds = "">
+			<cfloop query="local.queryPartIdentity">
+				<cfif len(trim(local.queryPartIdentity.current_container_id)) GT 0 AND NOT listFind(local.containerIds, local.queryPartIdentity.current_container_id)>
+					<cfset local.containerIds = listAppend(local.containerIds, local.queryPartIdentity.current_container_id)>
+				</cfif>
+			</cfloop>
+			<cfset local.chainsByContainer = StructNew()>
+			<cfif len(local.containerIds) GT 0>
+				<cfquery name="local.queryChains" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						CONNECT_BY_ROOT container_id AS start_container_id,
+						container_type,
+						label,
+						LEVEL AS lvl
+					FROM container
+					START WITH container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.containerIds#" list="true">)
+					CONNECT BY PRIOR parent_container_id = container_id
+					ORDER BY start_container_id, lvl DESC
+				</cfquery>
+				<cfloop query="local.queryChains">
+					<cfif NOT structKeyExists(local.chainsByContainer, local.queryChains.start_container_id)>
+						<cfset local.chainsByContainer[local.queryChains.start_container_id] = ArrayNew(1)>
+					</cfif>
+					<cfset local.oneAncestor = StructNew()>
+					<cfset local.oneAncestor["container_type"] = local.queryChains.container_type>
+					<cfset local.oneAncestor["label"] = local.queryChains.label>
+					<cfset ArrayAppend(local.chainsByContainer[local.queryChains.start_container_id], local.oneAncestor)>
+				</cfloop>
+			</cfif>
+
+			<!--- assemble one row per part: scan the chain forward for each requested type in order,
+				so a chain that skips a requested type (e.g. box placed directly in a freezer, no
+				intervening rack) leaves that column blank without misaligning the rest. --->
+			<cfloop query="local.queryPartIdentity">
+				<cfset local.oneRow = StructNew()>
+				<cfset local.oneRow["guid"] = "">
+				<cfset local.oneRow["guid_url"] = "">
+				<cfif len(trim(local.queryPartIdentity.institution_acronym)) GT 0 AND len(trim(local.queryPartIdentity.collection_cde)) GT 0 AND len(trim(local.queryPartIdentity.cat_num)) GT 0>
+					<cfset local.oneRow["guid"] = "#local.queryPartIdentity.institution_acronym#:#local.queryPartIdentity.collection_cde#:#local.queryPartIdentity.cat_num#">
+					<cfset local.oneRow["guid_url"] = "/guid/#encodeForUrl(local.queryPartIdentity.institution_acronym)#:#encodeForUrl(local.queryPartIdentity.collection_cde)#:#encodeForUrl(local.queryPartIdentity.cat_num)#">
+				</cfif>
+				<cfset local.oneRow["part_name"] = local.queryPartIdentity.part_name>
+				<cfset local.oneRow["preserve_method"] = local.queryPartIdentity.preserve_method>
+				<cfset local.oneRow["display_lot_count"] = local.queryPartIdentity.lot_count>
+				<cfif len(trim(local.queryPartIdentity.lot_count_modifier)) GT 0>
+					<cfset local.oneRow["display_lot_count"] = "#local.queryPartIdentity.lot_count_modifier##local.queryPartIdentity.lot_count#">
+				</cfif>
+
+				<cfset local.oneChain = ArrayNew(1)>
+				<cfif len(trim(local.queryPartIdentity.current_container_id)) GT 0 AND structKeyExists(local.chainsByContainer, local.queryPartIdentity.current_container_id)>
+					<cfset local.oneChain = local.chainsByContainer[local.queryPartIdentity.current_container_id]>
+				</cfif>
+				<cfset local.chainPos = 1>
+				<cfloop array="#local.retval.columns#" index="local.oneColumnType">
+					<cfset local.oneRow[local.oneColumnType] = "">
+					<cfloop from="#local.chainPos#" to="#arrayLen(local.oneChain)#" index="local.scanIdx">
+						<cfif compareNoCase(trim(local.oneChain[local.scanIdx].container_type), local.oneColumnType) EQ 0>
+							<cfset local.oneRow[local.oneColumnType] = local.oneChain[local.scanIdx].label>
+							<cfset local.chainPos = local.scanIdx + 1>
+							<cfbreak>
+						</cfif>
+					</cfloop>
+				</cfloop>
+				<cfset ArrayAppend(local.retval.rows, local.oneRow)>
+			</cfloop>
+		</cfif>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
 Function preflightPlacePartByBarcode. Resolves a specimen part's actual current container to move
 (the part's own leaf, or its proxy parent when one is present -- see resolvePartCurrentContainer)
 and a destination parent barcode, then runs placement preflight validation -- used before actually

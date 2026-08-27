@@ -126,6 +126,9 @@ limitations under the License.
 								<li class="nav-item mb-1">
 									<a href="/containers/Containers.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
 								</li>
+								<li class="nav-item mb-1">
+									<a href="/containers/partLocations.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Part Location Report</a>
+								</li>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 									<li class="nav-item mb-1">
 										<a href="/specimens/changeQueryPartContainers.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Change Part Containers</a>
