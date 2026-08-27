@@ -367,47 +367,11 @@ function success_addPartToContainer(result) {
 		getParts();
 	}
 }
-function clonePart() {
-	var collection_id=document.getElementById('collection_id').value;
-	var other_id_type=document.getElementById('other_id_type').value;
-	var oidnum=document.getElementById('oidnum').value;
-	if (collection_id.length>0 && other_id_type.length>0 && oidnum.length>0) {
-		jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "getSpecimen",
-				collection_id : collection_id,
-				other_id_type : other_id_type,
-				oidnum : oidnum,
-				returnformat : "json",
-				queryformat : 'column'
-			},
-			success_getSpecimen
-		);
-	} else {
-		alert('Error: cannot resolve ID to specimen.');
-	}
-}
-function success_getSpecimen(r){
-	if (toString(r.DATA.COLLECTION_OBJECT_ID[0]).indexOf('Error:')>-1) {
-		alert(r.DATA.COLLECTION_OBJECT_ID[0]);	
-	} else {
-		newPart (r.DATA.COLLECTION_OBJECT_ID[0]);
-	}
-}
 function checkSubmit() {
 	var c=document.getElementById('submitOnChange').checked;
 	if (c==true) {
 		addPartToContainer();
 	}
-}	
-function newPart (collection_object_id) {
-	var collection_id=document.getElementById('collection_id').value;
-	var part=document.getElementById('part_name').value;
-	var url="/form/newPart.cfm";
-	url +="?collection_id=" + collection_id;
-	url +="&collection_object_id=" + collection_object_id;
-	url +="&part=" + part;
-	divpop(url);
 }
  function getParts() {
 	var collection_id=document.getElementById('collection_id').value;

@@ -1,7 +1,8 @@
 <!---
 containers/browseContainers.cfm
 
-Copyright 2021 President and Fellows of Harvard College
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,92 +17,166 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfparam name="url.action" default="">
+<cfset variables.action = trim(url.action)>
+
 <cfset pageTitle="Browse Containers">
 <cfinclude template="/shared/_header.cfm">
-<cfif NOT isDefined("action")>
-	<cfset action="">
-</cfif>
+<link rel="stylesheet" href="/containers/css/containers.css">
 
-<cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT container_type 
-	FROM ctcontainer_type 
+<!--- viewable by this page's own manage_specimens role (enforced by /shared/_header.cfm above);
+	the qc action's placement-problem list additionally requires manage_container below, since
+	every link in that section leads straight to editing a container. --->
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
+
+<!--- gates the qc action's mention of Container Diagnostics -- that page is itself only on the
+	admin menu (shared/_header.cfm, includes/_header.cfm) for collops, so pointing someone
+	without collops at it would be a dead end. --->
+<cfset variables.canSeeContainerDiagnostics = isdefined("session.roles") AND listfindnocase(session.roles,"collops")>
+
+<!--- the fixture-equivalent container types (fixture, the various freezer subtypes, cryovat,
+	tank) used both by the qc-adjacent department-prefix picker below and by the links it
+	produces into Containers.cfm's container_type search field. Resolved from ctcontainer_type
+	rather than hardcoded, since there is more than one freezer subtype. --->
+<cfquery name="fixtureTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type
+	FROM ctcontainer_type
+	WHERE
+		container_type = 'fixture'
+		OR container_type LIKE '%freezer'
+		OR container_type = 'cryovat'
+		OR container_type = 'tank'
 	ORDER BY container_type
 </cfquery>
+<cfset variables.fixtureEquivalentTypes = valueList(fixtureTypes.container_type)>
+
+<!--- department-prefix labels (e.g. "Mala", "Herp") often, but not always, coincide with a
+	collection_cde -- looked up here so the department picker below can say which of its
+	prefixes are actually collections vs. incidental label-prefix matches. --->
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT collection_cde, institution_acronym, collection
+	FROM collection
+</cfquery>
+<cfset variables.collectionByCde = structNew()>
+<cfloop query="ctcollection">
+	<cfset variables.collectionByCde[ucase(ctcollection.collection_cde)] = ctcollection.institution_acronym & ":" & ctcollection.collection>
+</cfloop>
 
 <cfoutput>
 	<main class="container" id="content">
-		<cfswitch expression="#action#">
+		<cfif variables.action NEQ "qc">
+			<h1 class="h3">Browse Containers</h1>
+			<div class="row">
+				<div class="col-12">
+					<p>
+						Look up storage locations such as fixtures, freezers, cryovats, and tanks. Each is
+						grouped below by the first few characters of its name, which by convention is the
+						department that has material stored there -- though some prefixes are special
+						cases rather than departments (e.g. "Anox" for the CO2 anoxia treatment bubble,
+						"Env" for environmental chambers, or "Shared"), and others may simply be a typing
+						or naming error.
+						<cfif variables.canEditContainers>
+							You can also review a short list of containers that still need to be placed.
+						</cfif>
+					</p>
+				</div>
+			</div>
+		</cfif>
+		<cfswitch expression="#variables.action#">
 			<cfcase value="qc">
-				<h1 class="h3">Containers which should be placed in another container, but are not.</h2>
-				<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned (type = external).
-				parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
-				<cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) ct, container_type 
-					FROM container 
-					WHERE parent_container_id < 2 and container_type not in ('campus','external')
-					GROUP BY container_type
-				</cfquery>
-				<div class="row">
-					<div class="col-12">
-						<ul>
-							<cfloop query="parentlessNodes">
-								<li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
-								<cfif parentlessNodes.ct LT 100>
-									<cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT label, container_type 
-										FROM container 
-										WHERE parent_container_id < 2 and container_type not in ('campus','external') 
-											and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
-									</cfquery>
-									<ul>
-										<cfloop query="plNode">
-											<li><a href="findContainer.cfm?container_label=#plNode.label#">#plNode.label# (#plNode.container_type#)</a> in [nothing]</li>
-										</cfloop>
-									</ul>
+				<cfif variables.canEditContainers>
+					<h1 class="h3">Container Placement Problems</h1>
+					<div class="row">
+						<div class="col-12">
+							<p>
+								A short, curated list of containers that sit directly under the Museum
+								or a campus root without being placed in a proper parent container --
+								specific, already-known placement problems worth fixing by hand.
+								<cfif variables.canSeeContainerDiagnostics>
+									This is not an exhaustive report; see
+									<a href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
+									for that.
 								</cfif>
-							</cfloop>
-						</ul>
+							</p>
+							<p>
+								Individual containers are listed below only when fewer than 100 exist for
+								a type; types with 100 or more are linked to a search instead.
+							</p>
+							<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned (type = external).
+							parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus). Institutions are
+							also expected to sit at the root the same way campus/external containers do, and are excluded here for the same reason. --->
+							<cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT count(*) ct, container_type
+								FROM container
+								WHERE parent_container_id < 2 and container_type not in ('campus','external','institution')
+								GROUP BY container_type
+							</cfquery>
+							<ul>
+								<cfloop query="parentlessNodes">
+									<cfif parentlessNodes.ct LT 100>
+										<cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT container_id, label, container_type
+											FROM container
+											WHERE parent_container_id < 2 and container_type not in ('campus','external','institution')
+												and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
+										</cfquery>
+										<li>
+											#encodeForHtml(parentlessNodes.container_type)# (#parentlessNodes.ct#)
+											<ul>
+												<cfloop query="plNode">
+													<li><a href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForUrl(plNode.container_id)#">#encodeForHtml(plNode.label)#</a></li>
+												</cfloop>
+											</ul>
+										</li>
+									<cfelse>
+										<li>
+											#encodeForHtml(parentlessNodes.container_type)# (#parentlessNodes.ct#) --
+											<a href="/containers/Containers.cfm?container_type=#encodeForUrl(parentlessNodes.container_type)#&amp;execute=true">search</a>
+										</li>
+									</cfif>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</cfcase>
-			<cfcase value="fixtures">
-				<cfif not isdefined("labelStart")><cfset labelStart="IZ"></cfif>
-				<!--- Get fixture name and parentage for a department --->
-				<cfquery name="fixtures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_type, label, sys_connect_by_path( label || ' (' || container_type ||')' ,' | ') parentage 
-					FROM container
-					WHERE (container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat') 
-						and label like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelStart#%">
-					START WITH container_type = 'campus'
-					CONNECT BY PRIOR container_id = parent_container_id
-					ORDER BY label
-				</cfquery>
-				<div class="row">
-					<div class="col-12">
-						<ul>
-							<cfloop query="fixtures">
-								<li><a href="findContainer.cfm?container_label=#fixtures.label#">#fixtures.label# (#fixtures.container_type#)</a> in #fixtures.parentage#</li>
-							</cfloop>
-						</ul>
-					</div>
-				</div>
+				</cfif>
 			</cfcase>
 			<cfdefaultcase>
-				<!--- find list of departments (first few characters of fixture names) --->
+				<!--- find list of departments (first few characters of fixture-equivalent container labels) --->
 				<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
-					FROM container 
-					WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+					SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix
+					FROM container
+					WHERE container_type IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.fixtureEquivalentTypes#" list="true">)
 					GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
 				</cfquery>
 				<div class="row">
 					<div class="col-12">
 						<ul>
-							<li><a href = "/containers/browseContainers.cfm?action=qc">Quality Control Containers</a></li>
-							<li>List fixtures starting with:</li>
-							<ul style="padding-left: 2em; line-height: 1.5em;">
+							<cfif variables.canEditContainers>
+								<li><a href="/containers/browseContainers.cfm?action=qc">Container placement problems</a></li>
+							</cfif>
+							<li>List fixtures, freezers, cryovats, and tanks starting with:</li>
+							<ul class="department-prefix-list">
 								<cfloop query="fixturePrefixes">
-									<li><a href = "/containers/browseContainers.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
+									<cfset variables.matchedCollection = "">
+									<cfif structKeyExists(variables.collectionByCde, ucase(fixturePrefixes.prefix))>
+										<cfset variables.matchedCollection = variables.collectionByCde[ucase(fixturePrefixes.prefix)]>
+									</cfif>
+									<cfset variables.prefixHasLeadingSpace = (left(fixturePrefixes.prefix,1) EQ " ")>
+									<cfset variables.prefixHasTrailingSpace = (right(fixturePrefixes.prefix,1) EQ " ")>
+									<li>
+										<a href="/containers/Containers.cfm?department=#encodeForUrl(fixturePrefixes.prefix)#&amp;container_type=#encodeForUrl(variables.fixtureEquivalentTypes)#&amp;execute=true">#encodeForHtml(fixturePrefixes.prefix)# (#fixturePrefixes.ct#)</a>
+										<cfif variables.prefixHasLeadingSpace>
+											<strong>(leading space)</strong>
+										</cfif>
+										<cfif variables.prefixHasTrailingSpace>
+											<strong>(trailing space)</strong>
+										</cfif>
+										<cfif len(variables.matchedCollection) GT 0>
+											#encodeForHtml(variables.matchedCollection)#
+										<cfelse>
+											<strong>Not a collection</strong>
+										</cfif>
+									</li>
 								</cfloop>
 							</ul>
 						</ul>

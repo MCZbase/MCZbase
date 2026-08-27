@@ -22,7 +22,7 @@ limitations under the License.
 <cfparam name="url.container_id" default=""><!--- container_id for container to edit --->
 <cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
-<cf_rolecheck>
+<cfparam name="url.clone_from" default=""><!--- action=new only: container_id to pre-fill reusable fields from --->
 
 <cfset variables.action = lCase(trim(url.action))>
 <cfif NOT listFind("new,edit", variables.action)>
@@ -91,7 +91,62 @@ limitations under the License.
 <cfset variables.parent_container_type = "">
 <cfset variables.parentRankOrder = "">
 <cfset variables.hasChildren = false>
+<cfset variables.positionRecordCount = 0>
+<cfset variables.positionOccupiedCount = 0>
 <cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
+
+<!--- Clone: pre-fills a subset of the New Container form's fields from an existing container,
+	reached via a "Clone" button on that container's own edit page. Deliberately excludes label
+	and barcode (shown as a "Cloned from" note instead of populating the inputs -- both must be
+	unique, so blindly copying either would guarantee a save failure) and parent_install_date
+	(defaults fresh, as any new container's does). Defaults into the same parent as the source,
+	since that's the common case and action=new already supports parent_container_id cleanly.
+	Runs before the parent-preset lookup below so a clone-inherited
+	parent still gets that lookup's display text/type-limiting treatment. --->
+<cfset variables.cloneFromId = trim(url.clone_from)>
+<cfif len(variables.cloneFromId) GT 0 AND NOT isNumeric(variables.cloneFromId)>
+	<cfset variables.cloneFromId = "">
+</cfif>
+<cfset variables.cloneFromDisplay = "">
+<cfif variables.action EQ "new" AND len(variables.cloneFromId) GT 0>
+	<cfquery name="getCloneSource" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			container_type,
+			institution_acronym,
+			width,
+			height,
+			length,
+			number_positions,
+			container_remarks,
+			parent_container_id,
+			label,
+			barcode
+		FROM
+			container
+		WHERE
+			container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.cloneFromId#">
+	</cfquery>
+	<cfif getCloneSource.recordcount EQ 1>
+		<cfset variables.formData["container_type"] = getCloneSource.container_type>
+		<cfset variables.formData["width"] = getCloneSource.width>
+		<cfset variables.formData["height"] = getCloneSource.height>
+		<cfset variables.formData["length"] = getCloneSource.length>
+		<cfset variables.formData["number_positions"] = getCloneSource.number_positions>
+		<cfset variables.formData["container_remarks"] = getCloneSource.container_remarks>
+		<cfif len(trim(getCloneSource.institution_acronym)) GT 0>
+			<cfset variables.formData["institution_acronym"] = getCloneSource.institution_acronym>
+		</cfif>
+		<cfif len(trim(getCloneSource.barcode)) GT 0>
+			<cfset variables.cloneFromDisplay = getCloneSource.barcode>
+		<cfelseif len(trim(getCloneSource.label)) GT 0>
+			<cfset variables.cloneFromDisplay = getCloneSource.label>
+		</cfif>
+		<cfif len(variables.parentContainerId) EQ 0 AND val(getCloneSource.parent_container_id) GT 0>
+			<cfset variables.parentContainerId = getCloneSource.parent_container_id>
+			<cfset variables.formData["parent_container_id"] = variables.parentContainerId>
+		</cfif>
+	</cfif>
+</cfif>
 
 <cfif variables.action EQ "edit">
 	<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
@@ -131,6 +186,18 @@ limitations under the License.
 		WHERE
 			parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
 	</cfquery>
+	<!--- status only, for the read-only Positions summary below -- the editable grid itself lives
+		exclusively on viewContainer.cfm --->
+	<cfquery name="getPositionStatus" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			COUNT(*) AS position_count,
+			SUM(CASE WHEN EXISTS (SELECT 1 FROM container occ WHERE occ.parent_container_id = pos.container_id) THEN 1 ELSE 0 END) AS occupied_count
+		FROM container pos
+		WHERE pos.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.containerId#">
+			AND pos.container_type = 'position'
+	</cfquery>
+	<cfset variables.positionRecordCount = val(getPositionStatus.position_count)>
+	<cfset variables.positionOccupiedCount = val(getPositionStatus.occupied_count)>
 	<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			ch.install_date,
@@ -220,18 +287,46 @@ limitations under the License.
 <link rel="stylesheet" href="/containers/css/containers.css">
 <main id="content" class="container py-3">
 
+<!--- mirrors the inline-styled #overlay pattern search pages like /Taxa.cfm already use (see
+	developer's guide, Search-Pages) -- this isn't a search page, so it doesn't use that pattern's
+	jqxgrid-specific classes, but the same "position:fixed, semi-transparent, spinner+text" shape
+	is reused here for the same reason: block interaction while a background AJAX step (applying a
+	queued Grow/Shrink before reloading, see applyPendingPositionsAction in containers.js) runs. --->
+<div id="containerSavingOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000;">
+	<div class="d-flex align-items-center justify-content-center h-100">
+		<div class="bg-white rounded p-3 text-center shadow">
+			<img src="/shared/images/indicator.gif"> Saving changes&hellip;
+		</div>
+	</div>
+</div>
+
 <cfoutput>
 	<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerFormHeading">
 		<div class="col-12">
-			<cfif variables.action EQ "edit">
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
-				<script>
-					$(document).ready(function () {
-						$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
-					});
-				</script>
-			<cfelse>
-				<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
+			<div class="d-flex justify-content-between align-items-center flex-wrap">
+				<cfif variables.action EQ "edit">
+					<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Edit Container: #encodeForHtml(container_name)# <span id="container_role_badge"></span></h1>
+					<script>
+						$(document).ready(function () {
+							$("##container_role_badge").html( getContainerRoleBadgeHtml('#variables.formData.container_type#') );
+						});
+					</script>
+					<!--- unlike viewContainer.cfm's toolbar, no canEditContainers check is needed here --
+						loading this page at all already requires manage_container via cf_rolecheck, so
+						there's no broader-audience case to gate against. Create Child/Place Child are
+						deliberately left off this toolbar -- unlike viewContainer.cfm, this page never
+						shows what the container currently contains, so there isn't enough context here
+						for either action, even though both are logically edit-ish actions. --->
+					<div class="btn-toolbar pt-1" role="toolbar" aria-label="Container actions">
+						<a class="btn btn-xs btn-info mr-1 mb-1" href="/containers/Containers.cfm?container_id=#encodeForURL(variables.formData.container_id)#&amp;execute=true">Browse in Hierarchy</a>
+						<a class="btn btn-xs btn-info mb-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
+					</div>
+				<cfelse>
+					<h1 class="h2 ml-1 mb-1" id="containerFormHeading">Create Container</h1>
+				</cfif>
+			</div>
+			<cfif variables.action EQ "new" AND len(variables.cloneFromDisplay) GT 0>
+				<p class="small text-muted ml-1 mb-2">Cloned from #encodeForHtml(variables.cloneFromDisplay)# -- Unique Identifier and Container Name are left blank below; enter new values for this container.</p>
 			</cfif>
 			<cfif variables.action EQ "edit">
 				<!--- This section is populated via an ajax call to the showContainerBreadcrumb() function in the script below as the backing method returns json --->
@@ -369,24 +464,59 @@ limitations under the License.
 					<div class="col-12 col-md-3 mb-2">
 						<label for="number_positions" class="data-entry-label">Number of Positions</label>
 						<cfif lockedRoot>
-							<input type="hidden" name="number_positions" id="number_positions" value="#encodeForHtml(variables.formData.number_positions)#">
-							<input type="text" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+							<input type="hidden" name="number_positions" id="number_positions" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="text" class="data-entry-input col-12 bg-lt-gray" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#" readonly>
+						<cfelseif variables.action EQ "edit" AND variables.positionRecordCount GT 0>
+							<input type="hidden" name="number_positions" id="number_positions" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#">
+							<div class="d-flex align-items-center">
+								<input type="text" id="number_positions_display" class="data-entry-input flex-grow-1 bg-lt-gray" autocomplete="off" value="#encodeForHtml(variables.formData.number_positions)#" readonly aria-label="Number of Positions">
+								<button type="button" class="btn btn-xs btn-secondary ml-1" id="changePositionsBtn">Change...</button>
+							</div>
 						<cfelse>
-							<input type="text" name="number_positions" id="number_positions" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
+							<input type="text" name="number_positions" id="number_positions" autocomplete="off" class="data-entry-input col-12" value="#encodeForHtml(variables.formData.number_positions)#">
 						</cfif>
 					</div>
 				</div>
+
+				<cfif variables.action EQ "edit">
+					<!--- always rendered (visibility toggled by saveContainerForm's success handler when
+						Number of Positions changes from/to zero on save) so it can be revealed without a
+						page reload; the accurate created/occupied counts below only reflect the values as
+						of this page load, though, so they go stale if positions are added/removed elsewhere
+						while this form stays open --->
+					<cfset variables.positionsSummaryClass = "">
+					<cfif val(variables.formData.number_positions) LTE 0>
+						<cfset variables.positionsSummaryClass = " d-none">
+					</cfif>
+					<div class="form-row mb-2#variables.positionsSummaryClass#" id="containerPositionsSummary">
+						<div class="col-12 border rounded bg-light py-2">
+							<h2 class="h6 mb-1">Positions</h2>
+							<cfset variables.positionsWord = "positions">
+							<cfif val(variables.formData.number_positions) EQ 1><cfset variables.positionsWord = "position"></cfif>
+							<p class="small mb-1" id="containerPositionsSummaryText">
+								<cfif variables.positionRecordCount EQ 0>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#, but none have been created yet.
+								<cfelseif variables.positionRecordCount LT val(variables.formData.number_positions)>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#; #variables.positionRecordCount# have been created (#variables.positionOccupiedCount# occupied).
+								<cfelse>
+									This container declares #variables.formData.number_positions# #variables.positionsWord#; all have been created (#variables.positionOccupiedCount# occupied).
+								</cfif>
+							</p>
+							<div id="containerPositionsCreateArea" class="mb-2"></div>
+							<cfset variables.positionsLinkClass = "">
+							<cfif variables.positionRecordCount EQ 0>
+								<cfset variables.positionsLinkClass = " d-none">
+							</cfif>
+							<a class="btn btn-xs btn-secondary#variables.positionsLinkClass#" id="containerPositionsLink" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)###containerPositionsHeading_page">View/Edit Positions</a>
+						</div>
+					</div>
+				</cfif>
 
 				<div class="form-row mb-4 mt-1">
 					<div class="col-12">
 						<cfif variables.action EQ "edit">
 							<button type="button" class="btn btn-xs btn-primary" id="containerSaveActionButton" onclick="saveContainerForm('containerForm', 'saveContainer', 'containerSaveStatus', '', 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav')">Save Changes</button>
-							<a class="btn btn-xs btn-info ml-1" href="/containers/viewContainer.cfm?container_id=#encodeForURL(variables.formData.container_id)#">View Container</a>
-							<cfset variables.positionsLinkClass = "btn btn-xs btn-secondary ml-1">
-							<cfif val(variables.formData.number_positions) LTE 0>
-								<cfset variables.positionsLinkClass = "#variables.positionsLinkClass# d-none">
-							</cfif>
-							<a class="#variables.positionsLinkClass#" id="legacyContainerPositionsLink" href="/containerPositions.cfm?container_id=#encodeForURL(variables.formData.container_id)#">Container Positions</a>
+							<a class="btn btn-xs btn-secondary ml-1" href="/containers/Container.cfm?action=new&amp;clone_from=#encodeForURL(variables.formData.container_id)#">Clone</a>
 							<cfif NOT variables.hasChildren>
 								<button type="button" class="btn btn-xs btn-danger ml-1" onclick="confirmDeleteContainer(#encodeForHtml(variables.formData.container_id)#, 'containerSaveStatus')">Delete</button>
 							</cfif>
@@ -494,6 +624,31 @@ limitations under the License.
 				</cfif>
 			</div>
 		</section>
+		<!--- Container Check Log. Checked By is read-only, since checked_agent_id is always
+			resolved server-side from the logged-in session (see logContainerCheck) regardless of
+			what's typed here -- an editable-but-ignored field would just be misleading. --->
+		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerCheckHeading">
+			<div class="col-12">
+				<h2 class="h4 ml-1 mb-2" id="containerCheckHeading">Container Check Log</h2>
+				<div class="form-row mb-2">
+					<div class="col-12 col-md-4 mb-2">
+						<label for="checkCheckedBy" class="data-entry-label">Checked By</label>
+						<input type="text" id="checkCheckedBy" class="data-entry-input col-12 bg-lt-gray" value="#encodeForHtml(session.username)#" readonly>
+					</div>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="checkDate" class="data-entry-label">Check Date</label>
+						<input type="text" id="checkDate" class="data-entry-input col-12" value="#dateformat(now(),'yyyy-mm-dd')#">
+					</div>
+					<div class="col-12 col-md-5 mb-2">
+						<label for="checkRemark" class="data-entry-label">Remark</label>
+						<input type="text" id="checkRemark" class="data-entry-input col-12">
+					</div>
+				</div>
+				<button type="button" class="btn btn-xs btn-primary mb-2" id="logContainerCheckButton">Log Check</button>
+				<output id="containerCheckStatus"></output>
+				<div id="containerCheckHistory"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
+			</div>
+		</section>
 	</cfif>
 </cfoutput>
 
@@ -504,6 +659,11 @@ limitations under the License.
 		$('#containerSaveStatus').removeClass('text-success');
 		$('#containerSaveStatus').removeClass('text-warning');
 	}
+	// a Grow/Shrink queued via the "Change Positions" dialog, not yet applied -- see
+	// applyPendingPositionsAction (containers.js), run from saveContainerForm's success handler
+	// once Save Changes is pressed. Declared unconditionally (not just for action=edit) so
+	// saveContainerForm's typeof check always finds a real variable rather than throwing.
+	var pendingPositionsAction = null;
 	$(document).ready(function () {
 		makeContainerAutocompleteMetaExcludeCO('parentContainerText', 'parent_container_id');
 		$('#parent_install_date').datepicker({ dateFormat: 'yy-mm-dd' });
@@ -544,12 +704,86 @@ limitations under the License.
 		<cfif variables.action EQ "edit">
 			<cfoutput>
 			showContainerBreadcrumb("#encodeForJavaScript(variables.formData.container_id)#", 'containerEditBreadcrumbFeedback', 'containerEditBreadcrumbNav');
+			$('##checkDate').datepicker({ dateFormat: 'yy-mm-dd' });
+			loadContainerCheckHistory(#val(variables.formData.container_id)#);
+			$('##logContainerCheckButton').on('click', function() {
+				logContainerCheck(#val(variables.formData.container_id)#);
+			});
 			<cfloop query="getHistory">
 				<cfif val(getHistory.parent_container_id) GT 0>
 					loadPlacementWarningBadge(#val(variables.formData.container_id)#, #val(getHistory.parent_container_id)#, '#encodeForJavaScript("editContainerHistoryBadge_#getHistory.currentRow#")#');
 				</cfif>
 			</cfloop>
+			var positionRecordCount = #val(variables.positionRecordCount)#;
 			</cfoutput>
+			<cfif len(trim(variables.formData.number_positions)) GT 0>
+				<!--- some browsers restore a form field's own prior live value across a reload
+					rather than the freshly server-rendered one -- most visibly here, since the
+					Number of Positions field switches between a plain input and this locked
+					display+Change button pair depending on positionRecordCount, so the field a
+					browser thinks it's restoring isn't necessarily the one now in this DOM
+					position. Reassert the actual value explicitly rather than trust the browser. --->
+				<cfoutput>
+				$('##number_positions').val(#val(variables.formData.number_positions)#);
+				$('##number_positions_display').val(#val(variables.formData.number_positions)#);
+				</cfoutput>
+			</cfif>
+			$('#number_positions').on('change', function() {
+				var $field = $(this);
+				var newValue = $.trim($field.val());
+				if (positionRecordCount === 0 && newValue.length > 0 && parseInt(newValue, 10) > 0) {
+					confirmDialog(
+						'Positions are individually trackable slots inside this container (e.g. spots in a freezer box or rack). Setting Number of Positions here does not create them yet -- you\'ll create the actual position records afterward from this container\'s own page. Continue with ' + newValue + ' position(s)?',
+						'Create Positions?',
+						function() {
+							changed();
+						},
+						function() {
+							$field.val('');
+						}
+					);
+				}
+			});
+			<cfif variables.positionRecordCount GT 0>
+				<cfoutput>
+				$('##changePositionsBtn').on('click', function() {
+					openPositionsChangeDialog(#val(variables.formData.container_id)#, function(data) {
+						if (data.action === 'reset') {
+							// Reset already committed from within the dialog and flips this field
+							// back to freely editable, dropping the Change button -- only the
+							// server-rendered markup knows how to redraw that, so reload outright.
+							window.location.reload();
+							return;
+						}
+						// Grow/Shrink -- not applied yet. Queue it and preview the resulting count,
+						// but leave ##number_positions (the value this form actually submits) at its
+						// real current value, so pressing Save Changes doesn't trip saveContainer's
+						// own guard against a manually-changed Number of Positions once position
+						// records exist. Applying the queue happens in saveContainerForm's success
+						// handler, after the rest of this save has gone through.
+						pendingPositionsAction = data;
+						$('##number_positions_display').val(data.previewCount);
+						$('##changePositionsBtn').prop('disabled', true);
+						updateContainerPositionsSummary(#val(variables.formData.container_id)#, data.previewCount, true);
+						$('##containerPositionsSummaryText').append(' <span class="text-warning">(pending -- applies on Save)</span>');
+						changed();
+					});
+				});
+				</cfoutput>
+			<cfelseif val(variables.formData.number_positions) GT 0>
+				<!--- no position records exist yet, but a count is already declared (either from page
+					load, or set moments ago and saved) -- render the same "Create N Positions" prompt
+					this container's own summary box would show after a plain save, so a page load
+					doesn't require one first --->
+				<cfoutput>
+				renderCreatePositionsPrompt(#val(variables.formData.number_positions)#, 'containerPositionsCreateArea', null, #val(variables.formData.container_id)#, true, null, function() {
+					// reload rather than updating the summary in place -- position records now
+					// exist, so the Number of Positions field needs to switch to its locked
+					// display + Change button, which only the server-rendered markup knows how to do.
+					window.location.reload();
+				});
+				</cfoutput>
+			</cfif>
 			$('#containerForm input[type=text]').on('change', changed);
 			$('#containerForm select').on('change', changed);
 			$('#containerForm textarea').on('change', changed);

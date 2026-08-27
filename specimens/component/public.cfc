@@ -1854,7 +1854,7 @@ limitations under the License.
 											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
 												onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">Part&nbsp;History#histCount#</a>
 										</span>
-										<cfif oneOfus is "1">
+										<cfif oneOfus is "1" AND isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
 											<span class="d-xl-inline-block d-none" id="partHistoryLinkSeparator"> | </span>
 											<span class="small mb-0 pb-0">
 												<a href="javascript:void(0)" aria-label="Part Container History"

@@ -4655,7 +4655,7 @@ limitations under the License.
 			</cfif>
 			<h2 class="h3 pt-3 px-2">
 				Edit Existing Parts (#getParts.recordcount#)
-				<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+				<a href="/containers/Containers.cfm?collection_object_id=#encodeForUrl(collection_object_id)#&execute=true" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
 				<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
 			</h2>
 			<div class="col-12 px-0 my-1 float-left">
@@ -5503,6 +5503,51 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!---
+Function updatePartDisposition. Sets a specimen part's disposition (coll_object.coll_obj_disposition)
+in isolation, without touching anything else about the part -- used by
+containers/placePartInContainer.cfm's optional "Change Disposition" step, applied alongside a move
+so a part can be marked in-collection/deaccessioned/etc. as it's placed. updatePart also sets
+disposition, but only as one field among many required arguments; this exists for callers that only
+ever need to change disposition and don't have (or want to re-fetch) the part's other current values.
+@param part_collection_object_id the specimen_part's own collection_object_id (same id space as
+	coll_object).
+@param disposition the new coll_obj_disposition value.
+@return a JSON object with status (updated|notfound|error) and message.
+--->
+<cffunction name="updatePartDisposition" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+	<cfargument name="disposition" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_specimens") GT 0)>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = "You do not have permission to update this part.">
+		<cfreturn serializeJSON(local.retval)>
+	</cfif>
+
+	<cftry>
+		<cfquery name="local.queryUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.queryUpdate_result">
+			UPDATE coll_object
+			SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.disposition)#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+		</cfquery>
+		<cfif local.queryUpdate_result.recordCount EQ 0>
+			<cfset local.retval["status"] = "notfound">
+			<cfset local.retval["message"] = "Part was not found.">
+			<cfreturn serializeJSON(local.retval)>
+		</cfif>
+		<cfset local.retval["status"] = "updated">
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.retval["status"] = "error">
+		<cfset local.retval["message"] = trim(cfcatch.message)>
+		<cfreturn serializeJSON(local.retval)>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 
@@ -9824,7 +9869,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfquery>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 					<div class="w-100 border-bottom">
-						<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+						<a href="/containers/Containers.cfm?collection_object_id=#encodeForUrl(collection_object_id)#&execute=true" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
 					</div>
 				</cfif>
 				<cfloop query="getPart">
@@ -9845,14 +9890,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						<cfloop query="container_parentage">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 								<li class="listgroupitem">
-									<a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a>
+									<a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & container_parentage.barcode)#&execute=true" target="_blank">#container_parentage.barcode#</a>
 									(#container_parentage.container_type#) 
 									<cfif len(container_parentage.parent_install_date) GT 0>
 										install date #container_parentage.parent_install_date#
 									</cfif>
 								</li>
 							<cfelse>
-								<li><#container_parentage.barcode#</a> (#container_parentage.container_type#)</li>
+								<li>#container_parentage.barcode# (#container_parentage.container_type#)</li>
 							</cfif>
 						</cfloop>
 					</ul>

@@ -194,12 +194,8 @@
 							<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 							<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 							<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-								<cfelse>
-									<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-								</cfif>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
 							</cfif>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 								<cfif targetMenu EQ "production">
@@ -335,16 +331,11 @@
 								<div style="float:left; width: 92%;">
 									<div class="h5 dropdown-header px-2 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										</cfif>
-										<a class="dropdown-item" href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
-											<a class="dropdown-item" href="/containers/Containers.cfm">Find Container (new)</a>
-										</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
+									</cfif>
+									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_specimens") or listcontainsnocase(session.roles,"manage_container") )>
+										<a class="dropdown-item" href="/containers/Containers.cfm" target="_top">Find Storage Location/Container</a>
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -352,21 +343,23 @@
 										<div class="h5 dropdown-header px-2 text-danger">Create</div>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
-											<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
+											<a class="dropdown-item" href="/containers/Container.cfm?action=new" target="_top">Storage Location/Create Container</a>
+											<a class="dropdown-item" href="/containers/createContainerSeries.cfm" target="_top">Create Container Series</a>
 
 										</cfif>
 									</div>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<div style="float:left; width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Manage</div>
-										<a class="dropdown-item" href="/moveContainer.cfm" target="_top">Move Container</a>
-										<a class="dropdown-item" href="/batchScan.cfm" target="_top">Batch Scan</a>
-										<a class="dropdown-item" href="/labels2containers.cfm" target="_top">Label &gt; Container</a>
-										<a class="dropdown-item" href="/part2container.cfm" target="_top">Put Parts in Containers</a>
-										<a class="dropdown-item" href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
-										<a class="dropdown-item" href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+											<a class="dropdown-item" href="/containers/moveContainer.cfm" target="_top">Move Container</a>
+											<a class="dropdown-item" href="/containers/moveContainer.cfm?batch_mode=1" target="_top">Batch Scan</a>
+											<a class="dropdown-item" href="/containers/bulkModifyContainers.cfm" target="_top">Bulk Modify Containers</a>
+											<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm?uploadType=scanDump" target="_top">Upload Scan File</a>
+											<a class="dropdown-item" href="/containers/browseContainers.cfm?action=qc" target="_top">Container Placement Problems</a>
+										</cfif>
+										<a class="dropdown-item" href="/containers/placePartInContainer.cfm" target="_top">Put Parts in Containers</a>
 										<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
 										<!---<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>--->
 									</div>

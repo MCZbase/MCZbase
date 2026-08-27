@@ -2007,6 +2007,7 @@ STATE TRANSITION BEHAVIOR:
 							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
 								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary" id="addDeaccItemsButton">Add Items To Deaccession</a>
 							</cfif>
+							<a href="/containers/Containers.cfm?transaction_id=#encodeForUrl(transaction_id)#&execute=true" target="_blank" class="btn btn-xs btn-secondary">Storage Locations</a>
 						</div>
 					</cfif>
 				</cfloop>
@@ -2745,7 +2746,7 @@ STATE TRANSITION BEHAVIOR:
 				</cfif>
 				<p class="font-weight-normal mb-1 pb-0">
 					There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
-					View <a href="/findContainer.cfm?loan_trans_id=#arguments.transaction_id#" target="_blank">Part Locations</a>
+					View <a href="/containers/Containers.cfm?transaction_id=#arguments.transaction_id#&execute=true" target="_blank">Part Locations</a>
 					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#arguments.transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
 				</p>
 				<cfif aboutLoan.loan_type EQ 'exhibition-master'>
@@ -3064,7 +3065,7 @@ STATE TRANSITION BEHAVIOR:
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6 pr-1">
-								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
+								<strong>Storage Location:</strong> <a href="/containers/Containers.cfm?container_id=#encodeForUrl(getParts.container_id)#&execute=true" target="_blank">#getParts.short_location#</a>
 								<ul class="mb-1">
 									<cfif len(previous_location) GT 0>
 										<li>

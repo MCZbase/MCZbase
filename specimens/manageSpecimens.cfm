@@ -124,11 +124,16 @@ limitations under the License.
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
+									<a href="/containers/Containers.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQueryPartContainers.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Change Part Containers</a>
+									<a href="/containers/partLocations.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Part Location Report</a>
 								</li>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+									<li class="nav-item mb-1">
+										<a href="/specimens/changeQueryPartContainers.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Change Part Containers</a>
+									</li>
+								</cfif>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
 								</li>

@@ -35,7 +35,7 @@ function prepareErrorMessage(message) {
 	return result;
 }
 
-/** create a dialog asking if user wishes to reload page, with option to cancel, and a 
+/** create a dialog asking if user wishes to reload page, with option to cancel, and a
   message describing the reason for the dialog, typically a state change message.  
   If user selects yes, page is reloaded, if no, dialog is closed and page is not reloaded.
   @param dialogText the text to place in the dialog, typically describing the reason for the dialog, e.g. a state change message.
@@ -122,15 +122,17 @@ function messageDialog(dialogText, dialogTitle) {
 	}
 };
 
-/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
- * types it as a jquery-ui modal dialog and displays it, invokes the specified callback 
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div,
+ * types it as a jquery-ui modal dialog and displays it, invokes the specified callback
  * function when OK is pressed.
  *
  * @param dialogText the text to place in the dialog.
  * @prarm dialogTitle for the dialog header.
  * @param okFunction callback function to invoke upon a press of the OK button.
+ * @param cancelFunction optional callback function to invoke upon a press of the Cancel
+ *	button, or the dialog being dismissed via its close icon or the Escape key.
  */
-function confirmDialog(dialogText, dialogTitle, okFunction) {
+function confirmDialog(dialogText, dialogTitle, okFunction, cancelFunction) {
 	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
@@ -145,10 +147,16 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 			},
 			Cancel: function () {
 				$(this).dialog('destroy');
+				if (cancelFunction) {
+					setTimeout(cancelFunction, 30);
+				}
 			}
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
+			 if (cancelFunction) {
+			 	setTimeout(cancelFunction, 30);
+			 }
 		},
 		open: function (event, ui) { 
 			// force the dialog to lay above any other elements in the page.
