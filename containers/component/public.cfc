@@ -1044,7 +1044,8 @@ of container details, loaded separately to avoid delaying initial details render
 					spec.part_count,
 					spec.part_count_modifier,
 					spec.part_remarks,
-					spec.preserve_method
+					spec.preserve_method,
+					spec.sampled_from_obj_id
 				FROM container c
 				LEFT JOIN (
 					SELECT
@@ -1058,7 +1059,8 @@ of container details, loaded separately to avoid delaying initial details render
 						co.lot_count AS part_count,
 						co.lot_count_modifier AS part_count_modifier,
 						cor.coll_object_remarks AS part_remarks,
-						sp.preserve_method
+						sp.preserve_method,
+						sp.sampled_from_obj_id
 					FROM (
 						SELECT
 							coch.container_id,
@@ -1167,8 +1169,8 @@ of container details, loaded separately to avoid delaying initial details render
 								<th scope="col">GUID</th>
 								<th scope="col">Current Identification</th>
 								<th scope="col">Part Type</th>
+								<th scope="col">Subsample</th>
 								<th scope="col">Part Count</th>
-								<th scope="col">Part Count Modifier</th>
 								<th scope="col">Part Remarks</th>
 								<th scope="col">Preservation</th>
 							</tr>
@@ -1220,15 +1222,17 @@ of container details, loaded separately to avoid delaying initial details render
 										</cfif>
 									</td>
 									<td>
-										<cfif isNumeric(part_count)>
-											#encodeForHtml(part_count)#
-										<cfelse>
-											<span class="text-muted">—</span>
+										<cfif len(trim(sampled_from_obj_id)) GT 0>
+											Yes
 										</cfif>
 									</td>
 									<td>
-										<cfif len(trim(part_count_modifier)) GT 0>
-											#encodeForHtml(part_count_modifier)#
+										<cfif isNumeric(part_count)>
+											<cfif len(trim(part_count_modifier)) GT 0>
+												#encodeForHtml(part_count_modifier)##encodeForHtml(part_count)#
+											<cfelse>
+												#encodeForHtml(part_count)#
+											</cfif>
 										<cfelse>
 											<span class="text-muted">—</span>
 										</cfif>
