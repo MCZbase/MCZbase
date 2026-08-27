@@ -145,6 +145,7 @@ limitations under the License.
 			<div class="form-row">
 				<div class="col-12 mb-2">
 					<a id="downloadCsvLink" class="btn btn-xs btn-secondary" href="##" target="_blank">Download as CSV</a>
+					<a class="btn btn-xs btn-info" href="/containers/Containers.cfm?execute=true&amp;result_id=#encodeForUrl(variables.result_id)#&amp;loan_number=#encodeForUrl(variables.loan_number)#&amp;deacc_number=#encodeForUrl(variables.deacc_number)#&amp;transaction_id=#encodeForUrl(variables.transaction_id)#" target="_blank">Browse in Hierarchy</a>
 				</div>
 			</div>
 			<div id="partLocationsTableArea">
