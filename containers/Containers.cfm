@@ -543,7 +543,7 @@ editing behavior consistent across the application.
 									<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
 									<input type="text" id="contains_guids" name="contains_guids"
 										class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
-										placeholder="GUID, or a comma-separated list"
+										placeholder="MCZ:Col:nnnnn, or comma-separated list"
 										value="#encodeForHtml(variables.contains_guids)#">
 									<div id="containsResultSummary" class="data-entry-label<cfif NOT variables.containsReadonly> d-none</cfif>">
 										<span id="containsResultSummaryText">#encodeForHtml(variables.containsSummaryText)#</span>
@@ -557,15 +557,15 @@ editing behavior consistent across the application.
 									<div class="form-row">
 										<div class="col-12 col-md-4">
 											<label for="loan_number" class="data-entry-label">Loan Number</label>
-											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="Loan number" value="#encodeForHtml(variables.loan_number)#">
+											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="yyyy-n-Col" value="#encodeForHtml(variables.loan_number)#">
 										</div>
 										<div class="col-12 col-md-4">
 											<label for="accn_number" class="data-entry-label">Accession Number</label>
-											<input type="text" id="accn_number" name="accn_number" class="data-entry-input col-12" placeholder="Accession number" value="#encodeForHtml(variables.accn_number)#">
+											<input type="text" id="accn_number" name="accn_number" class="data-entry-input col-12" placeholder="nnnnn" value="#encodeForHtml(variables.accn_number)#">
 										</div>
 										<div class="col-12 col-md-4">
 											<label for="deacc_number" class="data-entry-label">Deaccession Number</label>
-											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="Deaccession number" value="#encodeForHtml(variables.deacc_number)#">
+											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="Dyyyy-n-col" value="#encodeForHtml(variables.deacc_number)#">
 										</div>
 									</div>
 								</div>
