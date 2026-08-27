@@ -19,7 +19,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cf_rolecheck>
 <cfparam name="url.action" default="">
 <cfparam name="url.child_barcode" default="">
 <cfparam name="url.parent_barcode" default="">
