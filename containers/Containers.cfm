@@ -389,12 +389,18 @@ editing behavior consistent across the application.
 									<cfif variables.containerTypeIsList>
 										<cfset variables.containerTypeSelectClass = "data-entry-select col-12 d-none">
 										<cfset variables.containerTypeSelectDisabled = " disabled">
-										<cfset variables.containerTypeRowClass = "d-flex align-items-center form-row">
+										<!--- form-row already sets display:flex on its own -- adding the d-flex
+											utility class alongside d-none in the other branch below would
+											combine two !important display rules on the same element, and
+											Bootstrap declares .d-flex after .d-none, so .d-flex wins the tie
+											and the row never actually hides. Omitting the redundant d-flex
+											here too keeps both branches consistent. --->
+										<cfset variables.containerTypeRowClass = "align-items-center form-row">
 										<cfset variables.containerTypeInputDisabled = "">
 									<cfelse>
 										<cfset variables.containerTypeSelectClass = "data-entry-select col-12">
 										<cfset variables.containerTypeSelectDisabled = "">
-										<cfset variables.containerTypeRowClass = "d-flex align-items-center form-row d-none">
+										<cfset variables.containerTypeRowClass = "align-items-center form-row d-none">
 										<cfset variables.containerTypeInputDisabled = " disabled">
 									</cfif>
 									<select id="container_type" name="container_type" class="#variables.containerTypeSelectClass#"#variables.containerTypeSelectDisabled#>
