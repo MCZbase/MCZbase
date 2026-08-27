@@ -390,12 +390,12 @@ editing behavior consistent across the application.
 									<cfif variables.containerTypeIsList>
 										<cfset variables.containerTypeSelectClass = "data-entry-select col-12 d-none">
 										<cfset variables.containerTypeSelectDisabled = " disabled">
-										<cfset variables.containerTypeListClass = "input-group">
+										<cfset variables.containerTypeRowClass = "d-flex align-items-center form-row">
 										<cfset variables.containerTypeInputDisabled = "">
 									<cfelse>
 										<cfset variables.containerTypeSelectClass = "data-entry-select col-12">
 										<cfset variables.containerTypeSelectDisabled = "">
-										<cfset variables.containerTypeListClass = "input-group d-none">
+										<cfset variables.containerTypeRowClass = "d-flex align-items-center form-row d-none">
 										<cfset variables.containerTypeInputDisabled = " disabled">
 									</cfif>
 									<select id="container_type" name="container_type" class="#variables.containerTypeSelectClass#"#variables.containerTypeSelectDisabled#>
@@ -415,12 +415,14 @@ editing behavior consistent across the application.
 											<option value="!#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedType#>not #encodeForHtml(ctcontainer_type.container_type)#</option>
 										</cfloop>
 									</select>
-									<div id="container_type_list_group" class="#variables.containerTypeListClass#">
-										<input type="text" id="container_type_list" name="container_type"
-											class="data-entry-input col-12" aria-labelledby="container_type_label"
-											value="#encodeForHtml(variables.container_type)#"#variables.containerTypeInputDisabled#>
-										<div class="input-group-append">
-											<button type="button" class="btn btn-xs btn-warning" onclick="clearContainerTypeList('container_type', 'container_type_list')">Clear</button>
+									<div id="container_type_list_group" class="#variables.containerTypeRowClass#">
+										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+											<input type="text" id="container_type_list" name="container_type"
+												class="data-entry-input col-12" aria-labelledby="container_type_label"
+												value="#encodeForHtml(variables.container_type)#"#variables.containerTypeInputDisabled#>
+										</div>
+										<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+											<button type="button" id="clearContainerTypeListBtn" class="btn btn-xs btn-warning ml-1" onclick="clearContainerTypeList('container_type', 'container_type_list', 'container_type_list_group')">Clear</button>
 										</div>
 									</div>
 								</div>
@@ -572,7 +574,7 @@ editing behavior consistent across the application.
 							</div>
 						</fieldset>
 						<div class="form-row">
-							<div class="col-12 mb-2 d-flex flex-wrap align-items-center">
+							<div class="col-12 mb-2 mt-2 d-flex flex-wrap align-items-center">
 								<div>
 									<button type="submit" class="btn btn-xs btn-primary">Search</button>
 									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>

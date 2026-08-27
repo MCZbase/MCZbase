@@ -4438,9 +4438,12 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
  * so this both blanks and re-enables/hides the pair rather than editing form values directly.
  * @param {string} selectId - id of the container_type <select>.
  * @param {string} textInputId - id of the container_type comma-list text <input>.
+ * @param {string} listGroupId - id of the row containing the text input and this Clear button,
+ *  hidden along with the input so the button disappears with it.
  * @returns {void}
  */
-function clearContainerTypeList(selectId, textInputId) {
-	$('#' + textInputId).val('').prop('disabled', true).addClass('d-none');
+function clearContainerTypeList(selectId, textInputId, listGroupId) {
+	$('#' + textInputId).val('').prop('disabled', true);
+	$('#' + listGroupId).addClass('d-none');
 	$('#' + selectId).val('').prop('disabled', false).removeClass('d-none');
 }
