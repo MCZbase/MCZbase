@@ -194,12 +194,8 @@
 							<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 							<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 							<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-								<cfelse>
-									<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-								</cfif>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
 							</cfif>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 								<cfif targetMenu EQ "production">
@@ -335,12 +331,8 @@
 								<div style="float:left; width: 92%;">
 									<div class="h5 dropdown-header px-2 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
 									</cfif>
 									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_specimens") or listcontainsnocase(session.roles,"manage_container") )>
 										<a class="dropdown-item" href="/containers/Containers.cfm" target="_top">Find Storage Location/Container</a>

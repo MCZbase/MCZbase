@@ -397,12 +397,8 @@ limitations under the License.
 										<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 									</cfif>
 									<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
@@ -554,12 +550,8 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Group</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Browse Storage Locations</a>
-											</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+											<a class="dropdown-item" href="/containers/browseContainers.cfm">Browse Storage Locations</a>
 										</cfif>
 										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_specimens") or listcontainsnocase(session.roles,"manage_container") )>
 											<a class="dropdown-item" href="/containers/Containers.cfm">Find Storage Location/Container</a>

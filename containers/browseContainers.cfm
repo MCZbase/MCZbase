@@ -1,7 +1,8 @@
 <!---
 containers/browseContainers.cfm
 
-Copyright 2021 President and Fellows of Harvard College
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,92 +17,110 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfparam name="url.action" default="">
+<cfset variables.action = trim(url.action)>
+
 <cfset pageTitle="Browse Containers">
 <cfinclude template="/shared/_header.cfm">
-<cfif NOT isDefined("action")>
-	<cfset action="">
-</cfif>
+<link rel="stylesheet" href="/containers/css/containers.css">
 
-<cfquery name="ctcontainer_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT container_type 
-	FROM ctcontainer_type 
+<!--- viewable by this page's own manage_specimens role (enforced by /shared/_header.cfm above);
+	the qc action's placement-problem list additionally requires manage_container below, since
+	every link in that section leads straight to editing a container. --->
+<cfset variables.canEditContainers = isdefined("session.roles") AND listfindnocase(session.roles,"manage_container")>
+
+<!--- the fixture-equivalent container types (fixture, the various freezer subtypes, cryovat,
+	tank) used both by the qc-adjacent department-prefix picker below and by the links it
+	produces into Containers.cfm's container_type search field. Resolved from ctcontainer_type
+	rather than hardcoded, since there is more than one freezer subtype. --->
+<cfquery name="fixtureTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type
+	FROM ctcontainer_type
+	WHERE
+		container_type = 'fixture'
+		OR container_type LIKE '%freezer'
+		OR container_type = 'cryovat'
+		OR container_type = 'tank'
 	ORDER BY container_type
 </cfquery>
+<cfset variables.fixtureEquivalentTypes = valueList(fixtureTypes.container_type)>
 
 <cfoutput>
 	<main class="container" id="content">
-		<cfswitch expression="#action#">
+		<cfswitch expression="#variables.action#">
 			<cfcase value="qc">
-				<h1 class="h3">Containers which should be placed in another container, but are not.</h2>
-				<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned (type = external).
-				parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus) --->
-				<cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) ct, container_type 
-					FROM container 
-					WHERE parent_container_id < 2 and container_type not in ('campus','external')
-					GROUP BY container_type
-				</cfquery>
-				<div class="row">
-					<div class="col-12">
-						<ul>
-							<cfloop query="parentlessNodes">
-								<li>#parentlessNodes.container_type# (#parentlessNodes.ct#)</li>
-								<cfif parentlessNodes.ct LT 100>
-									<cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT label, container_type 
-										FROM container 
-										WHERE parent_container_id < 2 and container_type not in ('campus','external') 
-											and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
-									</cfquery>
-									<ul>
-										<cfloop query="plNode">
-											<li><a href="/containers/Containers.cfm?search_term=#encodeForUrl('=' & plNode.label)#&execute=true">#encodeForHtml(plNode.label)# (#encodeForHtml(plNode.container_type)#)</a> in [nothing]</li>
-										</cfloop>
-									</ul>
-								</cfif>
-							</cfloop>
-						</ul>
+				<cfif variables.canEditContainers>
+					<h1 class="h3">Container placement problems</h1>
+					<div class="row">
+						<div class="col-12">
+							<p>
+								A short, curated list of containers that sit directly under the Museum
+								or a campus root without being placed in a proper parent container --
+								specific, already-known placement problems worth fixing by hand. This is
+								not an exhaustive report; see
+								<a href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
+								for that.
+							</p>
+							<p>
+								Individual containers are listed below only when fewer than 100 exist for
+								a type; types with 100 or more are linked to a search instead.
+							</p>
+							<!---  parent_container_id = 0 are root containers, these should just be The Museum of Comparative Zoology and Deaccessioned (type = external).
+							parent_container_id = 1 are containers within The Museum of Comparative Zoology (target is just the MCZ-campus and CFS-campus). Institutions are
+							also expected to sit at the root the same way campus/external containers do, and are excluded here for the same reason. --->
+							<cfquery name="parentlessNodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT count(*) ct, container_type
+								FROM container
+								WHERE parent_container_id < 2 and container_type not in ('campus','external','institution')
+								GROUP BY container_type
+							</cfquery>
+							<ul>
+								<cfloop query="parentlessNodes">
+									<cfif parentlessNodes.ct LT 100>
+										<cfquery name="plNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT container_id, label, container_type
+											FROM container
+											WHERE parent_container_id < 2 and container_type not in ('campus','external','institution')
+												and container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentlessNodes.container_type#">
+										</cfquery>
+										<li>
+											#encodeForHtml(parentlessNodes.container_type)# (#parentlessNodes.ct#)
+											<ul>
+												<cfloop query="plNode">
+													<li><a href="/containers/Container.cfm?action=edit&amp;container_id=#encodeForUrl(plNode.container_id)#">#encodeForHtml(plNode.label)#</a></li>
+												</cfloop>
+											</ul>
+										</li>
+									<cfelse>
+										<li>
+											#encodeForHtml(parentlessNodes.container_type)# (#parentlessNodes.ct#) --
+											<a href="/containers/Containers.cfm?container_type=#encodeForUrl(parentlessNodes.container_type)#&amp;execute=true">search</a>
+										</li>
+									</cfif>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</cfcase>
-			<cfcase value="fixtures">
-				<cfif not isdefined("labelStart")><cfset labelStart="IZ"></cfif>
-				<!--- Get fixture name and parentage for a department --->
-				<cfquery name="fixtures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_type, label, sys_connect_by_path( label || ' (' || container_type ||')' ,' | ') parentage 
-					FROM container
-					WHERE (container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat') 
-						and label like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#labelStart#%">
-					START WITH container_type = 'campus'
-					CONNECT BY PRIOR container_id = parent_container_id
-					ORDER BY label
-				</cfquery>
-				<div class="row">
-					<div class="col-12">
-						<ul>
-							<cfloop query="fixtures">
-								<li><a href="/containers/Containers.cfm?search_term=#encodeForUrl('=' & fixtures.label)#&execute=true">#encodeForHtml(fixtures.label)# (#encodeForHtml(fixtures.container_type)#)</a> in #encodeForHtml(fixtures.parentage)#</li>
-							</cfloop>
-						</ul>
-					</div>
-				</div>
+				</cfif>
 			</cfcase>
 			<cfdefaultcase>
-				<!--- find list of departments (first few characters of fixture names) --->
+				<!--- find list of departments (first few characters of fixture-equivalent container labels) --->
 				<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
-					FROM container 
-					WHERE container_type = 'fixture' or container_type like '%freezer' or container_type = 'cryovat' 
+					SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix
+					FROM container
+					WHERE container_type IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.fixtureEquivalentTypes#" list="true">)
 					GROUP BY nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4))
 				</cfquery>
 				<div class="row">
 					<div class="col-12">
 						<ul>
-							<li><a href = "/containers/browseContainers.cfm?action=qc">Quality Control Containers</a></li>
-							<li>List fixtures starting with:</li>
-							<ul style="padding-left: 2em; line-height: 1.5em;">
+							<cfif variables.canEditContainers>
+								<li><a href="/containers/browseContainers.cfm?action=qc">Container placement problems</a></li>
+							</cfif>
+							<li>List fixtures, freezers, cryovats, and tanks starting with:</li>
+							<ul class="department-prefix-list">
 								<cfloop query="fixturePrefixes">
-									<li><a href = "/containers/browseContainers.cfm?action=fixtures&labelStart=#fixturePrefixes.prefix#">#fixturePrefixes.prefix# (#fixturePrefixes.ct#)</a></li>
+									<li><a href="/containers/Containers.cfm?department=#encodeForUrl(fixturePrefixes.prefix)#&amp;container_type=#encodeForUrl(variables.fixtureEquivalentTypes)#&amp;execute=true">#encodeForHtml(fixturePrefixes.prefix)# (#fixturePrefixes.ct#)</a></li>
 								</cfloop>
 							</ul>
 						</ul>

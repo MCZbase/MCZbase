@@ -225,3 +225,9 @@ limitations under the License.
 	line-height: 1.15;
 	word-break: break-word;
 }
+
+/* browseContainers.cfm's department-prefix picker list */
+.department-prefix-list {
+	padding-left: 2em;
+	line-height: 1.5em;
+}
