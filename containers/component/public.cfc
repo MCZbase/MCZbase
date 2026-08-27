@@ -999,6 +999,8 @@ of container details, loaded separately to avoid delaying initial details render
 						SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
 					FROM
 						container
+					WHERE
+						parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 					GROUP BY
 						parent_container_id
 				) ch ON ch.parent_container_id = c.container_id
@@ -1335,23 +1337,14 @@ details of a container for use in dialogs and page components.
 						c.locked_position,
 						c.institution_acronym,
 						ct.role AS container_role,
-						NVL(ch.direct_structural_children, 0) AS direct_structural_children,
-						NVL(ch.direct_leaf_children, 0) AS direct_leaf_children,
+						CASE WHEN EXISTS (
+							SELECT 1 FROM container cc WHERE cc.parent_container_id = c.container_id
+						) THEN 0 ELSE 1 END AS is_empty,
 						p.container_type AS parent_container_type,
 						p.label AS parent_label,
 						p.barcode AS parent_barcode
 					FROM
 						container c
-						LEFT JOIN (
-							SELECT
-								parent_container_id,
-								SUM(CASE WHEN container_type <> 'collection object' THEN 1 ELSE 0 END) AS direct_structural_children,
-								SUM(CASE WHEN container_type = 'collection object' THEN 1 ELSE 0 END) AS direct_leaf_children
-							FROM
-								container
-							GROUP BY
-								parent_container_id
-						) ch ON ch.parent_container_id = c.container_id
 						LEFT JOIN ctcontainer_type ct ON ct.container_type = c.container_type
 						LEFT JOIN container p ON c.parent_container_id = p.container_id
 					WHERE
@@ -1383,7 +1376,7 @@ details of a container for use in dialogs and page components.
 					<cfset browseTreeUrl = "/containers/Containers.cfm?container_id=#encodeForURL(getContainerDetail.container_id)#&execute=true">
 					<cfset isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainerDetail.container_role) GT 0>
 					<cfset isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainerDetail.container_role) GT 0>
-					<cfset currentContainerIsEmpty = (val(getContainerDetail.direct_structural_children) + val(getContainerDetail.direct_leaf_children)) EQ 0>
+					<cfset currentContainerIsEmpty = val(getContainerDetail.is_empty) EQ 1>
 					<cfset currentDisplay = "Unnamed container">
 					<cfif len(trim(getContainerDetail.label)) GT 0>
 						<cfset currentDisplay = getContainerDetail.label>
