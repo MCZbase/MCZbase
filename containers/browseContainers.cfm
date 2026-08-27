@@ -68,9 +68,15 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12">
 				<p>
-					Look up storage locations such as fixtures, freezers, cryovats, and tanks by
-					department<cfif variables.canEditContainers>, or review a short list of containers
-					that still need to be placed</cfif>.
+					Look up storage locations such as fixtures, freezers, cryovats, and tanks. Each is
+					grouped below by the first few characters of its name, which by convention is the
+					department that has material stored there -- though some prefixes are special
+					cases rather than departments (e.g. "Anox" for the CO2 anoxia treatment bubble,
+					"Env" for environmental chambers, or "Shared"), and others may simply be a typing
+					or naming error.
+					<cfif variables.canEditContainers>
+						You can also review a short list of containers that still need to be placed.
+					</cfif>
 				</p>
 			</div>
 		</div>
@@ -153,8 +159,16 @@ limitations under the License.
 									<cfif structKeyExists(variables.collectionByCde, ucase(fixturePrefixes.prefix))>
 										<cfset variables.matchedCollection = variables.collectionByCde[ucase(fixturePrefixes.prefix)]>
 									</cfif>
+									<cfset variables.prefixHasLeadingSpace = (left(fixturePrefixes.prefix,1) EQ " ")>
+									<cfset variables.prefixHasTrailingSpace = (right(fixturePrefixes.prefix,1) EQ " ")>
 									<li>
 										<a href="/containers/Containers.cfm?department=#encodeForUrl(fixturePrefixes.prefix)#&amp;container_type=#encodeForUrl(variables.fixtureEquivalentTypes)#&amp;execute=true">#encodeForHtml(fixturePrefixes.prefix)# (#fixturePrefixes.ct#)</a>
+										<cfif variables.prefixHasLeadingSpace>
+											<strong>(leading space)</strong>
+										</cfif>
+										<cfif variables.prefixHasTrailingSpace>
+											<strong>(trailing space)</strong>
+										</cfif>
 										<cfif len(variables.matchedCollection) GT 0>
 											#encodeForHtml(variables.matchedCollection)#
 										<cfelse>
