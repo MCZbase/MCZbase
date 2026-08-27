@@ -23,55 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
-Function getContainerAutocomplete.  Search for containers by name with a substring match on label or barcode, returning json suitable for jquery-ui autocomplete.
-
-@param term container label or barcode to search for.
-@return a json structure containing id and value, with matching container with matched type, label, and barcode in value and container_id in id.
---->
-<cffunction name="getContainerAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in barcode or label --->
-	<cfset name = "%#term#%"> 
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
-			SELECT 
-				container_id, label, barcode, container_type
-			FROM 
-				container
-			WHERE
-				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
-				OR
-				upper(barcode) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
-				<cfif REFind('^[0-9]+$',term) GT 0>
-					OR
-					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
-				</cfif>
-		</cfquery>
-		<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["id"] = "#search.container_id#" >
-			<cfset row["value"] = "#search.container_type#: #search.label# (#search.barcode#)" >
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!---
-Function getContainerAutocompleteMeta.  Search for containers by name with a substring match on label or barcode, 
+Function getContainerAutocompleteMeta.  Search for containers by name with a substring match on label or barcode,
   or exact match on container_id, returning json suitable for jquery-ui autocomplete.
 
 @param term container label or barcode or container_id to search for.
@@ -496,8 +448,8 @@ a paginated JSON result for display in the browse panel.
 @param contains_result_id optional saved search result_id (user_search_table); resolved the same way as
   contains_guids, against that search's distinct cataloged items.
 @param contains_collection_object_ids optional comma-separated list of raw collection_object_id values
-  (each may be a part or a cataloged item, findContainer.cfm's own deep-link shape); resolved the same
-  way as contains_guids and contains_result_id.
+  (each may be a part or a cataloged item); resolved the same way as contains_guids and
+  contains_result_id.
 @param loan_number optional substring to match against loan.loan_number (case-insensitive); restricts
   results to containers currently holding a part checked out on any matching loan.
 @param accn_number optional substring to match against accn.accn_number (case-insensitive); restricts
@@ -510,8 +462,9 @@ a paginated JSON result for display in the browse panel.
 @param page page number (1-based), default 1.
 @param pageSize rows per page, default 50.
 @return JSON object: { rows: [...], page, pageSize, totalRows }
-	Each row: container_id, container_type, label, barcode, description, container_remarks,
-	direct_structural_children, direct_leaf_children, shape_class
+	Each row: container_id, parent_container_id, parent_container_type, container_type, label,
+	barcode, description, container_remarks, direct_structural_children, direct_leaf_children,
+	shape_class
 --->
 <cffunction name="searchContainers" access="remote" returntype="any" returnformat="json">
 	<cfargument name="search_term" type="string" required="no" default="">
@@ -596,9 +549,9 @@ a paginated JSON result for display in the browse panel.
 				</cfif>
 			</cfloop>
 		</cfif>
-		<!--- Resolve a raw list of collection_object_ids (findContainer.cfm's own deep-link shape --
-			each id may be a part or a cataloged item) the same way: one bulk lookup against
-			specimen_part rather than a query per id, since this list can run to hundreds of ids. Any
+		<!--- Resolve a raw list of collection_object_ids (each id may be a part or a cataloged item)
+			the same way: one bulk lookup against specimen_part rather than a query per id, since
+			this list can run to hundreds of ids. Any
 			id not found there is assumed to already be a cataloged item's own id. --->
 		<cfset local.containsCollectionObjectIds = trim(arguments.contains_collection_object_ids)>
 		<cfif len(local.containsCollectionObjectIds) GT 0>

@@ -20,61 +20,14 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- getContainerHistory obtain json listing the container history for a given container_id.
+<!---
+Function getContainerHistoryHTML. Renders an HTML fragment for a container: a heading with its
+label/barcode, description/remarks, its current container, and a table of prior placements from
+container_history (install_date, container_type, label, description, barcode), for a given
+container_id.
 @param container_id the container_id to get history for.
-@return a json array of objects with container_id, install_date, container_type, label, description, and barcode.
+@return an HTML fragment string, or an error message if the container isn't found.
 --->
-<cffunction name="getContainerHistory" access="remote" returntype="any" returnformat="json">
-	<cfargument name="container_id" type="string" required="yes">
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
-			SELECT
-				container_history.container_id,
-				install_date,
-				container_type,
-				label,
-				description,
-				barcode
-			 FROM 
-				container_history
-				join container on container_history.parent_container_id = container.container_id
-			 WHERE 
-				container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-			 GROUP BY
-				install_date,
-				container_type,
-				label,
-				description,
-				barcode
-			ORDER BY install_date DESC
-		</cfquery>
-		<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["container_id"] = "#search.container_id#">
-			<cfset row["install_date"] = "#search.install_date#">
-			<cfset row["container_type"] = "#search.container_type#">
-			<cfset row["label"] = "#search.label#">
-			<cfset row["description"] = "#search.description#">
-			<cfset row["barcode"] = "#search.barcode#">
-			<cfset data[i] = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
 <cffunction name="getContainerHistoryHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="container_id" type="string" required="yes">
 
@@ -237,6 +190,9 @@ ctcontainer_type for use by the redesigned container browse/search/view code.
 TODO: Consider extending ctcontainer_type with columns such as browse_grouping_mode,
 allow_create_child, contents_display_mode, and explore_visibility so the redesign can
 stop inferring these UI behaviors from role and expects_leaf_child_count alone.
+
+@return a query with columns container_type, role, and expects_leaf_child_count (0 when null),
+  one row per ctcontainer_type entry, ordered by container_type.
 --->
 <cffunction name="getContainerTypeMetadataQuery" access="public" returntype="query" output="false">
 	<cfquery name="local.ctContainerType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -255,6 +211,10 @@ stop inferring these UI behaviors from role and expects_leaf_child_count alone.
 <!---
 Function getContainerTypeMetadata.  Returns container-type role metadata as JSON for
 client-side use.
+
+@return JSON object with "rows" (an array of {container_type, role, expects_leaf_child_count}
+  objects, one per container_type) and "byType" (the same rows keyed by lowercased
+  container_type, for direct lookup).
 --->
 <cffunction name="getContainerTypeMetadata" access="remote" returntype="any" returnformat="json" output="false">
 	<cfset local.retval = StructNew()>
@@ -3334,9 +3294,9 @@ renderPlacementWarningBadge JS function can render its result unmodified.
 
 <!---
 Function applyBulkRetypeContainer. Applies a bulk-retype change to one container -- called once per
-matched container by the bulk retype tool's apply step, independently per container (not wrapped in
-one all-or-nothing transaction like the legacy labels2containers.cfm), so one container's failure
-doesn't roll back the rest of the batch. Requires manage_container on top of this file's <cf_rolecheck>,
+matched container by the bulk retype tool's apply step, independently per container, not wrapped in
+one all-or-nothing transaction, so one container's failure doesn't roll back the rest of the batch.
+Requires manage_container on top of this file's <cf_rolecheck>,
 per this redesign's rule that every mutating method must enforce it inline as well.
 @param container_id the container to update.
 @param new_container_type the new container_type to set.

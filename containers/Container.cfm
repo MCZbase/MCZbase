@@ -23,7 +23,6 @@ limitations under the License.
 <cfparam name="url.barcode" default=""><!--- barcode is optional, but if provided and container_id is not, it will be used to look up the container_id for editing --->
 <cfparam name="url.parent_container_id" default="">
 <cfparam name="url.clone_from" default=""><!--- action=new only: container_id to pre-fill reusable fields from --->
-<cf_rolecheck>
 
 <cfset variables.action = lCase(trim(url.action))>
 <cfif NOT listFind("new,edit", variables.action)>
@@ -100,11 +99,9 @@ limitations under the License.
 	reached via a "Clone" button on that container's own edit page. Deliberately excludes label
 	and barcode (shown as a "Cloned from" note instead of populating the inputs -- both must be
 	unique, so blindly copying either would guarantee a save failure) and parent_install_date
-	(defaults fresh, as any new container's does). Unlike the legacy editContainer.cfm's Clone,
-	which didn't carry a parent at all (its own edit form had no parent_container_id field to
-	resubmit, so every clone landed unplaced at root), this one does default into the same
-	parent as the source, since that's the common case and action=new already supports
-	parent_container_id cleanly. Runs before the parent-preset lookup below so a clone-inherited
+	(defaults fresh, as any new container's does). Defaults into the same parent as the source,
+	since that's the common case and action=new already supports parent_container_id cleanly.
+	Runs before the parent-preset lookup below so a clone-inherited
 	parent still gets that lookup's display text/type-limiting treatment. --->
 <cfset variables.cloneFromId = trim(url.clone_from)>
 <cfif len(variables.cloneFromId) GT 0 AND NOT isNumeric(variables.cloneFromId)>
@@ -627,11 +624,9 @@ limitations under the License.
 				</cfif>
 			</div>
 		</section>
-		<!--- ported from editContainer.cfm's "Checked" sub-form -- the one legacy action with no
-			redesigned equivalent yet. Checked By is read-only rather than a typeahead agent picker
-			like the legacy field was, since checked_agent_id is always resolved server-side from
-			the logged-in session (see logContainerCheck) regardless of what's typed here -- an
-			editable-but-ignored field would just be misleading. --->
+		<!--- Container Check Log. Checked By is read-only, since checked_agent_id is always
+			resolved server-side from the logged-in session (see logContainerCheck) regardless of
+			what's typed here -- an editable-but-ignored field would just be misleading. --->
 		<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerCheckHeading">
 			<div class="col-12">
 				<h2 class="h4 ml-1 mb-2" id="containerCheckHeading">Container Check Log</h2>

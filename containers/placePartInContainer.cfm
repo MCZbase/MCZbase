@@ -2,8 +2,7 @@
 /containers/placePartInContainer.cfm
 
 Find a cataloged item's specimen parts and place one (or two together) into a parent container by
-barcode, optionally retyping that parent container. Replaces /part2container.cfm and its "New Part"
-popup /form/newPart.cfm.
+barcode, optionally retyping that parent container.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -21,7 +20,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cf_rolecheck>
 <cfparam name="url.collection_id" default="">
 <cfparam name="url.other_id_type" default="catalog_number">
 <cfparam name="url.oidnum" default="">

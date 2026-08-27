@@ -16,8 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Bulk-retypes (and optionally updates the description/remark/dimensions of) a series of existing
-containers identified by a shared barcode prefix and a contiguous integer range. Replaces
-/labels2containers.cfm. A five-step self-posting flow: entryPoint (pick the range) -> preview
+containers identified by a shared barcode prefix and a contiguous integer range. A five-step
+self-posting flow: entryPoint (pick the range) -> preview
 (report what's actually in the range) -> dataEntry (choose the changes) -> test (optional dry run,
 validated per container) -> apply (commit, skipping any container whose retype is blocked).
 
@@ -46,7 +46,6 @@ a request timing out mid-run:
 	  page is currently a traditional multi-step self-posting form, not an AJAX-driven one) for
 	  avoiding both the timeout and a background job's added state-tracking.
 --->
-<cf_rolecheck>
 <cfparam name="form.formAction" default="">
 <cfparam name="form.origContType" default="">
 <cfparam name="form.barcode_prefix" default="">

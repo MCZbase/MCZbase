@@ -25,6 +25,18 @@ limitations under the License.
 <!---
 Function createContainer.  Creates a new container record.
 
+@param container_type the new container's container_type.
+@param label the new container's label.
+@param parent_container_id container_id of the parent to create this container under.
+@param barcode optional unique barcode/identifier for the new container.
+@param description optional description of the new container.
+@param parent_install_date optional date the container was placed into its parent.
+@param container_remarks optional free-text remarks.
+@param width optional width in cm.
+@param height optional height in cm.
+@param length optional length in cm.
+@param number_positions optional declared count of position sub-containers this container will hold.
+@param institution_acronym institution owning the container, defaults to "MCZ".
 @return JSON object with status and container_id on success.
 --->
 <cffunction name="createContainer" access="remote" returntype="any" returnformat="json">
@@ -133,6 +145,26 @@ Function createContainer.  Creates a new container record.
 
 <!---
 Function saveContainer.  Updates an existing container record.
+
+@param container_id the container being updated.
+@param container_type the container's container_type -- validated via validateContainerRetype
+  against its existing parent/children when this changes.
+@param label the container's label.
+@param parent_container_id container_id of the container's parent.
+@param barcode optional unique barcode/identifier.
+@param description optional description.
+@param parent_install_date optional date the container was placed into its parent.
+@param container_remarks optional free-text remarks.
+@param width optional width in cm.
+@param height optional height in cm.
+@param length optional length in cm.
+@param number_positions optional declared count of position sub-containers -- reducing it is
+  refused (status "error", trimmable/excess_count/new_count set) while occupied or existing
+  position records sit beyond the new count; increasing it once position records already exist
+  is refused outright (use Grow Positions instead).
+@param institution_acronym institution owning the container, defaults to "MCZ".
+@return JSON object with status ("saved" or "error"), message on error, warnings from a
+  container_type change's retype validation when present, and container_id on success.
 --->
 <cffunction name="saveContainer" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="string" required="yes">
@@ -438,9 +470,8 @@ their own <cftransaction> around this.
 <!---
 Function createContainerPositions. Bulk-creates the position sub-containers for a container,
 either using one of a handful of known box/rack presets with established physical dimensions
-(matching the retired containerPositions.cfm's "Create all new positions" action, and the same 5
-presets containers.js's positions-grid layout already special-cases: 25/81/100-position freezer
-boxes, 33/48-position freezers), or -- when an explicit columns count is supplied -- an arbitrary
+(the same 5 presets containers.js's positions-grid layout already special-cases: 25/81/100-position
+freezer boxes, 33/48-position freezers), or -- when an explicit columns count is supplied -- an arbitrary
 grid shape for a type/count combination that isn't one of those presets, with no known slot
 dimensions (left blank). Refuses if the container already has any children at all, since positions
 can only be bulk-created once, before anything has been placed in the box -- see
@@ -478,7 +509,7 @@ number when the parent has one.
 	<cfset local.positionLength = "">
 	<!--- known (number_positions, container_type) presets and their position slots' physical
 		dimensions -- the same boundary containers.js's layoutClassMap already assumes for grid
-		display, and the exact set the legacy containerPositions.cfm supported --->
+		display --->
 	<cfif local.numberPositions EQ 100 AND local.containerType EQ "freezer box">
 		<cfset local.positionType = "position"><cfset local.positionWidth = 1.2><cfset local.positionLength = 1.2><cfset local.positionHeight = 4.9>
 	<cfelseif local.numberPositions EQ 81 AND local.containerType EQ "freezer box">
@@ -974,11 +1005,9 @@ has position records -- retrofit is only for one that hasn't created any yet.
 
 <!---
 Function logContainerCheck. Records a physical check of a container (e.g. a periodic freezer/
-cabinet inspection) into container_check -- ported from editContainer.cfm's "Checked" sub-form,
-the one editContainer.cfm feature with no equivalent anywhere in the redesign. checked_agent_id is
-always resolved from session.myAgentId server-side, never trusted from the caller -- the legacy
-page posted it as a plain hidden form field, so a modified request could have credited the check
-to anyone.
+cabinet inspection) into container_check. checked_agent_id is always resolved from
+session.myAgentId server-side, never trusted from the caller, so a modified request can't credit
+the check to anyone else.
 @param container_id the container being checked.
 @param check_date the date of the check (yyyy-mm-dd).
 @param check_remark optional remark about the check.
@@ -1202,8 +1231,7 @@ barcodes destined to be unplaced or placed at the institution, which needs no ex
 		</cfif>
 	</cfif>
 
-	<!--- preserve begin_barcode's leading-zero width (e.g. "007") across the whole run, matching
-		the retired CreateContainersForBarcodes.cfm --->
+	<!--- preserve begin_barcode's leading-zero width (e.g. "007") across the whole run --->
 	<cfset local.numberMask = "">
 	<cfif left(arguments.begin_barcode,1) EQ "0">
 		<cfset local.numberMask = RepeatString("0",len(arguments.begin_barcode))>
@@ -1320,7 +1348,10 @@ barcodes destined to be unplaced or placed at the institution, which needs no ex
 </cffunction>
 
 <!---
-Function deleteContainer.  Deletes a container record.
+Function deleteContainer.  Deletes a container record. Refused if the container has any children.
+
+@param container_id the container to delete.
+@return JSON object with status ("deleted" or "error") and message on error.
 --->
 <cffunction name="deleteContainer" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="string" required="yes">
@@ -1367,168 +1398,6 @@ Function deleteContainer.  Deletes a container record.
 		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(local.retval)>
-</cffunction>
-
-<!---
-Function getContainerEditHtml.  Returns an HTML fragment containing the container
-edit form suitable for rendering in a dialog box or embedded in another page.
-
-@param container_id the container_id whose details should be rendered for editing.
-@param idSuffix optional string to append to the IDs of elements in the returned 
-  HTML fragment, to avoid collisions when multiple container edit forms are 
-  rendered on the same page.
-@return HTML fragment string for the container edit form, including 
-  container type, label, barcode, and other editable fields.
---->
-<cffunction name="getContainerEditHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="container_id" type="numeric" required="yes">
-	<cfargument name="idSuffix" type="string" required="no" default="">
-
-	<cfset local.tn = REReplace(createUUID(), "-", "", "all")>
-	<cfset local.safeIdSuffix = REReplace(arguments.idSuffix, "[^A-Za-z0-9_-]", "", "all")>
-	<cfthread name="getContainerEditHtmlThread#local.tn#" container_id="#arguments.container_id#" idSuffix="#local.safeIdSuffix#">
-		<cfoutput>
-			<cftry>
-				<cfquery name="ctContainerType" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT
-						container_type
-					FROM
-						ctcontainer_type
-					ORDER BY
-						container_type
-				</cfquery>
-				<cfquery name="getContainerEdit" datasource="user_login" username="#session.dbuser#"  password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT
-						c.container_id,
-						c.parent_container_id,
-						c.container_type,
-						c.label,
-						c.description,
-						c.parent_install_date,
-						c.container_remarks,
-						c.barcode,
-						c.width,
-						c.height,
-						c.length,
-						c.number_positions,
-						c.institution_acronym,
-						p.label AS parent_label,
-						p.barcode AS parent_barcode
-					FROM
-						container c
-						LEFT JOIN container p ON c.parent_container_id = p.container_id
-					WHERE
-						c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-				</cfquery>
-				<cfif getContainerEdit.recordcount EQ 0>
-					<p class="text-danger">Container not found.</p>
-				<cfelse>
-					<cfset parentContainerText = "">
-					<cfif len(trim(getContainerEdit.parent_barcode)) GT 0>
-						<cfset parentContainerText = getContainerEdit.parent_barcode>
-					<cfelseif len(trim(getContainerEdit.parent_label)) GT 0>
-						<cfset parentContainerText = getContainerEdit.parent_label>
-					</cfif>
-					<cfset installDate = "">
-					<cfif isDate(getContainerEdit.parent_install_date)>
-						<cfset installDate = dateFormat(getContainerEdit.parent_install_date, "yyyy-mm-dd")>
-					</cfif>
-					<section class="row mx-0 border rounded my-2 pt-2 mb-4" aria-labelledby="containerDialogFormHeading#encodeForHtml(idSuffix)#">
-						<div class="col-12">
-							<h2 class="h4 ml-3 mb-1" id="containerDialogFormHeading#encodeForHtml(idSuffix)#">Edit Container</h2>
-							<div class="mb-2" role="status" aria-live="polite">
-								<output id="containerSaveStatus#encodeForHtml(idSuffix)#">&nbsp;</output>
-							</div>
-							<form class="col-12 px-0" id="containerForm#encodeForHtml(idSuffix)#" name="containerForm#encodeForHtml(idSuffix)#" method="post" novalidate>
-								<input type="hidden" name="container_id" id="container_id#encodeForHtml(idSuffix)#" value="#encodeForHtml(getContainerEdit.container_id)#">
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="container_type#encodeForHtml(idSuffix)#" class="data-entry-label">Container Type</label>
-										<select name="container_type" id="container_type#encodeForHtml(idSuffix)#" class="data-entry-select reqdClr col-12" required aria-required="true">
-											<option value=""></option>
-											<cfloop query="ctContainerType">
-												<cfset selectedType = "">
-												<cfif ctContainerType.container_type EQ getContainerEdit.container_type>
-													<cfset selectedType = " selected">
-												</cfif>
-												<option value="#encodeForHtml(ctContainerType.container_type)#"#selectedType#>#encodeForHtml(ctContainerType.container_type)#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="label#encodeForHtml(idSuffix)#" class="data-entry-label">Label</label>
-										<input type="text" name="label" id="label#encodeForHtml(idSuffix)#" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(getContainerEdit.label)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="barcode#encodeForHtml(idSuffix)#" class="data-entry-label">Barcode</label>
-										<input type="text" name="barcode" id="barcode#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.barcode)#">
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="parentContainerText#encodeForHtml(idSuffix)#" class="data-entry-label">Parent Container</label>
-										<input type="hidden" name="parent_container_id" id="parent_container_id#encodeForHtml(idSuffix)#" value="#encodeForHtml(getContainerEdit.parent_container_id)#">
-										<input type="text" name="parentContainerText" id="parentContainerText#encodeForHtml(idSuffix)#" class="data-entry-input col-12 reqdClr" required aria-required="true" value="#encodeForHtml(parentContainerText)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="parent_install_date#encodeForHtml(idSuffix)#" class="data-entry-label">Placement Date</label>
-										<input type="text" name="parent_install_date" id="parent_install_date#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(installDate)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="description#encodeForHtml(idSuffix)#" class="data-entry-label">Description</label>
-										<input type="text" name="description" id="description#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.description)#">
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 mb-2">
-										<label for="container_remarks#encodeForHtml(idSuffix)#" class="data-entry-label">Container Remarks</label>
-										<textarea name="container_remarks" id="container_remarks#encodeForHtml(idSuffix)#" rows="3" class="data-entry-input col-12">#encodeForHtml(getContainerEdit.container_remarks)#</textarea>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="width#encodeForHtml(idSuffix)#" class="data-entry-label">Width (cm)</label>
-										<input type="text" name="width" id="width#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.width)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="height#encodeForHtml(idSuffix)#" class="data-entry-label">Height (cm)</label>
-										<input type="text" name="height" id="height#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.height)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="length#encodeForHtml(idSuffix)#" class="data-entry-label">Length (cm)</label>
-										<input type="text" name="length" id="length#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.length)#">
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="number_positions#encodeForHtml(idSuffix)#" class="data-entry-label">Number of Positions</label>
-										<input type="text" name="number_positions" id="number_positions#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.number_positions)#">
-									</div>
-									<div class="col-12 col-md-6 col-xl-4 mb-2">
-										<label for="institution_acronym#encodeForHtml(idSuffix)#" class="data-entry-label">Institution Acronym</label>
-										<input type="text" name="institution_acronym" id="institution_acronym#encodeForHtml(idSuffix)#" class="data-entry-input col-12" value="#encodeForHtml(getContainerEdit.institution_acronym)#">
-									</div>
-								</div>
-								<div class="form-row mb-4 mt-1">
-									<div class="col-12">
-										<button type="button" class="btn btn-xs btn-primary" onclick="saveContainerForm('containerForm#encodeForHtml(idSuffix)#', 'saveContainer', 'containerSaveStatus#encodeForHtml(idSuffix)#')">Save Changes</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</section>
-				</cfif>
-			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript>reportError(function_called="#function_called#", error_message="#error_message#");</cfscript>
-				<p class="text-danger">Unable to load container edit form.</p>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getContainerEditHtmlThread#local.tn#" />
-	<cfreturn cfthread["getContainerEditHtmlThread#local.tn#"].output>
 </cffunction>
 
 <!---

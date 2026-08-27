@@ -81,7 +81,6 @@ editing behavior consistent across the application.
 --->
 
 
-<cf_rolecheck>
 <cfparam name="url.action" default="">
 <cfparam name="url.container_id" default="">
 <cfparam name="url.search_term" default="">
@@ -258,9 +257,9 @@ editing behavior consistent across the application.
 	</cfif>
 </cfif>
 
-<!--- given one or more raw collection_object_ids (findContainer.cfm's own ?collection_object_id=
-	deep-link shape -- each may be a part or a cataloged item, and there may be hundreds of them,
-	e.g. from a classic specimen search results page), resolve to distinct cataloged items and
+<!--- given one or more raw collection_object_ids (each may be a part or a cataloged item, and
+	there may be hundreds of them, e.g. from a classic specimen search results page), resolve to
+	distinct cataloged items and
 	populate Contains directly when there are few enough to be a readable/editable list; otherwise
 	pass the raw id list through as its own search argument, the same threshold pattern used below
 	for a saved search's result_id. --->

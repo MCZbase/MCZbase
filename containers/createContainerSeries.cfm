@@ -2,7 +2,7 @@
 /containers/createContainerSeries.cfm
 
 Bulk-creates a numbered series of container records sharing one parent and container type, for
-pre-printing or reserving a run of barcode labels. Replaces /CreateContainersForBarcodes.cfm.
+pre-printing or reserving a run of barcode labels.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2026 President and Fellows of Harvard College
@@ -20,7 +20,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cf_rolecheck>
 
 <cfset pageTitle = "Create Container Series">
 <cfset pageHasContainers = true>

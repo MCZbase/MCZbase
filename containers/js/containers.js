@@ -1062,8 +1062,7 @@ function applyPendingPositionsAction(containerId, pendingAction) {
 }
 
 /**
- * Loads Container.cfm's Container Check Log history table -- ported from editContainer.cfm's
- * "Checked" sub-form, the one legacy action with no redesigned equivalent before this.
+ * Loads Container.cfm's Container Check Log history table.
  * @param {number|string} containerId - container_id whose check history to load.
  */
 function loadContainerCheckHistory(containerId) {
@@ -2184,9 +2183,8 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
  * Handles a barcode scanned or typed into an empty position's input on the positions grid.
  * Looks the barcode up server-side and, if it matches an existing container, places that
  * container into the given position, then reloads the grid and moves focus to the next
- * remaining empty position's input so a user can keep scanning without touching the mouse
- * (mirrors the /containerPositions.cfm scanner workflow this feature is modeled on). If that
- * was the last empty position, there is no next input to focus, so focus moves instead to the
+ * remaining empty position's input so a user can keep scanning without touching the mouse.
+ * If that was the last empty position, there is no next input to focus, so focus moves instead to the
  * positions heading, whose text loadPositionsGrid has already updated to note none remain.
  *
  * @param {jQuery} inputEl - jQuery-wrapped input element that received the scanned barcode.
