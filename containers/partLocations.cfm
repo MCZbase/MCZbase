@@ -60,7 +60,7 @@ limitations under the License.
 		no spaces), so each location type name (e.g. "freezer rack") is sanitized into its own
 		CSV column key here; the JSON row itself is still read by its original, unsanitized type
 		name, since that's the key getPartLocationsReport actually used. --->
-	<cfset variables.csvColumnNames = "GUID,Part_Name,Preserve_Method,Lot_Count,Disposition">
+	<cfset variables.csvColumnNames = "GUID,Part_Name,Preserve_Method,Lot_Count,Disposition,Subsample">
 	<cfset variables.csvColumnKeys = ArrayNew(1)>
 	<cfloop array="#variables.report.columns#" index="variables.oneColumnName">
 		<cfset variables.oneColumnKey = reReplace(trim(variables.oneColumnName), "[^A-Za-z0-9_]", "_", "all")>
@@ -75,6 +75,7 @@ limitations under the License.
 		<cfset querySetCell(variables.csvQuery, "Preserve_Method", variables.oneReportRow.preserve_method, variables.csvRowIndex)>
 		<cfset querySetCell(variables.csvQuery, "Lot_Count", variables.oneReportRow.display_lot_count, variables.csvRowIndex)>
 		<cfset querySetCell(variables.csvQuery, "Disposition", variables.oneReportRow.disposition, variables.csvRowIndex)>
+		<cfset querySetCell(variables.csvQuery, "Subsample", variables.oneReportRow.subsample, variables.csvRowIndex)>
 		<cfloop from="1" to="#arrayLen(variables.report.columns)#" index="variables.colIdx">
 			<cfset querySetCell(variables.csvQuery, variables.csvColumnKeys[variables.colIdx], variables.oneReportRow[variables.report.columns[variables.colIdx]], variables.csvRowIndex)>
 		</cfloop>
@@ -235,6 +236,7 @@ limitations under the License.
 			headRow.append($('<th></th>').text('Preserve Method'));
 			headRow.append($('<th></th>').text('Lot Count'));
 			headRow.append($('<th></th>').text('Disposition'));
+			headRow.append($('<th></th>').text('Subsample'));
 			$.each(data.columns, function(i, columnName) {
 				headRow.append($('<th></th>').text(titleCaseContainerType(columnName)));
 			});
@@ -251,6 +253,7 @@ limitations under the License.
 				tr.append($('<td></td>').text(row.preserve_method || ''));
 				tr.append($('<td></td>').text(row.display_lot_count || ''));
 				tr.append($('<td></td>').text(row.disposition || ''));
+				tr.append($('<td></td>').text(row.subsample || ''));
 				$.each(data.columns, function(j, columnName) {
 					tr.append($('<td></td>').text(row[columnName] || ''));
 				});
