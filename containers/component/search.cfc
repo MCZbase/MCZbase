@@ -483,12 +483,17 @@ a paginated JSON result for display in the browse panel.
 @param contains_collection_object_ids optional comma-separated list of raw collection_object_id values
   (each may be a part or a cataloged item); resolved the same way as contains_guids and
   contains_result_id.
-@param loan_number optional substring to match against loan.loan_number (case-insensitive); restricts
-  results to containers currently holding a part checked out on any matching loan.
+@param loan_number optional filter:
+  NULL          - no part currently held by this container is checked out on any loan
+  NOT NULL      - some part currently held by this container is checked out on some loan
+  [text]        - substring match against loan.loan_number (case-insensitive); restricts results to
+                  containers currently holding a part checked out on any matching loan
+  [=text]       - exact loan.loan_number match (case-insensitive)
 @param accn_number optional substring to match against accn.accn_number (case-insensitive); restricts
   results to containers linked to any matching accession via trans_container.
-@param deacc_number optional substring to match against deaccession.deacc_number (case-insensitive);
-  resolved the same way as loan_number, since deaccession items relate to parts exactly like loan items.
+@param deacc_number optional filter, same NULL/NOT NULL/text/=text convention as loan_number, against
+  deaccession.deacc_number -- resolved the same way as loan_number, since deaccession items relate to
+  parts exactly like loan items.
 @param transaction_id optional comma-separated list of transaction_ids (a loan/accession/deaccession
   deep link); each is looked up by its own transaction_type and resolved the same way as the matching
   loan_number/accn_number/deacc_number case.
@@ -632,10 +637,23 @@ a paginated JSON result for display in the browse panel.
 		<cfset local.accnNumberUpper = ucase(trim(arguments.accn_number))>
 		<cfset local.deaccNumberUpper = ucase(trim(arguments.deacc_number))>
 		<cfset local.transactionIdList = trim(arguments.transaction_id)>
+		<!--- loan_number/deacc_number each independently support NULL ("no part currently on any
+			loan/deaccession") and NOT NULL ("a part currently on some loan/deaccession"), mirroring
+			position_filter's own NULL/NOT NULL/text convention above. These are existence checks
+			unrelated to any specific number, so each is applied as its own standalone AND'd
+			EXISTS/NOT EXISTS clause below rather than folded into the OR'd UNION text search uses --
+			ANDing a NULL/NOT NULL check into that same OR'd union would produce results with no
+			sensible meaning once combined with whichever other transaction filters are also active. --->
+		<cfset local.loanNumberIsNull = (local.loanNumberUpper EQ "NULL")>
+		<cfset local.loanNumberIsNotNull = (local.loanNumberUpper EQ "NOT NULL")>
+		<cfset local.loanNumberIsText = (len(local.loanNumberUpper) GT 0 AND NOT local.loanNumberIsNull AND NOT local.loanNumberIsNotNull)>
+		<cfset local.deaccNumberIsNull = (local.deaccNumberUpper EQ "NULL")>
+		<cfset local.deaccNumberIsNotNull = (local.deaccNumberUpper EQ "NOT NULL")>
+		<cfset local.deaccNumberIsText = (len(local.deaccNumberUpper) GT 0 AND NOT local.deaccNumberIsNull AND NOT local.deaccNumberIsNotNull)>
 		<cfset local.transactionFilterGiven = (
-			len(local.loanNumberUpper) GT 0 OR
+			local.loanNumberIsText OR
 			len(local.accnNumberUpper) GT 0 OR
-			len(local.deaccNumberUpper) GT 0 OR
+			local.deaccNumberIsText OR
 			len(local.transactionIdList) GT 0
 		)>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
@@ -794,7 +812,7 @@ a paginated JSON result for display in the browse panel.
 			<cfif local.transactionFilterGiven>
 				AND c.container_id IN (
 					<cfset local.transactionUnionStarted = false>
-					<cfif len(local.loanNumberUpper) GT 0>
+					<cfif local.loanNumberIsText>
 						SELECT DISTINCT coch.container_id
 						FROM loan l
 							JOIN loan_item li ON li.transaction_id = l.transaction_id
@@ -807,7 +825,7 @@ a paginated JSON result for display in the browse panel.
 							</cfif>
 						<cfset local.transactionUnionStarted = true>
 					</cfif>
-					<cfif len(local.deaccNumberUpper) GT 0>
+					<cfif local.deaccNumberIsText>
 						<cfif local.transactionUnionStarted>UNION</cfif>
 						SELECT DISTINCT coch.container_id
 						FROM deaccession d
@@ -886,6 +904,42 @@ a paginated JSON result for display in the browse panel.
 								)
 							)
 					</cfif>
+				)
+			</cfif>
+			<!--- loan_number/deacc_number NULL/NOT NULL: existence checks against the container's
+				own current parts, independent of the OR'd text-search union above. --->
+			<cfif local.loanNumberIsNotNull>
+				AND EXISTS (
+					SELECT 1
+					FROM loan_item li
+						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND coch.container_id = c.container_id
+				)
+			<cfelseif local.loanNumberIsNull>
+				AND NOT EXISTS (
+					SELECT 1
+					FROM loan_item li
+						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND coch.container_id = c.container_id
+				)
+			</cfif>
+			<cfif local.deaccNumberIsNotNull>
+				AND EXISTS (
+					SELECT 1
+					FROM deacc_item di
+						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND coch.container_id = c.container_id
+				)
+			<cfelseif local.deaccNumberIsNull>
+				AND NOT EXISTS (
+					SELECT 1
+					FROM deacc_item di
+						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+					WHERE coch.current_container_fg = 1
+						AND coch.container_id = c.container_id
 				)
 			</cfif>
 		</cfquery>
@@ -1057,7 +1111,7 @@ a paginated JSON result for display in the browse panel.
 					<cfif local.transactionFilterGiven>
 						AND c.container_id IN (
 							<cfset local.transactionUnionStarted = false>
-							<cfif len(local.loanNumberUpper) GT 0>
+							<cfif local.loanNumberIsText>
 								SELECT DISTINCT coch.container_id
 								FROM loan l
 									JOIN loan_item li ON li.transaction_id = l.transaction_id
@@ -1070,7 +1124,7 @@ a paginated JSON result for display in the browse panel.
 									</cfif>
 								<cfset local.transactionUnionStarted = true>
 							</cfif>
-							<cfif len(local.deaccNumberUpper) GT 0>
+							<cfif local.deaccNumberIsText>
 								<cfif local.transactionUnionStarted>UNION</cfif>
 								SELECT DISTINCT coch.container_id
 								FROM deaccession d
@@ -1149,6 +1203,42 @@ a paginated JSON result for display in the browse panel.
 										)
 									)
 							</cfif>
+						)
+					</cfif>
+					<!--- loan_number/deacc_number NULL/NOT NULL: existence checks against the container's
+						own current parts, independent of the OR'd text-search union above. --->
+					<cfif local.loanNumberIsNotNull>
+						AND EXISTS (
+							SELECT 1
+							FROM loan_item li
+								JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND coch.container_id = c.container_id
+						)
+					<cfelseif local.loanNumberIsNull>
+						AND NOT EXISTS (
+							SELECT 1
+							FROM loan_item li
+								JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND coch.container_id = c.container_id
+						)
+					</cfif>
+					<cfif local.deaccNumberIsNotNull>
+						AND EXISTS (
+							SELECT 1
+							FROM deacc_item di
+								JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND coch.container_id = c.container_id
+						)
+					<cfelseif local.deaccNumberIsNull>
+						AND NOT EXISTS (
+							SELECT 1
+							FROM deacc_item di
+								JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+							WHERE coch.current_container_fg = 1
+								AND coch.container_id = c.container_id
 						)
 					</cfif>
 					ORDER BY c.label, c.barcode

@@ -556,16 +556,30 @@ editing behavior consistent across the application.
 								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif variables.transactionReadonly> d-none</cfif>" id="transactionNumberFields">
 									<div class="form-row">
 										<div class="col-12 col-md-4">
-											<label for="loan_number" class="data-entry-label">Loan Number</label>
-											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="yyyy-n-Col" value="#encodeForHtml(variables.loan_number)#">
+											<div class="d-flex justify-content-between align-items-baseline">
+												<label for="loan_number" class="data-entry-label w-auto mb-0">Loan Number</label>
+												<span class="small">
+													<a href="javascript:void(0);" id="loanNumberAny">any</a>
+													|
+													<a href="javascript:void(0);" id="loanNumberNone">none</a>
+												</span>
+											</div>
+											<input type="text" id="loan_number" name="loan_number" class="data-entry-input col-12" placeholder="NULL, NOT NULL, or yyyy-n-Col" value="#encodeForHtml(variables.loan_number)#">
 										</div>
 										<div class="col-12 col-md-4">
 											<label for="accn_number" class="data-entry-label">Accession Number</label>
 											<input type="text" id="accn_number" name="accn_number" class="data-entry-input col-12" placeholder="nnnnn" value="#encodeForHtml(variables.accn_number)#">
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="deacc_number" class="data-entry-label">Deaccession Number</label>
-											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="Dyyyy-n-col" value="#encodeForHtml(variables.deacc_number)#">
+											<div class="d-flex justify-content-between align-items-baseline">
+												<label for="deacc_number" class="data-entry-label w-auto mb-0">Deaccession Number</label>
+												<span class="small">
+													<a href="javascript:void(0);" id="deaccNumberAny">any</a>
+													|
+													<a href="javascript:void(0);" id="deaccNumberNone">none</a>
+												</span>
+											</div>
+											<input type="text" id="deacc_number" name="deacc_number" class="data-entry-input col-12" placeholder="NULL, NOT NULL, or Dyyyy-n-col" value="#encodeForHtml(variables.deacc_number)#">
 										</div>
 									</div>
 								</div>
@@ -654,6 +668,18 @@ $(document).ready(function() {
 	});
 	$('##positionFilterNone').on('click', function() {
 		$('##position_filter').val('NULL').focus();
+	});
+	$('##loanNumberAny').on('click', function() {
+		$('##loan_number').val('NOT NULL').focus();
+	});
+	$('##loanNumberNone').on('click', function() {
+		$('##loan_number').val('NULL').focus();
+	});
+	$('##deaccNumberAny').on('click', function() {
+		$('##deacc_number').val('NOT NULL').focus();
+	});
+	$('##deaccNumberNone').on('click', function() {
+		$('##deacc_number').val('NULL').focus();
 	});
 
 	<cfset variables.hasSearchParams = (
