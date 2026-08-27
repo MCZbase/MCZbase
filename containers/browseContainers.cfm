@@ -69,8 +69,8 @@ limitations under the License.
 			<div class="col-12">
 				<p>
 					Look up storage locations such as fixtures, freezers, cryovats, and tanks by
-					department, or (if you have permission) review a short list of containers that
-					still need to be placed.
+					department<cfif variables.canEditContainers>, or review a short list of containers
+					that still need to be placed</cfif>.
 				</p>
 			</div>
 		</div>
