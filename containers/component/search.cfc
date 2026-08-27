@@ -581,144 +581,23 @@ a paginated JSON result for display in the browse panel.
 			only for accessions). transaction_id is the deep-link case -- each id is looked up by
 			its own transaction_type and dispatched to whichever of the two resolution paths
 			applies. All three contribute container_ids directly, not cataloged item ids, so this
-			is its own filter, independent of containsCatalogedItemIds. --->
+			is its own filter, independent of containsCatalogedItemIds. Unlike the Contains filter
+			above, this is NOT pre-resolved into a CF list here -- a loan/deaccession/search can
+			easily span more than Oracle's 1000-item literal-IN-list cap, so each active filter
+			contributes its own UNION'd branch directly inside a subquery at the two usage sites
+			below (the count query and the paginated results query), never materializing an id
+			list in ColdFusion. Only the plain filter-values themselves (loan_number, etc.) are
+			resolved here, to drive which branches those subqueries include. --->
 		<cfset local.loanNumberUpper = ucase(trim(arguments.loan_number))>
 		<cfset local.accnNumberUpper = ucase(trim(arguments.accn_number))>
 		<cfset local.deaccNumberUpper = ucase(trim(arguments.deacc_number))>
 		<cfset local.transactionIdList = trim(arguments.transaction_id)>
-		<cfset local.transactionContainerIds = "">
 		<cfset local.transactionFilterGiven = (
 			len(local.loanNumberUpper) GT 0 OR
 			len(local.accnNumberUpper) GT 0 OR
 			len(local.deaccNumberUpper) GT 0 OR
 			len(local.transactionIdList) GT 0
 		)>
-		<cfif len(local.loanNumberUpper) GT 0>
-			<cfquery name="local.queryLoanTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT DISTINCT coch.container_id
-				FROM loan l
-					JOIN loan_item li ON li.transaction_id = l.transaction_id
-					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
-				WHERE coch.current_container_fg = 1
-					<cfif left(local.loanNumberUpper,1) EQ "=">
-						AND UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.loanNumberUpper,1,1)#">
-					<cfelse>
-						AND UPPER(l.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.loanNumberUpper#%">
-					</cfif>
-			</cfquery>
-			<cfloop query="local.queryLoanTransactionContainers">
-				<cfif NOT listFind(local.transactionContainerIds, local.queryLoanTransactionContainers.container_id)>
-					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryLoanTransactionContainers.container_id)>
-				</cfif>
-			</cfloop>
-		</cfif>
-		<cfif len(local.deaccNumberUpper) GT 0>
-			<cfquery name="local.queryDeaccTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT DISTINCT coch.container_id
-				FROM deaccession d
-					JOIN deacc_item di ON di.transaction_id = d.transaction_id
-					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
-				WHERE coch.current_container_fg = 1
-					<cfif left(local.deaccNumberUpper,1) EQ "=">
-						AND UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.deaccNumberUpper,1,1)#">
-					<cfelse>
-						AND UPPER(d.deacc_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.deaccNumberUpper#%">
-					</cfif>
-			</cfquery>
-			<cfloop query="local.queryDeaccTransactionContainers">
-				<cfif NOT listFind(local.transactionContainerIds, local.queryDeaccTransactionContainers.container_id)>
-					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryDeaccTransactionContainers.container_id)>
-				</cfif>
-			</cfloop>
-		</cfif>
-		<cfif len(local.accnNumberUpper) GT 0>
-			<!--- Two independent ways an accession relates to a container: trans_container (the
-				container its material was physically received into, populated only when someone
-				used addAccnContainer -- rare in practice), and the accession's cataloged items'
-				parts' *current* container via coll_obj_cont_hist (cataloged_item.accn_id, the same
-				FK used throughout the codebase to relate a cataloged item to its accession) -- the
-				common case, and the only one most accessions actually have data for. --->
-			<cfquery name="local.queryAccnTransactionContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT DISTINCT tc.container_id
-				FROM accn a
-					JOIN trans_container tc ON tc.transaction_id = a.transaction_id
-				WHERE
-					<cfif left(local.accnNumberUpper,1) EQ "=">
-						UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
-					<cfelse>
-						UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
-					</cfif>
-				UNION
-				SELECT DISTINCT coch.container_id
-				FROM accn a
-					JOIN cataloged_item ci ON ci.accn_id = a.transaction_id
-					JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
-					JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
-				WHERE coch.current_container_fg = 1
-					AND <cfif left(local.accnNumberUpper,1) EQ "=">
-						UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
-					<cfelse>
-						UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
-					</cfif>
-			</cfquery>
-			<cfloop query="local.queryAccnTransactionContainers">
-				<cfif NOT listFind(local.transactionContainerIds, local.queryAccnTransactionContainers.container_id)>
-					<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryAccnTransactionContainers.container_id)>
-				</cfif>
-			</cfloop>
-		</cfif>
-		<cfif len(local.transactionIdList) GT 0>
-			<cfquery name="local.queryTransactionTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT transaction_id, transaction_type
-				FROM trans
-				WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
-			</cfquery>
-			<cfset local.accnTransactionIds = "">
-			<cfset local.loanDeaccTransactionIds = "">
-			<cfloop query="local.queryTransactionTypes">
-				<cfif local.queryTransactionTypes.transaction_type EQ "accn">
-					<cfset local.accnTransactionIds = listAppend(local.accnTransactionIds, local.queryTransactionTypes.transaction_id)>
-				<cfelseif listFindNoCase("loan,deaccession", local.queryTransactionTypes.transaction_type)>
-					<cfset local.loanDeaccTransactionIds = listAppend(local.loanDeaccTransactionIds, local.queryTransactionTypes.transaction_id)>
-				</cfif>
-			</cfloop>
-			<cfif len(local.accnTransactionIds) GT 0>
-				<cfquery name="local.queryAccnIdContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT DISTINCT container_id
-					FROM trans_container
-					WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.accnTransactionIds#" list="true">)
-					UNION
-					SELECT DISTINCT coch.container_id
-					FROM cataloged_item ci
-						JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
-						JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
-					WHERE coch.current_container_fg = 1
-						AND ci.accn_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.accnTransactionIds#" list="true">)
-				</cfquery>
-				<cfloop query="local.queryAccnIdContainers">
-					<cfif NOT listFind(local.transactionContainerIds, local.queryAccnIdContainers.container_id)>
-						<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryAccnIdContainers.container_id)>
-					</cfif>
-				</cfloop>
-			</cfif>
-			<cfif len(local.loanDeaccTransactionIds) GT 0>
-				<cfquery name="local.queryLoanDeaccIdContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-					SELECT DISTINCT coch.container_id
-					FROM coll_obj_cont_hist coch
-					WHERE coch.current_container_fg = 1
-						AND coch.collection_object_id IN (
-							SELECT collection_object_id FROM loan_item WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.loanDeaccTransactionIds#" list="true">)
-							UNION
-							SELECT collection_object_id FROM deacc_item WHERE transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.loanDeaccTransactionIds#" list="true">)
-						)
-				</cfquery>
-				<cfloop query="local.queryLoanDeaccIdContainers">
-					<cfif NOT listFind(local.transactionContainerIds, local.queryLoanDeaccIdContainers.container_id)>
-						<cfset local.transactionContainerIds = listAppend(local.transactionContainerIds, local.queryLoanDeaccIdContainers.container_id)>
-					</cfif>
-				</cfloop>
-			</cfif>
-		</cfif>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
 		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
@@ -860,12 +739,108 @@ a paginated JSON result for display in the browse panel.
 					silently ignoring the filter and returning an unfiltered search. --->
 				AND 1=0
 			</cfif>
-			<!--- Transaction search: loan/accession/deaccession number or transaction_id, resolved
-				above directly to container_ids (not cataloged item ids), independent of Contains. --->
-			<cfif len(local.transactionContainerIds) GT 0>
-				AND c.container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionContainerIds#" list="true">)
-			<cfelseif local.transactionFilterGiven>
-				AND 1=0
+			<!--- Transaction search: loan/accession/deaccession number or transaction_id -- each
+				active filter contributes its own UNION'd branch inside this subquery (never a
+				materialized id list, since a loan/deaccession/search can span more than Oracle's
+				1000-item literal-IN-list cap); an empty/no-match subquery naturally excludes
+				everything on its own, so no separate "resolved to nothing" 1=0 fallback is needed
+				here the way the Contains filter above still requires one. --->
+			<cfif local.transactionFilterGiven>
+				AND c.container_id IN (
+					<cfset local.transactionUnionStarted = false>
+					<cfif len(local.loanNumberUpper) GT 0>
+						SELECT DISTINCT coch.container_id
+						FROM loan l
+							JOIN loan_item li ON li.transaction_id = l.transaction_id
+							JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+						WHERE coch.current_container_fg = 1
+							<cfif left(local.loanNumberUpper,1) EQ "=">
+								AND UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.loanNumberUpper,1,1)#">
+							<cfelse>
+								AND UPPER(l.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.loanNumberUpper#%">
+							</cfif>
+						<cfset local.transactionUnionStarted = true>
+					</cfif>
+					<cfif len(local.deaccNumberUpper) GT 0>
+						<cfif local.transactionUnionStarted>UNION</cfif>
+						SELECT DISTINCT coch.container_id
+						FROM deaccession d
+							JOIN deacc_item di ON di.transaction_id = d.transaction_id
+							JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+						WHERE coch.current_container_fg = 1
+							<cfif left(local.deaccNumberUpper,1) EQ "=">
+								AND UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.deaccNumberUpper,1,1)#">
+							<cfelse>
+								AND UPPER(d.deacc_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.deaccNumberUpper#%">
+							</cfif>
+						<cfset local.transactionUnionStarted = true>
+					</cfif>
+					<cfif len(local.accnNumberUpper) GT 0>
+						<cfif local.transactionUnionStarted>UNION</cfif>
+						SELECT DISTINCT tc.container_id
+						FROM accn a
+							JOIN trans_container tc ON tc.transaction_id = a.transaction_id
+						WHERE
+							<cfif left(local.accnNumberUpper,1) EQ "=">
+								UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+							<cfelse>
+								UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+							</cfif>
+						UNION
+						SELECT DISTINCT coch.container_id
+						FROM accn a
+							JOIN cataloged_item ci ON ci.accn_id = a.transaction_id
+							JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+							JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+						WHERE coch.current_container_fg = 1
+							AND <cfif left(local.accnNumberUpper,1) EQ "=">
+								UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+							<cfelse>
+								UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+							</cfif>
+						<cfset local.transactionUnionStarted = true>
+					</cfif>
+					<cfif len(local.transactionIdList) GT 0>
+						<cfif local.transactionUnionStarted>UNION</cfif>
+						SELECT DISTINCT container_id
+						FROM trans_container
+						WHERE transaction_id IN (
+							SELECT transaction_id FROM trans
+							WHERE transaction_type = 'accn'
+								AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+						)
+						UNION
+						SELECT DISTINCT coch.container_id
+						FROM cataloged_item ci
+							JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+							JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+						WHERE coch.current_container_fg = 1
+							AND ci.accn_id IN (
+								SELECT transaction_id FROM trans
+								WHERE transaction_type = 'accn'
+									AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+							)
+						UNION
+						SELECT DISTINCT coch.container_id
+						FROM coll_obj_cont_hist coch
+						WHERE coch.current_container_fg = 1
+							AND coch.collection_object_id IN (
+								SELECT collection_object_id FROM loan_item
+								WHERE transaction_id IN (
+									SELECT transaction_id FROM trans
+									WHERE transaction_type IN ('loan','deaccession')
+										AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+								)
+								UNION
+								SELECT collection_object_id FROM deacc_item
+								WHERE transaction_id IN (
+									SELECT transaction_id FROM trans
+									WHERE transaction_type IN ('loan','deaccession')
+										AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+								)
+							)
+					</cfif>
+				)
 			</cfif>
 		</cfquery>
 		<cfset local.totalRows = queryGetCount.total_rows>
@@ -1022,10 +997,108 @@ a paginated JSON result for display in the browse panel.
 					<cfelseif len(trim(arguments.contains_guids)) GT 0 OR len(local.containsResultId) GT 0 OR len(local.containsCollectionObjectIds) GT 0>
 						AND 1=0
 					</cfif>
-					<cfif len(local.transactionContainerIds) GT 0>
-						AND c.container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionContainerIds#" list="true">)
-					<cfelseif local.transactionFilterGiven>
-						AND 1=0
+					<!--- Transaction search: loan/accession/deaccession number or transaction_id -- each
+						active filter contributes its own UNION'd branch inside this subquery (never a
+						materialized id list, since a loan/deaccession/search can span more than Oracle's
+						1000-item literal-IN-list cap); an empty/no-match subquery naturally excludes
+						everything on its own, so no separate "resolved to nothing" 1=0 fallback is needed
+						here the way the Contains filter above still requires one. --->
+					<cfif local.transactionFilterGiven>
+						AND c.container_id IN (
+							<cfset local.transactionUnionStarted = false>
+							<cfif len(local.loanNumberUpper) GT 0>
+								SELECT DISTINCT coch.container_id
+								FROM loan l
+									JOIN loan_item li ON li.transaction_id = l.transaction_id
+									JOIN coll_obj_cont_hist coch ON coch.collection_object_id = li.collection_object_id
+								WHERE coch.current_container_fg = 1
+									<cfif left(local.loanNumberUpper,1) EQ "=">
+										AND UPPER(l.loan_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.loanNumberUpper,1,1)#">
+									<cfelse>
+										AND UPPER(l.loan_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.loanNumberUpper#%">
+									</cfif>
+								<cfset local.transactionUnionStarted = true>
+							</cfif>
+							<cfif len(local.deaccNumberUpper) GT 0>
+								<cfif local.transactionUnionStarted>UNION</cfif>
+								SELECT DISTINCT coch.container_id
+								FROM deaccession d
+									JOIN deacc_item di ON di.transaction_id = d.transaction_id
+									JOIN coll_obj_cont_hist coch ON coch.collection_object_id = di.collection_object_id
+								WHERE coch.current_container_fg = 1
+									<cfif left(local.deaccNumberUpper,1) EQ "=">
+										AND UPPER(d.deacc_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.deaccNumberUpper,1,1)#">
+									<cfelse>
+										AND UPPER(d.deacc_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.deaccNumberUpper#%">
+									</cfif>
+								<cfset local.transactionUnionStarted = true>
+							</cfif>
+							<cfif len(local.accnNumberUpper) GT 0>
+								<cfif local.transactionUnionStarted>UNION</cfif>
+								SELECT DISTINCT tc.container_id
+								FROM accn a
+									JOIN trans_container tc ON tc.transaction_id = a.transaction_id
+								WHERE
+									<cfif left(local.accnNumberUpper,1) EQ "=">
+										UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+									<cfelse>
+										UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+									</cfif>
+								UNION
+								SELECT DISTINCT coch.container_id
+								FROM accn a
+									JOIN cataloged_item ci ON ci.accn_id = a.transaction_id
+									JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+									JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+								WHERE coch.current_container_fg = 1
+									AND <cfif left(local.accnNumberUpper,1) EQ "=">
+										UPPER(a.accn_number) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.accnNumberUpper,1,1)#">
+									<cfelse>
+										UPPER(a.accn_number) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.accnNumberUpper#%">
+									</cfif>
+								<cfset local.transactionUnionStarted = true>
+							</cfif>
+							<cfif len(local.transactionIdList) GT 0>
+								<cfif local.transactionUnionStarted>UNION</cfif>
+								SELECT DISTINCT container_id
+								FROM trans_container
+								WHERE transaction_id IN (
+									SELECT transaction_id FROM trans
+									WHERE transaction_type = 'accn'
+										AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+								)
+								UNION
+								SELECT DISTINCT coch.container_id
+								FROM cataloged_item ci
+									JOIN specimen_part sp ON sp.derived_from_cat_item = ci.collection_object_id
+									JOIN coll_obj_cont_hist coch ON coch.collection_object_id = sp.collection_object_id
+								WHERE coch.current_container_fg = 1
+									AND ci.accn_id IN (
+										SELECT transaction_id FROM trans
+										WHERE transaction_type = 'accn'
+											AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+									)
+								UNION
+								SELECT DISTINCT coch.container_id
+								FROM coll_obj_cont_hist coch
+								WHERE coch.current_container_fg = 1
+									AND coch.collection_object_id IN (
+										SELECT collection_object_id FROM loan_item
+										WHERE transaction_id IN (
+											SELECT transaction_id FROM trans
+											WHERE transaction_type IN ('loan','deaccession')
+												AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+										)
+										UNION
+										SELECT collection_object_id FROM deacc_item
+										WHERE transaction_id IN (
+											SELECT transaction_id FROM trans
+											WHERE transaction_type IN ('loan','deaccession')
+												AND transaction_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.transactionIdList#" list="true">)
+										)
+									)
+							</cfif>
+						)
 					</cfif>
 					ORDER BY c.label, c.barcode
 				)
