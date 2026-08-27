@@ -29,10 +29,6 @@ limitations under the License.
 <cfparam name="url.execute" default="">
 <cfparam name="url.action" default="">
 
-<!--- csvDump (below) streams a file before the shared header runs, so needs its own
-	<cf_rolecheck> here; the header's own check further down is a harmless duplicate on the
-	normal render path, not a redundant tag to remove. --->
-<cf_rolecheck>
 
 <cfset variables.result_id = trim(url.result_id)>
 <cfset variables.loan_number = trim(url.loan_number)>
@@ -50,6 +46,8 @@ limitations under the License.
 )>
 
 <cfif trim(url.action) EQ "csvDump">
+	<!--- csvDump (below) streams a file before the shared header runs, so needs its own <cf_rolecheck> --->
+	<cf_rolecheck>
 	<cfinclude template="/containers/component/public.cfc" runOnce="true">
 	<cfset variables.report = deserializeJSON(getPartLocationsReport(
 		result_id = variables.result_id,
