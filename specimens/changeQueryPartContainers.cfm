@@ -703,10 +703,24 @@ both show identical results for identical outcomes.
 									<div class="col-12 col-md-3">
 										<!--- container autocomplete, limited by type and parent room --->
 										<label for="container" class="data-entry-label">Container to put parts into:</label>
-										<input type="text" name="container" id="container" class="data-entry-input reqdClr" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
+										<div class="d-flex align-items-center">
+											<input type="text" name="container" id="container" class="data-entry-input reqdClr flex-grow-1" placeholder="Container Name or Barcode">
+											<button type="button" id="chooseTargetContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
+										</div>
 										<script>
-											$(document).ready(function () { 
+											$(document).ready(function () {
 												makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
+												$('##chooseTargetContainerBtn').on('click', function() {
+													openContainerPickerDialog({
+														mode: 'find',
+														dialogTitle: 'Select Container to Put Parts Into',
+														onSelect: function(selectedId, selectedLabel, wrapper) {
+															$('##target_container_id').val(selectedId);
+															$('##container').val(selectedLabel);
+															wrapper.dialog('close');
+														}
+													});
+												});
 											});
 										</script>
 									</div>
