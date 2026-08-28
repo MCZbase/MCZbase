@@ -3309,6 +3309,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanStructWrap.append(orphanStructBtn);
+		orphanStructWrap.append($('<span class="small text-muted ml-1"></span>').text('Unplaced containers.'));
 		orphanStructWrap.append(orphanStructDiv);
 		wrapper.append(orphanStructWrap);
 	}
@@ -3326,6 +3327,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanEmptyWrap.append(orphanEmptyBtn);
+		orphanEmptyWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pins with no specimen.'));
 		orphanEmptyWrap.append(orphanEmptyDiv);
 		wrapper.append(orphanEmptyWrap);
 	}
@@ -3343,6 +3345,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanSingleWrap.append(orphanSingleBtn);
+		orphanSingleWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pin with a specimen.'));
 		orphanSingleWrap.append(orphanSingleDiv);
 		wrapper.append(orphanSingleWrap);
 	}
@@ -3368,6 +3371,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanLeafWrap.append(orphanLeafBtn);
+		orphanLeafWrap.append($('<span class="small text-muted ml-1"></span>').text('Parts not in any container.'));
 		orphanLeafWrap.append(orphanLeafDiv);
 		wrapper.append(orphanLeafWrap);
 	}
