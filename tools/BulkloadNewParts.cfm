@@ -786,11 +786,18 @@ limitations under the License.
 				FROM getTempDataToShow
 				WHERE placement_severity = 'warn'
 			</cfquery>
+			<cfset placementAlertClass = "alert-info">
 			<cfif warnCount.c gt 0>
-				<div class="alert alert-warning py-2 px-3 small">
-					<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
-				</div>
+				<cfset placementAlertClass = "alert-warning">
 			</cfif>
+			<div class="alert #placementAlertClass# py-2 px-3 small">
+				<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional.
+				<cfif warnCount.c gt 0>
+					#warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
+				<cfelse>
+					No rows in this batch currently have a placement warning.
+				</cfif>
+			</div>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light small">
 						<tr>
