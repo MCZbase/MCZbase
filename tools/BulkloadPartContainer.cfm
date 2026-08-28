@@ -22,6 +22,8 @@ limitations under the License.
 	
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
+	<!--- special case handling to dump problem data as csv, no _header.cfm role checking, so run cf_rolecheck here --->
+	<cf_rolecheck>
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			STATUS, 
@@ -47,6 +49,7 @@ limitations under the License.
 <cfset requiredfieldlist = "COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_BARCODE,NEW_CONTAINER_BARCODE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
+	<!--- trivial, no data exposed, no need for cf_rolecheck --->
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
