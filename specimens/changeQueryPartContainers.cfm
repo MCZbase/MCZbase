@@ -945,13 +945,20 @@ have to be rebuilt from scratch).
 											 * movePartConfirm review page.
 											 * @param containerId the target container_id, or blank/0 to clear the display.
 											 */
+											var targetContainerContextXhr = null;
 											function showTargetContainerContext(containerId) {
 												var contextDiv = $('##targetContainerContext');
 												contextDiv.empty();
+												if (targetContainerContextXhr) {
+													// abort any still-in-flight lookup for a previous selection, so its
+													// response can't land after (and overwrite) this one's.
+													targetContainerContextXhr.abort();
+													targetContainerContextXhr = null;
+												}
 												if (!containerId) {
 													return;
 												}
-												$.ajax({
+												targetContainerContextXhr = $.ajax({
 													url: '/containers/component/search.cfc',
 													data: { method: 'getContainerBreadcrumb', container_id: containerId },
 													dataType: 'json',
@@ -970,6 +977,12 @@ have to be rebuilt from scratch).
 														}
 													},
 													error: function(jqXHR, textStatus, error) {
+														// a request aborted by a newer selection above, or by the page
+														// navigating away (e.g. "Move these Parts" submitted before this
+														// finished), is not a real failure -- don't alarm the user over it.
+														if (textStatus === 'abort') {
+															return;
+														}
 														handleFail(jqXHR, textStatus, error, 'loading container context');
 													}
 												});
