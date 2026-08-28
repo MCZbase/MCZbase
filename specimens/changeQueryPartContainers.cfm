@@ -22,6 +22,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartCurrentContainer, used to detect a proxy parent below --->
+<cfinclude template="/containers/component/search.cfc" runOnce="true"><!--- for getContainerBreadcrumb, used to show the target container's ancestor trail below --->
 <!--------------------------------------------------------------------->
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
@@ -121,6 +122,40 @@ both show identical results for identical outcomes.
 					<h4 class="mt-2"><a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & local.getTarget.barcode)#&execute=true">View Container</a></h4>
 				</div>
 			</div>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
+Function renderContainerContextHtml. Renders a container's ancestor breadcrumb trail (root down to
+the container itself) plus its description, matching the visual style of containers.js's own
+showContainerBreadcrumb widget -- for the movePartConfirm review page, where the target's label and
+barcode alone aren't enough to judge whether it's a sensible destination at a glance.
+@param container_id the container_id to render context for.
+@return an HTML string (empty if the container has no ancestor chain to show, e.g. not found).
+--->
+<cffunction name="renderContainerContextHtml" access="private" returntype="string" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.breadcrumb = getContainerBreadcrumb(container_id=arguments.container_id)>
+	<cfif isSimpleValue(local.breadcrumb)>
+		<cfset local.breadcrumb = deserializeJSON(local.breadcrumb)>
+	</cfif>
+	<cfsavecontent variable="local.html">
+		<cfoutput>
+			<cfif arrayLen(local.breadcrumb) GT 0>
+				<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap">
+					<cfloop array="#local.breadcrumb#" index="local.oneNode">
+						<li class="breadcrumb-item">#local.oneNode.container_type#: #local.oneNode.label# (#local.oneNode.barcode#)</li>
+					</cfloop>
+				</ol>
+				<cfset local.lastNode = local.breadcrumb[arrayLen(local.breadcrumb)]>
+				<cfif len(trim(local.lastNode.description)) GT 0>
+					<p class="mb-2"><strong>Description:</strong> #encodeForHtml(local.lastNode.description)#</p>
+				</cfif>
+			</cfif>
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn local.html>
@@ -658,6 +693,7 @@ have to be rebuilt from scratch).
 					<div class="col-12 mt-2">
 						<h1 class="h2 mt-1">Review Container Move</h1>
 						<p>Moving into: <strong>#local.getTarget.label#</strong> (#local.getTarget.barcode#), a #local.getTarget.container_type#.</p>
+						#renderContainerContextHtml(container_id=target_container_id)#
 						<cfif arrayLen(local.destinationFitness.warnings) GT 0>
 							<div class="alert alert-warning">
 								<strong>The chosen container may not be a typical destination for these part(s):</strong>
@@ -901,11 +937,49 @@ have to be rebuilt from scratch).
 											<input type="text" name="container" id="container" class="data-entry-input reqdClr flex-grow-1" placeholder="Container Name or Barcode">
 											<button type="button" id="chooseTargetContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
 										</div>
+										<div id="targetContainerContext"></div>
 										<script>
+											/** Shows the chosen target container's ancestor breadcrumb trail and description,
+											 * so its fitness as a destination can be judged from more than just its label --
+											 * matches the ancestor chain and description shown again server-side on the
+											 * movePartConfirm review page.
+											 * @param containerId the target container_id, or blank/0 to clear the display.
+											 */
+											function showTargetContainerContext(containerId) {
+												var contextDiv = $('##targetContainerContext');
+												contextDiv.empty();
+												if (!containerId) {
+													return;
+												}
+												$.ajax({
+													url: '/containers/component/search.cfc',
+													data: { method: 'getContainerBreadcrumb', container_id: containerId },
+													dataType: 'json',
+													success: function(data) {
+														if (!data || data.length === 0) {
+															return;
+														}
+														var breadcrumbList = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+														$.each(data, function(i, node) {
+															breadcrumbList.append($('<li class="breadcrumb-item"></li>').text(node.container_type + ': ' + node.label + ' (' + node.barcode + ')'));
+														});
+														contextDiv.append(breadcrumbList);
+														var lastNode = data[data.length - 1];
+														if (lastNode.description) {
+															contextDiv.append($('<p class="mb-2"></p>').append($('<strong></strong>').text('Description: ')).append(document.createTextNode(lastNode.description)));
+														}
+													},
+													error: function(jqXHR, textStatus, error) {
+														handleFail(jqXHR, textStatus, error, 'loading container context');
+													}
+												});
+											}
 											function updateMoveButtonState() {
-												var hasTarget = $('##target_container_id').val().length > 0;
+												var targetId = $('##target_container_id').val();
+												var hasTarget = targetId.length > 0;
 												$('##submitButton').prop('disabled', !hasTarget);
 												$('##chooseContainerHint').toggle(!hasTarget);
+												showTargetContainerContext(targetId);
 											}
 											$(document).ready(function () {
 												makeContainerAutocompleteMeta("container", "target_container_id", true);

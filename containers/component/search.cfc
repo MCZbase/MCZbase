@@ -372,8 +372,8 @@ ordered from root to the given node, for use in breadcrumb display.
 Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 
 @param container_id the container_id whose ancestor chain is to be returned.
-@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label, barcode;
-  ordered from root (highest level) to the given node.
+@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label,
+  barcode, description; ordered from root (highest level) to the given node.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -386,7 +386,8 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 				parent_container_id,
 				container_type,
 				label,
-				barcode
+				barcode,
+				description
 			FROM
 				container
 			START WITH
@@ -403,6 +404,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
 			<cfset local.row["label"] = queryGetBreadcrumb.label>
 			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
+			<cfset local.row["description"] = queryGetBreadcrumb.description>
 			<cfset local.retval[local.i] = local.row>
 			<cfset local.i = local.i + 1>
 		</cfloop>
