@@ -689,6 +689,18 @@ have to be rebuilt from scratch).
 								This move conforms to expectations -- no placement warnings, and no proxy containers will move in place of the collection object containers specified.
 							</div>
 						</cfif>
+						<cfif local.showTryAgainOptions>
+							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
+							<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
+								<input type="hidden" name="action" value="movePart">
+								<input type="hidden" name="result_id" value="#result_id#">
+								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
+								<button type="submit" class="btn btn-xs btn-warning">Choose a different container for these parts</button>
+							</form>
+						</cfif>
 						<form name="movePartConfirmForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 							<input type="hidden" name="action" value="movePart2">
 							<input type="hidden" name="result_id" value="#result_id#">
@@ -703,18 +715,6 @@ have to be rebuilt from scratch).
 								<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Cancel</a>
 							</cfif>
 						</form>
-						<cfif local.showTryAgainOptions>
-							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
-							<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
-								<input type="hidden" name="action" value="movePart">
-								<input type="hidden" name="result_id" value="#result_id#">
-								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
-								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
-								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
-								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
-								<button type="submit" class="btn btn-xs btn-secondary">Choose a different container for these parts</button>
-							</form>
-						</cfif>
 					</div>
 				</div>
 			</cfif>
