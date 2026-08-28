@@ -845,9 +845,14 @@ limitations under the License.
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfquery name="pc" dbtype="query">
-			SELECT count(*) c 
-			FROM data 
+			SELECT count(*) c
+			FROM data
 			WHERE status is not null
+		</cfquery>
+		<cfquery name="warnCount" dbtype="query">
+			SELECT count(*) c
+			FROM data
+			WHERE placement_severity = 'warn'
 		</cfquery>
 			<h3>
 				<cfif pc.c gt 0>
@@ -856,6 +861,11 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
+			<cfif warnCount.c gt 0>
+				<div class="alert alert-warning py-2 px-3 small">
+					<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #warnCount.c# of #data.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
+				</div>
+			</cfif>
 				
 				<table class='px-0 sortable small table table-responsive table-striped'>
 					<thead class="thead-light">

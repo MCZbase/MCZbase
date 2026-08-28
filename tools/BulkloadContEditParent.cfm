@@ -658,6 +658,11 @@ limitations under the License.
 					WHERE status is null
 						AND placement_severity = 'warn'
 				</cfquery>
+				<cfquery name="anyWarn" dbtype="query">
+					SELECT count(*) c
+					FROM data
+					WHERE placement_severity = 'warn'
+				</cfquery>
 				<h3 class="mt-3">
 					<cfif pf.c gt 0>
 						There is a problem with #pf.c# of #data.recordcount# row(s) (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>). See the STATUS column. Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
@@ -667,6 +672,11 @@ limitations under the License.
 						<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadContEditParent.cfm" class="text-danger">start again</a>.
 					</cfif>
 				</h3>
+				<cfif anyWarn.c gt 0>
+					<div class="alert alert-warning py-2 px-3 small">
+						<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #anyWarn.c# of #data.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container unique ID is not actually the one you intended for that row, fix it and validate again.
+					</div>
+				</cfif>
 				<table class='px-0 sortable small table table-responsive table-striped d-lg-table'>
 				<thead class="thead-light">
 					<tr>
