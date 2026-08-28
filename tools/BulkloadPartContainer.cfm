@@ -878,7 +878,7 @@ limitations under the License.
 						<cfloop query="data">
 							<tr>
 								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-								<td><cfif data.placement_severity EQ "warn"><span class="text-warning">&#9888; #data.placement_message#</span></cfif></td>
+								<td><cfif data.placement_severity EQ "warn"><span class="text-warning">&##9888; #data.placement_message#</span></cfif></td>
 								<td>#data.institution_acronym#</td>
 								<th>#data.collection_cde#</th>
 								<td>#data.other_ID_TYPE#</td>
