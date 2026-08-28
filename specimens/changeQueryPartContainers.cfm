@@ -623,11 +623,12 @@ have to be rebuilt from scratch).
 				specified, and check the chosen target's fitness for every distinct type actually
 				being moved. A block on the target's fitness hard-stops here -- no "Yes" option --
 				since that's not something the user can simply choose to proceed past. Otherwise,
-				when nothing needs review, commit immediately -- no added friction for the common
-				case. When a proxy substitution or a destination-fitness warning applies, show
-				exactly what's affected and require an explicit Yes before anything is written;
-				that Yes re-posts to movePart2, which re-checks and re-resolves everything itself
-				rather than trusting this confirmation blindly. --->
+				this always shows a review/confirm page before anything is written -- naming exactly
+				what's affected when a proxy substitution or a destination-fitness warning applies,
+				or a plain "conforms to expectations" statement when neither applies -- so the
+				workflow never silently skips straight from "Move these Parts" to "done" with no
+				confirm step in between. The "Yes" button re-posts to movePart2, which re-checks and
+				re-resolves everything itself rather than trusting this confirmation blindly. --->
 			<cfset local.proxyRows = ArrayNew(1)>
 			<cfloop list="#partIDs#" index="local.onePartID">
 				<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
@@ -642,9 +643,6 @@ have to be rebuilt from scratch).
 			<cfset local.destinationFitness = checkDestinationFitness(partIDs=partIDs, target_container_id=target_container_id)>
 			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
 				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
-			<cfelseif arrayLen(local.proxyRows) EQ 0 AND arrayLen(local.destinationFitness.warnings) EQ 0>
-				<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
-				#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
 			<cfelse>
 				<cfquery name="local.getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT barcode, label, container_type
@@ -679,6 +677,11 @@ have to be rebuilt from scratch).
 										<li>#local.oneProxyRow.move_type# #local.oneProxyRow.move_label# (#local.oneProxyRow.move_barcode#)</li>
 									</cfloop>
 								</ul>
+							</div>
+						</cfif>
+						<cfif arrayLen(local.destinationFitness.warnings) EQ 0 AND arrayLen(local.proxyRows) EQ 0>
+							<div class="alert alert-success">
+								This move conforms to expectations -- no placement warnings, and no proxy containers will move in place of the collection object containers specified.
 							</div>
 						</cfif>
 						<form name="movePartConfirmForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
@@ -883,6 +886,7 @@ have to be rebuilt from scratch).
 											function updateMoveButtonState() {
 												var hasTarget = $('##target_container_id').val().length > 0;
 												$('##submitButton').prop('disabled', !hasTarget);
+												$('##chooseContainerHint').toggle(!hasTarget);
 											}
 											$(document).ready(function () {
 												makeContainerAutocompleteMeta("container", "target_container_id", true);
@@ -913,7 +917,7 @@ have to be rebuilt from scratch).
 												<div class="small text-danger">No eligible parts to move -- all are blocked (see above).</div>
 											<cfelse>
 												<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary" disabled>
-												<div class="small text-muted">Choose a container first.</div>
+												<div class="small text-muted" id="chooseContainerHint">Choose a container first.</div>
 											</cfif>
 										</div>
 									</div>
