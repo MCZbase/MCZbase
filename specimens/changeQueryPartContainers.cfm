@@ -644,6 +644,11 @@ have to be rebuilt from scratch).
 			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
 				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
 			<cfelse>
+				<!--- a destination-fitness warning with no proxy involved is the one case worth
+					offering a quick way to reconsider either side of the move, rather than just
+					proceed-or-cancel -- a proxy substitution is its own already-explained situation,
+					and the "conforms to expectations" case has nothing to reconsider. --->
+				<cfset local.showTryAgainOptions = (arrayLen(local.destinationFitness.warnings) GT 0 AND arrayLen(local.proxyRows) EQ 0)>
 				<cfquery name="local.getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT barcode, label, container_type
 					FROM container
@@ -694,8 +699,22 @@ have to be rebuilt from scratch).
 							<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
 							<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
 							<button type="submit" class="btn btn-xs btn-primary">Yes, move these parts</button>
-							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Cancel</a>
+							<cfif NOT local.showTryAgainOptions>
+								<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Cancel</a>
+							</cfif>
 						</form>
+						<cfif local.showTryAgainOptions>
+							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
+							<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
+								<input type="hidden" name="action" value="movePart">
+								<input type="hidden" name="result_id" value="#result_id#">
+								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
+								<button type="submit" class="btn btn-xs btn-secondary">Choose a different container for these parts</button>
+							</form>
+						</cfif>
 					</div>
 				</div>
 			</cfif>
