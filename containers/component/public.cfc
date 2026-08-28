@@ -1894,6 +1894,14 @@ linked specimen data. Mirrors getOrphanedSingleOccupantContainers's shape and pa
 plain leaf containers rather than proxy containers, and joins specimen data directly off the row
 itself (a collection-object container has no separate "occupant" -- it IS the occupant).
 
+The count backing this (getTopLevelBrowse's orphaned_leaf_count) already existed before this
+function did, computed the same way as the three sibling orphan counts that already had a working
+browse page -- but nothing ever paginated or displayed the actual rows for this one, so containers
+matching this exact query (most importantly, truly parentless collection-object containers -- no
+institution above them at all) were completely unreachable through the browse UI. This function and
+its client-side toggle section in containers.js close that gap; do not remove either without another
+way to reach these rows.
+
 @param page the page number to return (1-based), defaults to 1.
 @param pageSize the number of rows per page, defaults to 50.
 @return a JSON object with keys rows (array), page, pageSize, totalRows.

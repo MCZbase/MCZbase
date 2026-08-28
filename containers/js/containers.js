@@ -3177,9 +3177,16 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			nodeRow.append(buildAddChildContainerLink(instCid, inst.container_type, TREE_ACTION_SPACING_CLASS));
 			var instLeafDiv = null;
 			if (parseInt(inst.direct_leaf_children, 10) > 0) {
-				// an institution can itself have collection objects placed directly under it
-				// (misplaced, bypassing campus/building/etc.) -- give it the same Browse Contents
-				// button campus nodes get below, so those aren't otherwise unreachable in the tree.
+				// REGRESSION FIX: unlike every other node type in this tree (campus nodes below,
+				// and the generic renderTreeNodes() path used for root-level "external" containers),
+				// this institution loop never checked direct_leaf_children at all -- an institution
+				// with collection objects placed directly under it (misplaced, bypassing
+				// campus/building/etc.) had NO way to browse them, even though the count was already
+				// being computed and sent by getTopLevelBrowse. For the Museum of Comparative
+				// Zoology institution node specifically, this count is ~170,000 -- that many
+				// specimens' containers were unreachable through this page with no button anywhere
+				// to get to them. Do not remove this block without providing an equivalent way to
+				// browse an institution's own direct leaf children.
 				var instLeafDivId = 'ctree-leaf-' + instCid;
 				instLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', instLeafDivId);
 				var instBrowseBtn = $('<button type="button"></button>')
@@ -3340,6 +3347,14 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 		wrapper.append(orphanSingleWrap);
 	}
 	if (orphanLeafCount > 0) {
+		// REGRESSION FIX: getTopLevelBrowse has computed orphaned_leaf_count all along, via the
+		// same query shape as orphaned_structural_count/orphaned_empty_proxy_count/
+		// orphaned_single_occupant_count above -- all three of which already had a working toggle
+		// section. This one didn't: it was silently dropped on the floor client-side, so
+		// collection-object containers with NO parent at all (not even an institution above them)
+		// had zero path to reach them anywhere in this UI, not even indirectly through an
+		// institution row (that gap is fixed separately, above, for the institution-child case).
+		// Do not remove this section without another way to browse truly parentless leaf containers.
 		var orphanLeafDivId = 'ctree-orphan-leaf';
 		var orphanLeafWrap = $('<div class="mt-2"></div>');
 		var orphanLeafBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>')
