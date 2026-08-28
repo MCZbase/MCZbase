@@ -131,8 +131,12 @@ Function checkDestinationFitness. Checks a proposed target container against eve
 container_type actually being moved in this batch (a batch can mix plain "collection object" leaves
 with several different proxy types once proxy substitution is involved, so a single representative
 check is no longer enough) via validateContainerPlacement, one call per distinct type rather than one
-per part. Called both from movePartConfirm (to review before committing) and movePart2 (to gate the
-actual commit -- never trusting an earlier step's check alone for a mutating action).
+per part. Also separately checks for batch-internal single-occupant overfill -- several plain,
+non-proxy parts from this same batch landing together in one container whose type expects exactly one
+collection object -- since validateContainerPlacement's own occupancy check only ever sees what's
+already in the database, not this batch's other pending moves. Called both from movePartConfirm (to
+review before committing) and movePart2 (to gate the actual commit -- never trusting an earlier step's
+check alone for a mutating action).
 @param partIDs comma-separated list of specimen_part.collection_object_id values to move.
 @param target_container_id the destination container_id under consideration.
 @return a struct: {blocks: array of "type: message" strings, warnings: array of "type: message" strings}.
@@ -143,10 +147,16 @@ actual commit -- never trusting an earlier step's check alone for a mutating act
 
 	<cfset var local = StructNew()>
 	<cfset local.distinctTypeRepresentative = StructNew()>
+	<cfset local.leafPartCount = 0>
 	<cfloop list="#arguments.partIDs#" index="local.onePartID">
 		<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
-		<cfif local.partContainer.found AND NOT structKeyExists(local.distinctTypeRepresentative, local.partContainer.move_type)>
-			<cfset local.distinctTypeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
+		<cfif local.partContainer.found>
+			<cfif NOT local.partContainer.is_proxy>
+				<cfset local.leafPartCount = local.leafPartCount + 1>
+			</cfif>
+			<cfif NOT structKeyExists(local.distinctTypeRepresentative, local.partContainer.move_type)>
+				<cfset local.distinctTypeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
+			</cfif>
 		</cfif>
 	</cfloop>
 	<cfset local.blocks = ArrayNew(1)>
@@ -166,6 +176,24 @@ actual commit -- never trusting an earlier step's check alone for a mutating act
 			</cfloop>
 		</cfif>
 	</cfloop>
+
+	<!--- validateContainerPlacement's single-occupant-target check (CT5) only ever compares
+		against containers ALREADY parented under the target in the database -- none of this
+		batch's OTHER parts have moved yet at check time, so it can never by itself catch several
+		new, plain (non-proxy) collection objects from the SAME batch all landing in one
+		single-occupant target together. Check that batch-internal case directly here. --->
+	<cfif local.leafPartCount GT 1>
+		<cfquery name="local.queryTargetType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT c.container_type, NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count
+			FROM container c
+				JOIN ctcontainer_type ct ON c.container_type = ct.container_type
+			WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_container_id#">
+		</cfquery>
+		<cfif local.queryTargetType.recordcount GT 0 AND val(local.queryTargetType.expects_leaf_child_count) EQ 1>
+			<cfset ArrayAppend(local.warnings, "#local.queryTargetType.container_type#: This batch places #local.leafPartCount# collection objects directly into this container at once, but a #local.queryTargetType.container_type# is expected to hold exactly one.")>
+		</cfif>
+	</cfif>
+
 	<cfset local.retval = StructNew()>
 	<cfset local.retval["blocks"] = local.blocks>
 	<cfset local.retval["warnings"] = local.warnings>
