@@ -29,8 +29,20 @@ limitations under the License.
 	<cfset action="entryPoint">
 </cfif>
 
-<!--- container types that cannot be used in this tool, violate user expectations of what container is being moved --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
+<!--- container types that cannot be used in this tool, violate user expectations of what container is being moved.
+	"jar" is a hardcoded special case -- its own ctcontainer_type.role is "leafbearer", not "proxy", but it's
+	still excluded here by explicit request, since in practice a jar is expected to hold a single lot for this
+	tool's purposes. Every other excluded type is a real proxy-role (single-occupant) container_type, looked up
+	live rather than hand-maintained as a second copy of that list -- role=proxy is the same authoritative
+	classification validateContainerPlacement's own CT3 rule already uses, so this stays in sync automatically
+	as that table changes (a hardcoded list here previously included "jar" as if it were proxy-role, which it
+	is not). --->
+<cfquery name="qProxyContainerTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type
+	FROM ctcontainer_type
+	WHERE role = 'proxy'
+</cfquery>
+<cfset DISALLOWED_CONTAINER_TYPES = "jar," & valueList(qProxyContainerTypes.container_type)>
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
