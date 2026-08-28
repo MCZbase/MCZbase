@@ -1887,6 +1887,128 @@ contained collection-object child, along with linked specimen data from the firs
 </cffunction>
 
 <!---
+Function getOrphanedLeafContainers.  Returns a paginated list of collection-object containers
+located at institution or root level -- i.e. placed directly under an institution instead of under
+a proper campus/building/etc. hierarchy, or with no parent container at all -- along with their
+linked specimen data. Mirrors getOrphanedSingleOccupantContainers's shape and pagination, but for
+plain leaf containers rather than proxy containers, and joins specimen data directly off the row
+itself (a collection-object container has no separate "occupant" -- it IS the occupant).
+
+@param page the page number to return (1-based), defaults to 1.
+@param pageSize the number of rows per page, defaults to 50.
+@return a JSON object with keys rows (array), page, pageSize, totalRows.
+--->
+<cffunction name="getOrphanedLeafContainers" access="remote" returntype="any" returnformat="json">
+	<cfargument name="page" type="numeric" required="no" default="1">
+	<cfargument name="pageSize" type="numeric" required="no" default="50">
+
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfset local.offset = (arguments.page - 1) * arguments.pageSize>
+		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT COUNT(*) AS total_rows
+			FROM container c
+			WHERE (
+				c.parent_container_id IN (
+					SELECT container_id
+					FROM container
+					WHERE parent_container_id = 0
+						AND container_type = 'institution'
+				)
+				OR c.parent_container_id = 0
+			)
+			AND c.container_type = 'collection object'
+		</cfquery>
+		<cfset local.totalRows = queryGetCount.total_rows>
+		<cfquery name="queryGetRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id, container_type, label, barcode, description,
+				cat_num, collection_cde, institution_acronym, part_name, scientific_name
+			FROM (
+				SELECT
+					inner_query.*,
+					ROWNUM AS rn
+				FROM (
+					SELECT
+						c.container_id,
+						c.container_type,
+						c.label,
+						c.barcode,
+						c.description,
+						spec.cat_num,
+						spec.collection_cde,
+						spec.institution_acronym,
+						spec.part_name,
+						spec.scientific_name
+					FROM container c
+					LEFT JOIN (
+						SELECT
+							coch.container_id,
+							MAX(ci.cat_num) AS cat_num,
+							MAX(ci.collection_cde) AS collection_cde,
+							MAX(col.institution_acronym) AS institution_acronym,
+							MAX(sp.part_name) AS part_name,
+							MAX(id_sub.scientific_name) AS scientific_name
+						FROM coll_obj_cont_hist coch
+						LEFT JOIN specimen_part sp ON sp.collection_object_id = coch.collection_object_id
+						LEFT JOIN cataloged_item ci ON ci.collection_object_id = sp.derived_from_cat_item
+						LEFT JOIN collection col ON col.collection_id = ci.collection_id
+						LEFT JOIN (
+							SELECT collection_object_id, MIN(scientific_name) AS scientific_name
+							FROM identification
+							WHERE accepted_id_fg = 1
+							GROUP BY collection_object_id
+						) id_sub ON id_sub.collection_object_id = ci.collection_object_id
+						WHERE coch.current_container_fg = 1
+						GROUP BY coch.container_id
+					) spec ON spec.container_id = c.container_id
+					WHERE (
+						c.parent_container_id IN (
+							SELECT container_id
+							FROM container
+							WHERE parent_container_id = 0
+								AND container_type = 'institution'
+						)
+						OR c.parent_container_id = 0
+					)
+					AND c.container_type = 'collection object'
+					ORDER BY c.label, c.barcode, c.container_id
+				) inner_query
+				WHERE ROWNUM <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset + arguments.pageSize#">
+			)
+			WHERE rn > <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#local.offset#">
+		</cfquery>
+		<cfset local.rows = ArrayNew(1)>
+		<cfset local.i = 1>
+		<cfloop query="queryGetRows">
+			<cfset local.row = StructNew()>
+			<cfset local.row["container_id"] = queryGetRows.container_id>
+			<cfset local.row["container_type"] = queryGetRows.container_type>
+			<cfset local.row["label"] = queryGetRows.label>
+			<cfset local.row["barcode"] = queryGetRows.barcode>
+			<cfset local.row["description"] = queryGetRows.description>
+			<cfset local.row["cat_num"] = queryGetRows.cat_num>
+			<cfset local.row["collection_cde"] = queryGetRows.collection_cde>
+			<cfset local.row["institution_acronym"] = queryGetRows.institution_acronym>
+			<cfset local.row["part_name"] = queryGetRows.part_name>
+			<cfset local.row["scientific_name"] = queryGetRows.scientific_name>
+			<cfset local.rows[local.i] = local.row>
+			<cfset local.i = local.i + 1>
+		</cfloop>
+		<cfset local.retval["rows"] = local.rows>
+		<cfset local.retval["page"] = arguments.page>
+		<cfset local.retval["pageSize"] = arguments.pageSize>
+		<cfset local.retval["totalRows"] = local.totalRows>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(local.retval)>
+</cffunction>
+
+<!---
 Function getContainerPositionsGrid.  Returns the position children of a container and the first
 contained occupant of each position for rendering a read-only grid.
 

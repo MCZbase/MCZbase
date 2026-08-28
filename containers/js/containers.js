@@ -1866,6 +1866,108 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
 }
 
 /**
+ * Renders one page of the leaf (collection-object) orphan table -- containers of type
+ * 'collection object' placed directly under an institution, or with no parent container at all,
+ * rather than under a proper campus/building/etc. hierarchy. Mirrors
+ * renderOrphanedSingleOccupantTable, but a leaf orphan IS the specimen's own container (no
+ * separate "occupant" to look up), so the specimen columns come straight off the row.
+ * @param {Object} data - payload from getOrphanedLeafContainers.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - the page currently being displayed.
+ */
+function renderOrphanedLeafTable(data, targetDivId, feedbackId, page) {
+	var rows = data.rows || [];
+	var totalRows = parseInt(data.totalRows, 10) || 0;
+	var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
+	var currentPage = parseInt(data.page, 10) || page || 1;
+	var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+	var target = $('#' + targetDivId);
+	var panel = $('<div class="container-leaf-panel"></div>');
+	var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+	headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text('Leaf orphans (' + totalRows + ')'));
+	panel.append(headingDiv);
+	if (totalPages > 1) {
+		panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+		panel.append(buildPagedNav(currentPage, totalPages, 'mb-1', 'orphan-leaf-page-btn'));
+	}
+	if (rows.length === 0) {
+		panel.append($('<p class="text-muted mb-0"></p>').text('No orphaned collection-object containers found.'));
+	} else {
+		var tbody = $('<tbody></tbody>');
+		$.each(rows, function(i, row) {
+			var displayName = formatContainerDisplay(row.barcode, row.label);
+			var actionTd = $('<td></td>');
+			actionTd.append(buildContainerDetailsActionButton(row.container_id, displayName, feedbackId));
+			actionTd.append(buildContainerViewLink(row.container_id));
+			var placePartLink = buildPlacePartLink(row);
+			if (placePartLink) {
+				actionTd.append(placePartLink);
+			}
+			var typeTd = $('<td></td>').text(row.container_type || '');
+			typeTd.append(' ');
+			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+			typeTd.append(' ');
+			typeTd.append(buildHighLevelOrphanBadge('High-level collection-object orphan', 'ml-1'));
+			var tr = $('<tr></tr>');
+			tr.append(typeTd);
+			tr.append($('<td></td>').text(displayName));
+			tr.append(renderSpecimenCell(row, row.barcode, row.label));
+			tr.append($('<td></td>').text(row.description || ''));
+			tr.append(actionTd);
+			tbody.append(tr);
+		});
+		var table = $('<table class="table table-sm table-striped"></table>');
+		table.append('<thead><tr><th>Type</th><th>Container</th><th>Specimen</th><th>Description</th><th>Actions</th></tr></thead>');
+		table.append(tbody);
+		panel.append(table);
+		if (totalPages > 1) {
+			panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'orphan-leaf-page-btn'));
+		}
+	}
+	target.removeClass('d-none').html(panel);
+	target.off('click.orphanleaf').on('click.orphanleaf', '.orphan-leaf-page-btn', function() {
+		loadOrphanedLeafPage(targetDivId, feedbackId, $(this).data('page'));
+	});
+}
+
+/**
+ * Loads one page of the leaf orphan table and renders it into place.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ * @param {function} onLoaded - optional callback invoked after a successful render.
+ */
+function loadOrphanedLeafPage(targetDivId, feedbackId, page, onLoaded) {
+	var target = $('#' + targetDivId);
+	target.data('loading', true);
+	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/public.cfc',
+		data: {
+			method: 'getOrphanedLeafContainers',
+			page: page || 1,
+			pageSize: CONTAINER_PAGE_SIZE
+		},
+		dataType: 'json',
+		success: function(data) {
+			target.data('loaded', true).data('loading', false);
+			renderOrphanedLeafTable(data, targetDivId, feedbackId, page || 1);
+			if (onLoaded) {
+				onLoaded();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			target.data('loading', false);
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading orphaned leaf containers');
+		}
+	});
+}
+
+/**
  * Builds the warning badge used to label top-level orphan table rows.
  * @param {string} label - badge text to display.
  * @param {string} extraClasses - optional additional classes for spacing or layout.
@@ -3033,10 +3135,11 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
 	var orphanEmptyProxyCount = parseInt(data.orphaned_empty_proxy_count, 10) || 0;
 	var orphanSingleCount = parseInt(data.orphaned_single_occupant_count, 10) || 0;
+	var orphanLeafCount = parseInt(data.orphaned_leaf_count, 10) || 0;
 	var topLevelOther = data.top_level_other || [];
 	var orphanStructDivId = 'ctree-orphan-structural-panel';
 	var wrapper = $('<div></div>');
-	if (institutions.length === 0 && orphanStructCount === 0 && orphanEmptyProxyCount === 0 && orphanSingleCount === 0 && topLevelOther.length === 0) {
+	if (institutions.length === 0 && orphanStructCount === 0 && orphanEmptyProxyCount === 0 && orphanSingleCount === 0 && orphanLeafCount === 0 && topLevelOther.length === 0) {
 		wrapper.html('<p class="text-muted my-2">No containers found.</p>');
 		$('#' + browsePanel).html(wrapper);
 		return;
@@ -3072,6 +3175,36 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			nodeRow.append(buildContainerTypeMeta(inst.container_type));
 			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
 			nodeRow.append(buildAddChildContainerLink(instCid, inst.container_type, TREE_ACTION_SPACING_CLASS));
+			var instLeafDiv = null;
+			if (parseInt(inst.direct_leaf_children, 10) > 0) {
+				// an institution can itself have collection objects placed directly under it
+				// (misplaced, bypassing campus/building/etc.) -- give it the same Browse Contents
+				// button campus nodes get below, so those aren't otherwise unreachable in the tree.
+				var instLeafDivId = 'ctree-leaf-' + instCid;
+				instLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', instLeafDivId);
+				var instBrowseBtn = $('<button type="button"></button>')
+					.addClass('btn btn-xs btn-outline-secondary ml-1')
+					.text('Browse contents')
+					.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
+						return function() {
+							var btn = $(this);
+							var panel = $('#' + panelId);
+							if (panel.hasClass('d-none')) {
+								if (!btn.data('loaded')) {
+									loadLeafPanel(nodeId, panelId, feedbackEl, 1, nodeName, nodeBarcode);
+									btn.data('loaded', true);
+								} else {
+									panel.removeClass('d-none');
+								}
+								btn.text('Hide contents');
+							} else {
+								panel.addClass('d-none');
+								btn.text('Browse contents');
+							}
+						};
+					})(instCid, instDisplay, inst.barcode || '', instLeafDivId));
+				nodeRow.append(instBrowseBtn);
+			}
 			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
 			if (campuses.length > 0) {
 				$.each(campuses, function(ci, campus) {
@@ -3145,7 +3278,12 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			} else if (parseInt(inst.direct_structural_children, 10) > 0) {
 				campusUl.addClass('collapse');
 			}
-			instUl.append($('<li role="treeitem"></li>').append(nodeRow).append(campusUl));
+			var instLi = $('<li role="treeitem"></li>').append(nodeRow);
+			if (instLeafDiv) {
+				instLi.append(instLeafDiv);
+			}
+			instLi.append(campusUl);
+			instUl.append(instLi);
 		});
 		wrapper.append(instUl);
 	}
@@ -3200,6 +3338,23 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 		orphanSingleWrap.append(orphanSingleBtn);
 		orphanSingleWrap.append(orphanSingleDiv);
 		wrapper.append(orphanSingleWrap);
+	}
+	if (orphanLeafCount > 0) {
+		var orphanLeafDivId = 'ctree-orphan-leaf';
+		var orphanLeafWrap = $('<div class="mt-2"></div>');
+		var orphanLeafBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', orphanLeafDivId)
+			.text('Leaf orphans (' + orphanLeafCount + ')');
+		var orphanLeafDiv = $('<div class="d-none mt-1" id="' + orphanLeafDivId + '"></div>');
+		orphanLeafBtn.on('click', function() {
+			toggleBrowseSection(this, orphanLeafDivId, function() {
+				loadOrphanedLeafPage(orphanLeafDivId, feedbackEl, 1);
+			});
+		});
+		orphanLeafWrap.append(orphanLeafBtn);
+		orphanLeafWrap.append(orphanLeafDiv);
+		wrapper.append(orphanLeafWrap);
 	}
 	var rootOtherDivId = 'ctree-root-other';
 	if (topLevelOther.length > 0) {
