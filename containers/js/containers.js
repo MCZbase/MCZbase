@@ -3309,7 +3309,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanStructWrap.append(orphanStructBtn);
-		orphanStructWrap.append($('<span class="small text-muted ml-1"></span>').text('Unplaced containers.'));
+		orphanStructWrap.append($('<span class="small text-muted ml-1"></span>').text('Unplaced containers, e.g. unplaced freezer box.'));
 		orphanStructWrap.append(orphanStructDiv);
 		wrapper.append(orphanStructWrap);
 	}
@@ -3327,7 +3327,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanEmptyWrap.append(orphanEmptyBtn);
-		orphanEmptyWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pins with no specimen.'));
+		orphanEmptyWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pin with no specimen.'));
 		orphanEmptyWrap.append(orphanEmptyDiv);
 		wrapper.append(orphanEmptyWrap);
 	}
