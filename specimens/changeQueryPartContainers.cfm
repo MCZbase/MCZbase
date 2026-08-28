@@ -500,8 +500,15 @@ both show identical results for identical outcomes.
 				<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
 				#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
 			<cfelse>
+				<cfquery name="local.getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT barcode, label, container_type
+					FROM container
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_container_id#">
+				</cfquery>
 				<div class="row mx-0">
 					<div class="col-12 mt-2">
+						<h1 class="h2 mt-1">Review Proxy Container Moves</h1>
+						<p>Moving into: <strong>#local.getTarget.label#</strong> (#local.getTarget.barcode#), a #local.getTarget.container_type#.</p>
 						<div class="alert alert-warning">
 							<cfif arrayLen(local.proxyRows) EQ 1>
 								<strong>1 of #listLen(partIDs)# part is inside a single-occupant proxy container.</strong>
