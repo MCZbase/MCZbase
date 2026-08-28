@@ -885,7 +885,7 @@ have to be rebuilt from scratch).
 												<div class="small text-danger">No eligible parts to move -- all are blocked (see above).</div>
 											<cfelse>
 												<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary" disabled>
-												<div class="small text-muted">Choose a container above first.</div>
+												<div class="small text-muted">Choose a container first.</div>
 											</cfif>
 										</div>
 									</div>
