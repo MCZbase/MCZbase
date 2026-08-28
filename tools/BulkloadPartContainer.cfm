@@ -80,7 +80,7 @@ limitations under the License.
 			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or (preferred) edit a part report produced from Manage from Specimen Searhc Results. </p>
 			<p><em>Distinguishing Multiple Parts for the same cataloged item:</em> This bulkloader can be used for specimen records with multiple parts as long as the combination of the following column values are unique within the cataloged item (identified by institution acronym, collection code, and catalog number): part_name, preserve_method, and part_remarks. If part_collection_object_id is not supplied, it will be looked up from this set of fields.  If parts are ambiguous and can not be uniquely identified within a cataloged item by part_name, preserve_method, and part_remarks, the part_collection_object_id must be provided.</p>
 			<p><em>Edit a Part Report:</em> The best way to avoid ambiguous parts is to use a part report from the Specimen Search results > Manage > Part Download/Report feature.  To pobtain the part report, select the "Download Parts CSV for:" option "Bulkloading Parts to New Containers", check that the parts downloaded are as expected, remove any parts you do not want to move, and fill in the column NEW_CONTAINER_BARCODE to hold the container barcode (a.k.a., unique_container_id) of the container to place the part into.  Additional columns not used in this downloader may help you identify which parts you wish to move where and will be ignored on upload (and will appear in the warning section of the validation screen with any other columns not needed for the bulkload). </p>
-			<p><em>Note:</em> This tool moves the collection object container for parts, in many cases (such as insects on pins), this is not the container you wish to move, but rather the parent container for that part (the pin), in such cases, please use the <a href="/tools/BulkloadContEditParent.cfm" target="_blank">Container Parent Edit Bulkloader</a> instead.  
+			<p><em>Note:</em> When a part's own collection object container sits directly inside a single-occupant proxy container (e.g. a pin, slide, cryovial, envelope, or glass vial), this tool automatically moves that proxy container instead of the collection object container trapped inside it, since the proxy is what you actually want relocated in those cases. The PLACEMENT WARNING column will flag any row where this applies.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -667,20 +667,25 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
 				</cfquery>
-				<!---Put the container ID of the collection_object into the table to exchange parent_container_id later--->
+				<!--- Resolve the part's actual container to move for placement purposes -- its own
+					"collection object" leaf, unless that leaf's immediate parent is a proxy-role
+					container (pin/slide/cryovial/envelope/glass vial -- a single-occupant type that
+					can only ever hold this one leaf), in which case the proxy is what actually gets
+					reparented, not the leaf trapped inside it. Uses the same shared helper
+					containers/placePartInContainer.cfm already relies on for this, driven by
+					ctcontainer_type.role='proxy' rather than a second, hand-maintained container_type
+					name list. --->
+				<cfset local.partContainer = resolvePartCurrentContainer(getTempTableQC1.part_collection_object_id)>
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						part_container_id = (
-							select c.container_id 
-							from 
-								container c, coll_obj_cont_hist ch
-							where 
-								ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">
-							AND	c.container_id = ch.container_id
-						)
+					UPDATE cf_temp_barcode_parts
+					SET
+						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#" null="#NOT local.partContainer.found#">
+						<cfif local.partContainer.found AND local.partContainer.is_proxy>
+							, placement_severity = 'warn'
+							, placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="This part is inside a #local.partContainer.move_type# (#local.partContainer.move_label#) -- moving it will move the #local.partContainer.move_type#, not just the collection object container specified.">)
+						</cfif>
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -774,10 +779,13 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cfelseif local.placementResult.severity EQ "warn">
+				<!--- appended, not overwritten -- a proxy-substitution warning may already have been
+					recorded against this row above, and both should be visible, not one clobbering
+					the other. --->
 				<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET placement_severity = 'warn',
-						placement_message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">
+						placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">)
 					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
