@@ -34,9 +34,14 @@ limitations under the License.
 
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
+	<!--- streams CSV output and cfabort's before /shared/_header.cfm -- and therefore its own role
+		check -- ever runs, the same shape of gap Phase 1 found and fixed in
+		tools/BulkloadPartContainer.cfm's own dumpProblems action. --->
+	<cf_rolecheck>
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT 
+		SELECT
 			decode(status,' :Found Cataloged Item; Found Part','',STATUS) as STATUS,
+			PLACEMENT_SEVERITY, PLACEMENT_MESSAGE,
 			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
 			PART_COLLECTION_OBJECT_ID,
 			PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,
@@ -84,6 +89,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Edit Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement/resolvePartCurrentContainer, used in the validate step below --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 
 <main class="container-fluid px-xl-5 py-3" id="content">
@@ -599,6 +605,74 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 
+			<!--- Resolve each edited part's actual current container for placement purposes -- its
+				own "collection object" leaf, unless that leaf's immediate parent is a proxy-role
+				container (pin/slide/cryovial/envelope/glass vial), in which case the proxy is what
+				actually gets reparented. Mirrors tools/BulkloadPartContainer.cfm's Phase 1 pattern
+				exactly, driven by ctcontainer_type.role='proxy' rather than a hand-maintained list. --->
+			<cfquery name="getTempTablePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, part_collection_object_id
+				FROM cf_temp_edit_parts
+				WHERE part_collection_object_id is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTablePart">
+				<cfset local.partContainer = resolvePartCurrentContainer(getTempTablePart.part_collection_object_id)>
+				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_edit_parts
+					SET
+						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#" null="#NOT local.partContainer.found#">
+						<cfif local.partContainer.found AND local.partContainer.is_proxy>
+							, placement_severity = 'warn'
+							, placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="This part is inside a #local.partContainer.move_type# (#local.partContainer.move_label#) -- moving it will move the #local.partContainer.move_type#, not just the collection object container specified.">)
+						</cfif>
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTablePart.key#">
+				</cfquery>
+			</cfloop>
+
+			<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank
+				order, etc.) are validated with the same badge engine moveContainer.cfm/
+				placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use, rather than a second,
+				separately-maintained copy of those rules. Only rows where both the part's own
+				container and the resolved new parent are known are checked. A "block" severity is
+				folded into STATUS (the existing hard-stop gate); a "warn" severity is recorded
+				separately, since it should be surfaced but not force a restart. --->
+			<cfquery name="getPlacementCandidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, part_container_id, parent_container_id
+				FROM cf_temp_edit_parts
+				WHERE part_container_id is not null
+					AND parent_container_id is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getPlacementCandidates">
+				<cfset local.placementResult = validateContainerPlacement(child_container_id=getPlacementCandidates.part_container_id, proposed_parent_container_id=getPlacementCandidates.parent_container_id)>
+				<!--- validateContainerPlacement's returnformat="json" means it can come back as a JSON
+					string rather than a native struct even on this in-process call -- every existing
+					caller of it elsewhere in the codebase guards for this the same way --->
+				<cfif isSimpleValue(local.placementResult)>
+					<cfset local.placementResult = deserializeJSON(local.placementResult)>
+				</cfif>
+				<cfif local.placementResult.severity EQ "block">
+					<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_edit_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'placement_blocked, ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.blocks,'; ')#">)
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				<cfelseif local.placementResult.severity EQ "warn">
+					<!--- appended, not overwritten -- a proxy-substitution warning may already have
+						been recorded against this row above, and both should be visible. --->
+					<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_edit_parts
+						SET placement_severity = 'warn',
+							placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">)
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+			</cfloop>
+
 			<!--- Third set of Validation tests: new values that will replace existing ones --->
 			<!--- Assess new values, in bulk --->
 			<cfquery name="badNewPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1018,10 +1092,21 @@ limitations under the License.
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadEditedParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
+			<cfquery name="warnCount" dbtype="query">
+				SELECT count(*) c
+				FROM getTempDataToShow
+				WHERE placement_severity = 'warn'
+			</cfquery>
+			<cfif warnCount.c gt 0>
+				<div class="alert alert-warning py-2 px-3 small">
+					<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
+				</div>
+			</cfif>
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
 						<th>BULKLOADING&nbsp;STATUS</th>
+						<th>PLACEMENT WARNING</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -1114,6 +1199,7 @@ limitations under the License.
 									<strong>ERROR: #status#</strong>
 								</cfif>
 							</td>
+							<td><cfif getTempDataToShow.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#getTempDataToShow.placement_message#</cfif></td>
 							<td>#institution_acronym#</td>
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
@@ -1216,6 +1302,14 @@ limitations under the License.
 					<cfset part_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
+						<!--- the query above filters status NOT IN ('LOADED', 'PART NOT FOUND') --
+							any OTHER non-empty status (including a placement_blocked result set during
+							validate) would still pass that filter, since it isn't literally either of
+							those two exact strings. Gate on it explicitly here too, the same real gap
+							Phase 1 found and fixed in tools/BulkloadPartContainer.cfm's load action. --->
+						<cfif len(trim(getTempData.status)) GT 0>
+							<cfthrow message = "Row (key #getTempData.key#) has unresolved validation problems: #getTempData.status#">
+						</cfif>
 						<cfif len(#part_collection_object_id#) is 0>
 							<!--- no part to modify, fail --->
 							<cfthrow message="No part to modify for #getTempData.institution_acronym#:#getTempData.collection_cde# #getTempData.other_id_type##getTempData.other_id_number#">
@@ -1287,18 +1381,17 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfif len(#CONTAINER_UNIQUE_ID#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT container_id 
-									FROM coll_obj_cont_hist 
-									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_collection_object_id#">
-								</cfquery>
-								<!--- TODO: Review this comment, was not in appropriate place, may not be correct --->
 								<!--- there is an existing matching container that is not in a parent_container;
 									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+								<!--- getTempData.part_container_id was resolved during validate above via
+									resolvePartCurrentContainer (proxy-aware) -- reused here rather than a
+									fresh raw coll_obj_cont_hist lookup, so this actually reparents the proxy
+									(e.g. the pin) when the part's own leaf container sits directly inside one,
+									consistent with what validateContainerPlacement already checked against. --->
 								<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE container 
+									UPDATE container
 									SET parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-									WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
+									WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 								</cfquery>
 								<cfif #len(change_container_type)# gt 0>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">

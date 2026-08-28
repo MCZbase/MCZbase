@@ -23,9 +23,13 @@ limitations under the License.
 <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
+	<!--- streams CSV output and cfabort's before /shared/_header.cfm -- and therefore its own role
+		check -- ever runs, the same shape of gap Phase 1 found and fixed in
+		tools/BulkloadPartContainer.cfm's own dumpProblems action. --->
+	<cf_rolecheck>
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT 
-			status, 
+		SELECT
+			status, placement_severity, placement_message,
 			institution_acronym, collection_cde, other_id_type, other_id_number, collection_object_id,
 			part_name, preserve_method, coll_obj_disposition, condition, lot_count, lot_count_modifier, 
 			part_remarks, container_unique_id
@@ -66,6 +70,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk New Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
 
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="nothing"></cfif>
 
@@ -689,6 +694,65 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
+
+			<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank
+				order, etc.) are validated with the same badge engine moveContainer.cfm/
+				placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use, rather than a second,
+				separately-maintained copy of those rules. Unlike those two files, the part being
+				loaded here is brand new -- its own "collection object" container doesn't exist yet at
+				validate time; it's created by a database trigger off the specimen_part INSERT at load
+				time, below. validateContainerPlacement requires a real, existing child_container_id,
+				so it can't be called against a row that doesn't exist yet. Every "collection object"
+				container shares the exact same type-based classification (role=leaf,
+				expected_parent_types='any', rank_order, etc. -- see ctcontainer_type), so any single
+				EXISTING collection-object container stands in as a representative child for judging
+				the proposed PARENT's fitness, the same per-type-representative approximation
+				specimens/changeQueryPartContainers.cfm's checkDestinationFitness already relies on
+				elsewhere in this PR. The one class of check this can't reproduce precisely is an
+				occupancy check keyed to the exact child identity (a single-occupant target already
+				holding this specific representative, purely by coincidence, would be misread as
+				already occupied) -- an acceptable, documented approximation, not a silent one. --->
+			<cfquery name="getRepresentativeLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT container_id
+				FROM (
+					SELECT container_id FROM container WHERE container_type = 'collection object'
+				)
+				WHERE ROWNUM = 1
+			</cfquery>
+			<cfif getRepresentativeLeaf.recordcount GT 0>
+				<cfquery name="getPlacementCandidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT key, parent_container_id
+					FROM cf_temp_parts
+					WHERE parent_container_id is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query="getPlacementCandidates">
+					<cfset local.placementResult = validateContainerPlacement(child_container_id=getRepresentativeLeaf.container_id, proposed_parent_container_id=getPlacementCandidates.parent_container_id)>
+					<!--- validateContainerPlacement's returnformat="json" means it can come back as a
+						JSON string rather than a native struct even on this in-process call -- every
+						existing caller of it elsewhere in the codebase guards for this the same way --->
+					<cfif isSimpleValue(local.placementResult)>
+						<cfset local.placementResult = deserializeJSON(local.placementResult)>
+					</cfif>
+					<cfif local.placementResult.severity EQ "block">
+						<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_parts
+							SET status = concat(nvl2(status, status || '; ', ''), 'placement_blocked, ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.blocks,'; ')#">)
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					<cfelseif local.placementResult.severity EQ "warn">
+						<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_parts
+							SET placement_severity = 'warn',
+								placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">)
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+			</cfif>
+
 			<cfquery name="markNoPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
 				SET status = concat(nvl2(status, status || '; ', ''),'Cataloged item not found.') 
@@ -717,10 +781,21 @@ limitations under the License.
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
+			<cfquery name="warnCount" dbtype="query">
+				SELECT count(*) c
+				FROM getTempDataToShow
+				WHERE placement_severity = 'warn'
+			</cfquery>
+			<cfif warnCount.c gt 0>
+				<div class="alert alert-warning py-2 px-3 small">
+					<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
+				</div>
+			</cfif>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light small">
 						<tr>
 							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>PLACEMENT WARNING</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
@@ -747,6 +822,7 @@ limitations under the License.
 						<cfloop query="getTempDataToShow">
 							<tr>
 								<td><cfif len(getTempDataToShow.status) eq 0>Cleared to load<cfelse><strong>#getTempDataToShow.status#</strong></cfif></td>
+								<td><cfif getTempDataToShow.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#getTempDataToShow.placement_message#</cfif></td>
 								<td>#institution_acronym#</td>
 								<td>#collection_cde#</td>
 								<td>#OTHER_ID_TYPE#</td>
@@ -864,16 +940,31 @@ limitations under the License.
 							</cfif>
 							<cfif len(#container_unique_id#) gt 0>
 								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT container_id 
-									FROM coll_obj_cont_hist 
+									SELECT container_id
+									FROM coll_obj_cont_hist
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
 								</cfquery>
 								<cfif part_container_id.recordcount GT 0>
+									<!--- The validate step above could only check a representative existing
+										collection-object container, since this part's own container didn't
+										exist yet at that point -- see the comment there. Now that it's been
+										created (via trigger off the specimen_part INSERT above), re-check
+										with its real container_id before writing the reparent, closing that
+										approximation's one gap: an occupancy check keyed to the exact child
+										identity. A block here aborts the whole transaction, same as every
+										other cfthrow in this loop. --->
+									<cfset local.placementResult = validateContainerPlacement(child_container_id=part_container_id.container_id, proposed_parent_container_id=parent_container_id)>
+									<cfif isSimpleValue(local.placementResult)>
+										<cfset local.placementResult = deserializeJSON(local.placementResult)>
+									</cfif>
+									<cfif local.placementResult.severity EQ "block">
+										<cfthrow message="Placement blocked for #getTempData.institution_acronym#:#getTempData.collection_cde# #getTempData.other_id_type# #getTempData.other_id_number#: #ArrayToList(local.placementResult.blocks,'; ')#">
+									</cfif>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET 
+										UPDATE container
+										SET
 											parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-										WHERE 
+										WHERE
 											container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
 									</cfquery>
 								</cfif>
