@@ -320,17 +320,23 @@ both show identical results for identical outcomes.
 							<div class="form-row mx-0">
 								<div class="col-12 pt-2">
 									<script>
-										$(document).ready(function () { 
-											$("##movePartForm").on("submit",function(e) { 
+										function updateMakeChangeButtonState() {
+											var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
+											$('##makeChangeButton').prop('disabled', valuesArray.every(element => element == ""));
+										}
+										$(document).ready(function () {
+											updateMakeChangeButtonState();
+											$('##movePartForm .one_must_be_filled_in').on('change', updateMakeChangeButtonState);
+											$("##movePartForm").on("submit",function(e) {
 												var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
-												if (valuesArray.every(element => element == "")){ 
+												if (valuesArray.every(element => element == "")){
 													e.preventDefault();
 													messageDialog("Error: You must specify at least one value to specify which parts to move.","No Move Criteria Provided.");
 												}
 											});
 										});
 									</script>
-									<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger" id="makeChangeButton">
+									<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger" id="makeChangeButton" disabled>
 								</div>
 							</div>
 						</form>
@@ -695,50 +701,26 @@ both show identical results for identical outcomes.
 
 								<input type="hidden" name="target_container_id" id="target_container_id" value="">
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-3">
-										<label for="room" class="data-entry-label">Limit search to Room:</label>
-										<select name="room" id="room" class="data-entry-select">
-											<option value=""></option>
-											<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT container_id, label, barcode
-												FROM container
-												WHERE container_type = 'room'
-												ORDER BY label, barcode
-											</cfquery>
-											<cfloop query="rooms">
-												<cfif label NEQ barcode>
-													<cfset displaylabel = label & " (" & barcode & ")">
-												<cfelse>
-													<cfset displaylabel = label>
-												</cfif>
-												<option value="#container_id#">#displaylabel#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="type" class="data-entry-label">Limit search to container Type:</label>
-										<select name="type" id="type" class="data-entry-select">
-											<option value=""></option>
-											<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT container_type
-												FROM ctcontainer_type
-												ORDER BY container_type
-											</cfquery>
-											<cfloop query="types">
-												<option value="#container_type#">#container_type#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<!--- container autocomplete, limited by type and parent room --->
+									<div class="col-12 col-md-6">
+										<!--- plain container autocomplete, plus the "Choose..." picker dialog for the
+											same purpose -- room/type limit selects were removed here since the
+											picker dialog already covers narrowing the search by type/ancestor. --->
 										<label for="container" class="data-entry-label">Container to put parts into:</label>
 										<div class="d-flex align-items-center">
 											<input type="text" name="container" id="container" class="data-entry-input reqdClr flex-grow-1" placeholder="Container Name or Barcode">
 											<button type="button" id="chooseTargetContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
 										</div>
 										<script>
+											function updateMoveButtonState() {
+												var hasTarget = $('##target_container_id').val().length > 0;
+												$('##submitButton').prop('disabled', !hasTarget);
+											}
 											$(document).ready(function () {
-												makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
+												makeContainerAutocompleteMeta("container", "target_container_id", true);
+												$('##container').on('autocompleteselect autocompletechange', function() {
+													// allow the autocomplete widget's own select/change handlers to populate target_container_id first.
+													window.setTimeout(updateMoveButtonState, 10);
+												});
 												$('##chooseTargetContainerBtn').on('click', function() {
 													openContainerPickerDialog({
 														mode: 'find',
@@ -747,19 +729,24 @@ both show identical results for identical outcomes.
 															$('##target_container_id').val(selectedId);
 															$('##container').val(selectedLabel);
 															wrapper.dialog('close');
+															updateMoveButtonState();
 														}
 													});
 												});
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3">
-										<cfif len(local.eligiblePartIDs) EQ 0>
-											<button type="button" class="btn btn-xs btn-secondary mt-3" disabled>Move these Parts</button>
-											<div class="small text-danger">No eligible parts to move -- all are blocked (see above).</div>
-										<cfelse>
-											<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary mt-3">
-										</cfif>
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label">Then...</label>
+										<div>
+											<cfif len(local.eligiblePartIDs) EQ 0>
+												<button type="button" class="btn btn-xs btn-secondary" disabled>Move these Parts</button>
+												<div class="small text-danger">No eligible parts to move -- all are blocked (see above).</div>
+											<cfelse>
+												<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary" disabled>
+												<div class="small text-muted">Choose a container above first.</div>
+											</cfif>
+										</div>
 									</div>
 								</div>
 							</form>
