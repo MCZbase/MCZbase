@@ -29,6 +29,13 @@ limitations under the License.
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
+<!--- the part-selection filter criteria, needed again by a destination-fitness block page (see
+	checkDestinationFitness/renderDestinationBlockedHtml below) to offer a way back to movePart with
+	the same parts already selected, without forcing the whole filter step to be redone. --->
+<cfparam name="exist_part_name" default="">
+<cfparam name="exist_preserve_method" default="">
+<cfparam name="existing_lot_count" default="">
+<cfparam name="existing_coll_obj_disposition" default="">
 
 <!--- container types that cannot be used in this tool at all -- unlike a proxy-role container (pin/slide/
 	cryovial/envelope/glass vial, handled below by moving the proxy instead of the leaf, with the user's
@@ -112,6 +119,104 @@ both show identical results for identical outcomes.
 					<h2>Successfully moved #arguments.moved_count# part(s) into #local.getTarget.container_type# #local.getTarget.label# </h2>
 					<h4 class="mt-2"><a href="/specimens/changeQueryPartContainers.cfm?result_id=#arguments.result_id#">Return to move parts in bulk</a></h4>
 					<h4 class="mt-2"><a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & local.getTarget.barcode)#&execute=true">View Container</a></h4>
+				</div>
+			</div>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
+Function checkDestinationFitness. Checks a proposed target container against every distinct
+container_type actually being moved in this batch (a batch can mix plain "collection object" leaves
+with several different proxy types once proxy substitution is involved, so a single representative
+check is no longer enough) via validateContainerPlacement, one call per distinct type rather than one
+per part. Called both from movePartConfirm (to review before committing) and movePart2 (to gate the
+actual commit -- never trusting an earlier step's check alone for a mutating action).
+@param partIDs comma-separated list of specimen_part.collection_object_id values to move.
+@param target_container_id the destination container_id under consideration.
+@return a struct: {blocks: array of "type: message" strings, warnings: array of "type: message" strings}.
+--->
+<cffunction name="checkDestinationFitness" access="private" returntype="struct" output="false">
+	<cfargument name="partIDs" type="string" required="yes">
+	<cfargument name="target_container_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.distinctTypeRepresentative = StructNew()>
+	<cfloop list="#arguments.partIDs#" index="local.onePartID">
+		<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
+		<cfif local.partContainer.found AND NOT structKeyExists(local.distinctTypeRepresentative, local.partContainer.move_type)>
+			<cfset local.distinctTypeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
+		</cfif>
+	</cfloop>
+	<cfset local.blocks = ArrayNew(1)>
+	<cfset local.warnings = ArrayNew(1)>
+	<cfloop collection="#local.distinctTypeRepresentative#" item="local.oneType">
+		<cfset local.placementResult = validateContainerPlacement(child_container_id=local.distinctTypeRepresentative[local.oneType], proposed_parent_container_id=arguments.target_container_id)>
+		<cfif isSimpleValue(local.placementResult)>
+			<cfset local.placementResult = deserializeJSON(local.placementResult)>
+		</cfif>
+		<cfif local.placementResult.severity EQ "block">
+			<cfloop array="#local.placementResult.blocks#" index="local.oneMsg">
+				<cfset ArrayAppend(local.blocks, "#local.oneType#: #local.oneMsg#")>
+			</cfloop>
+		<cfelseif local.placementResult.severity EQ "warn">
+			<cfloop array="#local.placementResult.warnings#" index="local.oneMsg">
+				<cfset ArrayAppend(local.warnings, "#local.oneType#: #local.oneMsg#")>
+			</cfloop>
+		</cfif>
+	</cfloop>
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["blocks"] = local.blocks>
+	<cfset local.retval["warnings"] = local.warnings>
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
+Function renderDestinationBlockedHtml. Renders the hard-stop page shown when checkDestinationFitness
+finds the chosen target unsuitable for at least one type in the batch -- no "Yes" option is offered,
+only two ways back: re-filter which parts to move (entryPoint), or keep the same parts and pick a
+different container (back to movePart with the original filter criteria, so the part list doesn't
+have to be rebuilt from scratch).
+@param blocks array of "type: message" block strings from checkDestinationFitness.
+@param result_id the originating search result_id.
+@param exist_part_name, exist_preserve_method, existing_lot_count, existing_coll_obj_disposition the
+	original movePart filter criteria, carried forward so "choose a different container" can return
+	to the same part list.
+@return an HTML string.
+--->
+<cffunction name="renderDestinationBlockedHtml" access="private" returntype="string" output="false">
+	<cfargument name="blocks" type="array" required="yes">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="exist_part_name" type="string" required="no" default="">
+	<cfargument name="exist_preserve_method" type="string" required="no" default="">
+	<cfargument name="existing_lot_count" type="string" required="no" default="">
+	<cfargument name="existing_coll_obj_disposition" type="string" required="no" default="">
+
+	<cfset var local = StructNew()>
+	<cfsavecontent variable="local.html">
+		<cfoutput>
+			<div class="row mx-0">
+				<div class="col-12 mt-2">
+					<h1 class="h2 mt-1">Container Not Suitable</h1>
+					<div class="alert alert-danger">
+						<strong>This move cannot proceed -- the chosen container is not a suitable destination:</strong>
+						<ul class="mb-0">
+							<cfloop array="#arguments.blocks#" index="local.oneMsg">
+								<li>#local.oneMsg#</li>
+							</cfloop>
+						</ul>
+					</div>
+					<a href="/specimens/changeQueryPartContainers.cfm?result_id=#arguments.result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
+					<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
+						<input type="hidden" name="action" value="movePart">
+						<input type="hidden" name="result_id" value="#arguments.result_id#">
+						<input type="hidden" name="exist_part_name" value="#encodeForHtml(arguments.exist_part_name)#">
+						<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(arguments.exist_preserve_method)#">
+						<input type="hidden" name="existing_lot_count" value="#encodeForHtml(arguments.existing_lot_count)#">
+						<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(arguments.existing_coll_obj_disposition)#">
+						<button type="submit" class="btn btn-xs btn-secondary">Choose a different container for these parts</button>
+					</form>
 				</div>
 			</div>
 		</cfoutput>
@@ -487,10 +592,14 @@ both show identical results for identical outcomes.
 			<!--- Resolve every eligible part's actual move-target server-side (never trusting the
 				movePart listing's own display as authoritative) to find out whether any of them
 				will actually move a proxy container instead of the collection object container
-				specified. When none do, commit immediately -- no added friction for the common
-				case. When any do, show exactly which parts/proxies are affected and require an
-				explicit Yes before anything is written; that Yes re-posts to movePart2, which
-				re-resolves everything itself rather than trusting this confirmation blindly. --->
+				specified, and check the chosen target's fitness for every distinct type actually
+				being moved. A block on the target's fitness hard-stops here -- no "Yes" option --
+				since that's not something the user can simply choose to proceed past. Otherwise,
+				when nothing needs review, commit immediately -- no added friction for the common
+				case. When a proxy substitution or a destination-fitness warning applies, show
+				exactly what's affected and require an explicit Yes before anything is written;
+				that Yes re-posts to movePart2, which re-checks and re-resolves everything itself
+				rather than trusting this confirmation blindly. --->
 			<cfset local.proxyRows = ArrayNew(1)>
 			<cfloop list="#partIDs#" index="local.onePartID">
 				<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
@@ -502,7 +611,10 @@ both show identical results for identical outcomes.
 					<cfset ArrayAppend(local.proxyRows, local.oneProxyRow)>
 				</cfif>
 			</cfloop>
-			<cfif arrayLen(local.proxyRows) EQ 0>
+			<cfset local.destinationFitness = checkDestinationFitness(partIDs=partIDs, target_container_id=target_container_id)>
+			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
+				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
+			<cfelseif arrayLen(local.proxyRows) EQ 0 AND arrayLen(local.destinationFitness.warnings) EQ 0>
 				<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
 				#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
 			<cfelse>
@@ -513,27 +625,43 @@ both show identical results for identical outcomes.
 				</cfquery>
 				<div class="row mx-0">
 					<div class="col-12 mt-2">
-						<h1 class="h2 mt-1">Review Proxy Container Moves</h1>
+						<h1 class="h2 mt-1">Review Container Move</h1>
 						<p>Moving into: <strong>#local.getTarget.label#</strong> (#local.getTarget.barcode#), a #local.getTarget.container_type#.</p>
-						<div class="alert alert-warning">
-							<cfif arrayLen(local.proxyRows) EQ 1>
-								<strong>1 of #listLen(partIDs)# part is inside a single-occupant proxy container.</strong>
-								Moving it will move that proxy container, not just the collection object container specified. Please review before continuing:
-							<cfelse>
-								<strong>#arrayLen(local.proxyRows)# of #listLen(partIDs)# parts are inside single-occupant proxy containers.</strong>
-								Moving them will move those proxy containers, not just the collection object containers specified. Please review before continuing:
-							</cfif>
-							<ul class="mb-0">
-								<cfloop array="#local.proxyRows#" index="local.oneProxyRow">
-									<li>#local.oneProxyRow.move_type# #local.oneProxyRow.move_label# (#local.oneProxyRow.move_barcode#)</li>
-								</cfloop>
-							</ul>
-						</div>
+						<cfif arrayLen(local.destinationFitness.warnings) GT 0>
+							<div class="alert alert-warning">
+								<strong>The chosen container may not be a typical destination for these part(s):</strong>
+								<ul class="mb-0">
+									<cfloop array="#local.destinationFitness.warnings#" index="local.oneMsg">
+										<li>#local.oneMsg#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfif arrayLen(local.proxyRows) GT 0>
+							<div class="alert alert-warning">
+								<cfif arrayLen(local.proxyRows) EQ 1>
+									<strong>1 of #listLen(partIDs)# part is inside a single-occupant proxy container.</strong>
+									Moving it will move that proxy container, not just the collection object container specified. Please review before continuing:
+								<cfelse>
+									<strong>#arrayLen(local.proxyRows)# of #listLen(partIDs)# parts are inside single-occupant proxy containers.</strong>
+									Moving them will move those proxy containers, not just the collection object containers specified. Please review before continuing:
+								</cfif>
+								<ul class="mb-0">
+									<cfloop array="#local.proxyRows#" index="local.oneProxyRow">
+										<li>#local.oneProxyRow.move_type# #local.oneProxyRow.move_label# (#local.oneProxyRow.move_barcode#)</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
 						<form name="movePartConfirmForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 							<input type="hidden" name="action" value="movePart2">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<input type="hidden" name="partIDs" value="#partIDs#">
 							<input type="hidden" name="target_container_id" value="#target_container_id#">
+							<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+							<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+							<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+							<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
 							<button type="submit" class="btn btn-xs btn-primary">Yes, move these parts</button>
 							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Cancel</a>
 						</form>
@@ -545,8 +673,15 @@ both show identical results for identical outcomes.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="movePart2">
 		<cfoutput>
-			<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
-			#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
+			<!--- Re-checks destination fitness itself rather than trusting movePartConfirm's own
+				check -- a mutating action must never rely solely on an earlier step's validation. --->
+			<cfset local.destinationFitness = checkDestinationFitness(partIDs=partIDs, target_container_id=target_container_id)>
+			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
+				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
+			<cfelse>
+				<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
+				#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
+			</cfif>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
@@ -698,6 +833,12 @@ both show identical results for identical outcomes.
 								<input type="hidden" name="action" value="movePartConfirm">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="partIDs" value="#local.eligiblePartIDs#">
+								<!--- carried forward so a later destination-fitness block page can offer a way
+									back to this same part list without re-filtering from scratch. --->
+								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
 
 								<input type="hidden" name="target_container_id" id="target_container_id" value="">
 								<div class="form-row mb-2">
