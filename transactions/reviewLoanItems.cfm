@@ -17,7 +17,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
+<!--- "jar" is kept as an explicit, documented special case (a jar can hold multiple specimens or
+	glass vials, so this tool can't safely move it as a stand-in for one item's contents) --
+	pin/slide/cryovial/envelope/glass vial were previously listed here too as if they were the same
+	kind of case, but their real ctcontainer_type.role is 'proxy', not this hardcoded list -- a live
+	drift bug matching the one specimens/changeQueryPartContainers.cfm had before its own Phase 2 fix.
+	Those types are now a supported, confirmed case: BulkUpdateContainers below resolves each item's
+	actual move-target via resolvePartCurrentContainer (proxy-aware), so a part inside one of them
+	moves the proxy itself, rather than being blocked outright or (the pre-existing bug) silently
+	moving just the leaf trapped inside it while claiming to check the proxy's own type. --->
+<cfset DISALLOWED_CONTAINER_TYPES = "jar">
 
 <cfif isDefined("url.transaction_id") and len(url.transaction_id) GT 0>
 	<cfset transaction_id = url.transaction_id>
@@ -145,6 +154,7 @@ limitations under the License.
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement/resolvePartCurrentContainer, used in BulkUpdateContainers below --->
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
@@ -390,17 +400,18 @@ limitations under the License.
 	<cfcase value="BulkUpdateContainers">
 		<cfset message="">
 		<cfset countAffected = 0>
+		<cfset placementWarnings = "">
 		<cfoutput>
 			<cftransaction>
 				<cftry>
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select collection_object_id 
-						FROM loan_item 
+						select collection_object_id
+						FROM loan_item
 						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfquery name="getTargetParentContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT container_id 
-						FROM container 
+						SELECT container_id
+						FROM container
 						WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_parent_barcode#">
 					</cfquery>
 					<cfif getTargetParentContainerID.recordcount EQ 0>
@@ -410,25 +421,40 @@ limitations under the License.
 					</cfif>
 					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
 					<cfloop query="getCollObjId">
-						<cfquery name="getContainerToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT c.container_id, p.container_type
-							FROM coll_obj_cont_hist coll_obj_cont_hist
-								JOIN container c on coll_obj_cont_hist.container_id = c.container_id
-								join container p on c.parent_container_id = p.container_id
-							WHERE coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								AND coll_obj_cont_hist.current_container_fg = 1
-						</cfquery>
-						<cfif getContainerToMove.recordcount EQ 0>
+						<!--- Resolve the item's actual move-target -- its own "collection object" leaf,
+							unless that leaf's immediate parent is a proxy-role container (pin/slide/
+							cryovial/envelope/glass vial), in which case the proxy is what actually gets
+							reparented. Mirrors specimens/changeQueryPartContainers.cfm's Phase 2 pattern:
+							this replaces a raw coll_obj_cont_hist join that (a) checked the wrong thing
+							against DISALLOWED_CONTAINER_TYPES (the leaf's parent's type, treating every
+							proxy type as an outright block) while (b) always moving the leaf's own
+							container_id regardless, never the proxy actually detected. --->
+						<cfset local.partContainer = resolvePartCurrentContainer(collection_object_id)>
+						<cfif NOT local.partContainer.found>
 							<cfthrow message="No current container found for collection_object_id #collection_object_id#. Cannot continue.">
-						<cfelseif getContainerToMove.recordcount GT 1>
-							<cfthrow message="Multiple current containers found for collection_object_id #collection_object_id#. Cannot continue.">
 						</cfif>
-						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getContainerToMove.container_type) GT 0>
-							<cfthrow message="Containers of type #getContainerToMove.container_type# cannot be moved. Aborting operation.">
+						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,local.partContainer.move_type) GT 0>
+							<cfthrow message="Containers of type #local.partContainer.move_type# cannot be moved. Aborting operation.">
 						</cfif>
-						<cfset containerToMoveID = getContainerToMove.container_id>
+						<cfset containerToMoveID = local.partContainer.move_container_id>
+						<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-
+							type, rank order, etc.) validated with the same badge engine moveContainer.cfm/
+							placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use. A block aborts
+							the whole transaction; a warn is collected and shown in the result message
+							below rather than silently proceeding -- this action has no separate
+							confirm/review step to show it on before committing. --->
+						<cfset local.placementResult = validateContainerPlacement(child_container_id=containerToMoveID, proposed_parent_container_id=targetParentContainerID)>
+						<cfif isSimpleValue(local.placementResult)>
+							<cfset local.placementResult = deserializeJSON(local.placementResult)>
+						</cfif>
+						<cfif local.placementResult.severity EQ "block">
+							<cfthrow message="Placement blocked for #local.partContainer.move_type# #local.partContainer.move_label#: #ArrayToList(local.placementResult.blocks,'; ')#">
+						</cfif>
+						<cfif local.placementResult.severity EQ "warn">
+							<cfset placementWarnings = listAppend(placementWarnings, "#local.partContainer.move_type# #local.partContainer.move_label#: #ArrayToList(local.placementResult.warnings,'; ')#", "|")>
+						</cfif>
 						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
-							UPDATE container 
+							UPDATE container
 							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
 							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#containerToMoveId#">
 						</cfquery>
@@ -441,12 +467,15 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfset message = "Bulk update of containers failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
+				<cfif len(placementWarnings) GT 0>
+					<cfset message = "#message# Placement warning(s): #ListChangeDelims(placementWarnings, '; ', '|')#">
+				</cfif>
 			</cfif>
 			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
@@ -623,7 +652,7 @@ limitations under the License.
 						<cfif getPreviousContainer.recordcount EQ 1>
 							<!--- confirm that container is not of a disallowed type --->
 							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.current_parent_container_type) GT 0>
-								<cfthrow message="Containers of type #getPreviousContainer.curreent_parent_container_type# cannot be moved. Aborting operation.">
+								<cfthrow message="Containers of type #getPreviousContainer.current_parent_container_type# cannot be moved. Aborting operation.">
 							</cfif>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 								UPDATE container 
