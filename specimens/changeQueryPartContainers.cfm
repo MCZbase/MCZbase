@@ -631,9 +631,9 @@ both show identical results for identical outcomes.
 						<cfset local.oneInfo["is_proxy"] = true>
 						<cfset local.oneInfo["move_type"] = local.partContainer.move_type>
 						<cfset local.oneInfo["move_label"] = local.partContainer.move_label>
-						<!--- what the proxy itself is in, e.g. "MCZ-402 (room)", not just what the leaf
-							collection object is in (the proxy) -- otherwise this row would look
-							identical to a row with no proxy at all except for the badge. --->
+						<!--- what the proxy itself is in, not just what the leaf collection object is in
+							(the proxy) -- otherwise this row would look identical to a row with no
+							proxy at all except for the badge. --->
 						<cfset local.oneInfo["proxy_parent_label"] = local.partContainer.current_parent_label>
 						<cfset local.oneInfo["proxy_parent_type"] = local.partContainer.current_parent_type>
 						<cfset local.proxyCount = local.proxyCount + 1>
