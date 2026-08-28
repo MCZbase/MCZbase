@@ -503,8 +503,13 @@ both show identical results for identical outcomes.
 				<div class="row mx-0">
 					<div class="col-12 mt-2">
 						<div class="alert alert-warning">
-							<strong>#arrayLen(local.proxyRows)# of #listLen(partIDs)# part(s) are inside a single-occupant proxy container.</strong>
-							Moving them will move that proxy container, not just the collection object container specified. Please review before continuing:
+							<cfif arrayLen(local.proxyRows) EQ 1>
+								<strong>1 of #listLen(partIDs)# part is inside a single-occupant proxy container.</strong>
+								Moving it will move that proxy container, not just the collection object container specified. Please review before continuing:
+							<cfelse>
+								<strong>#arrayLen(local.proxyRows)# of #listLen(partIDs)# parts are inside single-occupant proxy containers.</strong>
+								Moving them will move those proxy containers, not just the collection object containers specified. Please review before continuing:
+							</cfif>
 							<ul class="mb-0">
 								<cfloop array="#local.proxyRows#" index="local.oneProxyRow">
 									<li>#local.oneProxyRow.move_type# #local.oneProxyRow.move_label# (#local.oneProxyRow.move_barcode#)</li>
@@ -637,7 +642,11 @@ both show identical results for identical outcomes.
 					<h2 class="h3 mt-">Found #d.recordcount# parts to move</h2>
 					<cfif local.blockedCount GT 0>
 						<p class="text-danger mb-1">
-							<strong>#local.blockedCount# of #d.recordcount# part(s) are currently in a jar and cannot be moved with this tool</strong> --
+							<cfif local.blockedCount EQ 1>
+								<strong>1 of #d.recordcount# part is currently in a jar and cannot be moved with this tool</strong> --
+							<cfelse>
+								<strong>#local.blockedCount# of #d.recordcount# parts are currently in a jar and cannot be moved with this tool</strong> --
+							</cfif>
 							a jar can hold multiple specimens or glass vials, so this tool can't safely move it as a stand-in for one part's contents.
 							See the CURRENTLY IN column below. To move these, place the specimen's own part container (or its containing glass vial,
 							if it's in one) individually via <a href="/containers/placePartInContainer.cfm" target="_blank">Place Part into Container</a>,
@@ -647,9 +656,15 @@ both show identical results for identical outcomes.
 					<cfif local.proxyCount GT 0>
 						<p class="mb-1">
 							<span class="badge badge-warning mr-1">Will move proxy</span>
-							<strong>#local.proxyCount# of #d.recordcount# part(s) are inside a single-occupant proxy container</strong> (pin, slide,
-							cryovial, envelope, or glass vial) -- moving these will move that proxy container, not just the collection object
-							container specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
+							<cfif local.proxyCount EQ 1>
+								<strong>1 of #d.recordcount# part is inside a single-occupant proxy container</strong> (pin, slide,
+								cryovial, envelope, or glass vial) -- moving it will move that proxy container, not just the collection object
+								container specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
+							<cfelse>
+								<strong>#local.proxyCount# of #d.recordcount# parts are inside single-occupant proxy containers</strong> (pin, slide,
+								cryovial, envelope, or glass vial) -- moving them will move those proxy containers, not just the collection object
+								containers specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
+							</cfif>
 						</p>
 					</cfif>
 					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
