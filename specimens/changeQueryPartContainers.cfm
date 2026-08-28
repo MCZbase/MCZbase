@@ -384,7 +384,7 @@ both show identical results for identical outcomes.
 						ORDER BY container_type
 					</cfquery>
 					<h2 class="h3">Current Parent Container Types for the parts in this result set</h2>
-					<p>The collection object containers for the parts would be moved out of these containers.  Specimen parts are all in containers of type collection object, this tool moves these collection object containers from their current parent into a new parent.  In some cases (such as a part which is an insect on a pin), the desirable move is of the parent container (the pin) into a new location, rather than moving the part, (the insect) off of its current parent container (the pin). </p>
+					<p>The collection object containers for the parts would be moved out of these containers.  Specimen parts are all in containers of type collection object, this tool moves these collection object containers from their current parent into a new parent.  In some cases (such as a part which is an insect on a pin), the desirable move is of the parent container (the pin, a proxy for the insect) into a new location, rather than moving the part, (the insect) off of its current parent container (the pin), this page handles these cases. </p>
 					<cfset hasMovable = false>
 					<ul>
 						<cfloop query="getContainerTypes">
