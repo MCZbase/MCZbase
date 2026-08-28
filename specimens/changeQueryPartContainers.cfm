@@ -645,7 +645,8 @@ both show identical results for identical outcomes.
 						</p>
 					</cfif>
 					<cfif local.proxyCount GT 0>
-						<p class="text-warning mb-1">
+						<p class="mb-1">
+							<span class="badge badge-warning mr-1">Will move proxy</span>
 							<strong>#local.proxyCount# of #d.recordcount# part(s) are inside a single-occupant proxy container</strong> (pin, slide,
 							cryovial, envelope, or glass vial) -- moving these will move that proxy container, not just the collection object
 							container specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
