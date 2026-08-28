@@ -621,6 +621,8 @@ both show identical results for identical outcomes.
 				<cfset local.oneInfo["is_proxy"] = false>
 				<cfset local.oneInfo["move_type"] = "">
 				<cfset local.oneInfo["move_label"] = "">
+				<cfset local.oneInfo["proxy_parent_label"] = "">
+				<cfset local.oneInfo["proxy_parent_type"] = "">
 				<cfif local.oneInfo["is_blocked"]>
 					<cfset local.blockedCount = local.blockedCount + 1>
 				<cfelse>
@@ -629,6 +631,11 @@ both show identical results for identical outcomes.
 						<cfset local.oneInfo["is_proxy"] = true>
 						<cfset local.oneInfo["move_type"] = local.partContainer.move_type>
 						<cfset local.oneInfo["move_label"] = local.partContainer.move_label>
+						<!--- what the proxy itself is in, e.g. "MCZ-402 (room)", not just what the leaf
+							collection object is in (the proxy) -- otherwise this row would look
+							identical to a row with no proxy at all except for the badge. --->
+						<cfset local.oneInfo["proxy_parent_label"] = local.partContainer.current_parent_label>
+						<cfset local.oneInfo["proxy_parent_type"] = local.partContainer.current_parent_type>
 						<cfset local.proxyCount = local.proxyCount + 1>
 					</cfif>
 					<cfset local.eligiblePartIDs = listAppend(local.eligiblePartIDs, d.partID)>
@@ -777,6 +784,9 @@ both show identical results for identical outcomes.
 											<td>#preserve_method#</td>
 											<td>
 												#label# (#container_type#)
+												<cfif local.oneInfo.is_proxy AND len(local.oneInfo.proxy_parent_label) GT 0>
+													in #local.oneInfo.proxy_parent_label# (#local.oneInfo.proxy_parent_type#)
+												</cfif>
 												<cfif local.oneInfo.is_blocked>
 													<br><span class="badge badge-danger">Blocked</span> a jar can't be auto-moved by this tool
 												<cfelseif local.oneInfo.is_proxy>

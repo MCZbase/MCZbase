@@ -2348,7 +2348,7 @@ already filed away several levels deep.
 @param part_collection_object_id the specimen_part's own collection_object_id.
 @return a struct: {found, leaf_container_id, leaf_label, leaf_barcode, leaf_type, is_proxy,
 	move_container_id, move_label, move_barcode, move_type, current_parent_container_id,
-	current_parent_label, current_parent_barcode, current_depth}.
+	current_parent_label, current_parent_barcode, current_parent_type, current_depth}.
 --->
 <cffunction name="resolvePartCurrentContainer" access="public" returntype="any" output="false">
 	<cfargument name="part_collection_object_id" type="numeric" required="yes">
@@ -2401,7 +2401,7 @@ already filed away several levels deep.
 	<cfset local.retval["move_type"] = local.moveType>
 
 	<cfquery name="local.queryCurrentParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		SELECT p.container_id, p.label, p.barcode
+		SELECT p.container_id, p.label, p.barcode, p.container_type
 		FROM container c
 			JOIN container p ON c.parent_container_id = p.container_id
 		WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.moveContainerId#">
@@ -2410,10 +2410,12 @@ already filed away several levels deep.
 		<cfset local.retval["current_parent_container_id"] = local.queryCurrentParent.container_id>
 		<cfset local.retval["current_parent_label"] = local.queryCurrentParent.label>
 		<cfset local.retval["current_parent_barcode"] = local.queryCurrentParent.barcode>
+		<cfset local.retval["current_parent_type"] = local.queryCurrentParent.container_type>
 	<cfelse>
 		<cfset local.retval["current_parent_container_id"] = 0>
 		<cfset local.retval["current_parent_label"] = "">
 		<cfset local.retval["current_parent_barcode"] = "">
+		<cfset local.retval["current_parent_type"] = "">
 	</cfif>
 
 	<cfquery name="local.queryDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
