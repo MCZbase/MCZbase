@@ -1,7 +1,7 @@
 <!--- tools/bulkloadPartContainers.cfm to place collection objects into containers in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2024 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Part Container">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0>
 	<cfset variables.action="entryPoint">
 </cfif>
@@ -741,6 +742,44 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 		</cfif>
+		<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank order, etc.)
+			are validated with the same badge engine moveContainer.cfm/placePartInContainer.cfm use, rather
+			than a second, separately-maintained copy of those rules -- so this stays current automatically
+			as those rules evolve. Only rows where both the part's own container and the resolved new parent
+			are known are checked. A "block" severity is folded into STATUS (the existing hard-stop gate);
+			a "warn" severity is recorded separately, since it should be surfaced but not force a restart. --->
+		<cfquery name="getPlacementCandidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT key, part_container_id, new_parent_container_id
+			FROM cf_temp_barcode_parts
+			WHERE part_container_id is not null
+				AND new_parent_container_id is not null
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfloop query="getPlacementCandidates">
+			<cfset local.placementResult = validateContainerPlacement(child_container_id=getPlacementCandidates.part_container_id, proposed_parent_container_id=getPlacementCandidates.new_parent_container_id)>
+			<!--- validateContainerPlacement's returnformat="json" means it can come back as a JSON
+				string rather than a native struct even on this in-process call -- every existing
+				caller of it elsewhere in the codebase guards for this the same way --->
+			<cfif isSimpleValue(local.placementResult)>
+				<cfset local.placementResult = deserializeJSON(local.placementResult)>
+			</cfif>
+			<cfif local.placementResult.severity EQ "block">
+				<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET status = concat(nvl2(status, status || '; ', ''), 'placement_blocked, ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.blocks,'; ')#">)
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfelseif local.placementResult.severity EQ "warn">
+				<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET placement_severity = 'warn',
+						placement_message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+		</cfloop>
 		<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 		<!---This comes from the collection object container parent in getTempTableQC2--->
 		<cfif len(getTempTableQC1.container_barcode) eq 0>
@@ -819,6 +858,7 @@ limitations under the License.
 					<thead class="thead-light">
 						<tr>
 							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>PLACEMENT</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
@@ -835,6 +875,7 @@ limitations under the License.
 						<cfloop query="data">
 							<tr>
 								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+								<td><cfif data.placement_severity EQ "warn"><span class="text-warning">&#9888; #data.placement_message#</span></cfif></td>
 								<td>#data.institution_acronym#</td>
 								<th>#data.collection_cde#</th>
 								<td>#data.other_ID_TYPE#</td>
@@ -870,6 +911,14 @@ limitations under the License.
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
+							<!--- this loop otherwise has no gate on a row's own STATUS -- a row flagged
+								during validate (including a placement_blocked result set above) would
+								silently be applied anyway if the user proceeded past the warning message
+								on the validate screen, so check it here too, the same way the
+								NEW_container_barcode check just below already aborts the whole load. --->
+							<cfif len(trim(getTempData.status)) GT 0>
+								<cfthrow message = "Row (key #getTempData.key#) has unresolved validation problems: #getTempData.status#">
+							</cfif>
 							<cfif len(#getTempData.new_container_barcode#) gt 0>
 								<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 									UPDATE
