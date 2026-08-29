@@ -4925,8 +4925,11 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 											</div>
 											<input type="hidden" id="container_id#i#" name="container_id" value="#moveTarget.current_parent_container_id#">
 											<input type="hidden" id="move_container_id#i#" value="#moveTarget.move_container_id#">
-											<input type="hidden" id="is_proxy#i#" value="#YesNoFormat(moveTarget.is_proxy)#">
-											<input type="hidden" id="requires_move_scope_choice#i#" value="#YesNoFormat(moveTarget.requires_move_scope_choice)#">
+											<!--- literal "true"/"false" for JS's === 'true' checks -- YesNoFormat()
+												(or a bare boolean output) produces "Yes"/"No" instead, which
+												silently never matched, always reading these two flags as false. --->
+											<input type="hidden" id="is_proxy#i#" value="<cfif moveTarget.is_proxy>true<cfelse>false</cfif>">
+											<input type="hidden" id="requires_move_scope_choice#i#" value="<cfif moveTarget.requires_move_scope_choice>true<cfelse>false</cfif>">
 											<input type="hidden" id="jar_occupant_count#i#" value="#moveTarget.jar_occupant_count#">
 											<input type="hidden" id="current_parent_container_id#i#" value="#moveTarget.current_parent_container_id#">
 											<input type="hidden" id="current_parent_type#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_type)#">
