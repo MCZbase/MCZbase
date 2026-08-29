@@ -1195,8 +1195,16 @@ limitations under the License.
 					</cfif>
 
 					<div class="col-12 mb-3">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h2 class="h4">Loan Items</h2>
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0 align-items-center">
+							<div class="col-12 col-md-auto">
+								<input type="button" value="Storage Locations" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+									onClick="window.open('/containers/Containers.cfm?transaction_id=#transaction_id#&execute=true');">
+								<input type="button" value="Part Location Report" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+									onClick="window.open('/containers/partLocations.cfm?transaction_id=#transaction_id#&execute=true');">
+							</div>
+							<div class="col-12 col-md">
+								<h2 class="h4 mb-0">Loan Items</h2>
+							</div>
 						</div>
 						<div class="col-12" id="allCatItemsDiv">
 							<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
