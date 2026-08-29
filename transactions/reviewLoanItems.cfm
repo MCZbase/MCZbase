@@ -59,11 +59,6 @@ limitations under the License.
 	<cfset message = url.message>
 <cfelseif isdefined("form.message") and len(form.message) GT 0>
 	<cfset message = form.message>
-<cfelseif isdefined("session.reviewLoanItemsMessage") and len(session.reviewLoanItemsMessage) GT 0>
-	<!--- flash message set by an action below via session instead of a URL parameter -- read
-		once and cleared immediately so a later page refresh doesn't keep re-showing it. --->
-	<cfset message = session.reviewLoanItemsMessage>
-	<cfset structDelete(session, "reviewLoanItemsMessage")>
 </cfif>
 <cfif NOT isdefined("message")><cfset message=""></cfif>
 
@@ -348,11 +343,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of dispositions successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetReturnDates">
@@ -392,11 +384,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of return dates successful, updated #countAffected# items.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
@@ -428,11 +417,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items returned successful, updated #countAffected# items.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsConsumed">
@@ -463,11 +449,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items consumed successful. Updated #countAffected# items.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkUpdateContainers">
@@ -536,11 +519,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -574,11 +554,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of preservation methods successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
@@ -630,11 +607,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item descriptions successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetInstructions">
@@ -674,11 +648,8 @@ the proxy, not the chamber move being undone here.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item instructions successful. Updated #countAffected# items.">
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMoveBackContainers">
@@ -726,11 +697,8 @@ the proxy, not the chamber move being undone here.
 					<cfset message = "#message# #countSkipped# part(s) had no eligible previous container and were left in place.">
 				</cfif>
 			</cfif>
-			<!--- flash message read back and cleared near the top of this file, rather than
-				carried in the URL -- a message with several placement warnings appended could get
-				long enough to make for an ugly, unwieldy redirect URL. --->
-			<cfset session.reviewLoanItemsMessage = message>
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
+			<cfset message = "&message=#encodeForUrl(message)#">
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
