@@ -1206,7 +1206,7 @@ limitations under the License.
 									onClick="window.open('/containers/partLocations.cfm?transaction_id=#transaction_id#&execute=true');">
 							</div>
 						</div>
-						<div class="col-12" id="allCatItemsDiv">
+						<div id="allCatItemsDiv">
 							<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
 							#catItemBlock#
 						</div>
