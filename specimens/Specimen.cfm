@@ -166,6 +166,7 @@ limitations under the License.
 <cfset pageTitle = "MCZbase #guid# specimen record">
 <cfset pageHasContainers = "true"><!--- for containers/js/containers.js's openContainerPickerDialog/loadPlacementWarningBadge, used by the Edit Parts dialog's Container field --->
 <cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css"><!--- for the container-role-badge classes used by the Part Container Placement dialog's proxy badges --->
 
 <!--- load javascript libraries for the page --->
 <script type='text/javascript' src='/media/js/media.js'></script>

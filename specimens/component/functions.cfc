@@ -10055,27 +10055,36 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<h3>Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
-							label, barcode, 
-							to_char(parent_install_date,'yyyy-mm-dd') parent_install_date, 
-							container_remarks, container_type,
-							container_id, parent_container_id
+							container.label, container.barcode,
+							to_char(container.parent_install_date,'yyyy-mm-dd') parent_install_date,
+							container.container_remarks, container.container_type,
+							container.container_id, container.parent_container_id,
+							ctcontainer_type.role
 						FROM
 							container
-						START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.container_id#">
-						CONNECT BY PRIOR parent_container_id = container_id
+							LEFT JOIN ctcontainer_type ON container.container_type = ctcontainer_type.container_type
+						START WITH container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.container_id#">
+						CONNECT BY PRIOR container.parent_container_id = container.container_id
 					</cfquery>
 					<ul class="listgroup">
 						<cfloop query="container_parentage">
+							<!--- role-badge classes/markup match containers.js's getContainerRoleBadgeHtml,
+								so a proxy (pin/slide/cryovial/envelope/glass vial) in this part's placement
+								chain is flagged the same way it is in the container picker/browse views. --->
+							<cfset roleBadge = "">
+							<cfif container_parentage.role EQ "proxy">
+								<cfset roleBadge = '<span class="badge badge-pill container-role-badge container-role-proxy">Proxy</span>'>
+							</cfif>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 								<li class="listgroupitem">
 									<a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & container_parentage.barcode)#&execute=true" target="_blank">#container_parentage.barcode#</a>
-									(#container_parentage.container_type#) 
+									(#container_parentage.container_type#) #roleBadge#
 									<cfif len(container_parentage.parent_install_date) GT 0>
 										install date #container_parentage.parent_install_date#
 									</cfif>
 								</li>
 							<cfelse>
-								<li>#container_parentage.barcode# (#container_parentage.container_type#)</li>
+								<li>#container_parentage.barcode# (#container_parentage.container_type#) #roleBadge#</li>
 							</cfif>
 						</cfloop>
 					</ul>
