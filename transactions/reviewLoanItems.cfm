@@ -59,6 +59,11 @@ limitations under the License.
 	<cfset message = url.message>
 <cfelseif isdefined("form.message") and len(form.message) GT 0>
 	<cfset message = form.message>
+<cfelseif isdefined("session.reviewLoanItemsMessage") and len(session.reviewLoanItemsMessage) GT 0>
+	<!--- flash message set by an action below via session instead of a URL parameter -- read
+		once and cleared immediately so a later page refresh doesn't keep re-showing it. --->
+	<cfset message = session.reviewLoanItemsMessage>
+	<cfset structDelete(session, "reviewLoanItemsMessage")>
 </cfif>
 <cfif NOT isdefined("message")><cfset message=""></cfif>
 
@@ -154,7 +159,63 @@ limitations under the License.
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
-<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement/resolvePartCurrentContainer, used in BulkUpdateContainers below --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartCurrentContainer, used in BulkUpdateContainers and resolvePartPreviousContainer below --->
+
+<!---
+Function resolvePartPreviousContainer. Resolves what a part's move-back destination and prior-
+placement history actually are, for the "move back to previous containers" feature below --
+layered on resolvePartCurrentContainer rather than querying container_history directly against the
+part's own raw leaf container_id, because a proxy-housed part's leaf never itself moved when
+BulkUpdateContainers moved it into a treatment chamber -- only the proxy (e.g. the pin) did. Querying
+the leaf's own history would find whatever container_history predates the part ever being placed on
+the proxy, not the chamber move being undone here.
+@param collection_object_id the specimen_part's own collection_object_id.
+@return a struct: {found: boolean, move_container_id, previous_found: boolean,
+	previous_container_id, previous_label, previous_barcode, previous_type}. previous_found is
+	false when there's no eligible prior placement to move back to (e.g. the part has never been
+	elsewhere, or its only prior placement was directly under a campus/institution).
+--->
+<cffunction name="resolvePartPreviousContainer" access="private" returntype="struct" output="false">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.retval = StructNew()>
+	<cfset local.partContainer = resolvePartCurrentContainer(arguments.collection_object_id)>
+	<cfset local.retval["found"] = local.partContainer.found>
+	<cfset local.retval["previous_found"] = false>
+	<cfset local.retval["previous_container_id"] = 0>
+	<cfset local.retval["previous_label"] = "">
+	<cfset local.retval["previous_barcode"] = "">
+	<cfset local.retval["previous_type"] = "">
+	<cfif NOT local.partContainer.found>
+		<cfreturn local.retval>
+	</cfif>
+	<cfset local.retval["move_container_id"] = local.partContainer.move_container_id>
+	<cfquery name="local.queryPrevious" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT
+			old_parent.container_id AS old_parent_container_id,
+			old_parent.label,
+			old_parent.barcode,
+			old_parent.container_type AS old_parent_container_type
+		FROM container_history
+			JOIN container old_parent ON container_history.parent_container_id = old_parent.container_id
+		WHERE
+			container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#">
+			AND old_parent.container_type <> 'campus'
+			AND old_parent.container_type <> 'institution'
+			AND old_parent.parent_container_id IS NOT NULL
+		ORDER BY container_history.install_date DESC NULLS LAST
+		FETCH FIRST 1 ROWS ONLY
+	</cfquery>
+	<cfif local.queryPrevious.recordcount EQ 1>
+		<cfset local.retval["previous_found"] = true>
+		<cfset local.retval["previous_container_id"] = local.queryPrevious.old_parent_container_id>
+		<cfset local.retval["previous_label"] = local.queryPrevious.label>
+		<cfset local.retval["previous_barcode"] = local.queryPrevious.barcode>
+		<cfset local.retval["previous_type"] = local.queryPrevious.old_parent_container_type>
+	</cfif>
+	<cfreturn local.retval>
+</cffunction>
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
@@ -287,8 +348,11 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of dispositions successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetReturnDates">
@@ -328,8 +392,11 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of return dates successful, updated #countAffected# items.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsReturned">
@@ -361,8 +428,11 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items returned successful, updated #countAffected# items.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMarkItemsConsumed">
@@ -393,14 +463,16 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk mark items consumed successful. Updated #countAffected# items.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkUpdateContainers">
 		<cfset message="">
 		<cfset countAffected = 0>
-		<cfset placementWarnings = "">
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -420,21 +492,21 @@ limitations under the License.
 						<cfthrow message="Multiple containers with barcode #new_parent_barcode# found. Cannot continue.">
 					</cfif>
 					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
-					<!--- First pass: resolve every item's actual move-target -- its own "collection
-						object" leaf, unless that leaf's immediate parent is a proxy-role container
-						(pin/slide/cryovial/envelope/glass vial), in which case the proxy is what
-						actually gets reparented. Mirrors specimens/changeQueryPartContainers.cfm's
+					<!--- new_parent_barcode is never freely typed -- the form above only offers the
+						two fixed treatment chambers (queried by label LIKE '%chamber' further down),
+						and any leaf, proxy, or leafbearer container is an appropriate thing to place
+						in either of them. validateContainerPlacement's generic rules (e.g. a pin
+						normally expected inside a compartment/set) don't apply to this specific,
+						pre-vetted pair of destinations, so no placement check is run here -- unlike
+						every other write in this PR, which targets an arbitrary, freely-chosen
+						container. Still resolves each item's actual move-target -- its own
+						"collection object" leaf, unless that leaf's immediate parent is a proxy-role
+						container (pin/slide/cryovial/envelope/glass vial), in which case the proxy is
+						what actually gets reparented. Mirrors specimens/changeQueryPartContainers.cfm's
 						Phase 2 pattern: this replaces a raw coll_obj_cont_hist join that (a) checked
 						the wrong thing against DISALLOWED_CONTAINER_TYPES (the leaf's parent's type,
 						treating every proxy type as an outright block) while (b) always moving the
-						leaf's own container_id regardless, never the proxy actually detected. Also
-						groups items by distinct resolved type, since validateContainerPlacement's
-						result only ever depends on the TYPE being moved and the target -- never on
-						which specific item it is -- so a batch of e.g. 19 pins produces one shared
-						check, not 19 identical ones repeated in the eventual message. --->
-					<cfset partMoveContainerId = StructNew()>
-					<cfset typeRepresentative = StructNew()>
-					<cfset typeCount = StructNew()>
+						leaf's own container_id regardless, never the proxy actually detected. --->
 					<cfloop query="getCollObjId">
 						<cfset local.partContainer = resolvePartCurrentContainer(collection_object_id)>
 						<cfif NOT local.partContainer.found>
@@ -443,45 +515,13 @@ limitations under the License.
 						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,local.partContainer.move_type) GT 0>
 							<cfthrow message="Containers of type #local.partContainer.move_type# cannot be moved. Aborting operation.">
 						</cfif>
-						<cfset partMoveContainerId[collection_object_id] = local.partContainer.move_container_id>
-						<cfif NOT structKeyExists(typeRepresentative, local.partContainer.move_type)>
-							<cfset typeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
-							<cfset typeCount[local.partContainer.move_type] = 0>
-						</cfif>
-						<cfset typeCount[local.partContainer.move_type] = typeCount[local.partContainer.move_type] + 1>
-					</cfloop>
-					<!--- Second pass: validate once per distinct type -- the same badge engine
-						moveContainer.cfm/placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use.
-						A block aborts the whole transaction before any container has been written;
-						a warn is collected (one entry per type, naming how many items share it) and
-						shown in the result message below rather than silently proceeding -- this
-						action has no separate confirm/review step to show it on before committing. --->
-					<cfloop collection="#typeRepresentative#" item="local.oneType">
-						<cfset local.placementResult = validateContainerPlacement(child_container_id=typeRepresentative[local.oneType], proposed_parent_container_id=targetParentContainerID)>
-						<cfif isSimpleValue(local.placementResult)>
-							<cfset local.placementResult = deserializeJSON(local.placementResult)>
-						</cfif>
-						<cfif local.placementResult.severity EQ "block">
-							<cfthrow message="Placement blocked for #local.oneType#: #ArrayToList(local.placementResult.blocks,'; ')#">
-						</cfif>
-						<cfif local.placementResult.severity EQ "warn">
-							<cfset local.countLabel = "#typeCount[local.oneType]# #local.oneType#">
-							<cfif typeCount[local.oneType] NEQ 1>
-								<cfset local.countLabel = "#local.countLabel#s">
-							</cfif>
-							<cfset placementWarnings = listAppend(placementWarnings, "#local.countLabel#: #ArrayToList(local.placementResult.warnings,'; ')#", "|")>
-						</cfif>
-					</cfloop>
-					<!--- Third pass: now that every type has cleared validation, actually move
-						each item. --->
-					<cfloop query="getCollObjId">
 						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 							UPDATE container
 							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
-							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partMoveContainerId[collection_object_id]#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#">
 						</cfquery>
 						<cfif changeParentContainer_result.recordcount NEQ 1>
-							<cfthrow message="Failed to move container #partMoveContainerId[collection_object_id]# to new parent container #targetParentContainerID#.">
+							<cfthrow message="Failed to move container #local.partContainer.move_container_id# to new parent container #targetParentContainerID#.">
 						</cfif>
 						<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 					</cfloop>
@@ -495,12 +535,12 @@ limitations under the License.
 			</cftransaction>
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
-				<cfif len(placementWarnings) GT 0>
-					<cfset message = "#message# Placement warning(s): #ListChangeDelims(placementWarnings, '; ', '|')#">
-				</cfif>
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -534,8 +574,11 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of preservation methods successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
@@ -587,8 +630,11 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item descriptions successful. Updated #countAffected# specimen parts.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetInstructions">
@@ -628,13 +674,17 @@ limitations under the License.
 			<cfif len(message) EQ 0>
 				<cfset message = "Bulk update of item instructions successful. Updated #countAffected# items.">
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkMoveBackContainers">
 		<cfset message="">
 		<cfset countAffected = 0>
+		<cfset countSkipped = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -644,46 +694,22 @@ limitations under the License.
 						WHERE
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
+					<!--- resolvePartPreviousContainer resolves the actual move-back target (the
+						proxy's own history, not the leaf's, when the part is proxy-housed) and
+						whether one even exists -- an item with no eligible prior placement is
+						skipped rather than aborting the whole batch, so items that CAN move back
+						still do even when others can't. --->
 					<cfloop query="getItems">
-						<cfquery name="getPreviousContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								container_history.install_date,
-								container.container_type,
-								current_parent.container_type current_parent_container_type,
-								container.container_id part_container_id,
-								old_parent.container_type old_parent_container_type,
-								old_parent.label,
-								old_parent.barcode,
-								old_parent.container_id old_parent_container_id
-							 FROM 
-								specimen_part 
-								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-									and coll_obj_cont_hist.current_container_fg = 1
-								join container on coll_obj_cont_hist.container_id = container.container_id
-								join container_history on container.container_id = container_history.container_id
-								join container old_parent on container_history.parent_container_id = old_parent.container_id
-								join container current_parent on container.parent_container_id = current_parent.container_id
-							 WHERE 
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-								and old_parent.container_type <> 'campus' 
-								and old_parent.container_type <> 'institution'
-								and old_parent.parent_container_id is not null 
-							ORDER BY install_date DESC NULLS LAST
-							FETCH FIRST 1 ROWS ONLY
-						</cfquery>
-						<cfif getPreviousContainer.recordcount EQ 1>
-							<!--- confirm that container is not of a disallowed type --->
-							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.current_parent_container_type) GT 0>
-								<cfthrow message="Containers of type #getPreviousContainer.current_parent_container_type# cannot be moved. Aborting operation.">
-							</cfif>
+						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id)>
+						<cfif local.previous.found AND local.previous.previous_found>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
-								UPDATE container 
-								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.old_parent_container_id#">
-								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.part_container_id#">
+								UPDATE container
+								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.previous.previous_container_id#">
+								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.previous.move_container_id#">
 							</cfquery>
 							<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 						<cfelse>
-							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
+							<cfset countSkipped = countSkipped + 1>
 						</cfif>
 					</cfloop>
 					<cftransaction action="commit">
@@ -695,10 +721,16 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<cfif len(message) EQ 0>
-				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
+				<cfset message = "Moved #countAffected# specimen part(s) back to their previous containers.">
+				<cfif countSkipped GT 0>
+					<cfset message = "#message# #countSkipped# part(s) had no eligible previous container and were left in place.">
+				</cfif>
 			</cfif>
-			<cfset message = "&message=#encodeForUrl(message)#">
-			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
+			<!--- flash message read back and cleared near the top of this file, rather than
+				carried in the URL -- a message with several placement warnings appended could get
+				long enough to make for an ugly, unwieldy redirect URL. --->
+			<cfset session.reviewLoanItemsMessage = message>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
@@ -892,42 +924,18 @@ limitations under the License.
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
 					<cfset moveableItemCount = 0>
-					<cfset bulkMoveBackPossible=false>
-					<!--- check to see if all parts have a container history they can move to --->
+					<!--- resolvePartPreviousContainer (proxy-aware -- see its own doc comment)
+						decides whether each item has an eligible prior placement. The "move back"
+						button below is offered whenever ANY items are moveable, not only when
+						ALL of them are -- BulkMoveBackContainers itself skips whichever ones
+						aren't, rather than requiring a single all-or-nothing batch. --->
 					<cfloop query="getItems">
-						<cfquery name="checkHistories" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								container.container_id part_container_id,
-								container_history.install_date,
-								container.container_type,
-								current_parent.container_type current_parent_container_type,
-								old_parent.container_type old_parent_container_type,
-								old_parent.label,
-								old_parent.barcode,
-								old_parent.container_id old_parent_container_id
-							 FROM 
-								specimen_part 
-								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-									and coll_obj_cont_hist.current_container_fg = 1
-								join container on coll_obj_cont_hist.container_id = container.container_id
-								join container_history on container.container_id = container_history.container_id
-								join container old_parent on container_history.parent_container_id = old_parent.container_id
-								join container current_parent on container.parent_container_id = current_parent.container_id
-							 WHERE 
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-								and old_parent.container_type <> 'campus' 
-								and old_parent.container_type <> 'institution'
-								and old_parent.parent_container_id is not null 
-							ORDER BY install_date DESC NULLS LAST
-							FETCH FIRST 1 ROWS ONLY
-						</cfquery>
-						<cfif checkHistories.recordcount EQ 1>
+						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id)>
+						<cfif local.previous.found AND local.previous.previous_found>
 							<cfset moveableItemCount = moveableItemCount + 1>
 						</cfif>
 					</cfloop>
-					<cfif itemCount EQ moveableItemCount>
-						<cfset bulkMoveBackPossible = true>
-					</cfif>
+					<cfset bulkMoveBackPossible = (moveableItemCount GT 0)>
 				</cfif>
 
 				<section class="row my-2 pt-2" title="Review Loan Items" >
@@ -1141,7 +1149,7 @@ limitations under the License.
 																<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
 																<cfif bulkMoveBackPossible>
 																	<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-																		<br>Move all containers for all these #partCount# items back to their previous containers:
+																		<br>Move the #moveableItemCount# eligible item(s) back to their previous containers<cfif moveableItemCount NEQ itemCount> (the remaining #itemCount - moveableItemCount# will be left where they are)</cfif>:
 																		<input type="hidden" name="Action" value="BulkMoveBackContainers">
 																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																		<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
