@@ -1183,12 +1183,14 @@ limitations under the License.
 						</div>
 					</div>
 
-					<!--- "Edit All Loan Items"'s buttons all post a real (non-AJAX) form back to
-						this same page, which reprocesses and redirects -- this can take a moment,
-						so show a full-page overlay from the instant any of them is submitted, on
-						through the reload, rather than leaving the user looking at an
-						unresponsive-looking page with no feedback in between. --->
-					<div id="bulkEditSubmitOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050;">
+					<!--- Shown whenever this page is about to reload with no other feedback in the
+						interim: "Edit All Loan Items"'s buttons all post a real (non-AJAX) form back
+						to this same page, which reprocesses and redirects -- and shared/js/shared-
+						scripts.js's reloadPageDialog (e.g. reloadSummary's own "Loan status has
+						changed. Reload page?" prompt below) checks for this same div's id before
+						calling location.reload(). Both cases can take a moment, and without this the
+						page could look unresponsive in between. --->
+					<div id="pageReloadOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050;">
 						<div class="bg-white rounded p-3 text-center" style="position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%);">
 							<img src="/shared/images/indicator.gif" alt=""> Processing...
 						</div>
@@ -1196,7 +1198,7 @@ limitations under the License.
 					<script>
 						$(document).ready(function() {
 							$('##bulkEditControlsDiv form').on('submit', function() {
-								$('##bulkEditSubmitOverlay').removeClass('d-none');
+								$('##pageReloadOverlay').removeClass('d-none');
 							});
 						});
 					</script>
