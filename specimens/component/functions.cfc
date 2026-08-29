@@ -4487,13 +4487,12 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 												<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
-												<label for="container_barcode" class="data-entry-label">Container</label>
+												<label for="container_barcode" class="data-entry-label">Container <span id="new_part_container_badge"></span></label>
 												<div class="d-flex align-items-center">
 													<input name="container_barcode" id="container_barcode" class="data-entry-input flex-grow-1" type="text" placeholder="Scan or type barcode">
 													<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="chooseContainerForNewPart();">Choose...</button>
 												</div>
-												<input type="hidden" name="container_id" id="new_part_container_id" value="">
-												<div id="new_part_container_badge" class="mt-1"></div>
+												<input type="hidden" name="container_id" id="container_id" value="">
 											</div>
 											<div class="float-left col-12 col-md-10 px-1">
 												<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
@@ -4513,6 +4512,13 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 							$(document).ready(function() {
 								// make container barcode autocomplete, reference containers that can contain collection objects
 								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
+								// refresh the placement-preview badge from either the picker dialog (see
+								// chooseContainerForNewPart) or a plain autocomplete pick/typed change --
+								// setTimeout lets the autocomplete widget's own select/change handlers
+								// populate container_id first.
+								$('##container_barcode').on('autocompleteselect autocompletechange', function() {
+									window.setTimeout(checkNewPartContainerBadge, 10);
+								});
 								// make part name autocomplete, limiting to parts in the collection for the collection object
 								// makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
 							});
@@ -4891,7 +4897,6 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 											<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#getParts.part_condition#" required>
 										</div>
 										<div class="col-12 col-md-4 mb-2">
-											<label for="container_label#i#" class="data-entry-label">Container</label>
 											<!--- resolvePartMoveTarget resolves what would actually move for this part -- its own
 												leaf, a true proxy (pin/slide/cryovial/envelope/glass vial), or (when it's the sole
 												collection object in one) a CHECKFIRST-type jar. current_parent_container_id/label
@@ -4903,28 +4908,30 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 												client a choice is needed before a move to a genuinely different container can
 												proceed. --->
 											<cfset moveTarget = resolvePartMoveTarget(getParts.part_id)>
+											<label for="container_label#i#" class="data-entry-label">
+												Container
+												<span id="container_badge#i#"></span>
+												<span class="small text-muted" id="move_what#i#">
+													<cfif moveTarget.is_proxy>
+														Will move: #encodeForHtml(moveTarget.move_type)# #encodeForHtml(moveTarget.move_label)# (this part's proxy container), not just the part.
+													<cfelseif moveTarget.requires_move_scope_choice>
+														This part shares #encodeForHtml(moveTarget.current_parent_type)# #encodeForHtml(moveTarget.current_parent_label)# with #moveTarget.jar_occupant_count - 1# other specimen(s) -- choosing a new container will ask whether to move just this part or the whole #encodeForHtml(moveTarget.current_parent_type)#.
+													</cfif>
+												</span>
+											</label>
 											<div class="d-flex align-items-center">
 												<input type="text" class="data-entry-input flex-grow-1" id="container_label#i#" name="container_barcode" value="#moveTarget.current_parent_label#">
 												<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="chooseContainerForPartRow(#i#);">Choose...</button>
 											</div>
 											<input type="hidden" id="container_id#i#" name="container_id" value="#moveTarget.current_parent_container_id#">
 											<input type="hidden" id="move_container_id#i#" value="#moveTarget.move_container_id#">
+											<input type="hidden" id="is_proxy#i#" value="#YesNoFormat(moveTarget.is_proxy)#">
 											<input type="hidden" id="requires_move_scope_choice#i#" value="#YesNoFormat(moveTarget.requires_move_scope_choice)#">
 											<input type="hidden" id="jar_occupant_count#i#" value="#moveTarget.jar_occupant_count#">
 											<input type="hidden" id="current_parent_container_id#i#" value="#moveTarget.current_parent_container_id#">
 											<input type="hidden" id="current_parent_type#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_type)#">
 											<input type="hidden" id="current_parent_label#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_label)#">
 											<input type="hidden" id="move_scope#i#" name="move_scope" value="">
-											<div class="small text-muted mt-1" id="move_what#i#">
-												<cfif moveTarget.is_proxy>
-													Will move: #encodeForHtml(moveTarget.move_type)# #encodeForHtml(moveTarget.move_label)# (this part's proxy container), not just the part.
-												<cfelseif moveTarget.requires_move_scope_choice>
-													This part shares #encodeForHtml(moveTarget.current_parent_type)# #encodeForHtml(moveTarget.current_parent_label)# with #moveTarget.jar_occupant_count - 1# other specimen(s) -- choosing a new container will ask whether to move just this part or the whole #encodeForHtml(moveTarget.current_parent_type)#.
-												<cfelse>
-													Will move: this part directly.
-												</cfif>
-											</div>
-											<div id="container_badge#i#" class="mt-1"></div>
 										</div>
 										<div class="col-12 col-md-9 mb-2">
 											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>

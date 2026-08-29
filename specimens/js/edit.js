@@ -1078,6 +1078,7 @@ function chooseContainerForPartRow(rowIndex) {
 	var containerInputId = 'container_label' + rowIndex;
 	var containerIdFieldId = 'container_id' + rowIndex;
 	var moveContainerIdFieldId = 'move_container_id' + rowIndex;
+	var isProxyFieldId = 'is_proxy' + rowIndex;
 	var requiresChoiceFieldId = 'requires_move_scope_choice' + rowIndex;
 	var jarOccupantCountFieldId = 'jar_occupant_count' + rowIndex;
 	var currentParentIdFieldId = 'current_parent_container_id' + rowIndex;
@@ -1108,8 +1109,42 @@ function chooseContainerForPartRow(rowIndex) {
 				});
 			} else {
 				var childId = $('#' + moveContainerIdFieldId).val();
+				var isProxy = $('#' + isProxyFieldId).val() === 'true';
+				if (!isProxy) {
+					// a true proxy's "Will move: ..." note is already shown and doesn't change
+					// based on the destination -- only the plain, nothing-special case needs this
+					// spelled out, and only once a change is actually being made.
+					renderPartMoveWhatText(moveWhatTextId, '', '', false, 0);
+				}
 				loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
 			}
+		}
+	});
+}
+
+/**
+ * Checks and displays a live placement-preview badge for the "Add New Part" form's Container
+ * field, using a representative existing collection-object container since the new part doesn't
+ * exist yet (see chooseContainerForNewPart's own doc comment). Call whenever the field's resolved
+ * container_id changes, whether via the Choose... dialog or the barcode autocomplete.
+ */
+function checkNewPartContainerBadge() {
+	var selectedId = $('#container_id').val();
+	if (!selectedId) {
+		$('#new_part_container_badge').empty();
+		return;
+	}
+	jQuery.ajax({
+		url: '/containers/component/public.cfc',
+		data: { method: 'getRepresentativeLeafContainerId', returnformat: 'json' },
+		dataType: 'json',
+		success: function(result) {
+			if (result && result.found) {
+				loadPlacementWarningBadge(result.container_id, selectedId, 'new_part_container_badge');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'checking placement for new part');
 		}
 	});
 }
@@ -1127,21 +1162,9 @@ function chooseContainerForNewPart() {
 		dialogTitle: 'Select Container',
 		onSelect: function(selectedId, selectedLabel, wrapper) {
 			$('#container_barcode').val(selectedLabel);
-			$('#new_part_container_id').val(selectedId);
+			$('#container_id').val(selectedId);
 			wrapper.dialog('close');
-			jQuery.ajax({
-				url: '/containers/component/public.cfc',
-				data: { method: 'getRepresentativeLeafContainerId', returnformat: 'json' },
-				dataType: 'json',
-				success: function(result) {
-					if (result && result.found) {
-						loadPlacementWarningBadge(result.container_id, selectedId, 'new_part_container_badge');
-					}
-				},
-				error: function(jqXHR, textStatus, error) {
-					handleFail(jqXHR, textStatus, error, 'checking placement for new part');
-				}
-			});
+			checkNewPartContainerBadge();
 		}
 	});
 }
