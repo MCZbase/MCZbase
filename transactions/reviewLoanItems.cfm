@@ -867,7 +867,7 @@ limitations under the License.
 							</div>
 							<cfif isInProcess AND aboutLoan.loan_type NEQ 'exhibition-master'>
 								<div class="col-12">
-									<div class="add-form mt-2">
+									<div class="add-form mt-1 mb-2">
 										<div class="add-form-header pt-1 px-2">
 											<h2 class="h4 mb-0 pb-0">Add Parts To Loan</h2>
 										</div>
