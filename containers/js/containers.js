@@ -181,10 +181,17 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
 		minLength: 3
 	});
 	// Set the custom render item after autocomplete is initialized
-   $('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
-      // override to display meta "matched name * (preferred name)" instead of value in picklist.
-      return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
-   };
+	$('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
+		// override to display meta "matched name * (preferred name)" instead of value in picklist,
+		// flagging proxy-role candidates (pin/slide/cryovial/envelope/glass vial) with the same
+		// role-badge convention used in the container browse trees/tables, since a part being
+		// placed into one of these has special single-occupant semantics worth calling out here.
+		var li = $("<li>").append("<span>" + item.meta + "</span>");
+		if (getContainerRole(item.type) === 'proxy') {
+			li.append(" " + getContainerRoleBadgeHtml(item.type));
+		}
+		return li.appendTo(ul);
+	};
 
 };
 
