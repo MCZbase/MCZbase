@@ -2483,6 +2483,18 @@ already filed away several levels deep.
 <cffunction name="resolvePartCurrentContainer" access="public" returntype="any" output="false">
 	<cfargument name="part_collection_object_id" type="numeric" required="yes">
 
+	<!--- Memoized per-request (a page like transactions/reviewLoanItems.cfm can resolve the same
+		part several times over in a single render -- once to decide whether a bulk "move back" is
+		possible, again per row in the loan items list -- and this function alone is 3-4 queries).
+		request scope is safe here: nothing on any of these pages mutates container placement
+		mid-render, and request scope is never shared across different users' requests. --->
+	<cfif NOT structKeyExists(request, "resolvePartCurrentContainerCache")>
+		<cfset request.resolvePartCurrentContainerCache = StructNew()>
+	</cfif>
+	<cfif structKeyExists(request.resolvePartCurrentContainerCache, arguments.part_collection_object_id)>
+		<cfreturn request.resolvePartCurrentContainerCache[arguments.part_collection_object_id]>
+	</cfif>
+
 	<cfset local.retval = StructNew()>
 	<cfset local.retval["found"] = false>
 
@@ -2495,6 +2507,7 @@ already filed away several levels deep.
 			AND coll_obj_cont_hist.current_container_fg = 1
 	</cfquery>
 	<cfif local.queryLeaf.recordcount EQ 0>
+		<cfset request.resolvePartCurrentContainerCache[arguments.part_collection_object_id] = local.retval>
 		<cfreturn local.retval>
 	</cfif>
 
@@ -2556,6 +2569,7 @@ already filed away several levels deep.
 	</cfquery>
 	<cfset local.retval["current_depth"] = local.queryDepth.depth>
 
+	<cfset request.resolvePartCurrentContainerCache[arguments.part_collection_object_id] = local.retval>
 	<cfreturn local.retval>
 </cffunction>
 
@@ -2576,6 +2590,14 @@ undone by a "move back" action.
 <cffunction name="resolvePartPreviousContainer" access="public" returntype="any" output="false">
 	<cfargument name="part_collection_object_id" type="numeric" required="yes">
 
+	<!--- Memoized per-request -- see resolvePartCurrentContainer's own cache for why. --->
+	<cfif NOT structKeyExists(request, "resolvePartPreviousContainerCache")>
+		<cfset request.resolvePartPreviousContainerCache = StructNew()>
+	</cfif>
+	<cfif structKeyExists(request.resolvePartPreviousContainerCache, arguments.part_collection_object_id)>
+		<cfreturn request.resolvePartPreviousContainerCache[arguments.part_collection_object_id]>
+	</cfif>
+
 	<cfset local.retval = StructNew()>
 	<cfset local.partContainer = resolvePartCurrentContainer(arguments.part_collection_object_id)>
 	<cfset local.retval["found"] = local.partContainer.found>
@@ -2585,6 +2607,7 @@ undone by a "move back" action.
 	<cfset local.retval["previous_barcode"] = "">
 	<cfset local.retval["previous_type"] = "">
 	<cfif NOT local.partContainer.found>
+		<cfset request.resolvePartPreviousContainerCache[arguments.part_collection_object_id] = local.retval>
 		<cfreturn local.retval>
 	</cfif>
 	<cfset local.retval["move_container_id"] = local.partContainer.move_container_id>
@@ -2619,6 +2642,7 @@ undone by a "move back" action.
 		<cfset local.retval["previous_barcode"] = local.queryPrevious.barcode>
 		<cfset local.retval["previous_type"] = local.queryPrevious.old_parent_container_type>
 	</cfif>
+	<cfset request.resolvePartPreviousContainerCache[arguments.part_collection_object_id] = local.retval>
 	<cfreturn local.retval>
 </cffunction>
 
