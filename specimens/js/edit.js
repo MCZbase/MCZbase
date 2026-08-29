@@ -1074,9 +1074,16 @@ function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCou
  * actually move.
  * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
  */
-function chooseContainerForPartRow(rowIndex) {
-	var containerInputId = 'container_label' + rowIndex;
-	var containerIdFieldId = 'container_id' + rowIndex;
+/**
+ * Reacts to a part row's Container field resolving to a new target container_id, however that
+ * happened (the Choose... dialog, or a plain autocomplete select/change) -- resolves the
+ * move-scope choice when the part's current container is an ambiguous shared jar (see
+ * specimens/component/functions.cfc's resolvePartMoveTarget), and refreshes the
+ * placement-fitness badge for whichever container will actually move.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ * @param selectedId the newly chosen target container_id.
+ */
+function handlePartContainerSelected(rowIndex, selectedId) {
 	var moveContainerIdFieldId = 'move_container_id' + rowIndex;
 	var isProxyFieldId = 'is_proxy' + rowIndex;
 	var requiresChoiceFieldId = 'requires_move_scope_choice' + rowIndex;
@@ -1088,6 +1095,40 @@ function chooseContainerForPartRow(rowIndex) {
 	var moveWhatTextId = 'move_what' + rowIndex;
 	var badgeTargetId = 'container_badge' + rowIndex;
 
+	var requiresChoice = $('#' + requiresChoiceFieldId).val() === 'true';
+	if (requiresChoice) {
+		var jarType = $('#' + currentParentTypeFieldId).val();
+		var jarLabel = $('#' + currentParentLabelFieldId).val();
+		var occupantCount = parseInt($('#' + jarOccupantCountFieldId).val(), 10) || 0;
+		showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, function(scope) {
+			$('#' + moveScopeFieldId).val(scope);
+			var childId = (scope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
+			var otherCount = (scope === 'jar') ? (occupantCount - 1) : 0;
+			renderPartMoveWhatText(moveWhatTextId, jarType, jarLabel, scope === 'jar', otherCount);
+			loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+		});
+	} else {
+		var childId = $('#' + moveContainerIdFieldId).val();
+		var isProxy = $('#' + isProxyFieldId).val() === 'true';
+		if (!isProxy) {
+			// a true proxy's "Will move: ..." note is already shown and doesn't change based on
+			// the destination -- only the plain, nothing-special case needs this spelled out, and
+			// only once a change is actually being made.
+			renderPartMoveWhatText(moveWhatTextId, '', '', false, 0);
+		}
+		loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+	}
+}
+
+/**
+ * Opens the container picker for one row of the Edit Existing Parts form, and on selection
+ * populates the row's Container field and hands off to handlePartContainerSelected.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function chooseContainerForPartRow(rowIndex) {
+	var containerInputId = 'container_label' + rowIndex;
+	var containerIdFieldId = 'container_id' + rowIndex;
+
 	openContainerPickerDialog({
 		mode: 'find',
 		dialogTitle: 'Select Container',
@@ -1095,31 +1136,26 @@ function chooseContainerForPartRow(rowIndex) {
 			$('#' + containerInputId).val(selectedLabel);
 			$('#' + containerIdFieldId).val(selectedId);
 			wrapper.dialog('close');
-			var requiresChoice = $('#' + requiresChoiceFieldId).val() === 'true';
-			if (requiresChoice) {
-				var jarType = $('#' + currentParentTypeFieldId).val();
-				var jarLabel = $('#' + currentParentLabelFieldId).val();
-				var occupantCount = parseInt($('#' + jarOccupantCountFieldId).val(), 10) || 0;
-				showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, function(scope) {
-					$('#' + moveScopeFieldId).val(scope);
-					var childId = (scope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
-					var otherCount = (scope === 'jar') ? (occupantCount - 1) : 0;
-					renderPartMoveWhatText(moveWhatTextId, jarType, jarLabel, scope === 'jar', otherCount);
-					loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
-				});
-			} else {
-				var childId = $('#' + moveContainerIdFieldId).val();
-				var isProxy = $('#' + isProxyFieldId).val() === 'true';
-				if (!isProxy) {
-					// a true proxy's "Will move: ..." note is already shown and doesn't change
-					// based on the destination -- only the plain, nothing-special case needs this
-					// spelled out, and only once a change is actually being made.
-					renderPartMoveWhatText(moveWhatTextId, '', '', false, 0);
-				}
-				loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
-			}
+			handlePartContainerSelected(rowIndex, selectedId);
 		}
 	});
+}
+
+/**
+ * Reacts to a part row's Container field being set via its barcode autocomplete (a select from
+ * the picklist, or a typed change) rather than the Choose... dialog -- the autocomplete widget's
+ * own handler has already updated the row's hidden container_id field by the time this runs; see
+ * makeContainerAutocompleteMetaExcludeCO's select/change callbacks. Clears the badge if the value
+ * no longer resolves to a real container_id (e.g. typed text that didn't match a pick).
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function checkPartContainerBadge(rowIndex) {
+	var selectedId = $('#container_id' + rowIndex).val();
+	if (!selectedId) {
+		$('#container_badge' + rowIndex).empty();
+		return;
+	}
+	handlePartContainerSelected(rowIndex, selectedId);
 }
 
 /**

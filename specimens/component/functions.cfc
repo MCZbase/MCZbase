@@ -5050,6 +5050,13 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 								$(document).ready(function() {
 									// make container barcode autocomplete
 									makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+									// refresh the placement-preview badge from either the Choose...
+									// dialog (see chooseContainerForPartRow) or a plain autocomplete
+									// pick/typed change -- setTimeout lets the autocomplete widget's
+									// own select/change handlers populate container_id#i# first.
+									$('##container_label#i#').on('autocompleteselect autocompletechange', function() {
+										window.setTimeout(function() { checkPartContainerBadge(#i#); }, 10);
+									});
 									// make part name autocomplete
 									// makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 									// show this part's current placement-fitness badge -- validates
