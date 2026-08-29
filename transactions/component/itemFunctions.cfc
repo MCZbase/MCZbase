@@ -2878,7 +2878,7 @@ STATE TRANSITION BEHAVIOR:
 					<cfset catItemId = getCatItems.collection_object_id>
 
 					<cfif showMultiple>
-						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
+						<div class="row col-12 border my-1 mx-0 pb-1" id="rowDiv#catItemId#">
 					</cfif>
 
 
