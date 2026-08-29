@@ -2560,6 +2560,47 @@ already filed away several levels deep.
 </cffunction>
 
 <!---
+Function getRepresentativeLeafContainerId. Returns the container_id of any single existing
+container of type 'collection object', for live client-side placement-preview checks against a
+part that doesn't exist yet (e.g. the "Add New Part" dialog, before createSpecimenPart has run).
+validateContainerPlacement requires a real, existing child_container_id -- every "collection
+object" container shares the same rule-relevant classification (role=leaf, rank_order,
+expected_parent_types='any'), so any one of them is representative for judging a proposed parent's
+fitness. Mirrors the same approximation tools/BulkloadNewParts.cfm's validate step and
+specimens/changeQueryPartContainers.cfm's checkDestinationFitness already rely on elsewhere in this
+codebase; the one imprecision it can't reproduce (an occupancy check keyed to the exact child
+identity) is closed by createSpecimenPart's own precise re-check with the real container_id right
+after the part is actually created.
+@return a JSON object: {found: boolean, container_id: number or ""}.
+--->
+<cffunction name="getRepresentativeLeafContainerId" access="remote" returntype="any" returnformat="json" output="false">
+	<cfset local.retval = StructNew()>
+	<cftry>
+		<cfquery name="local.queryLeaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT container_id
+			FROM (
+				SELECT container_id FROM container WHERE container_type = 'collection object'
+			)
+			WHERE ROWNUM = 1
+		</cfquery>
+		<cfif local.queryLeaf.recordcount EQ 0>
+			<cfset local.retval["found"] = false>
+			<cfset local.retval["container_id"] = "">
+		<cfelse>
+			<cfset local.retval["found"] = true>
+			<cfset local.retval["container_id"] = local.queryLeaf.container_id>
+		</cfif>
+		<cfreturn serializeJSON(local.retval)>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
 Function getExpectedDisposition. Works out what disposition a part is expected to have once placed
 into a given container, for containers/placePartInContainer.cfm's disposition guidance: a
 deaccessioned disposition is expected once a part is placed into an "external" container_type --

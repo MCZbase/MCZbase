@@ -987,6 +987,165 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/**
+ * Shows a small modal asking whether changing a part's container should move just the part or
+ * the whole shared container (used when the part's current container is a CHECKFIRST type --
+ * today, a jar -- holding more than one collection object, so "move this part" is genuinely
+ * ambiguous between the two). Neither option is a "cancel" so this doesn't reuse the shared
+ * confirmDialog() helper, which is fixed to OK/Cancel wording.
+ * @param jarType container_type of the shared container (e.g. "jar").
+ * @param jarLabel display label of the shared container.
+ * @param occupantCount how many collection objects the shared container currently holds
+ *  (including this part).
+ * @param onChoice callback invoked with 'part' or 'jar' once the user picks; not invoked if the
+ *  dialog is dismissed without choosing.
+ */
+function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice) {
+	var otherCount = Math.max(0, (parseInt(occupantCount, 10) || 0) - 1);
+	var text = 'This part shares ' + jarType + ' ' + jarLabel + ' with ' + otherCount +
+		' other specimen(s). Move just this part into the new container, or move the whole ' +
+		jarType + ' (and everything in it)?';
+	var dialogDiv = $('<div style="padding: 10px; max-width: 500px;"></div>').text(text).dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: 'What should move?',
+		buttons: [
+			{
+				text: 'Move just this part',
+				click: function() {
+					$(this).dialog('destroy');
+					onChoice('part');
+				}
+			},
+			{
+				text: 'Move the whole ' + jarType,
+				click: function() {
+					$(this).dialog('destroy');
+					onChoice('jar');
+				}
+			},
+			{
+				text: 'Cancel',
+				click: function() {
+					$(this).dialog('destroy');
+				}
+			}
+		],
+		open: function() {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6});
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5});
+		}
+	});
+	dialogDiv.dialog('moveToTop');
+}
+
+/**
+ * Updates the "what will actually move" text next to a part's Container field -- so changing
+ * the container of a proxy-housed or jar-shared part never leaves the user guessing whether
+ * they're moving the bare part or its whole housing.
+ * @param targetId id of the element to render the text into (no leading #).
+ * @param moveType container_type of whatever will actually move.
+ * @param moveLabel display label of whatever will actually move.
+ * @param isProxy true when moving a proxy/shared container instead of the bare part.
+ * @param otherCount when isProxy and this is a shared (not single-occupant) container, how many
+ *  OTHER specimens will move along with it; omit or pass 0 for a true single-occupant proxy.
+ */
+function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCount) {
+	var target = $('#' + targetId);
+	if (!isProxy) {
+		target.text('Will move: this part directly.');
+	} else if (otherCount) {
+		target.text('Will move: the whole ' + moveType + ' ' + moveLabel + ' -- and the ' +
+			otherCount + ' other specimen(s) in it -- not just this part.');
+	} else {
+		target.text('Will move: ' + moveType + ' ' + moveLabel + ' (this part\'s proxy container), not just the part.');
+	}
+}
+
+/**
+ * Opens the container picker for one row of the Edit Existing Parts form, and on selection
+ * populates the row's Container field, resolves the move-scope choice when the part's current
+ * container is an ambiguous shared jar (see specimens/component/functions.cfc's
+ * resolvePartMoveTarget), and refreshes the placement-fitness badge for whichever container will
+ * actually move.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function chooseContainerForPartRow(rowIndex) {
+	var containerInputId = 'container_label' + rowIndex;
+	var containerIdFieldId = 'container_id' + rowIndex;
+	var moveContainerIdFieldId = 'move_container_id' + rowIndex;
+	var requiresChoiceFieldId = 'requires_move_scope_choice' + rowIndex;
+	var jarOccupantCountFieldId = 'jar_occupant_count' + rowIndex;
+	var currentParentIdFieldId = 'current_parent_container_id' + rowIndex;
+	var currentParentTypeFieldId = 'current_parent_type' + rowIndex;
+	var currentParentLabelFieldId = 'current_parent_label' + rowIndex;
+	var moveScopeFieldId = 'move_scope' + rowIndex;
+	var moveWhatTextId = 'move_what' + rowIndex;
+	var badgeTargetId = 'container_badge' + rowIndex;
+
+	openContainerPickerDialog({
+		mode: 'find',
+		dialogTitle: 'Select Container',
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#' + containerInputId).val(selectedLabel);
+			$('#' + containerIdFieldId).val(selectedId);
+			wrapper.dialog('close');
+			var requiresChoice = $('#' + requiresChoiceFieldId).val() === 'true';
+			if (requiresChoice) {
+				var jarType = $('#' + currentParentTypeFieldId).val();
+				var jarLabel = $('#' + currentParentLabelFieldId).val();
+				var occupantCount = parseInt($('#' + jarOccupantCountFieldId).val(), 10) || 0;
+				showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, function(scope) {
+					$('#' + moveScopeFieldId).val(scope);
+					var childId = (scope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
+					var otherCount = (scope === 'jar') ? (occupantCount - 1) : 0;
+					renderPartMoveWhatText(moveWhatTextId, jarType, jarLabel, scope === 'jar', otherCount);
+					loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+				});
+			} else {
+				var childId = $('#' + moveContainerIdFieldId).val();
+				loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+			}
+		}
+	});
+}
+
+/**
+ * Opens the container picker for the "Add New Part" form, populating its Container field and
+ * refreshing a live preview badge. The new part doesn't exist yet, so the preview checks a
+ * representative existing collection-object container against the chosen target rather than the
+ * part's own (not-yet-created) container -- createSpecimenPart re-checks precisely with the real
+ * container_id right after creation, before actually placing it.
+ */
+function chooseContainerForNewPart() {
+	openContainerPickerDialog({
+		mode: 'find',
+		dialogTitle: 'Select Container',
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#container_barcode').val(selectedLabel);
+			$('#new_part_container_id').val(selectedId);
+			wrapper.dialog('close');
+			jQuery.ajax({
+				url: '/containers/component/public.cfc',
+				data: { method: 'getRepresentativeLeafContainerId', returnformat: 'json' },
+				dataType: 'json',
+				success: function(result) {
+					if (result && result.found) {
+						loadPlacementWarningBadge(result.container_id, selectedId, 'new_part_container_badge');
+					}
+				},
+				error: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR, textStatus, error, 'checking placement for new part');
+				}
+			});
+		}
+	});
+}
+
 /** editPartAttributes opens a dialog for editing attributes of a part.
 
  * @param part_collection_object_id the id of the part for which to edit attributes.

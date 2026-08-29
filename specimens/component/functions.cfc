@@ -20,9 +20,77 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartCurrentContainer/validateContainerPlacement, used by resolvePartMoveTarget below --->
 
-<!--- parent container types that violate user expectations of what container is being moved --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
+<!--- Parent container types that need an extra check before a part housed in one can be safely
+	edited/moved through this file's forms -- unlike a true proxy (pin/slide/cryovial/envelope/glass
+	vial, role='proxy' in ctcontainer_type, already handled by resolvePartCurrentContainer), a jar can
+	legitimately hold more than one collection object, so whether it's safe to treat "move this part"
+	as "move the jar" depends on how many other parts are currently in it -- see
+	resolvePartMoveTarget below. --->
+<cfset CHECKFIRST_CONTAINER_TYPES = "jar">
+
+<!---
+Function resolvePartMoveTarget. Layers CHECKFIRST_CONTAINER_TYPES occupancy checking on top of
+containers/component/public.cfc's resolvePartCurrentContainer, for parts edited through this file's
+forms. A true proxy (pin/slide/cryovial/envelope/glass vial) is already resolved correctly by
+resolvePartCurrentContainer itself -- passed through unchanged. A part whose current parent is a
+CHECKFIRST type (jar) needs a decision true proxies don't: a jar can legitimately hold more than one
+collection object, so "move this part" only unambiguously means "move the jar" when the jar
+currently holds no other collection object -- otherwise the caller (updatePart) must be told
+explicitly which was intended via a move_scope argument ("part" or "jar").
+@param part_collection_object_id the specimen_part's own collection_object_id.
+@return the same struct shape as resolvePartCurrentContainer, plus requires_move_scope_choice
+	(boolean, true only for a multi-occupant CHECKFIRST parent) and jar_occupant_count (0 unless
+	the current parent is a CHECKFIRST type).
+--->
+<cffunction name="resolvePartMoveTarget" access="private" returntype="struct" output="false">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.retval = resolvePartCurrentContainer(arguments.part_collection_object_id)>
+	<cfset local.retval["requires_move_scope_choice"] = false>
+	<cfset local.retval["jar_occupant_count"] = 0>
+	<!--- resolvePartCurrentContainer only populates the rest of this struct when found -- guard
+		with safe defaults here so callers (getEditPartsHTML's per-row rendering) never have to,
+		for the rare/unexpected case of a specimen_part with no coll_obj_cont_hist row at all. --->
+	<cfif NOT local.retval.found>
+		<cfset local.retval["is_proxy"] = false>
+		<cfset local.retval["leaf_container_id"] = 0>
+		<cfset local.retval["leaf_label"] = "">
+		<cfset local.retval["leaf_barcode"] = "">
+		<cfset local.retval["leaf_type"] = "">
+		<cfset local.retval["move_container_id"] = 0>
+		<cfset local.retval["move_label"] = "">
+		<cfset local.retval["move_barcode"] = "">
+		<cfset local.retval["move_type"] = "">
+		<cfset local.retval["current_parent_container_id"] = 0>
+		<cfset local.retval["current_parent_label"] = "">
+		<cfset local.retval["current_parent_barcode"] = "">
+		<cfset local.retval["current_parent_type"] = "">
+	</cfif>
+	<cfif local.retval.found AND NOT local.retval.is_proxy AND listFindNoCase(CHECKFIRST_CONTAINER_TYPES, local.retval.current_parent_type) GT 0>
+		<cfquery name="local.queryJarOccupants" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT COUNT(*) AS cnt
+			FROM container
+			WHERE parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.retval.current_parent_container_id#">
+				AND container_type = 'collection object'
+		</cfquery>
+		<cfset local.retval["jar_occupant_count"] = local.queryJarOccupants.cnt>
+		<cfif local.queryJarOccupants.cnt LTE 1>
+			<!--- this part is the jar's only collection object -- safe to treat the jar itself
+				as a proxy, same as resolvePartCurrentContainer already does for true proxy types --->
+			<cfset local.retval["is_proxy"] = true>
+			<cfset local.retval["move_container_id"] = local.retval.current_parent_container_id>
+			<cfset local.retval["move_label"] = local.retval.current_parent_label>
+			<cfset local.retval["move_barcode"] = local.retval.current_parent_barcode>
+			<cfset local.retval["move_type"] = local.retval.current_parent_type>
+		<cfelse>
+			<cfset local.retval["requires_move_scope_choice"] = true>
+		</cfif>
+	</cfif>
+	<cfreturn local.retval>
+</cffunction>
 
 <!--- updateCatNumber update the catalog number and collection id for a cataloged item identified by the collection object id.
  @param collection_object_id the collection_object_id for the cataloged item to update
@@ -4420,7 +4488,12 @@ limitations under the License.
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="container_barcode" class="data-entry-label">Container</label>
-												<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
+												<div class="d-flex align-items-center">
+													<input name="container_barcode" id="container_barcode" class="data-entry-input flex-grow-1" type="text" placeholder="Scan or type barcode">
+													<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="chooseContainerForNewPart();">Choose...</button>
+												</div>
+												<input type="hidden" name="container_id" id="new_part_container_id" value="">
+												<div id="new_part_container_badge" class="mt-1"></div>
 											</div>
 											<div class="float-left col-12 col-md-10 px-1">
 												<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
@@ -4819,16 +4892,39 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 mb-2">
 											<label for="container_label#i#" class="data-entry-label">Container</label>
-											<cfset containerDisabled = "">
-											<cfset containerstyle = "">
-											<cfset containerValue = "#getParts.label#">
-											<cfif listContains(DISALLOWED_CONTAINER_TYPES, getParts.container_type)>
-												<cfset containerDisabled = "readonly">
-												<cfset containerstyle = "background-color: ##ededed;">
-												<cfset containerValue = "#getParts.label# (#getParts.container_type#)">
-											</cfif>
-											<input type="text" class="data-entry-input" style="#containerstyle#" id="container_label#i#" name="container_barcode" value="#containerValue#" #containerDisabled#>
-											<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
+											<!--- resolvePartMoveTarget resolves what would actually move for this part -- its own
+												leaf, a true proxy (pin/slide/cryovial/envelope/glass vial), or (when it's the sole
+												collection object in one) a CHECKFIRST-type jar. current_parent_container_id/label
+												are always the current direct parent of WHATEVER would move, so that -- not the
+												part's own raw leaf parent -- is what this field displays and what updatePart
+												compares against to decide whether a move is even being requested. A jar shared
+												with other collection objects can't be pre-resolved this way at all -- moveTarget
+												still reports the jar itself here, but requires_move_scope_choice#i# below tells the
+												client a choice is needed before a move to a genuinely different container can
+												proceed. --->
+											<cfset moveTarget = resolvePartMoveTarget(getParts.part_id)>
+											<div class="d-flex align-items-center">
+												<input type="text" class="data-entry-input flex-grow-1" id="container_label#i#" name="container_barcode" value="#moveTarget.current_parent_label#">
+												<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="chooseContainerForPartRow(#i#);">Choose...</button>
+											</div>
+											<input type="hidden" id="container_id#i#" name="container_id" value="#moveTarget.current_parent_container_id#">
+											<input type="hidden" id="move_container_id#i#" value="#moveTarget.move_container_id#">
+											<input type="hidden" id="requires_move_scope_choice#i#" value="#YesNoFormat(moveTarget.requires_move_scope_choice)#">
+											<input type="hidden" id="jar_occupant_count#i#" value="#moveTarget.jar_occupant_count#">
+											<input type="hidden" id="current_parent_container_id#i#" value="#moveTarget.current_parent_container_id#">
+											<input type="hidden" id="current_parent_type#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_type)#">
+											<input type="hidden" id="current_parent_label#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_label)#">
+											<input type="hidden" id="move_scope#i#" name="move_scope" value="">
+											<div class="small text-muted mt-1" id="move_what#i#">
+												<cfif moveTarget.is_proxy>
+													Will move: #encodeForHtml(moveTarget.move_type)# #encodeForHtml(moveTarget.move_label)# (this part's proxy container), not just the part.
+												<cfelseif moveTarget.requires_move_scope_choice>
+													This part shares #encodeForHtml(moveTarget.current_parent_type)# #encodeForHtml(moveTarget.current_parent_label)# with #moveTarget.jar_occupant_count - 1# other specimen(s) -- choosing a new container will ask whether to move just this part or the whole #encodeForHtml(moveTarget.current_parent_type)#.
+												<cfelse>
+													Will move: this part directly.
+												</cfif>
+											</div>
+											<div id="container_badge#i#" class="mt-1"></div>
 										</div>
 										<div class="col-12 col-md-9 mb-2">
 											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
@@ -4945,12 +5041,14 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									<cfif NOT listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
-										// make container barcode autocomplete
-										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
-									</cfif>
+									// make container barcode autocomplete
+									makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 									// make part name autocomplete
 									// makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
+									// show this part's current placement-fitness badge -- validates
+									// whatever would actually move (leaf/proxy/sole-occupant jar)
+									// against its own current parent, resolved server-side above.
+									loadPlacementWarningBadge(#moveTarget.move_container_id#, #moveTarget.current_parent_container_id#, "container_badge#i#");
 								});
 							</script>
 						</div><!--- end part div --->
@@ -5110,6 +5208,7 @@ limitations under the License.
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="condition_remarks" type="string" required="no" default="">
 	<cfargument name="container_barcode" type="string" required="no" default="">
+	<cfargument name="container_id" type="string" required="no" default=""><!--- preferred over container_barcode when both are given -- avoids a barcode round-trip when the caller already has the id (e.g. from the container-picker dialog) --->
 	<cfargument name="coll_object_remarks" type="string" required="no" default="">
 	<cfargument name="is_subsample" type="boolean" required="no" default="false">
 	<cfargument name="subsampled_from_obj_id" type="string" required="no" default="">
@@ -5217,33 +5316,58 @@ limitations under the License.
 					container_id = r_container_id;
 			--->
 			<!--- insert of a container of type collection object to represent the part is performed by trigger MAKE_PART_COLL_OBJ_CONT	--->
-			<cfif len(arguments.container_barcode) GT 0>
+			<cfif len(arguments.container_id) GT 0 OR len(arguments.container_barcode) GT 0>
 				<!--- place the collection object container into the specified container and --->
 				<!--- insert a collection object container history record if a container barcode was provided --->
 				<!--- first, find the current collection object container --->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_id 
-					FROM coll_obj_cont_hist 
+					SELECT container_id
+					FROM coll_obj_cont_hist
 					WHERE collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
 						and current_container_fg = 1
 				</cfquery>
 				<cfif getPartContainer.recordcount EQ 0>
 					<cfthrow message = "Unable to find the current container of type collection object for the part">
 				</cfif>
-				<!--- then find the container into which to place it --->
-				<cfquery name="getParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT container_id 
-					FROM container 
-					WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_barcode#">
-				</cfquery>
+				<!--- then find the container into which to place it -- container_id (from the
+					container-picker dialog) is preferred over resolving a barcode when both are
+					supplied --->
+				<cfif len(arguments.container_id) GT 0>
+					<cfquery name="getParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT container_id
+						FROM container
+						WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="getParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT container_id
+						FROM container
+						WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_barcode#">
+					</cfquery>
+				</cfif>
 				<cfif getParentContainer.recordcount EQ 0>
 					<cfthrow message="Unable to find specified parent container">
+				</cfif>
+				<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type,
+					rank order, etc.), validated with the same badge engine moveContainer.cfm/
+					placePartInContainer.cfm/the bulk tools use. The client-side preview badge shown
+					before this save could only check a REPRESENTATIVE existing collection-object
+					container (getRepresentativeLeafContainerId), since this part's own container
+					didn't exist until the INSERT above -- this is the precise re-check with the real,
+					just-created container_id, closing that approximation's gap before anything is
+					actually moved. A block aborts the whole transaction (rolled back below). --->
+				<cfset local.placementResult = validateContainerPlacement(child_container_id=getPartContainer.container_id, proposed_parent_container_id=getParentContainer.container_id)>
+				<cfif isSimpleValue(local.placementResult)>
+					<cfset local.placementResult = deserializeJSON(local.placementResult)>
+				</cfif>
+				<cfif local.placementResult.severity EQ "block">
+					<cfthrow message="Placement blocked: #ArrayToList(local.placementResult.blocks,'; ')#">
 				</cfif>
 				<!--- then place the container into the specified parent --->
 				<!--- trigger MOVE_CONTAINER enforces rules on container movement --->
 				<!--- trigger GET_CONTAINER_HISTORY updates the container_history to reflect the move --->
 				<cfquery name="moveToParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveToParent_result">
-					UPDATE container 
+					UPDATE container
 					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParentContainer.container_id#">
 					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartContainer.container_id#">
 				</cfquery>
@@ -5382,6 +5506,7 @@ limitations under the License.
 	<cfargument name="coll_object_remarks" type="string" required="yes">
 	<cfargument name="container_id" type="string" required="no" default=""><!--- parent container id --->
 	<cfargument name="container_barcode" type="string" required="no" default=""><!--- parent container barcode --->
+	<cfargument name="move_scope" type="string" required="no" default=""><!--- "part" or "jar" -- only meaningful (and required) when resolvePartMoveTarget below reports requires_move_scope_choice; ignored otherwise --->
 	<!--- container id for the container for the specimen part is looked up below --->
 
 	<cfset data = ArrayNew(1)>
@@ -5442,45 +5567,64 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 
-			<!--- Move Container --->
+			<!--- Move Container. resolvePartMoveTarget resolves what would actually move for this
+				part -- its own leaf, a true proxy (pin/slide/cryovial/envelope/glass vial), or (new
+				in this phase) the jar it's in, when that jar currently holds no other collection
+				object. current_parent_container_id is always the current direct parent of WHATEVER
+				would move (not necessarily the leaf's own parent), so it's what the Container field
+				is populated with and compared against here -- see getEditPartsHTML. --->
 			<cfif len(arguments.container_barcode) GT 0>
-				<!--- check if a move is needed, and find the container_id of the container to be moved --->
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT coll_obj_cont_hist.container_id, 
-						parent_container.container_id as current_parent_container_id,
-						parent_container.barcode as current_parent_container_barcode
-					FROM coll_obj_cont_hist 
-						join container on coll_obj_cont_hist.container_id = container.container_id
-						join container parent_container on container.parent_container_id = parent_container.container_id
-					WHERE coll_obj_cont_hist.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
-						and coll_obj_cont_hist.current_container_fg = 1
-				</cfquery>
-				<cfif getPartContainer.recordcount EQ 0>
+				<cfset local.moveTarget = resolvePartMoveTarget(arguments.part_collection_object_id)>
+				<cfif NOT local.moveTarget.found>
 					<cfthrow message = "Unable to find the current container of type collection object for the part">
 				</cfif>
-				<cfif arguments.container_id NEQ getPartContainer.current_parent_container_id>
-					<!--- a move is needed --->
-					<!--- arguments.container_id is the container id of the new parent container to move into --->
-					<!---  getPartContainer is the container id of the container to move (of type collection_oobject) --->
+				<cfif arguments.container_id NEQ local.moveTarget.current_parent_container_id>
+					<!--- a move is needed -- arguments.container_id is the new parent to move into --->
 					<cfif len(arguments.container_id) GT 0>
 						<!--- check that provided container exists --->
 						<cfquery name="checkContainerIDBarcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT container_id 
-							FROM container 
-							WHERE 
+							SELECT container_id
+							FROM container
+							WHERE
 								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
 						</cfquery>
 						<cfif checkContainerIDBarcode.recordcount EQ 0>
 							<cfthrow message="Error: Container with provided container_id [#encodeForHtml(arguments.container_id)#] not found.">
 						</cfif>
+						<!--- resolve which container_id actually gets reparented: the pre-resolved
+							move target normally, or the client's explicit part/jar choice when
+							resolvePartMoveTarget found this ambiguous (a shared jar with other
+							collection objects in it) --->
+						<cfset local.actualMoveContainerId = local.moveTarget.move_container_id>
+						<cfif local.moveTarget.requires_move_scope_choice>
+							<cfif arguments.move_scope EQ "jar">
+								<cfset local.actualMoveContainerId = local.moveTarget.current_parent_container_id>
+							<cfelseif arguments.move_scope EQ "part">
+								<cfset local.actualMoveContainerId = local.moveTarget.leaf_container_id>
+							<cfelse>
+								<cfthrow message="This part shares its current container with #local.moveTarget.jar_occupant_count - 1# other specimen(s) -- please specify whether to move just this part or the whole container.">
+							</cfif>
+						</cfif>
+						<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-
+							parent-type, rank order, etc.), validated with the same badge engine
+							moveContainer.cfm/placePartInContainer.cfm/the bulk tools use, rather than
+							a second, separately-maintained copy of those rules. A block aborts the
+							whole transaction. --->
+						<cfset local.placementResult = validateContainerPlacement(child_container_id=local.actualMoveContainerId, proposed_parent_container_id=arguments.container_id)>
+						<cfif isSimpleValue(local.placementResult)>
+							<cfset local.placementResult = deserializeJSON(local.placementResult)>
+						</cfif>
+						<cfif local.placementResult.severity EQ "block">
+							<cfthrow message="Placement blocked: #ArrayToList(local.placementResult.blocks,'; ')#">
+						</cfif>
 						<!--- then place the container into the specified parent --->
 						<!--- trigger MOVE_CONTAINER enforces rules on container movement --->
 						<!--- trigger GET_CONTAINER_HISTORY updates the container_history to reflect the move --->
 						<cfquery name="moveToParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveToParent_result">
-							UPDATE container 
+							UPDATE container
 							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
 								parent_install_date = sysdate
-							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartContainer.container_id#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.actualMoveContainerId#">
 						</cfquery>
 						<cfif moveToParent_result.recordcount NEQ 1>
 							<cfthrow message="Unable to move to parent container, move altered other than 1 container. ">
