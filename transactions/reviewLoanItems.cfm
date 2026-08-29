@@ -824,15 +824,20 @@ limitations under the License.
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
 					<cfset moveableItemCount = 0>
-					<!--- resolvePartPreviousContainer (proxy-aware -- see its own doc comment)
-						decides whether each item has an eligible prior placement. The "move back"
-						button below is offered whenever ANY items are moveable, not only when
-						ALL of them are -- BulkMoveBackContainers itself skips whichever ones
-						aren't, rather than requiring a single all-or-nothing batch. --->
+					<!--- resolvePartsPreviousContainers (proxy-aware, batched -- see its own doc
+						comment) decides whether each item has an eligible prior placement, in one
+						query for the whole loan rather than one resolvePartPreviousContainer call
+						(several queries each) per item. The "move back" button below is offered
+						whenever ANY items are moveable, not only when ALL of them are --
+						BulkMoveBackContainers itself skips whichever ones aren't, rather than
+						requiring a single all-or-nothing batch. --->
+					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getItems.collection_object_id))>
 					<cfloop query="getItems">
-						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id)>
-						<cfif local.previous.found AND local.previous.previous_found>
-							<cfset moveableItemCount = moveableItemCount + 1>
+						<cfif structKeyExists(local.previousMap, getItems.collection_object_id)>
+							<cfset local.previous = local.previousMap[getItems.collection_object_id]>
+							<cfif local.previous.found AND local.previous.previous_found>
+								<cfset moveableItemCount = moveableItemCount + 1>
+							</cfif>
 						</cfif>
 					</cfloop>
 					<cfset bulkMoveBackPossible = (moveableItemCount GT 0)>

@@ -2647,6 +2647,195 @@ undone by a "move back" action.
 </cffunction>
 
 <!---
+Function resolvePartsCurrentContainers. Batched, set-based equivalent of resolvePartCurrentContainer
+for a whole list of parts at once -- one query resolves every part's leaf-or-proxy move target and its
+current parent, instead of one resolvePartCurrentContainer call (3-4 queries each) per part. Built for
+pages that need this for every item in a list at once (e.g. transactions/reviewLoanItems.cfm), where
+the per-part function's round-trip cost multiplies badly with list size. Does not resolve
+current_depth -- no caller of this batched form needs it (it's only used by
+preflightPlacePartByBarcode's single-part placement preview); a caller that does need it should use
+resolvePartCurrentContainer directly instead.
+@param part_collection_object_id_list comma-separated list of specimen_part collection_object_ids.
+@return a struct keyed by part_collection_object_id (as a string) -- one entry per id in the input
+	list, always present. Each value is shaped like resolvePartCurrentContainer's own return struct
+	(minus current_depth); found is false for a part with no current container history row, matching
+	resolvePartCurrentContainer's own found flag.
+--->
+<cffunction name="resolvePartsCurrentContainers" access="public" returntype="any" output="false">
+	<cfargument name="part_collection_object_id_list" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfloop list="#arguments.part_collection_object_id_list#" index="local.onePartId">
+		<cfset local.retval[local.onePartId] = StructNew()>
+		<cfset local.retval[local.onePartId]["found"] = false>
+	</cfloop>
+	<cfif len(trim(arguments.part_collection_object_id_list)) EQ 0>
+		<cfreturn local.retval>
+	</cfif>
+
+	<cfquery name="local.queryParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			coll_obj_cont_hist.collection_object_id AS part_id,
+			leaf.container_id AS leaf_container_id,
+			leaf.label AS leaf_label,
+			leaf.barcode AS leaf_barcode,
+			leaf.container_type AS leaf_type,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN 1 ELSE 0 END AS is_proxy,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_parent.container_id ELSE leaf.container_id END AS move_container_id,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_parent.label ELSE leaf.label END AS move_label,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_parent.barcode ELSE leaf.barcode END AS move_barcode,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_parent.container_type ELSE leaf.container_type END AS move_type,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_grandparent.container_id ELSE leaf_parent.container_id END AS current_parent_container_id,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_grandparent.label ELSE leaf_parent.label END AS current_parent_label,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_grandparent.barcode ELSE leaf_parent.barcode END AS current_parent_barcode,
+			CASE WHEN leaf_parent_role.role = 'proxy' THEN leaf_grandparent.container_type ELSE leaf_parent.container_type END AS current_parent_type
+		FROM coll_obj_cont_hist
+			JOIN container leaf ON coll_obj_cont_hist.container_id = leaf.container_id
+			LEFT JOIN container leaf_parent ON leaf.parent_container_id = leaf_parent.container_id
+			LEFT JOIN ctcontainer_type leaf_parent_role ON leaf_parent.container_type = leaf_parent_role.container_type
+			LEFT JOIN container leaf_grandparent ON leaf_parent.parent_container_id = leaf_grandparent.container_id
+		WHERE
+			coll_obj_cont_hist.current_container_fg = 1
+			AND coll_obj_cont_hist.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id_list#" list="yes">)
+	</cfquery>
+
+	<cfloop query="local.queryParts">
+		<cfset local.one = StructNew()>
+		<cfset local.one["found"] = true>
+		<cfset local.one["leaf_container_id"] = local.queryParts.leaf_container_id>
+		<cfset local.one["leaf_label"] = local.queryParts.leaf_label>
+		<cfset local.one["leaf_barcode"] = local.queryParts.leaf_barcode>
+		<cfset local.one["leaf_type"] = local.queryParts.leaf_type>
+		<cfset local.one["is_proxy"] = (local.queryParts.is_proxy EQ 1)>
+		<cfset local.one["move_container_id"] = local.queryParts.move_container_id>
+		<cfset local.one["move_label"] = local.queryParts.move_label>
+		<cfset local.one["move_barcode"] = local.queryParts.move_barcode>
+		<cfset local.one["move_type"] = local.queryParts.move_type>
+		<cfif len(local.queryParts.current_parent_container_id) GT 0>
+			<cfset local.one["current_parent_container_id"] = local.queryParts.current_parent_container_id>
+			<cfset local.one["current_parent_label"] = local.queryParts.current_parent_label>
+			<cfset local.one["current_parent_barcode"] = local.queryParts.current_parent_barcode>
+			<cfset local.one["current_parent_type"] = local.queryParts.current_parent_type>
+		<cfelse>
+			<cfset local.one["current_parent_container_id"] = 0>
+			<cfset local.one["current_parent_label"] = "">
+			<cfset local.one["current_parent_barcode"] = "">
+			<cfset local.one["current_parent_type"] = "">
+		</cfif>
+		<cfset local.retval[local.queryParts.part_id] = local.one>
+	</cfloop>
+
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
+Function resolvePartsPreviousContainers. Batched, set-based equivalent of resolvePartPreviousContainer
+for a whole list of parts at once -- see resolvePartsCurrentContainers's own doc comment for why.
+Also precomputes each result's previous_location_text (MCZBASE.get_storage_parentage formatting of
+previous_container_id) inline in the same query, since transactions/component/itemFunctions.cfc
+otherwise needed its own extra per-part query for exactly that.
+@param part_collection_object_id_list comma-separated list of specimen_part collection_object_ids.
+@return a struct keyed by part_collection_object_id (as a string) -- one entry per id in the input
+	list, always present, shaped like resolvePartPreviousContainer's own return struct plus
+	previous_location_text.
+--->
+<cffunction name="resolvePartsPreviousContainers" access="public" returntype="any" output="false">
+	<cfargument name="part_collection_object_id_list" type="string" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.currentContainers = resolvePartsCurrentContainers(arguments.part_collection_object_id_list)>
+	<cfset local.moveContainerIds = "">
+
+	<cfloop collection="#local.currentContainers#" item="local.partId">
+		<cfset local.entry = StructNew()>
+		<cfset local.entry["found"] = local.currentContainers[local.partId].found>
+		<cfset local.entry["previous_found"] = false>
+		<cfset local.entry["previous_container_id"] = 0>
+		<cfset local.entry["previous_label"] = "">
+		<cfset local.entry["previous_barcode"] = "">
+		<cfset local.entry["previous_type"] = "">
+		<cfset local.entry["previous_location_text"] = "">
+		<cfif local.currentContainers[local.partId].found>
+			<cfset local.entry["move_container_id"] = local.currentContainers[local.partId].move_container_id>
+			<cfset local.moveContainerIds = listAppend(local.moveContainerIds, local.currentContainers[local.partId].move_container_id)>
+		</cfif>
+		<cfset local.retval[local.partId] = local.entry>
+	</cfloop>
+
+	<cfif len(local.moveContainerIds) EQ 0>
+		<cfreturn local.retval>
+	</cfif>
+
+	<!--- Top 2 most recent history rows per move_container_id -- the exclusion of a row matching a
+		part's own current parent (see resolvePartPreviousContainer's own doc comment for why that
+		guard exists) is applied per-part below rather than in this query, since current_parent
+		differs per part even on the rare occasion two parts share a move_container_id; fetching 2
+		rows lets that exclusion still find a real answer when the most-recent row is the one being
+		excluded. --->
+	<cfquery name="local.queryPrevious" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT move_container_id, previous_container_id, previous_label, previous_barcode, previous_type, previous_location_text
+		FROM (
+			SELECT
+				container_history.container_id AS move_container_id,
+				old_parent.container_id AS previous_container_id,
+				old_parent.label AS previous_label,
+				old_parent.barcode AS previous_barcode,
+				old_parent.container_type AS previous_type,
+				MCZBASE.get_storage_parentage(old_parent.container_id) AS previous_location_text,
+				ROW_NUMBER() OVER (
+					PARTITION BY container_history.container_id
+					ORDER BY container_history.install_date DESC NULLS LAST
+				) AS rn
+			FROM container_history
+				JOIN container old_parent ON container_history.parent_container_id = old_parent.container_id
+			WHERE
+				container_history.container_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.moveContainerIds#" list="yes">)
+				AND old_parent.container_type <> 'campus'
+				AND old_parent.container_type <> 'institution'
+				AND old_parent.parent_container_id IS NOT NULL
+		)
+		WHERE rn <= 2
+	</cfquery>
+
+	<cfset local.historyByContainer = StructNew()>
+	<cfloop query="local.queryPrevious">
+		<cfif NOT structKeyExists(local.historyByContainer, local.queryPrevious.move_container_id)>
+			<cfset local.historyByContainer[local.queryPrevious.move_container_id] = ArrayNew(1)>
+		</cfif>
+		<cfset local.row = StructNew()>
+		<cfset local.row["previous_container_id"] = local.queryPrevious.previous_container_id>
+		<cfset local.row["previous_label"] = local.queryPrevious.previous_label>
+		<cfset local.row["previous_barcode"] = local.queryPrevious.previous_barcode>
+		<cfset local.row["previous_type"] = local.queryPrevious.previous_type>
+		<cfset local.row["previous_location_text"] = local.queryPrevious.previous_location_text>
+		<cfset arrayAppend(local.historyByContainer[local.queryPrevious.move_container_id], local.row)>
+	</cfloop>
+
+	<cfloop collection="#local.currentContainers#" item="local.partId">
+		<cfif NOT local.currentContainers[local.partId].found>
+			<cfcontinue>
+		</cfif>
+		<cfset local.moveId = local.currentContainers[local.partId].move_container_id>
+		<cfset local.currentParentId = local.currentContainers[local.partId].current_parent_container_id>
+		<cfif structKeyExists(local.historyByContainer, local.moveId)>
+			<cfloop array="#local.historyByContainer[local.moveId]#" index="local.candidate">
+				<cfif local.candidate.previous_container_id NEQ local.currentParentId>
+					<cfset local.retval[local.partId]["previous_found"] = true>
+					<cfset local.retval[local.partId]["previous_container_id"] = local.candidate.previous_container_id>
+					<cfset local.retval[local.partId]["previous_label"] = local.candidate.previous_label>
+					<cfset local.retval[local.partId]["previous_barcode"] = local.candidate.previous_barcode>
+					<cfset local.retval[local.partId]["previous_type"] = local.candidate.previous_type>
+					<cfset local.retval[local.partId]["previous_location_text"] = local.candidate.previous_location_text>
+					<cfbreak>
+				</cfif>
+			</cfloop>
+		</cfif>
+	</cfloop>
+
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
 Function getRepresentativeLeafContainerId. Returns the container_id of any single existing
 container of type 'collection object', for live client-side placement-preview checks against a
 part that doesn't exist yet (e.g. the "Add New Part" dialog, before createSpecimenPart has run).

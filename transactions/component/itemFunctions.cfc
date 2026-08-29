@@ -3007,22 +3007,19 @@ STATE TRANSITION BEHAVIOR:
 						ORDER BY
 							part_name, preserve_method
 					</cfquery>
+					<!--- resolvePartsPreviousContainers is proxy-aware and batched (see its doc
+						comment in containers/component/public.cfc) -- one query for every part of
+						this cataloged item, instead of one resolvePartPreviousContainer call (several
+						queries each) plus a further get_storage_parentage query per part. Before this,
+						MCZBASE.get_previous_container_id looked up container_history against the
+						part's own raw leaf container_id, which never moves when only its proxy (e.g.
+						a pin) is relocated, so it could report the part's CURRENT location as its
+						"previous" one too. --->
+					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getParts.partID))>
 					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
-						<!--- resolvePartPreviousContainer is proxy-aware (see its doc comment in
-							containers/component/public.cfc) -- MCZBASE.get_previous_container_id
-							looked up container_history against the part's own raw leaf
-							container_id, which never moves when only its proxy (e.g. a pin) is
-							relocated, so it could report the part's CURRENT location as its
-							"previous" one too. --->
-						<cfset previousContainer = resolvePartPreviousContainer(getParts.partID)>
-						<cfset previousLocationText = "">
-						<cfif previousContainer.found AND previousContainer.previous_found>
-							<cfquery name="getPreviousLocationText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT MCZBASE.get_storage_parentage(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#previousContainer.previous_container_id#">) AS previous_location FROM dual
-							</cfquery>
-							<cfset previousLocationText = getPreviousLocationText.previous_location>
-						</cfif>
+						<cfset previousContainer = local.previousMap[getParts.partID]>
+						<cfset previousLocationText = previousContainer.previous_location_text>
 						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								deaccession.transaction_id,
