@@ -838,7 +838,7 @@ limitations under the License.
 					<cfset bulkMoveBackPossible = (moveableItemCount GT 0)>
 				</cfif>
 
-				<section class="row my-2 pt-2" title="Review Loan Items" >
+				<section class="row my-2 pt-0" title="Review Loan Items" >
 					<div class="col-12 mb-3">
 						<div class="row mt-1 mb-0 pb-0 px-2 mx-0 border">
 							<div class="col-12 col-xl-6" id="loanSummaryDiv">
