@@ -420,15 +420,22 @@ limitations under the License.
 						<cfthrow message="Multiple containers with barcode #new_parent_barcode# found. Cannot continue.">
 					</cfif>
 					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
+					<!--- First pass: resolve every item's actual move-target -- its own "collection
+						object" leaf, unless that leaf's immediate parent is a proxy-role container
+						(pin/slide/cryovial/envelope/glass vial), in which case the proxy is what
+						actually gets reparented. Mirrors specimens/changeQueryPartContainers.cfm's
+						Phase 2 pattern: this replaces a raw coll_obj_cont_hist join that (a) checked
+						the wrong thing against DISALLOWED_CONTAINER_TYPES (the leaf's parent's type,
+						treating every proxy type as an outright block) while (b) always moving the
+						leaf's own container_id regardless, never the proxy actually detected. Also
+						groups items by distinct resolved type, since validateContainerPlacement's
+						result only ever depends on the TYPE being moved and the target -- never on
+						which specific item it is -- so a batch of e.g. 19 pins produces one shared
+						check, not 19 identical ones repeated in the eventual message. --->
+					<cfset partMoveContainerId = StructNew()>
+					<cfset typeRepresentative = StructNew()>
+					<cfset typeCount = StructNew()>
 					<cfloop query="getCollObjId">
-						<!--- Resolve the item's actual move-target -- its own "collection object" leaf,
-							unless that leaf's immediate parent is a proxy-role container (pin/slide/
-							cryovial/envelope/glass vial), in which case the proxy is what actually gets
-							reparented. Mirrors specimens/changeQueryPartContainers.cfm's Phase 2 pattern:
-							this replaces a raw coll_obj_cont_hist join that (a) checked the wrong thing
-							against DISALLOWED_CONTAINER_TYPES (the leaf's parent's type, treating every
-							proxy type as an outright block) while (b) always moving the leaf's own
-							container_id regardless, never the proxy actually detected. --->
 						<cfset local.partContainer = resolvePartCurrentContainer(collection_object_id)>
 						<cfif NOT local.partContainer.found>
 							<cfthrow message="No current container found for collection_object_id #collection_object_id#. Cannot continue.">
@@ -436,30 +443,45 @@ limitations under the License.
 						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,local.partContainer.move_type) GT 0>
 							<cfthrow message="Containers of type #local.partContainer.move_type# cannot be moved. Aborting operation.">
 						</cfif>
-						<cfset containerToMoveID = local.partContainer.move_container_id>
-						<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-
-							type, rank order, etc.) validated with the same badge engine moveContainer.cfm/
-							placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use. A block aborts
-							the whole transaction; a warn is collected and shown in the result message
-							below rather than silently proceeding -- this action has no separate
-							confirm/review step to show it on before committing. --->
-						<cfset local.placementResult = validateContainerPlacement(child_container_id=containerToMoveID, proposed_parent_container_id=targetParentContainerID)>
+						<cfset partMoveContainerId[collection_object_id] = local.partContainer.move_container_id>
+						<cfif NOT structKeyExists(typeRepresentative, local.partContainer.move_type)>
+							<cfset typeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
+							<cfset typeCount[local.partContainer.move_type] = 0>
+						</cfif>
+						<cfset typeCount[local.partContainer.move_type] = typeCount[local.partContainer.move_type] + 1>
+					</cfloop>
+					<!--- Second pass: validate once per distinct type -- the same badge engine
+						moveContainer.cfm/placePartInContainer.cfm/tools/BulkloadPartContainer.cfm use.
+						A block aborts the whole transaction before any container has been written;
+						a warn is collected (one entry per type, naming how many items share it) and
+						shown in the result message below rather than silently proceeding -- this
+						action has no separate confirm/review step to show it on before committing. --->
+					<cfloop collection="#typeRepresentative#" item="local.oneType">
+						<cfset local.placementResult = validateContainerPlacement(child_container_id=typeRepresentative[local.oneType], proposed_parent_container_id=targetParentContainerID)>
 						<cfif isSimpleValue(local.placementResult)>
 							<cfset local.placementResult = deserializeJSON(local.placementResult)>
 						</cfif>
 						<cfif local.placementResult.severity EQ "block">
-							<cfthrow message="Placement blocked for #local.partContainer.move_type# #local.partContainer.move_label#: #ArrayToList(local.placementResult.blocks,'; ')#">
+							<cfthrow message="Placement blocked for #local.oneType#: #ArrayToList(local.placementResult.blocks,'; ')#">
 						</cfif>
 						<cfif local.placementResult.severity EQ "warn">
-							<cfset placementWarnings = listAppend(placementWarnings, "#local.partContainer.move_type# #local.partContainer.move_label#: #ArrayToList(local.placementResult.warnings,'; ')#", "|")>
+							<cfset local.countLabel = "#typeCount[local.oneType]# #local.oneType#">
+							<cfif typeCount[local.oneType] NEQ 1>
+								<cfset local.countLabel = "#local.countLabel#s">
+							</cfif>
+							<cfset placementWarnings = listAppend(placementWarnings, "#local.countLabel#: #ArrayToList(local.placementResult.warnings,'; ')#", "|")>
 						</cfif>
+					</cfloop>
+					<!--- Third pass: now that every type has cleared validation, actually move
+						each item. --->
+					<cfloop query="getCollObjId">
 						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 							UPDATE container
 							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
-							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#containerToMoveId#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partMoveContainerId[collection_object_id]#">
 						</cfquery>
 						<cfif changeParentContainer_result.recordcount NEQ 1>
-							<cfthrow message="Failed to move container #containerToMoveID# to new parent container #targetParentContainerID#.">
+							<cfthrow message="Failed to move container #partMoveContainerId[collection_object_id]# to new parent container #targetParentContainerID#.">
 						</cfif>
 						<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 					</cfloop>
