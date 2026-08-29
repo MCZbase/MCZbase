@@ -710,9 +710,6 @@ limitations under the License.
 		</cfoutput>
 		<main class="container-fluid" id="content">
 			<cfoutput>
-				<cfif isdefined("message") AND len(message) GT 0>
-					<h1 class=h2>#encodeForHtml(message)#</h2>
-				</cfif>
 				<cfset isClosed = false>
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
@@ -739,6 +736,7 @@ limitations under the License.
 				<cfif aboutLoan.loan_number IS "">
 					<cfthrow message="Transaction with this transaction_id is not a loan.">
 				</cfif>
+				<h1 class="h2">Review Loan Items: Loan #encodeForHtml(aboutLoan.loan_number)#</h1>
 				<cfif aboutLoan.loan_status EQ 'closed'>
 					<cfset isClosed = true>
 				</cfif>
@@ -1198,7 +1196,23 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-	
+
+					<!--- Result of the most recent "Edit All Loan Items" bulk action, if any --
+						placed here, between that block and the Loan Items list it acts on, rather
+						than at the top of the page, so it reads as directly tied to the action
+						that produced it and to the list it updated. --->
+					<cfif isdefined("message") AND len(message) GT 0>
+						<cfset messageAlertClass = "alert-success">
+						<cfif findNoCase("failed", message) GT 0>
+							<cfset messageAlertClass = "alert-danger">
+						</cfif>
+						<div class="col-12 mb-3">
+							<div class="alert #messageAlertClass#" role="alert">
+								#encodeForHtml(message)#
+							</div>
+						</div>
+					</cfif>
+
 					<div class="col-12 mb-3">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h2 class="h4">Loan Items</h2>
