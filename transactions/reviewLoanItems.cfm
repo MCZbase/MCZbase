@@ -160,16 +160,6 @@ limitations under the License.
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
 <script type='text/javascript' src='/specimens/js/public.js'></script>
 
-<style>
-	.jqx-grid-cell {
-		background-color: #E9EDECd6;
-	}
-	.jqx-grid-cell-alt {
-		background-color: #f5f5f5;
-	}
-	}
-</style>
-
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
@@ -858,21 +848,21 @@ limitations under the License.
 											<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Countries of Origin</h3>
+											<h2 class="h4 mb-1">Countries of Origin</h2>
 											<div id="countriesDiv">
 												<cfset countries = getCountriesList(transaction_id=transaction_id)>
 												#countries#
 											</div>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
+											<h2 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h2>
 											<div id="dispositionsDiv">
 												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
 												#dispositions#
 											</div>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Preservation Methods</h3>
+											<h2 class="h4 mb-1">Preservation Methods</h2>
 											<div id="preservationDiv">
 												<cfset preservations = getPreservationsList(transaction_id=transaction_id)>
 												#preservations#
@@ -892,8 +882,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 col-md-8">
 															<label class="data-entry-label">&nbsp;</label>
-															<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
-																aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
+															<button type="button" id="addloanitembutton" class="btn btn-xs btn-secondary">Add Part To Loan</button>
 															<script>
 																$(document).ready(function() {
 																	$('##addloanitembutton').click(function(evt) { 
@@ -923,13 +912,11 @@ limitations under the License.
 										<cfset editVisibility = "d-none">
 										<div class="row mb-0 pb-0 px-2 mx-0">
 											<div class="col-12">
-												<h3 class="h4 text-danger" id="closedHeadingLine">This loan is closed; edit functions are disabled.</h3>
-												<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
-													onclick=" enableEditControls(); "
-													aria-label="Enable bulk editing">Enable Editing</span>
-												<span class="btn btn-xs btn-secondary d-none"
-													onclick=" disableEditControls(); " id="disableEditControlsBtn"
-													aria-label="Disable bulk editing">Disable Editing</span>
+												<h2 class="h4 text-danger" id="closedHeadingLine">This loan is closed; edit functions are disabled.</h2>
+												<button type="button" class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
+													onclick=" enableEditControls(); ">Enable Editing</button>
+												<button type="button" class="btn btn-xs btn-secondary d-none"
+													onclick=" disableEditControls(); " id="disableEditControlsBtn">Disable Editing</button>
 											</div>
 										</div>
 										<script>
@@ -1031,7 +1018,7 @@ limitations under the License.
 																	ORDER BY label
 																</cfquery>
 																<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Move all containers for all these #partCount# items to:
+																	<label for="new_parent_barcode">Move all containers for all these #partCount# items to:</label>
 																	<input type="hidden" name="Action" value="BulkUpdateContainers">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
@@ -1078,10 +1065,10 @@ limitations under the License.
 														<cfif aboutLoan.collection EQ 'Cryogenic'>
 															<div class="col-12 col-xl-6 border p-1">
 																<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Change preservation method of all these items to:
+																	<label for="part_preserve_method">Change preservation method of all these items to:</label>
 																	<input type="hidden" name="Action" value="BulkUpdatePres">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+																	<select name="part_preserve_method" id="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
 																		<option></option>
 																		<cfloop query="ctPreserveMethod">
 																			<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
@@ -1179,7 +1166,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-xl-6 border p-1">
 																<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Add instructions to each loan item:
+																	<label for="item_instructions">Add instructions to each loan item:</label>
 																	<input type="hidden" name="action" value="BulkSetInstructions">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<input type="text" name="item_instructions" id="item_instructions" value="">
@@ -1272,21 +1259,7 @@ limitations under the License.
 					</script>
 
 						<script>
-
-
-							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to mark a loan item as returned
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Return" aria-label="Mark Item as Returned"/></span>';
-							};
-							var consumedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to mark a loan item as consumed
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
-							};
-							function reloadLoanSummaryData(){ 
+							function reloadLoanSummaryData(){
 								// reload dispositions of loan items
 								$.ajax({
 									dataType: 'html',
