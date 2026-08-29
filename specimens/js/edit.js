@@ -1062,7 +1062,7 @@ function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCou
 		target.text('Will move: the whole ' + moveType + ' ' + moveLabel + ' -- and the ' +
 			otherCount + ' other specimen(s) in it -- not just this part.');
 	} else {
-		target.text('Will move: ' + moveType + ' ' + moveLabel + ' (this part\'s proxy container), not just the part.');
+		target.text(moveType + ' ' + moveLabel + ' (this part\'s proxy container) is in:');
 	}
 }
 

@@ -4913,7 +4913,7 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 												<span id="container_badge#i#"></span>
 												<span class="small text-muted" id="move_what#i#">
 													<cfif moveTarget.is_proxy>
-														Will move: #encodeForHtml(moveTarget.move_type)# #encodeForHtml(moveTarget.move_label)# (this part's proxy container), not just the part.
+														#encodeForHtml(moveTarget.move_type)# #encodeForHtml(moveTarget.move_label)# (this part's proxy container) is in:
 													<cfelseif moveTarget.requires_move_scope_choice>
 														This part shares #encodeForHtml(moveTarget.current_parent_type)# #encodeForHtml(moveTarget.current_parent_label)# with #moveTarget.jar_occupant_count - 1# other specimen(s) -- choosing a new container will ask whether to move just this part or the whole #encodeForHtml(moveTarget.current_parent_type)#.
 													</cfif>
