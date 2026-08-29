@@ -1053,17 +1053,33 @@ function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice) {
  * @param isProxy true when moving a proxy/shared container instead of the bare part.
  * @param otherCount when isProxy and this is a shared (not single-occupant) container, how many
  *  OTHER specimens will move along with it; omit or pass 0 for a true single-occupant proxy.
+ * @param changed true once a NEW container has actually been picked for a true (single-occupant)
+ *  proxy, so the note reads as a pending move ("will move to:") rather than the server-rendered,
+ *  as-loaded placement ("is in:"). Ignored when isProxy is false or otherCount is set -- both of
+ *  those cases already read as pending actions on their own.
  */
-function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCount) {
+function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCount, changed) {
 	var target = $('#' + targetId);
 	if (!isProxy) {
 		target.text('Will move: this part directly.');
 	} else if (otherCount) {
 		target.text('Will move: the whole ' + moveType + ' ' + moveLabel + ' -- and the ' +
 			otherCount + ' other specimen(s) in it -- not just this part.');
+	} else if (changed) {
+		target.text(moveType + ' ' + moveLabel + ' (this part\'s proxy container) will move to:');
 	} else {
 		target.text(moveType + ' ' + moveLabel + ' (this part\'s proxy container) is in:');
 	}
+}
+
+/**
+ * Flags one Edit Existing Parts row as having a pending, not-yet-saved change -- reuses the same
+ * part_output#i# control the row's Save/Delete button handlers already report saving/saved/error
+ * into (see specimens/component/functions.cfc's getEditPartsHTML).
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function markPartRowUnsaved(rowIndex) {
+	setFeedbackControlState('part_output' + rowIndex, 'unsaved');
 }
 
 /**
@@ -1086,6 +1102,8 @@ function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCou
 function handlePartContainerSelected(rowIndex, selectedId) {
 	var moveContainerIdFieldId = 'move_container_id' + rowIndex;
 	var isProxyFieldId = 'is_proxy' + rowIndex;
+	var moveTypeFieldId = 'move_type' + rowIndex;
+	var moveLabelFieldId = 'move_label' + rowIndex;
 	var requiresChoiceFieldId = 'requires_move_scope_choice' + rowIndex;
 	var jarOccupantCountFieldId = 'jar_occupant_count' + rowIndex;
 	var currentParentIdFieldId = 'current_parent_container_id' + rowIndex;
@@ -1094,6 +1112,12 @@ function handlePartContainerSelected(rowIndex, selectedId) {
 	var moveScopeFieldId = 'move_scope' + rowIndex;
 	var moveWhatTextId = 'move_what' + rowIndex;
 	var badgeTargetId = 'container_badge' + rowIndex;
+
+	// picking a container -- through either the Choose... dialog or the autocomplete -- only
+	// stages the change in the form; nothing is persisted until the row's own Save button is
+	// clicked. Flag the row as having a pending change so that's clear regardless of which
+	// branch below runs.
+	markPartRowUnsaved(rowIndex);
 
 	var requiresChoice = $('#' + requiresChoiceFieldId).val() === 'true';
 	if (requiresChoice) {
@@ -1110,10 +1134,15 @@ function handlePartContainerSelected(rowIndex, selectedId) {
 	} else {
 		var childId = $('#' + moveContainerIdFieldId).val();
 		var isProxy = $('#' + isProxyFieldId).val() === 'true';
-		if (!isProxy) {
-			// a true proxy's "Will move: ..." note is already shown and doesn't change based on
-			// the destination -- only the plain, nothing-special case needs this spelled out, and
-			// only once a change is actually being made.
+		if (isProxy) {
+			// a true (single-occupant) proxy's own current placement is already shown as loaded
+			// ("is in:") -- once a NEW container is actually picked, switch it to the pending-move
+			// wording ("will move to:") so it doesn't read as an already-settled fact.
+			var moveType = $('#' + moveTypeFieldId).val();
+			var moveLabel = $('#' + moveLabelFieldId).val();
+			renderPartMoveWhatText(moveWhatTextId, moveType, moveLabel, true, 0, true);
+		} else {
+			// the plain, nothing-special case has no note until a change is actually being made.
 			renderPartMoveWhatText(moveWhatTextId, '', '', false, 0);
 		}
 		loadPlacementWarningBadge(childId, selectedId, badgeTargetId);

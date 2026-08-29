@@ -4782,7 +4782,7 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 								</cfif>
 							</cfif>
 							<cfif getParts.is_subsample EQ 0>
-								<cfset marginSeparator = "mt-2">
+								<cfset marginSeparator = "mt-1">
 							<cfelse>
 								<cfset marginSeparator = "">
 							</cfif>
@@ -4935,6 +4935,8 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 											<input type="hidden" id="current_parent_type#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_type)#">
 											<input type="hidden" id="current_parent_label#i#" value="#encodeForHtmlAttribute(moveTarget.current_parent_label)#">
 											<input type="hidden" id="move_scope#i#" name="move_scope" value="">
+											<input type="hidden" id="move_type#i#" value="#encodeForHtmlAttribute(moveTarget.move_type)#">
+											<input type="hidden" id="move_label#i#" value="#encodeForHtmlAttribute(moveTarget.move_label)#">
 										</div>
 										<div class="col-12 col-md-9 mb-2">
 											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
@@ -5051,6 +5053,13 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 							</div>
 							<script>
 								$(document).ready(function() {
+									// show "Unsaved changes." as soon as any field in this row is touched --
+									// mirrors taxonomy/Taxonomy.cfm's own changed() binding -- reuses the same
+									// part_output#i# control the Save/Delete button handlers already report
+									// saving/saved/error into.
+									$('##editPart#i# input, ##editPart#i# select, ##editPart#i# textarea').on('input change', function() {
+										setFeedbackControlState('part_output#i#', 'unsaved');
+									});
 									// make container barcode autocomplete
 									makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 									// refresh the placement-preview badge from either the Choose...
