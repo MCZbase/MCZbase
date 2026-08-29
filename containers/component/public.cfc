@@ -2560,6 +2560,69 @@ already filed away several levels deep.
 </cffunction>
 
 <!---
+Function resolvePartPreviousContainer. Resolves what a part's move-back destination and prior-
+placement history actually are -- layered on resolvePartCurrentContainer rather than querying
+container_history directly against the part's own raw leaf container_id, because a proxy-housed
+part's leaf never itself moves when only the proxy (e.g. the pin) is relocated. Querying the leaf's
+own history would find whatever container_history predates the part ever being placed on the proxy
+-- or nothing at all -- not the proxy's own most recent placement, which is the one actually being
+undone by a "move back" action.
+@param part_collection_object_id the specimen_part's own collection_object_id.
+@return a struct: {found: boolean, move_container_id, previous_found: boolean,
+	previous_container_id, previous_label, previous_barcode, previous_type}. previous_found is
+	false when there's no eligible prior placement to move back to (e.g. the part has never been
+	elsewhere, or its only prior placement was directly under a campus/institution).
+--->
+<cffunction name="resolvePartPreviousContainer" access="public" returntype="any" output="false">
+	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+
+	<cfset local.retval = StructNew()>
+	<cfset local.partContainer = resolvePartCurrentContainer(arguments.part_collection_object_id)>
+	<cfset local.retval["found"] = local.partContainer.found>
+	<cfset local.retval["previous_found"] = false>
+	<cfset local.retval["previous_container_id"] = 0>
+	<cfset local.retval["previous_label"] = "">
+	<cfset local.retval["previous_barcode"] = "">
+	<cfset local.retval["previous_type"] = "">
+	<cfif NOT local.partContainer.found>
+		<cfreturn local.retval>
+	</cfif>
+	<cfset local.retval["move_container_id"] = local.partContainer.move_container_id>
+	<!--- Excludes the container's own CURRENT parent as a candidate "previous" location -- the
+		GET_CONTAINER_HISTORY trigger logs :OLD.parent_container_id/:OLD.parent_install_date
+		(i.e. the install_date of the placement being LEFT, not of the move itself), so this
+		ordering is normally correct for clean history, but a stray or duplicate history row
+		pointing at the current chamber itself (e.g. left over from a move recorded before a
+		bug fix) would otherwise be picked as the "previous" location, offering to move a
+		container "back" to exactly where it already is. --->
+	<cfquery name="local.queryPrevious" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+		SELECT
+			old_parent.container_id AS old_parent_container_id,
+			old_parent.label,
+			old_parent.barcode,
+			old_parent.container_type AS old_parent_container_type
+		FROM container_history
+			JOIN container old_parent ON container_history.parent_container_id = old_parent.container_id
+		WHERE
+			container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#">
+			AND old_parent.container_type <> 'campus'
+			AND old_parent.container_type <> 'institution'
+			AND old_parent.parent_container_id IS NOT NULL
+			AND old_parent.container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.current_parent_container_id#">
+		ORDER BY container_history.install_date DESC NULLS LAST
+		FETCH FIRST 1 ROWS ONLY
+	</cfquery>
+	<cfif local.queryPrevious.recordcount EQ 1>
+		<cfset local.retval["previous_found"] = true>
+		<cfset local.retval["previous_container_id"] = local.queryPrevious.old_parent_container_id>
+		<cfset local.retval["previous_label"] = local.queryPrevious.label>
+		<cfset local.retval["previous_barcode"] = local.queryPrevious.barcode>
+		<cfset local.retval["previous_type"] = local.queryPrevious.old_parent_container_type>
+	</cfif>
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
 Function getRepresentativeLeafContainerId. Returns the container_id of any single existing
 container of type 'collection object', for live client-side placement-preview checks against a
 part that doesn't exist yet (e.g. the "Add New Part" dialog, before createSpecimenPart has run).

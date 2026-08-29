@@ -20,6 +20,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartPreviousContainer, used by getLoanCatItemHtml below --->
 
 <!---   Function addPartToDeacc add a part to a deaccession DEPRECATED
  @deprecated replace usages where retained with addPartToDeaccession
@@ -2990,25 +2991,38 @@ STATE TRANSITION BEHAVIOR:
 							coll_obj_cont_hist.container_id,
 							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
 							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
-							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
-							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
-						FROM 
+							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name
+						FROM
 							loan
 							join loan_item on loan.transaction_id = loan_item.transaction_id
-							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 								and coll_obj_cont_hist.current_container_fg = 1
 						WHERE
 							loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
-						ORDER BY 
+						ORDER BY
 							part_name, preserve_method
 					</cfquery>
 					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
+						<!--- resolvePartPreviousContainer is proxy-aware (see its doc comment in
+							containers/component/public.cfc) -- MCZBASE.get_previous_container_id
+							looked up container_history against the part's own raw leaf
+							container_id, which never moves when only its proxy (e.g. a pin) is
+							relocated, so it could report the part's CURRENT location as its
+							"previous" one too. --->
+						<cfset previousContainer = resolvePartPreviousContainer(getParts.partID)>
+						<cfset previousLocationText = "">
+						<cfif previousContainer.found AND previousContainer.previous_found>
+							<cfquery name="getPreviousLocationText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT MCZBASE.get_storage_parentage(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#previousContainer.previous_container_id#">) AS previous_location FROM dual
+							</cfquery>
+							<cfset previousLocationText = getPreviousLocationText.previous_location>
+						</cfif>
 						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								deaccession.transaction_id,
@@ -3067,13 +3081,13 @@ STATE TRANSITION BEHAVIOR:
 							<div class="col-12 col-md-6 pr-1">
 								<strong>Storage Location:</strong> <a href="/containers/Containers.cfm?container_id=#encodeForUrl(getParts.container_id)#&execute=true" target="_blank">#getParts.short_location#</a>
 								<ul class="mb-1">
-									<cfif len(previous_location) GT 0>
+									<cfif previousContainer.found AND previousContainer.previous_found>
 										<li>
-											<strong>Previous Location:</strong> 
-											<cfif getParts.short_location EQ getParts.previous_location>
+											<strong>Previous Location:</strong>
+											<cfif previousLocationText EQ getParts.short_location>
 												same
 											<cfelse>
-												#previous_location#
+												#previousLocationText#
 											</cfif>
 										</li>
 									</cfif>
