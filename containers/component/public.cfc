@@ -35,7 +35,7 @@ container_id.
 		<cfoutput>
 			<cftry>
 				<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
+					SELECT
 						container.label,
 						container.barcode,
 						container.description,
@@ -48,14 +48,21 @@ container_id.
 						parent.container_type AS parent_container_type,
 						parent.container_id AS parent_container_id,
 						parent.barcode AS parent_barcode,
-						parent.container_remarks AS parent_container_remarks
-					FROM container 
+						parent.container_remarks AS parent_container_remarks,
+						parent_role.role AS parent_role
+					FROM container
 						left join container parent on container.parent_container_id = parent.container_id
+						left join ctcontainer_type parent_role on parent.container_type = parent_role.container_type
 					WHERE container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 				</cfquery>
 				<cfif getContainer.recordcount eq 0>
 					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
 				</cfif>
+				<!--- This part's own "collection object" leaf never moves once it's settled into
+					a stable proxy (pin/slide/cryovial/envelope/glass vial) -- its own history below
+					is usually thin or empty in that case, so also surface the proxy's own history,
+					which is what actually reflects where this part has been. --->
+				<cfset showProxyHistory = (getContainer.container_type EQ "collection object" AND getContainer.parent_role EQ "proxy")>
 				<h2 class="h3"> 
 					<a href="/containers/Containers.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank">
 						#getContainer.label# 
@@ -169,6 +176,141 @@ container_id.
 							</tr>
 						</cfloop>
 					</table>
+				</cfif>
+				<cfif showProxyHistory>
+					<cfquery name="getProxyContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							container.label,
+							container.barcode,
+							container.description,
+							container.container_type,
+							container.container_id,
+							container.container_remarks,
+							container.parent_install_date as install_date,
+							parent.label AS parent_label,
+							parent.description AS parent_description,
+							parent.container_type AS parent_container_type,
+							parent.container_id AS parent_container_id,
+							parent.barcode AS parent_barcode,
+							parent.container_remarks AS parent_container_remarks
+						FROM container
+							left join container parent on container.parent_container_id = parent.container_id
+						WHERE container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.parent_container_id#">
+					</cfquery>
+					<h2 class="h3 mt-4">
+						<a href="/containers/Containers.cfm?container_id=#encodeForURL(getProxyContainer.container_id)#" target="_blank">
+							#getProxyContainer.label#
+						</a>
+						<cfif getProxyContainer.barcode is not getProxyContainer.label and len(getProxyContainer.barcode) gt 0>
+							(#getProxyContainer.barcode#)
+						</cfif>
+						<small class="text-muted d-block">Proxy container -- this part's own placement history above never changes while it stays in this proxy; this is that proxy's own placement history.</small>
+					</h2>
+					<div>
+						<h3 class="h4">
+							#getProxyContainer.container_type#
+						</h3>
+						<ul>
+						<cfif len(#getProxyContainer.description#) gt 0>
+							<li><strong>Description:</strong>#getProxyContainer.description#</li>
+						</cfif>
+						<cfif len(getProxyContainer.container_remarks) gt 0>
+							<li><strong>Remarks:</strong> #getProxyContainer.container_remarks#</li>
+						</cfif>
+						</ul>
+					</div>
+					<h3 class="h4 mt-4">Current Container</h3>
+					<table class="table table-striped border mt-2">
+						<tr>
+							<th>Placement Date</th>
+							<th>Name</th>
+							<th>Type</th>
+							<th>Description</th>
+							<th>Unique Identifier</th>
+						</tr>
+						<tr>
+							<td>
+								#dateformat(getProxyContainer.install_date,"yyyy-mm-dd")#
+								#timeformat(getProxyContainer.install_date,"HH:mm:ss")#
+							</td>
+							<td>
+								<a href="/containers/Containers.cfm?container_id=#encodeForURL(getProxyContainer.parent_container_id)#" target="_blank">
+									#getProxyContainer.parent_label#
+								</a>
+								<cfif getProxyContainer.parent_barcode is not getProxyContainer.parent_label>
+									(#getProxyContainer.parent_barcode#)
+								</cfif>
+							</td>
+							<td>#getProxyContainer.parent_container_type#</td>
+							<td>#getProxyContainer.parent_description#</td>
+							<td>#getProxyContainer.parent_barcode#</td>
+						</tr>
+					</table>
+					<cfquery name="getProxyHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							install_date,
+							container_type,
+							label,
+							description,
+							barcode,
+							container_history.parent_container_id
+						 FROM container_history
+							left join container on container_history.parent_container_id = container.container_id
+						 WHERE
+							container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContainer.parent_container_id#">
+						 GROUP BY
+							install_date,
+							container_type,
+							label,
+							description,
+							barcode,
+							container_history.parent_container_id
+						ORDER BY install_date DESC NULLS LAST
+					</cfquery>
+					<div>
+						<h3 class="h4">Proxy Container History</h3>
+						<cfif #getProxyHistory.recordcount# EQ 0>
+							<ul><li>Has no placement history.</li></ul>
+						</cfif>
+					</div>
+					<cfif #getProxyHistory.recordcount# gt 0>
+						<table class="table table-striped border mt-2">
+							<tr>
+								<th>Placement Date</th>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Description</th>
+								<th>Unique Identifier</th>
+							</tr>
+							<cfloop query="getProxyHistory">
+								<tr>
+									<td>
+										<cfif len(trim(getProxyHistory.install_date)) eq 0>
+											Unknown
+										</cfif>
+										#dateformat(getProxyHistory.install_date,"yyyy-mm-dd")#
+										#timeformat(getProxyHistory.install_date,"HH:mm:ss")#
+									</td>
+									<cfif len(getProxyHistory.label) eq 0 and len(getProxyHistory.barcode) eq 0 and len(getProxyHistory.container_type) eq 0>
+										<td>Unknown</td>
+										<td>Deleted</td>
+									<cfelse>
+										<td>
+											<a href="/containers/Containers.cfm?container_id=#encodeForURL(getProxyHistory.parent_container_id)#" target="_blank">
+												#getProxyHistory.label#
+											</a>
+											<cfif getProxyHistory.barcode is not getProxyHistory.label>
+												(#getProxyHistory.barcode#)
+											</cfif>
+										</td>
+										<td>#getProxyHistory.container_type#</td>
+									</cfif>
+									<td>#getProxyHistory.description#</td>
+									<td>#getProxyHistory.barcode#</td>
+								</tr>
+							</cfloop>
+						</table>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
