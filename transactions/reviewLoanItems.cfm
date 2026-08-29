@@ -186,6 +186,13 @@ the proxy, not the chamber move being undone here.
 		<cfreturn local.retval>
 	</cfif>
 	<cfset local.retval["move_container_id"] = local.partContainer.move_container_id>
+	<!--- Excludes the container's own CURRENT parent as a candidate "previous" location -- the
+		GET_CONTAINER_HISTORY trigger logs :OLD.parent_container_id/:OLD.parent_install_date
+		(i.e. the install_date of the placement being LEFT, not of the move itself), so this
+		ordering is normally correct for clean history, but a stray or duplicate history row
+		pointing at the current chamber itself (e.g. left over from a move recorded before a
+		bug fix) would otherwise be picked as the "previous" location, offering to move a
+		container "back" to exactly where it already is. --->
 	<cfquery name="local.queryPrevious" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			old_parent.container_id AS old_parent_container_id,
@@ -199,6 +206,7 @@ the proxy, not the chamber move being undone here.
 			AND old_parent.container_type <> 'campus'
 			AND old_parent.container_type <> 'institution'
 			AND old_parent.parent_container_id IS NOT NULL
+			AND old_parent.container_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.current_parent_container_id#">
 		ORDER BY container_history.install_date DESC NULLS LAST
 		FETCH FIRST 1 ROWS ONLY
 	</cfquery>
