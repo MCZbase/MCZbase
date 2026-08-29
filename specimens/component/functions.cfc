@@ -4512,6 +4512,10 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 							$(document).ready(function() {
 								// make container barcode autocomplete, reference containers that can contain collection objects
 								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
+								// seed the "last checked" id so checkNewPartContainerBadge can tell a real
+								// pick apart from a spurious autocompletechange (e.g. a plain focus/blur
+								// with no edit -- see its own doc comment).
+								$('##container_barcode').data('lastContainerId', $('##container_id').val());
 								// refresh the placement-preview badge from either the picker dialog (see
 								// chooseContainerForNewPart) or a plain autocomplete pick/typed change --
 								// setTimeout lets the autocomplete widget's own select/change handlers
@@ -5062,6 +5066,10 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 									});
 									// make container barcode autocomplete
 									makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+									// seed the "last checked" id so checkPartContainerBadge can tell a real
+									// pick apart from a spurious autocompletechange (e.g. a plain focus/blur
+									// with no edit -- see its own doc comment).
+									$('##container_label#i#').data('lastContainerId', $('##container_id#i#').val());
 									// refresh the placement-preview badge from either the Choose...
 									// dialog (see chooseContainerForPartRow) or a plain autocomplete
 									// pick/typed change -- setTimeout lets the autocomplete widget's

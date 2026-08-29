@@ -1164,6 +1164,7 @@ function chooseContainerForPartRow(rowIndex) {
 		onSelect: function(selectedId, selectedLabel, wrapper) {
 			$('#' + containerInputId).val(selectedLabel);
 			$('#' + containerIdFieldId).val(selectedId);
+			$('#' + containerInputId).data('lastContainerId', selectedId);
 			wrapper.dialog('close');
 			handlePartContainerSelected(rowIndex, selectedId);
 		}
@@ -1176,10 +1177,18 @@ function chooseContainerForPartRow(rowIndex) {
  * own handler has already updated the row's hidden container_id field by the time this runs; see
  * makeContainerAutocompleteMetaExcludeCO's select/change callbacks. Clears the badge if the value
  * no longer resolves to a real container_id (e.g. typed text that didn't match a pick).
+ * Ignores the call entirely when the resolved container_id hasn't actually changed since the last
+ * time this ran -- autocompletechange can fire from a plain focus/blur with no edit, and without
+ * this guard that re-ran the placement-fitness lookup (a live AJAX call) on every such no-op.
  * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
  */
 function checkPartContainerBadge(rowIndex) {
+	var input = $('#container_label' + rowIndex);
 	var selectedId = $('#container_id' + rowIndex).val();
+	if (selectedId === input.data('lastContainerId')) {
+		return;
+	}
+	input.data('lastContainerId', selectedId);
 	if (!selectedId) {
 		$('#container_badge' + rowIndex).empty();
 		return;
@@ -1191,10 +1200,17 @@ function checkPartContainerBadge(rowIndex) {
  * Checks and displays a live placement-preview badge for the "Add New Part" form's Container
  * field, using a representative existing collection-object container since the new part doesn't
  * exist yet (see chooseContainerForNewPart's own doc comment). Call whenever the field's resolved
- * container_id changes, whether via the Choose... dialog or the barcode autocomplete.
+ * container_id changes, whether via the Choose... dialog or the barcode autocomplete. Ignores the
+ * call when the resolved container_id hasn't actually changed since the last time this ran --
+ * see checkPartContainerBadge's own doc comment for why that guard is needed.
  */
 function checkNewPartContainerBadge() {
+	var input = $('#container_barcode');
 	var selectedId = $('#container_id').val();
+	if (selectedId === input.data('lastContainerId')) {
+		return;
+	}
+	input.data('lastContainerId', selectedId);
 	if (!selectedId) {
 		$('#new_part_container_badge').empty();
 		return;
