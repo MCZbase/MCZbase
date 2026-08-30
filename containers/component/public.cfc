@@ -2724,20 +2724,29 @@ own history would find whatever container_history predates the part ever being p
 -- or nothing at all -- not the proxy's own most recent placement, which is the one actually being
 undone by a "move back" action.
 @param part_collection_object_id the specimen_part's own collection_object_id.
+@param exclude_current_parent_types optional comma-separated list of container_type values; when
+	the part's CURRENT parent (current_parent_type) matches one of these, previous_found is forced
+	false regardless of history, so callers proposing an automated "move back" can exclude container
+	types they'd rather not disturb automatically (e.g. a jar shared with other specimens) without
+	that caution applying to informational-only callers that don't pass this argument.
 @return a struct: {found: boolean, move_container_id, previous_found: boolean,
 	previous_container_id, previous_label, previous_barcode, previous_type}. previous_found is
 	false when there's no eligible prior placement to move back to (e.g. the part has never been
-	elsewhere, or its only prior placement was directly under a campus/institution).
+	elsewhere, or its only prior placement was directly under a campus/institution), or when
+	excluded via exclude_current_parent_types.
 --->
 <cffunction name="resolvePartPreviousContainer" access="public" returntype="any" output="false">
 	<cfargument name="part_collection_object_id" type="numeric" required="yes">
+	<cfargument name="exclude_current_parent_types" type="string" required="no" default="">
 
-	<!--- Memoized per-request -- see resolvePartCurrentContainer's own cache for why. --->
+	<!--- Memoized per-request -- see resolvePartCurrentContainer's own cache for why. Keyed on both
+		arguments since exclude_current_parent_types changes the result for the same part. --->
+	<cfset local.cacheKey = "#arguments.part_collection_object_id#|#arguments.exclude_current_parent_types#">
 	<cfif NOT structKeyExists(request, "resolvePartPreviousContainerCache")>
 		<cfset request.resolvePartPreviousContainerCache = StructNew()>
 	</cfif>
-	<cfif structKeyExists(request.resolvePartPreviousContainerCache, arguments.part_collection_object_id)>
-		<cfreturn request.resolvePartPreviousContainerCache[arguments.part_collection_object_id]>
+	<cfif structKeyExists(request.resolvePartPreviousContainerCache, local.cacheKey)>
+		<cfreturn request.resolvePartPreviousContainerCache[local.cacheKey]>
 	</cfif>
 
 	<cfset local.retval = StructNew()>
@@ -2749,10 +2758,15 @@ undone by a "move back" action.
 	<cfset local.retval["previous_barcode"] = "">
 	<cfset local.retval["previous_type"] = "">
 	<cfif NOT local.partContainer.found>
-		<cfset request.resolvePartPreviousContainerCache[arguments.part_collection_object_id] = local.retval>
+		<cfset request.resolvePartPreviousContainerCache[local.cacheKey] = local.retval>
 		<cfreturn local.retval>
 	</cfif>
 	<cfset local.retval["move_container_id"] = local.partContainer.move_container_id>
+	<cfif len(arguments.exclude_current_parent_types) GT 0
+		AND listFindNoCase(arguments.exclude_current_parent_types, local.partContainer.current_parent_type) GT 0>
+		<cfset request.resolvePartPreviousContainerCache[local.cacheKey] = local.retval>
+		<cfreturn local.retval>
+	</cfif>
 	<!--- Excludes the container's own CURRENT parent as a candidate "previous" location -- the
 		GET_CONTAINER_HISTORY trigger logs :OLD.parent_container_id/:OLD.parent_install_date
 		(i.e. the install_date of the placement being LEFT, not of the move itself), so this
@@ -2784,7 +2798,7 @@ undone by a "move back" action.
 		<cfset local.retval["previous_barcode"] = local.queryPrevious.barcode>
 		<cfset local.retval["previous_type"] = local.queryPrevious.old_parent_container_type>
 	</cfif>
-	<cfset request.resolvePartPreviousContainerCache[arguments.part_collection_object_id] = local.retval>
+	<cfset request.resolvePartPreviousContainerCache[local.cacheKey] = local.retval>
 	<cfreturn local.retval>
 </cffunction>
 
@@ -2877,12 +2891,15 @@ Also precomputes each result's previous_location_text (MCZBASE.get_storage_paren
 previous_container_id) inline in the same query, since transactions/component/itemFunctions.cfc
 otherwise needed its own extra per-part query for exactly that.
 @param part_collection_object_id_list comma-separated list of specimen_part collection_object_ids.
+@param exclude_current_parent_types optional comma-separated list of container_type values; see
+	resolvePartPreviousContainer's own doc comment for this argument's purpose.
 @return a struct keyed by part_collection_object_id (as a string) -- one entry per id in the input
 	list, always present, shaped like resolvePartPreviousContainer's own return struct plus
 	previous_location_text.
 --->
 <cffunction name="resolvePartsPreviousContainers" access="public" returntype="any" output="false">
 	<cfargument name="part_collection_object_id_list" type="string" required="yes">
+	<cfargument name="exclude_current_parent_types" type="string" required="no" default="">
 
 	<cfset local.retval = StructNew()>
 	<cfset local.currentContainers = resolvePartsCurrentContainers(arguments.part_collection_object_id_list)>
@@ -2955,6 +2972,10 @@ otherwise needed its own extra per-part query for exactly that.
 
 	<cfloop collection="#local.currentContainers#" item="local.partId">
 		<cfif NOT local.currentContainers[local.partId].found>
+			<cfcontinue>
+		</cfif>
+		<cfif len(arguments.exclude_current_parent_types) GT 0
+			AND listFindNoCase(arguments.exclude_current_parent_types, local.currentContainers[local.partId].current_parent_type) GT 0>
 			<cfcontinue>
 		</cfif>
 		<cfset local.moveId = local.currentContainers[local.partId].move_container_id>

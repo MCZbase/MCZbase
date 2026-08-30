@@ -603,9 +603,14 @@ limitations under the License.
 						proxy's own history, not the leaf's, when the part is proxy-housed) and
 						whether one even exists -- an item with no eligible prior placement is
 						skipped rather than aborting the whole batch, so items that CAN move back
-						still do even when others can't. --->
+						still do even when others can't. exclude_current_parent_types=
+						DISALLOWED_CONTAINER_TYPES (jar) excludes a part currently shared in a jar
+						with other specimens from this automated move, matching the same caution
+						BulkUpdateContainers above applies to the forward move -- must match the
+						moveableItemCount computation below exactly, or the count/button shown to
+						the user would disagree with what this actually does. --->
 					<cfloop query="getItems">
-						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id)>
+						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id, DISALLOWED_CONTAINER_TYPES)>
 						<cfif local.previous.found AND local.previous.previous_found>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 								UPDATE container
@@ -839,8 +844,11 @@ limitations under the License.
 						(several queries each) per item. The "move back" button below is offered
 						whenever ANY items are moveable, not only when ALL of them are --
 						BulkMoveBackContainers itself skips whichever ones aren't, rather than
-						requiring a single all-or-nothing batch. --->
-					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getItems.collection_object_id))>
+						requiring a single all-or-nothing batch. exclude_current_parent_types must
+						match BulkMoveBackContainers's own resolvePartPreviousContainer call above
+						exactly, or this count/button would disagree with what that action actually
+						does. --->
+					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getItems.collection_object_id), DISALLOWED_CONTAINER_TYPES)>
 					<cfloop query="getItems">
 						<cfif structKeyExists(local.previousMap, getItems.collection_object_id)>
 							<cfset local.previous = local.previousMap[getItems.collection_object_id]>
