@@ -815,7 +815,17 @@ limitations under the License.
 						<cfset containersCanMove = false>
 					</cfif>
 				</cfloop>
-				<cfif containersCanMove>
+				<!--- "Move Containers Back" restores each item's own previously-recorded placement --
+					unlike "Move all containers... to:" below, it's not moving anything into a newly
+					chosen destination, so a jar elsewhere in the loan (containersCanMove = false)
+					doesn't make it unsafe: it's independent of containersCanMove, computed here
+					unconditionally (well, whenever the loan isn't in process, matching where both
+					this and the forward-move feature are actually displayed) rather than nested
+					inside that check. --->
+				<cfset itemCount = 0>
+				<cfset moveableItemCount = 0>
+				<cfset bulkMoveBackPossible = false>
+				<cfif NOT isInProcess>
 					<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT collection_object_id
 						FROM loan_item
@@ -823,7 +833,6 @@ limitations under the License.
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
-					<cfset moveableItemCount = 0>
 					<!--- resolvePartsPreviousContainers (proxy-aware, batched -- see its own doc
 						comment) decides whether each item has an eligible prior placement, in one
 						query for the whole loan rather than one resolvePartPreviousContainer call
@@ -1010,40 +1019,55 @@ limitations under the License.
 													</cfif>
 												</form>
 											</div>
-											<cfif containersCanMove AND NOT isInProcess>
+											<cfif isInProcess>
 												<div class="col-12 col-xl-6 border p-1">
-													<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-														SELECT barcode, label
-														FROM container
-														WHERE label LIKE '%chamber'
-															and container_type = 'fixture'
-														ORDER BY label
-													</cfquery>
-													<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-														<label for="new_parent_barcode">Move all containers for all these #partCount# items to:</label>
-														<input type="hidden" name="Action" value="BulkUpdateContainers">
-														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-														<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
-															<option value=""></option>
-															<cfloop query="getTreatmentContainers">
-																<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
-															</cfloop>
-														</select>
-														<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
-														<!--- enable the button only if a value is selected --->
-														<script>
-															$(document).ready(function() {
-																$('##new_parent_barcode').change(function() {
-																	if ($('##new_parent_barcode').val() != "") {
-																		$('##new_parent_barcode_submit').prop('disabled', false);
-																	} else {
-																		$('##new_parent_barcode_submit').prop('disabled', true);
-																	}
-																});
-															});
-														</script>
-													</form>
+													<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
 												</div>
+											<cfelse>
+												<!--- containersCanMove only governs this forward move (into a newly chosen
+													destination, where a jar elsewhere in the loan would be unsafe to treat as a
+													stand-in for one item) -- it does NOT gate "Move Containers Back" below,
+													which restores each item's own already-recorded previous placement and is
+													computed independently above regardless of containersCanMove. --->
+												<cfif containersCanMove>
+													<div class="col-12 col-xl-6 border p-1">
+														<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+															SELECT barcode, label
+															FROM container
+															WHERE label LIKE '%chamber'
+																and container_type = 'fixture'
+															ORDER BY label
+														</cfquery>
+														<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+															<label for="new_parent_barcode">Move all containers for all these #partCount# items to:</label>
+															<input type="hidden" name="Action" value="BulkUpdateContainers">
+															<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+															<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
+																<option value=""></option>
+																<cfloop query="getTreatmentContainers">
+																	<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+																</cfloop>
+															</select>
+															<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+															<!--- enable the button only if a value is selected --->
+															<script>
+																$(document).ready(function() {
+																	$('##new_parent_barcode').change(function() {
+																		if ($('##new_parent_barcode').val() != "") {
+																			$('##new_parent_barcode_submit').prop('disabled', false);
+																		} else {
+																			$('##new_parent_barcode_submit').prop('disabled', true);
+																		}
+																	});
+																});
+															</script>
+														</form>
+													</div>
+												<cfelse>
+													<div class="col-12 col-xl-6 border p-1">
+														<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
+													</div>
+												</cfif>
 												<div class="col-12 col-xl-6 border p-1">
 													<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
 													<cfif bulkMoveBackPossible>
@@ -1051,16 +1075,8 @@ limitations under the License.
 															<br>Move the #moveableItemCount# eligible item(s) back to their previous containers<cfif moveableItemCount NEQ itemCount> (the remaining #itemCount - moveableItemCount# will be left where they are)</cfif>:
 															<input type="hidden" name="Action" value="BulkMoveBackContainers">
 															<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-															<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
+															<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary">
 														</form>
-													</cfif>
-												</div>
-											<cfelse>
-												<div class="col-12 col-xl-6 border p-1">
-													<cfif isInProcess>
-														<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
-													<cfelseif NOT containersCanMove>
-														<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
 													</cfif>
 												</div>
 											</cfif>
