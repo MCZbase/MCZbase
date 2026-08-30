@@ -1,7 +1,7 @@
 <!--- tools/bulkloadPartContainers.cfm to place collection objects into containers in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2024 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ limitations under the License.
 	
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
+	<!--- special case handling to dump problem data as csv, no _header.cfm role checking, so run cf_rolecheck here --->
+	<cf_rolecheck>
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
-			STATUS, 
+			STATUS, PLACEMENT_SEVERITY, PLACEMENT_MESSAGE,
 			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,
 			PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,
 			PART_COLLECTION_OBJECT_ID
@@ -47,6 +49,7 @@ limitations under the License.
 <cfset requiredfieldlist = "COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_BARCODE,NEW_CONTAINER_BARCODE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
+	<!--- trivial, no data exposed, no need for cf_rolecheck --->
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -62,6 +65,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Part Container">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement, used in the validate step below --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0>
 	<cfset variables.action="entryPoint">
 </cfif>
@@ -73,10 +77,10 @@ limitations under the License.
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Use this form to put collection objects (that is, parts) in containers. Only the other_id_type of "catalog number" is supported in this bulkloader. The unique string representing the container is used (Container Unique Identifier). Parts and containers must already exist.  This tool is best used to move unplaced collection object containers into drawers (compartments), trays (sets), cabinets, or tanks, rather than for moving collection object containers that are already placed into specific locations in the container heirarchy</p>
-			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or (preferred) edit a part report produced from Manage from Specimen Searhc Results. </p>
+			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or (preferred) edit a part report produced from Manage from Specimen Search Results. </p>
 			<p><em>Distinguishing Multiple Parts for the same cataloged item:</em> This bulkloader can be used for specimen records with multiple parts as long as the combination of the following column values are unique within the cataloged item (identified by institution acronym, collection code, and catalog number): part_name, preserve_method, and part_remarks. If part_collection_object_id is not supplied, it will be looked up from this set of fields.  If parts are ambiguous and can not be uniquely identified within a cataloged item by part_name, preserve_method, and part_remarks, the part_collection_object_id must be provided.</p>
 			<p><em>Edit a Part Report:</em> The best way to avoid ambiguous parts is to use a part report from the Specimen Search results > Manage > Part Download/Report feature.  To pobtain the part report, select the "Download Parts CSV for:" option "Bulkloading Parts to New Containers", check that the parts downloaded are as expected, remove any parts you do not want to move, and fill in the column NEW_CONTAINER_BARCODE to hold the container barcode (a.k.a., unique_container_id) of the container to place the part into.  Additional columns not used in this downloader may help you identify which parts you wish to move where and will be ignored on upload (and will appear in the warning section of the validation screen with any other columns not needed for the bulkload). </p>
-			<p><em>Note:</em> This tool moves the collection object container for parts, in many cases (such as insects on pins), this is not the container you wish to move, but rather the parent container for that part (the pin), in such cases, please use the <a href="/tools/BulkloadContEditParent.cfm" target="_blank">Container Parent Edit Bulkloader</a> instead.  
+			<p><em>Note:</em> When a part&##38;s own collection object container sits directly inside a single-occupant proxy container (e.g. a pin, slide, cryovial, envelope, or glass vial), this tool automatically moves that proxy container instead of the collection object container trapped inside it, since the proxy is what you actually want relocated in those cases. The PLACEMENT WARNING column will flag any row where this applies.  The PLACEMENT WARNING also flags unexpected part placements that may not represent the best available knowledge of where a specimen is, such as putting a pin into a building, rather than a fixture.  If you see any such warnings, evaluate them carefully.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -663,20 +667,25 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
 				</cfquery>
-				<!---Put the container ID of the collection_object into the table to exchange parent_container_id later--->
+				<!--- Resolve the part's actual container to move for placement purposes -- its own
+					"collection object" leaf, unless that leaf's immediate parent is a proxy-role
+					container (pin/slide/cryovial/envelope/glass vial -- a single-occupant type that
+					can only ever hold this one leaf), in which case the proxy is what actually gets
+					reparented, not the leaf trapped inside it. Uses the same shared helper
+					containers/placePartInContainer.cfm already relies on for this, driven by
+					ctcontainer_type.role='proxy' rather than a second, hand-maintained container_type
+					name list. --->
+				<cfset local.partContainer = resolvePartCurrentContainer(getTempTableQC1.part_collection_object_id)>
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						part_container_id = (
-							select c.container_id 
-							from 
-								container c, coll_obj_cont_hist ch
-							where 
-								ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">
-							AND	c.container_id = ch.container_id
-						)
+					UPDATE cf_temp_barcode_parts
+					SET
+						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#" null="#NOT local.partContainer.found#">
+						<cfif local.partContainer.found AND local.partContainer.is_proxy>
+							, placement_severity = 'warn'
+							, placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="This part is inside a #local.partContainer.move_type# (#local.partContainer.move_label#) -- moving it will move the #local.partContainer.move_type#, not just the collection object container specified.">)
+						</cfif>
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -741,6 +750,47 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 		</cfif>
+		<!--- Container-placement rules (proxy/leafbearer role conflicts, expected-parent-type, rank order, etc.)
+			are validated with the same badge engine moveContainer.cfm/placePartInContainer.cfm use, rather
+			than a second, separately-maintained copy of those rules -- so this stays current automatically
+			as those rules evolve. Only rows where both the part's own container and the resolved new parent
+			are known are checked. A "block" severity is folded into STATUS (the existing hard-stop gate);
+			a "warn" severity is recorded separately, since it should be surfaced but not force a restart. --->
+		<cfquery name="getPlacementCandidates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT key, part_container_id, new_parent_container_id
+			FROM cf_temp_barcode_parts
+			WHERE part_container_id is not null
+				AND new_parent_container_id is not null
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfloop query="getPlacementCandidates">
+			<cfset local.placementResult = validateContainerPlacement(child_container_id=getPlacementCandidates.part_container_id, proposed_parent_container_id=getPlacementCandidates.new_parent_container_id)>
+			<!--- validateContainerPlacement's returnformat="json" means it can come back as a JSON
+				string rather than a native struct even on this in-process call -- every existing
+				caller of it elsewhere in the codebase guards for this the same way --->
+			<cfif isSimpleValue(local.placementResult)>
+				<cfset local.placementResult = deserializeJSON(local.placementResult)>
+			</cfif>
+			<cfif local.placementResult.severity EQ "block">
+				<cfquery name="setBlockedPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET status = concat(nvl2(status, status || '; ', ''), 'placement_blocked, ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.blocks,'; ')#">)
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfelseif local.placementResult.severity EQ "warn">
+				<!--- appended, not overwritten -- a proxy-substitution warning may already have been
+					recorded against this row above, and both should be visible, not one clobbering
+					the other. --->
+				<cfquery name="setWarnPlacement" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET placement_severity = 'warn',
+						placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArrayToList(local.placementResult.warnings,'; ')#">)
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPlacementCandidates.key#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+		</cfloop>
 		<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 		<!---This comes from the collection object container parent in getTempTableQC2--->
 		<cfif len(getTempTableQC1.container_barcode) eq 0>
@@ -803,9 +853,14 @@ limitations under the License.
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfquery name="pc" dbtype="query">
-			SELECT count(*) c 
-			FROM data 
+			SELECT count(*) c
+			FROM data
 			WHERE status is not null
+		</cfquery>
+		<cfquery name="warnCount" dbtype="query">
+			SELECT count(*) c
+			FROM data
+			WHERE placement_severity = 'warn'
 		</cfquery>
 			<h3>
 				<cfif pc.c gt 0>
@@ -814,11 +869,17 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
+			<cfif warnCount.c gt 0>
+				<div class="alert alert-warning py-2 px-3 small">
+					<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional. #warnCount.c# of #data.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
+				</div>
+			</cfif>
 				
 				<table class='px-0 sortable small table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
 							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>PLACEMENT WARNING</th>
 							<th>INSTITUTION_ACRONYM</th>
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
@@ -835,6 +896,7 @@ limitations under the License.
 						<cfloop query="data">
 							<tr>
 								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+								<td><cfif data.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#data.placement_message#</cfif></td>
 								<td>#data.institution_acronym#</td>
 								<th>#data.collection_cde#</th>
 								<td>#data.other_ID_TYPE#</td>
@@ -870,6 +932,14 @@ limitations under the License.
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
+							<!--- this loop otherwise has no gate on a row's own STATUS -- a row flagged
+								during validate (including a placement_blocked result set above) would
+								silently be applied anyway if the user proceeded past the warning message
+								on the validate screen, so check it here too, the same way the
+								NEW_container_barcode check just below already aborts the whole load. --->
+							<cfif len(trim(getTempData.status)) GT 0>
+								<cfthrow message = "Row (key #getTempData.key#) has unresolved validation problems: #getTempData.status#">
+							</cfif>
 							<cfif len(#getTempData.new_container_barcode#) gt 0>
 								<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 									UPDATE

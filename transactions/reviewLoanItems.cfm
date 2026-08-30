@@ -17,7 +17,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
+<!--- "jar" is kept as an explicit, documented special case (a jar can hold multiple specimens or
+	glass vials, so this tool can't safely move it as a stand-in for one item's contents) --
+	pin/slide/cryovial/envelope/glass vial were previously listed here too as if they were the same
+	kind of case, but their real ctcontainer_type.role is 'proxy', not this hardcoded list -- a live
+	drift bug matching the one specimens/changeQueryPartContainers.cfm had before its own Phase 2 fix.
+	Those types are now a supported, confirmed case: BulkUpdateContainers below resolves each item's
+	actual move-target via resolvePartCurrentContainer (proxy-aware), so a part inside one of them
+	moves the proxy itself, rather than being blocked outright or (the pre-existing bug) silently
+	moving just the leaf trapped inside it while claiming to check the proxy's own type. --->
+<cfset DISALLOWED_CONTAINER_TYPES = "jar">
 
 <cfif isDefined("url.transaction_id") and len(url.transaction_id) GT 0>
 	<cfset transaction_id = url.transaction_id>
@@ -145,20 +154,11 @@ limitations under the License.
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartCurrentContainer and resolvePartPreviousContainer, used in BulkUpdateContainers and BulkMoveBackContainers below --->
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
 <script type='text/javascript' src='/specimens/js/public.js'></script>
-
-<style>
-	.jqx-grid-cell {
-		background-color: #E9EDECd6;
-	}
-	.jqx-grid-cell-alt {
-		background-color: #f5f5f5;
-	}
-	}
-</style>
 
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
@@ -394,13 +394,13 @@ limitations under the License.
 			<cftransaction>
 				<cftry>
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select collection_object_id 
-						FROM loan_item 
+						select collection_object_id
+						FROM loan_item
 						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfquery name="getTargetParentContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT container_id 
-						FROM container 
+						SELECT container_id
+						FROM container
 						WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_parent_barcode#">
 					</cfquery>
 					<cfif getTargetParentContainerID.recordcount EQ 0>
@@ -409,31 +409,36 @@ limitations under the License.
 						<cfthrow message="Multiple containers with barcode #new_parent_barcode# found. Cannot continue.">
 					</cfif>
 					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
+					<!--- new_parent_barcode is never freely typed -- the form above only offers the
+						two fixed treatment chambers (queried by label LIKE '%chamber' further down),
+						and any leaf, proxy, or leafbearer container is an appropriate thing to place
+						in either of them. validateContainerPlacement's generic rules (e.g. a pin
+						normally expected inside a compartment/set) don't apply to this specific,
+						pre-vetted pair of destinations, so no placement check is run here -- unlike
+						every other write in this PR, which targets an arbitrary, freely-chosen
+						container. Still resolves each item's actual move-target -- its own
+						"collection object" leaf, unless that leaf's immediate parent is a proxy-role
+						container (pin/slide/cryovial/envelope/glass vial), in which case the proxy is
+						what actually gets reparented. Mirrors specimens/changeQueryPartContainers.cfm's
+						Phase 2 pattern: this replaces a raw coll_obj_cont_hist join that (a) checked
+						the wrong thing against DISALLOWED_CONTAINER_TYPES (the leaf's parent's type,
+						treating every proxy type as an outright block) while (b) always moving the
+						leaf's own container_id regardless, never the proxy actually detected. --->
 					<cfloop query="getCollObjId">
-						<cfquery name="getContainerToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT c.container_id, p.container_type
-							FROM coll_obj_cont_hist coll_obj_cont_hist
-								JOIN container c on coll_obj_cont_hist.container_id = c.container_id
-								join container p on c.parent_container_id = p.container_id
-							WHERE coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								AND coll_obj_cont_hist.current_container_fg = 1
-						</cfquery>
-						<cfif getContainerToMove.recordcount EQ 0>
+						<cfset local.partContainer = resolvePartCurrentContainer(collection_object_id)>
+						<cfif NOT local.partContainer.found>
 							<cfthrow message="No current container found for collection_object_id #collection_object_id#. Cannot continue.">
-						<cfelseif getContainerToMove.recordcount GT 1>
-							<cfthrow message="Multiple current containers found for collection_object_id #collection_object_id#. Cannot continue.">
 						</cfif>
-						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getContainerToMove.container_type) GT 0>
-							<cfthrow message="Containers of type #getContainerToMove.container_type# cannot be moved. Aborting operation.">
+						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,local.partContainer.move_type) GT 0>
+							<cfthrow message="Containers of type #local.partContainer.move_type# cannot be moved. Aborting operation.">
 						</cfif>
-						<cfset containerToMoveID = getContainerToMove.container_id>
 						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
-							UPDATE container 
+							UPDATE container
 							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
-							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#containerToMoveId#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#">
 						</cfquery>
 						<cfif changeParentContainer_result.recordcount NEQ 1>
-							<cfthrow message="Failed to move container #containerToMoveID# to new parent container #targetParentContainerID#.">
+							<cfthrow message="Failed to move container #local.partContainer.move_container_id# to new parent container #targetParentContainerID#.">
 						</cfif>
 						<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 					</cfloop>
@@ -441,7 +446,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfset message = "Bulk update of containers failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 				</cfcatch>
 				</cftry>
 			</cftransaction>
@@ -584,6 +589,7 @@ limitations under the License.
 	<cfcase value="BulkMoveBackContainers">
 		<cfset message="">
 		<cfset countAffected = 0>
+		<cfset countSkipped = 0>
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -593,46 +599,27 @@ limitations under the License.
 						WHERE
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
+					<!--- resolvePartPreviousContainer resolves the actual move-back target (the
+						proxy's own history, not the leaf's, when the part is proxy-housed) and
+						whether one even exists -- an item with no eligible prior placement is
+						skipped rather than aborting the whole batch, so items that CAN move back
+						still do even when others can't. exclude_current_parent_types=
+						DISALLOWED_CONTAINER_TYPES (jar) excludes a part currently shared in a jar
+						with other specimens from this automated move, matching the same caution
+						BulkUpdateContainers above applies to the forward move -- must match the
+						moveableItemCount computation below exactly, or the count/button shown to
+						the user would disagree with what this actually does. --->
 					<cfloop query="getItems">
-						<cfquery name="getPreviousContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								container_history.install_date,
-								container.container_type,
-								current_parent.container_type current_parent_container_type,
-								container.container_id part_container_id,
-								old_parent.container_type old_parent_container_type,
-								old_parent.label,
-								old_parent.barcode,
-								old_parent.container_id old_parent_container_id
-							 FROM 
-								specimen_part 
-								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-									and coll_obj_cont_hist.current_container_fg = 1
-								join container on coll_obj_cont_hist.container_id = container.container_id
-								join container_history on container.container_id = container_history.container_id
-								join container old_parent on container_history.parent_container_id = old_parent.container_id
-								join container current_parent on container.parent_container_id = current_parent.container_id
-							 WHERE 
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-								and old_parent.container_type <> 'campus' 
-								and old_parent.container_type <> 'institution'
-								and old_parent.parent_container_id is not null 
-							ORDER BY install_date DESC NULLS LAST
-							FETCH FIRST 1 ROWS ONLY
-						</cfquery>
-						<cfif getPreviousContainer.recordcount EQ 1>
-							<!--- confirm that container is not of a disallowed type --->
-							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.current_parent_container_type) GT 0>
-								<cfthrow message="Containers of type #getPreviousContainer.curreent_parent_container_type# cannot be moved. Aborting operation.">
-							</cfif>
+						<cfset local.previous = resolvePartPreviousContainer(getItems.collection_object_id, DISALLOWED_CONTAINER_TYPES)>
+						<cfif local.previous.found AND local.previous.previous_found>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
-								UPDATE container 
-								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.old_parent_container_id#">
-								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.part_container_id#">
+								UPDATE container
+								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.previous.previous_container_id#">
+								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.previous.move_container_id#">
 							</cfquery>
 							<cfset countAffected = countAffected + changeParentContainer_result.recordcount>
 						<cfelse>
-							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
+							<cfset countSkipped = countSkipped + 1>
 						</cfif>
 					</cfloop>
 					<cftransaction action="commit">
@@ -644,7 +631,10 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<cfif len(message) EQ 0>
-				<cfset message = "Bulk update of containers successful. Updated #countAffected# specimen parts.">
+				<cfset message = "Moved #countAffected# specimen part(s) back to their previous containers.">
+				<cfif countSkipped GT 0>
+					<cfset message = "#message# #countSkipped# part(s) had no eligible previous container and were left in place.">
+				</cfif>
 			</cfif>
 			<cfset message = "&message=#encodeForUrl(message)#">
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id##message#" addtoken="false">
@@ -715,9 +705,6 @@ limitations under the License.
 		</cfoutput>
 		<main class="container-fluid" id="content">
 			<cfoutput>
-				<cfif isdefined("message") AND len(message) GT 0>
-					<h1 class=h2>#encodeForHtml(message)#</h2>
-				</cfif>
 				<cfset isClosed = false>
 				<cfset isInProcess = false>
 				<cfset isOpen = false>
@@ -744,6 +731,7 @@ limitations under the License.
 				<cfif aboutLoan.loan_number IS "">
 					<cfthrow message="Transaction with this transaction_id is not a loan.">
 				</cfif>
+				<h1 class="h2 mt-2 mb-1">Review Loan Items: Loan #encodeForHtml(aboutLoan.loan_number)#</h1>
 				<cfif aboutLoan.loan_status EQ 'closed'>
 					<cfset isClosed = true>
 				</cfif>
@@ -832,7 +820,17 @@ limitations under the License.
 						<cfset containersCanMove = false>
 					</cfif>
 				</cfloop>
-				<cfif containersCanMove>
+				<!--- "Move Containers Back" restores each item's own previously-recorded placement --
+					unlike "Move all containers... to:" below, it's not moving anything into a newly
+					chosen destination, so a jar elsewhere in the loan (containersCanMove = false)
+					doesn't make it unsafe: it's independent of containersCanMove, computed here
+					unconditionally (well, whenever the loan isn't in process, matching where both
+					this and the forward-move feature are actually displayed) rather than nested
+					inside that check. --->
+				<cfset itemCount = 0>
+				<cfset moveableItemCount = 0>
+				<cfset bulkMoveBackPossible = false>
+				<cfif NOT isInProcess>
 					<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT collection_object_id
 						FROM loan_item
@@ -840,399 +838,424 @@ limitations under the License.
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
-					<cfset moveableItemCount = 0>
-					<cfset bulkMoveBackPossible=false>
-					<!--- check to see if all parts have a container history they can move to --->
+					<!--- resolvePartsPreviousContainers (proxy-aware, batched -- see its own doc
+						comment) decides whether each item has an eligible prior placement, in one
+						query for the whole loan rather than one resolvePartPreviousContainer call
+						(several queries each) per item. The "move back" button below is offered
+						whenever ANY items are moveable, not only when ALL of them are --
+						BulkMoveBackContainers itself skips whichever ones aren't, rather than
+						requiring a single all-or-nothing batch. exclude_current_parent_types must
+						match BulkMoveBackContainers's own resolvePartPreviousContainer call above
+						exactly, or this count/button would disagree with what that action actually
+						does. --->
+					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getItems.collection_object_id), DISALLOWED_CONTAINER_TYPES)>
 					<cfloop query="getItems">
-						<cfquery name="checkHistories" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								container.container_id part_container_id,
-								container_history.install_date,
-								container.container_type,
-								current_parent.container_type current_parent_container_type,
-								old_parent.container_type old_parent_container_type,
-								old_parent.label,
-								old_parent.barcode,
-								old_parent.container_id old_parent_container_id
-							 FROM 
-								specimen_part 
-								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-									and coll_obj_cont_hist.current_container_fg = 1
-								join container on coll_obj_cont_hist.container_id = container.container_id
-								join container_history on container.container_id = container_history.container_id
-								join container old_parent on container_history.parent_container_id = old_parent.container_id
-								join container current_parent on container.parent_container_id = current_parent.container_id
-							 WHERE 
-								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-								and old_parent.container_type <> 'campus' 
-								and old_parent.container_type <> 'institution'
-								and old_parent.parent_container_id is not null 
-							ORDER BY install_date DESC NULLS LAST
-							FETCH FIRST 1 ROWS ONLY
-						</cfquery>
-						<cfif checkHistories.recordcount EQ 1>
-							<cfset moveableItemCount = moveableItemCount + 1>
+						<cfif structKeyExists(local.previousMap, getItems.collection_object_id)>
+							<cfset local.previous = local.previousMap[getItems.collection_object_id]>
+							<cfif local.previous.found AND local.previous.previous_found>
+								<cfset moveableItemCount = moveableItemCount + 1>
+							</cfif>
 						</cfif>
 					</cfloop>
-					<cfif itemCount EQ moveableItemCount>
-						<cfset bulkMoveBackPossible = true>
-					</cfif>
+					<cfset bulkMoveBackPossible = (moveableItemCount GT 0)>
 				</cfif>
 
-				<section class="row my-2 pt-2" title="Review Loan Items" >
-					<div class="col-12">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-12 mb-3">
-									<div class="row mt-1 mb-0 pb-0 px-2 mx-0 border">
-										<div class="col-12 col-xl-6" id="loanSummaryDiv">
-											<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
+				<section class="row my-2 pt-0" title="Review Loan Items" >
+					<div class="col-12 mb-3">
+						<div class="row mt-1 mb-0 pb-0 px-2 mx-0 border">
+							<div class="col-12 col-xl-6" id="loanSummaryDiv">
+								<cfset loanSummarySection = getLoanSummaryLongerHtml(transaction_id=transaction_id)>
+							</div>
+							<div class="col-12 col-xl-6 pt-3">
+								<h2 class="h4 mb-1">Countries of Origin</h2>
+								<div id="countriesDiv">
+									<cfset countries = getCountriesList(transaction_id=transaction_id)>
+									#countries#
+								</div>
+							</div>
+							<div class="col-12 col-xl-6 pt-3">
+								<h2 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h2>
+								<div id="dispositionsDiv">
+									<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
+									#dispositions#
+								</div>
+							</div>
+							<div class="col-12 col-xl-6 pt-3">
+								<h2 class="h4 mb-1">Preservation Methods</h2>
+								<div id="preservationDiv">
+									<cfset preservations = getPreservationsList(transaction_id=transaction_id)>
+									#preservations#
+								</div>
+							</div>
+							<cfif isInProcess AND aboutLoan.loan_type NEQ 'exhibition-master'>
+								<div class="col-12">
+									<div class="add-form mt-1 mb-2">
+										<div class="add-form-header pt-1 px-2">
+											<h2 class="h4 mb-0 pb-0">Add Parts To Loan</h2>
 										</div>
-										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Countries of Origin</h3>
-											<div id="countriesDiv">
-												<cfset countries = getCountriesList(transaction_id=transaction_id)>
-												#countries#
+										<div class="card-body form-row my-1">
+											<div class="col-12 col-md-4">
+												<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
+												<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+												<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+											</div>
+											<div class="col-12 col-md-8">
+												<label class="data-entry-label">&nbsp;</label>
+												<button type="button" id="addloanitembutton" class="btn btn-xs btn-secondary">Add Part To Loan</button>
+												<script>
+													$(document).ready(function() {
+														$('##addloanitembutton').click(function(evt) { 
+															evt.preventDefault();
+															if ($('##guid').val() != "") { 
+																openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadLoanItemsData);
+															} else {
+																messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
+															};
+														});
+													});
+												</script>
+												<script>
+													$(document).ready(function() {
+														makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+													});
+												</script>
 											</div>
 										</div>
-										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
-											<div id="dispositionsDiv">
-												<cfset dispositions = getDispositionsList(transaction_id=transaction_id)>
-												#dispositions#
-											</div>
-										</div>
-										<div class="col-12 col-xl-6 pt-3">
-											<h3 class="h4 mb-1">Preservation Methods</h3>
-											<div id="preservationDiv">
-												<cfset preservations = getPreservationsList(transaction_id=transaction_id)>
-												#preservations#
-											</div>
-										</div>
-										<cfif isInProcess AND aboutLoan.loan_type NEQ 'exhibition-master'>
-											<div class="col-12">
-												<div class="add-form mt-2">
-													<div class="add-form-header pt-1 px-2">
-														<h2 class="h4 mb-0 pb-0">Add Parts To Loan</h2>
-													</div>
-													<div class="card-body form-row my-1">
-														<div class="col-12 col-md-4">
-															<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
-															<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
-															<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
-														</div>
-														<div class="col-12 col-md-8">
-															<label class="data-entry-label">&nbsp;</label>
-															<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
-																aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
-															<script>
-																$(document).ready(function() {
-																	$('##addloanitembutton').click(function(evt) { 
-																		evt.preventDefault();
-																		if ($('##guid').val() != "") { 
-																			openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadLoanItemsData);
-																		} else {
-																			messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
-																		};
-																	});
-																});
-															</script>
-															<script>
-																$(document).ready(function() {
-																	makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-																});
-															</script>
-														</div>
-													</div>
-												</div>
-											</div>
-										</cfif>
-										<div id="addLoanItemDialogDiv"></div>
 									</div>
-									<cfset editVisibility = "">
-									<cfif isClosed>
-										<cfset editVisibility = "d-none">
+								</div>
+							</cfif>
+							<div id="addLoanItemDialogDiv"></div>
+						</div>
+						<cfset editVisibility = "">
+						<cfif isClosed>
+							<cfset editVisibility = "d-none">
+							<div class="row mb-0 pb-0 px-2 mx-0">
+								<div class="col-12">
+									<h2 class="h4 text-danger" id="closedHeadingLine">This loan is closed; edit functions are disabled.</h2>
+									<button type="button" class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
+										onclick=" enableEditControls(); ">Enable Editing</button>
+									<button type="button" class="btn btn-xs btn-secondary d-none"
+										onclick=" disableEditControls(); " id="disableEditControlsBtn">Disable Editing</button>
+								</div>
+							</div>
+							<script>
+								function enableEditControls() { 
+									$('##bulkEditControlsDiv').removeClass('d-none');
+									$('##enableEditControlsBtn').addClass('d-none');
+									$('##disableEditControlsBtn').removeClass('d-none');
+									$('##closedHeadingLine').addClass('d-none');
+									$('.editable_control').prop('disabled', false);
+									$('.edit_button').removeClass('disabled');
+								};
+								function disableEditControls() { 
+									$('##bulkEditControlsDiv').addClass('d-none');
+									$('##enableEditControlsBtn').removeClass('d-none');
+									$('##disableEditControlsBtn').addClass('d-none');
+									$('##closedHeadingLine').removeClass('d-none');
+									$('.editable_control').prop('disabled', true);
+									$('.edit_button').addClass('disabled');
+								};
+								$(document).ready(function() { 
+									disableEditControls();
+								});
+							</script>
+						</cfif>
+						<div class="row #editVisibility#" id="bulkEditControlsDiv">
+							<div class="col-12">
+								<div class="add-form mt-2">
+									<div class="add-form-header pt-1 px-2">
+										<h2 class="h4 mb-0 pb-0">Edit All Loan Items</h2>
+									</div>
+									<div class="card-body">
 										<div class="row mb-0 pb-0 px-2 mx-0">
-											<div class="col-12">
-												<h3 class="h4 text-danger" id="closedHeadingLine">This loan is closed; edit functions are disabled.</h3>
-												<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
-													onclick=" enableEditControls(); "
-													aria-label="Enable bulk editing">Enable Editing</span>
-												<span class="btn btn-xs btn-secondary d-none"
-													onclick=" disableEditControls(); " id="disableEditControlsBtn"
-													aria-label="Disable bulk editing">Disable Editing</span>
+											<div class="col-12 col-xl-6 border p-1">
+												<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
+													<input type="hidden" name="Action" value="BulkUpdateDisp">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<div class="col-12">
+														<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
+														<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
+															<option value=""></option>
+															<cfloop query="ctDisp">
+																<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+															</cfloop>				
+														</select>
+													</div>
+													<!--- enable the submit button only if a value is selected --->
+													<script>
+														$(document).ready(function() {
+															$('##coll_obj_disposition').change(function() {
+																if ($('##coll_obj_disposition').val() != "") {
+																	$('##coll_obj_disposition_submit').prop('disabled', false);
+																} else {
+																	$('##coll_obj_disposition_submit').prop('disabled', true);
+																}
+															});
+														});
+													</script>
+													<cfif aboutLoan.loan_type EQ 'consumable'>
+														<div class="col-12" id="deaccessionDiv">
+															<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
+															<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
+															<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
+															<output id="deaccessionFeedback" class="ml-2"></output>
+														</div>
+														<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
+														<script>
+															$(document).ready(function() {
+																makeDeaccessionAutocompleteMeta("deaccession_number", "deaccession_transaction_id"); 
+																$("##deaccessionDiv").hide();
+																$('##coll_obj_disposition').change(function() {
+																	var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
+																	if (selectedDisp.includes('deaccessioned')) {
+																		$("##deaccessionDiv").show();
+																		$('##deaccession_number').prop('disabled', false);
+																	} else {
+																		$("##deaccessionDiv").hide();
+																		$('##deaccession_number').prop('disabled', true);
+																	}
+																});
+															});
+														</script>
+														<div class="col-12">
+															<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+														</div>
+													<cfelse>
+														<div class="col-12">
+															<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
+														</div>
+													</cfif>
+												</form>
 											</div>
-										</div>
-										<script>
-											function enableEditControls() { 
-												$('##bulkEditControlsDiv').removeClass('d-none');
-												$('##enableEditControlsBtn').addClass('d-none');
-												$('##disableEditControlsBtn').removeClass('d-none');
-												$('##closedHeadingLine').addClass('d-none');
-												$('.editable_control').prop('disabled', false);
-												$('.edit_button').removeClass('disabled');
-											};
-											function disableEditControls() { 
-												$('##bulkEditControlsDiv').addClass('d-none');
-												$('##enableEditControlsBtn').removeClass('d-none');
-												$('##disableEditControlsBtn').addClass('d-none');
-												$('##closedHeadingLine').removeClass('d-none');
-												$('.editable_control').prop('disabled', true);
-												$('.edit_button').addClass('disabled');
-											};
-											$(document).ready(function() { 
-												disableEditControls();
-											});
-										</script>
-									</cfif>
-									<div class="row #editVisibility#" id="bulkEditControlsDiv">
-										<div class="col-12">
-											<div class="add-form mt-2">
-												<div class="add-form-header pt-1 px-2">
-													<h2 class="h4 mb-0 pb-0">Edit All Loan Items</h2>
+											<cfif isInProcess>
+												<div class="col-12 col-xl-6 border p-1">
+													<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
 												</div>
-												<div class="card-body">
-													<div class="row mb-0 pb-0 px-2 mx-0">
-														<div class="col-12 col-xl-6 border p-1">
-															<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm" class="form-row">
-																<input type="hidden" name="Action" value="BulkUpdateDisp">
-																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																<div class="col-12">
-																	<label class="data-entry-label" for="coll_obj_disposition">Change disposition of all these <span class="itemCountSpan">#partCount#</span> items to:</label>
-																	<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select" size="1">
-																		<option value=""></option>
-																		<cfloop query="ctDisp">
-																			<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-																		</cfloop>				
-																	</select>
-																</div>
-																<!--- enable the submit button only if a value is selected --->
-																<script>
-																	$(document).ready(function() {
-																		$('##coll_obj_disposition').change(function() {
-																			if ($('##coll_obj_disposition').val() != "") {
-																				$('##coll_obj_disposition_submit').prop('disabled', false);
-																			} else {
-																				$('##coll_obj_disposition_submit').prop('disabled', true);
-																			}
-																		});
+											<cfelse>
+												<!--- containersCanMove only governs this forward move (into a newly chosen
+													destination, where a jar elsewhere in the loan would be unsafe to treat as a
+													stand-in for one item) -- it does NOT gate "Move Containers Back" below,
+													which restores each item's own already-recorded previous placement and is
+													computed independently above regardless of containersCanMove. --->
+												<cfif containersCanMove>
+													<div class="col-12 col-xl-6 border p-1">
+														<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+															SELECT barcode, label
+															FROM container
+															WHERE label LIKE '%chamber'
+																and container_type = 'fixture'
+															ORDER BY label
+														</cfquery>
+														<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+															<label for="new_parent_barcode">Move all containers for all these #partCount# items to:</label>
+															<input type="hidden" name="Action" value="BulkUpdateContainers">
+															<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+															<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
+																<option value=""></option>
+																<cfloop query="getTreatmentContainers">
+																	<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+																</cfloop>
+															</select>
+															<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+															<!--- enable the button only if a value is selected --->
+															<script>
+																$(document).ready(function() {
+																	$('##new_parent_barcode').change(function() {
+																		if ($('##new_parent_barcode').val() != "") {
+																			$('##new_parent_barcode_submit').prop('disabled', false);
+																		} else {
+																			$('##new_parent_barcode_submit').prop('disabled', true);
+																		}
 																	});
-																</script>
-																<cfif aboutLoan.loan_type EQ 'consumable'>
-																	<div class="col-12" id="deaccessionDiv">
-																		<input type="hidden" name="deaccession_transaction_id" value="" id="deaccession_transaction_id">
-																		<label class="data-entry-label" for="deaccession_number">Also add all these #partCount# items to deaccession:</label>
-																		<input type="text" name="deaccession_number" id="deaccession_number" class="data-entry-input col-6 d-inline" placeholder="Dyyyy-n-Coll" disabled >
-																		<output id="deaccessionFeedback" class="ml-2"></output>
-																	</div>
-																	<!--- if a disposition containing 'deaccessioned' is selected, enable deaccession_number control --->
-																	<script>
-																		$(document).ready(function() {
-																			makeDeaccessionAutocompleteMeta("deaccession_number", "deaccession_transaction_id"); 
-																			$("##deaccessionDiv").hide();
-																			$('##coll_obj_disposition').change(function() {
-																				var selectedDisp = $('##coll_obj_disposition').val().toLowerCase();
-																				if (selectedDisp.includes('deaccessioned')) {
-																					$("##deaccessionDiv").show();
-																					$('##deaccession_number').prop('disabled', false);
-																				} else {
-																					$("##deaccessionDiv").hide();
-																					$('##deaccession_number').prop('disabled', true);
-																				}
-																			});
-																		});
-																	</script>
-																	<div class="col-12">
-																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
-																	</div>
-																<cfelse>
-																	<div class="col-12">
-																		<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary mt-3" disabled>
-																	</div>
-																</cfif>
+																});
+															</script>
+														</form>
+													</div>
+												<cfelse>
+													<div class="col-12 col-xl-6 border p-1">
+														<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
+													</div>
+												</cfif>
+												<div class="col-12 col-xl-6 border p-1">
+													<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
+													<cfif bulkMoveBackPossible>
+														<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+															<br>Move the #moveableItemCount# eligible item(s) back to their previous containers<cfif moveableItemCount NEQ itemCount> (the remaining #itemCount - moveableItemCount# will be left where they are)</cfif>:
+															<input type="hidden" name="Action" value="BulkMoveBackContainers">
+															<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+															<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary">
+														</form>
+													</cfif>
+												</div>
+											</cfif>
+											<cfif aboutLoan.collection EQ 'Cryogenic'>
+												<div class="col-12 col-xl-6 border p-1">
+													<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
+														<label for="part_preserve_method">Change preservation method of all these items to:</label>
+														<input type="hidden" name="Action" value="BulkUpdatePres">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<select name="part_preserve_method" id="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+															<option></option>
+															<cfloop query="ctPreserveMethod">
+																<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+															</cfloop>				
+														</select>
+														<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary" disabled> 
+														<!--- disable submit button until a value is selected --->
+														<script>
+															$(document).ready(function() {
+																$('select[name="part_preserve_method"]').change(function() {
+																	if ($(this).val() != "") {
+																		$(this).siblings('input[type="submit"]').prop('disabled', false);
+																	} else {
+																		$(this).siblings('input[type="submit"]').prop('disabled', true);
+																	}
+																});
+															});
+														</script>
+													</form>
+												</div>
+											</cfif>
+											<cfif isClosed>
+												<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
+												<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT count(*) as ct
+													FROM loan_item
+													WHERE
+														loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+														and loan_item.return_date is null
+												</cfquery>
+												<cfif (aboutLoan.loan_type EQ 'returnable' OR aboutLoan.loan_type contains 'exhibition' ) AND ctReturnableItems.ct EQ partCount>
+													<div class="col-12 col-xl-6 border p-1">
+														<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
+															Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+															<input type="hidden" name="Action" value="BulkSetReturnDates">
+															<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+															<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
+														</form>
+													</div>
+												</cfif>
+											</cfif>
+											<cfif isOpen>
+												<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
+												<cfif aboutLoan.loan_type EQ 'returnable' or aboutLoan.loan_type contains 'exhibition'>
+													<cfquery name="ctReturnables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+														SELECT count(*) as ct
+														FROM loan_item
+														WHERE
+															loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+															and loan_item.return_date is null
+															and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('in loan','unknown', 'returned'))
+													</cfquery>
+													<cfif ctReturnables.ct GT 0>
+														<div class="col-12 col-xl-6 border p-1">
+															<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+																Mark all #ctReturnables.ct# on loan items <span class="small90">(on loan, unknown, or returned with no return date)</span> as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+																<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
 															</form>
 														</div>
-														<cfif containersCanMove AND NOT isInProcess>
-															<div class="col-12 col-xl-6 border p-1">
-																<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT barcode, label
-																	FROM container
-																	WHERE label LIKE '%chamber'
-																		and container_type = 'fixture'
-																	ORDER BY label
-																</cfquery>
-																<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Move all containers for all these #partCount# items to:
-																	<input type="hidden" name="Action" value="BulkUpdateContainers">
-																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
-																		<option value=""></option>
-																		<cfloop query="getTreatmentContainers">
-																			<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
-																		</cfloop>
-																	</select>
-																	<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
-																	<!--- enable the button only if a value is selected --->
-																	<script>
-																		$(document).ready(function() {
-																			$('##new_parent_barcode').change(function() {
-																				if ($('##new_parent_barcode').val() != "") {
-																					$('##new_parent_barcode_submit').prop('disabled', false);
-																				} else {
-																					$('##new_parent_barcode_submit').prop('disabled', true);
-																				}
-																			});
-																		});
-																	</script>
-																</form>
-															</div>
-															<div class="col-12 col-xl-6 border p-1">
-																<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
-																<cfif bulkMoveBackPossible>
-																	<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-																		<br>Move all containers for all these #partCount# items back to their previous containers:
-																		<input type="hidden" name="Action" value="BulkMoveBackContainers">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
-																	</form>
-																</cfif>
-															</div>
+													</cfif>
+												</cfif>
+												<cfif aboutLoan.loan_type EQ 'consumable'>
+													<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+														SELECT count(*) as ct
+														FROM loan_item
+														WHERE
+															loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+															and (loan_item.loan_item_state <> 'consumed' or loan_item.loan_item_state is NULL)
+													</cfquery>
+													<div class="col-12 col-xl-6 border p-1">
+														<cfif countConsumableItems.ct GT 0>
+															<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
+																Mark all these #partCount# items as consumed.
+																<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
+																<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+																<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
+															</form>
 														<cfelse>
-															<div class="col-12 col-xl-6 border p-1">
-																<cfif isInProcess>
-																	<h3 class="h4">Containers cannot be moved while the loan is in process.</h3>
-																<cfelseif NOT containersCanMove>
-																	<h3 class="h4 text-danger">Some or all containers for parts in this loan are of a type that cannot be moved automatically.</h3>
-																</cfif>
-															</div>
-														</cfif>
-														<cfif aboutLoan.collection EQ 'Cryogenic'>
-															<div class="col-12 col-xl-6 border p-1">
-																<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Change preservation method of all these items to:
-																	<input type="hidden" name="Action" value="BulkUpdatePres">
-																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
-																		<option></option>
-																		<cfloop query="ctPreserveMethod">
-																			<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-																		</cfloop>				
-																	</select>
-																	<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary" disabled> 
-																	<!--- disable submit button until a value is selected --->
-																	<script>
-																		$(document).ready(function() {
-																			$('select[name="part_preserve_method"]').change(function() {
-																				if ($(this).val() != "") {
-																					$(this).siblings('input[type="submit"]').prop('disabled', false);
-																				} else {
-																					$(this).siblings('input[type="submit"]').prop('disabled', true);
-																				}
-																			});
-																		});
-																	</script>
-																</form>
-															</div>
-														</cfif>
-														<cfif isClosed>
-															<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
-															<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																SELECT count(*) as ct
-																FROM loan_item
-																WHERE
-																	loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-																	and loan_item.return_date is null
-															</cfquery>
-															<cfif (aboutLoan.loan_type EQ 'returnable' OR aboutLoan.loan_type contains 'exhibition' ) AND ctReturnableItems.ct EQ partCount>
-																<div class="col-12 col-xl-6 border p-1">
-																	<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
-																		Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
-																		<input type="hidden" name="Action" value="BulkSetReturnDates">
-																		<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																		<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
-																	</form>
-																</div>
-															</cfif>
-														</cfif>
-														<cfif isOpen>
-															<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
-															<cfif aboutLoan.loan_type EQ 'returnable' or aboutLoan.loan_type contains 'exhibition'>
-																<cfquery name="ctReturnables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT count(*) as ct
-																	FROM loan_item
-																	WHERE
-																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-																		and loan_item.return_date is null
-																		and (loan_item.loan_item_state is null or loan_item.loan_item_state IN ('in loan','unknown', 'returned'))
-																</cfquery>
-																<cfif ctReturnables.ct GT 0>
-																	<div class="col-12 col-xl-6 border p-1">
-																		<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-																			Mark all #ctReturnables.ct# on loan items <span class="small90">(on loan, unknown, or returned with no return date)</span> as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
-																			<input type="hidden" name="Action" value="BulkMarkItemsReturned">
-																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																			<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
-																		</form>
-																	</div>
-																</cfif>
-															</cfif>
-															<cfif aboutLoan.loan_type EQ 'consumable'>
-																<cfquery name="countConsumableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT count(*) as ct
-																	FROM loan_item
-																	WHERE
-																		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-																		and (loan_item.loan_item_state <> 'consumed' or loan_item.loan_item_state is NULL)
-																</cfquery>
-																<div class="col-12 col-xl-6 border p-1">
-																	<cfif countConsumableItems.ct GT 0>
-																		<form name="BulkMarkItemsConsumed" method="post" action="/transactions/reviewLoanItems.cfm">
-																			Mark all these #partCount# items as consumed.
-																			<input type="hidden" name="Action" value="BulkMarkItemsConsumed">
-																			<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																			<input type="submit" value="Mark Items Consumed" class="btn btn-xs btn-primary"> 
-																		</form>
-																	<cfelse>
-																		<h3 class="h3">All items in this consumable loan are marked as consumed.</h3>
-																	</cfif>
-																</div>
-															</cfif>
-														</cfif>
-														<cfif isInProcess>
-															<!--- if loan is in process, stamp the part condition values into the item description --->
-															<div class="col-12 col-xl-6 border p-1">
-																<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Append the part condition to each loan item description:
-																	<input type="hidden" name="action" value="BulkSetDescription">
-																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<input type="submit" value="Paste Descriptions" class="btn btn-xs btn-primary"> 
-																</form>
-															</div>
-															<div class="col-12 col-xl-6 border p-1">
-																<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
-																	Add instructions to each loan item:
-																	<input type="hidden" name="action" value="BulkSetInstructions">
-																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-																	<input type="text" name="item_instructions" id="item_instructions" value="">
-																	<input type="submit" value="Append Item Instructions" class="btn btn-xs btn-primary"> 
-																</form>
-															</div>
+															<h3 class="h3">All items in this consumable loan are marked as consumed.</h3>
 														</cfif>
 													</div>
+												</cfif>
+											</cfif>
+											<cfif isInProcess>
+												<!--- if loan is in process, stamp the part condition values into the item description --->
+												<div class="col-12 col-xl-6 border p-1">
+													<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
+														Append the part condition to each loan item description:
+														<input type="hidden" name="action" value="BulkSetDescription">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Paste Descriptions" class="btn btn-xs btn-primary"> 
+													</form>
 												</div>
-											</div>
+												<div class="col-12 col-xl-6 border p-1">
+													<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
+														<label for="item_instructions">Add instructions to each loan item:</label>
+														<input type="hidden" name="action" value="BulkSetInstructions">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="text" name="item_instructions" id="item_instructions" value="">
+														<input type="submit" value="Append Item Instructions" class="btn btn-xs btn-primary"> 
+													</form>
+												</div>
+											</cfif>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-	
-					<div class="col-12 mb-3">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h2 class="h4">Loan Items</h2>
+
+					<!--- Shown whenever this page is about to reload with no other feedback in the
+						interim: "Edit All Loan Items"'s buttons all post a real (non-AJAX) form back
+						to this same page, which reprocesses and redirects -- and shared/js/shared-
+						scripts.js's reloadPageDialog (e.g. reloadSummary's own "Loan status has
+						changed. Reload page?" prompt below) checks for this same div's id before
+						calling location.reload(). Both cases can take a moment, and without this the
+						page could look unresponsive in between. --->
+					<div id="pageReloadOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050;">
+						<div class="bg-white rounded p-3 text-center" style="position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%);">
+							<img src="/shared/images/indicator.gif" alt=""> Processing...
 						</div>
-						<div class="col-12" id="allCatItemsDiv">
+					</div>
+					<script>
+						$(document).ready(function() {
+							$('##bulkEditControlsDiv form').on('submit', function() {
+								$('##pageReloadOverlay').removeClass('d-none');
+							});
+						});
+					</script>
+
+					<!--- Result of the most recent "Edit All Loan Items" bulk action, if any --
+						placed here, between that block and the Loan Items list it acts on, rather
+						than at the top of the page, so it reads as directly tied to the action
+						that produced it and to the list it updated. --->
+					<cfif isdefined("message") AND len(message) GT 0>
+						<cfset messageAlertClass = "alert-success">
+						<cfif findNoCase("failed", message) GT 0>
+							<cfset messageAlertClass = "alert-danger">
+						</cfif>
+						<div class="col-12 mb-3">
+							<div class="alert #messageAlertClass#" role="alert">
+								#encodeForHtml(message)#
+							</div>
+						</div>
+					</cfif>
+
+					<div class="col-12 mb-3">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0 align-items-center">
+							<div class="col-12 col-md">
+								<h2 class="h4 mb-0">Loan Items</h2>
+							</div>
+							<div class="col-12 col-md-auto text-md-right">
+								<input type="button" value="Storage Locations" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+									onClick="window.open('/containers/Containers.cfm?transaction_id=#transaction_id#&execute=true');">
+								<input type="button" value="Part Location Report" class="btn btn-xs btn-secondary mb-2 mb-sm-0"
+									onClick="window.open('/containers/partLocations.cfm?transaction_id=#transaction_id#&execute=true');">
+							</div>
+						</div>
+						<div id="allCatItemsDiv">
 							<cfset catItemBlock = getLoanCatItemHtml(transaction_id=transaction_id,collection_object_id="")>
 							#catItemBlock#
 						</div>
@@ -1287,21 +1310,7 @@ limitations under the License.
 					</script>
 
 						<script>
-
-
-							var returnCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to mark a loan item as returned
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Return" aria-label="Mark Item as Returned"/></span>';
-							};
-							var consumedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-								// Display a button to mark a loan item as consumed
-								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" resolveLoanItem('+loan_item_id+',\'gridActionFeedbackDiv\',\'returned\',reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Consume" aria-label="Mark Item as Consumed"/></span>';
-							};
-							function reloadLoanSummaryData(){ 
+							function reloadLoanSummaryData(){
 								// reload dispositions of loan items
 								$.ajax({
 									dataType: 'html',

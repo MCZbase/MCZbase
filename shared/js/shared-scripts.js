@@ -59,7 +59,13 @@ function reloadPageDialog(dialogText, dialogTitle) {
 			minHeight: 80,
 			title: titleTrimmed,
 			buttons: {
-				"Yes": function() { 
+				"Yes": function() {
+					// pages that want feedback while reloading (rather than looking unresponsive
+					// until the new page appears) provide a div with this id, hidden via a d-none
+					// class removed here; harmless no-op on pages without one.
+					if ($('#pageReloadOverlay').length) {
+						$('#pageReloadOverlay').removeClass('d-none');
+					}
 					location.reload();
 				},
 				"No": function() { 

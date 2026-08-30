@@ -164,7 +164,9 @@ limitations under the License.
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #header.collection# collection; #header.scientific_name#; #header.higher_geog#; #header.spec_locality#; #header.typestatusplain#">
 <cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.typestatuswords#">
 <cfset pageTitle = "MCZbase #guid# specimen record">
+<cfset pageHasContainers = "true"><!--- for containers/js/containers.js's openContainerPickerDialog/loadPlacementWarningBadge, used by the Edit Parts dialog's Container field --->
 <cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css"><!--- for the container-role-badge classes used by the Part Container Placement dialog's proxy badges --->
 
 <!--- load javascript libraries for the page --->
 <script type='text/javascript' src='/media/js/media.js'></script>

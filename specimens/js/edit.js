@@ -987,6 +987,310 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/**
+ * Shows a small modal asking whether changing a part's container should move just the part or
+ * the whole shared container (used when the part's current container is a CHECKFIRST type --
+ * today, a jar -- holding more than one collection object, so "move this part" is genuinely
+ * ambiguous between the two). Neither option is a "cancel" so this doesn't reuse the shared
+ * confirmDialog() helper, which is fixed to OK/Cancel wording.
+ * @param jarType container_type of the shared container (e.g. "jar").
+ * @param jarLabel display label of the shared container.
+ * @param occupantCount how many collection objects the shared container currently holds
+ *  (including this part).
+ * @param onChoice callback invoked with 'part' or 'jar' once the user picks; not invoked if the
+ *  dialog is dismissed without choosing.
+ * @param onCancel optional callback invoked if the user clicks Cancel instead of choosing.
+ */
+function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice, onCancel) {
+	var otherCount = Math.max(0, (parseInt(occupantCount, 10) || 0) - 1);
+	var text = 'This part shares ' + jarType + ' ' + jarLabel + ' with ' + otherCount +
+		' other specimen(s). Move just this part into the new container, or move the whole ' +
+		jarType + ' (and everything in it)?';
+	var dialogDiv = $('<div style="padding: 10px; max-width: 500px;"></div>').text(text).dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: 'What should move?',
+		buttons: [
+			{
+				text: 'Move just this part',
+				click: function() {
+					$(this).dialog('destroy');
+					onChoice('part');
+				}
+			},
+			{
+				text: 'Move the whole ' + jarType,
+				click: function() {
+					$(this).dialog('destroy');
+					onChoice('jar');
+				}
+			},
+			{
+				text: 'Cancel',
+				click: function() {
+					$(this).dialog('destroy');
+					if (onCancel) {
+						onCancel();
+					}
+				}
+			}
+		],
+		open: function() {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6});
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5});
+		},
+		close: function() {
+			// catches dismissal via the dialog's own titlebar close button or Escape, neither of
+			// which goes through the buttons above -- .dialog('destroy') (used by all three
+			// buttons) does not itself fire this, so this can't double up with the Cancel
+			// button's own onCancel() call.
+			if (onCancel) {
+				onCancel();
+			}
+		}
+	});
+	dialogDiv.dialog('moveToTop');
+}
+
+/**
+ * Updates the "what will actually move" text next to a part's Container field -- so changing
+ * the container of a proxy-housed or jar-shared part never leaves the user guessing whether
+ * they're moving the bare part or its whole housing.
+ * @param targetId id of the element to render the text into (no leading #).
+ * @param moveType container_type of whatever will actually move.
+ * @param moveLabel display label of whatever will actually move.
+ * @param isProxy true when moving a proxy/shared container instead of the bare part.
+ * @param otherCount when isProxy and this is a shared (not single-occupant) container, how many
+ *  OTHER specimens will move along with it; omit or pass 0 for a true single-occupant proxy.
+ * @param changed true once a NEW container has actually been picked for a true (single-occupant)
+ *  proxy, so the note reads as a pending move ("will move to:") rather than the server-rendered,
+ *  as-loaded placement ("is in:"). Ignored when isProxy is false or otherCount is set -- both of
+ *  those cases already read as pending actions on their own.
+ */
+function renderPartMoveWhatText(targetId, moveType, moveLabel, isProxy, otherCount, changed) {
+	var target = $('#' + targetId);
+	if (!isProxy) {
+		target.text('Will move: this part directly.');
+	} else if (otherCount) {
+		target.text('Will move: the whole ' + moveType + ' ' + moveLabel + ' -- and the ' +
+			otherCount + ' other specimen(s) in it -- not just this part.');
+	} else if (changed) {
+		target.text(moveType + ' ' + moveLabel + ' (this part\'s proxy container) will move to:');
+	} else {
+		target.text(moveType + ' ' + moveLabel + ' (this part\'s proxy container) is in:');
+	}
+}
+
+/**
+ * Flags one Edit Existing Parts row as having a pending, not-yet-saved change -- reuses the same
+ * part_output#i# control the row's Save/Delete button handlers already report saving/saved/error
+ * into (see specimens/component/functions.cfc's getEditPartsHTML).
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function markPartRowUnsaved(rowIndex) {
+	setFeedbackControlState('part_output' + rowIndex, 'unsaved');
+}
+
+/**
+ * Opens the container picker for one row of the Edit Existing Parts form, and on selection
+ * populates the row's Container field, resolves the move-scope choice when the part's current
+ * container is an ambiguous shared jar (see specimens/component/functions.cfc's
+ * resolvePartMoveTarget), and refreshes the placement-fitness badge for whichever container will
+ * actually move.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+/**
+ * Reacts to a part row's Container field resolving to a new target container_id, however that
+ * happened (the Choose... dialog, or a plain autocomplete select/change) -- resolves the
+ * move-scope choice when the part's current container is an ambiguous shared jar (see
+ * specimens/component/functions.cfc's resolvePartMoveTarget), and refreshes the
+ * placement-fitness badge for whichever container will actually move.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ * @param selectedId the newly chosen target container_id.
+ */
+function handlePartContainerSelected(rowIndex, selectedId) {
+	var moveContainerIdFieldId = 'move_container_id' + rowIndex;
+	var isProxyFieldId = 'is_proxy' + rowIndex;
+	var moveTypeFieldId = 'move_type' + rowIndex;
+	var moveLabelFieldId = 'move_label' + rowIndex;
+	var requiresChoiceFieldId = 'requires_move_scope_choice' + rowIndex;
+	var jarOccupantCountFieldId = 'jar_occupant_count' + rowIndex;
+	var currentParentIdFieldId = 'current_parent_container_id' + rowIndex;
+	var currentParentTypeFieldId = 'current_parent_type' + rowIndex;
+	var currentParentLabelFieldId = 'current_parent_label' + rowIndex;
+	var moveScopeFieldId = 'move_scope' + rowIndex;
+	var moveWhatTextId = 'move_what' + rowIndex;
+	var badgeTargetId = 'container_badge' + rowIndex;
+	var containerLabelFieldId = 'container_label' + rowIndex;
+	var containerIdFieldId = 'container_id' + rowIndex;
+	var containerLabelInput = $('#' + containerLabelFieldId);
+
+	// picking a container -- through either the Choose... dialog or the autocomplete -- only
+	// stages the change in the form; nothing is persisted until the row's own Save button is
+	// clicked. Flag the row as having a pending change so that's clear regardless of which
+	// branch below runs.
+	markPartRowUnsaved(rowIndex);
+
+	var requiresChoice = $('#' + requiresChoiceFieldId).val() === 'true';
+	if (requiresChoice) {
+		var jarType = $('#' + currentParentTypeFieldId).val();
+		var jarLabel = $('#' + currentParentLabelFieldId).val();
+		var occupantCount = parseInt($('#' + jarOccupantCountFieldId).val(), 10) || 0;
+		showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, function(scope) {
+			$('#' + moveScopeFieldId).val(scope);
+			var childId = (scope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
+			var otherCount = (scope === 'jar') ? (occupantCount - 1) : 0;
+			renderPartMoveWhatText(moveWhatTextId, jarType, jarLabel, scope === 'jar', otherCount);
+			loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+			// This pick is now confirmed -- remember it (container, scope, and the rendered
+			// "will move" note) as what a LATER cancelled pick on this same row should revert to,
+			// since by the time this function next runs the Container field's own prior value has
+			// already been overwritten (by the autocomplete widget itself, in the typed/picked-
+			// from-suggestions case) with no way to recover it from the DOM at that point.
+			containerLabelInput.data('confirmedContainerId', selectedId);
+			containerLabelInput.data('confirmedContainerLabel', containerLabelInput.val());
+			containerLabelInput.data('confirmedMoveScope', scope);
+			containerLabelInput.data('confirmedMoveWhatHtml', $('#' + moveWhatTextId).html());
+		}, function() {
+			// Cancel -- put the Container field, move_scope, and the "will move" note back to the
+			// last confirmed state (the original container, or an earlier pick this row already
+			// committed to) instead of leaving a picked-but-unresolved container with no
+			// move_scope, which the server rejects on Save since it can't tell whether "part" or
+			// "jar" was intended.
+			var confirmedId = containerLabelInput.data('confirmedContainerId');
+			var confirmedLabel = containerLabelInput.data('confirmedContainerLabel');
+			var confirmedScope = containerLabelInput.data('confirmedMoveScope') || '';
+			containerLabelInput.val(confirmedLabel);
+			$('#' + containerIdFieldId).val(confirmedId);
+			containerLabelInput.data('lastContainerId', confirmedId);
+			$('#' + moveScopeFieldId).val(confirmedScope);
+			$('#' + moveWhatTextId).html(containerLabelInput.data('confirmedMoveWhatHtml'));
+			var confirmedChildId = (confirmedScope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
+			loadPlacementWarningBadge(confirmedChildId, confirmedId, badgeTargetId);
+		});
+	} else {
+		var childId = $('#' + moveContainerIdFieldId).val();
+		var isProxy = $('#' + isProxyFieldId).val() === 'true';
+		if (isProxy) {
+			// a true (single-occupant) proxy's own current placement is already shown as loaded
+			// ("is in:") -- once a NEW container is actually picked, switch it to the pending-move
+			// wording ("will move to:") so it doesn't read as an already-settled fact.
+			var moveType = $('#' + moveTypeFieldId).val();
+			var moveLabel = $('#' + moveLabelFieldId).val();
+			renderPartMoveWhatText(moveWhatTextId, moveType, moveLabel, true, 0, true);
+		} else {
+			// the plain, nothing-special case has no note until a change is actually being made.
+			renderPartMoveWhatText(moveWhatTextId, '', '', false, 0);
+		}
+		loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+	}
+}
+
+/**
+ * Opens the container picker for one row of the Edit Existing Parts form, and on selection
+ * populates the row's Container field and hands off to handlePartContainerSelected.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function chooseContainerForPartRow(rowIndex) {
+	var containerInputId = 'container_label' + rowIndex;
+	var containerIdFieldId = 'container_id' + rowIndex;
+
+	openContainerPickerDialog({
+		mode: 'find',
+		dialogTitle: 'Select Container',
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#' + containerInputId).val(selectedLabel);
+			$('#' + containerIdFieldId).val(selectedId);
+			$('#' + containerInputId).data('lastContainerId', selectedId);
+			wrapper.dialog('close');
+			handlePartContainerSelected(rowIndex, selectedId);
+		}
+	});
+}
+
+/**
+ * Reacts to a part row's Container field being set via its barcode autocomplete (a select from
+ * the picklist, or a typed change) rather than the Choose... dialog -- the autocomplete widget's
+ * own handler has already updated the row's hidden container_id field by the time this runs; see
+ * makeContainerAutocompleteMetaExcludeCO's select/change callbacks. Clears the badge if the value
+ * no longer resolves to a real container_id (e.g. typed text that didn't match a pick).
+ * Ignores the call entirely when the resolved container_id hasn't actually changed since the last
+ * time this ran -- autocompletechange can fire from a plain focus/blur with no edit, and without
+ * this guard that re-ran the placement-fitness lookup (a live AJAX call) on every such no-op.
+ * @param rowIndex the #i# suffix identifying this row's fields (no leading #).
+ */
+function checkPartContainerBadge(rowIndex) {
+	var input = $('#container_label' + rowIndex);
+	var selectedId = $('#container_id' + rowIndex).val();
+	if (selectedId === input.data('lastContainerId')) {
+		return;
+	}
+	input.data('lastContainerId', selectedId);
+	if (!selectedId) {
+		$('#container_badge' + rowIndex).empty();
+		return;
+	}
+	handlePartContainerSelected(rowIndex, selectedId);
+}
+
+/**
+ * Checks and displays a live placement-preview badge for the "Add New Part" form's Container
+ * field, using a representative existing collection-object container since the new part doesn't
+ * exist yet (see chooseContainerForNewPart's own doc comment). Call whenever the field's resolved
+ * container_id changes, whether via the Choose... dialog or the barcode autocomplete. Ignores the
+ * call when the resolved container_id hasn't actually changed since the last time this ran --
+ * see checkPartContainerBadge's own doc comment for why that guard is needed.
+ */
+function checkNewPartContainerBadge() {
+	var input = $('#container_barcode');
+	var selectedId = $('#container_id').val();
+	if (selectedId === input.data('lastContainerId')) {
+		return;
+	}
+	input.data('lastContainerId', selectedId);
+	if (!selectedId) {
+		$('#new_part_container_badge').empty();
+		return;
+	}
+	jQuery.ajax({
+		url: '/containers/component/public.cfc',
+		data: { method: 'getRepresentativeLeafContainerId', returnformat: 'json' },
+		dataType: 'json',
+		success: function(result) {
+			if (result && result.found) {
+				loadPlacementWarningBadge(result.container_id, selectedId, 'new_part_container_badge');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			handleFail(jqXHR, textStatus, error, 'checking placement for new part');
+		}
+	});
+}
+
+/**
+ * Opens the container picker for the "Add New Part" form, populating its Container field and
+ * refreshing a live preview badge. The new part doesn't exist yet, so the preview checks a
+ * representative existing collection-object container against the chosen target rather than the
+ * part's own (not-yet-created) container -- createSpecimenPart re-checks precisely with the real
+ * container_id right after creation, before actually placing it.
+ */
+function chooseContainerForNewPart() {
+	openContainerPickerDialog({
+		mode: 'find',
+		dialogTitle: 'Select Container',
+		onSelect: function(selectedId, selectedLabel, wrapper) {
+			$('#container_barcode').val(selectedLabel);
+			$('#container_id').val(selectedId);
+			wrapper.dialog('close');
+			checkNewPartContainerBadge();
+		}
+	});
+}
+
 /** editPartAttributes opens a dialog for editing attributes of a part.
 
  * @param part_collection_object_id the id of the part for which to edit attributes.

@@ -97,7 +97,8 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 @param label_contains optional case-insensitive substring filter on label.
 @param description_contains optional case-insensitive substring filter on description/container remarks.
 @return a json structure containing id and value fields. The value contains matched barcode,
-  meta contains type/label/barcode, id contains container_id, and label/barcode contain raw values.
+  meta contains type/label/barcode, id contains container_id, label/barcode/type contain raw
+  values (type lets the picker dialog flag proxy-role candidates in its dropdown).
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -156,6 +157,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 			<cfset row["id"] = "#search.container_id#" >
 			<cfset row["label"] = "#search.label#" >
 			<cfset row["barcode"] = "#search.barcode#" >
+			<cfset row["type"] = "#search.container_type#" >
 			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
@@ -372,8 +374,8 @@ ordered from root to the given node, for use in breadcrumb display.
 Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 
 @param container_id the container_id whose ancestor chain is to be returned.
-@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label, barcode;
-  ordered from root (highest level) to the given node.
+@return a JSON array of objects with keys: container_id, parent_container_id, container_type, label,
+  barcode, description; ordered from root (highest level) to the given node.
 --->
 <cffunction name="getContainerBreadcrumb" access="remote" returntype="any" returnformat="json">
 	<cfargument name="container_id" type="numeric" required="yes">
@@ -386,7 +388,8 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 				parent_container_id,
 				container_type,
 				label,
-				barcode
+				barcode,
+				description
 			FROM
 				container
 			START WITH
@@ -403,6 +406,7 @@ Uses Oracle CONNECT BY PRIOR walking upward from the given node to the root.
 			<cfset local.row["container_type"] = queryGetBreadcrumb.container_type>
 			<cfset local.row["label"] = queryGetBreadcrumb.label>
 			<cfset local.row["barcode"] = queryGetBreadcrumb.barcode>
+			<cfset local.row["description"] = queryGetBreadcrumb.description>
 			<cfset local.retval[local.i] = local.row>
 			<cfset local.i = local.i + 1>
 		</cfloop>

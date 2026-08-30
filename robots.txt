@@ -83,7 +83,6 @@ Disallow: /LICENSE
 Disallow: /loanByBarcode.cfm
 Disallow: /loanFreezerLocn.cfm
 Disallow: /Locality.cfm
-Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
 Disallow: /nothing.cfm
