@@ -85,6 +85,28 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 			<cfset local.retval["move_label"] = local.retval.current_parent_label>
 			<cfset local.retval["move_barcode"] = local.retval.current_parent_barcode>
 			<cfset local.retval["move_type"] = local.retval.current_parent_type>
+			<!--- current_parent_* above was resolved by resolvePartCurrentContainer as the parent
+				of the LEAF -- i.e. the jar itself. Now that the jar is what's actually moving, it
+				must be re-resolved to the JAR'S OWN parent, or the Container field/placement badge
+				would show/validate the jar as though it were sitting inside itself (always
+				"blocked", since a container can't be its own parent). --->
+			<cfquery name="local.queryJarParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT p.container_id, p.label, p.barcode, p.container_type
+				FROM container c
+					JOIN container p ON c.parent_container_id = p.container_id
+				WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.retval.move_container_id#">
+			</cfquery>
+			<cfif local.queryJarParent.recordcount GT 0>
+				<cfset local.retval["current_parent_container_id"] = local.queryJarParent.container_id>
+				<cfset local.retval["current_parent_label"] = local.queryJarParent.label>
+				<cfset local.retval["current_parent_barcode"] = local.queryJarParent.barcode>
+				<cfset local.retval["current_parent_type"] = local.queryJarParent.container_type>
+			<cfelse>
+				<cfset local.retval["current_parent_container_id"] = 0>
+				<cfset local.retval["current_parent_label"] = "">
+				<cfset local.retval["current_parent_barcode"] = "">
+				<cfset local.retval["current_parent_type"] = "">
+			</cfif>
 		<cfelse>
 			<cfset local.retval["requires_move_scope_choice"] = true>
 		</cfif>
@@ -5087,6 +5109,13 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 									// pick apart from a spurious autocompletechange (e.g. a plain focus/blur
 									// with no edit -- see its own doc comment).
 									$('##container_label#i#').data('lastContainerId', $('##container_id#i#').val());
+									// seed the "confirmed" state (see handlePartContainerSelected's own doc
+									// comment) to this row's as-loaded values, so Cancelling a shared-jar
+									// move-scope choice before ever making a real one reverts to this.
+									$('##container_label#i#').data('confirmedContainerId', $('##container_id#i#').val());
+									$('##container_label#i#').data('confirmedContainerLabel', $('##container_label#i#').val());
+									$('##container_label#i#').data('confirmedMoveScope', $('##move_scope#i#').val());
+									$('##container_label#i#').data('confirmedMoveWhatHtml', $('##move_what#i#').html());
 									// refresh the placement-preview badge from either the Choose...
 									// dialog (see chooseContainerForPartRow) or a plain autocomplete
 									// pick/typed change -- setTimeout lets the autocomplete widget's

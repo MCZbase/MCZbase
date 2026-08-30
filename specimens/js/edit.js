@@ -999,8 +999,9 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
  *  (including this part).
  * @param onChoice callback invoked with 'part' or 'jar' once the user picks; not invoked if the
  *  dialog is dismissed without choosing.
+ * @param onCancel optional callback invoked if the user clicks Cancel instead of choosing.
  */
-function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice) {
+function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice, onCancel) {
 	var otherCount = Math.max(0, (parseInt(occupantCount, 10) || 0) - 1);
 	var text = 'This part shares ' + jarType + ' ' + jarLabel + ' with ' + otherCount +
 		' other specimen(s). Move just this part into the new container, or move the whole ' +
@@ -1031,6 +1032,9 @@ function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice) {
 				text: 'Cancel',
 				click: function() {
 					$(this).dialog('destroy');
+					if (onCancel) {
+						onCancel();
+					}
 				}
 			}
 		],
@@ -1038,6 +1042,15 @@ function showMoveScopeChoiceDialog(jarType, jarLabel, occupantCount, onChoice) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6});
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5});
+		},
+		close: function() {
+			// catches dismissal via the dialog's own titlebar close button or Escape, neither of
+			// which goes through the buttons above -- .dialog('destroy') (used by all three
+			// buttons) does not itself fire this, so this can't double up with the Cancel
+			// button's own onCancel() call.
+			if (onCancel) {
+				onCancel();
+			}
 		}
 	});
 	dialogDiv.dialog('moveToTop');
@@ -1112,6 +1125,9 @@ function handlePartContainerSelected(rowIndex, selectedId) {
 	var moveScopeFieldId = 'move_scope' + rowIndex;
 	var moveWhatTextId = 'move_what' + rowIndex;
 	var badgeTargetId = 'container_badge' + rowIndex;
+	var containerLabelFieldId = 'container_label' + rowIndex;
+	var containerIdFieldId = 'container_id' + rowIndex;
+	var containerLabelInput = $('#' + containerLabelFieldId);
 
 	// picking a container -- through either the Choose... dialog or the autocomplete -- only
 	// stages the change in the form; nothing is persisted until the row's own Save button is
@@ -1130,6 +1146,31 @@ function handlePartContainerSelected(rowIndex, selectedId) {
 			var otherCount = (scope === 'jar') ? (occupantCount - 1) : 0;
 			renderPartMoveWhatText(moveWhatTextId, jarType, jarLabel, scope === 'jar', otherCount);
 			loadPlacementWarningBadge(childId, selectedId, badgeTargetId);
+			// This pick is now confirmed -- remember it (container, scope, and the rendered
+			// "will move" note) as what a LATER cancelled pick on this same row should revert to,
+			// since by the time this function next runs the Container field's own prior value has
+			// already been overwritten (by the autocomplete widget itself, in the typed/picked-
+			// from-suggestions case) with no way to recover it from the DOM at that point.
+			containerLabelInput.data('confirmedContainerId', selectedId);
+			containerLabelInput.data('confirmedContainerLabel', containerLabelInput.val());
+			containerLabelInput.data('confirmedMoveScope', scope);
+			containerLabelInput.data('confirmedMoveWhatHtml', $('#' + moveWhatTextId).html());
+		}, function() {
+			// Cancel -- put the Container field, move_scope, and the "will move" note back to the
+			// last confirmed state (the original container, or an earlier pick this row already
+			// committed to) instead of leaving a picked-but-unresolved container with no
+			// move_scope, which the server rejects on Save since it can't tell whether "part" or
+			// "jar" was intended.
+			var confirmedId = containerLabelInput.data('confirmedContainerId');
+			var confirmedLabel = containerLabelInput.data('confirmedContainerLabel');
+			var confirmedScope = containerLabelInput.data('confirmedMoveScope') || '';
+			containerLabelInput.val(confirmedLabel);
+			$('#' + containerIdFieldId).val(confirmedId);
+			containerLabelInput.data('lastContainerId', confirmedId);
+			$('#' + moveScopeFieldId).val(confirmedScope);
+			$('#' + moveWhatTextId).html(containerLabelInput.data('confirmedMoveWhatHtml'));
+			var confirmedChildId = (confirmedScope === 'jar') ? $('#' + currentParentIdFieldId).val() : $('#' + moveContainerIdFieldId).val();
+			loadPlacementWarningBadge(confirmedChildId, confirmedId, badgeTargetId);
 		});
 	} else {
 		var childId = $('#' + moveContainerIdFieldId).val();
