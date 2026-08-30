@@ -10127,16 +10127,35 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<cfif container_parentage.role EQ "proxy">
 								<cfset roleBadge = '<span class="badge badge-pill container-role-badge container-role-proxy">Proxy</span>'>
 							</cfif>
+							<!--- prefer barcode, falling back to label, matching the same convention
+								already used elsewhere (e.g. containers/viewContainer.cfm's own placement
+								history table) -- a container with a label but no barcode (or neither)
+								previously rendered as nothing but "(type)", with an empty, unclickable
+								link (barcode-keyed) for admins besides. --->
+							<cfset containerDisplay = "Unnamed container">
+							<cfif len(trim(container_parentage.label)) GT 0>
+								<cfset containerDisplay = container_parentage.label>
+							</cfif>
+							<cfif len(trim(container_parentage.barcode)) GT 0>
+								<cfset containerDisplay = container_parentage.barcode>
+								<cfif container_parentage.barcode NEQ container_parentage.label AND len(trim(container_parentage.label)) GT 0>
+									<cfset containerDisplay = "#containerDisplay# (#container_parentage.label#)">
+								</cfif>
+							</cfif>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 								<li class="listgroupitem">
-									<a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & container_parentage.barcode)#&execute=true" target="_blank">#container_parentage.barcode#</a>
+									<cfif len(trim(container_parentage.barcode)) GT 0>
+										<a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & container_parentage.barcode)#&execute=true" target="_blank">#containerDisplay#</a>
+									<cfelse>
+										<a href="/containers/Containers.cfm?container_id=#encodeForUrl(container_parentage.container_id)#&execute=true" target="_blank">#containerDisplay#</a>
+									</cfif>
 									(#container_parentage.container_type#) #roleBadge#
 									<cfif len(container_parentage.parent_install_date) GT 0>
 										install date #container_parentage.parent_install_date#
 									</cfif>
 								</li>
 							<cfelse>
-								<li>#container_parentage.barcode# (#container_parentage.container_type#) #roleBadge#</li>
+								<li>#containerDisplay# (#container_parentage.container_type#) #roleBadge#</li>
 							</cfif>
 						</cfloop>
 					</ul>
