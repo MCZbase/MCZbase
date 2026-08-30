@@ -4545,6 +4545,7 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 										console.log(response);
 										setFeedbackControlState("newPart_output","saved");
 										reloadEditExistingParts();
+										resetNewPartForm();
 									},
 									error: function(xhr, status, error) {
 										setFeedbackControlState("newPart_output","error");
@@ -4552,6 +4553,22 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 									}
 								});
 							});
+							/** Clears the "Add New Part" form back to a blank state after a successful create --
+							 * without this, every field (including the just-used container and its badge) silently
+							 * carried over into what looked like the start of the next part, with "Saved" still
+							 * showing next to fields that hadn't actually been saved yet.
+							 */
+							function resetNewPartForm() {
+								var form = document.getElementById('newPart');
+								if (form) {
+									form.reset();
+								}
+								$('##new_part_container_badge').empty();
+								// re-seed checkNewPartContainerBadge's own "last checked" id tracking (see its doc
+								// comment) now that the field is blank, so the next real pick is treated as a change.
+								$('##container_barcode').data('lastContainerId', '');
+								countCharsLeft('coll_object_remarks', 4000, 'length_remarks');
+							}
 							function reloadEditExistingParts() {
 								// reload the edit existing parts section
 								$.ajax({
