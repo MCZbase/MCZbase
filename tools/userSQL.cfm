@@ -105,6 +105,9 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<h2 class="h3">Result: </h2>
+					<p>
+						<a href="/tools/userSQL.cfm?sql=#encodeForUrl(sql)#&amp;format=#encodeForUrl(format)#" id="linkToQuery">Link to this Query</a>
+					</p>
 					<cfif unsafeSql(sql)>
 						<div class="error">
 							<h2 class="h3">The code you submitted contains illegal characters.</h2>

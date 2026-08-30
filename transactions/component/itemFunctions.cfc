@@ -20,6 +20,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartPreviousContainer, used by getLoanCatItemHtml below --->
 
 <!---   Function addPartToDeacc add a part to a deaccession DEPRECATED
  @deprecated replace usages where retained with addPartToDeaccession
@@ -2007,6 +2008,7 @@ STATE TRANSITION BEHAVIOR:
 							<cfif show_buttons EQ "add" OR show_buttons EQ "both">
 								<a href="/Specimens.cfm?target_deacc_id=#encodeForUrl(transaction_id)#" target="_blank" class="btn btn-xs btn-secondary" id="addDeaccItemsButton">Add Items To Deaccession</a>
 							</cfif>
+							<a href="/containers/Containers.cfm?transaction_id=#encodeForUrl(transaction_id)#&execute=true" target="_blank" class="btn btn-xs btn-secondary">Storage Locations</a>
 						</div>
 					</cfif>
 				</cfloop>
@@ -2745,7 +2747,7 @@ STATE TRANSITION BEHAVIOR:
 				</cfif>
 				<p class="font-weight-normal mb-1 pb-0">
 					There are <span class="itemCountSpan">#partCount#</span> items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank"><span class="catnumCountSpan">#catCount#</span> specimens</a> in this loan.  
-					View <a href="/findContainer.cfm?loan_trans_id=#arguments.transaction_id#" target="_blank">Part Locations</a>
+					View <a href="/containers/Containers.cfm?transaction_id=#arguments.transaction_id#&execute=true" target="_blank">Part Locations</a>
 					<a href="/transactions/reviewLoanItems.cfm?action=download&transaction_id=#arguments.transaction_id#" target="_blank" class="btn btn-xs btn-secondary float-right">Download as CSV</a>.
 				</p>
 				<cfif aboutLoan.loan_type EQ 'exhibition-master'>
@@ -2876,7 +2878,7 @@ STATE TRANSITION BEHAVIOR:
 					<cfset catItemId = getCatItems.collection_object_id>
 
 					<cfif showMultiple>
-						<div class="row col-12 border m-1 pb-1" id="rowDiv#catItemId#">
+						<div class="row col-12 border my-1 mx-0 pb-1" id="rowDiv#catItemId#">
 					</cfif>
 
 
@@ -2989,25 +2991,35 @@ STATE TRANSITION BEHAVIOR:
 							coll_obj_cont_hist.container_id,
 							MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
 							MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
-							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
-							MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location
-						FROM 
+							mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name
+						FROM
 							loan
 							join loan_item on loan.transaction_id = loan_item.transaction_id
-							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+							join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 							join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+							join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 							left join identification on specimen_part.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+							left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 								and coll_obj_cont_hist.current_container_fg = 1
 						WHERE
 							loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 							AND cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catItemId#">
-						ORDER BY 
+						ORDER BY
 							part_name, preserve_method
 					</cfquery>
+					<!--- resolvePartsPreviousContainers is proxy-aware and batched (see its doc
+						comment in containers/component/public.cfc) -- one query for every part of
+						this cataloged item, instead of one resolvePartPreviousContainer call (several
+						queries each) plus a further get_storage_parentage query per part. Before this,
+						MCZBASE.get_previous_container_id looked up container_history against the
+						part's own raw leaf container_id, which never moves when only its proxy (e.g.
+						a pin) is relocated, so it could report the part's CURRENT location as its
+						"previous" one too. --->
+					<cfset local.previousMap = resolvePartsPreviousContainers(valueList(getParts.partID))>
 					<cfloop query="getParts">
 						<cfset id = getParts.loan_item_id>
+						<cfset previousContainer = local.previousMap[getParts.partID]>
+						<cfset previousLocationText = previousContainer.previous_location_text>
 						<cfquery name="getDeaccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								deaccession.transaction_id,
@@ -3064,15 +3076,15 @@ STATE TRANSITION BEHAVIOR:
 								</cfif>
 							</div>
 							<div class="col-12 col-md-6 pr-1">
-								<strong>Storage Location:</strong> <a href="/findContainer.cfm?container_id=#encodeForUrl(getParts.container_id)#" target="_blank">#getParts.short_location#</a>
+								<strong>Storage Location:</strong> <a href="/containers/Containers.cfm?container_id=#encodeForUrl(getParts.container_id)#&execute=true" target="_blank">#getParts.short_location#</a>
 								<ul class="mb-1">
-									<cfif len(previous_location) GT 0>
+									<cfif previousContainer.found AND previousContainer.previous_found>
 										<li>
-											<strong>Previous Location:</strong> 
-											<cfif getParts.short_location EQ getParts.previous_location>
+											<strong>Previous Location:</strong>
+											<cfif previousLocationText EQ getParts.short_location>
 												same
 											<cfelse>
-												#previous_location#
+												#previousLocationText#
 											</cfif>
 										</li>
 									</cfif>

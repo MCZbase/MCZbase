@@ -442,7 +442,7 @@
 				</cfif>
 			</cfif>
 			<cfset temp = QuerySetCell(result, "summary", "#data#", i)>
-			<cfset temp = QuerySetCell(result, "link", "/ContainerDetails.cfm?container_id=#d.container_id#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/containers/viewContainer.cfm?container_id=#d.container_id#", i)>
 		<cfelse>
 			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 			<cfset temp = QuerySetCell(result, "link_text", "#table_name# is not currently supported.", i)>

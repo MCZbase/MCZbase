@@ -21,6 +21,8 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for resolvePartCurrentContainer, used to detect a proxy parent below --->
+<cfinclude template="/containers/component/search.cfc" runOnce="true"><!--- for getContainerBreadcrumb, used to show the target container's ancestor trail below --->
 <!--------------------------------------------------------------------->
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
@@ -28,9 +30,262 @@ limitations under the License.
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
+<!--- the part-selection filter criteria, needed again by a destination-fitness block page (see
+	checkDestinationFitness/renderDestinationBlockedHtml below) to offer a way back to movePart with
+	the same parts already selected, without forcing the whole filter step to be redone. --->
+<cfparam name="exist_part_name" default="">
+<cfparam name="exist_preserve_method" default="">
+<cfparam name="existing_lot_count" default="">
+<cfparam name="existing_coll_obj_disposition" default="">
 
-<!--- container types that cannot be used in this tool, violate user expectations of what container is being moved --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
+<!--- container types that cannot be used in this tool at all -- unlike a proxy-role container (pin/slide/
+	cryovial/envelope/glass vial, handled below by moving the proxy instead of the leaf, with the user's
+	explicit confirmation), a jar can hold multiple specimens or glass vials, so this tool can't safely
+	auto-move it the same way; moving a jar's contents has to be done deliberately, one container at a time,
+	elsewhere (containers/moveContainer.cfm or containers/placePartInContainer.cfm). --->
+<cfset DISALLOWED_CONTAINER_TYPES = "jar">
+
+<!--- container_types with ctcontainer_type.role='proxy' -- single-occupant containers (pin/slide/cryovial/
+	envelope/glass vial) that can only ever hold one leaf. When a part's own leaf container's immediate
+	parent is one of these, moving the part actually means moving the proxy, not the leaf trapped inside
+	it -- the same authoritative classification validateContainerPlacement's own CT3 rule already uses,
+	looked up live rather than hand-maintained as a second copy of that list. --->
+<cfquery name="qProxyContainerTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT container_type
+	FROM ctcontainer_type
+	WHERE role = 'proxy'
+</cfquery>
+<cfset PROXY_CONTAINER_TYPES = valueList(qProxyContainerTypes.container_type)>
+
+<!---
+Function commitPartMove. Moves each listed part's actual current container (its own leaf, or a
+proxy-role parent when one exists -- see resolvePartCurrentContainer) into a new parent container.
+Re-resolves every part's move-target itself rather than trusting a value passed in from an earlier
+step, since a client-supplied resolution can't be trusted for a mutating action -- the same
+defense-in-depth principle used throughout the containers redesign. Shared by movePartConfirm (when
+no part resolves to a proxy, so no confirmation step is needed before committing) and movePart2 (the
+actual commit once the user has confirmed a proxy-involving move).
+@param partIDs comma-separated list of specimen_part.collection_object_id values to move.
+@param target_container_id the destination container_id.
+@return a struct: {moved_count}.
+--->
+<cffunction name="commitPartMove" access="private" returntype="struct" output="false">
+	<cfargument name="partIDs" type="string" required="yes">
+	<cfargument name="target_container_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.movedCount = 0>
+	<cftransaction>
+		<cfloop list="#arguments.partIDs#" index="local.onePartID">
+			<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
+			<cfif local.partContainer.found>
+				<cfquery name="local.moveOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.moveOne_result">
+					UPDATE container
+					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_container_id#">
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#">
+				</cfquery>
+				<cfset local.movedCount = local.movedCount + 1>
+			</cfif>
+		</cfloop>
+	</cftransaction>
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["moved_count"] = local.movedCount>
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
+Function renderMoveSuccessHtml. Builds the "Successfully moved..." confirmation HTML shared by
+movePartConfirm's zero-friction (no proxy involved) path and movePart2's confirmed-commit path, so
+both show identical results for identical outcomes.
+@param target_container_id the destination container_id parts were just moved into.
+@param moved_count how many parts were actually moved.
+@param result_id the originating search result_id, to build the "return to move parts" link.
+@return an HTML string.
+--->
+<cffunction name="renderMoveSuccessHtml" access="private" returntype="string" output="false">
+	<cfargument name="target_container_id" type="numeric" required="yes">
+	<cfargument name="moved_count" type="numeric" required="yes">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfquery name="local.getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT barcode, label, container_type
+		FROM container
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_container_id#">
+	</cfquery>
+	<cfsavecontent variable="local.html">
+		<cfoutput>
+			<div class="row mx-0">
+				<div class="col-12 mt-2">
+					<h2>Successfully moved #arguments.moved_count# part(s) into #local.getTarget.container_type# #local.getTarget.label# </h2>
+					<h4 class="mt-2"><a href="/specimens/changeQueryPartContainers.cfm?result_id=#arguments.result_id#">Return to move parts in bulk</a></h4>
+					<h4 class="mt-2"><a href="/containers/Containers.cfm?barcode=#encodeForUrl('=' & local.getTarget.barcode)#&execute=true">View Container</a></h4>
+				</div>
+			</div>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
+Function renderContainerContextHtml. Renders a container's ancestor breadcrumb trail (root down to
+the container itself) plus its description, matching the visual style of containers.js's own
+showContainerBreadcrumb widget -- for the movePartConfirm review page, where the target's label and
+barcode alone aren't enough to judge whether it's a sensible destination at a glance.
+@param container_id the container_id to render context for.
+@return an HTML string (empty if the container has no ancestor chain to show, e.g. not found).
+--->
+<cffunction name="renderContainerContextHtml" access="private" returntype="string" output="false">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.breadcrumb = getContainerBreadcrumb(container_id=arguments.container_id)>
+	<cfif isSimpleValue(local.breadcrumb)>
+		<cfset local.breadcrumb = deserializeJSON(local.breadcrumb)>
+	</cfif>
+	<cfsavecontent variable="local.html">
+		<cfoutput>
+			<cfif arrayLen(local.breadcrumb) GT 0>
+				<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap">
+					<cfloop array="#local.breadcrumb#" index="local.oneNode">
+						<li class="breadcrumb-item">#local.oneNode.container_type#: #local.oneNode.label# (#local.oneNode.barcode#)</li>
+					</cfloop>
+				</ol>
+				<cfset local.lastNode = local.breadcrumb[arrayLen(local.breadcrumb)]>
+				<cfif len(trim(local.lastNode.description)) GT 0>
+					<p class="mb-2"><strong>Description:</strong> #encodeForHtml(local.lastNode.description)#</p>
+				</cfif>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
+
+<!---
+Function checkDestinationFitness. Checks a proposed target container against every distinct
+container_type actually being moved in this batch (a batch can mix plain "collection object" leaves
+with several different proxy types once proxy substitution is involved, so a single representative
+check is no longer enough) via validateContainerPlacement, one call per distinct type rather than one
+per part. Also separately checks for batch-internal single-occupant overfill -- several plain,
+non-proxy parts from this same batch landing together in one container whose type expects exactly one
+collection object -- since validateContainerPlacement's own occupancy check only ever sees what's
+already in the database, not this batch's other pending moves. Called both from movePartConfirm (to
+review before committing) and movePart2 (to gate the actual commit -- never trusting an earlier step's
+check alone for a mutating action).
+@param partIDs comma-separated list of specimen_part.collection_object_id values to move.
+@param target_container_id the destination container_id under consideration.
+@return a struct: {blocks: array of "type: message" strings, warnings: array of "type: message" strings}.
+--->
+<cffunction name="checkDestinationFitness" access="private" returntype="struct" output="false">
+	<cfargument name="partIDs" type="string" required="yes">
+	<cfargument name="target_container_id" type="numeric" required="yes">
+
+	<cfset var local = StructNew()>
+	<cfset local.distinctTypeRepresentative = StructNew()>
+	<cfset local.leafPartCount = 0>
+	<cfloop list="#arguments.partIDs#" index="local.onePartID">
+		<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
+		<cfif local.partContainer.found>
+			<cfif NOT local.partContainer.is_proxy>
+				<cfset local.leafPartCount = local.leafPartCount + 1>
+			</cfif>
+			<cfif NOT structKeyExists(local.distinctTypeRepresentative, local.partContainer.move_type)>
+				<cfset local.distinctTypeRepresentative[local.partContainer.move_type] = local.partContainer.move_container_id>
+			</cfif>
+		</cfif>
+	</cfloop>
+	<cfset local.blocks = ArrayNew(1)>
+	<cfset local.warnings = ArrayNew(1)>
+	<cfloop collection="#local.distinctTypeRepresentative#" item="local.oneType">
+		<cfset local.placementResult = validateContainerPlacement(child_container_id=local.distinctTypeRepresentative[local.oneType], proposed_parent_container_id=arguments.target_container_id)>
+		<cfif isSimpleValue(local.placementResult)>
+			<cfset local.placementResult = deserializeJSON(local.placementResult)>
+		</cfif>
+		<cfif local.placementResult.severity EQ "block">
+			<cfloop array="#local.placementResult.blocks#" index="local.oneMsg">
+				<cfset ArrayAppend(local.blocks, "#local.oneType#: #local.oneMsg#")>
+			</cfloop>
+		<cfelseif local.placementResult.severity EQ "warn">
+			<cfloop array="#local.placementResult.warnings#" index="local.oneMsg">
+				<cfset ArrayAppend(local.warnings, "#local.oneType#: #local.oneMsg#")>
+			</cfloop>
+		</cfif>
+	</cfloop>
+
+	<!--- validateContainerPlacement's single-occupant-target check (CT5) only ever compares
+		against containers ALREADY parented under the target in the database -- none of this
+		batch's OTHER parts have moved yet at check time, so it can never by itself catch several
+		new, plain (non-proxy) collection objects from the SAME batch all landing in one
+		single-occupant target together. Check that batch-internal case directly here. --->
+	<cfif local.leafPartCount GT 1>
+		<cfquery name="local.queryTargetType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			SELECT c.container_type, NVL(ct.expects_leaf_child_count, 0) AS expects_leaf_child_count
+			FROM container c
+				JOIN ctcontainer_type ct ON c.container_type = ct.container_type
+			WHERE c.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_container_id#">
+		</cfquery>
+		<cfif local.queryTargetType.recordcount GT 0 AND val(local.queryTargetType.expects_leaf_child_count) EQ 1>
+			<cfset ArrayAppend(local.warnings, "#local.queryTargetType.container_type#: This batch places #local.leafPartCount# collection objects directly into this container at once, but a #local.queryTargetType.container_type# is expected to hold exactly one.")>
+		</cfif>
+	</cfif>
+
+	<cfset local.retval = StructNew()>
+	<cfset local.retval["blocks"] = local.blocks>
+	<cfset local.retval["warnings"] = local.warnings>
+	<cfreturn local.retval>
+</cffunction>
+
+<!---
+Function renderDestinationBlockedHtml. Renders the hard-stop page shown when checkDestinationFitness
+finds the chosen target unsuitable for at least one type in the batch -- no "Yes" option is offered,
+only two ways back: re-filter which parts to move (entryPoint), or keep the same parts and pick a
+different container (back to movePart with the original filter criteria, so the part list doesn't
+have to be rebuilt from scratch).
+@param blocks array of "type: message" block strings from checkDestinationFitness.
+@param result_id the originating search result_id.
+@param exist_part_name, exist_preserve_method, existing_lot_count, existing_coll_obj_disposition the
+	original movePart filter criteria, carried forward so "choose a different container" can return
+	to the same part list.
+@return an HTML string.
+--->
+<cffunction name="renderDestinationBlockedHtml" access="private" returntype="string" output="false">
+	<cfargument name="blocks" type="array" required="yes">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="exist_part_name" type="string" required="no" default="">
+	<cfargument name="exist_preserve_method" type="string" required="no" default="">
+	<cfargument name="existing_lot_count" type="string" required="no" default="">
+	<cfargument name="existing_coll_obj_disposition" type="string" required="no" default="">
+
+	<cfset var local = StructNew()>
+	<cfsavecontent variable="local.html">
+		<cfoutput>
+			<div class="row mx-0">
+				<div class="col-12 mt-2">
+					<h1 class="h2 mt-1">Container Not Suitable</h1>
+					<div class="alert alert-danger">
+						<strong>This move cannot proceed -- the chosen container is not a suitable destination:</strong>
+						<ul class="mb-0">
+							<cfloop array="#arguments.blocks#" index="local.oneMsg">
+								<li>#local.oneMsg#</li>
+							</cfloop>
+						</ul>
+					</div>
+					<a href="/specimens/changeQueryPartContainers.cfm?result_id=#arguments.result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
+					<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
+						<input type="hidden" name="action" value="movePart">
+						<input type="hidden" name="result_id" value="#arguments.result_id#">
+						<input type="hidden" name="exist_part_name" value="#encodeForHtml(arguments.exist_part_name)#">
+						<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(arguments.exist_preserve_method)#">
+						<input type="hidden" name="existing_lot_count" value="#encodeForHtml(arguments.existing_lot_count)#">
+						<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(arguments.existing_coll_obj_disposition)#">
+						<button type="submit" class="btn btn-xs btn-secondary">Choose a different container for these parts</button>
+					</form>
+				</div>
+			</div>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn local.html>
+</cffunction>
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
@@ -70,10 +325,12 @@ limitations under the License.
 						<li>Step 2: Review the selected parts and identify the container into which to move them.</li>
 						<li>Step 3: Move all the selected parts into the specified container.</li>
 						<li>
-							<strong>Note:</strong> 
-							You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.
-							Please use the <a href="/tools/BulkloadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.
-							You can build a csv file for this bulkloader using Manage-><a href='/tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>
+							<strong>Note on proxy containers:</strong>
+							When a part's own collection object container sits directly inside a single-occupant proxy container (a pin, slide, cryovial, envelope, or glass vial), this tool automatically moves that proxy container instead of the collection object trapped inside it, since the proxy is what you actually want relocated in those cases. Step 2 will show you which parts this applies to, and you'll be asked to confirm before anything moves.
+						</li>
+						<li>
+							<strong>Note on jars:</strong>
+							You cannot use this tool to move parts currently inside a <strong>jar</strong> -- unlike a proxy container, a jar can hold multiple specimens or glass vials, so this tool can't safely move it as a stand-in for just one part's contents. Step 2 will flag any such parts rather than moving them. To move one of these by hand instead: place the specimen's own part container (or the glass vial it's in, if applicable) individually via <a href="/containers/placePartInContainer.cfm" target="_blank">Place Part into Container</a>, or move the jar itself -- taking everything inside it along -- via <a href="/containers/moveContainer.cfm" target="_blank">Move Container</a>.
 						</li>
 					</ul>
 					<cfif getCount.ct gte 1000>
@@ -231,17 +488,23 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div class="col-12 pt-2">
 									<script>
-										$(document).ready(function () { 
-											$("##movePartForm").on("submit",function(e) { 
+										function updateMakeChangeButtonState() {
+											var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
+											$('##makeChangeButton').prop('disabled', valuesArray.every(element => element == ""));
+										}
+										$(document).ready(function () {
+											updateMakeChangeButtonState();
+											$('##movePartForm .one_must_be_filled_in').on('change', updateMakeChangeButtonState);
+											$("##movePartForm").on("submit",function(e) {
 												var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
-												if (valuesArray.every(element => element == "")){ 
+												if (valuesArray.every(element => element == "")){
 													e.preventDefault();
 													messageDialog("Error: You must specify at least one value to specify which parts to move.","No Move Criteria Provided.");
 												}
 											});
 										});
 									</script>
-									<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger" id="makeChangeButton">
+									<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger" id="makeChangeButton" disabled>
 								</div>
 							</div>
 						</form>
@@ -295,7 +558,7 @@ limitations under the License.
 						ORDER BY container_type
 					</cfquery>
 					<h2 class="h3">Current Parent Container Types for the parts in this result set</h2>
-					<p>The collection object containers for the parts would be moved out of these containers.  Specimen parts are all in containers of type collection object, this tool moves these collection object containers from their current parent into a new parent.  In some cases (such as a part which is an insect on a pin), the desirable move is of the parent container (the pin) into a new location, rather than moving the part, (the insect) off of its current parent container (the pin). </p>
+					<p>The collection object containers for the parts would be moved out of these containers.  Specimen parts are all in containers of type collection object, this tool moves these collection object containers from their current parent into a new parent.  In some cases (such as a part which is an insect on a pin), the desirable move is of the parent container (the pin, a proxy for the insect) into a new location, rather than moving the part, (the insect) off of its current parent container (the pin), this page handles these cases. </p>
 					<cfset hasMovable = false>
 					<ul>
 						<cfloop query="getContainerTypes">
@@ -319,7 +582,7 @@ limitations under the License.
 							});
 						</script>
 					</cfif>
-					<p>View the current <a href="/findContainer.cfm?showControl=1&result_id=#result_id#" target="_blank">Container Placement</a> of these parts.</p>
+					<p>View the current <a href="/containers/Containers.cfm?result_id=#encodeForUrl(result_id)#&execute=true" target="_blank">Container Placement</a> of these parts.</p>
 					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
@@ -387,41 +650,124 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
+	<cfcase value="movePartConfirm">
+		<cfoutput>
+			<!--- Resolve every eligible part's actual move-target server-side (never trusting the
+				movePart listing's own display as authoritative) to find out whether any of them
+				will actually move a proxy container instead of the collection object container
+				specified, and check the chosen target's fitness for every distinct type actually
+				being moved. A block on the target's fitness hard-stops here -- no "Yes" option --
+				since that's not something the user can simply choose to proceed past. Otherwise,
+				this always shows a review/confirm page before anything is written -- naming exactly
+				what's affected when a proxy substitution or a destination-fitness warning applies,
+				or a plain "conforms to expectations" statement when neither applies -- so the
+				workflow never silently skips straight from "Move these Parts" to "done" with no
+				confirm step in between. The "Yes" button re-posts to movePart2, which re-checks and
+				re-resolves everything itself rather than trusting this confirmation blindly. --->
+			<cfset local.proxyRows = ArrayNew(1)>
+			<cfloop list="#partIDs#" index="local.onePartID">
+				<cfset local.partContainer = resolvePartCurrentContainer(local.onePartID)>
+				<cfif local.partContainer.found AND local.partContainer.is_proxy>
+					<cfset local.oneProxyRow = StructNew()>
+					<cfset local.oneProxyRow["move_type"] = local.partContainer.move_type>
+					<cfset local.oneProxyRow["move_label"] = local.partContainer.move_label>
+					<cfset local.oneProxyRow["move_barcode"] = local.partContainer.move_barcode>
+					<cfset ArrayAppend(local.proxyRows, local.oneProxyRow)>
+				</cfif>
+			</cfloop>
+			<cfset local.destinationFitness = checkDestinationFitness(partIDs=partIDs, target_container_id=target_container_id)>
+			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
+				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
+			<cfelse>
+				<!--- a destination-fitness warning with no proxy involved is the one case worth
+					offering a quick way to reconsider either side of the move, rather than just
+					proceed-or-cancel -- a proxy substitution is its own already-explained situation,
+					and the "conforms to expectations" case has nothing to reconsider. --->
+				<cfset local.showTryAgainOptions = (arrayLen(local.destinationFitness.warnings) GT 0 AND arrayLen(local.proxyRows) EQ 0)>
+				<cfquery name="local.getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT barcode, label, container_type
+					FROM container
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_container_id#">
+				</cfquery>
+				<div class="row mx-0">
+					<div class="col-12 mt-2">
+						<h1 class="h2 mt-1">Review Container Move</h1>
+						<p>Moving into: <strong>#local.getTarget.label#</strong> (#local.getTarget.barcode#), a #local.getTarget.container_type#.</p>
+						#renderContainerContextHtml(container_id=target_container_id)#
+						<cfif arrayLen(local.destinationFitness.warnings) GT 0>
+							<div class="alert alert-warning">
+								<strong>The chosen container may not be a typical destination for these part(s):</strong>
+								<ul class="mb-0">
+									<cfloop array="#local.destinationFitness.warnings#" index="local.oneMsg">
+										<li>#local.oneMsg#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfif arrayLen(local.proxyRows) GT 0>
+							<div class="alert alert-warning">
+								<cfif arrayLen(local.proxyRows) EQ 1>
+									<strong>1 of #listLen(partIDs)# part is inside a single-occupant proxy container.</strong>
+									Moving it will move that proxy container, not just the collection object container specified. Please review before continuing:
+								<cfelse>
+									<strong>#arrayLen(local.proxyRows)# of #listLen(partIDs)# parts are inside single-occupant proxy containers.</strong>
+									Moving them will move those proxy containers, not just the collection object containers specified. Please review before continuing:
+								</cfif>
+								<ul class="mb-0">
+									<cfloop array="#local.proxyRows#" index="local.oneProxyRow">
+										<li>#local.oneProxyRow.move_type# #local.oneProxyRow.move_label# (#local.oneProxyRow.move_barcode#)</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfif arrayLen(local.destinationFitness.warnings) EQ 0 AND arrayLen(local.proxyRows) EQ 0>
+							<div class="alert alert-success">
+								This move conforms to expectations -- no placement warnings, and no proxy containers will move in place of the collection object containers specified.
+							</div>
+						</cfif>
+						<cfif local.showTryAgainOptions>
+							<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Choose different parts to move</a>
+							<form name="chooseDifferentContainerForm" method="post" action="/specimens/changeQueryPartContainers.cfm" class="d-inline">
+								<input type="hidden" name="action" value="movePart">
+								<input type="hidden" name="result_id" value="#result_id#">
+								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
+								<button type="submit" class="btn btn-xs btn-warning">Choose a different container for these parts</button>
+							</form>
+						</cfif>
+						<form name="movePartConfirmForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
+							<input type="hidden" name="action" value="movePart2">
+							<input type="hidden" name="result_id" value="#result_id#">
+							<input type="hidden" name="partIDs" value="#partIDs#">
+							<input type="hidden" name="target_container_id" value="#target_container_id#">
+							<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+							<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+							<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+							<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
+							<button type="submit" class="btn btn-xs btn-primary">Yes, move these parts</button>
+							<cfif NOT local.showTryAgainOptions>
+								<a href="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#" class="btn btn-xs btn-warning">Cancel</a>
+							</cfif>
+						</form>
+					</div>
+				</div>
+			</cfif>
+		</cfoutput>
+	</cfcase>
+	<!---------------------------------------------------------------------------->
 	<cfcase value="movePart2">
 		<cfoutput>
-			<!--- TODO: Support bulk move of parts that are in pins, moving the parent pin container rather than the collection object container --->
-
-			<!--- move parts into specified container --->
-			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="move_result">
-				UPDATE container
-				SET 
-					parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_container_id#">
-				WHERE
-					container_id in ( 
-						SELECT container_id 
-						FROM COLL_OBJ_CONT_HIST
-						WHERE 
-							collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partIDs#" list="yes"> )
-							and current_container_fg = 1
-					)
-			</cfquery>
-			<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTarget_result">
-				SELECT 
-					barcode, label, container_type
-				FROM 
-					container
-				WHERE
-					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_container_id#">
-			</cfquery>
-			<div class="row mx-0">
-				<div class="col-12 mt-2">
-					<h2>Successfully moved #move_result.recordcount# parts into #getTarget.container_type# #getTarget.label# </h2>
-					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
-					<h4 class="mt-2"><a href="#targeturl#">Return to move parts in bulk</a></h4>
-					<cfset targeturl="/findContainer.cfm?barcode=#getTarget.barcode#">
-					<h4 class="mt-2"><a href="#targeturl#">View Container</a></h4>
-				</div>
-			</div>
+			<!--- Re-checks destination fitness itself rather than trusting movePartConfirm's own
+				check -- a mutating action must never rely solely on an earlier step's validation. --->
+			<cfset local.destinationFitness = checkDestinationFitness(partIDs=partIDs, target_container_id=target_container_id)>
+			<cfif arrayLen(local.destinationFitness.blocks) GT 0>
+				#renderDestinationBlockedHtml(blocks=local.destinationFitness.blocks, result_id=result_id, exist_part_name=exist_part_name, exist_preserve_method=exist_preserve_method, existing_lot_count=existing_lot_count, existing_coll_obj_disposition=existing_coll_obj_disposition)#
+			<cfelse>
+				<cfset local.commitResult = commitPartMove(partIDs=partIDs, target_container_id=target_container_id)>
+				#renderMoveSuccessHtml(target_container_id=target_container_id, moved_count=local.commitResult.moved_count, result_id=result_id)#
+			</cfif>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
@@ -491,23 +837,77 @@ limitations under the License.
 				ORDER BY
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-			<cfquery name="checkTypes" dbtype="query">
-				SELECT distinct container_type 
-				FROM d
-				WHERE container_type IN ( 
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISALLOWED_CONTAINER_TYPES#" list="yes" separator=",">
-				)
-			</cfquery>
-			<!--- check for types of parent container that shouldn't be moved  --->
-			<cfif checkTypes.recordcount GT 0>
-				<cfset error_message = "You cannot use this tool to move parts that are in a #DISALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm' target='_blank'>Container Parent Edit Bulkloader</a> to move these parts.  You can build a csv file for this bulkloader using Manage-><a href='/tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>"><!--- " --->
-				<cfthrow message="#error_message#">
-			</cfif>
+			<!--- Resolve each part's actual move-target (its own leaf container, or a proxy-role parent
+				when one exists -- see resolvePartCurrentContainer) once, up front, so the exact same
+				resolution is what's shown in the listing below and what gets carried forward to
+				movePartConfirm, rather than the client re-deriving or merely trusting the display.
+				A part whose current container is an outright disallowed type (jar, which -- unlike a
+				proxy -- can hold multiple specimens or glass vials, so this tool can't safely move it
+				as a stand-in for its contents) is flagged for visibility here but left out of what
+				"Move these Parts" actually submits, rather than refusing the whole batch outright. --->
+			<cfset local.rowInfo = StructNew()>
+			<cfset local.eligiblePartIDs = "">
+			<cfset local.blockedCount = 0>
+			<cfset local.proxyCount = 0>
+			<cfloop query="d">
+				<cfset local.oneInfo = StructNew()>
+				<cfset local.oneInfo["is_blocked"] = (listFindNoCase(DISALLOWED_CONTAINER_TYPES, d.container_type) GT 0)>
+				<cfset local.oneInfo["is_proxy"] = false>
+				<cfset local.oneInfo["move_type"] = "">
+				<cfset local.oneInfo["move_label"] = "">
+				<cfset local.oneInfo["proxy_parent_label"] = "">
+				<cfset local.oneInfo["proxy_parent_type"] = "">
+				<cfif local.oneInfo["is_blocked"]>
+					<cfset local.blockedCount = local.blockedCount + 1>
+				<cfelse>
+					<cfset local.partContainer = resolvePartCurrentContainer(d.partID)>
+					<cfif local.partContainer.found AND local.partContainer.is_proxy>
+						<cfset local.oneInfo["is_proxy"] = true>
+						<cfset local.oneInfo["move_type"] = local.partContainer.move_type>
+						<cfset local.oneInfo["move_label"] = local.partContainer.move_label>
+						<!--- what the proxy itself is in, not just what the leaf collection object is in
+							(the proxy) -- otherwise this row would look identical to a row with no
+							proxy at all except for the badge. --->
+						<cfset local.oneInfo["proxy_parent_label"] = local.partContainer.current_parent_label>
+						<cfset local.oneInfo["proxy_parent_type"] = local.partContainer.current_parent_type>
+						<cfset local.proxyCount = local.proxyCount + 1>
+					</cfif>
+					<cfset local.eligiblePartIDs = listAppend(local.eligiblePartIDs, d.partID)>
+				</cfif>
+				<cfset local.rowInfo[d.partID] = local.oneInfo>
+			</cfloop>
 
 			<section class="row mx-0">
 				<div class="col-12 pt-3">
 					<h1 class="h2 mt-1">Bulk move parts into a container</h1>
 					<h2 class="h3 mt-">Found #d.recordcount# parts to move</h2>
+					<cfif local.blockedCount GT 0>
+						<p class="text-danger mb-1">
+							<cfif local.blockedCount EQ 1>
+								<strong>1 of #d.recordcount# part is currently in a jar and cannot be moved with this tool</strong> --
+							<cfelse>
+								<strong>#local.blockedCount# of #d.recordcount# parts are currently in a jar and cannot be moved with this tool</strong> --
+							</cfif>
+							a jar can hold multiple specimens or glass vials, so this tool can't safely move it as a stand-in for one part's contents.
+							See the CURRENTLY IN column below. To move these, place the specimen's own part container (or its containing glass vial,
+							if it's in one) individually via <a href="/containers/placePartInContainer.cfm" target="_blank">Place Part into Container</a>,
+							or move the jar itself (taking everything in it along) via <a href="/containers/moveContainer.cfm" target="_blank">Move Container</a>.
+						</p>
+					</cfif>
+					<cfif local.proxyCount GT 0>
+						<p class="mb-1">
+							<span class="badge badge-warning mr-1">Will move proxy</span>
+							<cfif local.proxyCount EQ 1>
+								<strong>1 of #d.recordcount# part is inside a single-occupant proxy container</strong> (pin, slide,
+								cryovial, envelope, or glass vial) -- moving it will move that proxy container, not just the collection object
+								container specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
+							<cfelse>
+								<strong>#local.proxyCount# of #d.recordcount# parts are inside single-occupant proxy containers</strong> (pin, slide,
+								cryovial, envelope, or glass vial) -- moving them will move those proxy containers, not just the collection object
+								containers specified. See the CURRENTLY IN column below; you'll be asked to confirm before anything moves.
+							</cfif>
+						</p>
+					</cfif>
 					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
 					<cfif d.recordcount EQ 0>
 						<h3 class="h4 mt-2">
@@ -516,58 +916,116 @@ limitations under the License.
 					<cfelse>
 						<div class="p-2 border border-rounded">
 							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
-								<input type="hidden" name="action" value="movePart2">
+								<input type="hidden" name="action" value="movePartConfirm">
 								<input type="hidden" name="result_id" value="#result_id#">
-								<input type="hidden" name="partIDs" value="#valuelist(d.partID)#">
+								<input type="hidden" name="partIDs" value="#local.eligiblePartIDs#">
+								<!--- carried forward so a later destination-fitness block page can offer a way
+									back to this same part list without re-filtering from scratch. --->
+								<input type="hidden" name="exist_part_name" value="#encodeForHtml(exist_part_name)#">
+								<input type="hidden" name="exist_preserve_method" value="#encodeForHtml(exist_preserve_method)#">
+								<input type="hidden" name="existing_lot_count" value="#encodeForHtml(existing_lot_count)#">
+								<input type="hidden" name="existing_coll_obj_disposition" value="#encodeForHtml(existing_coll_obj_disposition)#">
 
 								<input type="hidden" name="target_container_id" id="target_container_id" value="">
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-3">
-										<label for="room" class="data-entry-label">Limit search to Room:</label>
-										<select name="room" id="room" class="data-entry-select">
-											<option value=""></option>
-											<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT container_id, label, barcode
-												FROM container
-												WHERE container_type = 'room'
-												ORDER BY label, barcode
-											</cfquery>
-											<cfloop query="rooms">
-												<cfif label NEQ barcode>
-													<cfset displaylabel = label & " (" & barcode & ")">
-												<cfelse>
-													<cfset displaylabel = label>
-												</cfif>
-												<option value="#container_id#">#displaylabel#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="type" class="data-entry-label">Limit search to container Type:</label>
-										<select name="type" id="type" class="data-entry-select">
-											<option value=""></option>
-											<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT container_type
-												FROM ctcontainer_type
-												ORDER BY container_type
-											</cfquery>
-											<cfloop query="types">
-												<option value="#container_type#">#container_type#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<!--- container autocomplete, limited by type and parent room --->
+									<div class="col-12 col-md-6">
+										<!--- plain container autocomplete, plus the "Choose..." picker dialog for the
+											same purpose -- room/type limit selects were removed here since the
+											picker dialog already covers narrowing the search by type/ancestor. --->
 										<label for="container" class="data-entry-label">Container to put parts into:</label>
-										<input type="text" name="container" id="container" class="data-entry-input reqdClr" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
+										<div class="d-flex align-items-center">
+											<input type="text" name="container" id="container" class="data-entry-input reqdClr flex-grow-1" placeholder="Container Name or Barcode">
+											<button type="button" id="chooseTargetContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose...</button>
+										</div>
+										<div id="targetContainerContext"></div>
 										<script>
-											$(document).ready(function () { 
-												makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
+											/** Shows the chosen target container's ancestor breadcrumb trail and description,
+											 * so its fitness as a destination can be judged from more than just its label --
+											 * matches the ancestor chain and description shown again server-side on the
+											 * movePartConfirm review page.
+											 * @param containerId the target container_id, or blank/0 to clear the display.
+											 */
+											var targetContainerContextXhr = null;
+											function showTargetContainerContext(containerId) {
+												var contextDiv = $('##targetContainerContext');
+												contextDiv.empty();
+												if (targetContainerContextXhr) {
+													// abort any still-in-flight lookup for a previous selection, so its
+													// response can't land after (and overwrite) this one's.
+													targetContainerContextXhr.abort();
+													targetContainerContextXhr = null;
+												}
+												if (!containerId) {
+													return;
+												}
+												targetContainerContextXhr = $.ajax({
+													url: '/containers/component/search.cfc',
+													data: { method: 'getContainerBreadcrumb', container_id: containerId },
+													dataType: 'json',
+													success: function(data) {
+														if (!data || data.length === 0) {
+															return;
+														}
+														var breadcrumbList = $('<ol class="breadcrumb bg-light border rounded p-2 my-2 flex-wrap"></ol>');
+														$.each(data, function(i, node) {
+															breadcrumbList.append($('<li class="breadcrumb-item"></li>').text(node.container_type + ': ' + node.label + ' (' + node.barcode + ')'));
+														});
+														contextDiv.append(breadcrumbList);
+														var lastNode = data[data.length - 1];
+														if (lastNode.description) {
+															contextDiv.append($('<p class="mb-2"></p>').append($('<strong></strong>').text('Description: ')).append(document.createTextNode(lastNode.description)));
+														}
+													},
+													error: function(jqXHR, textStatus, error) {
+														// a request aborted by a newer selection above, or by the page
+														// navigating away (e.g. "Move these Parts" submitted before this
+														// finished), is not a real failure -- don't alarm the user over it.
+														if (textStatus === 'abort') {
+															return;
+														}
+														handleFail(jqXHR, textStatus, error, 'loading container context');
+													}
+												});
+											}
+											function updateMoveButtonState() {
+												var targetId = $('##target_container_id').val();
+												var hasTarget = targetId.length > 0;
+												$('##submitButton').prop('disabled', !hasTarget);
+												$('##chooseContainerHint').toggle(!hasTarget);
+												showTargetContainerContext(targetId);
+											}
+											$(document).ready(function () {
+												makeContainerAutocompleteMeta("container", "target_container_id", true);
+												$('##container').on('autocompleteselect autocompletechange', function() {
+													// allow the autocomplete widget's own select/change handlers to populate target_container_id first.
+													window.setTimeout(updateMoveButtonState, 10);
+												});
+												$('##chooseTargetContainerBtn').on('click', function() {
+													openContainerPickerDialog({
+														mode: 'find',
+														dialogTitle: 'Select Container to Put Parts Into',
+														onSelect: function(selectedId, selectedLabel, wrapper) {
+															$('##target_container_id').val(selectedId);
+															$('##container').val(selectedLabel);
+															wrapper.dialog('close');
+															updateMoveButtonState();
+														}
+													});
+												});
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3">
-										<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary mt-3">
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label">Then...</label>
+										<div>
+											<cfif len(local.eligiblePartIDs) EQ 0>
+												<button type="button" class="btn btn-xs btn-secondary" disabled>Move these Parts</button>
+												<div class="small text-danger">No eligible parts to move -- all are blocked (see above).</div>
+											<cfelse>
+												<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary" disabled>
+												<div class="small text-muted" id="chooseContainerHint">Choose a container first.</div>
+											</cfif>
+										</div>
 									</div>
 								</div>
 							</form>
@@ -591,12 +1049,23 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="d">
+										<cfset local.oneInfo = local.rowInfo[d.partID]>
 										<tr>
 											<td>#collection# #cat_num#</td>
 											<td>#scientific_name#</td>
 											<td>#part_name#</td>
 											<td>#preserve_method#</td>
-											<td>#label#</td>
+											<td>
+												#label# (#container_type#)
+												<cfif local.oneInfo.is_proxy AND len(local.oneInfo.proxy_parent_label) GT 0>
+													in #local.oneInfo.proxy_parent_label# (#local.oneInfo.proxy_parent_type#)
+												</cfif>
+												<cfif local.oneInfo.is_blocked>
+													<br><span class="badge badge-danger">Blocked</span> a jar can't be auto-moved by this tool
+												<cfelseif local.oneInfo.is_proxy>
+													<br><span class="badge badge-warning">Will move #local.oneInfo.move_type#</span> #local.oneInfo.move_label#
+												</cfif>
+											</td>
 											<td>#condition#</td>
 											<td>#lot_count_modifier#</td>
 											<td>#lot_count#</td>

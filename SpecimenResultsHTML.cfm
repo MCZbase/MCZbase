@@ -1495,7 +1495,7 @@ document.getElementById('saveme').submit();
 	<cfoutput>
 	<form name="goSomewhereElseNow" method="post">
 		<select name="goWhere" size="1">
-			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
+			<option value="/containers/Containers.cfm?collection_object_id=#collObjIdList#&execute=true">
 				Part Locations
 			</option>
 			<!--- 

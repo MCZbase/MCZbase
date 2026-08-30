@@ -80,11 +80,9 @@ Disallow: /findContainer.cfm
 Disallow: /googled712d4c80741b156.html
 Disallow: /labels2containers.cfm
 Disallow: /LICENSE
-Disallow: /LoadBarcodes.cfm
 Disallow: /loanByBarcode.cfm
 Disallow: /loanFreezerLocn.cfm
 Disallow: /Locality.cfm
-Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
 Disallow: /nothing.cfm

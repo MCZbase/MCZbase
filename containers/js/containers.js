@@ -181,10 +181,17 @@ function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeContro
 		minLength: 3
 	});
 	// Set the custom render item after autocomplete is initialized
-   $('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
-      // override to display meta "matched name * (preferred name)" instead of value in picklist.
-      return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
-   };
+	$('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
+		// override to display meta "matched name * (preferred name)" instead of value in picklist,
+		// flagging proxy-role candidates (pin/slide/cryovial/envelope/glass vial) with the same
+		// role-badge convention used in the container browse trees/tables, since a part being
+		// placed into one of these has special single-occupant semantics worth calling out here.
+		var li = $("<li>").append("<span>" + item.meta + "</span>");
+		if (getContainerRole(item.type) === 'proxy') {
+			li.append(" " + getContainerRoleBadgeHtml(item.type));
+		}
+		return li.appendTo(ul);
+	};
 
 };
 
@@ -225,6 +232,11 @@ var SINGLE_OCCUPANT_TYPES = [];
 
 /** Default page size for container search results and leaf browser. */
 var CONTAINER_PAGE_SIZE = 50;
+
+/** Whether the current session can use edit affordances (Edit, Create Child) rendered by this
+ * file's search/browse builder functions -- false unless the including page overrides it after
+ * computing its own manage_container check server-side (only Containers.cfm does, today). */
+var canEditContainers = false;
 
 /** Maximum description length (characters) shown in search result rows. */
 var MAX_DESCRIPTION_LENGTH = 80;
@@ -292,7 +304,7 @@ function openPlaceLeafIntoContainerDialog(parentContainerId, parentDisplayLabel,
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {
@@ -381,7 +393,7 @@ function ensureContainerTypeMetadata(callback) {
 	}
 	containerTypeMetadataLoading = true;
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getContainerTypeMetadata' },
 		dataType: 'json',
 		success: function(data) {
@@ -478,7 +490,7 @@ function buildSpecimensButton(nodeId, barcode, directLeafChildren, hasLeafDescen
 		}
 		btn.prop('disabled', true).text('Checking\u2026');
 		$.ajax({
-			url: '/containers/component/functions.cfc',
+			url: '/containers/component/public.cfc',
 			data: { method: 'checkHasLeafDescendants', container_id: nodeId },
 			dataType: 'json',
 			success: function(data) {
@@ -548,6 +560,18 @@ function buildContainerDetailsButton(containerId, displayName, feedbackId, spaci
 }
 
 /**
+ * Abandons the current search results (if any) and returns to the default container
+ * hierarchy view, clearing the subordinate leaf panel.
+ * @param {string} browsePanel - the id of the div to render the tree into (without leading #).
+ * @param {string} leafPanel - the id of the div for the leaf browser panel (without leading #).
+ * @param {string} feedbackEl - the id of the output element for status feedback (without leading #).
+ */
+function browseContainerHierarchy(browsePanel, leafPanel, feedbackEl) {
+	initContainerBrowse(browsePanel, leafPanel, feedbackEl);
+	$('#' + leafPanel).addClass('d-none').html('');
+}
+
+/**
  * Initializes the container browse panel.  Calls getTopLevelBrowse to retrieve
  * institution nodes (pre-opened to campus level) plus counts of orphaned nodes,
  * then delegates rendering to renderTopLevelBrowse.
@@ -561,7 +585,7 @@ function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 			$('#containerBrowseContext').text('Container Hierarchy');
 			$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				data: { method: 'getTopLevelBrowse' },
 				dataType: 'json',
 				success: function(data) {
@@ -587,7 +611,7 @@ function initContainerBrowse(browsePanel, leafPanel, feedbackEl) {
 function loadContainerNode(containerId, targetDivId, feedbackId, parentContainerType) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectStructuralChildren', container_id: containerId },
 		dataType: 'json',
 		success: function(data) {
@@ -673,7 +697,7 @@ function exploreContainerInTree(containerId, displayName, browsePanel, leafPanel
 				return;
 			}
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				data: { method: 'getTopLevelBrowse' },
 				dataType: 'json',
 				success: function(data) {
@@ -742,7 +766,7 @@ function renderUnplacedContainerNode(containerId, breadcrumbs, browsePanel, feed
 		? breadcrumbs[breadcrumbs.length - 1]
 		: { container_id: containerId, container_type: '', label: '', barcode: '' };
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getNodeShape', container_id: containerId },
 		dataType: 'json',
 		success: function(shapeData) {
@@ -902,7 +926,7 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
 		childDiv.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading\u2026</div>');
 	}
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectStructuralChildren', container_id: nodeId },
 		dataType: 'json',
 		success: function(data) {
@@ -947,6 +971,166 @@ function expandBreadcrumbPath(breadcrumbs, index, feedbackId, targetId) {
  * @param {string} [breadcrumbFeedbackId] - optional feedback element id for breadcrumb refresh after save.
  * @param {string} [breadcrumbTargetId] - optional target element id for breadcrumb refresh after save.
  */
+/**
+ * Updates Container.cfm's "Positions" summary box/link/create-prompt after Number of Positions
+ * changes, from either a plain Save or the positions-change dialog's Grow/Shrink -- shared so
+ * both entry points leave the summary in the same state instead of drifting apart.
+ * @param {number|string} containerId - container_id the summary box belongs to.
+ * @param {number|string} numberPositions - the container's current declared Number of Positions.
+ * @param {boolean} [recordsExist] - whether container_type='position' records already exist for
+ *	this container -- false (a plain Save, which can only ever change a still-zero record count,
+ *	since saveContainer blocks changing this field at all once real records exist) renders the
+ *	"Create N Positions" prompt into #containerPositionsCreateArea; true (Grow/Shrink, where
+ *	records already existed beforehand and still do) just updates the summary text/link. Reset
+ *	isn't handled here at all -- it reloads the page immediately instead, since it flips whether
+ *	records exist to none, which changes this field's own markup (plain input vs. locked display
+ *	+ Change button) in a way only the server-rendered page can redraw.
+ */
+function updateContainerPositionsSummary(containerId, numberPositions, recordsExist) {
+	var $positionsSummary = $('#containerPositionsSummary');
+	var $positionsLink = $('#containerPositionsLink');
+	var $createArea = $('#containerPositionsCreateArea');
+	if ($positionsSummary.length === 0 || $positionsLink.length === 0) {
+		return;
+	}
+	var numericNumberPositions = parseInt(numberPositions, 10);
+	var numericContainerId = parseInt(containerId, 10);
+	if (!isNaN(numericNumberPositions) && numericNumberPositions > 0 && !isNaN(numericContainerId)) {
+		var positionWord = numericNumberPositions === 1 ? 'position' : 'positions';
+		$positionsSummary.removeClass('d-none');
+		if (recordsExist) {
+			$positionsLink.attr('href', '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId) + '#containerPositionsHeading_page').removeClass('d-none');
+			// the accurate created/occupied counts are only known server-side; this falls back to
+			// this generic text rather than the fuller message shown on page load, until the next
+			// Save Changes reloads the page (see the pending-reload flag in Container.cfm)
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + '.');
+			$createArea.empty();
+		} else {
+			// no position records exist yet -- nothing for View/Edit Positions to show on
+			// viewContainer.cfm, so it stays hidden until Create actually makes some
+			$positionsLink.addClass('d-none');
+			$('#containerPositionsSummaryText').text('This container declares ' + numericNumberPositions + ' ' + positionWord + ', but none have been created yet.');
+			if ($createArea.length) {
+				// reload rather than updating the summary in place -- position records now exist,
+				// so the Number of Positions field needs to switch to its locked display + Change
+				// button, which only the server-rendered markup knows how to do.
+				renderCreatePositionsPrompt(numericNumberPositions, 'containerPositionsCreateArea', null, numericContainerId, true, null, function() {
+					window.location.reload();
+				});
+			}
+		}
+	} else {
+		$positionsSummary.addClass('d-none');
+		$createArea.empty();
+	}
+}
+
+/**
+ * Applies a Grow/Shrink queued by the "Change Positions" dialog (see openPositionsChangeDialog),
+ * then reloads the page -- called from saveContainerForm's success handler once Container.cfm's
+ * own regular Save Changes has already gone through, so the queued position-count change and
+ * whatever else was just edited land together rather than the position change committing the
+ * instant Grow/Shrink is clicked. Shows #containerSavingOverlay for this extra round trip, since
+ * it happens after the page's own "Saved." feedback would otherwise already read as done.
+ * @param {number|string} containerId - container_id to apply the queued change to.
+ * @param {Object} pendingAction - {action: 'grow'|'shrink', params} from openPositionsChangeDialog.
+ */
+function applyPendingPositionsAction(containerId, pendingAction) {
+	var $overlay = $('#containerSavingOverlay');
+	$overlay.removeClass('d-none');
+	var method = pendingAction.action === 'grow' ? 'growContainerPositions' : 'trimContainerPositions';
+	var data = $.extend({ method: method, returnformat: 'json', container_id: containerId }, pendingAction.params);
+	var revertPreview = function() {
+		var actualValue = $.trim($('#number_positions').val());
+		$('#number_positions_display').val(actualValue);
+		$('#changePositionsBtn').prop('disabled', false);
+		updateContainerPositionsSummary(containerId, actualValue, true);
+	};
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: data,
+		success: function(result) {
+			if (result.status === 'created' || result.status === 'trimmed') {
+				window.location.reload();
+				return;
+			}
+			$overlay.addClass('d-none');
+			revertPreview();
+			messageDialog('Your other changes were saved, but applying the queued position change failed: ' + (result.message || 'Unknown error.') + ' Reopen Change to retry.', 'Error Applying Position Change');
+		},
+		error: function(jqXHR, textStatus, error) {
+			$overlay.addClass('d-none');
+			revertPreview();
+			handleFail(jqXHR, textStatus, error, 'applying the queued position change');
+		}
+	});
+}
+
+/**
+ * Loads Container.cfm's Container Check Log history table.
+ * @param {number|string} containerId - container_id whose check history to load.
+ */
+function loadContainerCheckHistory(containerId) {
+	$('#containerCheckHistory').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/public.cfc',
+		data: { method: 'getContainerCheckHistoryHtml', container_id: containerId },
+		success: function(html) {
+			$('#containerCheckHistory').html(html);
+		},
+		error: function(jqXHR, textStatus, error) {
+			$('#containerCheckHistory').html('<p class="text-danger small mb-0">Unable to load check history.</p>');
+			handleFail(jqXHR, textStatus, error, 'loading container check history');
+		}
+	});
+}
+
+/**
+ * Logs a container check from Container.cfm's Container Check Log section, then clears the
+ * Remark field and refreshes the history table. Checked By is read-only and purely informational
+ * on this page -- logContainerCheck (functions.cfc) always resolves the actual logged-in user
+ * server-side, so nothing from this field is sent.
+ * @param {number|string} containerId - container_id being checked.
+ */
+function logContainerCheck(containerId) {
+	var checkDate = $.trim($('#checkDate').val());
+	var checkRemark = $.trim($('#checkRemark').val());
+	if (!checkDate) {
+		setFeedbackControlState('containerCheckStatus', 'error');
+		messageDialog('Check Date is required.', 'Validation Error');
+		return;
+	}
+	setFeedbackControlState('containerCheckStatus', 'saving');
+	$.ajax({
+		url: '/containers/component/functions.cfc',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			method: 'logContainerCheck',
+			returnformat: 'json',
+			container_id: containerId,
+			check_date: checkDate,
+			check_remark: checkRemark
+		},
+		success: function(result) {
+			if (result.status === 'logged') {
+				setFeedbackControlState('containerCheckStatus', 'saved');
+				$('#checkRemark').val('');
+				loadContainerCheckHistory(containerId);
+			} else {
+				setFeedbackControlState('containerCheckStatus', 'error');
+				messageDialog('Error: ' + (result.message || 'Unable to log check.'), 'Error Logging Check');
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			setFeedbackControlState('containerCheckStatus', 'error');
+			handleFail(jqXHR, textStatus, error, 'logging container check');
+		}
+	});
+}
+
 function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId) {
 	var $form = $('#' + formId);
 	var containerType = $.trim($form.find('[name=container_type]').val());
@@ -979,17 +1163,15 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 			if (status === 'created') {
 				window.location.href = redirectUrl || '/containers/viewContainer.cfm?container_id=' + encodeURIComponent(containerId);
 			} else if (status === 'saved') {
+				if (typeof pendingPositionsAction !== 'undefined' && pendingPositionsAction) {
+					var queuedPositionsAction = pendingPositionsAction;
+					pendingPositionsAction = null;
+					applyPendingPositionsAction(containerId, queuedPositionsAction);
+					return;
+				}
 				var shouldRefreshBreadcrumb = breadcrumbFeedbackId && breadcrumbTargetId;
 				setFeedbackControlState(feedbackId, 'saved');
-				var $legacyPositionsLink = $('#legacyContainerPositionsLink');
-				var numberPositions = parseInt($.trim($form.find('[name=number_positions]').val()), 10);
-				if ($legacyPositionsLink.length > 0) {
-					if (!isNaN(numberPositions) && numberPositions > 0 && !isNaN(numericContainerId)) {
-						$legacyPositionsLink.attr('href', '/containerPositions.cfm?container_id=' + encodeURIComponent(containerId)).removeClass('d-none');
-					} else {
-						$legacyPositionsLink.addClass('d-none');
-					}
-				}
+				updateContainerPositionsSummary(containerId, $.trim($form.find('[name=number_positions]').val()));
 				if (shouldRefreshBreadcrumb) {
 					if (!isNaN(numericContainerId)) {
 						if (!responseContainerId && fallbackContainerId) {
@@ -1004,7 +1186,45 @@ function saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFe
 				}
 			} else {
 				setFeedbackControlState(feedbackId, 'error');
-				messageDialog('Error: ' + message, 'Error Saving Container');
+				if (resp.trimmable) {
+					// every excess position beyond the requested count is unoccupied -- offer to
+					// trim them and retry the same save automatically, instead of just naming the
+					// block and leaving the user to go find a "Trim" control on their own.
+					var trimContainerId = containerId;
+					var excessCount = parseInt(resp.excess_count, 10) || 0;
+					var trimNewCount = resp.new_count;
+					confirmDialog(
+						'Cannot reduce Number of Positions to ' + trimNewCount + ' -- ' + excessCount + ' empty position(s) beyond that count still exist. Trim them and save?',
+						'Trim Positions',
+						function() {
+							$.ajax({
+								url: '/containers/component/functions.cfc',
+								type: 'post',
+								dataType: 'json',
+								data: {
+									method: 'trimContainerPositions',
+									returnformat: 'json',
+									container_id: trimContainerId,
+									new_count: trimNewCount
+								},
+								success: function(trimResp) {
+									if (trimResp.status === 'trimmed') {
+										saveContainerForm(formId, method, feedbackId, redirectUrl, breadcrumbFeedbackId, breadcrumbTargetId);
+									} else {
+										setFeedbackControlState(feedbackId, 'error');
+										messageDialog('Error: ' + (trimResp.message || 'Unable to trim positions.'), 'Error Trimming Positions');
+									}
+								},
+								error: function(jqXHR, textStatus, error) {
+									setFeedbackControlState(feedbackId, 'error');
+									handleFail(jqXHR, textStatus, error, 'trimming container positions');
+								}
+							});
+						}
+					);
+				} else {
+					messageDialog('Error: ' + message, 'Error Saving Container');
+				}
 			}
 		},
 		error: function(jqXHR, textStatus, error) {
@@ -1069,7 +1289,7 @@ function putContainerBackFromHistory(childContainerId, parentContainerId, parent
 			setFeedbackControlState(feedbackId, 'saving', 'Moving...');
 		}
 		$.ajax({
-			url: '/containers/component/functions.cfc',
+			url: '/containers/component/public.cfc',
 			type: 'post',
 			dataType: 'json',
 			data: {
@@ -1181,7 +1401,7 @@ function loadContainerDetails(containerId, targetDivId, feedbackId, showBrowseAc
 	var browseActionEnabled = typeof showBrowseAction === 'undefined' ? true : !!showBrowseAction;
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		data: {
 			method: 'getContainerDetailsHtml',
@@ -1220,7 +1440,7 @@ function loadContainerContentsSection(containerId, targetDivId, feedbackId) {
 	}
 	target.html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		data: {
 			method: 'getContainerContentsHtml',
@@ -1320,11 +1540,15 @@ function buildContainerViewLink(containerId, spacingClass) {
 
 /**
  * Builds an Edit link to the standalone container edit page.
+ * Returns null when the current session lacks edit rights (see canEditContainers).
  * @param {number} containerId - the container_id to edit.
  * @param {string} spacingClass - optional spacing class override for the action element.
- * @returns {jQuery} anchor element that opens the edit form in a new tab.
+ * @returns {jQuery|null} anchor element that opens the edit form in a new tab, or null.
  */
 function buildContainerEditLink(containerId, spacingClass) {
+	if (!canEditContainers) {
+		return null;
+	}
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
 		.addClass(buildContainerActionClass('btn btn-xs btn-secondary', spacingClass || TABLE_ACTION_SPACING_CLASS))
 		.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
@@ -1335,14 +1559,15 @@ function buildContainerEditLink(containerId, spacingClass) {
  * Builds an "Add Child Container" link button that opens the new-container form
  * in a new tab with the given container pre-set as the parent.
  * Returns null when containerType is a proxy or collection object type, as those
- * nodes cannot have child containers added to them.
+ * nodes cannot have child containers added to them, or when the current session
+ * lacks edit rights (see canEditContainers).
  *
  * @param {number} containerId   - the container_id to use as the parent.
  * @param {string} containerType - the container_type of the current node.
  * @returns {jQuery|null} an anchor element, or null if not applicable.
  */
 function buildAddChildContainerLink(containerId, containerType, spacingClass) {
-	if (!canCreateChildContainer(containerType)) {
+	if (!canEditContainers || !canCreateChildContainer(containerType)) {
 		return null;
 	}
 	return $('<a target="_blank" rel="noopener noreferrer"></a>')
@@ -1388,6 +1613,23 @@ function renderSpecimenCell(row, occupantBarcode, occupantLabel) {
  * @param {string} occupantLabel - fallback label when no GUID is available.
  * @returns {jQuery} table cell containing a GUID link or fallback container display.
  */
+/**
+ * Builds a "Place Part" action link opening containers/placePartInContainer.cfm prefilled (by
+ * guid) for a row's cataloged item, for tables listing collection-object occupants.
+ * @param {Object} row - must carry cat_num, collection_cde, and institution_acronym.
+ * @returns {?jQuery} the link, or null if the row doesn't carry enough specimen identity.
+ */
+function buildPlacePartLink(row) {
+	if (!row || !row.cat_num || !row.collection_cde || !row.institution_acronym) {
+		return null;
+	}
+	var guidText = row.institution_acronym + ':' + row.collection_cde + ':' + row.cat_num;
+	return $('<a class="btn btn-xs btn-outline-info mr-1 mb-1" target="_blank" rel="noopener noreferrer"></a>')
+		.attr('href', '/containers/placePartInContainer.cfm?guid=' + encodeURIComponent(guidText) + '&execute=true')
+		.attr('title', "Place this specimen's parts into a container")
+		.text('Place Part');
+}
+
 function buildSpecimenGuidCell(row, occupantBarcode, occupantLabel) {
 	var guidTd = $('<td></td>');
 	if (row.cat_num && row.collection_cde && row.institution_acronym) {
@@ -1563,6 +1805,10 @@ function renderOrphanedSingleOccupantTable(data, targetDivId, feedbackId, page) 
 						.text('View specimen')
 				);
 			}
+			var placePartLink = buildPlacePartLink(row);
+			if (placePartLink) {
+				actionTd.append(placePartLink);
+			}
 			var typeTd = $('<td></td>').text(row.container_type || '');
 			typeTd.append(' ');
 			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
@@ -1602,7 +1848,7 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getOrphanedSingleOccupantContainers',
 			page: page || 1,
@@ -1622,6 +1868,108 @@ function loadOrphanedSingleOccupantPage(targetDivId, feedbackId, page, onLoaded)
 				setFeedbackControlState(feedbackId, 'error');
 			}
 			handleFail(jqXHR, textStatus, error, 'loading orphaned single-occupant containers');
+		}
+	});
+}
+
+/**
+ * Renders one page of the leaf (collection-object) orphan table -- containers of type
+ * 'collection object' placed directly under an institution, or with no parent container at all,
+ * rather than under a proper campus/building/etc. hierarchy. Mirrors
+ * renderOrphanedSingleOccupantTable, but a leaf orphan IS the specimen's own container (no
+ * separate "occupant" to look up), so the specimen columns come straight off the row.
+ * @param {Object} data - payload from getOrphanedLeafContainers.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - the page currently being displayed.
+ */
+function renderOrphanedLeafTable(data, targetDivId, feedbackId, page) {
+	var rows = data.rows || [];
+	var totalRows = parseInt(data.totalRows, 10) || 0;
+	var pageSize = parseInt(data.pageSize, 10) || CONTAINER_PAGE_SIZE;
+	var currentPage = parseInt(data.page, 10) || page || 1;
+	var totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+	var target = $('#' + targetDivId);
+	var panel = $('<div class="container-leaf-panel"></div>');
+	var headingDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
+	headingDiv.append($('<h3 class="h5 mr-2 mb-0"></h3>').text('Leaf orphans (' + totalRows + ')'));
+	panel.append(headingDiv);
+	if (totalPages > 1) {
+		panel.append($('<p class="small text-muted mb-1"></p>').text('Page ' + currentPage + ' of ' + totalPages));
+		panel.append(buildPagedNav(currentPage, totalPages, 'mb-1', 'orphan-leaf-page-btn'));
+	}
+	if (rows.length === 0) {
+		panel.append($('<p class="text-muted mb-0"></p>').text('No orphaned collection-object containers found.'));
+	} else {
+		var tbody = $('<tbody></tbody>');
+		$.each(rows, function(i, row) {
+			var displayName = formatContainerDisplay(row.barcode, row.label);
+			var actionTd = $('<td></td>');
+			actionTd.append(buildContainerDetailsActionButton(row.container_id, displayName, feedbackId));
+			actionTd.append(buildContainerViewLink(row.container_id));
+			var placePartLink = buildPlacePartLink(row);
+			if (placePartLink) {
+				actionTd.append(placePartLink);
+			}
+			var typeTd = $('<td></td>').text(row.container_type || '');
+			typeTd.append(' ');
+			typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
+			typeTd.append(' ');
+			typeTd.append(buildHighLevelOrphanBadge('High-level collection-object orphan', 'ml-1'));
+			var tr = $('<tr></tr>');
+			tr.append(typeTd);
+			tr.append($('<td></td>').text(displayName));
+			tr.append(renderSpecimenCell(row, row.barcode, row.label));
+			tr.append($('<td></td>').text(row.description || ''));
+			tr.append(actionTd);
+			tbody.append(tr);
+		});
+		var table = $('<table class="table table-sm table-striped"></table>');
+		table.append('<thead><tr><th>Type</th><th>Container</th><th>Specimen</th><th>Description</th><th>Actions</th></tr></thead>');
+		table.append(tbody);
+		panel.append(table);
+		if (totalPages > 1) {
+			panel.append(buildPagedNav(currentPage, totalPages, 'mt-2', 'orphan-leaf-page-btn'));
+		}
+	}
+	target.removeClass('d-none').html(panel);
+	target.off('click.orphanleaf').on('click.orphanleaf', '.orphan-leaf-page-btn', function() {
+		loadOrphanedLeafPage(targetDivId, feedbackId, $(this).data('page'));
+	});
+}
+
+/**
+ * Loads one page of the leaf orphan table and renders it into place.
+ * @param {string} targetDivId - id of the panel that should receive the rendered table.
+ * @param {string} feedbackId - optional feedback element id for AJAX failures.
+ * @param {number} page - page number to request.
+ * @param {function} onLoaded - optional callback invoked after a successful render.
+ */
+function loadOrphanedLeafPage(targetDivId, feedbackId, page, onLoaded) {
+	var target = $('#' + targetDivId);
+	target.data('loading', true);
+	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
+	$.ajax({
+		url: '/containers/component/public.cfc',
+		data: {
+			method: 'getOrphanedLeafContainers',
+			page: page || 1,
+			pageSize: CONTAINER_PAGE_SIZE
+		},
+		dataType: 'json',
+		success: function(data) {
+			target.data('loaded', true).data('loading', false);
+			renderOrphanedLeafTable(data, targetDivId, feedbackId, page || 1);
+			if (onLoaded) {
+				onLoaded();
+			}
+		},
+		error: function(jqXHR, textStatus, error) {
+			target.data('loading', false);
+			if (feedbackId) {
+				setFeedbackControlState(feedbackId, 'error');
+			}
+			handleFail(jqXHR, textStatus, error, 'loading orphaned leaf containers');
 		}
 	});
 }
@@ -1708,7 +2056,7 @@ function loadOrphanedEmptyProxyPage(targetDivId, feedbackId, page, onLoaded) {
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getOrphanedEmptyProxyContainers',
 			page: page || 1,
@@ -1807,7 +2155,7 @@ function loadStructuralOrphanPanel(targetDivId, feedbackId) {
 	target.data('loading', true);
 	target.removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading…</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getOrphanedTopLevelStructural' },
 		dataType: 'json',
 		success: function(nodes) {
@@ -1853,7 +2201,7 @@ function openPositionPlacementDialog(positionContainerId, positionLabel, targetD
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {
@@ -1906,7 +2254,7 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
 		feedbackId: feedbackId,
 		onSelect: function(selectedId, selectedLabel, wrapper, controls) {
 			$.ajax({
-				url: '/containers/component/functions.cfc',
+				url: '/containers/component/public.cfc',
 				type: 'post',
 				dataType: 'json',
 				data: {
@@ -1944,9 +2292,8 @@ function openPlaceChildIntoContainerDialog(parentContainerId, parentDisplayLabel
  * Handles a barcode scanned or typed into an empty position's input on the positions grid.
  * Looks the barcode up server-side and, if it matches an existing container, places that
  * container into the given position, then reloads the grid and moves focus to the next
- * remaining empty position's input so a user can keep scanning without touching the mouse
- * (mirrors the /containerPositions.cfm scanner workflow this feature is modeled on). If that
- * was the last empty position, there is no next input to focus, so focus moves instead to the
+ * remaining empty position's input so a user can keep scanning without touching the mouse.
+ * If that was the last empty position, there is no next input to focus, so focus moves instead to the
  * positions heading, whose text loadPositionsGrid has already updated to note none remain.
  *
  * @param {jQuery} inputEl - jQuery-wrapped input element that received the scanned barcode.
@@ -2017,6 +2364,201 @@ function handlePositionBarcodeScan(inputEl, positionContainerId, containerId, nu
  * @param {string} headingId - id of the "Positions" heading, forwarded to reload calls
  *	triggered from within this grid so its "(all occupied)" text stays current.
  */
+/**
+ * Function renderCreatePositionsPrompt renders a "Create N Positions" button, for a container
+ * that declares a non-zero number_positions but has no container_type='position' children yet.
+ * Reached only from Container.cfm's edit-page Positions summary box -- creation is not offered
+ * from viewContainer.cfm, which shows a plain "edit to add" message instead once declared.
+ * createContainerPositions only supports a handful of known box/rack presets, so a non-"created"
+ * response is handled inline rather than assumed to always succeed: "unsupported" offers a
+ * columns count to lay out an arbitrary grid instead, and "exists" (the container already holds
+ * content directly, not via positions) offers Retrofit.
+ * @param {number} numPositions - declared position count.
+ * @param {string} targetDivId - id of the panel to render into.
+ * @param {string} feedbackId - optional feedback element id, forwarded to the grid reload.
+ * @param {number|string} containerId - container_id to create positions for.
+ * @param {boolean} canEditPositions - forwarded to the grid reload once positions exist.
+ * @param {string} headingId - forwarded to the grid reload so its heading text stays current.
+ * @param {Function} [onCreated] - called instead of reloading the positions grid once creation
+ *	succeeds -- Container.cfm has no grid on the page to reload, so it uses this to update its
+ *	own Positions summary text/link instead.
+ */
+function renderCreatePositionsPrompt(numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId, onCreated) {
+	var target = $('#' + targetDivId);
+	var wrapper = $('<div></div>');
+	var $errorDiv = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+	var $followUpDiv = $('<div class="mb-2"></div>');
+	var $createBtn = $('<button class="btn btn-xs btn-primary" type="button"></button>').text('Create ' + numPositions + ' Positions');
+
+	var refresh = function() {
+		loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId);
+	};
+
+	// shared by the "unsupported" (createContainerPositions) and "needs_columns"
+	// (retrofitContainerPositions) cases -- neither knows a physical layout for this
+	// type/count combination without an explicit columns count from the user. A dialog
+	// (rather than an inline prompt) since the explanatory message is long enough to want
+	// its own space, and Cancel needs to mean "never mind" rather than just "clear this field".
+	var promptForColumnsDialog = function(message, onColumnsChosen) {
+		var inputId = 'positionsColumnsDialogInput_' + targetDivId;
+		var $body = $('<div></div>');
+		$body.append($('<p class="mb-3"></p>').text(message));
+		var $row = $('<div class="form-row align-items-center mb-2"></div>');
+		$row.append(
+			$('<div class="col-auto"></div>').append(
+				$('<label class="data-entry-label mb-0"></label>').attr('for', inputId).text('Columns')
+			)
+		);
+		var $columnsInput = $('<input type="text" inputmode="numeric" class="data-entry-input" style="width:5em;">').attr('id', inputId);
+		$row.append($('<div class="col-auto"></div>').append($columnsInput));
+		$body.append($row);
+		var $columnsError = $('<p class="small text-danger mb-0 d-none" role="alert"></p>');
+		$body.append($columnsError);
+
+		var submit = function() {
+			var columns = parseInt($columnsInput.val(), 10);
+			if (!columns || columns < 1) {
+				$columnsError.text('Enter a positive number of columns.').removeClass('d-none');
+				return;
+			}
+			$body.dialog('destroy');
+			onColumnsChosen(columns);
+		};
+		$columnsInput.on('keydown', function(event) {
+			if (event.which === 13) {
+				event.preventDefault();
+				submit();
+			}
+		});
+
+		$body.dialog({
+			modal: true,
+			resizable: false,
+			draggable: true,
+			width: 'auto',
+			minWidth: 340,
+			title: 'Columns Needed',
+			buttons: {
+				Continue: submit,
+				Cancel: function() {
+					$(this).dialog('destroy');
+				}
+			},
+			close: function() {
+				$(this).dialog('destroy');
+			},
+			open: function() {
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({ 'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({ 'z-index': maxZindex + 5 });
+				$columnsInput.trigger('focus');
+			}
+		});
+	};
+
+	var createPositions = function(columns) {
+		$createBtn.prop('disabled', true);
+		$errorDiv.addClass('d-none').text('');
+		var data = { method: 'createContainerPositions', container_id: containerId };
+		if (columns) {
+			data.columns = columns;
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			method: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result) {
+				$createBtn.prop('disabled', false);
+				if (result.status === 'created') {
+					if (typeof onCreated === 'function') {
+						onCreated(result);
+					} else {
+						refresh();
+					}
+					return;
+				}
+				if (result.status === 'unsupported') {
+					promptForColumnsDialog(result.message || 'Provide a columns count to lay out an arbitrary grid.', createPositions);
+					return;
+				}
+				$errorDiv.text(result.message || 'Unable to create positions.').removeClass('d-none');
+				if (result.status === 'exists') {
+					offerRetrofit();
+				}
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'creating container positions');
+				$createBtn.prop('disabled', false);
+			}
+		});
+	};
+
+	var retrofitPositions = function(columns) {
+		$errorDiv.addClass('d-none').text('');
+		var data = { method: 'retrofitContainerPositions', container_id: containerId };
+		if (columns) {
+			data.columns = columns;
+		}
+		$.ajax({
+			url: '/containers/component/functions.cfc',
+			method: 'POST',
+			data: data,
+			dataType: 'json',
+			success: function(result) {
+				if (result.status === 'retrofitted') {
+					var childrenFound = parseInt(result.children_found, 10) || 0;
+					var childrenReparented = parseInt(result.children_reparented, 10) || 0;
+					var childrenUnmatched = childrenFound - childrenReparented;
+					var summary = 'Created ' + result.positions_created + ' position(s).';
+					if (childrenFound > 0) {
+						summary += ' Placed ' + childrenReparented + ' of ' + childrenFound + ' existing item(s) into their matching position automatically.';
+					}
+					if (childrenUnmatched > 0) {
+						// no trailing digits found in that item's label or barcode to match it to a
+						// position number -- nothing left to guess, so it stays where it is until
+						// someone moves it by hand.
+						summary += ' ' + childrenUnmatched + ' item(s) had no recognizable position number in their label or barcode and were left in place -- find the still-empty position(s) below and use its "Place…" button to move each one in manually.';
+					}
+					messageDialog(summary, 'Retrofit Complete');
+					refresh();
+					return;
+				}
+				if (result.status === 'needs_columns') {
+					promptForColumnsDialog(result.message || 'Provide a columns count to lay out an arbitrary grid.', retrofitPositions);
+					return;
+				}
+				$errorDiv.text(result.message || 'Unable to retrofit positions.').removeClass('d-none');
+			},
+			error: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR, textStatus, error, 'retrofitting container positions');
+			}
+		});
+	};
+
+	var offerRetrofit = function() {
+		$followUpDiv.empty();
+		var $retrofitBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Retrofit Existing Contents into Positions');
+		$retrofitBtn.on('click', function() {
+			confirmDialog(
+				'This will create ' + numPositions + ' position container(s) and move this container\'s existing numbered contents into the matching position. Continue?',
+				'Retrofit into Positions',
+				function() {
+					retrofitPositions();
+				}
+			);
+		});
+		$followUpDiv.append($retrofitBtn);
+	};
+
+	$createBtn.on('click', function() {
+		$followUpDiv.empty();
+		createPositions();
+	});
+	wrapper.append($createBtn).append($errorDiv).append($followUpDiv);
+	target.html(wrapper);
+}
+
 function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, containerId, canEditPositions, headingId) {
 	var target = $('#' + targetDivId);
 	var layoutClassMap = {
@@ -2028,7 +2570,19 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 	};
 	var layoutClass = layoutClassMap[parseInt(numPositions, 10)] || '';
 	if (!positions || positions.length === 0) {
-		target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		if (parseInt(numPositions, 10) > 0) {
+			var $notCreatedMsg = $('<p class="text-muted mb-0"></p>').text('This container declares ' + numPositions + ' position(s), but none have been created yet.');
+			if (canEditPositions) {
+				$notCreatedMsg.append(' ').append(
+					$('<a></a>')
+						.attr('href', '/containers/Container.cfm?action=edit&container_id=' + encodeURIComponent(containerId))
+						.text('Edit to add.')
+				);
+			}
+			target.html($notCreatedMsg);
+		} else {
+			target.html('<p class="text-muted mb-0">No position containers found.</p>');
+		}
 		return;
 	}
 	if (!layoutClass) {
@@ -2198,7 +2752,7 @@ function renderPositionsGrid(positions, numPositions, targetDivId, feedbackId, c
 function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, canEditPositions, headingId, onRendered) {
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: {
 			method: 'getContainerPositionsGrid',
 			container_id: containerId
@@ -2224,6 +2778,275 @@ function loadPositionsGrid(containerId, numPositions, targetDivId, feedbackId, c
 			handleFail(jqXHR, textStatus, error, 'loading container positions');
 		}
 	});
+}
+
+/**
+ * Known (number_positions, container_type) presets with established physical dimensions --
+ * mirrors containers/component/functions.cfc's createContainerPositions preset table, so the
+ * positions-change dialog can warn that growing/shrinking a standard box/rack's position count
+ * usually isn't what's wanted, since that physical hardware has a fixed number of slots.
+ */
+var KNOWN_POSITION_PRESETS = [
+	{ containerType: 'freezer box', numberPositions: 100 },
+	{ containerType: 'freezer box', numberPositions: 81 },
+	{ containerType: 'freezer box', numberPositions: 25 },
+	{ containerType: 'freezer', numberPositions: 48 },
+	{ containerType: 'freezer', numberPositions: 33 }
+];
+
+/**
+ * Opens a dialog with Grow/Shrink/Reset controls for one container's positions -- reached from
+ * Container.cfm's "Change..." button next to the Number of Positions field. Deliberately not
+ * shown inline on the edit form or on the read-only positions grid (viewContainer.cfm).
+ * Grow and Shrink don't commit anything here -- when onChanged is supplied, clicking either one
+ * just validates, reports the pending change back to the caller, and closes the dialog, leaving
+ * the actual growContainerPositions/trimContainerPositions call for the caller to run whenever it
+ * sees fit (Container.cfm defers it to its own Save Changes button). Reset is the exception: it
+ * still commits immediately from within this dialog (it's confirmDialog-gated and destructive
+ * enough that queuing it doesn't make sense the same way).
+ * @param {number|string} containerId - container_id whose positions are being managed.
+ * @param {Function} [onChanged] - called with a descriptor once Grow, Shrink, or Reset succeeds:
+ *	{action: 'grow'|'shrink', previewCount, params} for Grow/Shrink (not yet applied -- params is
+ *	the argument object the caller should eventually POST to growContainerPositions/
+ *	trimContainerPositions), or {action: 'reset'} for Reset (already applied).
+ */
+function openPositionsChangeDialog(containerId, onChanged) {
+	var wrapper = $('#positionsChangeDialogWrapper');
+	if (!wrapper.length) {
+		wrapper = $('<div id="positionsChangeDialogWrapper"></div>').appendTo('body');
+	}
+	wrapper.html('<div class="text-center my-2"><img src="/shared/images/indicator.gif"> Loading…</div>');
+	wrapper.dialog({
+		title: 'Change Positions',
+		modal: true,
+		width: 420,
+		autoOpen: true,
+		buttons: {
+			Close: function() {
+				$(this).dialog('close');
+			}
+		},
+		open: function() {
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({ 'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({ 'z-index': maxZindex + 5 });
+		}
+	});
+
+	var render = function() {
+		$.ajax({
+			url: '/containers/component/public.cfc',
+			data: {
+				method: 'getContainerPositionsGrid',
+				container_id: containerId
+			},
+			dataType: 'json',
+			success: function(data) {
+				var positions = data.positions || [];
+				var numberPositions = parseInt(data.number_positions, 10) || 0;
+				var occupiedCount = positions.filter(function(position) {
+					return !!position.content_container_id;
+				}).length;
+				var allEmpty = positions.length > 0 && occupiedCount === 0;
+				// trimContainerPositions removes from the highest-numbered position down, so
+				// shrinking by even 1 is only ever possible when that last position is empty.
+				var canShrink = positions.length > 0 && !positions[positions.length - 1].content_container_id;
+				var isKnownPreset = KNOWN_POSITION_PRESETS.some(function(preset) {
+					return preset.containerType === data.container_type && preset.numberPositions === numberPositions;
+				});
+
+				var content = $('<div></div>');
+				content.append(
+					$('<p class="small mb-2"></p>').text(
+						numberPositions + ' position(s) declared; ' + positions.length + ' created' +
+						(positions.length > 0 ? ' (' + occupiedCount + ' occupied)' : '') + '.'
+					)
+				);
+				if (isKnownPreset) {
+					content.append(
+						$('<div class="alert alert-warning small py-1 px-2"></div>').text(
+							'This is a standard ' + numberPositions + '-position ' + data.container_type +
+							' -- growing or shrinking it usually isn\'t what you want, since the physical hardware has a fixed number of slots.'
+						)
+					);
+				}
+
+				var $error = $('<div class="small text-danger mb-2 d-none" role="alert"></div>');
+
+				var $growInput = $('<input type="text" inputmode="numeric" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of positions to add');
+				var $growBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Grow');
+				$growBtn.on('click', function() {
+					var additionalCount = parseInt($growInput.val(), 10);
+					if (!additionalCount || additionalCount < 1) {
+						$error.text('Enter a positive number of positions to add.').removeClass('d-none');
+						return;
+					}
+					if (onChanged) {
+						// defer the actual growContainerPositions call to Save Changes instead of
+						// committing it the moment Grow is clicked -- the caller (Container.cfm)
+						// queues this and applies it after the regular field save succeeds.
+						onChanged({
+							action: 'grow',
+							previewCount: numberPositions + additionalCount,
+							params: { additional_count: additionalCount }
+						});
+						wrapper.dialog('close');
+						return;
+					}
+					$growBtn.prop('disabled', true);
+					$.ajax({
+						url: '/containers/component/functions.cfc',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							method: 'growContainerPositions',
+							returnformat: 'json',
+							container_id: containerId,
+							additional_count: additionalCount
+						},
+						success: function(result) {
+							$growBtn.prop('disabled', false);
+							if (result.status === 'created') {
+								render();
+							} else {
+								$error.text(result.message || 'Unable to grow positions.').removeClass('d-none');
+							}
+						},
+						error: function(jqXHR, textStatus, error) {
+							$growBtn.prop('disabled', false);
+							handleFail(jqXHR, textStatus, error, 'growing container positions');
+						}
+					});
+				});
+				var growRow = $('<div class="d-flex align-items-center mb-2"></div>')
+					.append($('<label class="mb-0 mr-1"></label>').text('Add:'))
+					.append($growInput)
+					.append($growBtn);
+
+				var $shrinkInput = $('<input type="text" inputmode="numeric" class="data-entry-input mr-1" style="width:5em;">').attr('aria-label', 'Number of empty positions to remove from the end');
+				var $shrinkBtn = $('<button class="btn btn-xs btn-secondary" type="button"></button>').text('Shrink');
+				if (!canShrink) {
+					$shrinkInput.prop('disabled', true);
+					$shrinkBtn.prop('disabled', true);
+				}
+				$shrinkBtn.on('click', function() {
+					var removeCount = parseInt($shrinkInput.val(), 10);
+					if (!removeCount || removeCount < 1) {
+						$error.text('Enter a positive number of positions to remove.').removeClass('d-none');
+						return;
+					}
+					var newCount = numberPositions - removeCount;
+					if (newCount < 0) {
+						$error.text('Cannot remove more positions than currently declared.').removeClass('d-none');
+						return;
+					}
+					if (onChanged) {
+						// see the matching comment in the Grow handler above -- defer the actual
+						// trimContainerPositions call to Save Changes instead of committing now.
+						onChanged({
+							action: 'shrink',
+							previewCount: newCount,
+							params: { new_count: newCount }
+						});
+						wrapper.dialog('close');
+						return;
+					}
+					$shrinkBtn.prop('disabled', true);
+					$.ajax({
+						url: '/containers/component/functions.cfc',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							method: 'trimContainerPositions',
+							returnformat: 'json',
+							container_id: containerId,
+							new_count: newCount
+						},
+						success: function(result) {
+							$shrinkBtn.prop('disabled', false);
+							if (result.status === 'trimmed') {
+								render();
+							} else {
+								$error.text(result.message || 'Unable to shrink positions.').removeClass('d-none');
+							}
+						},
+						error: function(jqXHR, textStatus, error) {
+							$shrinkBtn.prop('disabled', false);
+							handleFail(jqXHR, textStatus, error, 'shrinking container positions');
+						}
+					});
+				});
+				var shrinkRow = $('<div class="d-flex align-items-center mb-2"></div>')
+					.append($('<label class="mb-0 mr-1"></label>').text('Remove from end:'))
+					.append($shrinkInput)
+					.append($shrinkBtn);
+
+				content.append(growRow).append(shrinkRow);
+				if (!canShrink) {
+					content.append(
+						$('<p class="small text-muted mb-2"></p>').text(
+							positions.length === 0
+								? 'Nothing to shrink -- no positions exist yet.'
+								: 'Cannot shrink -- the last position is occupied. Move its contents first.'
+						)
+					);
+				}
+				content.append($error);
+
+				// only offer Reset when it could actually succeed -- resetContainerPositions
+				// itself refuses outright if even one position is occupied.
+				if (allEmpty) {
+					var $resetBtn = $('<button class="btn btn-xs btn-warning" type="button"></button>').text('Reset Positions');
+					$resetBtn.on('click', function() {
+						confirmDialog(
+							'This will permanently delete all ' + numberPositions + ' position record(s) for this container and clear its Number of Positions. Continue?',
+							'Reset Positions',
+							function() {
+								$resetBtn.prop('disabled', true);
+								$.ajax({
+									url: '/containers/component/functions.cfc',
+									type: 'post',
+									dataType: 'json',
+									data: {
+										method: 'resetContainerPositions',
+										returnformat: 'json',
+										container_id: containerId
+									},
+									success: function(result) {
+										$resetBtn.prop('disabled', false);
+										if (result.status === 'reset') {
+											// unlike Grow/Shrink, Reset still commits immediately from
+											// within the dialog (it's already confirmDialog-gated and
+											// wipes the positions outright) -- the caller reloads the
+											// page right away rather than queuing anything for Save.
+											if (onChanged) {
+												onChanged({ action: 'reset' });
+											}
+											wrapper.dialog('close');
+										} else {
+											messageDialog('Error: ' + (result.message || 'Unable to reset positions.'), 'Error Resetting Positions');
+										}
+									},
+									error: function(jqXHR, textStatus, error) {
+										$resetBtn.prop('disabled', false);
+										handleFail(jqXHR, textStatus, error, 'resetting container positions');
+									}
+								});
+							}
+						);
+					});
+					content.append($('<div class="mt-2"></div>').append($resetBtn));
+				}
+
+				wrapper.html(content);
+			},
+			error: function(jqXHR, textStatus, error) {
+				wrapper.html('<p class="text-danger small mb-0">Unable to load position information.</p>');
+				handleFail(jqXHR, textStatus, error, 'loading container positions for the change dialog');
+			}
+		});
+	};
+	render();
 }
 
 /* These placement-heavy structural levels were explicitly requested to keep direct
@@ -2319,10 +3142,11 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 	var orphanStructCount = parseInt(data.orphaned_structural_count, 10) || 0;
 	var orphanEmptyProxyCount = parseInt(data.orphaned_empty_proxy_count, 10) || 0;
 	var orphanSingleCount = parseInt(data.orphaned_single_occupant_count, 10) || 0;
+	var orphanLeafCount = parseInt(data.orphaned_leaf_count, 10) || 0;
 	var topLevelOther = data.top_level_other || [];
 	var orphanStructDivId = 'ctree-orphan-structural-panel';
 	var wrapper = $('<div></div>');
-	if (institutions.length === 0 && orphanStructCount === 0 && orphanEmptyProxyCount === 0 && orphanSingleCount === 0 && topLevelOther.length === 0) {
+	if (institutions.length === 0 && orphanStructCount === 0 && orphanEmptyProxyCount === 0 && orphanSingleCount === 0 && orphanLeafCount === 0 && topLevelOther.length === 0) {
 		wrapper.html('<p class="text-muted my-2">No containers found.</p>');
 		$('#' + browsePanel).html(wrapper);
 		return;
@@ -2358,6 +3182,43 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			nodeRow.append(buildContainerTypeMeta(inst.container_type));
 			nodeRow.append(buildContainerDetailsButton(instCid, instDisplay, feedbackEl));
 			nodeRow.append(buildAddChildContainerLink(instCid, inst.container_type, TREE_ACTION_SPACING_CLASS));
+			var instLeafDiv = null;
+			if (parseInt(inst.direct_leaf_children, 10) > 0) {
+				// REGRESSION FIX: unlike every other node type in this tree (campus nodes below,
+				// and the generic renderTreeNodes() path used for root-level "external" containers),
+				// this institution loop never checked direct_leaf_children at all -- an institution
+				// with collection objects placed directly under it (misplaced, bypassing
+				// campus/building/etc.) had NO way to browse them, even though the count was already
+				// being computed and sent by getTopLevelBrowse. For the Museum of Comparative
+				// Zoology institution node specifically, this count is ~170,000 -- that many
+				// specimens' containers were unreachable through this page with no button anywhere
+				// to get to them. Do not remove this block without providing an equivalent way to
+				// browse an institution's own direct leaf children.
+				var instLeafDivId = 'ctree-leaf-' + instCid;
+				instLeafDiv = $('<div class="d-none mt-1"></div>').attr('id', instLeafDivId);
+				var instBrowseBtn = $('<button type="button"></button>')
+					.addClass('btn btn-xs btn-outline-secondary ml-1')
+					.text('Browse contents')
+					.on('click', (function(nodeId, nodeName, nodeBarcode, panelId) {
+						return function() {
+							var btn = $(this);
+							var panel = $('#' + panelId);
+							if (panel.hasClass('d-none')) {
+								if (!btn.data('loaded')) {
+									loadLeafPanel(nodeId, panelId, feedbackEl, 1, nodeName, nodeBarcode);
+									btn.data('loaded', true);
+								} else {
+									panel.removeClass('d-none');
+								}
+								btn.text('Hide contents');
+							} else {
+								panel.addClass('d-none');
+								btn.text('Browse contents');
+							}
+						};
+					})(instCid, instDisplay, inst.barcode || '', instLeafDivId));
+				nodeRow.append(instBrowseBtn);
+			}
 			var campusUl = $('<ul></ul>').attr('id', childUlId).addClass('container-tree');
 			if (campuses.length > 0) {
 				$.each(campuses, function(ci, campus) {
@@ -2431,7 +3292,12 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			} else if (parseInt(inst.direct_structural_children, 10) > 0) {
 				campusUl.addClass('collapse');
 			}
-			instUl.append($('<li role="treeitem"></li>').append(nodeRow).append(campusUl));
+			var instLi = $('<li role="treeitem"></li>').append(nodeRow);
+			if (instLeafDiv) {
+				instLi.append(instLeafDiv);
+			}
+			instLi.append(campusUl);
+			instUl.append(instLi);
 		});
 		wrapper.append(instUl);
 	}
@@ -2450,6 +3316,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanStructWrap.append(orphanStructBtn);
+		orphanStructWrap.append($('<span class="small text-muted ml-1"></span>').text('Unplaced containers, e.g. unplaced freezer box.'));
 		orphanStructWrap.append(orphanStructDiv);
 		wrapper.append(orphanStructWrap);
 	}
@@ -2467,6 +3334,7 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanEmptyWrap.append(orphanEmptyBtn);
+		orphanEmptyWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pin with no specimen.'));
 		orphanEmptyWrap.append(orphanEmptyDiv);
 		wrapper.append(orphanEmptyWrap);
 	}
@@ -2484,8 +3352,35 @@ function renderTopLevelBrowse(data, browsePanel, leafPanel, feedbackEl) {
 			});
 		});
 		orphanSingleWrap.append(orphanSingleBtn);
+		orphanSingleWrap.append($('<span class="small text-muted ml-1"></span>').text('e.g. unplaced pin with a specimen.'));
 		orphanSingleWrap.append(orphanSingleDiv);
 		wrapper.append(orphanSingleWrap);
+	}
+	if (orphanLeafCount > 0) {
+		// REGRESSION FIX: getTopLevelBrowse has computed orphaned_leaf_count all along, via the
+		// same query shape as orphaned_structural_count/orphaned_empty_proxy_count/
+		// orphaned_single_occupant_count above -- all three of which already had a working toggle
+		// section. This one didn't: it was silently dropped on the floor client-side, so
+		// collection-object containers with NO parent at all (not even an institution above them)
+		// had zero path to reach them anywhere in this UI, not even indirectly through an
+		// institution row (that gap is fixed separately, above, for the institution-child case).
+		// Do not remove this section without another way to browse truly parentless leaf containers.
+		var orphanLeafDivId = 'ctree-orphan-leaf';
+		var orphanLeafWrap = $('<div class="mt-2"></div>');
+		var orphanLeafBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1" type="button"></button>')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', orphanLeafDivId)
+			.text('Leaf orphans (' + orphanLeafCount + ')');
+		var orphanLeafDiv = $('<div class="d-none mt-1" id="' + orphanLeafDivId + '"></div>');
+		orphanLeafBtn.on('click', function() {
+			toggleBrowseSection(this, orphanLeafDivId, function() {
+				loadOrphanedLeafPage(orphanLeafDivId, feedbackEl, 1);
+			});
+		});
+		orphanLeafWrap.append(orphanLeafBtn);
+		orphanLeafWrap.append($('<span class="small text-muted ml-1"></span>').text('Parts not in any container.'));
+		orphanLeafWrap.append(orphanLeafDiv);
+		wrapper.append(orphanLeafWrap);
 	}
 	var rootOtherDivId = 'ctree-root-other';
 	if (topLevelOther.length > 0) {
@@ -2698,7 +3593,7 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 	containerBarcode = containerBarcode || '';
 	$('#' + leafPanelId).removeClass('d-none').html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		data: { method: 'getDirectLeafChildren', container_id: containerId, page: page },
 		dataType: 'json',
 		success: function(data) {
@@ -2758,6 +3653,10 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 								.text('View specimen')
 						);
 					}
+					var placePartLink = buildPlacePartLink(row);
+					if (placePartLink) {
+						actionTd.append(placePartLink);
+					}
 					tr.append(actionTd);
 					tbody.append(tr);
 				});
@@ -2786,6 +3685,92 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 }
 
 /**
+ * Swaps the Contains field back from its read-only "N items from a Search" summary
+ * to the editable GUID input, clearing whichever hidden id-list field it was standing in for.
+ * @param {string} inputId - id of the Contains GUID text input.
+ * @param {string[]} hiddenFieldIds - ids of the hidden fields (contains_result_id,
+ *   contains_collection_object_ids) to clear.
+ * @param {string} summaryId - id of the summary div shown in place of the input.
+ * @param {string} labelId - id of the label for the GUID input.
+ */
+function clearContainsResultSummary(inputId, hiddenFieldIds, summaryId, labelId) {
+	hiddenFieldIds.forEach(function(hiddenFieldId) {
+		$('#' + hiddenFieldId).val('');
+	});
+	$('#' + summaryId).addClass('d-none');
+	$('#' + inputId).removeClass('d-none');
+	$('#' + labelId).removeClass('d-none');
+	$('#' + inputId).val('').focus();
+}
+
+/**
+ * Swaps the Loan/Accession/Deaccession Number fields back from their read-only transaction
+ * summary to the editable inputs, clearing the transaction_id it was standing in for.
+ * @param {string} fieldsContainerId - id of the div wrapping the three number inputs.
+ * @param {string} hiddenFieldId - id of the hidden transaction_id field.
+ * @param {string} summaryId - id of the summary div shown in place of the inputs.
+ */
+function clearTransactionSummary(fieldsContainerId, hiddenFieldId, summaryId) {
+	$('#' + hiddenFieldId).val('');
+	$('#' + summaryId).addClass('d-none');
+	$('#' + fieldsContainerId).removeClass('d-none');
+}
+
+/**
+ * Opens the location breadcrumb detail row for one search result container, inserting it
+ * immediately below the given row if not already present. Leaves an already-open row as is,
+ * so it can be called repeatedly (e.g. once per row from "Locate All") without re-fetching.
+ * @param {number|string} containerId - container_id to show the breadcrumb for.
+ * @param {jQuery} currentRow - the result row (<tr>) to insert the detail row after.
+ */
+function openLocateDetailRow(containerId, currentRow) {
+	var detailRowId = 'locate-detail-' + containerId;
+	var existingDetail = $('#' + detailRowId);
+	if (existingDetail.length > 0) {
+		existingDetail.removeClass('d-none');
+		return;
+	}
+	var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
+	var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
+	detailRow.append(detailCell);
+	currentRow.after(detailRow);
+	detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
+	$.ajax({
+		url: '/containers/component/search.cfc',
+		data: { method: 'getContainerBreadcrumb', container_id: containerId },
+		dataType: 'json',
+		success: function(breadcrumbs) {
+			var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
+			$.each(breadcrumbs, function(j, crumb) {
+				var display = formatContainerDisplay(crumb.barcode, crumb.label);
+				var crumbLi = $('<li class="breadcrumb-item small"></li>');
+				if (j === 0) {
+					crumbLi.addClass('arrowprefix');
+					crumbLi.append($('<span class="sr-only">Contained within: </span>'));
+				}
+				crumbLi.append(document.createTextNode(crumb.container_type + ': '));
+				if (j === breadcrumbs.length - 1) {
+					crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
+				} else {
+					var link = document.createElement('a');
+					link.classList.add('pl-1');
+					var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
+					link.href = '/containers/Containers.cfm?' + params.toString();
+					link.appendChild(document.createTextNode(display));
+					crumbLi.append(link);
+				}
+				breadcrumbEl.append(crumbLi);
+			});
+			detailCell.html(breadcrumbEl);
+		},
+		error: function(jqXHR, textStatus, error) {
+			detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
+			handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
+		}
+	});
+}
+
+/**
  * Executes the container search form and renders the paged results table.
  * @param {string} browsePanel - id of the main results panel to populate.
  * @param {string} leafPanel - id of the shared subordinate leaf/table panel.
@@ -2795,13 +3780,20 @@ function loadLeafPanel(containerId, leafPanelId, feedbackId, page, containerLabe
 function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	page = page || 1;
 	var searchTerm = $('#search_term').val() || '';
-	var containerType = $('#container_type').val() || '';
+	var containerType = $('[name=container_type]:not(:disabled)').val() || '';
 	var barcode = $('#barcode').val() || '';
 	var description = $('#description').val() || '';
 	var department = $('#department').val() || '';
 	var treeProperty = $('#tree_property').val() || '';
 	var hasPositions = $('#has_positions').val() || '';
 	var positionFilter = $('#position_filter').val() || '';
+	var containsGuids = $('#contains_guids').val() || '';
+	var containsResultId = $('#contains_result_id').val() || '';
+	var containsCollectionObjectIds = $('#contains_collection_object_ids').val() || '';
+	var loanNumber = $('#loan_number').val() || '';
+	var accnNumber = $('#accn_number').val() || '';
+	var deaccNumber = $('#deacc_number').val() || '';
+	var transactionId = $('#transaction_id').val() || '';
 	$('#' + browsePanel).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Searching...</div>');
 	$('#containerBrowseContext').text('Search results');
 	$('#' + leafPanel).addClass('d-none').html('');
@@ -2818,6 +3810,13 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				tree_property: treeProperty,
 				has_positions: hasPositions,
 				position_filter: positionFilter,
+				contains_guids: containsGuids,
+				contains_result_id: containsResultId,
+				contains_collection_object_ids: containsCollectionObjectIds,
+				loan_number: loanNumber,
+				accn_number: accnNumber,
+				deacc_number: deaccNumber,
+				transaction_id: transactionId,
 				page: page,
 				pageSize: CONTAINER_PAGE_SIZE
 			},
@@ -2838,6 +3837,20 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
 			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
 			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
+			if (containsResultId) {
+				searchLinkParts.push('result_id=' + encodeURIComponent(containsResultId));
+			} else if (containsCollectionObjectIds) {
+				searchLinkParts.push('collection_object_id=' + encodeURIComponent(containsCollectionObjectIds));
+			} else if (containsGuids) {
+				searchLinkParts.push('contains_guids=' + encodeURIComponent(containsGuids));
+			}
+			if (transactionId) {
+				searchLinkParts.push('transaction_id=' + encodeURIComponent(transactionId));
+			} else {
+				if (loanNumber) { searchLinkParts.push('loan_number=' + encodeURIComponent(loanNumber)); }
+				if (accnNumber) { searchLinkParts.push('accn_number=' + encodeURIComponent(accnNumber)); }
+				if (deaccNumber) { searchLinkParts.push('deacc_number=' + encodeURIComponent(deaccNumber)); }
+			}
 			var searchLinkUrl = '/containers/Containers.cfm?' + searchLinkParts.join('&');
 			var headerDiv = $('<div class="d-flex align-items-center flex-wrap mb-1"></div>');
 			headerDiv.append($('<h2 class="h4 mt-2 mr-2 mb-0"></h2>').text('Search Results (' + totalRows + ' containers found)'));
@@ -2846,15 +3859,6 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					.attr('href', searchLinkUrl)
 					.attr('title', 'Link to this search (opens in new tab)')
 					.text('Link to this search')
-			);
-			headerDiv.append(
-				$('<button class="btn btn-xs btn-outline-secondary mt-1" type="button"></button>')
-					.text('⌂ Browse Hierarchy')
-					.attr('title', 'Return to the default container hierarchy view')
-					.on('click', function() {
-						initContainerBrowse(browsePanel, leafPanel, feedbackId);
-						$('#' + leafPanel).addClass('d-none').html('');
-					})
 			);
 			panel.append(headerDiv);
 			if (totalPages > 1) {
@@ -2876,7 +3880,9 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					/* Collection objects are leaf-only results, while root-parent and
 					   institution-parent proxies are the two top-level orphan-table cases. */
 					var isTopLevelProxyTableRow = isProxy && (parentInfo.hasRootParent || parentInfo.hasInstitutionParent);
-					var canExplore = containerTypeKey !== COLLECTION_OBJECT_CONTAINER_TYPE && !isTopLevelProxyTableRow;
+					var isLeafRow = containerTypeKey === COLLECTION_OBJECT_CONTAINER_TYPE;
+					var canExplore = !isLeafRow && !isTopLevelProxyTableRow;
+					var parentContainerId = parseInt(row.parent_container_id, 10);
 					var displayName = formatContainerDisplay(row.barcode, row.label);
 					var descText = row.description || '';
 					if (descText.length > MAX_DESCRIPTION_LENGTH) {
@@ -2891,55 +3897,20 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					actionCell.append(buildContainerViewLink(cid));
 					actionCell.append(buildAddChildContainerLink(cid, row.container_type));
 					actionCell.append(buildContainerEditLink(cid));
-					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1" type="button"></button>').text('Locate');
+					var locateBtn = $('<button class="btn btn-xs btn-outline-secondary mr-1 mb-1 locate-row-btn" type="button"></button>')
+						.text('Locate')
+						.attr('data-container-id', cid);
 					(function(nodeId) {
 						locateBtn.on('click', function() {
-							var btn = $(this);
-							var currentRow = btn.closest('tr');
-							var detailRowId = 'locate-detail-' + nodeId;
-							var existingDetail = $('#' + detailRowId);
-							if (existingDetail.length > 0) {
-								existingDetail.toggleClass('d-none');
+							var currentRow = $(this).closest('tr');
+							var existingDetail = $('#locate-detail-' + nodeId);
+							if (existingDetail.length > 0 && !existingDetail.hasClass('d-none')) {
+								existingDetail.addClass('d-none');
+								locateBtn.text('Locate');
 								return;
 							}
-							var detailRow = $('<tr></tr>').attr('id', detailRowId).addClass('locate-detail-row');
-							var detailCell = $('<td></td>').attr('colspan', '5').addClass('bg-light p-2 small');
-							detailRow.append(detailCell);
-							currentRow.after(detailRow);
-							detailCell.html('<img src="/shared/images/indicator.gif"> Loading location…');
-							$.ajax({
-								url: '/containers/component/search.cfc',
-								data: { method: 'getContainerBreadcrumb', container_id: nodeId },
-								dataType: 'json',
-								success: function(breadcrumbs) {
-									var breadcrumbEl = $('<ol class="breadcrumb bg-transparent p-0 m-0 flex-wrap"></ol>');
-									$.each(breadcrumbs, function(j, crumb) {
-										var display = formatContainerDisplay(crumb.barcode, crumb.label);
-										var crumbLi = $('<li class="breadcrumb-item small"></li>');
-										if (j === 0) {
-											crumbLi.addClass('arrowprefix');
-											crumbLi.append($('<span class="sr-only">Contained within: </span>'));
-										}
-										crumbLi.append(document.createTextNode(crumb.container_type + ': '));
-										if (j === breadcrumbs.length - 1) {
-											crumbLi.addClass('active').attr('aria-current', 'page').append(document.createTextNode(display));
-										} else {
-											var link = document.createElement('a');
-											link.classList.add('pl-1');
-											var params = new URLSearchParams({ execute: 'true', container_id: crumb.container_id });
-											link.href = '/containers/Containers.cfm?' + params.toString();
-											link.appendChild(document.createTextNode(display));
-											crumbLi.append(link);
-										}
-										breadcrumbEl.append(crumbLi);
-									});
-									detailCell.html(breadcrumbEl);
-								},
-								error: function(jqXHR, textStatus, error) {
-									detailCell.html('<span class="text-danger" role="alert">Failed to load location.</span>');
-									handleFail(jqXHR, textStatus, error, 'loading container breadcrumb');
-								}
-							});
+							openLocateDetailRow(nodeId, currentRow);
+							locateBtn.text('Hide Location');
 						});
 					})(cid);
 					actionCell.append(locateBtn);
@@ -2950,6 +3921,29 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 								.on('click', function() {
 									exploreContainerInTree(cid, displayName, browsePanel, leafPanel, feedbackId);
 								})
+						);
+					} else if (isLeafRow) {
+						if (!isNaN(parentContainerId) && parentContainerId > 0) {
+							actionCell.append(
+								$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button"></button>')
+									.text('Explore Parent')
+									.attr('title', 'Explore this collection object’s parent container in the hierarchy')
+									.on('click', function() {
+										exploreContainerInTree(parentContainerId, 'parent of ' + displayName, browsePanel, leafPanel, feedbackId);
+									})
+							);
+						} else {
+							actionCell.append(
+								$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button" disabled></button>')
+									.text('Explore')
+									.attr('title', 'This collection object has no parent container to explore')
+							);
+						}
+					} else {
+						actionCell.append(
+							$('<button class="btn btn-xs btn-outline-primary mr-1 mb-1" type="button" disabled></button>')
+								.text('Explore')
+								.attr('title', 'This top-level orphan row is already shown in context; there is no hierarchy position to explore')
 						);
 					}
 					if (leafKids > 0 && !isProxy) {
@@ -2983,7 +3977,7 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					var typeTd = $('<td></td>').text(row.container_type || '');
 					typeTd.append(' ');
 					typeTd.append($(getContainerRoleBadgeHtml(row.container_type)));
-					var tr = $('<tr></tr>');
+					var tr = $('<tr></tr>').attr('data-container-id', cid);
 					tr.append(typeTd);
 					tr.append($('<td></td>').text(displayName));
 					tr.append(contentsTd);
@@ -2991,6 +3985,29 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 					tr.append(actionCell);
 					tbody.append(tr);
 				});
+				headerDiv.append(
+					$('<button class="btn btn-xs btn-outline-secondary mt-1 ml-1" type="button"></button>')
+						.text('Locate All')
+						.attr('title', 'Show the location breadcrumb for every container in these search results')
+						.on('click', function() {
+							var locateAllBtn = $(this);
+							var opening = locateAllBtn.text() !== 'Hide Locations';
+							tbody.find('tr[data-container-id]').each(function() {
+								var row = $(this);
+								var containerId = row.attr('data-container-id');
+								var detail = $('#locate-detail-' + containerId);
+								var isOpen = detail.length > 0 && !detail.hasClass('d-none');
+								if (opening) {
+									openLocateDetailRow(containerId, row);
+									row.find('.locate-row-btn').text('Hide Location');
+								} else if (isOpen) {
+									detail.addClass('d-none');
+									row.find('.locate-row-btn').text('Locate');
+								}
+							});
+							locateAllBtn.text(opening ? 'Hide Locations' : 'Locate All');
+						})
+				);
 				var table = $('<table class="table table-sm table-striped table-responsive-md"></table>');
 				table.append('<thead><tr><th>Type</th><th>Name / Barcode</th><th>Contents</th><th>Description</th><th>Actions</th></tr></thead>');
 				table.append(tbody);
@@ -3136,7 +4153,7 @@ function checkAndRenderPlacementValidation(childContainerId, proposedParentConta
 		return;
 	}
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		dataType: 'json',
 		data: {
@@ -3201,7 +4218,20 @@ function renderPlacementWarningBadge(validationResult, targetDivId) {
 		var badge = $('<span class="badge"></span>').addClass(className).css('cursor', 'pointer')
 			.attr('data-toggle', 'collapse')
 			.attr('data-target', '#' + detailId)
-			.text(labelText);
+			.attr('role', 'button')
+			.attr('tabindex', '0')
+			.attr('aria-expanded', 'false')
+			.attr('aria-controls', detailId)
+			.text(labelText)
+			.on('keydown', function(event) {
+				if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+					event.preventDefault();
+					$(this).trigger('click');
+				}
+			})
+			.on('click', function() {
+				$(this).attr('aria-expanded', $(this).attr('aria-expanded') === 'true' ? 'false' : 'true');
+			});
 		var detail = $('<div class="collapse small mt-1"></div>').attr('id', detailId);
 		var list = $('<ul class="list-unstyled mb-0"></ul>');
 		$.each(items, function(i, item) {
@@ -3258,7 +4288,7 @@ function loadPlacementWarningBadge(containerContainerId, parentContainerId, targ
 	var target = $('#' + targetDivId);
 	target.html('<span class="small text-muted"><img src="/shared/images/indicator.gif"> Checking…</span>');
 	$.ajax({
-		url: '/containers/component/functions.cfc',
+		url: '/containers/component/public.cfc',
 		type: 'get',
 		dataType: 'json',
 		data: {
@@ -3578,4 +4608,21 @@ function addPlacementDialogButton(textFieldId, idFieldId, childContainerId, chil
 			openPlacementDialog(childContainerId, childContainerType, childInstitutionAcronym, idFieldId, textFieldId, feedbackId);
 		})
 		.appendTo(buttonContainer);
+}
+
+/** Switch the container_type field on the Containers.cfm search form back from the comma-list
+ * text input (used to show a multi-value container_type carried in from a link such as
+ * browseContainers.cfm's department picker) to the single-value picklist, blanking the list value.
+ * Only one of the two controls is ever enabled at a time -- a disabled field doesn't submit --
+ * so this both blanks and re-enables/hides the pair rather than editing form values directly.
+ * @param {string} selectId - id of the container_type <select>.
+ * @param {string} textInputId - id of the container_type comma-list text <input>.
+ * @param {string} listGroupId - id of the row containing the text input and this Clear button,
+ *  hidden along with the input so the button disappears with it.
+ * @returns {void}
+ */
+function clearContainerTypeList(selectId, textInputId, listGroupId) {
+	$('#' + textInputId).val('').prop('disabled', true);
+	$('#' + listGroupId).addClass('d-none');
+	$('#' + selectId).val('').prop('disabled', false).removeClass('d-none');
 }

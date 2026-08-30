@@ -966,6 +966,10 @@ limitations under the License.
 						</cfif>
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#');">
+						<input type="button" value="Storage Locations" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/containers/Containers.cfm?transaction_id=#transaction_id#&execute=true');">
+						<input type="button" value="Part Location Report" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/containers/partLocations.cfm?transaction_id=#transaction_id#&execute=true');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" doItemUpdate(); ">
 					</div>
