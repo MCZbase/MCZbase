@@ -4590,6 +4590,12 @@ explicitly which was intended via a move_scope argument ("part" or "jar").
 								// comment) now that the field is blank, so the next real pick is treated as a change.
 								$('##container_barcode').data('lastContainerId', '');
 								countCharsLeft('coll_object_remarks', 4000, 'length_remarks');
+								// form.reset() alone does not reliably clear this -- setFeedbackControlState sets
+								// its content via .html(), which some browsers treat as redefining the <output>'s
+								// own "default value" rather than something a form reset reverts, leaving "Saved"
+								// generally still shown afterward. Clear it explicitly so the next part starts
+								// with no leftover feedback from the one just created.
+								$('##newPart_output').empty();
 							}
 							function reloadEditExistingParts() {
 								// reload the edit existing parts section
