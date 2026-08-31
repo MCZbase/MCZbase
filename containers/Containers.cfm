@@ -404,18 +404,18 @@ editing behavior consistent across the application.
 </cfif>
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
-		<div class="row mx-0 mb-2">
+		<div class="row mx-0 mb-1">
 			<div class="search-box col-12 px-0">
 				<div class="search-box-header">
 					<h1 class="h3 text-white">Find Containers</h1>
 				</div>
-				<div class="col-12 px-3 py-3">
+				<div class="col-12 px-3 py-1">
 					<cfoutput>
 					<form id="containerSearchForm" name="containerSearch" method="get" action="/containers/Containers.cfm">
-						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-1 mx-2">
 							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Container</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="container_type" id="container_type_label" class="data-entry-label">Container Type</label>
 									<cfif variables.containerTypeIsList>
 										<cfset variables.containerTypeSelectClass = "data-entry-select col-12 d-none">
@@ -462,7 +462,7 @@ editing behavior consistent across the application.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="search_term" class="data-entry-label">Name (label or barcode)</label>
 									<div class="parent-container-picker-row d-flex align-items-center form-row">
 										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
@@ -478,21 +478,21 @@ editing behavior consistent across the application.
 									<input type="hidden" id="container_id" name="container_id"
 										value="#encodeForHtml(variables.container_id)#">
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="barcode" class="data-entry-label">Unique Identifier (barcode)</label>
 									<input type="text" id="barcode" name="barcode"
 										class="data-entry-input col-12"
 										placeholder="Barcode substring"
 										value="#encodeForHtml(variables.barcode)#">
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="description" class="data-entry-label">Description / Remarks</label>
 									<input type="text" id="description" name="description"
 										class="data-entry-input col-12"
 										placeholder="Description or remarks"
 										value="#encodeForHtml(variables.description)#">
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<!--- obtain a list of department prefixes from the container labels predecated on convention for naming containers --->
 									<cfquery name="fixturePrefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(7,0,0,0)#">
 										SELECT count(*) as ct, nvl(nvl(substr(label,0, instr(label,'_')-1),substr(label,0, instr(label,'-')-1)),substr(label,0, 4)) as prefix 
@@ -512,7 +512,7 @@ editing behavior consistent across the application.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="tree_property" class="data-entry-label">Tree Property</label>
 									<cfset variables.selEmpty = "">
 									<cfset variables.selMisplaced = "">
@@ -535,7 +535,7 @@ editing behavior consistent across the application.
 										<option value="unplaced_leaf"#variables.selUnplacedLeaf#>Unplaced object (no parent container)</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="has_positions" class="data-entry-label">Has Positions</label>
 									<select id="has_positions" name="has_positions" class="data-entry-select col-12">
 										<option value=""></option>
@@ -551,7 +551,7 @@ editing behavior consistent across the application.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="position_filter" class="data-entry-label">
 										Container in Position
 										<span class="small ml-1">
@@ -567,10 +567,10 @@ editing behavior consistent across the application.
 								</div>
 							</div>
 						</fieldset>
-						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-1 mx-2">
 							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Parent Container</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="parent_container_type" id="parent_container_type_label" class="data-entry-label">Parent Container Type</label>
 									<cfif variables.parentContainerTypeIsList>
 										<cfset variables.parentContainerTypeSelectClass = "data-entry-select col-12 d-none">
@@ -611,7 +611,7 @@ editing behavior consistent across the application.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="parent_search_term" class="data-entry-label">Parent Name (label or barcode)</label>
 									<div class="d-flex align-items-center form-row">
 										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
@@ -627,14 +627,14 @@ editing behavior consistent across the application.
 									<input type="hidden" id="parent_container_id" name="parent_container_id"
 										value="#encodeForHtml(variables.parent_container_id)#">
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier (barcode)</label>
 									<input type="text" id="parent_barcode" name="parent_barcode"
 										class="data-entry-input col-12"
 										placeholder="Barcode substring"
 										value="#encodeForHtml(variables.parent_barcode)#">
 								</div>
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="parent_description" class="data-entry-label">Parent Description / Remarks</label>
 									<input type="text" id="parent_description" name="parent_description"
 										class="data-entry-input col-12"
@@ -643,10 +643,10 @@ editing behavior consistent across the application.
 								</div>
 							</div>
 						</fieldset>
-						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-1 mt-1 mx-2">
 							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Cataloged Items</legend>
 							<div class="form-row">
-								<div class="col-12 col-md-4 col-xl-3 mb-2">
+								<div class="col-12 col-md-4 col-xl-3 mb-1">
 									<label for="contains_guids" class="data-entry-label<cfif variables.containsReadonly> d-none</cfif>" id="contains_guids_label">Contains (specimen GUID)</label>
 									<input type="text" id="contains_guids" name="contains_guids"
 										class="data-entry-input col-12<cfif variables.containsReadonly> d-none</cfif>"
@@ -660,7 +660,7 @@ editing behavior consistent across the application.
 									<input type="hidden" id="contains_result_id" name="contains_result_id" value="#encodeForHtml(variables.contains_result_id)#">
 									<input type="hidden" id="contains_collection_object_ids" name="contains_collection_object_ids" value="#encodeForHtml(variables.contains_collection_object_ids)#">
 								</div>
-								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif variables.transactionReadonly> d-none</cfif>" id="transactionNumberFields">
+								<div class="col-12 col-md-8 col-xl-9 mb-1<cfif variables.transactionReadonly> d-none</cfif>" id="transactionNumberFields">
 									<div class="form-row">
 										<div class="col-12 col-md-4">
 											<div class="d-flex justify-content-between align-items-baseline">
@@ -690,7 +690,7 @@ editing behavior consistent across the application.
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-8 col-xl-9 mb-2<cfif NOT variables.transactionReadonly> d-none</cfif>" id="transactionSummary">
+								<div class="col-12 col-md-8 col-xl-9 mb-1<cfif NOT variables.transactionReadonly> d-none</cfif>" id="transactionSummary">
 									<span class="data-entry-label">
 										<span id="transactionSummaryText">#encodeForHtml(variables.transactionSummaryText)#</span>
 										(<button type="button" class="btn-link p-0 border-0" onclick="clearTransactionSummary('transactionNumberFields','transaction_id','transactionSummary')">change</button>)
@@ -700,7 +700,7 @@ editing behavior consistent across the application.
 							</div>
 						</fieldset>
 						<div class="form-row">
-							<div class="col-12 mb-2 mt-2 d-flex flex-wrap align-items-center">
+							<div class="col-12 mb-1 mt-1 d-flex flex-wrap align-items-center">
 								<div>
 									<button type="submit" class="btn btn-xs btn-primary">Search</button>
 									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
