@@ -405,7 +405,7 @@ editing behavior consistent across the application.
 <main id="content" class="container-fluid">
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-1">
-			<div class="search-box col-12 px-0">
+			<div class="search-box col-12 mt-2 px-0">
 				<div class="search-box-header">
 					<h1 class="h3 text-white">Find Containers</h1>
 				</div>
