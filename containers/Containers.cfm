@@ -88,6 +88,11 @@ editing behavior consistent across the application.
 <cfparam name="url.barcode" default="">
 <cfparam name="url.description" default="">
 <cfparam name="url.department" default="">
+<cfparam name="url.parent_container_type" default="">
+<cfparam name="url.parent_search_term" default="">
+<cfparam name="url.parent_container_id" default="">
+<cfparam name="url.parent_barcode" default="">
+<cfparam name="url.parent_description" default="">
 <cfparam name="url.tree_property" default="">
 <cfparam name="url.has_positions" default="">
 <cfparam name="url.position_filter" default="">
@@ -140,6 +145,32 @@ editing behavior consistent across the application.
 	<cfset variables.department = trim(form.department)>
 <cfelse>
 	<cfset variables.department = trim(url.department)>
+</cfif>
+<cfif isDefined("form.parent_container_type")>
+	<cfset variables.parent_container_type = trim(form.parent_container_type)>
+<cfelse>
+	<cfset variables.parent_container_type = trim(url.parent_container_type)>
+</cfif>
+<cfset variables.parentContainerTypeIsList = (listLen(variables.parent_container_type) GT 1)>
+<cfif isDefined("form.parent_search_term")>
+	<cfset variables.parent_search_term = trim(form.parent_search_term)>
+<cfelse>
+	<cfset variables.parent_search_term = trim(url.parent_search_term)>
+</cfif>
+<cfif isDefined("form.parent_container_id")>
+	<cfset variables.parent_container_id = trim(form.parent_container_id)>
+<cfelse>
+	<cfset variables.parent_container_id = trim(url.parent_container_id)>
+</cfif>
+<cfif isDefined("form.parent_barcode")>
+	<cfset variables.parent_barcode = trim(form.parent_barcode)>
+<cfelse>
+	<cfset variables.parent_barcode = trim(url.parent_barcode)>
+</cfif>
+<cfif isDefined("form.parent_description")>
+	<cfset variables.parent_description = trim(form.parent_description)>
+<cfelse>
+	<cfset variables.parent_description = trim(url.parent_description)>
 </cfif>
 <cfif isDefined("form.tree_property")>
 	<cfset variables.tree_property = trim(form.tree_property)>
@@ -537,6 +568,82 @@ editing behavior consistent across the application.
 							</div>
 						</fieldset>
 						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Parent Container</legend>
+							<div class="form-row">
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="parent_container_type" id="parent_container_type_label" class="data-entry-label">Parent Container Type</label>
+									<cfif variables.parentContainerTypeIsList>
+										<cfset variables.parentContainerTypeSelectClass = "data-entry-select col-12 d-none">
+										<cfset variables.parentContainerTypeSelectDisabled = " disabled">
+										<cfset variables.parentContainerTypeRowClass = "align-items-center form-row">
+										<cfset variables.parentContainerTypeInputDisabled = "">
+									<cfelse>
+										<cfset variables.parentContainerTypeSelectClass = "data-entry-select col-12">
+										<cfset variables.parentContainerTypeSelectDisabled = "">
+										<cfset variables.parentContainerTypeRowClass = "align-items-center form-row d-none">
+										<cfset variables.parentContainerTypeInputDisabled = " disabled">
+									</cfif>
+									<select id="parent_container_type" name="parent_container_type" class="#variables.parentContainerTypeSelectClass#"#variables.parentContainerTypeSelectDisabled#>
+										<option value=""></option>
+										<cfloop query="ctcontainer_type">
+											<cfset variables.selectedParentType = "">
+											<cfif ctcontainer_type.container_type EQ variables.parent_container_type>
+												<cfset variables.selectedParentType = " selected">
+											</cfif>
+											<option value="#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedParentType#>#encodeForHtml(ctcontainer_type.container_type)#</option>
+										</cfloop>
+										<cfloop query="ctcontainer_type">
+											<cfset variables.selectedParentType = "">
+											<cfif variables.parent_container_type EQ "!#ctcontainer_type.container_type#">
+												<cfset variables.selectedParentType = " selected">
+											</cfif>
+											<option value="!#encodeForHtml(ctcontainer_type.container_type)#"#variables.selectedParentType#>not #encodeForHtml(ctcontainer_type.container_type)#</option>
+										</cfloop>
+									</select>
+									<div id="parent_container_type_list_group" class="#variables.parentContainerTypeRowClass#">
+										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+											<input type="text" id="parent_container_type_list" name="parent_container_type"
+												class="data-entry-input col-12" aria-labelledby="parent_container_type_label"
+												value="#encodeForHtml(variables.parent_container_type)#"#variables.parentContainerTypeInputDisabled#>
+										</div>
+										<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+											<button type="button" id="clearParentContainerTypeListBtn" class="btn btn-xs btn-warning ml-1" onclick="clearContainerTypeList('parent_container_type', 'parent_container_type_list', 'parent_container_type_list_group')">Clear</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="parent_search_term" class="data-entry-label">Parent Name (label or barcode)</label>
+									<div class="d-flex align-items-center form-row">
+										<div class="col-12 col-md-8 col-lg-9 pr-md-0">
+											<input type="text" id="parent_search_term" name="parent_search_term"
+												class="data-entry-input col-12"
+												placeholder="Label or barcode"
+												value="#encodeForHtml(variables.parent_search_term)#">
+										</div>
+										<div class="col-12 col-md-4 col-lg-3 pl-md-0 mt-1 mt-md-0">
+											<button type="button" id="chooseParentSearchContainerBtn" class="btn btn-xs btn-secondary ml-1">Choose…</button>
+										</div>
+									</div>
+									<input type="hidden" id="parent_container_id" name="parent_container_id"
+										value="#encodeForHtml(variables.parent_container_id)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="parent_barcode" class="data-entry-label">Parent Unique Identifier (barcode)</label>
+									<input type="text" id="parent_barcode" name="parent_barcode"
+										class="data-entry-input col-12"
+										placeholder="Barcode substring"
+										value="#encodeForHtml(variables.parent_barcode)#">
+								</div>
+								<div class="col-12 col-md-4 col-xl-3 mb-2">
+									<label for="parent_description" class="data-entry-label">Parent Description / Remarks</label>
+									<input type="text" id="parent_description" name="parent_description"
+										class="data-entry-input col-12"
+										placeholder="Description or remarks"
+										value="#encodeForHtml(variables.parent_description)#">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 							<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related Cataloged Items</legend>
 							<div class="form-row">
 								<div class="col-12 col-md-4 col-xl-3 mb-2">
@@ -658,6 +765,18 @@ $(document).ready(function() {
 			}
 		});
 	});
+	makeContainerAutocompleteMeta('parent_search_term', 'parent_container_id');
+	$('##chooseParentSearchContainerBtn').on('click', function() {
+		openContainerPickerDialog({
+			mode: 'find',
+			dialogTitle: 'Select Parent Container',
+			onSelect: function(selectedId, selectedLabel, wrapper) {
+				$('##parent_container_id').val(selectedId);
+				$('##parent_search_term').val(selectedLabel);
+				wrapper.dialog('close');
+			}
+		});
+	});
 
 	$('##containerSearchForm').on('submit', function(e) {
 		e.preventDefault();
@@ -688,6 +807,10 @@ $(document).ready(function() {
 		len(variables.barcode) GT 0 OR
 		len(variables.description) GT 0 OR
 		len(variables.department) GT 0 OR
+		len(variables.parent_container_type) GT 0 OR
+		len(variables.parent_search_term) GT 0 OR
+		len(variables.parent_barcode) GT 0 OR
+		len(variables.parent_description) GT 0 OR
 		len(variables.tree_property) GT 0 OR
 		len(variables.has_positions) GT 0 OR
 		len(variables.position_filter) GT 0 OR

@@ -3784,6 +3784,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 	var barcode = $('#barcode').val() || '';
 	var description = $('#description').val() || '';
 	var department = $('#department').val() || '';
+	var parentContainerType = $('[name=parent_container_type]:not(:disabled)').val() || '';
+	var parentSearchTerm = $('#parent_search_term').val() || '';
+	var parentBarcode = $('#parent_barcode').val() || '';
+	var parentDescription = $('#parent_description').val() || '';
 	var treeProperty = $('#tree_property').val() || '';
 	var hasPositions = $('#has_positions').val() || '';
 	var positionFilter = $('#position_filter').val() || '';
@@ -3807,6 +3811,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 				barcode: barcode,
 				description: description,
 				department: department,
+				parent_container_type: parentContainerType,
+				parent_search_term: parentSearchTerm,
+				parent_barcode: parentBarcode,
+				parent_description: parentDescription,
 				tree_property: treeProperty,
 				has_positions: hasPositions,
 				position_filter: positionFilter,
@@ -3834,6 +3842,10 @@ function executeContainerSearch(browsePanel, leafPanel, feedbackId, page) {
 			if (barcode) { searchLinkParts.push('barcode=' + encodeURIComponent(barcode)); }
 			if (description) { searchLinkParts.push('description=' + encodeURIComponent(description)); }
 			if (department) { searchLinkParts.push('department=' + encodeURIComponent(department)); }
+			if (parentContainerType) { searchLinkParts.push('parent_container_type=' + encodeURIComponent(parentContainerType)); }
+			if (parentSearchTerm) { searchLinkParts.push('parent_search_term=' + encodeURIComponent(parentSearchTerm)); }
+			if (parentBarcode) { searchLinkParts.push('parent_barcode=' + encodeURIComponent(parentBarcode)); }
+			if (parentDescription) { searchLinkParts.push('parent_description=' + encodeURIComponent(parentDescription)); }
 			if (treeProperty) { searchLinkParts.push('tree_property=' + encodeURIComponent(treeProperty)); }
 			if (hasPositions) { searchLinkParts.push('has_positions=' + encodeURIComponent(hasPositions)); }
 			if (positionFilter) { searchLinkParts.push('position_filter=' + encodeURIComponent(positionFilter)); }
