@@ -464,6 +464,14 @@ a paginated JSON result for display in the browse panel.
 @param barcode optional substring to match against barcode (case-insensitive).
 @param description optional substring to match against description OR container_remarks (case-insensitive).
 @param department optional prefix to match against label (case-insensitive, appends % wildcard).
+@param parent_container_type optional match on the searched container's parent's container_type --
+  same "!"/comma-list syntax as container_type, applied against the parentcontainer alias.
+@param parent_search_term optional substring to match against the parent's label OR barcode
+  (case-insensitive), same "=text" exact-match convention as search_term.
+@param parent_barcode optional substring to match against the parent's barcode alone
+  (case-insensitive), same "=text" exact-match convention as barcode.
+@param parent_description optional substring to match against the parent's description OR
+  container_remarks (case-insensitive).
 @param tree_property optional filter by tree shape property:
   empty         - no structural or leaf children (excludes collection objects)
   misplaced     - container type with expects_leaf_child_count = 1 and more than one leaf child
@@ -514,6 +522,10 @@ a paginated JSON result for display in the browse panel.
 	<cfargument name="barcode" type="string" required="no" default="">
 	<cfargument name="description" type="string" required="no" default="">
 	<cfargument name="department" type="string" required="no" default="">
+	<cfargument name="parent_container_type" type="string" required="no" default="">
+	<cfargument name="parent_search_term" type="string" required="no" default="">
+	<cfargument name="parent_barcode" type="string" required="no" default="">
+	<cfargument name="parent_description" type="string" required="no" default="">
 	<cfargument name="tree_property" type="string" required="no" default="">
 	<cfargument name="has_positions" type="string" required="no" default="">
 	<cfargument name="position_filter" type="string" required="no" default="">
@@ -545,6 +557,18 @@ a paginated JSON result for display in the browse panel.
 			<cfset local.containerType = trim(right(local.containerType, len(local.containerType) - 1))>
 		</cfif>
 		<cfset local.containerTypeIsList = (listLen(local.containerType) GT 1)>
+		<!--- parent_container_type supports the same "!"/comma-list syntax as container_type,
+			parsed identically, but applied against the parentcontainer alias below. --->
+		<cfset local.parentContainerTypeNegated = false>
+		<cfset local.parentContainerType = trim(arguments.parent_container_type)>
+		<cfif left(local.parentContainerType, 1) EQ "!">
+			<cfset local.parentContainerTypeNegated = true>
+			<cfset local.parentContainerType = trim(right(local.parentContainerType, len(local.parentContainerType) - 1))>
+		</cfif>
+		<cfset local.parentContainerTypeIsList = (listLen(local.parentContainerType) GT 1)>
+		<cfset local.parentSearchUpper = ucase(trim(arguments.parent_search_term))>
+		<cfset local.parentBarcodeUpper = ucase(trim(arguments.parent_barcode))>
+		<cfset local.parentDescUpper = ucase(trim(arguments.parent_description))>
 		<cfset local.treeProperty = trim(arguments.tree_property)>
 		<cfset local.hasPositionsFilter = lcase(trim(arguments.has_positions))>
 		<cfset local.positionFilter = trim(arguments.position_filter)>
@@ -662,13 +686,20 @@ a paginated JSON result for display in the browse panel.
 		)>
 		<!--- Determine whether tree_property requires a child-count JOIN in the COUNT query --->
 		<cfset local.needsChildJoin = listFindNoCase("empty,misplaced,mixed", local.treeProperty) GT 0>
-		<cfset local.needsParentJoin = len(local.positionFilterUpper) GT 0>
+		<cfset local.needsParentJoin = (
+			len(local.positionFilterUpper) GT 0 OR
+			len(local.parentContainerType) GT 0 OR
+			len(local.parentSearchUpper) GT 0 OR
+			len(local.parentBarcodeUpper) GT 0 OR
+			len(local.parentDescUpper) GT 0
+		)>
 		<!--- Total row count --->
 		<cfquery name="queryGetCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 			SELECT COUNT(*) AS total_rows
 			FROM container c
 			<cfif local.needsParentJoin>
 				LEFT JOIN container p ON p.container_id = c.parent_container_id
+				LEFT JOIN container parentcontainer ON parentcontainer.container_id = c.parent_container_id
 			</cfif>
 			<cfif local.needsChildJoin>
 				LEFT JOIN (
@@ -718,6 +749,41 @@ a paginated JSON result for display in the browse panel.
 			</cfif>
 			<cfif len(local.deptUpper) GT 0>
 				AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+			</cfif>
+			<cfif len(local.parentContainerType) GT 0>
+				<cfif local.parentContainerTypeIsList>
+					AND parentcontainer.container_type <cfif local.parentContainerTypeNegated>NOT </cfif>IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#" list="true">)
+				<cfelseif local.parentContainerTypeNegated>
+					AND parentcontainer.container_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#">
+				<cfelse>
+					AND parentcontainer.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#">
+				</cfif>
+			</cfif>
+			<cfif len(local.parentSearchUpper) GT 0>
+				<cfif left(local.parentSearchUpper,1) EQ "=">
+					AND (
+						UPPER(parentcontainer.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentSearchUpper, 1, 1)#">
+						OR UPPER(parentcontainer.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentSearchUpper, 1, 1)#">
+					)
+				<cfelse>
+					AND (
+						UPPER(parentcontainer.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentSearchUpper#%">
+						OR UPPER(parentcontainer.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentSearchUpper#%">
+					)
+				</cfif>
+			</cfif>
+			<cfif len(local.parentBarcodeUpper) GT 0>
+				<cfif left(local.parentBarcodeUpper,1) EQ "=">
+					AND UPPER(parentcontainer.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentBarcodeUpper, 1, 1)#">
+				<cfelse>
+					AND UPPER(parentcontainer.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentBarcodeUpper#%">
+				</cfif>
+			</cfif>
+			<cfif len(local.parentDescUpper) GT 0>
+				AND (
+					UPPER(parentcontainer.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentDescUpper#%">
+					OR UPPER(parentcontainer.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentDescUpper#%">
+				)
 			</cfif>
 			<cfif local.hasPositionsFilter EQ "none">
 				AND NVL(c.number_positions, 0) = 0
@@ -980,6 +1046,7 @@ a paginated JSON result for display in the browse panel.
 						END AS shape_class
 					FROM container c
 					LEFT JOIN container p ON p.container_id = c.parent_container_id
+					LEFT JOIN container parentcontainer ON parentcontainer.container_id = c.parent_container_id
 					LEFT JOIN (
 						SELECT
 							parent_container_id,
@@ -1026,6 +1093,41 @@ a paginated JSON result for display in the browse panel.
 					</cfif>
 					<cfif len(local.deptUpper) GT 0>
 						AND UPPER(c.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.deptUpper#%">
+					</cfif>
+					<cfif len(local.parentContainerType) GT 0>
+						<cfif local.parentContainerTypeIsList>
+							AND parentcontainer.container_type <cfif local.parentContainerTypeNegated>NOT </cfif>IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#" list="true">)
+						<cfelseif local.parentContainerTypeNegated>
+							AND parentcontainer.container_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#">
+						<cfelse>
+							AND parentcontainer.container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#local.parentContainerType#">
+						</cfif>
+					</cfif>
+					<cfif len(local.parentSearchUpper) GT 0>
+						<cfif left(local.parentSearchUpper,1) EQ "=">
+							AND (
+								UPPER(parentcontainer.label) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentSearchUpper, 1, 1)#">
+								OR UPPER(parentcontainer.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentSearchUpper, 1, 1)#">
+							)
+						<cfelse>
+							AND (
+								UPPER(parentcontainer.label) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentSearchUpper#%">
+								OR UPPER(parentcontainer.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentSearchUpper#%">
+							)
+						</cfif>
+					</cfif>
+					<cfif len(local.parentBarcodeUpper) GT 0>
+						<cfif left(local.parentBarcodeUpper,1) EQ "=">
+							AND UPPER(parentcontainer.barcode) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RemoveChars(local.parentBarcodeUpper, 1, 1)#">
+						<cfelse>
+							AND UPPER(parentcontainer.barcode) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentBarcodeUpper#%">
+						</cfif>
+					</cfif>
+					<cfif len(local.parentDescUpper) GT 0>
+						AND (
+							UPPER(parentcontainer.description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentDescUpper#%">
+							OR UPPER(parentcontainer.container_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#local.parentDescUpper#%">
+						)
 					</cfif>
 					<cfif local.hasPositionsFilter EQ "none">
 						AND NVL(c.number_positions, 0) = 0
