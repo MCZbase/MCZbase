@@ -1530,7 +1530,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 					</select>
 				</div>
 				<div class="col-12 col-md-6 mb-1">
-					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree (optional)</label>
+					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree</label>
 					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
 					<input type="hidden" id="#encodeForHtml(local.ancestorIdControlId)#" value="#encodeForHtml(arguments.ancestor_container_id)#">
 				</div>
