@@ -1530,7 +1530,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 					</select>
 				</div>
 				<div class="col-12 col-md-6 mb-1">
-					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree (optional)</label>
+					<label for="#encodeForHtml(local.ancestorControlId)#" class="data-entry-label">Limit to subtree</label>
 					<input type="text" id="#encodeForHtml(local.ancestorControlId)#" class="data-entry-input col-12 pick-container-filter-control" value="">
 					<input type="hidden" id="#encodeForHtml(local.ancestorIdControlId)#" value="#encodeForHtml(arguments.ancestor_container_id)#">
 				</div>
@@ -1553,14 +1553,14 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 					<label for="#encodeForHtml(local.searchControlId)#" class="data-entry-label mb-0">Container autocomplete
 						<a href="javascript:void(0)" role="button" id="#encodeForHtml(local.searchOpenControlId)#" class="btn-link disabled ml-1" aria-disabled="true" tabindex="-1">&##8595;<span class="sr-only"> Open filtered autocomplete suggestions</span></a>
 					</label>
-					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12" value="">
+					<input type="text" id="#encodeForHtml(local.searchControlId)#" class="data-entry-input col-12 reqdClr" value="">
 					<input type="hidden" id="#encodeForHtml(local.searchIdControlId)#" value="">
 				</div>
 			</div>
 		</fieldset>
 		<div class="form-row mb-2">
 			<div class="col-12">
-				<div class="small text-muted">Pick from the autocomplete list above after setting any filters.</div>
+				<div class="small text-muted">Set any desired filters, then type at least three characters or click the blue down arrow and pick from the Container autocomplete list above.</div>
 			</div>
 		</div>
 		<div class="form-row mb-2">
