@@ -1560,7 +1560,7 @@ Function pickContainerDialogHtml. Returns the shared rich picker dialog HTML fra
 		</fieldset>
 		<div class="form-row mb-2">
 			<div class="col-12">
-				<div class="small text-muted">Pick from the autocomplete list above after setting any filters.</div>
+				<div class="small text-muted">Set any desired filters, then type at least three characters or click the blue down arrow and pick from the Container autocomplete list above.</div>
 			</div>
 		</div>
 		<div class="form-row mb-2">
