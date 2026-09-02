@@ -65,7 +65,6 @@
 								<td align="right">Format:<sup>2</sup></td>
 								<td>
 									<select name="chartType" size="1">
-										<option value="flash">Flash</option>
 										<option value="jpg">JPG</option>
 										<option value="png">PNG</option>
 									</select>
