@@ -16,7 +16,6 @@
 <cfelse>
 	<cfset flatTableName = "filtered_flat">
 </cfif>
-<cfset mediaFlatTableName = "media_flat">
 <!----------------------------------------------------------------->
 <cfif isdefined("action") and action IS "mapPoint">
 	<!--- map a single point --->
@@ -48,40 +47,6 @@
 				lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 		</cfquery>
 	</cfoutput>
-<cfelseif isdefined("search") and search IS "MediaSearch">
-	<!--- map coordinates for specimens in a media search, incomplete implementation --->
-
-	<cfset ShowObservations = "true">
-
-	<cfset basSelect = "SELECT DISTINCT
-		#flatTableName#.collection,
-		#flatTableName#.collection_id,
-		#flatTableName#.cat_num,
-		#flatTableName#.scientific_name,
-		#flatTableName#.verbatim_date,
-		#flatTableName#.spec_locality,
-		#flatTableName#.dec_lat,
-		#flatTableName#.dec_long,
-		#flatTableName#.COORDINATEUNCERTAINTYINMETERS,
-		#flatTableName#.datum,
-		#flatTableName#.collection_object_id,
-		#flatTableName#.collectors">
-	<cfset basFrom = "	FROM #flatTableName#, #mediaFlatTableName#">
-	<cfset basWhere = " WHERE
-		#flatTableName#.collection_object_id IN (#mediaFlatTableName#.collecting_object_id) AND
-		#flatTableName#.dec_lat is not null AND
-		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
-
-	<cfset srch = "">
-
-	<!--- TODO: No such file --->
-	<cfinclude template="/development/MediaSearchSql.cfm">
-	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
-	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
 <cfelseif isDefined("result_id") and len(result_id) GT 0>
 	<!--- mapping search results from user_search_table by result_id ---->
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
