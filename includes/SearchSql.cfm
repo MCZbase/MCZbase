@@ -845,7 +845,8 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("begDate") AND len(begDate) gt 0>
 	<cfset mapurl = "#mapurl#&begDate=#begDate#">
 	<cfquery name="isdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select is_iso8601('#begDate#') isdate from dual
+		SELECT is_iso8601(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#begDate#">) isdate
+		FROM dual
 	</cfquery>
 	<cfif isdate.isdate is not "valid">
 		<div class="error">
@@ -860,7 +861,8 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("endDate") AND len(endDate) gt 0>
 	<cfset mapurl = "#mapurl#&endDate=#endDate#">
 	<cfquery name="isdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select is_iso8601('#endDate#') isdate from dual
+		SELECT is_iso8601(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">) isdate
+		FROM dual
 	</cfquery>
 	<cfif isdate.isdate is not "valid">
 		<div class="error">
@@ -1984,7 +1986,10 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("institution_appearance") AND len(institution_appearance) gt 0>
 	<cfquery name="whatInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_id from collection where institution_acronym='#institution_appearance#'
+		SELECT collection_id
+		FROM collection
+		WHERE
+			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_appearance#">
 	</cfquery>
 	<cfset goodCollIds = valuelist(whatInst.collection_id,",")>
 	<cfset basQual = " #basQual# AND cataloged_item.collection_id  IN (#goodCollIds#)">
