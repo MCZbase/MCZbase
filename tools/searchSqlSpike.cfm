@@ -316,7 +316,11 @@ limitations under the License.
 
 <!--- ===================== T4 queryExecute with cachedwithin ===================== --->
 <cftry>
-	<cfset variables.t4Sql = "SELECT count(*) AS ct FROM collection WHERE collection_cde = :cde">
+	<!--- A per run nonce in a SQL comment gives each run its own cache key, so the first call is
+		always a miss.  Without it a re-run inside the cachedwithin window reports the first call
+		as already cached, which is harmless but reads as a broken test. --->
+	<cfset variables.t4Nonce = createUUID()>
+	<cfset variables.t4Sql = "SELECT count(*) AS ct FROM collection WHERE collection_cde = :cde /* spike #variables.t4Nonce# */">
 	<cfset variables.t4Params = { cde = { value = variables.sampleCollCde, cfsqltype = "CF_SQL_VARCHAR" } }>
 	<cfset variables.t4First = queryExecute(variables.t4Sql,variables.t4Params,{
 		datasource = "user_login",
@@ -341,9 +345,15 @@ limitations under the License.
 		<cfset variables.t4SecondCached = variables.t4SecondResult.cached>
 	</cfif>
 	<cfif isBoolean(variables.t4SecondCached) AND variables.t4SecondCached>
-		<cfset recordResult("T4","Does queryExecute honour cachedwithin in its options struct?","The second identical call reports cached = true.","PASS","First call cached: #variables.t4FirstCached#. Second call cached: #variables.t4SecondCached#. SpecimenResultsHTML.cfm can keep its 60 minute cache.")>
+		<cfset variables.t4Detail = "First call cached: #variables.t4FirstCached#. Second call cached: #variables.t4SecondCached#. SpecimenResultsHTML.cfm can keep its 60 minute cache.">
+		<cfif isBoolean(variables.t4FirstCached) AND variables.t4FirstCached>
+			<!--- Should not happen now that each run uses its own cache key, but report rather than
+				mislead if it ever does. --->
+			<cfset variables.t4Detail = variables.t4Detail & " Note the first call was already cached despite a per run cache key, so something other than this page populated it.">
+		</cfif>
+		<cfset recordResult("T4","Does queryExecute honour cachedwithin in its options struct?","First call cached = false, second identical call cached = true.","PASS",variables.t4Detail)>
 	<cfelse>
-		<cfset recordResult("T4","Does queryExecute honour cachedwithin in its options struct?","The second identical call reports cached = true.","FAIL","First call cached: #variables.t4FirstCached#. Second call cached: #variables.t4SecondCached#. If caching is not honoured, SpecimenResultsHTML.cfm needs another mechanism or must accept losing the cache.")>
+		<cfset recordResult("T4","Does queryExecute honour cachedwithin in its options struct?","First call cached = false, second identical call cached = true.","FAIL","First call cached: #variables.t4FirstCached#. Second call cached: #variables.t4SecondCached#. If caching is not honoured, SpecimenResultsHTML.cfm needs another mechanism or must accept losing the cache.")>
 	</cfif>
 <cfcatch>
 	<cfset recordResult("T4","Does queryExecute honour cachedwithin in its options struct?","The second identical call reports cached = true.","ERROR","#cfcatch.message# #cfcatch.detail#")>
