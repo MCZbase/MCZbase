@@ -38,6 +38,7 @@ limitations under the License.
 		label      names the run in the report header, default "before"
 		startAt    first entry to process, for resuming after an early end, default 1
 		maxEntries how many entries to process from startAt, default all
+		showSql    1 prints the constructed query under each entry, the default; 0 omits it
 
 	Corpus: the saved searches in cf_canned_search whose URL targets SpecimenResults.cfm.
 	Real parameter combinations that real users saved, including combinations nobody would
@@ -65,6 +66,7 @@ limitations under the License.
 <cfparam name="url.label" default="before">
 <cfparam name="url.startAt" default="1">
 <cfparam name="url.maxEntries" default="0">
+<cfparam name="url.showSql" default="1">
 <cfset variables.runLabel = url.label>
 <cfif REFind("^[A-Za-z0-9_\-]{1,40}$",variables.runLabel) EQ 0>
 	<cfset variables.runLabel = "before">
@@ -73,6 +75,13 @@ limitations under the License.
 <cfif NOT isNumeric(variables.startAt) OR variables.startAt LT 1><cfset variables.startAt = 1></cfif>
 <cfset variables.maxEntries = url.maxEntries>
 <cfif NOT isNumeric(variables.maxEntries) OR variables.maxEntries LT 0><cfset variables.maxEntries = 0></cfif>
+<!--- The constructed query is printed under each entry by default.  A hash tells you that
+	something moved but not what, and once phase 3 has landed the old SQL cannot be reproduced
+	without checking out the earlier commit, so the baseline has to carry the queries
+	themselves to be useful for debugging a mismatch.  showSql=0 gives the compact hash only
+	report when that is all that is wanted. --->
+<cfset variables.showSql = 1>
+<cfif isNumeric(url.showSql) AND url.showSql EQ 0><cfset variables.showSql = 0></cfif>
 
 <!--- Several hundred criteria sets in one page visit. --->
 <cfsetting requesttimeout="3600">
@@ -153,6 +162,7 @@ limitations under the License.
 ## label=#variables.runLabel# flatTableName=#session.flatTableName# generated=#dateformat(now(),"yyyy-mm-dd")#T#timeformat(now(),"HH:mm:ss")#
 ## corpus=#arrayLen(variables.entries)# entries
 ## columns: seq, canned_id, status, sqlHash, criteria, note
+## Indented blocks under each entry are the constructed query as hashed. grep "^[0-9]" for summary lines only.
 </cfoutput>
 <cfflush>
 
@@ -265,6 +275,20 @@ limitations under the License.
 	<!--- Line break emitted as chr(10) rather than as a literal newline in the template, so that
 		it cannot be lost to whitespace handling between the tags. --->
 	<cfoutput>#variables.hIdx##chr(9)##variables.thisEntry.id##chr(9)##variables.status##chr(9)##variables.sqlHash##chr(9)##encodeForHtml(variables.reportCriteria)##chr(9)##encodeForHtml(variables.note)##chr(10)#</cfoutput>
+	<cfif variables.showSql EQ 1 AND len(variables.body) GT 0>
+		<!--- The hashed section verbatim, indented under its entry.  Indenting rather than
+			interleaving keeps the report greppable: "^[0-9]" selects the summary lines alone. --->
+		<cfset variables.sqlForReport = sqlBodyOf(variables.body)>
+		<cfif len(variables.sqlForReport) EQ 0>
+			<!--- Aborted or malformed, so there is no hashed section; show what did come back so the
+				failure can be read rather than guessed at. --->
+			<cfset variables.sqlForReport = variables.body>
+		</cfif>
+		<cfloop list="#variables.sqlForReport#" delimiters="#chr(10)#" index="variables.hSqlLine">
+			<cfoutput>    #encodeForHtml(variables.hSqlLine)##chr(10)#</cfoutput>
+		</cfloop>
+		<cfoutput>#chr(10)#</cfoutput>
+	</cfif>
 	<cfflush>
 
 	<!--- Reset: delete every key this iteration introduced, so the next entry starts from the
