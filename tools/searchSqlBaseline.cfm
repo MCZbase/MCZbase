@@ -194,32 +194,41 @@ limitations under the License.
 	<cfif len(variables.qs) EQ 0>
 		<cfset variables.status = "NO_CRITERIA">
 	<cfelse>
-		<!--- Set each criterion under its own name in the variables scope, which is where
-			SearchSql.cfm's unscoped isdefined("name") calls resolve.  Names that are not valid
-			ColdFusion identifiers are skipped: unscoped lookup cannot see them, so production
-			ignores them too, and some saved searches do carry malformed names such as
-			"coll_role LIKE c". --->
-		<cfloop list="#variables.qs#" delimiters="&" index="variables.hPair">
-			<cfset variables.eqAt = find("=",variables.hPair)>
-			<cfif variables.eqAt GT 1>
-				<cfset variables.pName = left(variables.hPair,variables.eqAt - 1)>
-				<cfset variables.pValue = urlDecode(right(variables.hPair,len(variables.hPair) - variables.eqAt))>
-				<cfif REFind("^[A-Za-z_][A-Za-z0-9_]*$",variables.pName) GT 0>
-					<cfset variables[variables.pName] = variables.pValue>
-				</cfif>
-			</cfif>
-		</cfloop>
-		<!--- The report itself comes from /tools/searchSqlDump.cfm, which also serves single
-			entries on request.  One page for the harness means one page to permission, and the
-			report shape cannot drift between the two callers.  harnessMode suppresses the content
-			type and output suppression that page applies when requested directly. --->
-		<cfset variables.harnessMode = "include">
-		<cfset variables.harnessLabel = request.h.label>
-		<cfset variables.harnessQueryString = variables.qs>
-		<!--- One entry that throws must not end the run: record it and carry on.  A <cfabort>
-			inside SearchSql.cfm is not an exception and cannot be caught, which is why output is
-			flushed per entry and the report tail names a startAt to resume from. --->
+		<!--- One entry that throws must not end the run: record it and carry on.  The parsing
+			below is inside the try as well as the include, because malformed saved searches are
+			exactly the kind of input that breaks a parser.  A <cfabort> inside SearchSql.cfm is
+			not an exception and cannot be caught, which is why output is still flushed per entry
+			and the report tail names a startAt to resume from. --->
 		<cftry>
+			<!--- Set each criterion under its own name in the variables scope, which is where
+				SearchSql.cfm's unscoped isdefined("name") calls resolve.  Names that are not valid
+				ColdFusion identifiers are skipped: unscoped lookup cannot see them, so production
+				ignores them too, and some saved searches do carry malformed names such as
+				"coll_role LIKE c". --->
+			<cfloop list="#variables.qs#" delimiters="&" index="variables.hPair">
+				<cfset variables.eqAt = find("=",variables.hPair)>
+				<cfif variables.eqAt GT 1>
+					<cfset variables.pName = left(variables.hPair,variables.eqAt - 1)>
+					<!--- A parameter can carry an empty value, as CustomOidOper= does in several saved
+						searches.  right() throws on a length of zero, and the parameter still has to be
+						defined as an empty string, because production defines it that way in the url
+						scope and some criteria blocks test isdefined() without also testing len(). --->
+					<cfset variables.pValue = "">
+					<cfif len(variables.hPair) GT variables.eqAt>
+						<cfset variables.pValue = urlDecode(right(variables.hPair,len(variables.hPair) - variables.eqAt))>
+					</cfif>
+					<cfif REFind("^[A-Za-z_][A-Za-z0-9_]*$",variables.pName) GT 0>
+						<cfset variables[variables.pName] = variables.pValue>
+					</cfif>
+				</cfif>
+			</cfloop>
+			<!--- The report itself comes from /tools/searchSqlDump.cfm, which also serves single
+				entries on request.  One page for the harness means one page to permission, and the
+				report shape cannot drift between the two callers.  harnessMode suppresses the content
+				type and output suppression that page applies when requested directly. --->
+			<cfset variables.harnessMode = "include">
+			<cfset variables.harnessLabel = request.h.label>
+			<cfset variables.harnessQueryString = variables.qs>
 			<cfsavecontent variable="variables.hBody"><cfinclude template="/tools/searchSqlDump.cfm"></cfsavecontent>
 			<cfset variables.body = variables.hBody>
 		<cfcatch>
@@ -253,8 +262,9 @@ limitations under the License.
 	<cfif len(variables.reportCriteria) GT 160>
 		<cfset variables.reportCriteria = left(variables.reportCriteria,160) & "...[truncated, " & len(variables.qs) & " chars]">
 	</cfif>
-	<cfoutput>#variables.hIdx##chr(9)##variables.thisEntry.id##chr(9)##variables.status##chr(9)##variables.sqlHash##chr(9)##encodeForHtml(variables.reportCriteria)##chr(9)##encodeForHtml(variables.note)#
-</cfoutput>
+	<!--- Line break emitted as chr(10) rather than as a literal newline in the template, so that
+		it cannot be lost to whitespace handling between the tags. --->
+	<cfoutput>#variables.hIdx##chr(9)##variables.thisEntry.id##chr(9)##variables.status##chr(9)##variables.sqlHash##chr(9)##encodeForHtml(variables.reportCriteria)##chr(9)##encodeForHtml(variables.note)##chr(10)#</cfoutput>
 	<cfflush>
 
 	<!--- Reset: delete every key this iteration introduced, so the next entry starts from the
