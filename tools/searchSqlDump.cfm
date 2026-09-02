@@ -161,7 +161,12 @@ query_string: #variables.harnessQueryString#
 </cfoutput>
 </cfif>
 
-<cfif isDefined("variables.whereClauses") AND isArray(variables.whereClauses)>
+<!--- Printed only when non-empty.  SearchSql.cfm now always defines both, so an unconditional
+	section would change the hashed body of every entry the moment the contract was introduced,
+	before any criteria block had actually been converted, and the phase 1 baseline would stop
+	being a usable check.  Empty means nothing converted yet; a section appearing is itself the
+	signal that this entry's criteria now bind. --->
+<cfif isDefined("variables.whereClauses") AND isArray(variables.whereClauses) AND arrayLen(variables.whereClauses) GT 0>
 	<cfoutput>
 --- whereClauses (array contract, post phase 3): #arrayLen(variables.whereClauses)# clause(s) ---
 </cfoutput>
@@ -171,7 +176,7 @@ query_string: #variables.harnessQueryString#
 	</cfloop>
 </cfif>
 
-<cfif isDefined("variables.sqlParams") AND isStruct(variables.sqlParams)>
+<cfif isDefined("variables.sqlParams") AND isStruct(variables.sqlParams) AND structCount(variables.sqlParams) GT 0>
 	<cfoutput>
 --- sqlParams (post phase 3): #structCount(variables.sqlParams)# parameter(s) ---
 </cfoutput>

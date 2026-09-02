@@ -7,6 +7,23 @@
 <cfif not isdefined("mapurl")>
 	<cfset mapurl="">
 </cfif>
+<!--- Redmine 1031: criteria are being moved off the accumulated basQual string and onto a
+	whereClauses array of complete predicates carrying named bind tokens, plus a sqlParams
+	struct holding the values those tokens refer to.  Helpers are in /includes/sqlBuilder.cfm.
+
+	Both mechanisms are live while the conversion proceeds: a block that has not been converted
+	yet still appends its own SQL text to basQual, and a converted block appends a predicate to
+	whereClauses and its values to sqlParams.  The two are combined at the foot of this file.
+
+	Callers MUST pass variables.sqlParams to queryExecute.  A caller still executing the
+	assembled string through <cfquery> will fail as soon as any converted block contributes a
+	bind token, because nothing declares the bind. --->
+<cfif not isdefined("variables.whereClauses")>
+	<cfset variables.whereClauses = arrayNew(1)>
+</cfif>
+<cfif not isdefined("variables.sqlParams")>
+	<cfset variables.sqlParams = structNew()>
+</cfif>
 <cfif isdefined("listcatnum")>
 	<cfset catnum = listcatnum>
 </cfif>
@@ -1994,4 +2011,12 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset goodCollIds = valuelist(whatInst.collection_id,",")>
 	<cfset basQual = " #basQual# AND cataloged_item.collection_id  IN (#goodCollIds#)">
 </cfif>
+<!--- Redmine 1031 transitional shim.  Fold the converted criteria onto the end of basQual so
+	that callers keep seeing a single string while the conversion proceeds block by block.
+	While no block has been converted this appends nothing and the assembled SQL is unchanged,
+	which is what makes the phase 1 baseline hashes a valid check on each batch.
+
+	This shim is removed once every block is converted and the callers read whereClauses
+	directly; basQual goes with it. --->
+<cfset basQual = basQual & whereClausesToSql(variables.whereClauses)>
 <cfset mapurl = replace(mapurl, "%", "%25","All")>

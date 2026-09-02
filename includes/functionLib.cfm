@@ -202,6 +202,9 @@
 <!--------------------------------------------------------------------->
 <!--- setDbUser and initSession  moved to separate library file --->
 <cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
+<!--- Helpers for parameterizing the specimen search criteria, Redmine 1031.  In /includes/
+	rather than /shared/ deliberately: see the comment at the top of that file. --->
+<cfinclude template="/includes/sqlBuilder.cfm" runOnce="true">
 <!------------------------------------------------------------------------------------->
 <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
