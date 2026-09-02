@@ -204,9 +204,11 @@
 	</cfoutput>
 
 
-<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+<cfset getData = queryExecute(SqlString,variables.sqlParams,{
+	datasource = "user_login",
+	username = session.dbuser,
+	password = decrypt(session.epw,cookie.cfid)
+})>
 	<cfif getData.recordcount is 0>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 			<cfoutput>

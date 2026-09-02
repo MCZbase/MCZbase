@@ -118,9 +118,11 @@
 	</cfif>
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
 	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset getMapData = queryExecute(SqlString,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid)
+	})>
 </cfif><!--- end point map option --->
 <cfif getMapData.recordcount is 0>
 	<div class="error">

@@ -261,9 +261,12 @@
 	<!-------------------------- / dlm debug -------------------------------------->
 	<!---cfoutput>#SqlString#</cfoutput--->
 	<cfset checkSql(SqlString)>
-	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset getData = queryExecute(SqlString,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		cachedwithin = createtimespan(0,0,60,0)
+	})>
 	<cfset userSql = #preserveSingleQuotes(SqlString)#>
 
 	<cfif getData.recordcount is 0>
