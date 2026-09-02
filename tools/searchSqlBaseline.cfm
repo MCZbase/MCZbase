@@ -33,11 +33,26 @@ limitations under the License.
 	include combinations nobody would think to write a test for.  Additional URLs, for example
 	harvested from web server logs, can be pasted into the form.
 
-	Each entry is fetched as a separate HTTP request rather than by including SearchSql.cfm in
-	a loop.  Two reasons: the include leaves roughly 163 criteria variables in the variables
-	scope, so a second iteration would inherit the first entry's criteria; and SearchSql.cfm
-	calls <cfabort> on some invalid input, which would end the whole run.  A separate request
-	per entry gives each one a clean scope, and an abort affects only that entry.
+	Two modes, because running SearchSql.cfm repeatedly in one request is not straightforward:
+	the include leaves roughly 163 criteria variables in the variables scope, so a naive loop
+	would have each entry inherit the previous entry's criteria, and it calls <cfabort> on
+	input it rejects, which ends the request.
+
+	  In process (default).  No network at all.  Criteria are set directly into the variables
+	  scope, where SearchSql.cfm's unscoped isdefined() calls resolve them, and every key an
+	  iteration introduced is deleted before the next one starts.  A placeholder report is
+	  written before each entry is generated, so an entry that aborts stays recorded rather
+	  than being retried forever, and the run is resumable: reload the page and it continues
+	  past whatever stopped it, skipping entries already on disk.
+
+	  HTTP self requests.  One request per entry to /tools/searchSqlDump.cfm, which gives each
+	  entry a genuinely fresh scope and confines an abort to that entry.  Needs a base URL the
+	  server can reach: ColdFusion cfhttp cannot skip certificate verification, so a host with
+	  a self signed certificate fails on its own https URL.
+
+	Both modes emit the same report, via the shared /tools/searchSqlDumpBody.cfm, so a digest
+	is comparable across modes -- but use the same mode for before and after regardless, and
+	the mode is recorded in the digest header.
 
 	Workflow:
 	  1. Run with label "before" on an unmodified checkout. Keep the digest.
@@ -66,6 +81,8 @@ limitations under the License.
 <cfparam name="url.maxEntries" default="0">
 <cfparam name="form.maxEntries" default="">
 <cfparam name="form.extraUrls" default="">
+<cfparam name="url.fetchMode" default="">
+<cfparam name="form.fetchMode" default="">
 
 <cfset variables.dumpLabel = url.dumpLabel>
 <cfif len(form.dumpLabel) GT 0><cfset variables.dumpLabel = form.dumpLabel></cfif>
@@ -88,6 +105,11 @@ limitations under the License.
 <cfset variables.maxEntries = url.maxEntries>
 <cfif len(form.maxEntries) GT 0><cfset variables.maxEntries = form.maxEntries></cfif>
 <cfif NOT isNumeric(variables.maxEntries)><cfset variables.maxEntries = 0></cfif>
+<cfset variables.fetchMode = url.fetchMode>
+<cfif len(form.fetchMode) GT 0><cfset variables.fetchMode = form.fetchMode></cfif>
+<cfif NOT listFindNoCase("inprocess,http",variables.fetchMode)>
+	<cfset variables.fetchMode = "inprocess">
+</cfif>
 
 <!--- Label becomes a directory name, so restrict it to characters safe in a path. --->
 <cfif REFind("^[A-Za-z0-9_\-]{1,40}$",variables.dumpLabel) EQ 0>
@@ -249,77 +271,155 @@ limitations under the License.
 </cfif>
 
 <cfif variables.action EQ "capture">
-	<cfdirectory action="create" directory="#variables.runDir#" mode="770" storeacl="no">
-	<cfset variables.seq = 0>
-	<cfset variables.manifest = "seq" & chr(9) & "source" & chr(9) & "id" & chr(9) & "status" & chr(9) & "method" & chr(9) & "httpStatus" & chr(9) & "sqlHash" & chr(9) & "file" & chr(9) & "url" & chr(10)>
-	<cfset variables.digest = "## MCZbase Redmine 1031 SearchSql baseline digest" & chr(10)>
-	<cfset variables.digest = variables.digest & "## label=" & variables.dumpLabel & " flatTableName=" & session.flatTableName & " generated=" & dateformat(now(),"yyyy-mm-dd") & "T" & timeformat(now(),"HH:mm:ss") & chr(10)>
-	<cfset variables.digest = variables.digest & "## columns: seq, id, status, method, httpStatus, sqlHash, criteria" & chr(10)>
+	<cfdirectory action="create" directory="#variables.runDir#" mode="775" storeacl="no">
+	<!--- Harness accumulators live in the request scope, not the variables scope.  The code
+		under test writes freely into the variables scope -- roughly 163 criteria names plus its
+		own temporaries -- and the reset at the end of each iteration deletes every key the
+		iteration introduced.  Keeping the bookkeeping out of reach is protection from the code
+		being tested, not parameter passing between templates. --->
+	<cfset request.h = structNew()>
+	<cfset request.h.flatTable = lcase(session.flatTableName)>
+	<cfset request.h.runDir = variables.runDir>
+	<cfset request.h.dumpLabel = variables.dumpLabel>
+	<cfset request.h.baseUrl = variables.baseUrl>
+	<cfset request.h.mode = variables.fetchMode>
+	<cfset request.h.maxGet = variables.MAX_GET_QUERYSTRING_LEN>
+	<cfset request.h.runResults = arrayNew(1)>
+	<cfset request.h.manifest = "seq" & chr(9) & "source" & chr(9) & "id" & chr(9) & "status" & chr(9) & "method" & chr(9) & "httpStatus" & chr(9) & "sqlHash" & chr(9) & "file" & chr(9) & "url" & chr(10)>
+	<cfset request.h.digest = "## MCZbase Redmine 1031 SearchSql baseline digest" & chr(10)>
+	<cfset request.h.digest = request.h.digest & "## label=" & variables.dumpLabel & " mode=" & variables.fetchMode & " flatTableName=" & session.flatTableName & " generated=" & dateformat(now(),"yyyy-mm-dd") & "T" & timeformat(now(),"HH:mm:ss") & chr(10)>
+	<cfset request.h.digest = request.h.digest & "## columns: seq, id, status, method, httpStatus, sqlHash, criteria" & chr(10)>
 
-	<cfloop array="#variables.entries#" index="variables.entry">
-		<cfset variables.seq = variables.seq + 1>
-		<cfset variables.qs = queryStringOf(variables.entry.url)>
-		<cfset variables.outFile = numberFormat(variables.seq,"0000") & "_" & variables.entry.id & ".txt">
+	<!--- Declared before the snapshot below so the per iteration reset leaves them alone, and
+		so that cfloop index and cfsavecontent variable attributes get plain unscoped names. --->
+	<cfset variables.hIdx = 0>
+	<cfset variables.hPair = "">
+	<cfset variables.hKey = "">
+	<cfset variables.hBody = "">
+
+	<!--- Every key present now is left alone by the per iteration reset below. --->
+	<cfset request.h.pristineKeys = structKeyList(variables)>
+
+	<cfloop from="1" to="#arrayLen(variables.entries)#" index="variables.hIdx">
+		<cfset variables.thisEntry = variables.entries[variables.hIdx]>
+		<cfset variables.qs = queryStringOf(variables.thisEntry.url)>
+		<cfset variables.outFile = numberFormat(variables.hIdx,"0000") & "_" & variables.thisEntry.id & ".txt">
+		<cfset variables.outPath = request.h.runDir & "/" & variables.outFile>
 		<cfset variables.status = "UNKNOWN">
 		<cfset variables.httpStatus = "">
 		<cfset variables.method = "">
 		<cfset variables.body = "">
 		<cfset variables.sqlHash = "">
+
 		<cfif len(variables.qs) EQ 0>
 			<cfset variables.status = "NO_CRITERIA">
-			<cfset variables.body = "Stored URL carried no query string, nothing to dump." & chr(10) & variables.entry.url>
-		<cfelse>
-			<cftry>
-				<cfset variables.target = variables.baseUrl & "/tools/searchSqlDump.cfm?dumpLabel=" & encodeForUrl(variables.dumpLabel)>
-				<cfif len(variables.qs) LTE variables.MAX_GET_QUERYSTRING_LEN>
-					<cfset variables.method = "GET">
-					<cfset dumpCall = fetchDump(variables.target & "&" & variables.qs,"get")>
-				<cfelse>
-					<cfset variables.method = "POST">
-					<cfset dumpCall = fetchDump(variables.target,"post",variables.qs)>
-				</cfif>
-				<cfset variables.httpStatus = dumpCall.statusCode>
-				<cfset variables.body = dumpCall.fileContent>
-				<cfif left(variables.httpStatus,3) NEQ "200">
-					<cfset variables.status = "HTTP_ERROR">
-				<cfelse>
-					<cfset variables.sqlHash = "">
-					<cfif len(sqlBodyOf(variables.body)) GT 0>
-						<cfset variables.status = "OK">
-						<cfset variables.sqlHash = lcase(hash(sqlBodyOf(variables.body),"MD5"))>
-					<cfelse>
-						<!--- SearchSql.cfm aborted, most likely on input it rejects as invalid. --->
-						<cfset variables.status = "ABORTED">
+			<cfset variables.body = "Stored URL carried no query string, nothing to dump." & chr(10) & variables.thisEntry.url>
+			<cffile action="write" file="#variables.outPath#" output="#variables.body#" charset="utf-8" addnewline="no">
+		<cfelseif fileExists(variables.outPath)>
+			<!--- Already captured on an earlier pass.  SearchSql.cfm calls <cfabort> on input it
+				rejects, which in process ends the whole page, so a run is resumable: reload and it
+				continues past the entry that stopped it.  The placeholder written before each
+				generation is what makes an aborted entry stay recorded rather than being retried
+				forever. --->
+			<cffile action="read" file="#variables.outPath#" variable="variables.body" charset="utf-8">
+			<cfset variables.method = "RESUMED">
+		<cfelseif request.h.mode EQ "inprocess">
+			<cfset variables.method = "INPROC">
+			<!--- Placeholder first, so an abort inside SearchSql.cfm leaves this entry marked. --->
+			<cffile action="write" file="#variables.outPath#" output="ABORTED: SearchSql.cfm ended the request for this criteria set." charset="utf-8" addnewline="no">
+			<cfset variables.flatTable = request.h.flatTable>
+			<!--- Set each criterion under its own name in the variables scope, which is where
+				SearchSql.cfm's unscoped isdefined("name") calls resolve.  Names that are not valid
+				ColdFusion identifiers are skipped: unscoped lookup cannot see them, so production
+				ignores them too, and some saved searches do carry malformed names. --->
+			<cfloop list="#variables.qs#" delimiters="&" index="variables.hPair">
+				<cfset variables.eqAt = find("=",variables.hPair)>
+				<cfif variables.eqAt GT 1>
+					<cfset variables.pName = left(variables.hPair,variables.eqAt - 1)>
+					<cfset variables.pValue = urlDecode(right(variables.hPair,len(variables.hPair) - variables.eqAt))>
+					<cfif REFind("^[A-Za-z_][A-Za-z0-9_]*$",variables.pName) GT 0>
+						<cfset variables[variables.pName] = variables.pValue>
 					</cfif>
 				</cfif>
+			</cfloop>
+			<cfsavecontent variable="variables.hBody"><cfinclude template="/tools/searchSqlDumpBody.cfm"></cfsavecontent>
+			<!--- Compose the same report shape /tools/searchSqlDump.cfm produces, so a digest taken
+				in either mode is comparable. --->
+			<cfset variables.body = "=== MCZbase SearchSql dump BEGIN ===" & chr(10)
+				& "dumpLabel: " & request.h.dumpLabel & chr(10)
+				& "flatTableName: " & request.h.flatTable & chr(10)
+				& "session.roles: " & session.roles & chr(10)
+				& "session.ShowObservations: " & iif(isDefined("session.ShowObservations"),DE("#session.ShowObservations#"),DE("not set")) & chr(10)
+				& "session.collection: " & iif(isDefined("session.collection"),DE("#session.collection#"),DE("not set")) & chr(10)
+				& "query_string: " & variables.qs & chr(10)
+				& variables.hBody & chr(10)
+				& "=== MCZbase SearchSql dump END ===" & chr(10)>
+			<cffile action="write" file="#variables.outPath#" output="#variables.body#" charset="utf-8" addnewline="no">
+		<cfelse>
+			<cfset variables.method = "GET">
+			<cftry>
+				<cfset variables.target = request.h.baseUrl & "/tools/searchSqlDump.cfm?dumpLabel=" & encodeForUrl(request.h.dumpLabel)>
+				<cfif len(variables.qs) LTE request.h.maxGet>
+					<cfset variables.dumpCall = fetchDump(variables.target & "&" & variables.qs,"get")>
+				<cfelse>
+					<cfset variables.method = "POST">
+					<cfset variables.dumpCall = fetchDump(variables.target,"post",variables.qs)>
+				</cfif>
+				<cfset variables.httpStatus = variables.dumpCall.statusCode>
+				<cfset variables.body = variables.dumpCall.fileContent>
 			<cfcatch>
 				<cfset variables.status = "FETCH_ERROR">
 				<cfset variables.body = "#cfcatch.message# #cfcatch.detail#">
 			</cfcatch>
 			</cftry>
+			<cffile action="write" file="#variables.outPath#" output="#variables.body#" charset="utf-8" addnewline="no">
 		</cfif>
-		<cffile action="write" file="#variables.runDir#/#variables.outFile#" output="#variables.body#" charset="utf-8" addnewline="no">
-		<cfset variables.manifest = variables.manifest & variables.seq & chr(9) & variables.entry.source & chr(9) & variables.entry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.httpStatus & chr(9) & variables.sqlHash & chr(9) & variables.outFile & chr(9) & variables.entry.url & chr(10)>
+
+		<!--- Classify from the report itself, the same way in either mode. --->
+		<cfif variables.status EQ "UNKNOWN">
+			<cfif len(variables.httpStatus) GT 0 AND left(variables.httpStatus,3) NEQ "200">
+				<cfset variables.status = "HTTP_ERROR">
+			<cfelseif len(sqlBodyOf(variables.body)) GT 0>
+				<cfset variables.status = "OK">
+				<cfset variables.sqlHash = lcase(hash(sqlBodyOf(variables.body),"MD5"))>
+			<cfelse>
+				<cfset variables.status = "ABORTED">
+			</cfif>
+		</cfif>
+
+		<cfset request.h.manifest = request.h.manifest & variables.hIdx & chr(9) & variables.thisEntry.source & chr(9) & variables.thisEntry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.httpStatus & chr(9) & variables.sqlHash & chr(9) & variables.outFile & chr(9) & variables.thisEntry.url & chr(10)>
 		<!--- Criteria are truncated in the digest to keep it pasteable; the manifest file on the
 			server carries the full URL for any entry that needs investigating. --->
 		<cfset variables.digestCriteria = variables.qs>
 		<cfif len(variables.digestCriteria) GT 160>
 			<cfset variables.digestCriteria = left(variables.digestCriteria,160) & "...[truncated, " & len(variables.qs) & " chars]">
 		</cfif>
-		<cfset variables.digest = variables.digest & variables.seq & chr(9) & variables.entry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.httpStatus & chr(9) & variables.sqlHash & chr(9) & variables.digestCriteria & chr(10)>
-		<cfset arrayAppend(variables.runResults,{
-			seq = variables.seq,
-			id = variables.entry.id,
-			name = variables.entry.name,
+		<cfset request.h.digest = request.h.digest & variables.hIdx & chr(9) & variables.thisEntry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.httpStatus & chr(9) & variables.sqlHash & chr(9) & variables.digestCriteria & chr(10)>
+		<cfset arrayAppend(request.h.runResults,{
+			seq = variables.hIdx,
+			id = variables.thisEntry.id,
+			name = variables.thisEntry.name,
 			status = variables.status,
 			method = variables.method,
 			httpStatus = variables.httpStatus,
 			sqlHash = variables.sqlHash,
 			outFile = variables.outFile
 		})>
+
+		<!--- Reset: delete every key this iteration introduced, so the next entry starts from the
+			same state.  Without this the next iteration would inherit the previous entry's
+			criteria, since SearchSql.cfm leaves all of them in the variables scope. --->
+		<cfloop list="#structKeyList(variables)#" index="variables.hKey">
+			<cfif NOT listFindNoCase(request.h.pristineKeys,variables.hKey)>
+				<cfset structDelete(variables,variables.hKey)>
+			</cfif>
+		</cfloop>
 	</cfloop>
-	<cffile action="write" file="#variables.runDir#/manifest.tsv" output="#variables.manifest#" charset="utf-8" addnewline="no">
-	<cffile action="write" file="#variables.runDir#/digest.tsv" output="#variables.digest#" charset="utf-8" addnewline="no">
+
+	<cfset variables.runResults = request.h.runResults>
+	<cfset variables.digest = request.h.digest>
+	<cffile action="write" file="#variables.runDir#/manifest.tsv" output="#request.h.manifest#" charset="utf-8" addnewline="no">
+	<cffile action="write" file="#variables.runDir#/digest.tsv" output="#request.h.digest#" charset="utf-8" addnewline="no">
 </cfif>
 
 <cfoutput>
@@ -351,6 +451,21 @@ limitations under the License.
 					<div class="col-12 col-md-3">
 						<label for="maxEntries" class="data-entry-label">Max entries (0 for all)</label>
 						<input type="text" name="maxEntries" id="maxEntries" class="data-entry-input mb-1" value="#encodeForHtml(variables.maxEntries)#">
+					</div>
+					<div class="col-12 col-md-3">
+						<cfset variables.selInproc = "">
+						<cfset variables.selHttp = "">
+						<cfif variables.fetchMode EQ "inprocess"><cfset variables.selInproc = "selected"></cfif>
+						<cfif variables.fetchMode EQ "http"><cfset variables.selHttp = "selected"></cfif>
+						<label for="fetchMode" class="data-entry-label">Mode</label>
+						<select name="fetchMode" id="fetchMode" class="data-entry-select mb-1">
+							<option value="inprocess" #variables.selInproc#>In process (no HTTP)</option>
+							<option value="http" #variables.selHttp#>HTTP self requests</option>
+						</select>
+						<small class="text-secondary">
+							In process needs no network and ignores the base URL. Use the same mode for the
+							before and after runs.
+						</small>
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="outputDir" class="data-entry-label">Output directory</label>
