@@ -284,8 +284,11 @@ limitations under the License.
 				failure can be read rather than guessed at. --->
 			<cfset variables.sqlForReport = variables.body>
 		</cfif>
+		<!--- Indent with chr(9) rather than literal spaces in the template: ColdFusion whitespace
+			management strips template whitespace from the generated output, so literal indentation
+			never reaches the page, while a generated character does. --->
 		<cfloop list="#variables.sqlForReport#" delimiters="#chr(10)#" index="variables.hSqlLine">
-			<cfoutput>    #encodeForHtml(variables.hSqlLine)##chr(10)#</cfoutput>
+			<cfoutput>#chr(9)##encodeForHtml(variables.hSqlLine)##chr(10)#</cfoutput>
 		</cfloop>
 		<cfoutput>#chr(10)#</cfoutput>
 	</cfif>

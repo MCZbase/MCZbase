@@ -12,6 +12,8 @@
 # user saves or deletes a search. After phase 3, re-run the harness with
 # ?compare=1 to list only the entries whose hash moved.
 #
+# Verified byte-identical to the hash column of searchSql_baseline_before.txt.
+#
 # canned_id	sqlHash
 2	290bba936cb73d5825ad35c1f4c034c6
 3	babeb2ceb590f1657cb4a8b6f800cfe0
