@@ -93,6 +93,8 @@
 		<cfinclude template="/includes/SearchSql.cfm">
 		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
 		<cfset sqlstring = replace(sqlstring,"flatTableName","#flatTableName#","all")>
+		<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
+		<cfset variables.shellSelect = replace(variables.shellSelect,"flatTableName","#flatTableName#","all")>
 		<cfset srchTerms="">
 		<cfloop list="#mapurl#" delimiters="&" index="t">
 			<cfset tt=listgetat(t,1,"=")>
@@ -119,10 +121,20 @@
 			</cfcatch>
 		</cftry>
 		<cfset checkSql(SqlString)>	
-		<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
-		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preserveSingleQuotes(SqlString)#
-		</cfquery>
+		<!--- Two statements rather than one CREATE TABLE ... AS SELECT: that is DDL, and Oracle
+			permits no bind variable in DDL, so the shell is created empty with AND 1=0 in place of
+			the criteria and the criteria run as an INSERT, which does take binds.  SpecSrchTab is
+			built from the session identity with no user input. --->
+		<cfset queryExecute("CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#",{},{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
+		<cfset queryExecute("INSERT INTO #session.SpecSrchTab# #SqlString#",variables.sqlParams,{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
 		<cfset burl="kml.cfm?method=#method#&showErrors=#showErrors#&mapByLocality=#mapByLocality#">
 		<cfset burl=burl & "&showUnaccepted=#showUnaccepted#&userFileName=#userFileName#&action=#next#">	
 		<cflocation url="#burl#" addtoken="false">

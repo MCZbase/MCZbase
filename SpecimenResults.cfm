@@ -252,7 +252,17 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	#preserveSingleQuotes(SqlString)#
 </cfif>
 <!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
-<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
+<!--- The results table is built in two statements rather than one CREATE TABLE ... AS SELECT.
+	That statement is DDL, and Oracle permits no bind variable anywhere in DDL, so the criteria
+	cannot travel in it.  The shell carries the select list, which fixes the column names and
+	types, with AND 1=0 in place of the criteria so it creates the table empty and needs no
+	bind.  The criteria then run as an INSERT, which is DML and does take binds.
+
+	session.SpecSrchTab is built by ColdFusion from the session identity with no user input, so
+	it is interpolated directly; a table name cannot be a bind variable in any case. --->
+<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
+<cfset variables.buildShellSql = "CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#">
+<cfset variables.buildInsertSql = "INSERT INTO #session.SpecSrchTab# #SqlString#">
     <cfset linguisticFlag = false>
     <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
     <cfif linguisticFlag >
@@ -265,18 +275,36 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
             ALTER SESSION SET NLS_SORT = GENERIC_M_AI
         </cfquery> 
         <!--- Run the query --->
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset queryExecute(variables.buildShellSql,{},{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
+	<cfset queryExecute(variables.buildInsertSql,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
         <!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. ---> 
         <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
             ALTER SESSION SET NLS_COMP = BINARY
         </cfquery>
         </cftransaction>
     <cfelse>
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset queryExecute(variables.buildShellSql,{},{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
+	<cfset queryExecute(variables.buildInsertSql,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
     </cfif>
 <form name="defaults">
 	<input type="hidden" name="killrow" id="killrow" value="#session.killrow#">

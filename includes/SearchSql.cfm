@@ -24,6 +24,14 @@
 <cfif not isdefined("variables.sqlParams")>
 	<cfset variables.sqlParams = structNew()>
 </cfif>
+<!--- Predicates a caller must keep when it builds a bind free CREATE TABLE ... AS SELECT
+	shell to hold the results.  Such a statement is DDL, so Oracle permits no bind variables in
+	it, and the criteria are therefore left out of the shell and applied by a following INSERT.
+	A select list expression can still require a predicate to be legal, which is what this
+	carries: it must contain no user supplied value. --->
+<cfif not isdefined("variables.basShellPredicate")>
+	<cfset variables.basShellPredicate = "">
+</cfif>
 <cfif isdefined("listcatnum")>
 	<cfset catnum = listcatnum>
 </cfif>
@@ -58,6 +66,10 @@
 
 <cfif isdefined("containssearch") and len(containssearch) gt 0>
 	<cfset basSelect = "#basSelect#,SCORE(1) as sco ">
+	<!--- SCORE(1) is ancillary to a labelled CONTAINS and is rejected without one, so a shell
+		built without the criteria still needs a CONTAINS carrying the same label.  The text is a
+		fixed literal: the shell matches no rows, and a bind is not permitted in DDL. --->
+	<cfset variables.basShellPredicate = "#variables.basShellPredicate# AND CONTAINS(#session.flatTableName#.cat_num, 'shellonly', 1) > 0">
 	<cfset mapurl = "#mapurl#&freetextsearch=#containssearch#">
    	<cfset basQual = "#basQual#  AND CONTAINS(#session.flatTableName#.cat_num, '#containssearch#', 1) > 0  AND ROWNUM <= 1000 " >
 		<cfif len(trim(basOrder)) GT 0>
