@@ -77,6 +77,16 @@ limitations under the License.
 <!--- Several hundred criteria sets in one page visit. --->
 <cfsetting requesttimeout="3600">
 
+<!--- Load functionLib here, before the pristine key snapshot below, and not incidentally via
+	the dump page.  SearchSql.cfm calls escapeQuotes, isYear, listcatnumToBasQualTable and
+	getMeters, which this file defines as user defined functions in the variables scope.  The
+	dump page includes it with runOnce, so if the functions were first defined inside the loop
+	the per iteration reset would delete them and runOnce would then refuse to define them
+	again, and every entry after the first would fail with "Variable ESCAPEQUOTES is
+	undefined".  Defining them before the snapshot makes them pristine, so the reset leaves
+	them alone. --->
+<cfinclude template="/includes/functionLib.cfm">
+
 <cfquery name="corpus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="corpus_result">
 	SELECT
 		cf_canned_search.canned_id,
@@ -142,7 +152,7 @@ limitations under the License.
 ## MCZbase Redmine 1031 SearchSql baseline report
 ## label=#variables.runLabel# flatTableName=#session.flatTableName# generated=#dateformat(now(),"yyyy-mm-dd")#T#timeformat(now(),"HH:mm:ss")#
 ## corpus=#arrayLen(variables.entries)# entries
-## columns: seq, canned_id, status, sqlHash, criteria
+## columns: seq, canned_id, status, sqlHash, criteria, note
 </cfoutput>
 <cfflush>
 
@@ -154,6 +164,7 @@ limitations under the License.
 <cfset request.h.label = variables.runLabel>
 <cfset request.h.countOk = 0>
 <cfset request.h.countAborted = 0>
+<cfset request.h.countError = 0>
 <cfset request.h.countOther = 0>
 <cfset request.h.firstSeq = variables.startAt>
 <cfset request.h.lastSeq = variables.startAt - 1>
@@ -178,6 +189,7 @@ limitations under the License.
 	<cfset variables.status = "UNKNOWN">
 	<cfset variables.sqlHash = "">
 	<cfset variables.body = "">
+	<cfset variables.note = "">
 
 	<cfif len(variables.qs) EQ 0>
 		<cfset variables.status = "NO_CRITERIA">
@@ -204,8 +216,17 @@ limitations under the License.
 		<cfset variables.harnessMode = "include">
 		<cfset variables.harnessLabel = request.h.label>
 		<cfset variables.harnessQueryString = variables.qs>
-		<cfsavecontent variable="variables.hBody"><cfinclude template="/tools/searchSqlDump.cfm"></cfsavecontent>
-		<cfset variables.body = variables.hBody>
+		<!--- One entry that throws must not end the run: record it and carry on.  A <cfabort>
+			inside SearchSql.cfm is not an exception and cannot be caught, which is why output is
+			flushed per entry and the report tail names a startAt to resume from. --->
+		<cftry>
+			<cfsavecontent variable="variables.hBody"><cfinclude template="/tools/searchSqlDump.cfm"></cfsavecontent>
+			<cfset variables.body = variables.hBody>
+		<cfcatch>
+			<cfset variables.status = "ERROR">
+			<cfset variables.note = "#cfcatch.type#: #cfcatch.message#">
+		</cfcatch>
+		</cftry>
 	</cfif>
 
 	<cfif variables.status EQ "UNKNOWN">
@@ -220,6 +241,8 @@ limitations under the License.
 		<cfset request.h.countOk = request.h.countOk + 1>
 	<cfelseif variables.status EQ "ABORTED">
 		<cfset request.h.countAborted = request.h.countAborted + 1>
+	<cfelseif variables.status EQ "ERROR">
+		<cfset request.h.countError = request.h.countError + 1>
 	<cfelse>
 		<cfset request.h.countOther = request.h.countOther + 1>
 	</cfif>
@@ -230,7 +253,7 @@ limitations under the License.
 	<cfif len(variables.reportCriteria) GT 160>
 		<cfset variables.reportCriteria = left(variables.reportCriteria,160) & "...[truncated, " & len(variables.qs) & " chars]">
 	</cfif>
-	<cfoutput>#variables.hIdx##chr(9)##variables.thisEntry.id##chr(9)##variables.status##chr(9)##variables.sqlHash##chr(9)##encodeForHtml(variables.reportCriteria)#
+	<cfoutput>#variables.hIdx##chr(9)##variables.thisEntry.id##chr(9)##variables.status##chr(9)##variables.sqlHash##chr(9)##encodeForHtml(variables.reportCriteria)##chr(9)##encodeForHtml(variables.note)#
 </cfoutput>
 	<cfflush>
 
@@ -247,7 +270,7 @@ limitations under the License.
 <cfoutput>
 ## END OF REPORT
 ## processed seq #request.h.firstSeq# through #request.h.lastSeq#
-## OK #request.h.countOk#, ABORTED #request.h.countAborted#, other #request.h.countOther#
+## OK #request.h.countOk#, ABORTED #request.h.countAborted#, ERROR #request.h.countError#, other #request.h.countOther#
 <cfif request.h.lastSeq LT arrayLen(variables.entries)>## not finished: resume with ?startAt=#request.h.lastSeq + 1#&label=#variables.runLabel#
 </cfif></pre></body></html>
 </cfoutput>
