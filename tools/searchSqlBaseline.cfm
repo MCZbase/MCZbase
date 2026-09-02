@@ -71,13 +71,19 @@ limitations under the License.
 <cfif len(form.dumpLabel) GT 0><cfset variables.dumpLabel = form.dumpLabel></cfif>
 <cfset variables.action = url.action>
 <cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
+<!--- The diagnose button is a second submit on the capture form, so that a single request can
+	be tried against whatever base URL has just been typed into the field. --->
+<cfparam name="form.diagnoseNow" default="">
+<cfif len(form.diagnoseNow) GT 0><cfset variables.action = "diagnose"></cfif>
 <cfset variables.baseUrl = url.baseUrl>
 <cfif len(form.baseUrl) GT 0><cfset variables.baseUrl = form.baseUrl></cfif>
 <cfif len(variables.baseUrl) EQ 0><cfset variables.baseUrl = Application.serverRootUrl></cfif>
 <cfset variables.outputDir = url.outputDir>
 <cfif len(form.outputDir) GT 0><cfset variables.outputDir = form.outputDir></cfif>
 <cfif len(variables.outputDir) EQ 0>
-	<cfset variables.outputDir = getTempDirectory() & "searchSqlBaseline">
+	<!--- Not getTempDirectory(): that is the ColdFusion working directory, which the developer
+		who has to read and diff these files typically has no permission to enter. --->
+	<cfset variables.outputDir = "/tmp/searchSqlBaseline">
 </cfif>
 <cfset variables.maxEntries = url.maxEntries>
 <cfif len(form.maxEntries) GT 0><cfset variables.maxEntries = form.maxEntries></cfif>
@@ -157,6 +163,42 @@ limitations under the License.
 	<cfreturn right(arguments.storedUrl,len(arguments.storedUrl) - markAt)>
 </cffunction>
 
+<!--- Function fetchDump performs one request to /tools/searchSqlDump.cfm.
+
+	Every cookie in the current request is forwarded, not just cfid and cftoken: the child
+	request has to land in this same session or Application.cfc onRequestStart will call
+	initSession() and hand it a guest identity, which then fails the dump page's role check.
+	Which cookies matter depends on how the container is configured, so forward them all
+	rather than guessing.
+
+	@param target full URL to request.
+	@param httpMethod "get" or "post".
+	@param body request body for post, ignored for get.
+	@return the cfhttp result struct, carrying statusCode, fileContent and errorDetail.
+--->
+<cffunction name="fetchDump" access="private" returntype="struct" output="false">
+	<cfargument name="target" type="string" required="yes">
+	<cfargument name="httpMethod" type="string" required="yes">
+	<cfargument name="body" type="string" required="no" default="">
+
+	<cfif arguments.httpMethod EQ "post">
+		<cfhttp url="#arguments.target#" method="post" charset="utf-8" timeout="90" throwonerror="false" result="local.dumpCall">
+			<cfloop collection="#cookie#" item="local.cookieName">
+				<cfhttpparam type="cookie" name="#local.cookieName#" value="#cookie[local.cookieName]#">
+			</cfloop>
+			<cfhttpparam type="header" name="Content-Type" value="application/x-www-form-urlencoded">
+			<cfhttpparam type="body" value="#arguments.body#">
+		</cfhttp>
+	<cfelse>
+		<cfhttp url="#arguments.target#" method="get" charset="utf-8" timeout="90" throwonerror="false" result="local.dumpCall">
+			<cfloop collection="#cookie#" item="local.cookieName">
+				<cfhttpparam type="cookie" name="#local.cookieName#" value="#cookie[local.cookieName]#">
+			</cfloop>
+		</cfhttp>
+	</cfif>
+	<cfreturn local.dumpCall>
+</cffunction>
+
 <!--- Function sqlBodyOf isolates the part of a dump report that describes the generated SQL,
 	discarding the header lines that legitimately differ between runs such as the run label and
 	the session roles.  Hashing only this part means a hash change always signals a real change
@@ -180,13 +222,39 @@ limitations under the License.
 <cfset variables.runResults = arrayNew(1)>
 <cfset variables.digest = "">
 
+<!--- Diagnose mode: one request, with the whole cfhttp result reported.  When every entry in a
+	run fails identically the cause is at the connection or authentication level, and the
+	per-entry status alone does not say which.  This shows the actual status, error detail and
+	response body so the cause is visible rather than guessed at. --->
+<cfset variables.diagnosis = structNew()>
+<cfif variables.action EQ "diagnose">
+	<cfset variables.diagTarget = variables.baseUrl & "/tools/searchSqlDump.cfm?dumpLabel=diagnose&any_taxa_term=Pongo">
+	<cftry>
+		<cfset variables.diagCall = fetchDump(variables.diagTarget,"get")>
+		<cfset variables.diagnosis.target = variables.diagTarget>
+		<cfset variables.diagnosis.statusCode = variables.diagCall.statusCode>
+		<cfset variables.diagnosis.mimeType = "">
+		<cfif structKeyExists(variables.diagCall,"mimeType")><cfset variables.diagnosis.mimeType = variables.diagCall.mimeType></cfif>
+		<cfset variables.diagnosis.errorDetail = "">
+		<cfif structKeyExists(variables.diagCall,"errorDetail")><cfset variables.diagnosis.errorDetail = variables.diagCall.errorDetail></cfif>
+		<cfset variables.diagnosis.body = left(variables.diagCall.fileContent,3000)>
+	<cfcatch>
+		<cfset variables.diagnosis.target = variables.diagTarget>
+		<cfset variables.diagnosis.statusCode = "exception">
+		<cfset variables.diagnosis.mimeType = "">
+		<cfset variables.diagnosis.errorDetail = "#cfcatch.message# #cfcatch.detail#">
+		<cfset variables.diagnosis.body = "">
+	</cfcatch>
+	</cftry>
+</cfif>
+
 <cfif variables.action EQ "capture">
 	<cfdirectory action="create" directory="#variables.runDir#" mode="770" storeacl="no">
 	<cfset variables.seq = 0>
 	<cfset variables.manifest = "seq" & chr(9) & "source" & chr(9) & "id" & chr(9) & "status" & chr(9) & "method" & chr(9) & "httpStatus" & chr(9) & "sqlHash" & chr(9) & "file" & chr(9) & "url" & chr(10)>
 	<cfset variables.digest = "## MCZbase Redmine 1031 SearchSql baseline digest" & chr(10)>
 	<cfset variables.digest = variables.digest & "## label=" & variables.dumpLabel & " flatTableName=" & session.flatTableName & " generated=" & dateformat(now(),"yyyy-mm-dd") & "T" & timeformat(now(),"HH:mm:ss") & chr(10)>
-	<cfset variables.digest = variables.digest & "## columns: seq, id, status, method, sqlHash, criteria" & chr(10)>
+	<cfset variables.digest = variables.digest & "## columns: seq, id, status, method, httpStatus, sqlHash, criteria" & chr(10)>
 
 	<cfloop array="#variables.entries#" index="variables.entry">
 		<cfset variables.seq = variables.seq + 1>
@@ -205,20 +273,10 @@ limitations under the License.
 				<cfset variables.target = variables.baseUrl & "/tools/searchSqlDump.cfm?dumpLabel=" & encodeForUrl(variables.dumpLabel)>
 				<cfif len(variables.qs) LTE variables.MAX_GET_QUERYSTRING_LEN>
 					<cfset variables.method = "GET">
-					<cfhttp url="#variables.target#&#variables.qs#" method="get" charset="utf-8" timeout="90" throwonerror="false" result="dumpCall">
-						<!--- Forward the session identifiers so the child request runs as this user and
-							therefore sees the same session.flatTableName, roles and credentials. --->
-						<cfhttpparam type="cookie" name="cfid" value="#cookie.cfid#">
-						<cfhttpparam type="cookie" name="cftoken" value="#cookie.cftoken#">
-					</cfhttp>
+					<cfset dumpCall = fetchDump(variables.target & "&" & variables.qs,"get")>
 				<cfelse>
 					<cfset variables.method = "POST">
-					<cfhttp url="#variables.target#" method="post" charset="utf-8" timeout="90" throwonerror="false" result="dumpCall">
-						<cfhttpparam type="cookie" name="cfid" value="#cookie.cfid#">
-						<cfhttpparam type="cookie" name="cftoken" value="#cookie.cftoken#">
-						<cfhttpparam type="header" name="Content-Type" value="application/x-www-form-urlencoded">
-						<cfhttpparam type="body" value="#variables.qs#">
-					</cfhttp>
+					<cfset dumpCall = fetchDump(variables.target,"post",variables.qs)>
 				</cfif>
 				<cfset variables.httpStatus = dumpCall.statusCode>
 				<cfset variables.body = dumpCall.fileContent>
@@ -248,7 +306,7 @@ limitations under the License.
 		<cfif len(variables.digestCriteria) GT 160>
 			<cfset variables.digestCriteria = left(variables.digestCriteria,160) & "...[truncated, " & len(variables.qs) & " chars]">
 		</cfif>
-		<cfset variables.digest = variables.digest & variables.seq & chr(9) & variables.entry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.sqlHash & chr(9) & variables.digestCriteria & chr(10)>
+		<cfset variables.digest = variables.digest & variables.seq & chr(9) & variables.entry.id & chr(9) & variables.status & chr(9) & variables.method & chr(9) & variables.httpStatus & chr(9) & variables.sqlHash & chr(9) & variables.digestCriteria & chr(10)>
 		<cfset arrayAppend(variables.runResults,{
 			seq = variables.seq,
 			id = variables.entry.id,
@@ -303,7 +361,14 @@ limitations under the License.
 					<div class="col-12 col-md-6">
 						<label for="baseUrl" class="data-entry-label">Base URL for self requests</label>
 						<input type="text" name="baseUrl" id="baseUrl" class="data-entry-input mb-1" value="#encodeForHtml(variables.baseUrl)#">
-						<small class="text-secondary">If the server cannot verify its own certificate, use http://127.0.0.1 here.</small>
+						<small class="text-secondary">
+							ColdFusion's cfhttp has no option to skip certificate verification, so on a server
+							with a self signed certificate the public https URL fails for every entry. Bypass
+							Apache and TLS by addressing the bundled application server directly, trying in
+							order: <code>http://127.0.0.1:8500</code>, <code>http://localhost:8500</code>,
+							<code>http://127.0.0.1</code>. Use "Diagnose a single request" to find which one
+							answers before running the whole corpus.
+						</small>
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="extraUrls" class="data-entry-label">Additional URLs, one per line (optional)</label>
@@ -312,9 +377,42 @@ limitations under the License.
 					</div>
 				</div>
 				<button type="submit" class="btn btn-xs btn-primary mt-2">Capture baseline</button>
+				<button type="submit" name="diagnoseNow" id="diagnoseNow" value="1" class="btn btn-xs btn-secondary mt-2">Diagnose a single request</button>
+				<small class="text-secondary d-block mt-1">
+					Diagnose makes one request using the base URL above and reports the status, error
+					detail and response body. Run it first if a capture reports every entry as
+					HTTP_ERROR.
+				</small>
 			</form>
 		</div>
 	</section>
+
+	<cfif variables.action EQ "diagnose">
+		<section class="row border rounded my-2 p-2">
+			<div class="col-12 pt-2">
+				<h2 class="h3">Single request diagnosis</h2>
+				<table class="table table-responsive d-xl-table">
+					<tbody>
+						<tr><th>Target</th><td class="small">#encodeForHtml(variables.diagnosis.target)#</td></tr>
+						<tr><th>Status</th><td><strong>#encodeForHtml(variables.diagnosis.statusCode)#</strong></td></tr>
+						<tr><th>MIME type</th><td>#encodeForHtml(variables.diagnosis.mimeType)#</td></tr>
+						<tr><th>Error detail</th><td class="small">#encodeForHtml(variables.diagnosis.errorDetail)#</td></tr>
+						<tr><th>Cookies forwarded</th><td class="small">#encodeForHtml(structKeyList(cookie))#</td></tr>
+					</tbody>
+				</table>
+				<h3 class="h4">First 3000 characters of the response</h3>
+				<label for="diagBody" class="sr-only">Response body</label>
+				<textarea id="diagBody" class="w-100" rows="16" readonly onclick="this.select();">#encodeForHtml(variables.diagnosis.body)#</textarea>
+				<p class="small text-secondary mt-2">
+					A status of <code>Connection Failure</code> with no numeric code means the server could
+					not connect to itself, usually certificate verification &mdash; retry with
+					<code>http://127.0.0.1</code> as the base URL. A <code>500</code> carrying
+					"Inadequate Permissions" means the session did not travel with the request, so the
+					child request was treated as a guest. A <code>302</code> means something redirected it.
+				</p>
+			</div>
+		</section>
+	</cfif>
 
 	<cfif variables.action EQ "capture">
 		<cfset variables.countOk = 0>
