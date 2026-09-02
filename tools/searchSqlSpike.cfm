@@ -146,17 +146,21 @@ limitations under the License.
 	block of SearchSql.cfm:45 may not be usable at all for external sessions.  Establish which
 	situation this run is in before reading T3. --->
 <cftry>
+	<!--- DISTINCT and an owner qualified join: the flat objects and their indexes are visible
+		under more than one owner or edition, so an unqualified join multiplies rows. --->
 	<cfquery name="flatObjectType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#" result="flatObjectType_result">
-		SELECT object_type
+		SELECT DISTINCT object_type
 		FROM all_objects
 		WHERE
 			upper(object_name) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.flatTable#">)
 			AND object_type IN ('TABLE','VIEW')
+		ORDER BY object_type
 	</cfquery>
 	<cfquery name="textIndex" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#" result="textIndex_result">
-		SELECT all_indexes.index_name, all_indexes.index_type, all_ind_columns.column_name
+		SELECT DISTINCT all_indexes.index_name, all_indexes.index_type
 		FROM all_indexes
-			JOIN all_ind_columns ON (all_indexes.index_name = all_ind_columns.index_name)
+			JOIN all_ind_columns ON (all_indexes.owner = all_ind_columns.index_owner
+				AND all_indexes.index_name = all_ind_columns.index_name)
 		WHERE
 			upper(all_ind_columns.table_name) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.flatTable#">)
 			AND upper(all_ind_columns.column_name) = 'CAT_NUM'
@@ -165,13 +169,19 @@ limitations under the License.
 	<cfset variables.flatTypeText = "not found">
 	<cfif flatObjectType.recordcount GT 0><cfset variables.flatTypeText = valuelist(flatObjectType.object_type)></cfif>
 	<cfset variables.domainIndexText = "none">
+	<cfset variables.hasDomainIndex = false>
 	<cfif textIndex.recordcount GT 0>
 		<cfset variables.domainIndexText = "">
 		<cfloop query="textIndex">
 			<cfset variables.domainIndexText = listAppend(variables.domainIndexText,"#textIndex.index_name# (#textIndex.index_type#)")>
+			<cfif textIndex.index_type EQ "DOMAIN"><cfset variables.hasDomainIndex = true></cfif>
 		</cfloop>
 	</cfif>
-	<cfset recordResult("T0b","Can CONTAINS work against #variables.flatTable#.cat_num in this session?","A DOMAIN index, so T3 measures SCORE(1) rather than a missing index.","INFO","#variables.flatTable# is a #variables.flatTypeText#. Indexes on its CAT_NUM: #variables.domainIndexText#. A VIEW with no DOMAIN index means containssearch cannot work for this user class at all, which is a pre-existing condition and not caused by this refactor.")>
+	<cfset variables.t0bNote = "">
+	<cfif NOT variables.hasDomainIndex>
+		<cfset variables.t0bNote = " No DOMAIN index is visible on this object, so containssearch cannot work for this user class at all. FILTERED_FLAT is a view and cannot carry one; that is a pre-existing condition, not caused by this refactor. Read any T3 failure below in that light.">
+	</cfif>
+	<cfset recordResult("T0b","Can CONTAINS work against #variables.flatTable#.cat_num in this session?","A DOMAIN index, so T3 measures SCORE(1) rather than a missing index.","INFO","#variables.flatTable# is a #variables.flatTypeText#. Indexes on its CAT_NUM: #variables.domainIndexText#.#variables.t0bNote#")>
 <cfcatch>
 	<cfset recordResult("T0b","Can CONTAINS work against #variables.flatTable#.cat_num in this session?","A DOMAIN index, so T3 measures SCORE(1) rather than a missing index.","ERROR","#cfcatch.message# #cfcatch.detail#")>
 </cfcatch>
@@ -396,8 +406,23 @@ limitations under the License.
 </cfcatch>
 </cftry>
 
-<!--- Leave nothing behind. --->
+<!--- Leave nothing behind.  Each test drops the scratch table on its own way out, so a false
+	here is the normal case and means there was nothing left over to clean up.  Verify that
+	no scratch table remains either way. --->
 <cfset variables.finalDrop = dropScratchTable()>
+<cfset variables.scratchResidual = "unknown">
+<cftry>
+	<cfquery name="residualCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT count(*) AS ct
+		FROM user_tables
+		WHERE
+			table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.scratchTable#">)
+	</cfquery>
+	<cfset variables.scratchResidual = residualCheck.ct>
+<cfcatch>
+	<cfset variables.scratchResidual = "check failed: #cfcatch.message#">
+</cfcatch>
+</cftry>
 
 <cfoutput>
 <main class="container py-3" id="content">
@@ -464,7 +489,8 @@ limitations under the License.
 				<li>session.flatTableName: #encodeForHtml(variables.flatTable)#</li>
 				<li>scratch table used: #encodeForHtml(variables.scratchTable)#</li>
 				<li>stale scratch table found and dropped before running: #variables.droppedStale#</li>
-				<li>scratch table dropped after running: #variables.finalDrop#</li>
+				<li>leftover scratch table dropped at end: #variables.finalDrop# (false is normal, each test cleans up as it exits)</li>
+				<li>scratch tables still present (must be 0): #variables.scratchResidual#</li>
 			</ul>
 		</div>
 	</section>
