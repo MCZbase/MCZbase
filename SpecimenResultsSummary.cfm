@@ -334,19 +334,20 @@
 	<cfset order_order = "asc">
 </cfif>
 
+<cfset cfidAndToken = "#cookie.cfid##session.reencodedToken#">
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cookie.cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cookie.cfid##cookie.cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,60,0)#">
 	select * from getData
 </cfquery>
 
 
 <cfoutput>
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cookie.cfid##cookie.cftoken# order by #order_by#
+	select * from SpecRes#cfidAndToken# order by #order_by#
 </cfquery>
 
 <cfquery name="s" dbtype="query">
