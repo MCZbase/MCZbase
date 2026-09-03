@@ -152,9 +152,9 @@
 				</cfif>
 			</cfloop>
 			<cfset oid2List = "#oid2List# )">
-			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(" & listcatnumToBasQualTable(catnum,session.flatTableName) & oid2List & ")")>
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(" & listcatnumToBasQualTable(catnum,"flatTableName") & oid2List & ")")>
 	<cfelse>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,listcatnumToBasQualTable(catnum,session.flatTableName))>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,listcatnumToBasQualTable(catnum,"flatTableName"))>
 		<cfset mapurl = "#mapurl#&catnum=#encodeForURL(catnum)#">
 	</cfif>
 </cfif>

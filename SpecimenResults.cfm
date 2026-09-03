@@ -271,8 +271,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	session.SpecSrchTab is built by ColdFusion from the session identity with no user input, so
 	it is interpolated directly; a table name cannot be a bind variable in any case. --->
 <cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
-<!--- basSelect is built from cf_spec_res_cols.SQL_ELEMENT, whose rows carry the literal token
-	flatTableName, so the shell needs the same substitution the assembled select gets above. --->
 <cfset variables.buildShellSql = "CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#">
 <cfset variables.buildInsertSql = "INSERT INTO #session.SpecSrchTab# #SqlString#">
     <cfset linguisticFlag = false>
