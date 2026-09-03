@@ -61,7 +61,7 @@
    	<cfif basJoin does not contain " media ">
         <cfset basJoin = " #basJoin# INNER JOIN media ON (media_relations.media_id = media.media_id)">
     </cfif>
-	<cfset basQual = "#basQual#  AND media.mime_type = '#mime_type#'" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"media.mime_type = #addNamedQueryParam(variables.sqlParams,'mime_type',mime_type,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("ImgNoConfirm") and len(ImgNoConfirm) gt 0>
 	<cfset mapurl = "#mapurl#&ImgNoConfirm=#ImgNoConfirm#">
@@ -198,13 +198,13 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basJoin = " #basJoin# INNER JOIN agent_name entered_agent ON	(CatItemCollObject.entered_person_id = entered_agent.agent_id)">
-	<cfset basQual = "#basQual#  AND upper(entered_agent.agent_name) like '%#ucase(entered_by)#%'" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(entered_agent.agent_name) like #addNamedLikeParam(variables.sqlParams,'entered_by',entered_by)#")>
 </cfif>
 <cfif isdefined("entered_by_id") AND len(#entered_by_id#) gt 0>
     <cfif #basJoin# does not contain "CatItemCollObject">
         <cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
     </cfif>
-    <cfset basQual = "#basQual#  AND CatItemCollObject.entered_person_id = #entered_by_id#" >
+    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.entered_person_id = #addNamedQueryParam(variables.sqlParams,'entered_by_id',entered_by_id,'CF_SQL_DECIMAL')#")>
     <cfset mapurl = "#mapurl#&entered_by_id=#entered_by_id#">
 </cfif>
 
@@ -216,13 +216,13 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
 	<cfset basJoin = " #basJoin# INNER JOIN agent_name edited_by ON	(CatItemCollObject.last_edited_person_id = edited_by.agent_id)">
-	<cfset basQual = "#basQual#  AND upper(edited_by.agent_name) like '%#ucase(edited_by)#%'" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(edited_by.agent_name) like #addNamedLikeParam(variables.sqlParams,'edited_by',edited_by)#")>
 </cfif>
 <cfif isdefined("last_edited_person_id") AND len(#last_edited_person_id#) gt 0>
     <cfif #basJoin# does not contain "CatItemCollObject">
         <cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON (cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
     </cfif>
-    <cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #last_edited_person_id#" >
+    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.last_edited_person_id = #addNamedQueryParam(variables.sqlParams,'last_edited_person_id',last_edited_person_id,'CF_SQL_DECIMAL')#")>
     <cfset mapurl = "#mapurl#&last_edited_person_id=#last_edited_person_id#">
 </cfif>
 
@@ -237,7 +237,7 @@
 	<cfset basQual = "#basQual#  AND media_relations.media_relationship like '%shows cataloged_item%'" >
     <cfif media_type is not "any">
         <cfset basJoin = " #basJoin# INNER JOIN media ON (media_relations.media_id = media.media_id)">
-        <cfset basQual = "#basQual#  AND media.media_type = '#media_type#'" >
+        <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"media.media_type = #addNamedQueryParam(variables.sqlParams,'media_type',media_type,'CF_SQL_VARCHAR')#")>
     </cfif>
 </cfif>
 <cfif isdefined("coll_obj_flags") AND len(coll_obj_flags) gt 0>
@@ -258,7 +258,7 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN to_date('#beEntDate#','yyyy-mm-dd') and to_date('#edEntDate#','yyyy-mm-dd')" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.COLL_OBJECT_ENTERED_DATE BETWEEN to_date(#addNamedQueryParam(variables.sqlParams,'beg_entered_date',beEntDate,'CF_SQL_VARCHAR')#,'yyyy-mm-dd') AND to_date(#addNamedQueryParam(variables.sqlParams,'end_entered_date',edEntDate,'CF_SQL_VARCHAR')#,'yyyy-mm-dd')")>
 	<cfset mapurl = "#mapurl#&beg_entered_date=#beg_entered_date#">
 	<cfset mapurl = "#mapurl#&end_entered_date=#end_entered_date#">
 </cfif>
@@ -266,11 +266,11 @@
 	<cfif not isdefined("end_last_edit_date")>
 		<cfset end_last_edit_date=beg_last_edit_date>
 	</cfif>
-	<cfset basQual = "#basQual#  AND (
-					to_date(to_char(#session.flatTableName#.last_edit_date,'YYYY-MM-DD')) between
-						to_date('#dateformat(beg_last_edit_date,"yyyy-mm-dd")#')
-						and to_date('#dateformat(end_last_edit_date,"yyyy-mm-dd")#')
-				)" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(
+					to_date(to_char(#session.flatTableName#.last_edit_date,'YYYY-MM-DD')) BETWEEN
+						to_date(#addNamedQueryParam(variables.sqlParams,'beg_last_edit_date',dateformat(beg_last_edit_date,"yyyy-mm-dd"),'CF_SQL_VARCHAR')#)
+						AND to_date(#addNamedQueryParam(variables.sqlParams,'end_last_edit_date',dateformat(end_last_edit_date,"yyyy-mm-dd"),'CF_SQL_VARCHAR')#)
+				)")>
 </cfif>
 <cfif isdefined("print_fg") AND len(print_fg) gt 0>
 	<!---- get flag that can be used for collecting specimens for printing labels ---->
@@ -320,7 +320,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 		(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.last_edited_person_id = #edited_by_id#" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.last_edited_person_id = #addNamedQueryParam(variables.sqlParams,'edited_by_id',edited_by_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&edited_by_id=#edited_by_id#">
 </cfif>
 <cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
@@ -861,7 +861,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND #session.flatTableName#.began_date >= '#begDate#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.began_date >= #addNamedQueryParam(variables.sqlParams,'begDate',begDate,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("endDate") AND len(endDate) gt 0>
 	<cfset mapurl = "#mapurl#&endDate=#endDate#">
@@ -877,7 +877,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset basQual = " #basQual# AND #session.flatTableName#.ended_date <= '#endDate#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.ended_date <= #addNamedQueryParam(variables.sqlParams,'endDate',endDate,'CF_SQL_VARCHAR')#")>
 </cfif>
 
 <cfif isdefined("begYear") AND len(begYear) gt 0>
@@ -889,16 +889,16 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&begYear=#begYear#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.began_date,1,4)) >= #begYear#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,1,4)) >= #addNamedQueryParam(variables.sqlParams,'begYear',begYear,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 <cfif isdefined("begMon") AND len(begMon) gt 0>
 	<cfset mapurl = "#mapurl#&begMon=#begMon#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) >= #begMon#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) >= #addNamedQueryParam(variables.sqlParams,'begMon',begMon,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("begDay") AND len(begDay) gt 0>
 	<cfset mapurl = "#mapurl#&begDay=#begDay#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.began_date,9,2)) >= #begDay#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,9,2)) >= #addNamedQueryParam(variables.sqlParams,'begDay',begDay,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("endYear") AND len(endYear) gt 0>
 	<cfif not isYear(begYear)>
@@ -909,30 +909,30 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&endYear=#endYear#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.ended_date,1,4)) <= #endYear#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,1,4)) <= #addNamedQueryParam(variables.sqlParams,'endYear',endYear,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 <cfif isdefined("endMon") AND len(endMon) gt 0>
 	<cfset mapurl = "#mapurl#&endMon=#endMon#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.ended_date,6,2)) <= #endMon#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,6,2)) <= #addNamedQueryParam(variables.sqlParams,'endMon',endMon,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("endDay") AND len(endDay) gt 0>
 	<cfset mapurl = "#mapurl#&endDay=#endDay#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.ended_date,9,2)) <= #endDay#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,9,2)) <= #addNamedQueryParam(variables.sqlParams,'endDay',endDay,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 
 <cfif isdefined("verificationstatus") AND len(verificationstatus) gt 0>
 	<cfset mapurl = "#mapurl#&verificationstatus=#verificationstatus#">
-	<cfset basQual = " #basQual# AND #session.flatTableName#.verificationstatus='#verificationstatus#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.verificationstatus = #addNamedQueryParam(variables.sqlParams,'verificationstatus',verificationstatus,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("inMon") AND len(inMon) gt 0>
 	<cfset mapurl = "#mapurl#&inMon=#inMon#">
-	<cfset basQual = " #basQual# AND TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) IN (#inMon#)">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) IN (#addNamedQueryParam(variables.sqlParams,'inMon',inMon,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
 <cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0>
 	<cfset mapurl = "#mapurl#&verbatim_date=#verbatim_date#">
-	<cfset basQual = " #basQual# AND upper(#session.flatTableName#.verbatim_date) LIKE '%#ucase(escapeQuotes(verbatim_date))#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.verbatim_date) LIKE #addNamedLikeParam(variables.sqlParams,'verbatim_date',verbatim_date)#")>
 </cfif>
 <cfif isdefined("accn_trans_id") AND len(accn_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&accn_trans_id=#accn_trans_id#">
