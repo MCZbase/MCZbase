@@ -1992,13 +1992,16 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_object_id NOT IN (#addNamedQueryParam(variables.sqlParams,'exclCollObjId',exclCollObjId,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
 <cfif isdefined("institution_appearance") AND len(institution_appearance) gt 0>
-	<cfquery name="whatInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT collection_id
-		FROM collection
-		WHERE
-			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_appearance#">
-	</cfquery>
-	<cfset goodCollIds = valuelist(whatInst.collection_id,",")>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_id IN (#addNamedQueryParam(variables.sqlParams,'goodCollIds',goodCollIds,'CF_SQL_DECIMAL',true)#)")>
+	<!--- Resolved as a subquery rather than a separate query feeding a list binding, so that an
+		acronym matching no collection yields no results instead of the empty IN () list that a
+		valuelist of no rows produced. --->
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_id IN (
+			SELECT
+				collection_id
+			FROM
+				collection
+			WHERE
+				institution_acronym = #addNamedQueryParam(variables.sqlParams,'institution_appearance',institution_appearance,'CF_SQL_VARCHAR')#
+			)")>
 </cfif>
 <cfset mapurl = replace(mapurl, "%", "%25","All")>
