@@ -1427,7 +1427,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset i=i+1>
 		</cfloop>
 	<cfelseif left(part_name,1) is '='>
-		<cfif basJoin does not contain " specimen_part ">
+		<cfif basJoin does not contain " specimen_part ON">
 			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
@@ -1451,17 +1451,17 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("preserve_method") AND len(preserve_method) gt 0>
 	<cfset mapurl = "#mapurl#&preserve_method=#preserve_method#">
 	<cfif preserve_method contains "|">
+		<!--- One join per value, each with its own alias.  The alias series is distinct from the
+			one part_name uses, since both blocks can run and both start counting at one. --->
 		<cfset i=1>
 		<cfloop list="#preserve_method#" delimiters="|" index="p">
-			<cfif basJoin does not contain " specimen_part ">
-				<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON
-					(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
-			</cfif>
-			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"sp#i#.preserve_method = #addNamedQueryParam(variables.sqlParams,'preserve_method',p,'CF_SQL_VARCHAR')#")>
+			<cfset basJoin = " #basJoin# INNER JOIN specimen_part spm#i# ON
+				(cataloged_item.collection_object_id = spm#i#.derived_from_cat_item)">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"spm#i#.preserve_method = #addNamedQueryParam(variables.sqlParams,'preserve_method',p,'CF_SQL_VARCHAR')#")>
 			<cfset i=i+1>
 		</cfloop>
 	<cfelseif left(preserve_method,1) is '='>
-		<cfif basJoin does not contain " specimen_part ">
+		<cfif basJoin does not contain " specimen_part ON">
 			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
@@ -1485,7 +1485,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset mapurl = "#mapurl#&part_disposition=#part_disposition#">
 </cfif>
 <cfif isdefined("srchParts") AND len(srchParts) gt 0>
-	<cfif basJoin does not contain " specimen_part ">
+	<cfif basJoin does not contain " specimen_part ON">
 		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 		(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 	</cfif>
@@ -1618,7 +1618,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 
 <cfif isdefined("loan_project_name") AND len(loan_project_name) gt 0>
-	<cfif basJoin does not contain " specimen_part ">
+	<cfif basJoin does not contain " specimen_part ON">
 		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 		(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 	</cfif>
