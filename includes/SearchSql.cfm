@@ -63,7 +63,8 @@
 		min_max_error,minimum_depth,minimum_elevation,nature_of_id,NWLat,NWLong,ocr_text,
 		oid2Oper,OIDNum,oidOper,OIDType,orig_elev_units,part_disposition,part_name,partname,
 		permit_issued_by,permit_issued_to,permit_num,permit_type,Phylclass,phylorder,phylum,
-		preserve_method,preservemethod,print_fg,project_id,project_name,project_sponsor,
+		preserve_method,preservemethod,preserv_method,print_fg,project_id,project_name,
+		project_sponsor,
 		publication_id,Quad,relationship,remark,scientific_name,sciname,sciNameOper,sea,
 		searchOnlyCurrent,searchOtherIDs,SELat,SELong,spec_locality,species,srchParts,
 		state_prov,subject,subspecies,taxon_name_id,type_status,underscore_coll_id,
@@ -1435,8 +1436,17 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(PARTS) LIKE #addNamedLikeParam(variables.sqlParams,'part_name',part_name)#")>
 	</cfif>
 </cfif>
+<!--- Stored searches carry all three spellings of this criterion.  The canonical name wins
+	where more than one arrives. --->
+<cfif isdefined("preserv_method") AND len(preserv_method) gt 0>
+	<cfif not isdefined("preserve_method") OR len(preserve_method) EQ 0>
+		<cfset preserve_method=preserv_method>
+	</cfif>
+</cfif>
 <cfif isdefined("preservemethod") AND len(preservemethod) gt 0>
-	<cfset preserve_method=preservemethod>
+	<cfif not isdefined("preserve_method") OR len(preserve_method) EQ 0>
+		<cfset preserve_method=preservemethod>
+	</cfif>
 </cfif>
 <cfif isdefined("preserve_method") AND len(preserve_method) gt 0>
 	<cfset mapurl = "#mapurl#&preserve_method=#preserve_method#">
