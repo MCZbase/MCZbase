@@ -240,7 +240,7 @@
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 			(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.flags = '#coll_obj_flags#'" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.flags = #addNamedQueryParam(variables.sqlParams,'coll_obj_flags',coll_obj_flags,'CF_SQL_VARCHAR')#")>
 	<cfset mapurl = "#mapurl#&coll_obj_flags=#coll_obj_flags#">
 </cfif>
 <cfif isdefined("beg_entered_date") AND len(beg_entered_date) gt 0>
@@ -286,8 +286,7 @@
 	<cfset mapurl = "#mapurl#&print_fg=#print_fg#">
 </cfif>
 <cfif isdefined("barcode") AND len(barcode) gt 0>
-	<cfset thisBC = #replace(barcode,",","','","all")#>
-	<cfset basQual = "#basQual#  AND cataloged_item.collection_object_id IN (
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_object_id IN (
 		SELECT
 			derived_from_cat_item
 		FROM
@@ -299,8 +298,8 @@
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
 			coll_obj_cont_hist.container_id = coll_obj_container.container_id AND
 			coll_obj_container.parent_container_id = parent_container.container_id AND
-			parent_container.barcode IN ('#ListChangeDelims(thisBC,',')#') )
-		" >
+			parent_container.barcode IN (#addNamedQueryParam(variables.sqlParams,'barcode',barcode,'CF_SQL_VARCHAR',true)#) )
+		")>
 	<cfset mapurl = "#mapurl#&barcode=#barcode#">
 </cfif>
 <cfif (isdefined("session.ShowObservations") AND session.ShowObservations is
@@ -324,7 +323,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object CatItemCollObject ON
 		(cataloged_item.collection_object_id = CatItemCollObject.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND CatItemCollObject.coll_obj_disposition = '#coll_obj_disposition#'" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CatItemCollObject.coll_obj_disposition = #addNamedQueryParam(variables.sqlParams,'coll_obj_disposition',coll_obj_disposition,'CF_SQL_VARCHAR')#")>
 	<cfset mapurl = "#mapurl#&coll_obj_disposition=#coll_obj_disposition#">
 </cfif>
 <cfif isdefined("encumbrance_id") AND isnumeric(encumbrance_id)>
@@ -332,7 +331,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_object_encumbrance ON
 		(cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND coll_object_encumbrance.encumbrance_id = #encumbrance_id#" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"coll_object_encumbrance.encumbrance_id = #addNamedQueryParam(variables.sqlParams,'encumbrance_id',encumbrance_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&encumbrance_id=#encumbrance_id#">
 </cfif>
 <cfif isdefined("encumbering_agent_id") AND isnumeric(encumbering_agent_id)>
@@ -344,7 +343,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN encumbrance ON
 		(coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id)">
 	</cfif>
-	<cfset basQual = "#basQual#  AND encumbering_agent_id = #encumbering_agent_id#" >
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"encumbering_agent_id = #addNamedQueryParam(variables.sqlParams,'encumbering_agent_id',encumbering_agent_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&encumbering_agent_id=#encumbering_agent_id#">
 </cfif>
 <cfif isdefined("collection_id") AND len(collection_id) gt 0>
@@ -386,17 +385,17 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN collector ON
 			(cataloged_item.collection_object_id = collector.collection_object_id)
 			INNER JOIN agent_name srchColl ON (collector.agent_id = srchColl.agent_id)">
-		<cfSet basQual = " #basQual# AND UPPER(srchColl.Agent_Name) LIKE '%#UCASE(coll)#%'
-			AND collector_role = '#coll_role#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(srchColl.Agent_Name) LIKE #addNamedLikeParam(variables.sqlParams,'coll',coll)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"collector_role = #addNamedQueryParam(variables.sqlParams,'coll_role',coll_role,'CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfSet basQual = " #basQual# AND UPPER(#session.flatTableName#.COLLECTORS) LIKE '%#UCASE(escapeQuotes(coll))#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(#session.flatTableName#.COLLECTORS) LIKE #addNamedLikeParam(variables.sqlParams,'coll',coll)#")>
 	</cfif>
 	<cfset mapurl = "#mapurl#&coll=#coll#">
 	<cfset mapurl = "#mapurl#&coll_role=#coll_role#">
 </cfif>
 <cfif isDefined ("notCollector") and len(notCollector) gt 0>
 	<cfset mapurl = "#mapurl#&notCollector=#notCollector#">
-	<cfSet basQual = " #basQual# AND UPPER(#session.flatTableName#.COLLECTORS) NOT LIKE '%#UCASE(notCollector)#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(#session.flatTableName#.COLLECTORS) NOT LIKE #addNamedLikeParam(variables.sqlParams,'notCollector',notCollector)#")>
 </cfif>
 <cfif isdefined("collector_agent_id") AND len(collector_agent_id) gt 0>
 	<cfset mapurl = "#mapurl#&collector_agent_id=#collector_agent_id#">
@@ -405,7 +404,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			(cataloged_item.collection_object_id = collector.collection_object_id)
 			INNER JOIN agent_name srchColl ON (collector.agent_id = srchColl.agent_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND collector.agent_id = #collector_agent_id#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"collector.agent_id = #addNamedQueryParam(variables.sqlParams,'collector_agent_id',collector_agent_id,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("sciNameOper") and sciNameOper is "was"><!--- duck out to any name --->
 	<cfset AnySciName=scientific_name>
