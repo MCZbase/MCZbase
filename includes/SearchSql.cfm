@@ -264,6 +264,7 @@
 	<cfset mapurl = "#mapurl#&end_entered_date=#end_entered_date#">
 </cfif>
 <cfif isdefined("beg_last_edit_date") AND len(beg_last_edit_date) gt 0>
+	<cfset mapurl = "#mapurl#&beg_last_edit_date=#beg_last_edit_date#">
 	<cfif not isdefined("end_last_edit_date") OR len(end_last_edit_date) EQ 0>
 		<cfset end_last_edit_date=beg_last_edit_date>
 	</cfif>
@@ -1992,6 +1993,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_object_id NOT IN (#addNamedQueryParam(variables.sqlParams,'exclCollObjId',exclCollObjId,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
 <cfif isdefined("institution_appearance") AND len(institution_appearance) gt 0>
+	<cfset mapurl = "#mapurl#&institution_appearance=#institution_appearance#">
 	<!--- Resolved as a subquery rather than a separate query feeding a list binding, so that an
 		acronym matching no collection yields no results instead of the empty IN () list that a
 		valuelist of no rows produced. --->
