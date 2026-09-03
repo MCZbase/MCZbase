@@ -39,7 +39,6 @@
  <cfset basSelect = "SELECT COUNT(distinct(#session.flatTableName#.collection_object_id)) CountOfCatalogedItem,#session.flatTableName#.scientific_name">
  <cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id = cataloged_item.collection_object_id)">
  <cfset basFrom = " FROM #session.flatTableName#">
-  <cfset basWhere = " WHERE #session.flatTableName#.collection_object_id > 0">
 <cfset basGroup = "GROUP BY #session.flatTableName#.scientific_name">
 
 <cfif #groupBy# contains "continent_ocean">
