@@ -1,4 +1,7 @@
 <cfinclude template="includes/_header.cfm">
+<!--- Columns graphThis may name.  These are grouped on, and an identifier cannot be bound,
+	so the value is matched against this list rather than passed through. --->
+<cfset GRAPHABLE_COLUMNS = "continent_ocean,country,state_prov,scientific_name,phylclass,genus,family,phylorder">
 <cfif #action# is "nothing">
 <cfoutput>
 	<cfset searchParams = "">
@@ -164,6 +167,11 @@
 <cfoutput>
 	<cfset chartHeight = listfirst(size," x ")>
 	<cfset chartWidth = listlast(size," x ")>
+	<cfloop list="#graphThis#" index="variables.graphColumn">
+		<cfif NOT listfindnocase(GRAPHABLE_COLUMNS,variables.graphColumn)>
+			<cfthrow message="Unsupported value for graphThis.">
+		</cfif>
+	</cfloop>
 	<cfloop list="#graphThis#" index="item">
 		<cfset x = "#item#">
 		<cfset y="Specimens">
@@ -188,11 +196,16 @@
 			<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
 			<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">	
 			
-			<cfset basQual = "">
 			<cfset mapurl="">
+			<!--- One chart per column, each with its own criteria, so the clauses and their values
+				start empty on every pass rather than accumulating across the loop. --->
+			<cfset variables.whereClauses = arrayNew(1)>
+			<cfset variables.sqlParams = structNew()>
+			<cfset variables.customIdTypeAdded = false>
+			<cfset variables.basShellPredicate = "">
 			<cfset basOrder = "ORDER BY count(#session.flatTableName#.cat_num) DESC">
 			<cfinclude template="includes/SearchSql.cfm">
-			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basGroup# #basOrder#">	
+			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basGroup# #basOrder#">	
 			<cfset checkSql(SqlString)>	
 			<cfset getGraph = queryExecute(SqlString,variables.sqlParams,{
 				datasource = "user_login",

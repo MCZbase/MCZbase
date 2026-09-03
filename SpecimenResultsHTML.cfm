@@ -83,7 +83,6 @@
 	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
 <!--------------------------------------------------------------->
-	<cfset basQual = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 <!--- require some actual searching --->
@@ -166,7 +165,7 @@
 	</cfif>
 	--->
 	<!--- wrap everything up in a string --->
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
 	<!--- define the list of search paramaters that we need to get back here --->
 	<cfoutput>
 	<cfset searchParams = "">
@@ -235,7 +234,7 @@
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
 
 	</cfoutput>
-		<cfif len(#basQual#) is 0 AND basFrom does not contain "binary_object">
+		<cfif arrayLen(variables.whereClauses) EQ 0 AND basFrom does not contain "binary_object">
 			<CFSETTING ENABLECFOUTPUTONLY=0>
 
 			<font color="##FF0000" size="+2">You must enter some search criteria!</font>

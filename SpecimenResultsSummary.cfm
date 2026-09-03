@@ -101,7 +101,7 @@
 
 
 <!--------------------------------------------------------------->
-	<cfset basQual = " where 1=1 ">
+	<cfset basWhere = " where 1=1 ">
 
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
@@ -127,15 +127,9 @@
 
 	<!--- wrap everything up in a string --->
 
-		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basQual# #basGroup#">
+		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basGroup#">
 		<cfset checkSql(SqlString)>
 
-		<cfif len(#basQual#) is 0 AND basFrom does not contain "binary_object">
-			<CFSETTING ENABLECFOUTPUTONLY=0>
-
-			<font color="#FF0000" size="+2">You must enter some search criteria!</font>
-			<cfabort>
-		</cfif>
 		<!-----
 
 		<cfoutput>

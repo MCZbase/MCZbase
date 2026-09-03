@@ -134,7 +134,6 @@ query_string: #variables.harnessQueryString#
 <cfset basFrom = " FROM #variables.flatTable#">
 <cfset basJoin = "INNER JOIN cataloged_item ON (#variables.flatTable#.collection_object_id =cataloged_item.collection_object_id)">
 <cfset basWhere = " WHERE #variables.flatTable#.collection_object_id IS NOT NULL ">
-<cfset basQual = "">
 <cfset basOrder = "">
 <cfset mapurl = "">
 
@@ -151,15 +150,12 @@ query_string: #variables.harnessQueryString#
 #normalizeSqlFragment(basOrder)#
 </cfoutput>
 
-<!--- basQual is the pre phase 3 contract: one accumulated string.  whereClauses and sqlParams
-	are the post phase 3 contract.  Print whichever exist so that the same harness captures
-	both the before and the after baseline. --->
-<cfif isDefined("basQual")>
-	<cfoutput>
+<!--- Printed under the basQual heading the earlier baselines used, so that a report captured
+	now stays comparable with one captured before the criteria were parameterized. --->
+<cfoutput>
 --- basQual (string contract, pre phase 3) ---
-#normalizeSqlFragment(basQual)#
+#normalizeSqlFragment(whereClausesToSql(variables.whereClauses))#
 </cfoutput>
-</cfif>
 
 <!--- Printed only when non-empty.  SearchSql.cfm now always defines both, so an unconditional
 	section would change the hashed body of every entry the moment the contract was introduced,

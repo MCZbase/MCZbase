@@ -108,15 +108,23 @@
 		#flatTableName#.dec_lat is not null AND
 		#flatTableName#.dec_long is not null AND
 		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
-	<cfset basQual = "">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
 	</cfif>
 	<cfinclude template="/includes/SearchSql.cfm">
-	<cfif basQual EQ "  AND flat.collection_cde not in ('HerpOBS')" or basQual EQ "  AND filtered_flat.collection_cde not in ('HerpOBS')">
-		<cfset basQual = "AND 1<>1">
+	<!--- Criteria other than the observations filter are required: without them this feed
+		would return every georeferenced specimen. --->
+	<cfset variables.srchTerms = "">
+	<cfloop list="#mapurl#" delimiters="&" index="variables.mapurlTerm">
+		<cfset variables.srchTerms = listappend(variables.srchTerms,listgetat(variables.mapurlTerm,1,"="))>
+	</cfloop>
+	<cfif listfindnocase(variables.srchTerms,"ShowObservations") GT 0>
+		<cfset variables.srchTerms = listdeleteat(variables.srchTerms,listfindnocase(variables.srchTerms,"ShowObservations"))>
 	</cfif>
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+	<cfif len(variables.srchTerms) EQ 0>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"1<>1")>
+	</cfif>
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
 	<cfset checkSQL(SqlString)>
 	<cfset getMapData = queryExecute(SqlString,variables.sqlParams,{
 		datasource = "user_login",

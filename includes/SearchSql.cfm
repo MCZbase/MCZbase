@@ -1,23 +1,16 @@
-<cfif not isdefined("basQual")>
-	<cfset basQual = "">
-</cfif>
 <cfif not isdefined("basOrder")>
 	<cfset basOrder = "">
 </cfif>
 <cfif not isdefined("mapurl")>
 	<cfset mapurl="">
 </cfif>
-<!--- Redmine 1031: criteria are being moved off the accumulated basQual string and onto a
-	whereClauses array of complete predicates carrying named bind tokens, plus a sqlParams
-	struct holding the values those tokens refer to.  Helpers are in /includes/sqlBuilder.cfm.
+<!--- Criteria are returned to the caller as whereClauses, an array of complete predicates
+	carrying named bind tokens, and sqlParams, a struct holding the values those tokens refer
+	to.  Helpers are in /includes/sqlBuilder.cfm.
 
-	Both mechanisms are live while the conversion proceeds: a block that has not been converted
-	yet still appends its own SQL text to basQual, and a converted block appends a predicate to
-	whereClauses and its values to sqlParams.  The two are combined at the foot of this file.
-
-	Callers MUST pass variables.sqlParams to queryExecute.  A caller still executing the
-	assembled string through <cfquery> will fail as soon as any converted block contributes a
-	bind token, because nothing declares the bind. --->
+	Callers compose the predicate with whereClausesToSql(variables.whereClauses) and MUST pass
+	variables.sqlParams to queryExecute.  Executing the assembled string through <cfquery>
+	fails, since nothing there declares the binds. --->
 <cfif not isdefined("variables.whereClauses")>
 	<cfset variables.whereClauses = arrayNew(1)>
 </cfif>
@@ -98,55 +91,24 @@
 			<cfloop list="#catnum#" delimiters="," index="i">
 				<cfif oid2Oper is "LIKE">
 					<cfif len(oid2List) is 0>
-						<cfset oid2List = "OR ( upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
+						<cfset oid2List = "OR ( upper(otherIdSearch.display_value) LIKE #addNamedLikeParam(variables.sqlParams,'catnumOtherId',i)#">
 					<cfelse>
-						<cfset oid2List = "#oid2List# OR upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
+						<cfset oid2List = "#oid2List# OR upper(otherIdSearch.display_value) LIKE #addNamedLikeParam(variables.sqlParams,'catnumOtherId',i)#">
 					</cfif>
 				<cfelse>
 					<cfif len(oid2List) is 0>
-						<cfset oid2List = "OR ( otherIdSearch.display_value = '#i#'">
+						<cfset oid2List = "OR ( otherIdSearch.display_value = #addNamedQueryParam(variables.sqlParams,'catnumOtherId',i,'CF_SQL_VARCHAR')#">
 					<cfelse>
-						<cfset oid2List = "#oid2List# OR otherIdSearch.display_value = '#i#'">
+						<cfset oid2List = "#oid2List# OR otherIdSearch.display_value = #addNamedQueryParam(variables.sqlParams,'catnumOtherId',i,'CF_SQL_VARCHAR')#">
 					</cfif>
 				</cfif>
 			</cfloop>
 			<cfset oid2List = "#oid2List# )">
-			<!--cfset basQual = " #basQual# #oid2List#"-->
-			<cfset basQual = basQual & " AND (" & listcatnumToBasQualTable(catnum,#session.flatTableName#) & oid2List &  ") ">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(" & listcatnumToBasQualTable(catnum,session.flatTableName) & oid2List & ")")>
 	<cfelse>
-	    <cfset basQual = basQual & " AND " & listcatnumToBasQualTable(catnum,#session.flatTableName#) & " ">
-	    <cfset mapurl = "#mapurl#&catnum=#catnum#">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,listcatnumToBasQualTable(catnum,session.flatTableName))>
+		<cfset mapurl = "#mapurl#&catnum=#catnum#">
 	</cfif>
-
-    <!---
-	<cfset catnum=replace(catnum," ","","all")>
-	<cfset mapurl = "#mapurl#&catnum=#catnum#">
-	<cfif catnum contains "-">
-		<cfset hyphenPosition=find("-",catnum)>
-		<cfif hyphenPosition lt 2>
-			<cfset basQual = " #basQual# AND upper(#session.flatTableName#.cat_num) = '#ucase(catnum)#'" >
-		<cfelse>
-			<cfset minCatNum=left(catnum,hyphenPosition-1)>
-			<cfset maxCatNum=right(catnum,len(catnum)-hyphenPosition)>
-			<cfif isnumeric(minCatNum) and isnumeric(maxCatNum)>
-				<cfset clist="">
-				<cfloop from="#minCatNum#" to="#maxCatNum#" index="i">
-					<cfset clist=listappend(clist,i)>
-				</cfloop>
-				<cfif listlen(clist) gte 1000>
-					<div class="error">Catalog number span searches have a 1000 record limit</div>
-					<script>hidePageLoad();</script>
-					<cfabort>
-				</cfif>
-				<cfset basQual = " #basQual# AND #session.flatTableName#.cat_num in ( #ListQualify(clist,'''')# ) " >
-			<cfelse>
-				<cfset basQual = " #basQual# AND upper(#session.flatTableName#.cat_num) = '#ucase(catnum)#'" >
-			</cfif>
-		</cfif>
-	<cfelse>
-		<cfset basQual = " #basQual# AND #session.flatTableName#.cat_num IN ( #ListQualify(ListChangeDelims(catnum,','),'''')# ) " >
-	</cfif>
-   --->
 </cfif>
 <cfif isdefined("geology_attribute") AND len(geology_attribute) gt 0>
 	<cfset mapurl = "#mapurl#&geology_attribute=#geology_attribute#">
@@ -1958,12 +1920,4 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset goodCollIds = valuelist(whatInst.collection_id,",")>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_id IN (#addNamedQueryParam(variables.sqlParams,'goodCollIds',goodCollIds,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
-<!--- Redmine 1031 transitional shim.  Fold the converted criteria onto the end of basQual so
-	that callers keep seeing a single string while the conversion proceeds block by block.
-	While no block has been converted this appends nothing and the assembled SQL is unchanged,
-	which is what makes the phase 1 baseline hashes a valid check on each batch.
-
-	This shim is removed once every block is converted and the callers read whereClauses
-	directly; basQual goes with it. --->
-<cfset basQual = basQual & whereClausesToSql(variables.whereClauses)>
 <cfset mapurl = replace(mapurl, "%", "%25","All")>

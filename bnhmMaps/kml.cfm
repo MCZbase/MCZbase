@@ -88,10 +88,9 @@
 		<cfset basFrom = " FROM #flatTableName#">
 		<cfset basJoin = "INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
 		<cfset basWhere = " WHERE #flatTableName#.collection_object_id IS NOT NULL ">	
-		<cfset basQual = "">
 		<cfset mapurl="">
 		<cfinclude template="/includes/SearchSql.cfm">
-		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
 		<cfset sqlstring = replace(sqlstring,"flatTableName","#flatTableName#","all")>
 		<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
 		<cfset variables.shellSelect = replace(variables.shellSelect,"flatTableName","#flatTableName#","all")>

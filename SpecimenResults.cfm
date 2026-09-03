@@ -189,12 +189,11 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
 
-	<cfset basQual = "">
 	<cfset basOrder = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 	<!--- wrap everything up in a string --->
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basOrder#">
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basOrder#">
 
 	<cfset sqlstring = replace(sqlstring,"flatTableName","#session.flatTableName#","all")>
 
