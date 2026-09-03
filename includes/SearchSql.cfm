@@ -1399,7 +1399,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfloop list="#part_name#" delimiters="|" index="p">
 			<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON
 				(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
-			<cfset basQual = " #basQual# AND sp#i#.part_name = '#p#'">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"sp#i#.part_name = #addNamedQueryParam(variables.sqlParams,'part_name',p,'CF_SQL_VARCHAR')#")>
 			<cfset i=i+1>
 		</cfloop>
 	<cfelseif left(part_name,1) is '='>
@@ -1407,9 +1407,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
-		<cfset basQual = " #basQual# AND specimen_part.part_name = '#right(part_name,len(part_name)-1)#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"specimen_part.part_name = #addNamedQueryParam(variables.sqlParams,'part_name',right(part_name,len(part_name)-1),'CF_SQL_VARCHAR')#")>
 	<cfelse><!--- part name only --->
-		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(part_name)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(PARTS) LIKE #addNamedLikeParam(variables.sqlParams,'part_name',part_name)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("preservemethod") AND len(preservemethod) gt 0>
@@ -1424,7 +1424,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 				<cfset basJoin = " #basJoin# INNER JOIN specimen_part sp#i# ON
 					(cataloged_item.collection_object_id = sp#i#.derived_from_cat_item)">
 			</cfif>
-			<cfset basQual = " #basQual# AND sp#i#.preserve_method = '#p#'">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"sp#i#.preserve_method = #addNamedQueryParam(variables.sqlParams,'preserve_method',p,'CF_SQL_VARCHAR')#")>
 			<cfset i=i+1>
 		</cfloop>
 	<cfelseif left(preserve_method,1) is '='>
@@ -1432,9 +1432,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 			(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 		</cfif>
-		<cfset basQual = " #basQual# AND specimen_part.preserve_method = '#right(preserve_method,len(preserve_method)-1)#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"specimen_part.preserve_method = #addNamedQueryParam(variables.sqlParams,'preserve_method',right(preserve_method,len(preserve_method)-1),'CF_SQL_VARCHAR')#")>
 	<cfelse><!--- part name only --->
-		<cfset basQual = " #basQual# AND upper(PARTS) LIKE '%#ucase(preserve_method)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(PARTS) LIKE #addNamedLikeParam(variables.sqlParams,'preserve_method',preserve_method)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("is_tissue") AND is_tissue is 1>
@@ -1442,13 +1442,13 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset basJoin = " #basJoin# INNER JOIN specimen_part spt ON (cataloged_item.collection_object_id = spt.derived_from_cat_item)
 		inner join collection spcn on (cataloged_item.collection_id=spcn.collection_id)
 		inner join ctspecimen_part_name on (spt.part_name=ctspecimen_part_name.part_name)">
-	<cfset basQual = " #basQual# AND ctspecimen_part_name.is_tissue = 1">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"ctspecimen_part_name.is_tissue = 1")>
 </cfif>
 <cfif isdefined("part_disposition") AND len(part_disposition) gt 0>
 	<cfset basJoin = " #basJoin#
 			INNER JOIN specimen_part spdisp ON (#session.flatTableName#.collection_object_id = spdisp.derived_from_cat_item)
 			inner join coll_object partCollObj on (spdisp.collection_object_id=partCollObj.collection_object_id)">
-	<cfset basQual = " #basQual# AND partCollObj.coll_obj_disposition='#part_disposition#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"partCollObj.coll_obj_disposition = #addNamedQueryParam(variables.sqlParams,'part_disposition',part_disposition,'CF_SQL_VARCHAR')#")>
 	<cfset mapurl = "#mapurl#&part_disposition=#part_disposition#">
 </cfif>
 <cfif isdefined("srchParts") AND len(srchParts) gt 0>
@@ -1456,12 +1456,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON
 		(cataloged_item.collection_object_id = specimen_part.derived_from_cat_item)">
 	</cfif>
-	<cfset basQual = " #basQual#
-		AND specimen_part.part_name in (
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"specimen_part.part_name in (
 			SELECT part_name FROM
 			part_hierarchy
-			start with upper(part_name) LIKE '%#ucase(srchParts)#%'
-			connect by prior parent_part_id = part_id)">
+			start with upper(part_name) LIKE #addNamedLikeParam(variables.sqlParams,'srchParts',srchParts)#
+			connect by prior parent_part_id = part_id)")>
 	<cfset mapurl = "#mapurl#&srchParts=#srchParts#">
 </cfif>
 <cfif isdefined("Common_Name") AND len(Common_Name) gt 0>
@@ -1477,8 +1476,8 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN common_name ON
 		(identification_taxonomy.taxon_name_id = common_name.taxon_name_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND identification.accepted_id_fg = 1 AND
-		 UPPER(common_name.Common_Name) LIKE '%#ucase(stripQuotes(Common_Name))#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"identification.accepted_id_fg = 1 AND
+		 UPPER(common_name.Common_Name) LIKE #addNamedLikeParam(variables.sqlParams,'Common_Name',Common_Name)#")>
 	<cfset mapurl = "#mapurl#&Common_Name=#Common_Name#">
 </cfif>
 <cfif isdefined("cited_taxon_name_id") AND len(cited_taxon_name_id) gt 0>
@@ -1486,7 +1485,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN citation ON
 		(cataloged_item.collection_object_id = citation.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND citation.cited_taxon_name_id = #cited_taxon_name_id#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"citation.cited_taxon_name_id = #addNamedQueryParam(variables.sqlParams,'cited_taxon_name_id',cited_taxon_name_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&cited_taxon_name_id=#cited_taxon_name_id#">
 </cfif>
 <cfif isdefined("publication_id") AND len(publication_id) gt 0>
@@ -1494,7 +1493,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN citation ON
 		(cataloged_item.collection_object_id = citation.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND publication_id = #publication_id#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"publication_id = #addNamedQueryParam(variables.sqlParams,'publication_id',publication_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&publication_id=#publication_id#">
 </cfif>
 <cfif isdefined("relationship") AND len(relationship) gt 0>
@@ -1502,7 +1501,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations ON
 		(cataloged_item.collection_object_id = biol_indiv_relations.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND biol_indiv_relations.biol_indiv_relationship = '#relationship#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"biol_indiv_relations.biol_indiv_relationship = #addNamedQueryParam(variables.sqlParams,'relationship',relationship,'CF_SQL_VARCHAR')#")>
 	<cfset mapurl = "#mapurl#&relationship=#relationship#">
 </cfif>
 <cfif isdefined("derived_relationship") AND len(derived_relationship) gt 0>
@@ -1512,7 +1511,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset basJoin = " #basJoin# INNER JOIN biol_indiv_relations invRelns ON
 			(cataloged_item.collection_object_id = invRelns.collection_object_id)">
 		</cfif>
-		<cfset basQual = " #basQual# AND invRelns.BIOL_INDIV_RELATIONSHIP = '#srchReln#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"invRelns.BIOL_INDIV_RELATIONSHIP = #addNamedQueryParam(variables.sqlParams,'derived_relationship',srchReln,'CF_SQL_VARCHAR')#")>
 	<cfelse>
 		<div class="error">
 			I don't know how to handle relationship <cfoutput>"#derived_relationship#".</cfoutput>
@@ -1526,26 +1525,26 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("type_status") and len(type_status) gt 0>
 	<cfif #type_status# is "any">
-		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS IS NOT NULL">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TYPESTATUS IS NOT NULL")>
 	<cfelseif #type_status# is "Genotype">
-		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%GENOHOLOTYPE%')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%GENOHOLOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Allotype">
-		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%ALLOLECTOTYPE%')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%ALLOLECTOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Paratype">
-		<cfset basQual = " #basQual# AND (upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%' OR upper(#session.flatTableName#.TYPESTATUS) LIKE '%PARATOPOTYPE%')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%PARATOPOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Any Type">
-		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.TYPESTATUS) LIKE '%TYPE%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_any','%TYPE%','CF_SQL_VARCHAR')#")>
 	<cfelseif #type_status# is "any primary">
-		<cfset basQual = " #basQual# AND #session.flatTableName#.TOPTYPESTATUSKIND = 'Primary' ">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TOPTYPESTATUSKIND = #addNamedQueryParam(variables.sqlParams,'type_status_primary','Primary','CF_SQL_VARCHAR')#")>
 	<cfelseif #type_status# is "Type?" or #type_status# is "Type" or #type_status# is "Type (ms)">
-		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS LIKE '%#type_status# %'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TYPESTATUS LIKE #addNamedQueryParam(variables.sqlParams,'type_status','%' & type_status & ' %','CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.TYPESTATUS) LIKE '%#ucase(type_status)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)#")>
 	</cfif>
 	<cfset mapurl = "#mapurl#&type_status=#type_status#">
 </cfif>
 <cfif isdefined("collection_object_id") AND len(collection_object_id) gt 0>
-	<cfset basQual = " #basQual# AND cataloged_item.collection_object_id IN (#collection_object_id#)">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_object_id IN (#addNamedQueryParam(variables.sqlParams,'collection_object_id',collection_object_id,'CF_SQL_DECIMAL',true)#)")>
 	<cfset mapurl = "#mapurl#&collection_object_id=#collection_object_id#">
 </cfif>
 <cfif isdefined("taxon_name_id") AND len(taxon_name_id) gt 0>
