@@ -110,3 +110,31 @@ that still reaches the SQL as a quoted literal returns `catnum` alone.
 Note the corpus exercises 45 of the 163 criteria names `SearchSql.cfm` tests for.
 A clean comparison is therefore strong evidence about those 45 and says nothing
 about the rest, which need to be checked by hand.
+
+## Result at 2550dee4ba
+
+The baseline captured after `basQual` was removed and the last criteria bound.
+It compares clean against the pre-conversion baseline:
+
+```
+compared 523 corpus entries
+  predicate identical                        : 523
+  predicate identical up to AND clause order : 0
+  predicate DIFFERS                          : 0
+```
+
+223 hashes moved against `715147e7e6`. 222 of those entries carry a `catnum` or
+`searchOtherIDs` criterion, whose clause moved out of `basQual` and into the
+clause array, changing the clause list the report prints. The 223rd is entry 21,
+which supplies `listcatnum`; `SearchSql.cfm` assigns that to `catnum` and it
+takes the same path. No entry carrying one of those criteria failed to move.
+
+Bound parameters went from 1079 to 1082, one for each of the three corpus
+entries that use `searchOtherIDs`, whose other-identifier predicates previously
+interpolated raw list elements into quoted literals.
+
+Scanning for a supplied criteria value still reaching the SQL as a literal
+returns two entries, both `catnum`, both the `cat_num_prefix` literal that
+`listcatnumToBasQualTable` emits. That helper whitelists its input to digits,
+letters, percent, comma and hyphen, so no quote can survive it; see the unit
+tests in `tests/TestListcatnumToBasQual.cfc`.
