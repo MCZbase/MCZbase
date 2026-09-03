@@ -166,3 +166,25 @@ sets criteria in the variables scope and includes the file directly, so the loop
 finds nothing in either request scope and leaves those values alone. A clean
 comparison here shows the include path is unchanged and says nothing about the
 loop, which needs checking through real GET and POST requests.
+
+## Result at 4eea790512
+
+Captured after the caller pages' own request parameters were moved into the
+variables scope through requestScopeValues. No hash moved against
+`fe1302b9aa`, which is the expected result: that change alters how a page
+obtains a parameter, not any SQL. Against the pre-conversion baseline:
+
+```
+compared 523 corpus entries
+  predicate identical                        : 523
+  predicate identical up to AND clause order : 0
+  predicate DIFFERS                          : 0
+```
+
+As with the previous baseline, this one cannot exercise the scope handling
+itself, since the driver sets criteria in the variables scope and includes the
+file directly. The parameters it does not reach were checked through the pages:
+paging, re-sorting, detail level and rows-per-page on SpecimenResultsHTML.cfm,
+a grouped summary and its download, two charts from SpecimenGraph.cfm, the
+bnhmMapData.cfm tab file, and a request supplying `mapurl` and `displayrows`
+empty, which falls back to the session value rather than showing nothing.
