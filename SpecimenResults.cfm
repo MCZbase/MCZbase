@@ -168,12 +168,12 @@ function removeHelpDiv() {
 		<cfset session.resultColumnList = ListAppend(session.resultColumnList, COLUMN_NAME)>
 	</cfif>
 </cfloop>
-<cfset basSelect = " SELECT distinct #session.flatTableName#.collection_object_id">
+<cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
 <cfif len(session.CustomOtherIdentifier) gt 0>
 	<cfset basSelect = "#basSelect#
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+		,concatSingleOtherId(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		'#session.CustomOtherIdentifier#' as myCustomIdType,
-		to_number(ConcatSingleOtherIdInt(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
+		to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
 </cfif>
 <cfloop query="r_d">
 	<cfif left(column_name,1) is not "_" and (
@@ -191,16 +191,16 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 </cfif>
 --->
 <cfif ListContainsNoCase(session.resultColumnList,"_day_of_ymd")>
-	<cfset basSelect = "#basSelect#,getYearCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) YearColl,
-		getMonthCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) MonColl,
-		getDayCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) DayColl">
+	<cfset basSelect = "#basSelect#,getYearCollected(flatTableName.began_date,flatTableName.ended_date) YearColl,
+		getMonthCollected(flatTableName.began_date,flatTableName.ended_date) MonColl,
+		getDayCollected(flatTableName.began_date,flatTableName.ended_date) DayColl">
 </cfif>
 <cfif ListContainsNoCase(session.resultColumnList,"_original_elevation")>
 	<cfset basSelect = "#basSelect#,MINIMUM_ELEVATION,MAXIMUM_ELEVATION,ORIG_ELEV_UNITS">
 </cfif>
-	<cfset basFrom = " FROM #session.flatTableName#">
-	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
+	<cfset basFrom = " FROM #session.flatTableName# flatTableName">
+	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+	<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">
 
 	<cfset basOrder = "">
 	<cfset mapurl="">
@@ -208,7 +208,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<!--- wrap everything up in a string --->
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basOrder#">
 
-	<cfset sqlstring = replace(sqlstring,"flatTableName","#session.flatTableName#","all")>
 
 <!---cfoutput>[#sqlstring#]</cfoutput--->
 
@@ -274,7 +273,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
 <!--- basSelect is built from cf_spec_res_cols.SQL_ELEMENT, whose rows carry the literal token
 	flatTableName, so the shell needs the same substitution the assembled select gets above. --->
-<cfset variables.shellSelect = replace(variables.shellSelect,"flatTableName","#session.flatTableName#","all")>
 <cfset variables.buildShellSql = "CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#">
 <cfset variables.buildInsertSql = "INSERT INTO #session.SpecSrchTab# #SqlString#">
     <cfset linguisticFlag = false>

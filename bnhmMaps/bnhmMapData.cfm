@@ -87,32 +87,32 @@
 		<cfset ShowObservations = "true">
 	</cfif>
 	<cfset basSelect = "SELECT DISTINCT
-		#flatTableName#.collection,
-		#flatTableName#.collection_id,
-		#flatTableName#.cat_num,
-		#flatTableName#.scientific_name,
-		#flatTableName#.verbatim_date,
-		#flatTableName#.spec_locality,
-		#flatTableName#.dec_lat,
-		#flatTableName#.dec_long,
-		#flatTableName#.COORDINATEUNCERTAINTYINMETERS,
-		#flatTableName#.datum,
-		#flatTableName#.collection_object_id,
-		#flatTableName#.collectors">
-	<cfset basFrom = "	FROM #flatTableName#">
+		flatTableName.collection,
+		flatTableName.collection_id,
+		flatTableName.cat_num,
+		flatTableName.scientific_name,
+		flatTableName.verbatim_date,
+		flatTableName.spec_locality,
+		flatTableName.dec_lat,
+		flatTableName.dec_long,
+		flatTableName.COORDINATEUNCERTAINTYINMETERS,
+		flatTableName.datum,
+		flatTableName.collection_object_id,
+		flatTableName.collectors">
+	<cfset basFrom = "	FROM #flatTableName# flatTableName">
 	<!----
-	<cfset basJoin = " INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)
-		INNER JOIN collecting_event flatCollEvent ON (#flatTableName#.collecting_event_id = flatCollEvent.collecting_event_id)">
+	<cfset basJoin = " INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)
+		INNER JOIN collecting_event flatCollEvent ON (flatTableName.collecting_event_id = flatCollEvent.collecting_event_id)">
 	<cfset basWhere = " WHERE
 		dec_lat is not null AND
 		dec_long is not null AND
 		flatCollEvent.collecting_source = 'wild caught' ">
 	---->
-	<cfset basJoin = " INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
+	<cfset basJoin = " INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE
-		#flatTableName#.dec_lat is not null AND
-		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
+		flatTableName.dec_lat is not null AND
+		flatTableName.dec_long is not null AND
+		flatTableName.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
 	</cfif>

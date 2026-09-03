@@ -86,20 +86,18 @@
 <!--- handle direct calls --->
 <cfif action is "newReq">
 	<cfoutput>
-		<cfset basSelect = " SELECT distinct #flatTableName#.collection_object_id">
+		<cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
 		<cfquery name="reqd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_spec_res_cols where category='required'
 		</cfquery>
 		<cfset basSelect = listappend(basSelect,valuelist(reqd.SQL_ELEMENT))>
-		<cfset basFrom = " FROM #flatTableName#">
-		<cfset basJoin = "INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-		<cfset basWhere = " WHERE #flatTableName#.collection_object_id IS NOT NULL ">	
+		<cfset basFrom = " FROM #flatTableName# flatTableName">
+		<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+		<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">	
 		<cfset mapurl="">
 		<cfinclude template="/includes/SearchSql.cfm">
 		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
-		<cfset sqlstring = replace(sqlstring,"flatTableName","#flatTableName#","all")>
 		<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
-		<cfset variables.shellSelect = replace(variables.shellSelect,"flatTableName","#flatTableName#","all")>
 		<cfset srchTerms="">
 		<cfloop list="#mapurl#" delimiters="&" index="t">
 			<cfset tt=listgetat(t,1,"=")>

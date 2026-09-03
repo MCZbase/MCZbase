@@ -46,62 +46,62 @@
 
 <!--- The progress bar --->
 <cfif #newQuery# is 1>
- <cfset basSelect = "SELECT COUNT(distinct(#session.flatTableName#.collection_object_id)) CountOfCatalogedItem">
- <cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id = cataloged_item.collection_object_id)">
- <cfset basFrom = " FROM #session.flatTableName#">
+ <cfset basSelect = "SELECT COUNT(distinct(flatTableName.collection_object_id)) CountOfCatalogedItem">
+ <cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id = cataloged_item.collection_object_id)">
+ <cfset basFrom = " FROM #session.flatTableName# flatTableName">
 <cfset basGroup = "">
 <cfif listfindnocase(groupBy,"scientific_name") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.scientific_name">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.scientific_name">
+	 <cfset basSelect = "#basSelect#,flatTableName.scientific_name">
+	 <cfset basGroup = "#basGroup#,flatTableName.scientific_name">
 </cfif>
 
 <cfif listfindnocase(groupBy,"continent_ocean") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.continent_ocean">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.continent_ocean">
+	 <cfset basSelect = "#basSelect#,flatTableName.continent_ocean">
+	 <cfset basGroup = "#basGroup#,flatTableName.continent_ocean">
 </cfif>
 <cfif listfindnocase(groupBy,"country") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.country">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.country">
+	 <cfset basSelect = "#basSelect#,flatTableName.country">
+	 <cfset basGroup = "#basGroup#,flatTableName.country">
 </cfif>
 <cfif listfindnocase(groupBy,"state_prov") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.state_prov">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.state_prov">
+	 <cfset basSelect = "#basSelect#,flatTableName.state_prov">
+	 <cfset basGroup = "#basGroup#,flatTableName.state_prov">
 </cfif>
 <cfif listfindnocase(groupBy,"county") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.county">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.county">
+	 <cfset basSelect = "#basSelect#,flatTableName.county">
+	 <cfset basGroup = "#basGroup#,flatTableName.county">
 </cfif>
 <cfif listfindnocase(groupBy,"quad") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.quad">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.quad">
+	 <cfset basSelect = "#basSelect#,flatTableName.quad">
+	 <cfset basGroup = "#basGroup#,flatTableName.quad">
 </cfif>
 <cfif listfindnocase(groupBy,"feature") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.feature">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.feature">
+	 <cfset basSelect = "#basSelect#,flatTableName.feature">
+	 <cfset basGroup = "#basGroup#,flatTableName.feature">
 </cfif>
 <cfif listfindnocase(groupBy,"water_feature") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.water_feature">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.water_feature">
+	 <cfset basSelect = "#basSelect#,flatTableName.water_feature">
+	 <cfset basGroup = "#basGroup#,flatTableName.water_feature">
 </cfif>
 <cfif listfindnocase(groupBy,"island_group") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.island_group">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.island_group">
+	 <cfset basSelect = "#basSelect#,flatTableName.island_group">
+	 <cfset basGroup = "#basGroup#,flatTableName.island_group">
 </cfif>
 <cfif listfindnocase(groupBy,"island") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.island">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.island">
+	 <cfset basSelect = "#basSelect#,flatTableName.island">
+	 <cfset basGroup = "#basGroup#,flatTableName.island">
 </cfif>
 <cfif listfindnocase(groupBy,"sea") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.sea">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.sea">
+	 <cfset basSelect = "#basSelect#,flatTableName.sea">
+	 <cfset basGroup = "#basGroup#,flatTableName.sea">
 </cfif>
 <cfif listfindnocase(groupBy,"spec_locality") GT 0>
-	 <cfset basSelect = "#basSelect#,#session.flatTableName#.spec_locality">
-	 <cfset basGroup = "#basGroup#,#session.flatTableName#.spec_locality">
+	 <cfset basSelect = "#basSelect#,flatTableName.spec_locality">
+	 <cfset basGroup = "#basGroup#,flatTableName.spec_locality">
 </cfif>
 <cfif listfindnocase(groupBy,"yr") GT 0>
-	 <cfset basSelect = "#basSelect#,to_char(#session.flatTableName#.began_date,'yyyy') yr">
-	 <cfset basGroup = "#basGroup#,to_char(#session.flatTableName#.began_date,'yyyy')">
+	 <cfset basSelect = "#basSelect#,to_char(flatTableName.began_date,'yyyy') yr">
+	 <cfset basGroup = "#basGroup#,to_char(flatTableName.began_date,'yyyy')">
 </cfif>
 <cfif len(basGroup) GT 0>
 	<cfset basGroup = "GROUP BY #right(basGroup,len(basGroup)-1)#">

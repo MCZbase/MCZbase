@@ -115,9 +115,9 @@
 	<!--- SCORE(1) is ancillary to a labelled CONTAINS and is rejected without one, so a shell
 		built without the criteria still needs a CONTAINS carrying the same label.  The text is a
 		fixed literal: the shell matches no rows, and a bind is not permitted in DDL. --->
-	<cfset variables.basShellPredicate = "#variables.basShellPredicate# AND CONTAINS(#session.flatTableName#.cat_num, 'shellonly', 1) > 0">
+	<cfset variables.basShellPredicate = "#variables.basShellPredicate# AND CONTAINS(flatTableName.cat_num, 'shellonly', 1) > 0">
 	<cfset mapurl = "#mapurl#&containssearch=#encodeForURL(containssearch)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CONTAINS(#session.flatTableName#.cat_num, #addNamedQueryParam(variables.sqlParams,'containssearch',containssearch,'CF_SQL_VARCHAR')#, 1) > 0 AND ROWNUM <= 1000")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CONTAINS(flatTableName.cat_num, #addNamedQueryParam(variables.sqlParams,'containssearch',containssearch,'CF_SQL_VARCHAR')#, 1) > 0 AND ROWNUM <= 1000")>
 		<cfif len(trim(basOrder)) GT 0>
 	   	<cfset basOrder = "#basOrder#, SCORE(1) desc " >
 		<cfelse>
@@ -161,7 +161,7 @@
 <cfif isdefined("geology_attribute") AND len(geology_attribute) gt 0>
 	<cfset mapurl = "#mapurl#&geology_attribute=#encodeForURL(geology_attribute)#">
 	<cfif basJoin does not contain " geology_attributes ">
-		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON (#session.flatTableName#.locality_id = geology_attributes.locality_id)">
+		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON (flatTableName.locality_id = geology_attributes.locality_id)">
 	</cfif>
 	<cfif isdefined("geology_hierarchies") AND mapurl does not contain "&geology_hierarchies=">
 		<cfset mapurl = "#mapurl#&geology_hierarchies=#encodeForURL(geology_hierarchies)#">
@@ -185,7 +185,7 @@
 	<cfset mapurl = "#mapurl#&geology_attribute_value=#encodeForURL(geology_attribute_value)#">
 	<cfif basJoin does not contain " geology_attributes ">
 		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON
-			(#session.flatTableName#.locality_id = geology_attributes.locality_id)">
+			(flatTableName.locality_id = geology_attributes.locality_id)">
 	</cfif>
 	<cfif isdefined("geology_hierarchies") AND mapurl does not contain "&geology_hierarchies=">
 		<cfset mapurl = "#mapurl#&geology_hierarchies=#encodeForURL(geology_hierarchies)#">
@@ -285,7 +285,7 @@
 	</cfif>
 	<cfset mapurl = "#mapurl#&end_last_edit_date=#encodeForURL(end_last_edit_date)#">
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(
-					to_date(to_char(#session.flatTableName#.last_edit_date,'YYYY-MM-DD')) BETWEEN
+					to_date(to_char(flatTableName.last_edit_date,'YYYY-MM-DD')) BETWEEN
 						to_date(#addNamedQueryParam(variables.sqlParams,'beg_last_edit_date',dateformat(beg_last_edit_date,"yyyy-mm-dd"),'CF_SQL_VARCHAR')#)
 						AND to_date(#addNamedQueryParam(variables.sqlParams,'end_last_edit_date',dateformat(end_last_edit_date,"yyyy-mm-dd"),'CF_SQL_VARCHAR')#)
 				)")>
@@ -331,7 +331,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset mapurl = "#mapurl#&ShowObservations=#encodeForURL(session.ShowObservations)#">
 <cfelse>
 	<cfset mapurl = "#mapurl#&ShowObservations=false">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.collection_cde not in ('HerpOBS')")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.collection_cde not in ('HerpOBS')")>
 </cfif>
 <cfif isdefined("edited_by_id") AND len(edited_by_id) gt 0>
 	<cfif basJoin does not contain "CatItemCollObject">
@@ -371,10 +371,10 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("collection_id") AND len(collection_id) gt 0>
 	<cfif (isdefined("session.ShowObservations") AND session.ShowObservations is true)>
-        <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(#session.flatTableName#.collection_id IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#, 13) or #session.flatTableName#.associated_collection IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#, 13))")>
+        <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(flatTableName.collection_id IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#, 13) or flatTableName.associated_collection IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#, 13))")>
         <cfset mapurl = "#mapurl#&collection_id=#encodeForURL(collection_id)#">
 	<cfelse>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(#session.flatTableName#.collection_id IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#) or #session.flatTableName#.associated_collection IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#))")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(flatTableName.collection_id IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#) or flatTableName.associated_collection IN (#addNamedQueryParam(variables.sqlParams,'collection_id',collection_id,'CF_SQL_DECIMAL',true)#))")>
         <cfset mapurl = "#mapurl#&collection_id=#encodeForURL(collection_id)#">
 	</cfif>
 </cfif>
@@ -411,14 +411,14 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(srchColl.Agent_Name) LIKE #addNamedLikeParam(variables.sqlParams,'coll',coll)#")>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"collector_role = #addNamedQueryParam(variables.sqlParams,'coll_role',coll_role,'CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(#session.flatTableName#.COLLECTORS) LIKE #addNamedLikeParam(variables.sqlParams,'coll',coll)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(flatTableName.COLLECTORS) LIKE #addNamedLikeParam(variables.sqlParams,'coll',coll)#")>
 	</cfif>
 	<cfset mapurl = "#mapurl#&coll=#encodeForURL(coll)#">
 	<cfset mapurl = "#mapurl#&coll_role=#encodeForURL(coll_role)#">
 </cfif>
 <cfif isDefined ("notCollector") and len(notCollector) gt 0>
 	<cfset mapurl = "#mapurl#&notCollector=#encodeForURL(notCollector)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(#session.flatTableName#.COLLECTORS) NOT LIKE #addNamedLikeParam(variables.sqlParams,'notCollector',notCollector)#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(flatTableName.COLLECTORS) NOT LIKE #addNamedLikeParam(variables.sqlParams,'notCollector',notCollector)#")>
 </cfif>
 <cfif isdefined("collector_agent_id") AND len(collector_agent_id) gt 0>
 	<cfset mapurl = "#mapurl#&collector_agent_id=#encodeForURL(collector_agent_id)#">
@@ -447,12 +447,12 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	</cfif>
 	<cfset mapurl = "#mapurl#&sciNameOper=#encodeForURL(sciNameOper)#">
 	<cfif sciNameOper is "LIKE">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
 	<cfelseif sciNameOper is "OR">
 		<cftry>
 			<cfset variables.sciNameClauses = arrayNew(1)>
 			<cfloop list="#scientific_name#" index="s">
-				<cfset arrayAppend(variables.sciNameClauses,"upper(#session.flatTableName#.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',trim(s))#")>
+				<cfset arrayAppend(variables.sciNameClauses,"upper(flatTableName.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',trim(s))#")>
 			</cfloop>
 			<cfcatch>
 				<div class="error">
@@ -466,9 +466,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cftry>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.sciNameClauses," OR ") & " )")>
 	<cfelseif sciNameOper is "=">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.scientific_name = #addNamedQueryParam(variables.sqlParams,'scientific_name',scientific_name,'CF_SQL_VARCHAR')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.scientific_name = #addNamedQueryParam(variables.sqlParams,'scientific_name',scientific_name,'CF_SQL_VARCHAR')#")>
 	<cfelseif sciNameOper is "NOT LIKE">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.scientific_name) NOT LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.scientific_name) NOT LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
 	</cfif>
 </cfif>
 
@@ -808,7 +808,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#encodeForURL(any_taxa_term)#&searchOnlyCurrent=#encodeForURL(searchOnlyCurrent)#">
-		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
+		<cfset basJoin = " #basJoin# inner join taxa_terms on (flatTableName.collection_object_id = taxa_terms.collection_object_id)">
         <cfif any_taxa_term contains "|">
             <cfset variables.taxonClauses = arrayNew(1)>
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
@@ -821,7 +821,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
         </cfif>
 	<cfelse>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#encodeForURL(any_taxa_term)#">
-		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
+		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (flatTableName.collection_object_id = taxa_terms_all.collection_object_id)">
         <cfif any_taxa_term contains "|">
             <cfset variables.taxonClauses = arrayNew(1)>
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
@@ -863,7 +863,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("identified_agent") AND len(identified_agent) gt 0>
 	<cfset mapurl = "#mapurl#&identified_agent=#encodeForURL(identified_agent)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.IDENTIFIEDBY) LIKE #addNamedLikeParam(variables.sqlParams,'identified_agent',identified_agent)#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.IDENTIFIEDBY) LIKE #addNamedLikeParam(variables.sqlParams,'identified_agent',identified_agent)#")>
 </cfif>
 <cfif isdefined("begDate") AND len(begDate) gt 0>
 	<cfset mapurl = "#mapurl#&begDate=#encodeForURL(begDate)#">
@@ -879,7 +879,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.began_date >= #addNamedQueryParam(variables.sqlParams,'begDate',begDate,'CF_SQL_VARCHAR')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.began_date >= #addNamedQueryParam(variables.sqlParams,'begDate',begDate,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("endDate") AND len(endDate) gt 0>
 	<cfset mapurl = "#mapurl#&endDate=#encodeForURL(endDate)#">
@@ -895,7 +895,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.ended_date <= #addNamedQueryParam(variables.sqlParams,'endDate',endDate,'CF_SQL_VARCHAR')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.ended_date <= #addNamedQueryParam(variables.sqlParams,'endDate',endDate,'CF_SQL_VARCHAR')#")>
 </cfif>
 
 <cfif isdefined("begYear") AND len(begYear) gt 0>
@@ -907,16 +907,16 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&begYear=#encodeForURL(begYear)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,1,4)) >= #addNamedQueryParam(variables.sqlParams,'begYear',begYear,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.began_date,1,4)) >= #addNamedQueryParam(variables.sqlParams,'begYear',begYear,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 <cfif isdefined("begMon") AND len(begMon) gt 0>
 	<cfset mapurl = "#mapurl#&begMon=#encodeForURL(begMon)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) >= #addNamedQueryParam(variables.sqlParams,'begMon',begMon,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.began_date,6,2)) >= #addNamedQueryParam(variables.sqlParams,'begMon',begMon,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("begDay") AND len(begDay) gt 0>
 	<cfset mapurl = "#mapurl#&begDay=#encodeForURL(begDay)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,9,2)) >= #addNamedQueryParam(variables.sqlParams,'begDay',begDay,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.began_date,9,2)) >= #addNamedQueryParam(variables.sqlParams,'begDay',begDay,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("endYear") AND len(endYear) gt 0>
 	<cfif not isYear(begYear)>
@@ -927,30 +927,30 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&endYear=#encodeForURL(endYear)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,1,4)) <= #addNamedQueryParam(variables.sqlParams,'endYear',endYear,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.ended_date,1,4)) <= #addNamedQueryParam(variables.sqlParams,'endYear',endYear,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 <cfif isdefined("endMon") AND len(endMon) gt 0>
 	<cfset mapurl = "#mapurl#&endMon=#encodeForURL(endMon)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,6,2)) <= #addNamedQueryParam(variables.sqlParams,'endMon',endMon,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.ended_date,6,2)) <= #addNamedQueryParam(variables.sqlParams,'endMon',endMon,'CF_SQL_DECIMAL')#")>
 </cfif>
 <cfif isdefined("endDay") AND len(endDay) gt 0>
 	<cfset mapurl = "#mapurl#&endDay=#encodeForURL(endDay)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.ended_date,9,2)) <= #addNamedQueryParam(variables.sqlParams,'endDay',endDay,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.ended_date,9,2)) <= #addNamedQueryParam(variables.sqlParams,'endDay',endDay,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 
 <cfif isdefined("verificationstatus") AND len(verificationstatus) gt 0>
 	<cfset mapurl = "#mapurl#&verificationstatus=#encodeForURL(verificationstatus)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.verificationstatus = #addNamedQueryParam(variables.sqlParams,'verificationstatus',verificationstatus,'CF_SQL_VARCHAR')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.verificationstatus = #addNamedQueryParam(variables.sqlParams,'verificationstatus',verificationstatus,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("inMon") AND len(inMon) gt 0>
 	<cfset mapurl = "#mapurl#&inMon=#encodeForURL(inMon)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(#session.flatTableName#.began_date,6,2)) IN (#addNamedQueryParam(variables.sqlParams,'inMon',inMon,'CF_SQL_DECIMAL',true)#)")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"TO_NUMBER(substr(flatTableName.began_date,6,2)) IN (#addNamedQueryParam(variables.sqlParams,'inMon',inMon,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
 <cfif isdefined("verbatim_date") AND len(verbatim_date) gt 0>
 	<cfset mapurl = "#mapurl#&verbatim_date=#encodeForURL(verbatim_date)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.verbatim_date) LIKE #addNamedLikeParam(variables.sqlParams,'verbatim_date',verbatim_date)#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.verbatim_date) LIKE #addNamedLikeParam(variables.sqlParams,'verbatim_date',verbatim_date)#")>
 </cfif>
 <cfif isdefined("accn_trans_id") AND len(accn_trans_id) gt 0>
 	<cfset mapurl = "#mapurl#&accn_trans_id=#encodeForURL(accn_trans_id)#">
@@ -975,14 +975,14 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("accn_number") and len(accn_number) gt 0>
 	<cfset mapurl = "#mapurl#&accn_number=#encodeForURL(accn_number)#">
 	<cfif left(accn_number,1) is '='>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.accession) = #addNamedQueryParam(variables.sqlParams,'accn_number',ucase(right(accn_number,len(accn_number)-1)),'CF_SQL_VARCHAR')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.accession) = #addNamedQueryParam(variables.sqlParams,'accn_number',ucase(right(accn_number,len(accn_number)-1)),'CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.accession) LIKE #addNamedLikeParam(variables.sqlParams,'accn_number',accn_number)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.accession) LIKE #addNamedLikeParam(variables.sqlParams,'accn_number',accn_number)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("loan_number") and len(loan_number) gt 0>
 	<cfset mapurl = "#mapurl#&loan_number=#encodeForURL(loan_number)#">
-	<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON (#session.flatTableName#.collection_object_id=specimen_part.derived_from_cat_item)
+	<cfset basJoin = " #basJoin# INNER JOIN specimen_part ON (flatTableName.collection_object_id=specimen_part.derived_from_cat_item)
 		INNER JOIN loan_item ON (specimen_part.collection_object_id=loan_item.collection_object_id)
 		INNER JOIN loan ON (loan_item.transaction_id=loan.transaction_id)">
 	<cfif left(loan_number,1) is '='>
@@ -1211,7 +1211,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	</cfif>
 	<cfset mapurl = "#mapurl#&min_max_error=#encodeForURL(min_max_error)#&max_max_error=#encodeForURL(max_max_error)#&max_error_units=#encodeForURL(max_error_units)#">
 	<cfif basJoin does not contain " lat_long ">
-		<cfset basJoin = " #basJoin# INNER JOIN lat_long ON (#session.flatTableName#.locality_id = lat_long.locality_id)">
+		<cfset basJoin = " #basJoin# INNER JOIN lat_long ON (flatTableName.locality_id = lat_long.locality_id)">
 	</cfif>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"lat_long.accepted_lat_long_fg=1")>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"to_meters(lat_long.max_error_distance,max_error_units) BETWEEN to_meters(#addNamedQueryParam(variables.sqlParams,'min_max_error',min_max_error,'CF_SQL_DECIMAL')#,#addNamedQueryParam(variables.sqlParams,'max_error_units',max_error_units,'CF_SQL_VARCHAR')#) AND to_meters(#addNamedQueryParam(variables.sqlParams,'max_max_error',max_max_error,'CF_SQL_DECIMAL')#,#addNamedQueryParam(variables.sqlParams,'max_error_units',max_error_units,'CF_SQL_VARCHAR')#)")>
@@ -1235,11 +1235,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfabort>
 	</cfif>
 	<cfset mapurl = "#mapurl#&chronological_extent=#encodeForURL(chronological_extent)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"length(#session.flatTableName#.ended_date)>=10 and
-					length(#session.flatTableName#.began_date)>=10 and
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"length(flatTableName.ended_date)>=10 and
+					length(flatTableName.began_date)>=10 and
 					(
-						to_number(to_char(to_date(substr(#session.flatTableName#.ended_date,1,10),'yyyy-mm-dd'),'J')) -
-						to_number(to_char(to_date(substr(#session.flatTableName#.began_date,1,10),'yyyy-mm-dd'),'J'))
+						to_number(to_char(to_date(substr(flatTableName.ended_date,1,10),'yyyy-mm-dd'),'J')) -
+						to_number(to_char(to_date(substr(flatTableName.began_date,1,10),'yyyy-mm-dd'),'J'))
 					)
 					<= #addNamedQueryParam(variables.sqlParams,'chronological_extent',chronological_extent,'CF_SQL_DECIMAL')#")>
 </cfif>
@@ -1272,12 +1272,12 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 <cfif isdefined("spec_locality") and len(spec_locality) gt 0>
 	<cfset mapurl = "#mapurl#&spec_locality=#encodeForURL(spec_locality)#">
 	<cfif compare(spec_locality,"NULL") is 0>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.spec_locality is null")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.spec_locality is null")>
 	<cfelse>
 		<cfif left(spec_locality,1) is '='>
-			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.spec_locality) = #addNamedQueryParam(variables.sqlParams,'spec_locality',ucase(right(spec_locality,len(spec_locality)-1)),'CF_SQL_VARCHAR')#")>
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.spec_locality) = #addNamedQueryParam(variables.sqlParams,'spec_locality',ucase(right(spec_locality,len(spec_locality)-1)),'CF_SQL_VARCHAR')#")>
 		<cfelse>
-			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.spec_locality) like #addNamedLikeParam(variables.sqlParams,'spec_locality',spec_locality)#")>
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.spec_locality) like #addNamedLikeParam(variables.sqlParams,'spec_locality',spec_locality)#")>
 		</cfif>
 	</cfif>
 </cfif>
@@ -1382,11 +1382,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN collecting_event ON
 		(cataloged_item.collecting_event_id = collecting_event.collecting_event_id)">
 	</cfif>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.higher_geog) || ' ' || upper(#session.flatTableName#.spec_locality)
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.higher_geog) || ' ' || upper(flatTableName.spec_locality)
 			|| ' ' || upper(collecting_event.verbatim_locality) LIKE #addNamedLikeParam(variables.sqlParams,'any_geog',any_geog)#")>
 </cfif>
 <cfif isdefined("geog_auth_rec_id") AND len(geog_auth_rec_id) gt 0>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.geog_auth_rec_id = #addNamedQueryParam(variables.sqlParams,'geog_auth_rec_id',geog_auth_rec_id,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.geog_auth_rec_id = #addNamedQueryParam(variables.sqlParams,'geog_auth_rec_id',geog_auth_rec_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&geog_auth_rec_id=#encodeForURL(geog_auth_rec_id)#">
 </cfif>
 <cfif isdefined("higher_geog") AND len(higher_geog) gt 0>
@@ -1479,7 +1479,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("part_disposition") AND len(part_disposition) gt 0>
 	<cfset basJoin = " #basJoin#
-			INNER JOIN specimen_part spdisp ON (#session.flatTableName#.collection_object_id = spdisp.derived_from_cat_item)
+			INNER JOIN specimen_part spdisp ON (flatTableName.collection_object_id = spdisp.derived_from_cat_item)
 			inner join coll_object partCollObj on (spdisp.collection_object_id=partCollObj.collection_object_id)">
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"partCollObj.coll_obj_disposition = #addNamedQueryParam(variables.sqlParams,'part_disposition',part_disposition,'CF_SQL_VARCHAR')#")>
 	<cfset mapurl = "#mapurl#&part_disposition=#encodeForURL(part_disposition)#">
@@ -1558,21 +1558,21 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("type_status") and len(type_status) gt 0>
 	<cfif #type_status# is "any">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TYPESTATUS IS NOT NULL")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.TYPESTATUS IS NOT NULL")>
 	<cfelseif #type_status# is "Genotype">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%GENOHOLOTYPE%','CF_SQL_VARCHAR')#)")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(flatTableName.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(flatTableName.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%GENOHOLOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Allotype">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%ALLOLECTOTYPE%','CF_SQL_VARCHAR')#)")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(flatTableName.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(flatTableName.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%ALLOLECTOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Paratype">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%PARATOPOTYPE%','CF_SQL_VARCHAR')#)")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(flatTableName.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)# OR upper(flatTableName.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_kind','%PARATOPOTYPE%','CF_SQL_VARCHAR')#)")>
 	<cfelseif #type_status# is "Any Type">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_any','%TYPE%','CF_SQL_VARCHAR')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.TYPESTATUS) LIKE #addNamedQueryParam(variables.sqlParams,'type_status_any','%TYPE%','CF_SQL_VARCHAR')#")>
 	<cfelseif #type_status# is "any primary">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TOPTYPESTATUSKIND = #addNamedQueryParam(variables.sqlParams,'type_status_primary','Primary','CF_SQL_VARCHAR')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.TOPTYPESTATUSKIND = #addNamedQueryParam(variables.sqlParams,'type_status_primary','Primary','CF_SQL_VARCHAR')#")>
 	<cfelseif #type_status# is "Type?" or #type_status# is "Type" or #type_status# is "Type (ms)">
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.TYPESTATUS LIKE #addNamedQueryParam(variables.sqlParams,'type_status','%' & type_status & ' %','CF_SQL_VARCHAR')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.TYPESTATUS LIKE #addNamedQueryParam(variables.sqlParams,'type_status','%' & type_status & ' %','CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.TYPESTATUS) LIKE #addNamedLikeParam(variables.sqlParams,'type_status',type_status)#")>
 	</cfif>
 	<cfset mapurl = "#mapurl#&type_status=#encodeForURL(type_status)#">
 </cfif>
@@ -1685,12 +1685,12 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 
 <cfif isdefined("collecting_event_id") AND len(collecting_event_id) gt 0>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.collecting_event_id IN (#addNamedQueryParam(variables.sqlParams,'collecting_event_id',collecting_event_id,'CF_SQL_DECIMAL',true)#)")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.collecting_event_id IN (#addNamedQueryParam(variables.sqlParams,'collecting_event_id',collecting_event_id,'CF_SQL_DECIMAL',true)#)")>
 	<cfset mapurl = "#mapurl#&collecting_event_id=#encodeForURL(collecting_event_id)#">
 </cfif>
 
 <cfif isdefined("locality_id") AND len(locality_id) gt 0>
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.locality_id = #addNamedQueryParam(variables.sqlParams,'locality_id',locality_id,'CF_SQL_DECIMAL')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.locality_id = #addNamedQueryParam(variables.sqlParams,'locality_id',locality_id,'CF_SQL_DECIMAL')#")>
 	<cfset mapurl = "#mapurl#&locality_id=#encodeForURL(locality_id)#">
 </cfif>
 
@@ -1806,11 +1806,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 
 <cfif isdefined("collecting_source") AND len(collecting_source) gt 0>
 	<cfset mapurl = "#mapurl#&collecting_source=#encodeForURL(collecting_source)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.collecting_source = #addNamedQueryParam(variables.sqlParams,'collecting_source',collecting_source,'CF_SQL_VARCHAR')#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"flatTableName.collecting_source = #addNamedQueryParam(variables.sqlParams,'collecting_source',collecting_source,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("remark") AND len(remark) gt 0>
 	<cfset mapurl = "#mapurl#&remark=#encodeForURL(remark)#">
-	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.remarks) LIKE #addNamedLikeParam(variables.sqlParams,'remark',remark)#")>
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(flatTableName.remarks) LIKE #addNamedLikeParam(variables.sqlParams,'remark',remark)#")>
 </cfif>
 <cfif isdefined("attributed_determiner_agent_id") AND len(attributed_determiner_agent_id) gt 0>
 	<cfset mapurl = "#mapurl#&attributed_determiner_agent_id=#encodeForURL(attributed_determiner_agent_id)#">
