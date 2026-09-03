@@ -125,7 +125,6 @@
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"1<>1")>
 	</cfif>
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
-	<cfset checkSQL(SqlString)>
 	<cfset getMapData = queryExecute(SqlString,variables.sqlParams,{
 		datasource = "user_login",
 		username = session.dbuser,

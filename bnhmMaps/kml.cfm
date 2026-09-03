@@ -119,7 +119,6 @@
 				<!--- not there, so what? --->
 			</cfcatch>
 		</cftry>
-		<cfset checkSql(SqlString)>	
 		<!--- Two statements rather than one CREATE TABLE ... AS SELECT: that is DDL, and Oracle
 			permits no bind variable in DDL, so the shell is created empty with AND 1=0 in place of
 			the criteria and the criteria run as an INSERT, which does take binds.  SpecSrchTab is

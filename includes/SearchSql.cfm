@@ -30,10 +30,10 @@
 <cfif not isdefined("variables.basShellPredicate")>
 	<cfset variables.basShellPredicate = "">
 </cfif>
-<cfif isdefined("listcatnum")>
+<cfif isdefined("listcatnum") AND len(listcatnum) GT 0>
 	<cfset catnum = listcatnum>
 </cfif>
-<cfif isdefined("cat_num")>
+<cfif isdefined("cat_num") AND len(cat_num) GT 0>
 	<cfset catnum = cat_num>
 </cfif>
 <cfif isdefined("ocr_text") AND len(ocr_text) gt 0>
@@ -225,7 +225,7 @@
 	<cfset mapurl = "#mapurl#&end_entered_date=#end_entered_date#">
 </cfif>
 <cfif isdefined("beg_last_edit_date") AND len(beg_last_edit_date) gt 0>
-	<cfif not isdefined("end_last_edit_date")>
+	<cfif not isdefined("end_last_edit_date") OR len(end_last_edit_date) EQ 0>
 		<cfset end_last_edit_date=beg_last_edit_date>
 	</cfif>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(
@@ -1020,7 +1020,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	</cfif>
 </cfif>
 <cfif isdefined("CustomIdentifierValue") and len(CustomIdentifierValue) gt 0>
-	<cfif not isdefined("CustomOidOper")>
+	<cfif not isdefined("CustomOidOper") OR len(CustomOidOper) EQ 0>
 		<cfset CustomOidOper = "LIKE">
 	</cfif>
 	<cfset mapurl = "#mapurl#&CustomIdentifierValue=#CustomIdentifierValue#">

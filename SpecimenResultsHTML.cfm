@@ -259,7 +259,6 @@
 
 	<!-------------------------- / dlm debug -------------------------------------->
 	<!---cfoutput>#SqlString#</cfoutput--->
-	<cfset checkSql(SqlString)>
 	<cfset getData = queryExecute(SqlString,variables.sqlParams,{
 		datasource = "user_login",
 		username = session.dbuser,

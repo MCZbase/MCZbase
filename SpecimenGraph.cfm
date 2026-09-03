@@ -206,7 +206,6 @@
 			<cfset basOrder = "ORDER BY count(#session.flatTableName#.cat_num) DESC">
 			<cfinclude template="includes/SearchSql.cfm">
 			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basGroup# #basOrder#">	
-			<cfset checkSql(SqlString)>	
 			<cfset getGraph = queryExecute(SqlString,variables.sqlParams,{
 				datasource = "user_login",
 				username = session.dbuser,

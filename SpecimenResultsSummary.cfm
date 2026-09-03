@@ -127,7 +127,6 @@
 	<!--- wrap everything up in a string --->
 
 		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basGroup#">
-		<cfset checkSql(SqlString)>
 
 		<!-----
 

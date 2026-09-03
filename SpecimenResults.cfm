@@ -246,7 +246,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
-<cfset checkSql(SqlString)>
 <cfif isdefined("debug") and debug is true>
 	#preserveSingleQuotes(SqlString)#
 </cfif>
