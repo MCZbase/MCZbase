@@ -389,7 +389,6 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfelse>
 			<cfset collcde = "#collcde#,#i#">
 		</cfif>
-	</cfloop>
 	<cfif (isdefined("session.ShowObservations") AND session.ShowObservations is true)>
 		<cfif len(collcde) is 0>
 			<cfset collcde = "HerpOBS">
@@ -397,6 +396,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset collcde = "#collcde#,HerpOBS">
 		</cfif>
 	</cfif>
+	</cfloop>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_cde IN (#addNamedQueryParam(variables.sqlParams,'collection_cde',collcde,'CF_SQL_VARCHAR',true)#)")>
 	<cfset mapurl = "#mapurl#&collection_cde=#encodeForURL(collection_cde)#">
 </cfif>
