@@ -60,3 +60,25 @@ carried forward:
   parameter therefore produce identical SQL, which accounts for several of the
   six hashes that appear more than once among the 523 entries. The rest are
   duplicate saved searches.
+
+## Comparing two baselines
+
+`tests/compareSearchSqlBaselines.py` performs the comparison that hashes cannot.
+Once a criteria block binds its value the hash necessarily moves, so hash
+equality can only confirm that nothing changed, never that a change was
+harmless. The script substitutes each bound value back into the predicate it
+came from and compares that against the literal predicate text of an earlier
+baseline, treating a difference in AND clause order as equivalent — a converted
+clause leaves `basQual` and is appended from `whereClauses` at the end, so
+AND-ed predicates move position without changing meaning.
+
+```bash
+python3 tests/compareSearchSqlBaselines.py \
+	tests/fixtures/searchSql_baseline_before.txt \
+	tests/fixtures/searchSql_baseline_<commit>.txt
+```
+
+It exits non-zero if any entry differs by more than clause order. Run it against
+`searchSql_baseline_before.txt` rather than against the immediately preceding
+baseline, so that the check is always against the original unparameterized SQL
+rather than against an intermediate state.
