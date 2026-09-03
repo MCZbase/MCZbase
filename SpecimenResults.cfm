@@ -324,7 +324,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<input type="hidden" name="killrow" id="killrow" value="#session.killrow#">
 	<input type="hidden" name="displayrows" id="displayrows" value="#session.displayrows#">
 	<input type="hidden" name="action" id="action" value="#action#">
-	<input type="hidden" name="mapURL" id="mapURL" value="#mapURL#">
+	<input type="hidden" name="mapURL" id="mapURL" value="#encodeForHtml(mapURL)#">
 	<cfset session.mapURL = mapURL>
 	<cfif isdefined("transaction_id")>
 			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
@@ -408,7 +408,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 </cfquery>
 
 <form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-	<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#" />
+	<input type="hidden" name="returnURL" value="#encodeForHtml(Application.ServerRootUrl & "/SpecimenResults.cfm?" & mapURL)#" />
 </form>
 <!--- clean up things we'll let them sort by --->
 <cfset resultList = session.resultColumnList>
@@ -454,12 +454,12 @@ If your item needs to be sorted in a special way, then do that here. --->
         <cfif #mappable.cnt# gt 0>
           and can be displayed with
 			<span class="controlButton"
-				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#mapurl#','_blank');">BerkeleyMapper</span>
+				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#encodeForHtml(mapurl)#','_blank');">BerkeleyMapper</span>
 			<span class="controlButton"
-				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&#mapurl#','_blank');">BerkeleyMapper+Rangemaps</span>
+				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&#encodeForHtml(mapurl)#','_blank');">BerkeleyMapper+Rangemaps</span>
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
-			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<a href="SpecimenResultsHTML.cfm?#encodeForHtml(mapurl)#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
          <cfif isDefined("session.username") AND len(session.username) gt 0>
 				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
 			</cfif>
@@ -573,7 +573,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<span class="controlButton"
 			onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
-                  onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save Search</span></cfif>
+                  onclick="saveSearch('#encodeForHtml(Application.ServerRootUrl & "/SpecimenResults.cfm?" & mapURL)#');">Save Search</span></cfif>
 		</td>
 		<td nowrap="nowrap">
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>

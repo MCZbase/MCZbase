@@ -405,7 +405,7 @@
 	<cfset nextRows = #DisplayRows#>
 </cfif>
 
-<form name="map" method="post" action="/bnhmMaps/bnhmMapData.cfm?#mapurl#" target="_blank">
+<form name="map" method="post" action="/bnhmMaps/bnhmMapData.cfm?#encodeForHtml(mapurl)#" target="_blank">
 
   <H4>List of specimens #StartRow# through #ToRow# of the #collectionObjectIds.RecordCount# records that matched your criteria.
   <br>Click on catalog numbers for individual details.
@@ -424,7 +424,8 @@ document.getElementById('saveme').submit();
 </script>
 		<cfif isdefined("returnURL")>
 		<form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#encodeForURL(mapURL)#&detail_level=#encodeForURL(detail_level)#" />
+			<cfset variables.saveReturnUrl = "#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#mapURL#&detail_level=#encodeForURL(detail_level)#">
+			<input type="hidden" name="returnURL" value="#encodeForHtml(variables.saveReturnUrl)#" />
 			<input type="button" value="Save This Search" onclick="cForm();" class="savBtn"
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
 		</form>
@@ -439,7 +440,7 @@ document.getElementById('saveme').submit();
 
 
 				<input type="hidden" name="searchParams" value='#searchParams#'>
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
 				<input name="NewQuery" type="hidden" value="0">
@@ -508,7 +509,7 @@ document.getElementById('saveme').submit();
 <form name="reorder" action="SpecimenResultsHTML.cfm" method="post">
 				#searchParams#
 				<input type="hidden" name="searchParams" value='#searchParams#'>
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
 				<input name="NewQuery" type="hidden" value="0">
@@ -1361,7 +1362,7 @@ document.getElementById('saveme').submit();
 	---->
 <form name="level" action="SpecimenResultsHTML.cfm" method="post">
 #searchParams#
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
@@ -1453,7 +1454,7 @@ document.getElementById('saveme').submit();
 <form name="reloadThis" action="SpecimenResultsHTML.cfm" method="post" id="reloadThis">
 	<input type="hidden" name="exclCollObjId" value="#passExclCollObjId#">
 #searchParams#
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
@@ -1479,7 +1480,7 @@ document.getElementById('saveme').submit();
 <form name="dlData" action="SpecimenResultsHTML.cfm" method="post">
 			<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input type="hidden" name="detail_level" value="#detail_level#">
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="cnt" value="#getBasic.recordcount#">
 				<input type="hidden" name="Action" value="Download">
 				<input name="NewQuery" type="hidden" value="0">
