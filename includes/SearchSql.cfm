@@ -129,7 +129,7 @@
 			<cfif not isdefined("oid2Oper") OR len(oid2Oper) is 0>
 				<cfset oid2Oper = "LIKE">
 			</cfif>
-			<cfset mapurl = "#mapurl#&catnum=#catnum#&searchOtherIDs=#searchOtherIDs#">
+			<cfset mapurl = "#mapurl#&catnum=#catnum#&searchOtherIDs=#searchOtherIDs#&oid2Oper=#oid2Oper#">
 			<cfif basJoin does not contain " otherIdSearch ">
 				<cfset basJoin = " #basJoin# LEFT JOIN coll_obj_other_id_num otherIdSearch ON
 				(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
@@ -162,6 +162,9 @@
 	<cfif basJoin does not contain " geology_attributes ">
 		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON (#session.flatTableName#.locality_id = geology_attributes.locality_id)">
 	</cfif>
+	<cfif isdefined("geology_hierarchies") AND mapurl does not contain "&geology_hierarchies=">
+		<cfset mapurl = "#mapurl#&geology_hierarchies=#geology_hierarchies#">
+	</cfif>
 	<cfif isdefined("geology_hierarchies") and geology_hierarchies is true>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"geology_attributes.geology_attribute IN (
 				SELECT
@@ -182,6 +185,9 @@
 	<cfif basJoin does not contain " geology_attributes ">
 		<cfset basJoin = " #basJoin# INNER JOIN geology_attributes ON
 			(#session.flatTableName#.locality_id = geology_attributes.locality_id)">
+	</cfif>
+	<cfif isdefined("geology_hierarchies") AND mapurl does not contain "&geology_hierarchies=">
+		<cfset mapurl = "#mapurl#&geology_hierarchies=#geology_hierarchies#">
 	</cfif>
 	<cfif isdefined("geology_hierarchies") and geology_hierarchies is 1>
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"geology_attributes.geo_att_value IN (
@@ -276,6 +282,7 @@
 	<cfif not isdefined("end_last_edit_date") OR len(end_last_edit_date) EQ 0>
 		<cfset end_last_edit_date=beg_last_edit_date>
 	</cfif>
+	<cfset mapurl = "#mapurl#&end_last_edit_date=#end_last_edit_date#">
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(
 					to_date(to_char(#session.flatTableName#.last_edit_date,'YYYY-MM-DD')) BETWEEN
 						to_date(#addNamedQueryParam(variables.sqlParams,'beg_last_edit_date',dateformat(beg_last_edit_date,"yyyy-mm-dd"),'CF_SQL_VARCHAR')#)
@@ -799,7 +806,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 </cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
-		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
+		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchOnlyCurrent=#searchOnlyCurrent#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
         <cfif any_taxa_term contains "|">
             <cfset variables.taxonClauses = arrayNew(1)>
@@ -812,7 +819,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"taxa_terms.taxa_term like #addNamedLikeParam(variables.sqlParams,'any_taxa_term',any_taxa_term)#")>
         </cfif>
 	<cfelse>
-		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
+		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
         <cfif any_taxa_term contains "|">
             <cfset variables.taxonClauses = arrayNew(1)>
@@ -1290,6 +1297,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<script>hidePageLoad();</script>
 		<cfabort>
 	</cfif>
+	<cfif mapurl does not contain "&orig_elev_units=">
+		<cfset mapurl = "#mapurl#&orig_elev_units=#orig_elev_units#">
+	</cfif>
 	<cfif not isnumeric(minimum_elevation)>
 		<div class="error">Minimum Elevation must be numeric.</div>
 		<script>hidePageLoad();</script>
@@ -1303,6 +1313,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<div class="error">You must supply units to search by elevation.</div>
 		<script>hidePageLoad();</script>
 		<cfabort>
+	</cfif>
+	<cfif mapurl does not contain "&orig_elev_units=">
+		<cfset mapurl = "#mapurl#&orig_elev_units=#orig_elev_units#">
 	</cfif>
 	<cfif not isnumeric(maximum_elevation)>
 		<div class="error">Maximum Elevation must be numeric.</div>
@@ -1859,6 +1872,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_1") AND len(attribute_units_1) gt 0>
+		<cfset mapurl = "#mapurl#&attribute_units_1=#attribute_units_1#">
 		<cfset variables.attributeConditions_1 = "#variables.attributeConditions_1# AND attributes_1.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_1',attribute_units_1,'CF_SQL_VARCHAR')#">
 		<cfset variables.partAttributeConditions_1 = "#variables.partAttributeConditions_1# AND part_attributes_1.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_1',attribute_units_1,'CF_SQL_VARCHAR')#">
 	</cfif>
@@ -1918,6 +1932,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_2") AND len(attribute_units_2) gt 0>
+		<cfset mapurl = "#mapurl#&attribute_units_2=#attribute_units_2#">
 		<cfset variables.attributeConditions_2 = "#variables.attributeConditions_2# AND attributes_2.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_2',attribute_units_2,'CF_SQL_VARCHAR')#">
 		<cfset variables.partAttributeConditions_2 = "#variables.partAttributeConditions_2# AND part_attributes_2.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_2',attribute_units_2,'CF_SQL_VARCHAR')#">
 	</cfif>
@@ -1976,6 +1991,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_3") AND len(attribute_units_3) gt 0>
+		<cfset mapurl = "#mapurl#&attribute_units_3=#attribute_units_3#">
 		<cfset variables.attributeConditions_3 = "#variables.attributeConditions_3# AND attributes_3.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_3',attribute_units_3,'CF_SQL_VARCHAR')#">
 		<cfset variables.partAttributeConditions_3 = "#variables.partAttributeConditions_3# AND part_attributes_3.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_3',attribute_units_3,'CF_SQL_VARCHAR')#">
 	</cfif>
