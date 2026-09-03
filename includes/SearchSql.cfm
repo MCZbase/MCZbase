@@ -1816,9 +1816,13 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(attributes_1.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_1',attribute_value_1)# OR upper(part_attributes_1.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_1',attribute_value_1)#)")>
 		<cfelseif attOper_1 is "equals" >
 			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_VARCHAR')# OR part_attributes_1.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_VARCHAR')#)")>
+		<!--- attribute_value is free text for every attribute type, and the type restriction is a
+			separate AND-ed predicate whose evaluation order Oracle does not guarantee, so a value of
+			another type can reach these comparisons.  A non-numeric one yields NULL and so fails to
+			match, rather than raising ORA-01722. --->
 		<cfelseif attOper_1 is "greater" >
 			<cfif isnumeric(attribute_value_1)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_1.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR to_number(part_attributes_1.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_1.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR to_number(part_attributes_1.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1828,7 +1832,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_1 is "less" >
 			<cfif isnumeric(#attribute_value_1#)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR part_attributes_1.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_1.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR to_number(part_attributes_1.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
@@ -1863,7 +1867,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_VARCHAR')# OR part_attributes_2.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_VARCHAR')#)")>
 		<cfelseif attOper_2 is "greater" >
 			<cfif isnumeric(attribute_value_2)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_2.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR to_number(part_attributes_2.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_2.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR to_number(part_attributes_2.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1873,7 +1877,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_2 is "less" >
 			<cfif isnumeric(#attribute_value_2#)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR part_attributes_2.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_2.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR to_number(part_attributes_2.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
@@ -1907,7 +1911,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_VARCHAR')# OR part_attributes_3.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_VARCHAR')#)")>
 		<cfelseif attOper_3 is "greater" >
 			<cfif isnumeric(attribute_value_3)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_3.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR to_number(part_attributes_3.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_3.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR to_number(part_attributes_3.attribute_value DEFAULT NULL ON CONVERSION ERROR) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1917,7 +1921,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_3 is "less" >
 			<cfif isnumeric(#attribute_value_3#)>
-				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR part_attributes_3.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_3.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR to_number(part_attributes_3.attribute_value DEFAULT NULL ON CONVERSION ERROR) < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
