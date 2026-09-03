@@ -1813,21 +1813,20 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		LEFT JOIN part_attributes_by_catitem part_attributes_1 ON
 		(cataloged_item.collection_object_id = part_attributes_1.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND (attributes_1.attribute_type = '#attribute_type_1#' or part_attributes_1.attribute_type = '#attribute_type_1#')">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_1',attribute_type_1,'CF_SQL_VARCHAR')# or part_attributes_1.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_1',attribute_type_1,'CF_SQL_VARCHAR')#)")>
 	<cfif not isdefined("attOper_1") or len(#attOper_1#) is 0>
 		<cfset attOper_1 = "equals">
 	</cfif>
 	<cfset mapurl = "#mapurl#&attOper_1=#attOper_1#">
 	<cfif isdefined("attribute_value_1") and len(attribute_value_1) gt 0>
 		<cfset mapurl = "#mapurl#&attribute_value_1=#attribute_value_1#">
-		<cfset attribute_value_1 = #replace(attribute_value_1,"'","''","all")#>
 		<cfif attOper_1 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%' OR upper(part_attributes_1.attribute_value) LIKE '%#ucase(attribute_value_1)#%')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(attributes_1.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_1',attribute_value_1)# OR upper(part_attributes_1.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_1',attribute_value_1)#)")>
 		<cfelseif attOper_1 is "equals" >
-			<cfset basQual = " #basQual# AND (attributes_1.attribute_value = '#attribute_value_1#' OR part_attributes_1.attribute_value = '#attribute_value_1#')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_VARCHAR')# OR part_attributes_1.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_VARCHAR')#)")>
 		<cfelseif attOper_1 is "greater" >
 			<cfif isnumeric(attribute_value_1)>
-				<cfset basQual = " #basQual# AND (to_number(attributes_1.attribute_value) > #attribute_value_1# OR to_number(part_attributes_1.attribute_value) > #attribute_value_1#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_1.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR to_number(part_attributes_1.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1837,7 +1836,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_1 is "less" >
 			<cfif isnumeric(#attribute_value_1#)>
-				<cfset basQual = " #basQual# AND (attributes_1.attribute_value < #attribute_value_1# OR part_attributes_1.attribute_value < #attribute_value_1#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')# OR part_attributes_1.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_1',attribute_value_1,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
@@ -1847,7 +1846,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_1") AND len(attribute_units_1) gt 0>
-		<cfset basQual = " #basQual# AND (attributes_1.attribute_units = '#attribute_units_1#' OR part_attributes_1.attribute_units = '#attribute_units_1#')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_1.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_1',attribute_units_1,'CF_SQL_VARCHAR')# OR part_attributes_1.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_1',attribute_units_1,'CF_SQL_VARCHAR')#)")>
 	</cfif>
 </cfif>
 
@@ -1859,21 +1858,20 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		LEFT JOIN part_attributes_by_catitem part_attributes_2 ON
 		(cataloged_item.collection_object_id = part_attributes_2.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND (attributes_2.attribute_type = '#attribute_type_2#' or part_attributes_2.attribute_type = '#attribute_type_2#')">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_2',attribute_type_2,'CF_SQL_VARCHAR')# or part_attributes_2.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_2',attribute_type_2,'CF_SQL_VARCHAR')#)")>
 	<cfif not isdefined("attOper_2") or len(#attOper_2#) is 0>
 		<cfset attOper_2 = "equals">
 	</cfif>
 	<cfset mapurl = "#mapurl#&attOper_2=#attOper_2#">
 	<cfif isdefined("attribute_value_2") and len(attribute_value_2) gt 0>
 		<cfset mapurl = "#mapurl#&attribute_value_2=#attribute_value_2#">
-		<cfset attribute_value_2 = #replace(attribute_value_2,"'","''","all")#>
 		<cfif attOper_2 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%' OR upper(part_attributes_2.attribute_value) LIKE '%#ucase(attribute_value_2)#%')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(attributes_2.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_2',attribute_value_2)# OR upper(part_attributes_2.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_2',attribute_value_2)#)")>
 		<cfelseif attOper_2 is "equals" >
-			<cfset basQual = " #basQual# AND (attributes_2.attribute_value = '#attribute_value_2#' OR part_attributes_2.attribute_value = '#attribute_value_2#')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_VARCHAR')# OR part_attributes_2.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_VARCHAR')#)")>
 		<cfelseif attOper_2 is "greater" >
 			<cfif isnumeric(attribute_value_2)>
-				<cfset basQual = " #basQual# AND (to_number(attributes_2.attribute_value) > #attribute_value_2# OR to_number(part_attributes_2.attribute_value) > #attribute_value_2#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_2.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR to_number(part_attributes_2.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1883,7 +1881,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_2 is "less" >
 			<cfif isnumeric(#attribute_value_2#)>
-				<cfset basQual = " #basQual# AND (attributes_2.attribute_value < #attribute_value_2# OR part_attributes_2.attribute_value < #attribute_value_2#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')# OR part_attributes_2.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_2',attribute_value_2,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
@@ -1893,7 +1891,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_2") AND len(attribute_units_2) gt 0>
-		<cfset basQual = " #basQual# AND (attributes_2.attribute_units = '#attribute_units_2#' OR part_attributes_2.attribute_units = '#attribute_units_2#')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_2.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_2',attribute_units_2,'CF_SQL_VARCHAR')# OR part_attributes_2.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_2',attribute_units_2,'CF_SQL_VARCHAR')#)")>
 	</cfif>
 </cfif>
 <cfif isdefined("attribute_type_3") AND len(attribute_type_3) gt 0>
@@ -1904,21 +1902,20 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		LEFT JOIN part_attributes_by_catitem part_attributes_3 ON
 		(cataloged_item.collection_object_id = part_attributes_3.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND (attributes_3.attribute_type = '#attribute_type_3#' or part_attributes_3.attribute_type = '#attribute_type_3#')">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_3',attribute_type_3,'CF_SQL_VARCHAR')# or part_attributes_3.attribute_type = #addNamedQueryParam(variables.sqlParams,'attribute_type_3',attribute_type_3,'CF_SQL_VARCHAR')#)")>
 	<cfif not isdefined("attOper_3") or len(#attOper_3#) is 0>
 		<cfset attOper_3 = "equals">
 	</cfif>
 	<cfset mapurl = "#mapurl#&attOper_3=#attOper_3#">
 	<cfif isdefined("attribute_value_3") and len(attribute_value_3) gt 0>
 		<cfset mapurl = "#mapurl#&attribute_value_3=#attribute_value_3#">
-		<cfset attribute_value_3 = #replace(attribute_value_3,"'","''","all")#>
 		<cfif attOper_3 is "like">
-			<cfset basQual = " #basQual# AND (upper(attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%' OR upper(part_attributes_3.attribute_value) LIKE '%#ucase(attribute_value_3)#%')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(upper(attributes_3.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_3',attribute_value_3)# OR upper(part_attributes_3.attribute_value) LIKE #addNamedLikeParam(variables.sqlParams,'attribute_value_3',attribute_value_3)#)")>
 		<cfelseif attOper_3 is "equals" >
-			<cfset basQual = " #basQual# AND (attributes_3.attribute_value = '#attribute_value_3#' OR part_attributes_3.attribute_value = '#attribute_value_3#')">
+			<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_VARCHAR')# OR part_attributes_3.attribute_value = #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_VARCHAR')#)")>
 		<cfelseif attOper_3 is "greater" >
 			<cfif isnumeric(attribute_value_3)>
-				<cfset basQual = " #basQual# AND (to_number(attributes_3.attribute_value) > #attribute_value_3# OR to_number(part_attributes_3.attribute_value) > #attribute_value_3#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(to_number(attributes_3.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR to_number(part_attributes_3.attribute_value) > #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 			  	<div class="error">
 					You tried to search for attribute values greater than a non-numeric value.
@@ -1928,7 +1925,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			</cfif>
 		<cfelseif attOper_3 is "less" >
 			<cfif isnumeric(#attribute_value_3#)>
-				<cfset basQual = " #basQual# AND (attributes_3.attribute_value < #attribute_value_3# OR part_attributes_3.attribute_value < #attribute_value_3#)">
+				<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')# OR part_attributes_3.attribute_value < #addNamedQueryParam(variables.sqlParams,'attribute_value_3',attribute_value_3,'CF_SQL_DECIMAL')#)")>
 			<cfelse>
 				<div class="error">
 					You tried to search for attribute values less than a non-numeric value.
@@ -1938,7 +1935,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		</cfif>
 	</cfif>
 	<cfif isdefined("attribute_units_3") AND len(attribute_units_3) gt 0>
-		<cfset basQual = " #basQual# AND (attributes_3.attribute_units = '#attribute_units_3#' OR part_attributes_3.attribute_units = '#attribute_units_3#')">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"(attributes_3.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_3',attribute_units_3,'CF_SQL_VARCHAR')# OR part_attributes_3.attribute_units = #addNamedQueryParam(variables.sqlParams,'attribute_units_3',attribute_units_3,'CF_SQL_VARCHAR')#)")>
 	</cfif>
 </cfif>
 <cfif isdefined("exclCollObjId") and len(exclCollObjId) gt 0>
