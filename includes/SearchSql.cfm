@@ -429,18 +429,12 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	</cfif>
 	<cfset mapurl = "#mapurl#&sciNameOper=#sciNameOper#">
 	<cfif sciNameOper is "LIKE">
-		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.scientific_name) LIKE '%#ucase(scientific_name)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
 	<cfelseif sciNameOper is "OR">
 		<cftry>
-			<cfset basQual = " #basQual# AND (">
-			<cfset nEl=listlen(scientific_name)>
-			<cfset i=1>
+			<cfset variables.sciNameClauses = arrayNew(1)>
 			<cfloop list="#scientific_name#" index="s">
-				<cfset basQual = " #basQual# upper(#session.flatTableName#.scientific_name) LIKE '%#ucase(listgetat(scientific_name,i))#%'">
-				<cfif i lt nEl>
-					<cfset basQual = " #basQual# OR ">
-				</cfif>
-				<cfset i=i+1>
+				<cfset arrayAppend(variables.sciNameClauses,"upper(#session.flatTableName#.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',trim(s))#")>
 			</cfloop>
 			<cfcatch>
 				<div class="error">
@@ -452,11 +446,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 				<cfabort>
 			</cfcatch>
 		</cftry>
-		<cfset basQual = " #basQual# )">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.sciNameClauses," OR ") & " )")>
 	<cfelseif sciNameOper is "=">
-		<cfset basQual = " #basQual# AND #session.flatTableName#.scientific_name = '#scientific_name#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"#session.flatTableName#.scientific_name = #addNamedQueryParam(variables.sqlParams,'scientific_name',scientific_name,'CF_SQL_VARCHAR')#")>
 	<cfelseif sciNameOper is "NOT LIKE">
-		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.scientific_name) NOT LIKE '%#ucase(scientific_name)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(#session.flatTableName#.scientific_name) NOT LIKE #addNamedLikeParam(variables.sqlParams,'scientific_name',scientific_name)#")>
 	</cfif>
 </cfif>
 
@@ -470,7 +464,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
 		(identification.identification_id = identification_taxonomy.identification_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND identification_taxonomy.taxon_name_id=#anyTaxId#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"identification_taxonomy.taxon_name_id = #addNamedQueryParam(variables.sqlParams,'anyTaxId',anyTaxId,'CF_SQL_DECIMAL')#")>
 </cfif>
 
 <cfif isdefined("HighTaxa") AND len(HighTaxa) gt 0>
@@ -488,20 +482,20 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfset basQual = "#basQual# AND identification.accepted_id_fg=1">
-	<cfset basQual = " #basQual# AND UPPER(taxonomy.Full_Taxon_Name) LIKE '%#ucase(HighTaxa)#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"UPPER(taxonomy.Full_Taxon_Name) LIKE #addNamedLikeParam(variables.sqlParams,'HighTaxa',HighTaxa)#")>
 </cfif>
 <cfif isdefined("AnySciName") AND len(AnySciName) gt 0>
     <cfset mapurl = "#mapurl#&AnySciName=#AnySciName#">
-        <cfset basQual = " #basQual# AND ( cataloged_item.collection_object_id IN
+        <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( cataloged_item.collection_object_id IN
             (select collection_object_id FROM identification where
-                UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+                UPPER(scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'AnySciName',AnySciName)#)
             OR cataloged_item.collection_object_id IN
                 (select collection_object_id FROM
                     citation,
                     taxonomy
                 WHERE
                     citation.cited_taxon_name_id = taxonomy.taxon_name_id AND
-                    UPPER(scientific_name) LIKE '%#ucase(AnySciName)#%')
+                    UPPER(scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'AnySciName',AnySciName)#)
                 OR cataloged_item.collection_object_id IN (
                     select collection_object_id FROM
                         identification,
@@ -514,9 +508,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
                         identification_taxonomy.taxon_name_id=AccTax.taxon_name_id AND
                         AccTax.taxon_name_id=taxon_relations.taxon_name_id AND
                         taxon_relations.related_taxon_name_id = RelTax.taxon_name_id AND
-                        UPPER(RelTax.scientific_name) LIKE '%#ucase(AnySciName)#%'
+                        UPPER(RelTax.scientific_name) LIKE #addNamedLikeParam(variables.sqlParams,'AnySciName',AnySciName)#
                     )
-                    )">
+                    )")>
 </cfif>
 <cfif isdefined("genus") AND len(genus) gt 0>
 	<cfset mapurl = "#mapurl#&genus=#genus#">
@@ -534,28 +528,25 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif genus contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(genus,1) is '='>
             <cfset genus = Replace(genus,"=","","All")>
             <cfloop index="genusbit" list="#genus#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) = '#ucase(trim(genusbit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.genus) = #addNamedQueryParam(variables.sqlParams,'genus',ucase(trim(genusbit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset genus = Replace(genus,"=","","All")>
             <cfloop index="genusbit" list="#genus#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.genus) like '%#ucase(trim(genusbit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.genus) like #addNamedLikeParam(variables.sqlParams,'genus',trim(genusbit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(genus,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.genus) = '#ucase(right(genus,len(genus)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.genus) = #addNamedQueryParam(variables.sqlParams,'genus',ucase(right(genus,len(genus)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.genus) like '%#ucase(genus)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.genus) like #addNamedLikeParam(variables.sqlParams,'genus',genus)#")>
 	    </cfif>
 	</cfif>
 </cfif>
@@ -575,9 +566,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(species,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.species) = '#ucase(right(species,len(species)-1))#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.species) = #addNamedQueryParam(variables.sqlParams,'species',ucase(right(species,len(species)-1)),'CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.species) like '%#ucase(species)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.species) like #addNamedLikeParam(variables.sqlParams,'species',species)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("subspecies") AND len(subspecies) gt 0>
@@ -596,9 +587,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
 	<cfif left(subspecies,1) is '='>
-		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) = '#ucase(right(subspecies,len(subspecies)-1))#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.subspecies) = #addNamedQueryParam(variables.sqlParams,'subspecies',ucase(right(subspecies,len(subspecies)-1)),'CF_SQL_VARCHAR')#")>
 	<cfelse>
-		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) like '%#ucase(subspecies)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.subspecies) like #addNamedLikeParam(variables.sqlParams,'subspecies',subspecies)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("kingdom") AND len(kingdom) gt 0>
@@ -616,30 +607,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif kingdom contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(kingdom,1) is '='>
             <cfset kingdom = Replace(kingdom,"=","","All")>
             <cfloop index="classbit" list="#kingdom#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) = '#ucase(trim(classbit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.kingdom) = #addNamedQueryParam(variables.sqlParams,'kingdom',ucase(trim(classbit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset kingdom = Replace(kingdom,"=","","All")>
             <cfloop index="classbit" list="#kingdom#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) like '%#ucase(trim(classbit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.kingdom) like #addNamedLikeParam(variables.sqlParams,'kingdom',trim(classbit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(kingdom,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.kingdom) = '#ucase(right(kingdom,len(kingdom)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.kingdom) = #addNamedQueryParam(variables.sqlParams,'kingdom',ucase(right(kingdom,len(kingdom)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelseif compare(kingdom,"NULL") is 0>
 		    <cfset basQual = " #basQual# AND taxonomy.kingdom is NULL">
 	    <cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.kingdom) like '%#ucase(kingdom)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.kingdom) like #addNamedLikeParam(variables.sqlParams,'kingdom',kingdom)#")>
 	    </cfif>
     </cfif>
 </cfif>
@@ -658,30 +646,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif phylum contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(phylum,1) is '='>
             <cfset phylum = Replace(phylum,"=","","All")>
             <cfloop index="classbit" list="#phylum#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) = '#ucase(trim(classbit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylum) = #addNamedQueryParam(variables.sqlParams,'phylum',ucase(trim(classbit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset phylum = Replace(phylum,"=","","All")>
             <cfloop index="classbit" list="#phylum#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) like '%#ucase(trim(classbit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylum) like #addNamedLikeParam(variables.sqlParams,'phylum',trim(classbit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(phylum,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylum) = '#ucase(right(phylum,len(phylum)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylum) = #addNamedQueryParam(variables.sqlParams,'phylum',ucase(right(phylum,len(phylum)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelseif compare(phylum,"NULL") is 0>
 		    <cfset basQual = " #basQual# AND taxonomy.phylum is NULL">
 	    <cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.phylum) like '%#ucase(phylum)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylum) like #addNamedLikeParam(variables.sqlParams,'phylum',phylum)#")>
 	    </cfif>
     </cfif>
 </cfif>
@@ -700,30 +685,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif phylclass contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(phylclass,1) is '='>
             <cfset phylclass = Replace(phylclass,"=","","All")>
             <cfloop index="classbit" list="#phylclass#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) = '#ucase(trim(classbit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylclass) = #addNamedQueryParam(variables.sqlParams,'phylclass',ucase(trim(classbit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset phylclass = Replace(phylclass,"=","","All")>
             <cfloop index="classbit" list="#phylclass#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylclass) like '%#ucase(trim(classbit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylclass) like #addNamedLikeParam(variables.sqlParams,'phylclass',trim(classbit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(phylclass,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylclass) = '#ucase(right(phylclass,len(phylclass)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylclass) = #addNamedQueryParam(variables.sqlParams,'phylclass',ucase(right(phylclass,len(phylclass)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelseif compare(phylclass,"NULL") is 0>
 		    <cfset basQual = " #basQual# AND taxonomy.phylclass is NULL">
 	    <cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.phylclass) like '%#ucase(phylclass)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylclass) like #addNamedLikeParam(variables.sqlParams,'phylclass',phylclass)#")>
 	    </cfif>
     </cfif>
 </cfif>
@@ -742,30 +724,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif phylorder contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(phylorder,1) is '='>
             <cfset phylorder = Replace(phylorder,"=","","All")>
             <cfloop index="classbit" list="#phylorder#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) = '#ucase(trim(classbit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylorder) = #addNamedQueryParam(variables.sqlParams,'phylorder',ucase(trim(classbit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset phylorder = Replace(phylorder,"=","","All")>
             <cfloop index="classbit" list="#phylorder#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) like '%#ucase(trim(classbit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.phylorder) like #addNamedLikeParam(variables.sqlParams,'phylorder',trim(classbit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(phylorder,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylorder) = '#ucase(right(phylorder,len(phylorder)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylorder) = #addNamedQueryParam(variables.sqlParams,'phylorder',ucase(right(phylorder,len(phylorder)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelseif compare(phylorder,"NULL") is 0>
 		    <cfset basQual = " #basQual# AND taxonomy.phylorder is NULL">
 	    <cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.phylorder) like '%#ucase(phylorder)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.phylorder) like #addNamedLikeParam(variables.sqlParams,'phylorder',phylorder)#")>
 	    </cfif>
     </cfif>
 </cfif>
@@ -784,30 +763,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
 	</cfif>
     <cfif family contains "|">
-        <cfset clause = "">
-        <cfset orbit = "">
+        <cfset variables.taxonClauses = arrayNew(1)>
         <cfif left(family,1) is '='>
             <cfset family = Replace(family,"=","","All")>
             <cfloop index="familybit" list="#family#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) = '#ucase(trim(familybit))#'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.family) = #addNamedQueryParam(variables.sqlParams,'family',ucase(trim(familybit)),'CF_SQL_VARCHAR')#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
             <cfset family = Replace(family,"=","","All")>
             <cfloop index="familybit" list="#family#" delimiters="|">
-	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) like '%#ucase(trim(familybit))#%'">
-                 <cfset orbit = " OR ">
+	    	     <cfset arrayAppend(variables.taxonClauses,"upper(taxonomy.family) like #addNamedLikeParam(variables.sqlParams,'family',trim(familybit))#")>
             </cfloop>
-	    	<cfset basQual = " #basQual# AND (#clause#) ">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         </cfif>
     <cfelse>
     	<cfif left(family,1) is '='>
-	    	<cfset basQual = " #basQual# AND upper(taxonomy.family) = '#ucase(right(family,len(family)-1))#'">
+	    	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.family) = #addNamedQueryParam(variables.sqlParams,'family',ucase(right(family,len(family)-1)),'CF_SQL_VARCHAR')#")>
     	<cfelseif compare(family,"NULL") is 0>
 		    <cfset basQual = " #basQual# AND taxonomy.family is NULL">
 	    <cfelse>
-		    <cfset basQual = " #basQual# AND upper(taxonomy.family) like '%#ucase(family)#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(taxonomy.family) like #addNamedLikeParam(variables.sqlParams,'family',family)#")>
 	    </cfif>
     </cfif>
 </cfif>
@@ -816,31 +792,27 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">
 		<cfset basJoin = " #basJoin# inner join taxa_terms on (#session.flatTableName#.collection_object_id = taxa_terms.collection_object_id)">
         <cfif any_taxa_term contains "|">
-            <cfset clause = "">
-            <cfset orbit = "">
+            <cfset variables.taxonClauses = arrayNew(1)>
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
             <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
-		         <cfset clause = " #clause# #orbit# taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
-                 <cfset orbit = " OR ">
+		         <cfset arrayAppend(variables.taxonClauses,"taxa_terms.taxa_term like #addNamedLikeParam(variables.sqlParams,'any_taxa_term',any_taxa_termbit)# ")>
             </cfloop>
-            <cfset basQual = " #basQual# AND (#clause#) ">
+            <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
-		    <cfset basQual = " #basQual# AND taxa_terms.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"taxa_terms.taxa_term like #addNamedLikeParam(variables.sqlParams,'any_taxa_term',any_taxa_term)#")>
         </cfif>
 	<cfelse>
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#&searchUnaccepted=Yes">
 		<cfset basJoin = " #basJoin# inner join taxa_terms_all on (#session.flatTableName#.collection_object_id = taxa_terms_all.collection_object_id)">
         <cfif any_taxa_term contains "|">
-            <cfset clause = "">
-            <cfset orbit = "">
+            <cfset variables.taxonClauses = arrayNew(1)>
             <cfset any_taxa_term = Replace(any_taxa_term,"=","","All")> <!--- Strip out equals sign in case use was attempted --->
             <cfloop index="any_taxa_termbit" list="#any_taxa_term#" delimiters="|">
-		         <cfset clause = " #clause# #orbit# taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_termbit))#%' ">
-                 <cfset orbit = " OR ">
+		         <cfset arrayAppend(variables.taxonClauses,"taxa_terms_all.taxa_term like #addNamedLikeParam(variables.sqlParams,'any_taxa_term',any_taxa_termbit)# ")>
             </cfloop>
-            <cfset basQual = " #basQual# AND (#clause#) ">
+            <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.taxonClauses," OR ") & " )")>
         <cfelse>
-  		    <cfset basQual = " #basQual# AND taxa_terms_all.taxa_term like '%#escapeQuotes(ucase(any_taxa_term))#%'">
+  		    <cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"taxa_terms_all.taxa_term like #addNamedLikeParam(variables.sqlParams,'any_taxa_term',any_taxa_term)#")>
         </cfif>
 	</cfif>
 </cfif>
