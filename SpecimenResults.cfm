@@ -1,4 +1,17 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "accentInsensitive,action,customID,debug,detail_level,displayrows,goWhere,killrow,
+	killRowList,killRows,loan_request_coll_id,mapurl,oidOper,orderBy1,orderBy2,
+	page_record,result_sort,resultList,returnURL,searchParams,sciNameOper,transaction_id">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.killrow" default="">
+<cfparam name="variables.result_sort" default="">
+<cfparam name="variables.resultList" default="">
 <script type='text/javascript' language="javascript" src='/includes/SpecimenResults.js'></script>
 <cfif len(session.displayrows) is 0>
 	<cfset session.displayrows=20>

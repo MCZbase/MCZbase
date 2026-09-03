@@ -1,4 +1,15 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,cbifurl,cfidAndToken,cnt,collobjidlist,detail_level,displayrows,goWhere,
+	mapurl,newQuery,newSearch,oidOper,order_by,order_order,returnURL,searchParams,
+	sciNameOper,startRow,transaction_id">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.collobjidlist" default="">
 <script>
  function checkUncheck(formName,CollObjValue)
  {

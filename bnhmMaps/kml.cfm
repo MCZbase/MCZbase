@@ -1,4 +1,10 @@
 <cfinclude  template="/includes/_header.cfm"> 
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,includeTimeSpan,mapByLocality,method,next,showErrors,showUnaccepted,
+	userFileName">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <cfset table_name=session.SpecSrchTab>
 <cfset internalPath="#Application.webDirectory#/bnhmMaps/tabfiles/">
 <cfset externalPath="#Application.ServerRootUrl#/bnhmMaps/tabfiles/">

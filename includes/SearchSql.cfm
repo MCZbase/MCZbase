@@ -36,9 +36,9 @@
 	an unscoped name across those two scopes is deprecated.
 
 	A name absent from both scopes, or present but empty, is left unset, so a block gated on
-	isdefined() still distinguishes a criterion that was not supplied from one that was.
-	Precedence is url over form, matching the order ColdFusion itself searches; no request path
-	supplies both for the same name, so the choice is not observable today. --->
+	isdefined() still distinguishes a criterion that was not supplied from one that was.  No
+	request path supplies one name in both scopes, so the url over form precedence
+	requestScopeValues applies is not observable here. --->
 <cfset SEARCH_CRITERIA = "
 		accn_agency,accn_inst,accn_list,accn_number,accn_permit_trans_id,accn_trans_id,
 		any_geog,any_taxa_term,AnySciName,anyTaxId,attOper_1,attOper_2,attOper_3,
@@ -68,14 +68,7 @@
 		state_prov,subject,subspecies,taxon_name_id,type_status,underscore_coll_id,
 		verbatim_date,verbatim_locality,verificationstatus,water_feature
 	">
-<cfloop list="#SEARCH_CRITERIA#" index="variables.criteriaListEntry">
-	<cfset variables.criteriaName = trim(variables.criteriaListEntry)>
-	<cfif structKeyExists(url,variables.criteriaName) AND len(url[variables.criteriaName]) GT 0>
-		<cfset variables[variables.criteriaName] = url[variables.criteriaName]>
-	<cfelseif structKeyExists(form,variables.criteriaName) AND len(form[variables.criteriaName]) GT 0>
-		<cfset variables[variables.criteriaName] = form[variables.criteriaName]>
-	</cfif>
-</cfloop>
+<cfset structAppend(variables,requestScopeValues(SEARCH_CRITERIA),true)>
 <cfif isdefined("listcatnum") AND len(listcatnum) GT 0>
 	<cfset catnum = listcatnum>
 </cfif>

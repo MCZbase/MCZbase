@@ -1,4 +1,14 @@
 <cfinclude template = "/includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "cbifurl,cnt,detail_level,displayrows,downloadFile,groupBy,mapurl,maskThis,
+	newQuery,newSearch,oidOper,order_by,order_order,sciNameOper,startRow">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.downloadFile" default="">
+<cfparam name="variables.order_by" default="">
      <div style="width: 70em;margin: 0 auto; padding: 2em 0 3em 0;">
 <cfset title="Specimen Results">
 <cfif not isdefined("displayrows")>

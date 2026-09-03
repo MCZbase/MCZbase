@@ -1,4 +1,9 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,lat_long_id,result_id,showRangeMaps">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <cfset fn="arctos_#randRange(1,1000)#">
 <cfset variables.localXmlFile="#Application.webDirectory#/bnhmMaps/tabfiles/#fn#.xml">
 <cfset variables.localTabFile="#Application.webDirectory#/bnhmMaps/tabfiles/#fn#.txt">

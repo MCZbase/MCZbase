@@ -1,4 +1,18 @@
 <cfinclude template="includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,cbifurl,chartType,detail_level,graphThis,mapurl,newQuery,newSearch,order_by,
+	order_order,searchParams,show3D,size,startRow,type">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.chartType" default="">
+<cfparam name="variables.graphThis" default="">
+<cfparam name="variables.searchParams" default="">
+<cfparam name="variables.show3D" default="">
+<cfparam name="variables.type" default="">
 <!--- Columns graphThis may name.  These are grouped on, and an identifier cannot be bound,
 	so the value is matched against this list rather than passed through. --->
 <cfset GRAPHABLE_COLUMNS = "continent_ocean,country,state_prov,scientific_name,phylclass,genus,family,phylorder">
