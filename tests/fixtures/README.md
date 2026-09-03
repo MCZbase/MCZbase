@@ -82,3 +82,31 @@ It exits non-zero if any entry differs by more than clause order. Run it against
 `searchSql_baseline_before.txt` rather than against the immediately preceding
 baseline, so that the check is always against the original unparameterized SQL
 rather than against an intermediate state.
+
+## Result at 715147e7e6
+
+The baseline captured at `715147e7e6`, the point at which every criteria block
+except the `catnum` helpers binds its values, compares clean against the
+pre-conversion baseline:
+
+```
+compared 523 corpus entries
+  predicate identical                        : 523
+  predicate identical up to AND clause order : 0
+  predicate DIFFERS                          : 0
+```
+
+Every hash moved from the preceding baseline, as expected: this is the commit
+that converted `collection_cde not in ('HerpOBS')`, a predicate that fires for
+every entry in the corpus. The clause ordering that made six entries differ at
+`bfdcb20eae` resolved itself here, because with only `catnum` left on the string
+path there is no longer an unconverted predicate for a converted one to be
+reordered around.
+
+Across the corpus this baseline carries 1079 bound parameters over 1331 clauses,
+against 489 of each at `bfdcb20eae`. Scanning it for any supplied criteria value
+that still reaches the SQL as a quoted literal returns `catnum` alone.
+
+Note the corpus exercises 45 of the 163 criteria names `SearchSql.cfm` tests for.
+A clean comparison is therefore strong evidence about those 45 and says nothing
+about the rest, which need to be checked by hand.
