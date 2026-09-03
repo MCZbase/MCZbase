@@ -389,6 +389,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfelse>
 			<cfset collcde = "#collcde#,#i#">
 		</cfif>
+	</cfloop>
 	<cfif (isdefined("session.ShowObservations") AND session.ShowObservations is true)>
 		<cfif len(collcde) is 0>
 			<cfset collcde = "HerpOBS">
@@ -396,7 +397,6 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset collcde = "#collcde#,HerpOBS">
 		</cfif>
 	</cfif>
-	</cfloop>
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_cde IN (#addNamedQueryParam(variables.sqlParams,'collection_cde',collcde,'CF_SQL_VARCHAR',true)#)")>
 	<cfset mapurl = "#mapurl#&collection_cde=#encodeForURL(collection_cde)#">
 </cfif>
@@ -1105,7 +1105,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset dash = find("-",CustomIdentifierValue)>
 		<cfset idFrom = left(CustomIdentifierValue,dash-1)>
 		<cfset idTo = mid(CustomIdentifierValue,dash+1,len(CustomIdentifierValue))>
-		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"to_number(customIdentifier.DISPLAY_VALUE) BETWEEN #addNamedQueryParam(variables.sqlParams,'custom_id_value_start',idFrom,'CF_SQL_DECIMAL')# AND #addNamedQueryParam(variables.sqlParams,'custom_id_value_end',idTo,'CF_SQL_DECIMAL')#")>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"to_number(customIdentifier.DISPLAY_VALUE DEFAULT NULL ON CONVERSION ERROR) BETWEEN #addNamedQueryParam(variables.sqlParams,'custom_id_value_start',idFrom,'CF_SQL_DECIMAL')# AND #addNamedQueryParam(variables.sqlParams,'custom_id_value_end',idTo,'CF_SQL_DECIMAL')#")>
 	<cfelse><!---- LIKE ---->
 		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(customIdentifier.DISPLAY_VALUE) LIKE #addNamedLikeParam(variables.sqlParams,'custom_id_value',CustomIdentifierValue)#")>
 	</cfif>
