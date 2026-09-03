@@ -16,24 +16,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- Helpers for assembling a parameterized SQL WHERE clause, for Redmine 1031.
+<!--- Helpers for assembling a parameterized SQL WHERE clause.
 
 	Used by /includes/SearchSql.cfm, which builds the specimen search criteria out of roughly
 	140 independent optional blocks.  That cannot be expressed as a single <cfquery> with
 	<cfqueryparam> tags, so the criteria are accumulated as an array of clause fragments
-	carrying named bind tokens, plus a struct of the parameters those tokens refer to, and the
-	whole thing is executed with queryExecute.  The security requirement is unchanged: no user
-	supplied value reaches the database except as a bind parameter.
+	carrying named bind tokens, plus a struct of the parameters those tokens refer to, and
+	executed with queryExecute.  No user supplied value reaches the database except as a bind
+	parameter.
 
-	These deliberately live in /includes/ rather than /shared/.  /shared/ would advertise them
-	to redesigned pages, which should be using the JSON search specification and the
-	build_query_dbms_sql_nest stored procedure instead, by way of
-	specimens/component/search.cfc.  This is support for hardening legacy code in place.
+	These live in /includes/ rather than /shared/, which would advertise them to redesigned
+	pages; those build their SQL from the JSON search specification and the
+	build_query_dbms_sql_nest stored procedure, by way of specimens/component/search.cfc.
 
-	localities/component/search.cfc holds its own private copy of the same addNamedQueryParam,
-	used by getCollectingEvents_queryExecute.  That duplication is intentional: that file is
-	target pattern code with its own callers, and refactoring it to depend on a legacy include
-	would put churn in the wrong place.  It is the working precedent this file follows.
+	localities/component/search.cfc keeps its own private copy of addNamedQueryParam for
+	getCollectingEvents_queryExecute, so that target pattern code does not depend on a legacy
+	include.  Do not consolidate them.
 
 	@see localities/component/search.cfc for the pattern these follow.
 --->
