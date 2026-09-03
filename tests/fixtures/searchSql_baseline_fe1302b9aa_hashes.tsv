@@ -1,0 +1,533 @@
+<html><head><title>Redmine 1031 SearchSql baseline</title></head><body><pre>
+# MCZbase Redmine 1031 SearchSql baseline report
+# label=before flatTableName=flat generated=2026-09-03T13:12:29
+# corpus=523 entries
+# columns: seq, canned_id, status, sqlHash, criteria, note
+# Indented blocks under each entry are the constructed query as hashed. grep "^[0-9]" for summary lines only.
+1	2	OK	99164714211ec57536c42d79096c669e	&amp;any_taxa_term&#x3d;Anolis chrysolepis	
+2	3	OK	c1773e7e1adf61836d54c0470bb055f7	&amp;collection_id&#x3d;1&amp;coll&#x3d;Hall&amp;coll_role LIKE c&amp;any_taxa_term&#x3d;Sceloporus	
+3	5	OK	99164714211ec57536c42d79096c669e	&amp;any_taxa_term&#x3d;Anolis chrysolepis	
+4	6	OK	fe60078503f33523fd9a930d1ec78608	&amp;any_taxa_term&#x3d;Anolis sagrei	
+5	62	OK	5af4f988eeb205d50ee1a44e5d9e991f	&amp;any_geog&#x3d;Madagascar&amp;detail_level&#x3d;1	
+6	82	OK	a467db7b9ba8a1115365554935fcf42f	&amp;collection_id&#x3d;2&amp;any_geog&#x3d;Madagascar	
+7	102	OK	5d750383f1ea80fee68f71767f4e2615	&amp;any_taxa_term&#x3d;Pongo&amp;preserv_method&#x3d;dry	
+8	103	OK	fde5a671e286f17602dc3251864d9e13	&amp;any_taxa_term&#x3d;Hylobates	
+9	122	OK	f68a790321dcf40b744125d05f19e63e	&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;lampropeltis mexicana&amp;detail_level&#x3d;1	
+10	142	OK	ead495cb8b8259ca9cfc83beb5154e11	&amp;any_taxa_term&#x3d;Lycodon aulicus	
+11	143	OK	5a18933ed0b2bf483cdc20b2866af439	&amp;any_geog&#x3d;Yukon	
+12	144	OK	5d5d017a4d7e1ba803b7679164f34251	&amp;any_geog&#x3d;ethiopia	
+13	163	OK	bf14caebba69bb0e3a3c31f7c80f0785	&amp;any_taxa_term&#x3d;Cassidae	
+14	164	OK	d198b2cec8b8646bfbbb5a5b212e7710	&amp;any_taxa_term&#x3d;Cassidae&amp;type_status&#x3d;type	
+15	184	OK	5e7f176f5bc1645a27757d8f27a32428	&amp;any_taxa_term&#x3d;Crocodylus acutus&amp;detail_level&#x3d;1	
+16	203	OK	77ae94d02eea11d42496cfac6e0272d4	&amp;any_taxa_term&#x3d;Gorilla&amp;part_name&#x3d;skeleton&amp;preserv_method&#x3d;dry	
+17	204	OK	5cb6ebf341f3f67a8f1e1079bd6bff32	&amp;collection_id&#x3d;4&amp;any_taxa_term&#x3d;Rhinoptera	
+18	223	OK	22d62cfeaccc201f76f1f328b6198337	&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;carnivora&amp;any_geog&#x3d;borneo	
+19	224	OK	76c493c4f1dfea217ebd6b2044e41695	&amp;any_taxa_term&#x3d;Sylvilagus&amp;any_geog&#x3d;Rhode Island	
+20	243	OK	750c537553b99a17258a679353da29bd	&amp;collection_id&#x3d;1&amp;Country&#x3d;Gabon	
+21	244	OK	8e24124363e3bb03c2ae439c9f051d1e	&amp;listcatnum&#x3d;26170,6328,6449,17832,1679,1989,6452,5670,32525,11088,32529,6624,32544,12402,6172,20042,32562,6500,12423,12420,6687,5849,32545,16474,32839,5663,3253...&#x5b;truncated, 996 chars&#x5d;	
+22	246	OK	75ba95ab04be2b4e138f43cdcc01ad1b	&amp;collection_id&#x3d;4&amp;any_taxa_term&#x3d;rhinoptera	
+23	247	OK	89bcc23a52b80c64bc31134a86166632	&amp;any_taxa_term&#x3d;canthyria	
+24	248	OK	f4747047ad73e21efb2189237b8d0d7d	&amp;any_taxa_term&#x3d;primate	
+25	249	OK	7b3426c379bfaeb1aacd15f6a2e33629	&amp;any_taxa_term&#x3d;Telescopus	
+26	250	OK	3de7f41e123e5ef5aa9f637fdc6a160d	&amp;any_taxa_term&#x3d;Crotalus horridus	
+27	269	OK	dc5c21d371e60069ada3410526029596	&amp;any_taxa_term&#x3d;Procavia	
+28	289	OK	765edc302248a9b6f52188dc4d893853	&amp;any_taxa_term&#x3d;carolinensis	
+29	290	OK	2f3e7b39b6cabba2374f6516888d571a	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;Triaenonychoidea	
+30	291	OK	0f8411981e43be18f9ee342010c72962	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;Opiliones&amp;any_geog&#x3d;New Zealand	
+31	292	OK	61925c24ec968c4f88f3b73c993d0304	&amp;coll&#x3d;Peckham&amp;coll_role LIKE c&amp;any_taxa_term&#x3d;Salticidae	
+32	309	OK	fad7519409891048532c4e06cc423c03	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;Primates	
+33	310	OK	75bb5e1e1fbdedc23cb1fa0c4c3889ff	&amp;Country&#x3d;USA&amp;state_prov&#x3d;california&amp;any_geog&#x3d;santa cruz island	
+34	329	OK	4bf0dcdd799e355ae11d6b951e74c4e1	&amp;any_taxa_term&#x3d;heterodon&amp;any_geog&#x3d;mass	
+35	349	OK	ba9955198447bb671a6cb31f6ba1ec7b	&amp;any_taxa_term&#x3d;Epicrates striatus	
+36	350	OK	806f418a8ade75083b2987dcc78a5a6f	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;23985	
+37	351	OK	8e6130d3794726f37be6ab6e5c73dffb	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Jeanneretia&#x25;20parallela&#x25;20depressa&amp;sciNameOper&#x3d;LIKE	
+38	352	OK	e9fd83110e05bfe53aff955ab13baf73	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;accn_number&#x3d;183240	
+39	353	OK	97af6059049ad62b056a11e652e23a43	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;any_geog&#x3d;Mexico	
+40	355	OK	be5ba428f36d803711d733a67d8683fd	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Serrasalmus&#x25;20humeralis&amp;sciNameOper&#x3d;LIKE	
+41	356	OK	c18b0faee00728056987420da2dccf90	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;coluber&#x25;20ravergieri	
+42	357	OK	ac5afb060e56e323aa483acf516785f8	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;alasmidonta&#x25;20heterodon	
+43	358	OK	23d23840fc0caee0b1f81d50ec00833b	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;any_taxa_term&#x3d;Ninox&#x25;20novaeseelandiae	
+44	360	OK	600af833d44c761c25973be0c09a1c54	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;progne&#x25;20dominicensis	
+45	362	OK	b1473db141e224ff7795e98d2e35ad27	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Dendromus	
+46	366	OK	ec5834d9dd8621d2a68f374d6fdbe712	&amp;catnum&#x3d;25977,38768,47101,57331,57332,57496,57497,BOM5002,BOM8379&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2	
+47	367	OK	5b57a3c51f08b138ade6b87c4965bd15	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Squamata&amp;any_geog&#x3d;Colombia&amp;type_status&#x3d;type	
+48	368	OK	01e2c977baaa113ad80f66e86969d082	&amp;media_type&#x3d;image&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Squamata&amp;any_geog&#x3d;Colombia	
+49	370	OK	369c6413d5db177931d26c957b73b198	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Mammalia&amp;any_geog&#x3d;Brazil	
+50	374	OK	25375e1587cda78da5fa79f25228735b	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;genus&#x3d;Liguus	
+51	375	OK	8b4c72441c0a2268a68ad2f6deb9678a	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;leptogorgia	
+52	377	OK	8e8de57c0bd26daa825421041c1c7447	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;corinnidae	
+53	380	OK	86aad51933ebc6bec7c3efc84c5e235d	&amp;catnum&#x3d;148023-148180&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1	
+54	381	OK	dbe0756cf6062820c38c94d49c19d5b9	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;onchidoris	
+55	383	OK	b5eb396a2e73194c6b8598b3c514fa3a	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Reptilia&amp;any_geog&#x3d;Armenia	
+56	384	OK	34c0c954dc311cb7884fdf4447a5cda0	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;vespertilionidae&amp;preserve_method&#x3d;skeleton	
+57	385	OK	860437d86164dc06397998c0f8590853	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_geog&#x3d;Turkey	
+58	386	OK	e2737fedeaec64d644f4647e3aebd23f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;CustomIdentifierValue&#x3d;Thayer&amp;CustomOidOper&#x3d;	
+59	387	OK	1aae1cf09173a5329515825e5acec29a	&amp;media_type&#x3d;image&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;CustomIdentifierValue&#x3d;Thayer&amp;CustomOidOper&#x3d;	
+60	388	OK	1e940a4b8576b18581a95724e2e8d8fc	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Linyphiidae	
+61	389	OK	1487593efa833bccb82e951188e9f325	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Sceloporus	
+62	390	OK	c4f49c5e4e899e699c8ae1bfe36a03c8	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;thomomys	
+63	391	OK	c545c7b58c0f4a2a0393faeadc2ec35c	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Glycymeris	
+64	392	OK	7a3e6e514ab61c26363b56d6304d7fb5	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Pan&#x25;20troglodytes&amp;exclCollObjId&#x3d;666299,667103,669542,667101,766221,772410,669929,676943,766289,766375,6666...&#x5b;truncated, 198 chars&#x5d;	
+65	393	OK	4ae90597643796604572603f7e36fc58	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Gorilla&amp;part_name&#x3d;skeleton	
+66	394	OK	e940053f23a78eaa9b1e8c9a92466caf	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Pan&#x25;20troglodytes&amp;part_name&#x3d;skeleton	
+67	395	OK	4305ba1f017fa3d674b874509dc657ca	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Pan&#x25;20paniscus&amp;part_name&#x3d;skeleton	
+68	396	OK	9befab4a2fbf6273600f95fb54f137a2	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Pongo&amp;part_name&#x3d;skeleton	
+69	399	OK	7d091c24ac3b522d9b704a8e42e6df6a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;any_geog&#x3d;Sweden	
+70	400	OK	12e1bb57e6c7882430bd88a574f33efc	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_geog&#x3d;Boyaca	
+71	401	OK	621926f088dd871fdf0f1840d0f05475	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Hylobates&amp;any_geog&#x3d;Angka	
+72	403	OK	bb75d6db0b6c8c0d04bb4510ecd83d54	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;cephalopoda&amp;any_geog&#x3d;Mexico&#x25;20	
+73	404	OK	bf2f63156b0c43c5370aafc6d8b85c26	&amp;ShowObservations&#x3d;false&amp;any_geog&#x3d;HUILA	
+74	407	OK	3cffba32359d3ff8214ea85af60725a2	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_taxa_term&#x3d;veneridae&amp;type_status&#x3d;type	
+75	409	OK	096a2e6a5da9fa5a224f4e28b80647a8	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;troglodytes	
+76	410	OK	7b9ec99c348782969b4f16ca08fd39a8	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;troglodytes&amp;part_name&#x3d;skeleton	
+77	411	OK	ff388998a71ea8d91059e43ca4f98446	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Gorilla	
+78	413	OK	5b58499e897839cb8ac236b7ed2ad534	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;snow&amp;coll_role&#x3d;c&amp;begYear&#x3d;1850&amp;endYear&#x3d;1900&amp;exclCollObjId&#x3d;3457016,3455759,3456940,3455753,3455775,3455773,3455777,3455755,3455757,34...&#x5b;truncated, 205 chars&#x5d;	
+79	416	OK	55881be3ee737845caf67dd9dd951810	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;Lemuridae&amp;part_name&#x3d;skeleton	
+80	417	OK	f44c5a8d19a1fea923eea83d6fa87ca2	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;cheirogaleus&amp;part_name&#x3d;skeleton	
+81	418	OK	7593f1e141ce4489f26fb6aea62a9efb	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;daubentonia&amp;part_name&#x3d;skeleton	
+82	419	OK	a15a5037950a2c276c6f973e3c1f7921	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;microcebus&amp;part_name&#x3d;skeleton	
+83	420	OK	f22424843ae60b675ae2c732dea6a4ff	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;galago&amp;part_name&#x3d;skeleton	
+84	421	OK	da27af6591c1a0e968abb00d478faa0a	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;otolemur&amp;part_name&#x3d;skeleton	
+85	422	OK	f60680879cfb8c7cb85288d71825ee6b	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;loris&amp;part_name&#x3d;skeleton	
+86	423	OK	5c6ef1cd631f99317e5d6fb0d23fe9e9	&amp;ShowObservations&#x3d;1&amp;any_taxa_term&#x3d;perodicticus&amp;part_name&#x3d;skeleton	
+87	424	OK	fadd944f95e011317b783d4733601b36	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Bulimulidae&amp;any_geog&#x3d;Peru	
+88	425	OK	7d804e498a3f7d30330edd44e3e28ff0	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Anolis&#x25;20ferreus	
+89	426	OK	83c68eb31f593c63c77aa97f341de61c	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Anolis&#x25;20marmoratus&amp;part_name&#x3d;skeleton	
+90	428	OK	8da6451dda66c1e23b024bb7b7dcaabd	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Lepidoptera	
+91	429	OK	2c4dc2ad9f13d74da6fb0f06d33acf0f	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8&amp;any_taxa_term&#x3d;arachnida&amp;any_geog&#x3d;south&#x25;20dakota	
+92	432	OK	29970108654d5f43389e35f276d0ceda	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_geog&#x3d;Somalia	
+93	433	OK	e0cd9b8da5c090619a9eca8a49f286c6	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;Common_Name&#x3d;Chinese&#x25;20alligator	
+94	454	OK	3fdafd38e709b4a137c30ead704311c6	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Cosmetidae&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2007&amp;endYear&#x3d;2012	
+95	455	OK	9b0eec4d9c9c2fc38cb980aee54d1cdb	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Opiliones&amp;OIDNum&#x3d;LLAMA&amp;oidOper&#x3d;LIKE	
+96	456	OK	e3985c510d5158171a13b06bbc871ccc	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Samoidae&amp;begYear&#x3d;2007&amp;endYear&#x3d;2012&amp;exclCollObjId&#x3d;3434543,3434545,3435398,3420841	
+97	457	OK	f105aaeac5928aa48ab04011b06c54f4	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Samoidae&amp;exclCollObjId&#x3d;3434543,3434545,2955743,2955747,3881689,3881699,2960671,2960657,2960663,2960659,2960661,2960665,296...&#x5b;truncated, 436 chars&#x5d;	
+98	458	OK	e15e6498c837ae1d6831346df02eb53c	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Cosmetidae&amp;nature_of_id&#x3d;type&#x25;20ID	
+99	461	OK	99f4cbd757c4f919719eb2f6b569bf16	&amp;ShowObservations&#x3d;1&amp;scientific_name&#x3d;&#x3d;Hesperochernes&#x25;20mirabilis&amp;sciNameOper&#x3d;&#x3d;	
+100	464	OK	e7c62c456bd683049920bc38f0c12bd2	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;primates	
+101	467	OK	b2c0f923ba17e59fc4daae05646a2e41	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Scorpion&amp;any_geog&#x3d;Venezuela	
+102	470	OK	8718f480a8978f2b784b47cd3a31768a	&amp;ShowObservations&#x3d;1&amp;anyTaxId&#x3d;10840	
+103	472	OK	674a0c25c007d9e1481b00f5acfd10c3	&amp;catnum&#x3d;52532-52740&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2	
+104	476	OK	de5274f0140d4d086d47df3b06e66ac3	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;coll&#x3d;Rausch&amp;coll_role&#x3d;c	
+105	477	OK	0b233c427dde7fb9bf978506123a5f4f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;coll&#x3d;Rausch&amp;coll_role&#x3d;c	
+106	478	OK	24bce5525f3c0a68d5d4f125bc3b6148	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;Ursus&amp;species&#x3d;americanus&amp;exclCollObjId&#x3d;727528,765254,727528,3359801,3258547,3251640,3251640,727520,765258,765258,806071,3136523,32...&#x5b;truncated, 1010 chars&#x5d;	
+107	483	OK	bcac74a02c0d9621ff3082ac42eb1b3f	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;3&amp;Phylclass&#x3d;Bivalvia&amp;type_status&#x3d;type	
+108	487	OK	c14d7a6be72389e9d672e06f83725de4	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;Genetta&amp;exclCollObjId&#x3d;828798,817037,817052,831226,843127,789672,768509,834646,819118,819126,819129,819145,819147,834640,844939,844...&#x5b;truncated, 345 chars&#x5d;	
+109	490	OK	2ab06010fbe1b018be3acd547f15af29	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;begYear&#x3d;1700&amp;endYear&#x3d;2014	
+110	491	OK	2ab06010fbe1b018be3acd547f15af29	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;5&amp;begYear&#x3d;1700&amp;endYear&#x3d;2014	
+111	497	OK	4d23ae24cba7b3bb3993fd5e4e0de11f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;coll&#x3d;David&#x25;20McB&#x25;20Williams&amp;coll_role&#x3d;c&amp;CustomIdentifierValue&#x3d;GBR&amp;CustomOidOper&#x3d;	
+112	498	OK	153d7af579325653139b4701bccfb1dd	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Geophilus&#x25;20mordax	
+113	501	OK	424373a47cf1134201e7369af5b9eb8c	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;terrapene&#x25;20carolina&amp;any_geog&#x3d;massachusetts	
+114	502	OK	c79d883dd2d04883a44d05124514d942	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;medford	
+115	503	OK	a821f05833ddfc0da66fb3e205271767	&amp;ShowObservations&#x3d;false&amp;state_prov&#x3d;Massachusetts&amp;Common_Name&#x3d;newt	
+116	504	OK	4e39935651bed5fc93994bf662c21333	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;triturus	
+117	505	OK	e67c7a17ef94afc3e81ffcc37bbd519a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;species&#x3d;hasii&amp;any_taxa_term&#x3d;triturus	
+118	506	OK	275c30397c283325acd2f674b19a5c46	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;danubialis	
+119	507	OK	9726dff3019ad4578cd1c1c1da5716cc	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;triturus&amp;species&#x3d;palmatus	
+120	508	OK	424373a47cf1134201e7369af5b9eb8c	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;terrapene&#x25;20carolina&amp;any_geog&#x3d;massachusetts	
+121	509	OK	c79d883dd2d04883a44d05124514d942	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;medford	
+122	510	OK	5bd7c78aa0883caf5a87b41b32db4fcb	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;massachusetts&amp;any_geog&#x3d;somerville	
+123	511	OK	6d501c6582e6d0122c6dfe0dc9960f48	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Coluber&#x25;20constrictor&amp;state_prov&#x3d;Massachusetts	
+124	512	OK	01c0f96f718420e751a3c5598f1b652b	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;hasii	
+125	513	OK	6cea925dfb60f88c2676d77e80d739ea	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;Triturus	
+126	514	OK	0454d28638200b07710372dee3fc778e	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;concord	
+127	515	OK	d8ce22f81ffe0348cff977295220331c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;Lexington&#x25;20	
+128	516	OK	d496a4793e02776fb13a0900f92f2389	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;Arlington	
+129	517	OK	8176ccbc63d9882a394d83498da3490a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;genus&#x3d;Pseudacris&amp;species&#x3d;crucifer&amp;state_prov&#x3d;Massachusetts&amp;county&#x3d;middlesex	
+130	518	OK	8c8ba85130ba2abb77bf84988cb07154	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;cambridge	
+131	519	OK	39137ca6e90320a1a02fd7ebf4e907b8	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;genus&#x3d;triturus&amp;species&#x3d;palmatus	
+132	520	OK	dbb4636208c093a215ab3ea39b334645	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;subspecies&#x3d;danubialis	
+133	521	OK	bbeebcdbe41ec80750c988d6ec98faa3	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;genus&#x3d;notophthalmus&amp;state_prov&#x3d;Massachusetts	
+134	522	OK	f971aa3ac26ee27fe73e8bb492f96e4c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;genus&#x3d;taricha	
+135	529	OK	95df477deff978791938be8154d41a8c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;serpentes&amp;any_geog&#x3d;Nigeria	
+136	532	OK	5adb7eb76925e9101f4b001b0ba3065c	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;plethodon&amp;species&#x3d;glutinosus&amp;state_prov&#x3d;Massachusetts	
+137	533	OK	2bfed2a05beabce5d2802b8bb70022a5	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;plethodon&amp;species&#x3d;glutinosus&amp;state_prov&#x3d;new&#x25;20hampshire	
+138	535	OK	584d0f72fe44533d14bea06883493498	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;genus&#x3d;Opheodrys&amp;any_geog&#x3d;medford	
+139	536	OK	2dd2b93bdbad355d37078a8698ed093d	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;nereididae&amp;any_geog&#x3d;atlantic&#x25;20ocean	
+140	539	OK	fc65d6ff8c48f8126a38afb83359470e	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Parvicardium&#x25;20	
+141	540	OK	02339fc15be3d7c03d1c69af85b4e269	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Americardia	
+142	541	OK	808c2f9b07af22b00c81428033efd2ec	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Trigoniocardia	
+143	542	OK	65cda7f8892f98d78bc1673067345c94	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;ctenocardia	
+144	543	OK	c49358bc5831ef98102482b7fff2adc9	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;corculum	
+145	548	OK	7cb0b454f16fc903e5ae3f97cd00c365	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;agassiz&amp;coll_role&#x3d;c&amp;begYear&#x3d;1877&amp;endYear&#x3d;1880	
+146	552	OK	3eaf4cb9bff90e487239523cad268519	&amp;catnum&#x3d;64151&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+147	553	OK	88356cb259abf04fd2aa91dc4fede54b	&amp;catnum&#x3d;196271&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+148	554	OK	fb19ac862a60d7ce68468e15c1d0f589	&amp;catnum&#x3d;196269&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+149	557	OK	6fdc76c53a418a3e60588c172a3b88d6	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_geog&#x3d;middlesex&#x25;20fells	
+150	558	OK	b16f00108bdf73bffe4b688927ad21e5	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;state_prov&#x3d;Massachusetts&amp;Common_Name&#x3d;ringneck&#x25;20snake	
+151	560	OK	601a0cb2f9365bcb1ab77b784b5425ba	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Agamidae&amp;any_geog&#x3d;Asia	
+152	566	OK	e91894be38f4589ddd5b81377c1b6e7f	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;stylasteridae	
+153	570	OK	20e51ceb9c3a3aea7c33d99fbf2b092c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;Phylclass&#x3d;amphibia&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;blue&#x25;20hills	
+154	572	OK	fa77b1699db75b6365fc100713c8d3d8	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;Phylclass&#x3d;amphibia&amp;state_prov&#x3d;Massachusetts&amp;any_geog&#x3d;quincy	
+155	575	OK	b656d543fa59a831e8bdcd885215336b	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;Phylclass&#x3d;amphibia&amp;any_geog&#x3d;blue&#x25;20hill	
+156	582	OK	98d79ef39c9e3f54aba5a89abe76f5bd	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;ambystoma&#x25;20opacum&amp;any_geog&#x3d;massachusetts	
+157	590	OK	9fa92c751ba85077081c2f78f5d6d304	&amp;catnum&#x3d;BOM-8308&#x25;2011556&#x25;2021560&#x25;20BOM-1220&#x25;20BOM-1221&#x25;20BOM-1222&#x25;20BOM-1223&#x25;20BOM-9081&#x25;20BOM-9087&#x25;20BOM-9088&#x25;20BOM-9090&#x25;2014536&#x25;2016384&#x25;20BOM-7956&#x25;20BOM-8385&#x25;2...&#x5b;truncated, 1638 chars&#x5d;	
+158	591	OK	06d674a62359255f20b04baf76e79792	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;1&amp;any_geog&#x3d;KENYA	
+159	592	OK	d7aac1a8a6f42d73afd6ec1a99e6bec5	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;1&amp;any_geog&#x3d;Tanzania	
+160	593	OK	a27044fd3cad00d7d86764f923d5ccfe	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;pulsatrix	
+161	594	OK	3f383cf73bc7e3aac765323b4cb7b3bd	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Reptilia&amp;any_geog&#x3d;Colombia&amp;type_status&#x3d;type	
+162	595	OK	6db3be28f467b744802d076ba2513bb0	&amp;ShowObservations&#x3d;false&amp;accn_number&#x3d;0&amp;OIDNum&#x3d;SPC&amp;oidOper&#x3d;LIKE&amp;any_geog&#x3d;United&#x25;20States	
+163	596	OK	d8eb46d7ef171afba2870f748324f293	&amp;catnum&#x3d;MCZ&#x23;&#x25;208175&#x25;2057377&#x25;2021194&#x25;207358&#x25;2021198&#x25;2059318&#x25;2057492&#x25;2028025&#x25;208209&#x25;2024017&#x25;2093&#x25;20102&#x25;201215&#x25;201216&#x25;207895&#x25;208377&#x25;2034083&#x25;208374&#x25;208375&#x25;208376&#x25;20...&#x5b;truncated, 1204 chars&#x5d;	
+164	598	OK	66f11594e2212b985d6778e596385b65	&amp;catnum&#x3d;A-107430-107450,R-154444-154455&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;1	
+165	601	OK	9aa517a81f5a73e4d53fe176ff83d723	&amp;catnum&#x3d;650333-650357&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;9	
+166	602	OK	a9874c93b6fa3dc8babe8fc678d6b78f	&amp;catnum&#x3d;R-173321,A-17332&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;1	
+167	610	OK	d489a5e24a6caf98cb7e249b5a4677c2	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Pongidae	
+168	646	OK	2c011de1631ffe20b1a95b42d7bf0358	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Chrysopidae	
+169	647	OK	74208ec928d65c0af0a401152fc38f39	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;gorilla&amp;part_name&#x3d;skeleton	
+170	661	OK	e8e5673207835967a287b9c1c381ded3	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;coll&#x3d;Galbraith&amp;coll_role&#x3d;c	
+171	663	OK	771b78dd50da1cd253915cb234fd977c	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Challenger&amp;coll_role&#x3d;c	
+172	665	OK	610ef6700fbd22114b872efef32c0fa2	&amp;catnum&#x3d;132516,&#x25;2080482,&#x25;2089358,&#x25;2089542,&#x25;2089471,&#x25;20134634,&#x25;20131307,&#x25;20134867&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+173	671	OK	336d639c5dfbbcffac8dc982ad2b69a1	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;stichopodidae	
+174	739	OK	68b6c649cff0cf3179a5565e725b7817	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_geog&#x3d;Panama	
+175	741	OK	6231d785c00f4c3df6babbade5a097f4	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;any_taxa_term&#x3d;Themiste&#x25;20lageniformis	
+176	746	OK	12a63f772942cb081b6b241fb0a2d64a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;7&amp;any_geog&#x3d;saxony	
+177	747	OK	25e149133f54eee0273505d197b23bc3	&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;7&amp;any_geog&#x3d;Saxony&amp;exclCollObjId&#x3d;2645975,2560221,2645989,2670225,2585353,2670229,2672797,2672815,2670227,2672805,2645995,267022...&#x5b;truncated, 169 chars&#x5d;	
+178	762	OK	ee952c243a6cd8a7a6c96e2a6d987115	&amp;catnum&#x3d;383313&#x25;20383313&#x25;20383313&#x25;20383690&#x25;20383690&#x25;20383688&#x25;20383688&#x25;20383687&#x25;20383687&#x25;20383311&#x25;20383311&#x25;20383685&#x25;20383685&#x25;20383689&#x25;20383689&#x25;20383686&#x25;20383686&#x25;2...&#x5b;truncated, 290 chars&#x5d;	
+179	764	OK	79561dadbeec60fbb95071a119e8169a	&amp;catnum&#x3d;71192&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+180	765	OK	d2ca8be3ab49e81b9ea1162eb1bc9bec	&amp;catnum&#x3d;70183&#x25;2068067&#x25;2070461&#x25;2071188&#x25;2070184&#x25;2071191&#x25;2070173&#x25;2070177&#x25;2070171&#x25;2070174&#x25;2068086&#x25;2068069&#x25;2070175&#x25;2068090&#x25;2068091&#x25;2068092&#x25;2070182&#x25;2068064&#x25;2068063&#x25;20...&#x5b;truncated, 356 chars&#x5d;	
+181	766	OK	be2adb4d926f737dce2f850e7445bb17	&amp;catnum&#x3d;383307&#x25;20383310&#x25;20383308&#x25;20383305&#x25;20383295&#x25;20383291&#x25;20383301&#x25;20383306&#x25;20383300&#x25;20383304&#x25;20383299&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+182	767	OK	ee719241912cb264239aa8ab87e822e5	&amp;catnum&#x3d;383308&#x25;20383310&#x25;20383309&#x25;20383306&#x25;20383307&#x25;20383305&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+183	768	OK	eacf8142e8fe8571d4b1e1c75cb85e56	&amp;catnum&#x3d;70896&#x25;2071191&#x25;2070463&#x25;2070461&#x25;2071188&#x25;2070395&#x25;20&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+184	775	OK	351d12760676b6ffad9c0849efa9018b	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;contopus&#x25;20borealis&amp;sciNameOper&#x3d;LIKE	
+185	776	OK	608e1843a8a14960ee03cb57bfbfb9c9	&amp;ShowObservations&#x3d;false&amp;Common_Name&#x3d;northern&#x25;20waterthrush	
+186	777	OK	6e3e094368771f3fa62cb032cf2b8213	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Seiurus&#x25;20noveboracensis&amp;sciNameOper&#x3d;LIKE	
+187	778	OK	0efd37b37e9c675fb87063ea6b5f0130	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;Seiurus&#x25;20motacilla&amp;sciNameOper&#x3d;LIKE	
+188	779	OK	23562f25bd0b41d2fa16b9d98d25727b	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;Seiurus&#x25;20motacilla&amp;sciNameOper&#x3d;LIKE&amp;part_name&#x3d;Skin	
+189	780	OK	d3fa3da2d00292d8af96aae15759c0bd	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;contopus&#x25;20borealis&amp;sciNameOper&#x3d;LIKE&amp;part_name&#x3d;Skin	
+190	781	OK	a085cdc5b331b5f7644b9d9f825b601d	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;Seiurus&#x25;20noveboracensis&amp;sciNameOper&#x3d;LIKE&amp;part_name&#x3d;Skin	
+191	785	OK	c36baa35d2a123f3d9675fce23df575f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;Vireo&#x25;20olivaceus&amp;sciNameOper&#x3d;LIKE&amp;part_name&#x3d;Skin	
+192	786	OK	9efe6a8ebfd87cbc0afe9a8a2403dcc7	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;scientific_name&#x3d;Hylocichla&#x25;20mustelina&amp;sciNameOper&#x3d;LIKE&amp;part_name&#x3d;Skin	
+193	787	OK	152a494362a8398896d487c8c824c6f2	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Eryx&#x25;20jaculus&#x25;20familiaris&amp;sciNameOper&#x3d;LIKE	
+194	799	OK	a843d5e8f14d1a61a7648f90c816cf8f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;Coluber&#x25;20najadum	
+195	800	OK	01a34ec3f9fea49639eae131d2033a76	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;Coluber&#x25;20ravergieri	
+196	801	OK	205eebff956ee23bc60166a39362cd49	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;Coluber&#x25;20nummifer	
+197	802	OK	1e4c64736952ce72e9cac3e99d3ab771	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;Elaphe&#x25;20hohenackeri	
+198	803	OK	e03a6652aebb5106544824ae19420c3c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;any_taxa_term&#x3d;Telescopus&#x25;20fallax	
+199	804	OK	5d3e639015a02ee6e11b8795613a10d9	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Bufo&amp;any_geog&#x3d;Arkansas	
+200	816	OK	16b4cf32e05e97b2bffeb01dfde75dc1	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;state_prov&#x3d;California	
+201	818	OK	eb74b2cd7db807bc7554370f0302a07d	&amp;catnum&#x3d;S-1333&#x25;20S-926&#x25;2029075&#x25;2029076&#x25;2029077&#x25;2029119&#x25;2029125&#x25;2029171&#x25;2029172&#x25;2029178&#x25;2029180&#x25;2029184&#x25;2029856&#x25;2029886&#x25;2029203&#x25;2029205&#x25;2029235&#x25;2029246&#x25;2029278&#x25;2...&#x5b;truncated, 2224 chars&#x5d;	
+202	824	OK	3995576d6e03d50610133cb4b9cf418e	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Corythomantis&#x25;20greeningi	
+203	825	OK	01127168eba69b8439fa76ecde24d6d3	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Aparasphenodon&#x25;20brunoi	
+204	826	OK	a4fa5fc821587e2ca918d69a4318fd78	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;GYMNOLAEMATA	
+205	830	OK	898de195354539122f49f1ab5bf5ed65	&amp;ShowObservations&#x3d;false&amp;any_geog&#x3d;Puebla,&#x25;20Mexico	
+206	845	OK	ecf2bc7138746f7abfbd64d931bb582a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Primates&amp;exclCollObjId&#x3d;675961,669748,676116,669752,667510,670355,670360,667207,771893,771129,666549,666546...&#x5b;truncated, 1261 chars&#x5d;	
+207	849	OK	16ff9e650de96369cc132b040de86a3d	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Ocean&#x25;20Exploration&#x25;20Trust&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;Ophiuroidea&amp;continent_ocean&#x3d;Atlantic&#x25;20Ocean	
+208	852	OK	ef74b62a11333343e9950bbe354c420f	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;type_status&#x3d;type	
+209	855	OK	148b2d716e5abd5a492b9d1519607bbc	&amp;ShowObservations&#x3d;false&amp;collection_object_id&#x3d;1024325	
+210	856	OK	4af4db2e10f3678f36662d0353fa39bf	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Dunham&amp;coll_role&#x3d;c	
+211	859	OK	b175ce5a28ae97d065ef62827d899071	&amp;catnum&#x3d;S-581&amp;ShowObservations&#x3d;false	
+212	860	OK	71524562e5d1582c553675261b089393	&amp;catnum&#x3d;160734&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4	
+213	863	OK	3167808a4c329f9cfb357d2b904ca514	&amp;catnum&#x3d;CNID-2947&#x25;20CNID-1280&#x25;20CNID-1291&#x25;20CNID-915&#x25;20CNID-1153&#x25;20CNID-2946&#x25;20CNID-3099&#x25;20CNID-1292&#x25;20CNID-1274&#x25;20CNID-1257&#x25;20CNID-1421&#x25;20CNID-1427&#x25;20CNID-729&amp;...&#x5b;truncated, 198 chars&#x5d;	
+214	866	OK	3e435653c376690273d2cfc9678ef396	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Anniella&#x25;20pulchra&amp;sciNameOper&#x3d;LIKE	
+215	867	OK	9543d0642723e50d11f509f8e4f57e29	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Ophiodes&#x25;20striatus&amp;sciNameOper&#x3d;LIKE	
+216	868	OK	bd68e3d550b3079a018106fdd25f521f	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;17166	
+217	869	OK	7a99070d1e4337a5f531a646fbf6c929	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;8244	
+218	870	OK	ddd3a06bbe5fbd303889d5a839108c41	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;8224	
+219	871	OK	68a707f41e7d203af676b6411d970ddd	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;15064	
+220	872	OK	93266207b26234b8a8abb7bb0a9d64d2	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;17436	
+221	874	OK	7abd70c29a373a10b4f74a372559822f	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;23611	
+222	875	OK	289ae5191402aaa77caf0436980b9602	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;10935	
+223	876	OK	b8df7ee0f1cde910ebebdc714a731cbe	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;21642	
+224	883	OK	b757c9cf342d214dcc54f30882a39a57	&amp;ShowObservations&#x3d;false&amp;begYear&#x3d;1500&amp;endYear&#x3d;1955&amp;any_geog&#x3d;brazil	
+225	884	OK	8c498ebadc0ae674ec9ea0d98d6fef24	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;cnidaria&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;1500&amp;endYear&#x3d;1955&amp;any_geog&#x3d;brazil	
+226	886	OK	076a2d57da83e834ea632cf862636d0f	&amp;catnum&#x3d;362908,&#x25;20362910,&#x25;20362922,362923,362925,362937,362947,362949,362950,363582,&amp;ShowObservations&#x3d;false	
+227	890	OK	3b3f15cf63a0f12a26463e2b2de47a57	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_taxa_term&#x3d;Eulimidae	
+228	891	OK	0d0e7140aa4b27d50f5489cd53c459db	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;5&amp;coll&#x3d;peale&amp;coll_role&#x3d;c	
+229	892	OK	c3e4c2ca0a01e8bc1c2f06d963cb13a9	&amp;catnum&#x3d;363583,363606,363608,367074,367362,368948,369071,363195,367093,367095,362924,362936,362981,363000&amp;ShowObservations&#x3d;false	
+230	894	OK	13abc1d7fc3c47dd5b60badb32bd3b14	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;OIDType&#x3d;Microscope&#x25;20slide&#x25;20ledger&#x25;20catalogue&#x25;20number	
+231	895	OK	4579ad0fcc0b1eb68c4ffbcb66cdaadc	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Anolis&#x25;20altae	
+232	896	OK	5ff46ab9449f116fa20903edca5002ba	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;anolis&#x25;20altavelensis	
+233	899	OK	6105b4729c68028e146e28f05114e930	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;cephalophus	
+234	900	OK	1a242da8bb7019a52e99ecf9bb707c21	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;scientific_name&#x3d;Ophionereis&amp;sciNameOper&#x3d;LIKE&amp;type_status&#x3d;type	
+235	904	OK	a6f78621f41ecf51bb0aa079ae5c6b44	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;any_taxa_term&#x3d;araneae&amp;OIDNum&#x3d;llama&amp;oidOper&#x3d;LIKE&amp;exclCollObjId&#x3d;2999278,2978017,4308486,2978015,2998798,3247316,3079108,29...&#x5b;truncated, 293 chars&#x5d;	
+236	911	OK	baa8f21008bb7f193579f3582422ef4d	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;&#x3d;Pharomachrus&#x25;20pavonius&#x25;20auriceps&amp;sciNameOper&#x3d;&#x3d;	
+237	912	OK	3703fa82a82febde65a39ed9a582bc7b	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Trogon&#x25;20massena&#x25;20massena	
+238	913	OK	895532e685ec72475bbc114deefb8540	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;challenger&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;echinoderm&amp;begYear&#x3d;1872&amp;endYear&#x3d;1876	
+239	914	OK	5336816334e6a85f8ad89c416ac51cd5	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;salenocidaris	
+240	915	OK	a52d4a25d4a230f1242573e43487e09e	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Salenocidaris&#x25;20varispina&amp;sciNameOper&#x3d;LIKE	
+241	916	OK	e1ac944d4130aee4216f0825de7fedbb	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;salenocidaris&amp;exclCollObjId&#x3d;3868307,3538181,3543293,3522217,3522529,3538179,3538173,2653409	
+242	917	OK	38911e72dae5339afe58ac32b6d6f2ae	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Echinoidea	
+243	918	OK	85f60e99051299422716c20f59edf0df	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;challenger&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;pourtalesia&amp;begYear&#x3d;1872&amp;endYear&#x3d;1876	
+244	919	OK	aa6d6a0c4d02a7c2f6d75ebfa0d2ff09	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;challenger&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;echinoidea	
+245	920	OK	b098e6ad7e2a3aae4025bbb4f29ef4c9	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Nyctidromus&#x25;20albicollis&#x25;20albicollis	
+246	934	OK	8f8d826c11042a46010e4fc263172de2	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;dicrodon	
+247	946	OK	98801bebae3a0ae64b0dd98f01c65c12	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;morelet&amp;coll_role&#x3d;c	
+248	962	OK	65406efb37f3d11f5e3487d244c281ca	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Giribet&amp;coll_role&#x3d;c	
+249	963	OK	4ec8d1001ab5ed466e8e81da8a1be89e	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Cosgrove&amp;coll_role&#x3d;c	
+250	964	OK	a077435399f016cf2353aed25d154611	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;tauana&#x25;20cunha&amp;coll_role&#x3d;c	
+251	965	OK	f7a5b8ae61ee12bc95f6273de9e1936f	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;lemer&amp;coll_role&#x3d;c	
+252	966	OK	8105d5987cff3657169e1d5813b3d85d	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;rosa&#x25;20Fern&#x25;C3&#x25;A1ndez&amp;coll_role&#x3d;c	
+253	968	OK	3b6a4c00f8d1e8a6edd8325642d4ea5a	&amp;ShowObservations&#x3d;false&amp;any_geog&#x3d;Appomattox&amp;exclCollObjId&#x3d;268891,268883,268885,268889,268887,268881,3016143	
+254	973	OK	feccc4b911ef116de3c78f33072702b7	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;CHALLENGER&amp;coll_role&#x3d;c	
+255	976	OK	3f0d10239dc122a59d2158c007fb5e80	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Mechanitis&#x25;20menapis&amp;sciNameOper&#x3d;LIKE	
+256	991	OK	0b86314b5f4c41231745a0c92635c629	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;opopaea&#x25;20recondita&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;panama	
+257	995	OK	6c313a6e8cd25c3d6b1c92f4517d3c69	&amp;ShowObservations&#x3d;false&amp;collection_object_id&#x3d;4375620,4375622,4375572,4375570,4375580,4375624,4374521,4375618,4375610,4375584,4375592,4375578,4375538,4375596,437...&#x5b;truncated, 308 chars&#x5d;	
+258	999	OK	770ceef1a1e6b272255310ce977f80c2	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;anolis&#x25;20ophiolepis&amp;sciNameOper&#x3d;LIKE&amp;is_tissue&#x3d;1	
+259	1070	OK	45bc45ccb660942e36b940918d4e82d6	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_taxa_term&#x3d;Stylommatophora&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;&#x25;5Bno&#x25;20higher&#x25;20geography&#x25;20data&#x25;5D	
+260	1079	OK	705f7f0cb61c64e2aeea3c27504805de	&amp;entered_by&#x3d;sheridan&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;any_taxa_term&#x3d;opiliones&amp;searchUnaccepted&#x3d;Yes&amp;accn_number&#x3d;464615	
+261	1084	OK	2a50a6e28c3b44361be206c4bcec413f	&amp;catnum&#x3d;59011,59016,59020,59021,59030,138129,138056,138057,138074,138076,138077,138091,138093,138096,138097,138098,138109,138110,138115,138122,138123,138124,138...&#x5b;truncated, 279 chars&#x5d;	
+262	1131	OK	6e40e91e8b09268ca4a2b02beb3c2d49	&amp;catnum&#x3d;9005&#x25;209006&#x25;209012&#x25;209010&#x25;209067&#x25;209007&#x25;209011&#x25;209008&#x25;209003&#x25;209009&#x25;209002&#x25;209001&#x25;209013&#x25;20&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8&amp;exclCollObjId&#x3d;2925525,300...&#x5b;truncated, 356 chars&#x5d;	
+263	1132	OK	7f179922ff48b277ad2abffd64bc27b9	&amp;catnum&#x3d;146029&#x25;20146028&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+264	1136	OK	419e863a317e6e0de2efa49db23e670c	&amp;catnum&#x3d;386898&#x25;20386899&#x25;20386900&#x25;20386901&#x25;20386902&#x25;20386903&#x25;20386904&#x25;20386905&#x25;20386906&#x25;20386907&#x25;20386908&#x25;20386909&#x25;20386910&#x25;20386911&#x25;20386912&#x25;20386913&#x25;20386914&#x25;2...&#x5b;truncated, 373 chars&#x5d;	
+265	1137	OK	5eb5147a209dc3859ba21b5393bbb72f	&amp;catnum&#x3d;146030&#x25;20146031&#x25;20146032&#x25;20146033&#x25;20146034&#x25;20146035&#x25;20146036&#x25;20146037&#x25;20146038&#x25;20146039&#x25;20146040&#x25;20146041&#x25;20146042&#x25;20146043&#x25;20146044&#x25;20146045&#x25;20146305&#x25;2...&#x5b;truncated, 1330 chars&#x5d;	
+266	1138	OK	460357791b2737723fa0b5abae84d82c	&amp;catnum&#x3d;146432&#x25;20146364&#x25;20146319&#x25;20146038&#x25;20146044&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+267	1139	OK	619f21e48e14f6b872d01f2de9414432	&amp;catnum&#x3d;146359,&#x25;20146434,&#x25;20146433&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+268	1140	OK	d299b8ca3520ae7c39cfd2bdf1cf2610	&amp;catnum&#x3d;146359,&#x25;20146434,&#x25;20146433&#x25;20146027&#x25;20146025&#x25;20146026&#x25;20146024&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+269	1141	OK	0b0a4fcd4dde393a97c78915be4342d9	&amp;catnum&#x3d;386923&#x25;20386925&#x25;20386929&#x25;20386930&#x25;20386899&#x25;20386922&#x25;20386927&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;3	
+270	1142	OK	3627e430bd3045c7ee8eb7bc9f489fad	&amp;catnum&#x3d;386898&#x25;20386901&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;3	
+271	1143	OK	49558444a49a8be4fc8b4447efd8452a	&amp;catnum&#x3d;9002&#x25;209008&#x25;209128&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8&amp;exclCollObjId&#x3d;2910697,3020189,3019581,3029363,3044735,3028843	
+272	1146	OK	9ade90de5817c7fdba54f9fd32f1b81d	&amp;catnum&#x3d;384381&#x25;20146041&#x25;2075120&amp;ShowObservations&#x3d;1&amp;exclCollObjId&#x3d;1571314,1731429,1257044,3018632	
+273	1148	OK	e2de8408edd194ad0b655110948f3cb0	&amp;catnum&#x3d;127281,134889,127077,30072,30078,132921,73548,132881,73450,73484,73488,88579,88580,30065,30077,35537,73543,127009,49519,127211,127211,132879,132909,1339...&#x5b;truncated, 734 chars&#x5d;	
+274	1152	OK	8e23213306150d78e4079f9114efd7a2	&amp;catnum&#x3d;146077&#x25;205782&#x25;205311&#x25;20146076&#x25;20146073&#x25;205315&#x25;205311&#x25;20146074&#x25;205308&#x25;20146075&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8&amp;exclCollObjId&#x3d;3028737,3028743,2951493,3...&#x5b;truncated, 174 chars&#x5d;	
+275	1156	OK	be491bbf75ed0c8f42100709c77cd047	&amp;catnum&#x3d;147896&#x25;20147897&#x25;20147898&#x25;20147899&#x25;20147900&#x25;20147901&#x25;20147902&#x25;20147903&#x25;20147904&#x25;20147905&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+276	1157	OK	4d3992d710df826abe48573fbe35b223	&amp;catnum&#x3d;Invertebrate&#x25;20Zoology&#x25;20143234Chaetozone&#x25;20elakata&#x25;20Chaetozone&#x25;20elakata&#x25;20Paratopotype&#x25;20567&#x25;20&#x25;20&#x25;20Invertebrate&#x25;20Zoology&#x25;2065293Chaetozone&#x25;20anasi...&#x5b;truncated, 893 chars&#x5d;	
+277	1160	OK	36f9f0d7c2bf58a4769cd7da35051c64	&amp;catnum&#x3d;147859&#x25;20147861&#x25;20147860&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+278	1171	OK	a8971ebd9a6f55563bd8a8ec2959eaed	&amp;catnum&#x3d;29207&#x25;2057223&#x25;2068010&#x25;2068011&#x25;2068012&#x25;2068013&#x25;2068014&#x25;2068017&#x25;2068018&#x25;2068019&#x25;2068020&#x25;2068021&#x25;2068022&#x25;2068023&#x25;2068024&#x25;2068025&#x25;2068026&#x25;2068027&#x25;2068028&#x25;20...&#x5b;truncated, 1076 chars&#x5d;	
+279	1173	OK	83f920ed8d02007b854a36b9ba63febf	&amp;catnum&#x3d;148497&#x25;20384453&#x25;20384454&#x25;20384455&#x25;20148498&#x25;20384456&#x25;20148499&amp;ShowObservations&#x3d;1&amp;exclCollObjId&#x3d;1717051,1233178,1717053,1233182,1717055,1233188	
+280	1175	OK	1f0f83ffc8cb3326e5ed6d9c3718d821	&amp;catnum&#x3d;25231&#x25;2025242-25245&#x25;2025241&#x25;2025179&#x25;2058414&#x25;203081&#x25;203082&#x25;208867&#x25;2033348-33450&#x25;2061985&#x25;207488&#x25;207489&#x25;2050052&#x25;2045776&#x25;2019469&#x25;2019470&#x25;2016429-16433&#x25;20483...&#x5b;truncated, 380 chars&#x5d;	
+281	1176	OK	00f43869fa8bd011899698a67acd20d7	&amp;catnum&#x3d;357866&#x25;20357813&#x25;20358870&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;3	
+282	1178	OK	a035a7391f649b76954e8b2703668b4b	&amp;catnum&#x3d;A22398,&#x25;20A16330,&#x25;20A17830,&#x25;20A17831,&#x25;20A10333,&#x25;20A3237,&#x25;20A27180,&#x25;20A22327,&#x25;20A16383,&#x25;20A98780-98781,&#x25;20A106533&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1	
+283	1182	OK	9b6617100e4d23d91a27ac4321156822	&amp;catnum&#x3d;56273&#x25;20155278&#x25;20155267&#x25;2061111&#x25;2054680&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4	
+284	1183	OK	15603efae042f51105f22a736c39abf3	&amp;catnum&#x3d;149897&#x25;20149898&#x25;20149899&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+285	1191	OK	cd3b454694f808d1ab9b163b2dc01ee7	&amp;catnum&#x3d;149865&#x25;20149864&amp;ShowObservations&#x3d;1&amp;exclCollObjId&#x3d;1762390,1297794,1762392,1297798	
+286	1192	OK	79d191f20073467e09acabf706778a77	&amp;catnum&#x3d;149853&#x25;20149852&#x25;20147901&#x25;20147900&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+287	1196	OK	005d70a5256c5faa9a36fb12aed1de33	&amp;catnum&#x3d;391457&#x25;20391467&#x25;20391478&#x25;20384459&#x25;20391452&#x25;20391479&#x25;20391481&#x25;20391482&#x25;20391476&#x25;20391454&#x25;20391458&#x25;20391473&#x25;20391448&#x25;20391450&#x25;20391471&#x25;20391484&#x25;20384458&#x25;2...&#x5b;truncated, 211 chars&#x5d;	
+288	1197	OK	01dab1d915cbd9a0838ec8619f3fe9e3	&amp;catnum&#x3d;391475&#x25;20391470&#x25;20391468&#x25;20391449&#x25;20384384&#x25;20391459&#x25;20391483&#x25;20391461&#x25;20391460&#x25;20391463&#x25;20391453&#x25;20384436&#x25;20391474&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;3	
+289	1201	OK	ae46a3c6d2fd301b8a7dcac86b1c4c62	&amp;catnum&#x3d;&#x25;2060892&#x25;2060891&#x25;2060893&#x25;20147901&#x25;20147902&#x25;20147905&#x25;20147897&#x25;20147896&#x25;20147903&#x25;20147899&#x25;20147904&#x25;20147898&#x25;20147900&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;8	
+290	1211	OK	ea859682cabf92e0d8ad097feea6557b	&amp;catnum&#x3d;2112&amp;ShowObservations&#x3d;1&amp;collection_id&#x3d;2	
+291	1212	OK	34f83829d37245947b92d07fa624c5f8	&amp;catnum&#x3d;150918&#x25;20150919&#x25;20150920&#x25;20150921&#x25;20150922&#x25;20150923&#x25;20AST-324&#x25;20AST-344&#x25;20AST-345&#x25;20AST-346&#x25;20AST-350&#x25;20AST-351&#x25;20AST-352&#x25;20AST-2163&#x25;20AST-2651&#x25;20AST-34...&#x5b;truncated, 330 chars&#x5d;	
+292	1215	OK	61799da0e161ac950774cd90d70fa9f8	&amp;catnum&#x3d;136044,136230,136036,135448,133245,133349,129557,129555,136040,54337,71217,58928,135805,149003,23305,135815,135804,64836,129577,64810,64816,64802,64595,...&#x5b;truncated, 232 chars&#x5d;	
+293	1218	OK	4303e1f6ee7bc15309376b9d6ff9ffe4	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Meghalaya&amp;searchUnaccepted&#x3d;Yes	
+294	1219	OK	5893329bfa050b1111ca35e10514e0f2	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Fangensis&amp;searchUnaccepted&#x3d;Yes	
+295	1220	OK	f2568fef12101b626d60f59a4179fee7	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Miopsalis&amp;searchUnaccepted&#x3d;Yes	
+296	1221	OK	c8d2863de86ba19347c9c8b88c674408	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Miopsalis&amp;sciNameOper&#x3d;&#x3d;	
+297	1222	OK	33a38ca363bfa1427bbebb375957168e	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Leptopsalis&amp;searchUnaccepted&#x3d;Yes	
+298	1223	OK	1c0cef2caeed061bba76f9a9cd64f90b	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Stylocellus&amp;sciNameOper&#x3d;LIKE	
+299	1225	OK	16232cd53c7d274780197bf16a9e0cf6	&amp;catnum&#x3d;AST-436&#x25;20AST-1810&#x25;20AST-3055&#x25;20AST-3517&#x25;20AST-4570&#x25;20AST-387&#x25;20AST-3422&#x25;20AST-2164&#x25;20AST-271&#x25;20AST-1601&#x25;20AST-4326&#x25;20AST-692&#x25;20AST-4327&#x25;20AST-4325&#x25;20AS...&#x5b;truncated, 286 chars&#x5d;	
+300	1226	OK	e98ef092eecec21455ebe13b9d8d0630	&amp;catnum&#x3d;AST-269&amp;ShowObservations&#x3d;false	
+301	1229	OK	18d6723a8f16eea07bc4527c80008985	&amp;catnum&#x3d;AST-275&#x25;20AST-2558&#x25;20AST-276&#x25;20AST-2162&#x25;20AST-279&#x25;20AST-2381&#x25;20AST-285&#x25;20AST-283&#x25;20AST-2559&#x25;20AST-282&#x25;20AST-3601&#x25;20150948&#x25;20150927&#x25;20150928&#x25;20150929&#x25;201...&#x5b;truncated, 231 chars&#x5d;	
+302	1230	OK	babccf5617eb73a8b763875a5a24df27	&amp;catnum&#x3d;150934&#x25;20150935&#x25;20150936&#x25;20150937&#x25;20AST-3171&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+303	1231	OK	4a88a71acfb3c9993a986a6fcf0ee86d	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Siphonophora&amp;searchUnaccepted&#x3d;Yes	
+304	1237	OK	316759971f84e24a73df9f19fb6d240a	&amp;catnum&#x3d;149901&#x25;20149902&#x25;20149913&#x25;20149919&#x25;20149930&#x25;20148540&#x25;20149957&#x25;20149963&#x25;20149970&#x25;20149975&#x25;20149976&#x25;20149977&#x25;20149978&#x25;20149988&#x25;20149991&#x25;20149992&#x25;20149983&#x25;2...&#x5b;truncated, 278 chars&#x5d;	
+305	1239	OK	0d1278ecfa9f29a45a6d3d1c76f6ac62	&amp;catnum&#x3d;149993&#x25;20149992&#x25;20146385&#x25;20146386&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+306	1242	OK	79cb1f637d3bdfb1fe0c94246a410b1b	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Triaenonychidae&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;New&#x25;20Caledonia	
+307	1251	OK	2d76f281460be0de358722bac6081104	&amp;catnum&#x3d;150957&#x25;20150958&#x25;20AST-297&#x25;20AST-292&#x25;20AST-4590&#x25;20AST-293&#x25;20AST-296&#x25;20AST-3103&#x25;20AST-289&#x25;20AST-286&#x25;20AST-295&#x25;20AST-4591&#x25;20AST-1199&#x25;20150964&#x25;20150958&#x25;2015...&#x5b;truncated, 468 chars&#x5d;	
+308	1252	OK	942ebc7d30417ee2529e1ea3c3c84bef	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Pachylomerus&amp;searchUnaccepted&#x3d;Yes	
+309	1265	OK	961bb8ca3c501dc7b4622378054a05eb	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;type_status&#x3d;Holotype	
+310	1270	OK	f4407bdb4239d60710f4fb3e90e58808	&amp;catnum&#x3d;151507&#x25;20151508&#x25;20151509&#x25;20151510&#x25;20151511&#x25;20151512&#x25;20151513&#x25;20151514&#x25;20151515&#x25;20151516&#x25;20151517&#x25;20151630&#x25;20151631&#x25;20151633&#x25;20151636&#x25;20151641&#x25;2039246&#x25;20...&#x5b;truncated, 204 chars&#x5d;	
+311	1279	OK	feb23eac71ea474504e9a4ea7da29328	&amp;catnum&#x3d;151229&#x25;20151017&#x25;20151213&#x25;20151001&#x25;20151037&#x25;20151034&#x25;20150989&#x25;20151181&#x25;20151087&#x25;20151025&#x25;20150991&#x25;20151020&#x25;20151040&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;...&#x5b;truncated, 161 chars&#x5d;	
+312	1280	OK	b57079ec6782a03fb98e191aa96a7078	&amp;catnum&#x3d;151001&#x25;20151037&#x25;20151034&#x25;20150989&#x25;20151181&#x25;20151087&#x25;20151025&#x25;20150991&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+313	1281	OK	0037df02d681a2ad43f66543353a75a1	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Acanthaster&amp;searchUnaccepted&#x3d;Yes	
+314	1289	OK	6f6f44d446e47ce59e6808df8b93aae8	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Algidia&amp;searchUnaccepted&#x3d;Yes	
+315	1315	OK	d28d88d01ba00d5b94fc294d120398dd	&amp;catnum&#x3d;135804,135815,71217,54337,136044,136040,136230,129557,58928,135775,129555,135448,136036,136229,140860,73335,136070,136153,136064,136175,64595,64802,6481...&#x5b;truncated, 259 chars&#x5d;	
+316	1327	OK	f0fa019efe54db36361ff854d10b8726	&amp;catnum&#x3d;5023&#x25;208393&#x25;206346&#x25;2024917&#x25;208012&#x25;207867&#x25;208399&#x25;208400&#x25;2015695&#x25;2035474&#x25;2058227&#x25;2057935&#x25;2058224&#x25;2058225&#x25;2027254&#x25;2058228&#x25;2058226&amp;ShowObservations&#x3d;false&amp;co...&#x5b;truncated, 173 chars&#x5d;	
+317	1328	OK	f4a72f49bf032835fd90670e0611aa13	&amp;ShowObservations&#x3d;false&amp;collection_object_id&#x3d;4191974,4191977,4191356,4191358,4191360,4191362,4191364,4191366,4191368,4191370,4191372,4191374,4191376,4191378,419...&#x5b;truncated, 1572 chars&#x5d;	
+318	1329	OK	1b6f046cb740f20109ffce8726eb7b69	&amp;catnum&#x3d;25183&#x25;2025184&#x25;2025188&#x25;2025198&#x25;2045572&#x25;2045573&#x25;2045409&#x25;2045609&#x25;2045609&#x25;2045613&#x25;2045619&#x25;2046100&#x25;2046102&#x25;2046103&#x25;2046104&amp;ShowObservations&#x3d;false&amp;collection_...&#x5b;truncated, 164 chars&#x5d;	
+319	1330	OK	50e855cad505093c4a036a6a6674fbfe	&amp;catnum&#x3d;34089&#x25;2034090&#x25;2037944&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2	
+320	1333	OK	c8f1c1bce3e2d8f9c84263394f7067cf	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Giribet&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;Opiliones&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2014&amp;endYear&#x3d;2014&amp;any_geog&#x3d;Panama	
+321	1334	OK	75f6a1ab47165b98478c19b50b674e68	&amp;catnum&#x3d;69370&#x25;2069351-69352&#x25;2069369&#x25;2069359&#x25;2069353&#x25;2069360-69368&#x25;2069371&#x25;2069372&#x25;2069356-69358&#x25;2069354&#x25;2069355&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2	
+322	1346	OK	48f7a0bbf056a08a22e482ccd9298f19	&amp;catnum&#x3d;129534,129548,129550,129558,129560,129551,129563,129564,129567,129569,129570,129589,134830,149004,149003,64806,129577,140860,152023,152651,152667,152685...&#x5b;truncated, 226 chars&#x5d;	
+323	1348	OK	d9f745e9b9e21338ba2e240ae0b93a65	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;emily&#x25;20hager&amp;coll_role&#x3d;c	
+324	1352	OK	364cbce59db324d0ff8d48315b74ef81	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Giribet&amp;coll_role&#x3d;c&amp;any_geog&#x3d;New&#x25;20Caledonia	
+325	1387	OK	d667043defc089e5c335b818eb5bbbbc	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;chupasko&amp;coll_role&#x3d;c&amp;verificationstatus&#x3d;unverified	
+326	1388	OK	229a1596f6c117403148810092b2c7c9	&amp;catnum&#x3d;JMC&amp;searchOtherIDs&#x3d;Yes&amp;ShowObservations&#x3d;false&amp;any_geog&#x3d;nicaragua	
+327	1391	OK	59cf54aa112cb0fc72021a78da319a26	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Troglosironidae&amp;searchUnaccepted&#x3d;Yes	
+328	1393	OK	e18868f172917c0cf918a9e91fd00067	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;lutra&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;canada	
+329	1402	OK	9fc4e462849ce9824fa019eefdab7b73	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;collector_agent_id&#x3d;113771	
+330	1407	OK	9aeeeca5e3c2de28f98ab55d0e3169ab	&amp;catnum&#x3d;19300-19361&amp;ShowObservations&#x3d;false	
+331	1437	OK	3b7b2e7b5667394b10651e48cf6f8839	&amp;catnum&#x3d;DNA102358&amp;searchOtherIDs&#x3d;Yes&amp;ShowObservations&#x3d;false	
+332	1439	OK	73496e215c9240fca42ad9aa12ed4fdd	&amp;ShowObservations&#x3d;false&amp;accn_trans_id&#x3d;486274	
+333	1444	OK	97501fe0371e736598b574a5ad94cd1b	&amp;catnum&#x3d;jmc&amp;searchOtherIDs&#x3d;Yes&amp;ShowObservations&#x3d;false&amp;verificationstatus&#x3d;unverified	
+334	1445	OK	ba7edba7fde4348a89390eefd9b41fad	&amp;ShowObservations&#x3d;1&amp;collection_object_id&#x3d;4138945,4139208,4141279,4138955,4139212,4141413,4141932,4142636,4143327,4141326,4141457,4138372,4141599,4143245,4143880...&#x5b;truncated, 1088 chars&#x5d;	
+335	1447	OK	b113da63bf538d520a5ee243ad073f38	&amp;catnum&#x3d;174204-174210&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4	
+336	1452	OK	25dfedcdc1c5a576c205d67b39f04f17	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Notostraca&amp;searchUnaccepted&#x3d;Yes	
+337	1455	OK	e933cc71e3a45fe7d8b4d8a6e3b228ba	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;coll&#x3d;Hassler&#x25;20Expedition&amp;coll_role&#x3d;c	
+338	1456	OK	75f330e511e2f29a892d7a87d7ef31fe	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_geog&#x3d;keene&#x25;20heights	
+339	1472	OK	353d05c1b38548b887e91e3605cfb4f3	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;&#x25;20Actinocucumis&#x25;20longipedes&amp;searchUnaccepted&#x3d;Yes	
+340	1501	OK	abdd8e28b5c96fd5f357351f191df8b4	&amp;catnum&#x3d;11450&#x25;204870&#x25;2047133&#x25;2056132&#x25;205307&#x25;201601&#x25;205587&#x25;205583&#x25;205309&#x25;205586&#x25;205584&#x25;205308&#x25;205304&#x25;201593&#x25;205588&#x25;205585&#x25;205303&#x25;205302&#x25;205305&#x25;205301&amp;ShowObserva...&#x5b;truncated, 187 chars&#x5d;	
+341	1507	OK	7b128516b4bc9405b9f6965313e737e8	&amp;ShowObservations&#x3d;false&amp;genus&#x3d;Taricha&amp;preserve_method&#x3d;cleared&#x25;20and&#x25;20stained	
+342	1509	OK	1a3738f8bbb8f6701ba8c3caec27f744	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Allocosa&#x25;20funerea&amp;searchUnaccepted&#x3d;Yes	
+343	1510	OK	286bb46894c91ef46bf41773661eeda5	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_geog&#x3d;Maine	
+344	1512	OK	b7469e0b990ea8b3f6e776b71cafb3ca	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Diplopoda&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2000&amp;endYear&#x3d;2020&amp;any_geog&#x3d;New&#x25;20Caledonia	
+345	1513	OK	0da675c65a2e8de52f1a9c89e8270d85	&amp;ShowObservations&#x3d;false&amp;scientific_name&#x3d;Sphaerotheri&#x25;20or&#x25;20Siphonophor&amp;sciNameOper&#x3d;NOT&#x25;20LIKE&amp;any_taxa_term&#x3d;Diplopoda&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2000&amp;endYear...&#x5b;truncated, 188 chars&#x5d;	
+346	1514	OK	8c169dde6eb426f08e21aa39e077144a	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Mangatangi&amp;searchUnaccepted&#x3d;Yes	
+347	1520	OK	c4c58ffe635a508828d8b27496d1889c	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_taxa_term&#x3d;Stylommatophora&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;Hawaii	
+348	1521	OK	0f8411981e43be18f9ee342010c72962	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Opiliones&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;New&#x25;20Zealand	
+349	1522	OK	e6a53f3690487ec187a854c02b442a16	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;1&amp;coll&#x3d;Jos&#x25;C3&#x25;A9&#x25;20Rosado&amp;coll_role&#x3d;c&amp;exclCollObjId&#x3d;58348,58346,58342,58344,257646,257649,257652,257655,257658,257640,2576...&#x5b;truncated, 1567 chars&#x5d;	
+350	1524	OK	84e345ea08e2ce618dca44dccf6e2c40	&amp;catnum&#x3d;147585,&#x25;20135673,&#x25;20135672,&#x25;20136061,&#x25;20135537,&#x25;20133226,&#x25;20136101,&#x25;20136110,&#x25;20135665,&#x25;20152103,&#x25;20135666,&#x25;20152083,&#x25;20135667,&#x25;20135656,&#x25;20135663&amp;ShowO...&#x5b;truncated, 193 chars&#x5d;	
+351	1525	OK	677f961366fa49188ff6029e9f58e367	&amp;catnum&#x3d;136161,&#x25;20136162,&#x25;20148110,&#x25;20136037,&#x25;20152198,&#x25;20152027,&#x25;20152010,&#x25;20152039,&#x25;20152009,&#x25;20148113,&#x25;20136045&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+352	1526	OK	9278ca6eac815ca465aaeea3be710174	&amp;catnum&#x3d;29512,&#x25;20135496,&#x25;20134923,&#x25;20133364,&#x25;20133323,&#x25;2029315,&#x25;20135695,&#x25;20135725,&#x25;20152318,&#x25;20136008,&#x25;20133344,&#x25;20136013,&#x25;20133216,&#x25;20133222,&#x25;20133223,&#x25;201360...&#x5b;truncated, 220 chars&#x5d;	
+353	1537	OK	3fc0004c9beed5c0f72a3573799668f4	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Giribet&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;Onychophora&amp;searchUnaccepted&#x3d;Yes	
+354	1539	OK	7297f5d7594fdd51c7fc948cbcff7190	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;4&amp;identified_agent_id&#x3d;50078	
+355	1551	OK	7a0241971e8d54d978779db3c1f5f3fb	&amp;catnum&#x3d;1-443&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;10	
+356	1554	OK	7db5c0427ebe365a4a07f2590b3029a4	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Ricinoides&#x25;20feae&amp;searchUnaccepted&#x3d;Yes	
+357	1570	OK	21ff9a0cca5bacd7b9a95ec0cf12d404	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2012&amp;endYear&#x3d;2021&amp;accn_number&#x3d;2001408	
+358	1571	OK	2ebd966110e391f991f8d2bce5f065ea	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2012&amp;endYear&#x3d;2021&amp;accn_number&#x3d;2002442	
+359	1572	OK	61f484d618fd04d4a267dd43c83d6042	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;accn_number&#x3d;2002442	
+360	1573	OK	0f37176d32a0bcaa406ca5e3a6422c93	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;accn_number&#x3d;2001408	
+361	1574	OK	4a9947773d45d7c403e72aadc516f7b2	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2001&amp;endYear&#x3d;2021&amp;accn_number&#x3d;2001408	
+362	1575	OK	b04b76122c26a5598e0881bbedf7daa5	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;any_taxa_term&#x3d;Geometridae&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2001&amp;endYear&#x3d;2021&amp;accn_number&#x3d;2002442	
+363	1597	OK	82716f3b813d4f2f4fa7e2f8a03ca506	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;coll&#x3d;Janda&amp;coll_role&#x3d;c	
+364	1611	OK	59c2e9f56f873d5e48cf5c2a86d01311	&amp;catnum&#x3d;151983&#x25;20151980&#x25;20144798&#x25;20151979&#x25;20151981&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+365	1616	OK	bb0de7521b6b16937a12eedaae866b31	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Brown&amp;coll_role&#x3d;c&amp;Country&#x3d;Colombia&amp;any_geog&#x3d;San&#x25;20Francisco	
+366	1620	OK	6e2f0adae93b19a1a833cdaaa59cdf46	&amp;catnum&#x3d;500&#x25;20&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+367	1627	OK	d6d4a7e90e49a4f2d58167e6bdd8e43c	&amp;catnum&#x3d;1&amp;ShowObservations&#x3d;false	
+368	1629	OK	90c4efc99669c9e5b0211ba8af59f7f1	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;type_status&#x3d;Type	
+369	1642	OK	aaab6e7b9ed6205ba881ef1aedbbbc7a	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Ricinulei&amp;searchUnaccepted&#x3d;Yes	
+370	1643	OK	5f729dafc9f60e433ce4105f3ef0a9b5	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Pseudocellus&#x25;20giribeti&amp;searchUnaccepted&#x3d;Yes	
+371	1647	OK	1f70b44049ecd3e2d40deb1d8e61c6bc	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Uroderma&amp;searchUnaccepted&#x3d;Yes&amp;exclCollObjId&#x3d;718725,706077,718512	
+372	1651	OK	f6f4bfd7241a3c4994e72bd558a832d2	&amp;ShowObservations&#x3d;false&amp;Country&#x3d;Cuba&amp;any_geog&#x3d;Hospital	
+373	1680	OK	6abab38090b1164530c09215186ae420	&amp;catnum&#x3d;S-887,&#x25;20S-43,&#x25;2040142,&#x25;2039802,&#x25;2051816,&#x25;2051836,&#x25;20154918,&#x25;2054412,&#x25;20172370,&#x25;20172000,&#x25;20S-655,&#x25;2039898,&#x25;2039911&amp;ShowObservations&#x3d;false&amp;collection_id...&#x5b;truncated, 162 chars&#x5d;	
+374	1689	OK	357c9340c05f3b09beb5f7ddb9c65577	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;9&amp;verificationstatus&#x3d;unverified	
+375	1695	OK	378ac28373792a7cfa943b90f4207f45	&amp;catnum&#x3d;63779,&#x25;2063646,&#x25;2063662,&#x25;2063655,&#x25;2063496,&#x25;2063528,&#x25;2063573,&#x25;2064001,&#x25;2064002,&#x25;2064004,&#x25;2064019,&#x25;2064021,&#x25;2064059,&#x25;2063651,&#x25;2063900,&#x25;2063907&amp;ShowObserva...&#x5b;truncated, 187 chars&#x5d;	
+376	1722	OK	ee4da6187fa7488bcebace31c06302bb	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Pseudoscorpiones&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;South&#x25;20Africa	
+377	1723	OK	f782917c8e941670d85b0e758fe5268f	&amp;catnum&#x3d;389075&#x25;20389068&#x25;20389077&#x25;20389071&#x25;20389074&#x25;20389076&#x25;20389042&#x25;20389069&#x25;20389065&#x25;20389070&#x25;20389072&#x25;20389064&#x25;20389073&#x25;20389043&#x25;20389044&#x25;20398923&#x25;20398924&#x25;2...&#x5b;truncated, 269 chars&#x5d;	
+378	1726	OK	b7c1fb7120c7642283bc330eb65ef003	&amp;catnum&#x3d;39424,39439,39440,39442,39443,39444,39446,39455,39456,39457,39464,39679,39687,39688,39690,39782,39783,39796,39799&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+379	1727	OK	8841dc17b4d04be25a48adcefc64511f	&amp;catnum&#x3d;41638,41639,41640,41677,41678,41680,41701,41829,41831,42002,42009,42039,42045,42057,42072,42077,42078&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+380	1728	OK	da421677568fc876a05707be80a45010	&amp;catnum&#x3d;41110&#x25;2041111&#x25;2041126&#x25;2041150&#x25;2041200&#x25;2041203&#x25;2041204&#x25;2041209&#x25;2041220&#x25;2041232&#x25;2042385&#x25;2042386&#x25;2042387&#x25;2042388&#x25;2042389&#x25;2042391&#x25;2042392&#x25;2042393&#x25;2042394&#x25;20...&#x5b;truncated, 212 chars&#x5d;	
+381	1729	OK	4024b19928acd9e04dd70e487718f35f	&amp;catnum&#x3d;42155&#x25;2042163&#x25;2042166&#x25;2042168&#x25;2042216&#x25;2042217&#x25;2042220&#x25;2042235&#x25;2042240&#x25;2042259&#x25;2042260&#x25;2042262&#x25;2042265&#x25;2042274&#x25;2042276&#x25;2042279&#x25;2042292&#x25;2042295&#x25;2042300&#x25;20...&#x5b;truncated, 204 chars&#x5d;	
+382	1730	OK	a9b04a91ab7935b27613112e50ae766b	&amp;catnum&#x3d;42324&#x25;2042325&#x25;2042377&#x25;2042378&#x25;2042379&#x25;2042380&#x25;2042381&#x25;2042382&#x25;2042383&#x25;2042384&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+383	1731	OK	0ddf7835e29788509a95b6f346c978de	&amp;catnum&#x3d;41337&#x25;2041357&#x25;2041359&#x25;2041360&#x25;2041361&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+384	1732	OK	6669fb88bfabdf5d2b5d4158d4c205fd	&amp;catnum&#x3d;41336&#x25;2041338&#x25;2041346&#x25;2041347&#x25;2041348&#x25;2041349&#x25;2041351&#x25;2041352&#x25;2041358&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+385	1733	OK	89d93b2001bfaa202d2fb9273777225b	&amp;catnum&#x3d;40165&#x25;2040170&#x25;2040183&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+386	1734	OK	a5e79e07876cf8ff4be337209aa41c42	&amp;catnum&#x3d;41353&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+387	1735	OK	645f9d17ea4aa7a6d38dc834393219b8	&amp;catnum&#x3d;41365&#x25;2041366&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+388	1736	OK	a3bd4081fc0c633cbf569d5a0847385b	&amp;catnum&#x3d;37691&#x25;2037713&#x25;2037714&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+389	1737	OK	4f583af96cb65e9a569b54f5c122a461	&amp;catnum&#x3d;37688&#x25;2037689&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+390	1738	OK	f5e840a0977b70683431c4227c48241c	&amp;catnum&#x3d;162893&#x25;2042155&#x25;2042163&#x25;2042166&#x25;2042168&#x25;2042216&#x25;2042217&#x25;2042220&#x25;2042235&#x25;2042240&#x25;2042259&#x25;2042260&#x25;2042262&#x25;2042265&#x25;2042274&#x25;2042276&#x25;2042279&#x25;2042292&#x25;2042295&#x25;2...&#x5b;truncated, 213 chars&#x5d;	
+391	1739	OK	70cec47002e2a5e10ac51d910a56ac11	&amp;catnum&#x3d;162895&#x25;20162903&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+392	1740	OK	8bc91588cae3d2ce83559a5a205efcf3	&amp;catnum&#x3d;41110&#x25;2041111&#x25;2041126&#x25;2041150&#x25;2041200&#x25;2041203&#x25;2041204&#x25;2041209&#x25;2041220&#x25;2041232&#x25;2042385&#x25;2042386&#x25;2042387&#x25;2042388&#x25;2042389&#x25;2042391&#x25;2042392&#x25;2042393&#x25;2042394&#x25;20...&#x5b;truncated, 220 chars&#x5d;	
+393	1743	OK	22b63d1c9a4c086f3b14385613a8f7ae	&amp;catnum&#x3d;45944&#x25;2045945&#x25;2045946&#x25;2045947&#x25;2045948&#x25;2045949&#x25;2045950&#x25;2045951&#x25;2045952&#x25;2045953&#x25;2045954&#x25;2045955&#x25;2045956&#x25;2045957&#x25;2045958&#x25;2045962&#x25;2045963&#x25;2045965&#x25;2045966&amp;Sh...&#x5b;truncated, 196 chars&#x5d;	
+394	1745	OK	9ec97555d05f44d1519c148f9994e0d0	&amp;catnum&#x3d;42414&#x25;2042420&#x25;2042421&#x25;2042422&#x25;2042437&#x25;2042438&#x25;2042508&#x25;2042509&#x25;2042510&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+395	1746	OK	0ef411d292e7d9a735b9c512b6606624	&amp;catnum&#x3d;162899&#x25;2041259&#x25;2042770&#x25;2042795&#x25;2042920&#x25;2042926&#x25;2042931&#x25;2045969&#x25;2045970&#x25;2045971&#x25;2045972&#x25;2045973&#x25;2045974&#x25;2045975&#x25;2045976&#x25;2045977&#x25;2045978&#x25;2045979&#x25;2045980&#x25;2...&#x5b;truncated, 293 chars&#x5d;	
+396	1747	OK	f7d58b6ff711e3e03a6e55b821166ec3	&amp;catnum&#x3d;46114,&#x25;2046115,&#x25;2046156,&#x25;2046157,&#x25;2046160,&#x25;2046164,&#x25;2046166,&#x25;2046179,&#x25;2046180,&#x25;2046181,&#x25;2046186,&#x25;2046193,&#x25;2046195,&#x25;2046239,&#x25;2046288&amp;ShowObservations&#x3d;fal...&#x5b;truncated, 178 chars&#x5d;	
+397	1748	OK	8242e9f9f7b651534d72c51304f34234	&amp;catnum&#x3d;46159&#x25;2046183&#x25;2046184&#x25;2046185&#x25;2046196&#x25;2046255&#x25;2046262&#x25;2046265&#x25;2046266&#x25;2046269&#x25;2046270&#x25;2046271&#x25;2046272&#x25;2046273&#x25;2046274&#x25;2046275&#x25;2046276&#x25;2046277&#x25;2046278&#x25;20...&#x5b;truncated, 268 chars&#x5d;	
+398	1749	OK	bacf1ac7d31780096b1943023c716431	&amp;catnum&#x3d;43361&#x25;2043362&#x25;2043363&#x25;2043365&#x25;2043369&#x25;2043372&#x25;2043373&#x25;2043376&#x25;2043377&#x25;2043378&#x25;2045928&#x25;2045929&#x25;2045931&#x25;2045932&#x25;2045933&#x25;2045934&#x25;2045935&#x25;2045936&#x25;2045937&#x25;20...&#x5b;truncated, 220 chars&#x5d;	
+399	1750	OK	01c0b571fb0620552d27daa473269c6d	&amp;catnum&#x3d;42439&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+400	1751	OK	dd40dbcbe155647c3707395d29ad2481	&amp;catnum&#x3d;42945&#x25;2042972&#x25;2043100&#x25;2043112&#x25;2043114&#x25;2045400&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+401	1752	OK	7eb04d818fe69e31e03e157d015a59c5	&amp;catnum&#x3d;43201&#x25;2043202&#x25;2043203&#x25;2043221&#x25;2043233&#x25;2043238&#x25;2043239&#x25;2043257&#x25;2043290&#x25;2043292&#x25;2043293&#x25;2043294&#x25;2043299&#x25;2043301&#x25;2043335&#x25;2043352&#x25;2043354&#x25;2043355&#x25;2043356&#x25;20...&#x5b;truncated, 237 chars&#x5d;	
+402	1753	OK	ee4d59793878833ababd9ea0b23e5b48	&amp;catnum&#x3d;43181,&#x25;2043179&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+403	1754	OK	1fe0f9fb4831f01f7e863ff2878d5ae5	&amp;catnum&#x3d;43116&#x25;2043158&#x25;2043178&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+404	1755	OK	478a555392f9f000652a4db628809678	&amp;catnum&#x3d;37726&#x25;2037728&#x25;2040347&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;any_taxa_term&#x3d;salticidae&amp;searchUnaccepted&#x3d;Yes	
+405	1757	OK	cf9f3fa11e1e836c4323d5602d07cfd8	&amp;catnum&#x3d;38832&#x25;2038834&#x25;2038836&#x25;2038850&#x25;2038852&#x25;2038853&#x25;2038854&#x25;2038857&#x25;2038859&#x25;2038860&#x25;2038861&#x25;2038863&#x25;2038864&#x25;2038865&#x25;2038875&#x25;2038893&amp;ShowObservations&#x3d;false&amp;col...&#x5b;truncated, 172 chars&#x5d;	
+406	1759	OK	186586ef91013f82c5024cbfd96d5e7f	&amp;catnum&#x3d;38894&#x25;2038895&#x25;2038896&#x25;2038897&#x25;2038898&#x25;2038899&#x25;2038900&#x25;2038903&#x25;2038940&#x25;2038941&#x25;2038954&#x25;2038955&#x25;2038957&#x25;2038958&#x25;2038960&#x25;2038961&#x25;2038963&#x25;2038964&#x25;2038971&#x25;20...&#x5b;truncated, 231 chars&#x5d;	
+407	1760	OK	a6e8057b592596821e7a8748163aa2ac	&amp;catnum&#x3d;38403&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+408	1761	OK	438b65a74484fcccf56859af6244fe37	&amp;catnum&#x3d;35670&#x25;2038582&#x25;2038583&#x25;2038584&#x25;2038585&#x25;2038586&#x25;2038587&#x25;2038588&#x25;2038589&#x25;2038590&#x25;2038591&#x25;2038592&#x25;2038593&#x25;2038594&#x25;2038595&#x25;2038596&#x25;2038597&amp;ShowObservations&#x3d;f...&#x5b;truncated, 180 chars&#x5d;	
+409	1762	OK	c96367a2515486fca6211eab91d48a31	&amp;catnum&#x3d;162894&#x25;2038486&#x25;2038493&#x25;2038517&#x25;2038521&#x25;2038522&#x25;2038523&#x25;2038524&#x25;2038528&#x25;2038531&#x25;2038558&#x25;2038574&#x25;2038575&#x25;2038576&#x25;2038581&amp;ShowObservations&#x3d;false&amp;collection...&#x5b;truncated, 165 chars&#x5d;	
+410	1763	OK	2de1b0a1f5fb2bfec7ff9dcb8b52323b	&amp;catnum&#x3d;38634&#x25;2038635&#x25;2038636&#x25;2038719&#x25;2038734&#x25;2038755&#x25;2038766&#x25;2038776&#x25;2038779&#x25;2038780&#x25;2038791&#x25;2038799&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+411	1764	OK	96dc8bb30cab072420dcecb1da14b55e	&amp;catnum&#x3d;38801&#x25;2038803&#x25;2038804&#x25;2038805&#x25;2038808&#x25;2038809&#x25;2038810&#x25;2038812&#x25;2038814&#x25;2038816&#x25;2038817&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+412	1765	OK	f5c98877e942a9b75cbbe0fdfa526add	&amp;catnum&#x3d;35713&#x25;2035716&#x25;2035717&#x25;2035721&#x25;2035722&#x25;2035723&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+413	1766	OK	3cd3e95541cf6f0a630e86faa1d229a6	&amp;catnum&#x3d;35725&#x25;2035726&#x25;2035729&#x25;2035730&#x25;2035731&#x25;2035732&#x25;2035734&#x25;2035735&#x25;2035736&#x25;2038609&#x25;2038633&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+414	1767	OK	0307b91f340df7af88a1d9a5941f525c	&amp;catnum&#x3d;38974&#x25;2038975&#x25;2038976&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+415	1768	OK	a343c6f0cc2cf9c3d14ba4dc663c1a7a	&amp;catnum&#x3d;38276&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+416	1769	OK	75363823c9eec7f49737ed1fdecb6bc4	&amp;catnum&#x3d;38188&#x25;2038191&#x25;2038192&#x25;2038222&#x25;2038275&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+417	1770	OK	550f6e3aa12715c737701553992b2125	&amp;catnum&#x3d;162904&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+418	1771	OK	879423da70b7d95457c4ff4e19983501	&amp;catnum&#x3d;162905&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+419	1772	OK	9a7d42fa7da3154bb36317b70262bb75	&amp;catnum&#x3d;38386&#x25;2038388&#x25;2038392&#x25;2038393&#x25;2038394&#x25;2038395&#x25;2038396&#x25;2038400&#x25;2038401&#x25;2038402&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+420	1773	OK	5d0065f452567e4561586e388720d1a6	&amp;catnum&#x3d;38278&#x25;2038287&#x25;2038290&#x25;2038293&#x25;2038294&#x25;2038342&#x25;2038343&#x25;2038344&#x25;2038345&#x25;2038346&#x25;2038347&#x25;2038348&#x25;2038349&#x25;2038351&#x25;2038354&#x25;2038377&#x25;2038378&#x25;2038379&#x25;2038382&amp;Sh...&#x5b;truncated, 196 chars&#x5d;	
+421	1774	OK	feb7c87415555b1d452384faea680b05	&amp;catnum&#x3d;399473&#x25;20399475&#x25;20399476&#x25;20399474&#x25;20399472&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+422	1775	OK	a9255477de5951ba42c2967b705f5dde	&amp;catnum&#x3d;32452,&#x25;2035157&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+423	1776	OK	f809199506ee145fd720c1d86d732364	&amp;catnum&#x3d;46828,&#x25;2046841,&#x25;2046842,&#x25;2046844,&#x25;2046846,&#x25;2046847,&#x25;2046848,&#x25;2070283&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+424	1777	OK	cd8d3a4fd663cba98e735672c1f3dd5b	&amp;catnum&#x3d;70264,&#x25;2070268&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+425	1778	OK	9846f0bce8dcbd7c25816523fb35ef79	&amp;catnum&#x3d;25354&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+426	1779	OK	2a0cf80f770dd290a5daa9e1454b538f	&amp;catnum&#x3d;46839&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+427	1780	OK	03e296d76cf4bf616289343ebeb63967	&amp;catnum&#x3d;46825,&#x25;2046826,&#x25;2046827,&#x25;2046829&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+428	1781	OK	7ac119a9a1bba1b76fd4581c10ddccd7	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;joseph&#x25;20gabriel&amp;coll_role&#x3d;c	
+429	1782	OK	413c2ad141bac9955fc8da83aace67f6	&amp;catnum&#x3d;399359&#x25;20399366&#x25;20399379&#x25;20399402&#x25;20399415&#x25;20399419&#x25;20399420&#x25;20399422&#x25;20399430&#x25;20399434&#x25;20399435&#x25;20399440&#x25;20399442&#x25;20399443&#x25;20399455&#x25;20399456&#x25;20399458&#x25;2...&#x5b;truncated, 244 chars&#x5d;	
+430	1787	OK	fd1ec4ee1fecbf70892e453a4ff019fb	&amp;catnum&#x3d;162928,162929,162930,162907,162908,162909,162910,162911,162912,162913,162914,162915,162960,162961,162962,162963,162931,162916,162917,162918,162919,16292...&#x5b;truncated, 438 chars&#x5d;	
+431	1788	OK	e0bae0b8986fcaa2e3de4b8776035812	&amp;catnum&#x3d;ECH-2100,&#x25;20ECH-3892,&#x25;20ECH-2107,&#x25;20ECH-4774,&#x25;20ECH-2106,&#x25;20ECH-7000,&#x25;20ECH-7330,&#x25;20ECH-2101,&#x25;20ECH-4458,&#x25;20ECH-4387,&#x25;20ECH-2103,&#x25;20ECH-2099,&#x25;20ECH-2102...&#x5b;truncated, 223 chars&#x5d;	
+432	1789	OK	51342c0012730218deb8cb746c77b20f	&amp;catnum&#x3d;ECH-2100,&#x25;20ECH-3892,&#x25;20ECH-2107,&#x25;20ECH-4774,&#x25;20ECH-2106,&#x25;20ECH-7000,&#x25;20ECH-7330,&#x25;20ECH-2101,&#x25;20ECH-4458,&#x25;20ECH-4387,&#x25;20ECH-2103,&#x25;20ECH-2099,&#x25;20ECH-2102...&#x5b;truncated, 247 chars&#x5d;	
+433	1790	OK	9515274d3b63135142477b8f407ec85c	&amp;catnum&#x3d;ECH-4109&#x25;20ECH-2911&#x25;20ECH-2116&#x25;20ECH-4644&#x25;20ECH-2112&#x25;20ECH-2113&#x25;20ECH-2125&#x25;20ECH-2119&#x25;20ECH-2151&#x25;20ECH-2110&#x25;20ECH-2114&#x25;20ECH-2108&#x25;20ECH-2117&#x25;20ECH-4058&#x25;...&#x5b;truncated, 286 chars&#x5d;	
+434	1791	OK	58c0fb0ba8348691be5422038781a9f3	&amp;catnum&#x3d;162635,&#x25;20162636-162647,&#x25;20162865-162870&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+435	1792	OK	8f4242af29a0e83dad206ad341254722	&amp;catnum&#x3d;ECH-2126,&#x25;20ECH-3405,&#x25;20ECH-2122,&#x25;20ECH-2120,&#x25;20ECH-4164,&#x25;20ECH-2119,&#x25;20ECH-4057,&#x25;20ECH-2123,&#x25;20ECH-4055,&#x25;20ECH-7679,&#x25;20ECH-2127,&#x25;20ECH-4110,&#x25;20ECH-4644...&#x5b;truncated, 223 chars&#x5d;	
+436	1793	OK	fc7bc3eda31229a152678b130a73e8cf	&amp;catnum&#x3d;ECH-4644,&#x25;20ECH-4056,&#x25;20ECH-4060,&#x25;20ECH-7679,&#x25;20ECH-2124,&#x25;20ECH-2123,&#x25;20ECH-2116,&#x25;20ECH-4110&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+437	1794	OK	eb351a31c68e7fa8d19657e187a466b7	&amp;catnum&#x3d;ECH-8149&#x25;20ECH-2035&#x25;20ECH-2134&#x25;20ECH-4459&#x25;20ECH-2135&#x25;20ECH-3893&#x25;20ECH-2131&#x25;20164078&#x25;20ECH-2111&#x25;20ECH-3407&#x25;20ECH-2128&#x25;20ECH-2136&#x25;20ECH-2133&#x25;20ECH-4162&#x25;20...&#x5b;truncated, 207 chars&#x5d;	
+438	1795	OK	71e31024f4d1ad2e25f6db791bd6e0fd	&amp;catnum&#x3d;ECH-4064,&#x25;20ECH-4061&#x25;20ECH-4062&#x25;20ECH-2138&#x25;20ECH-4063&#x25;20ECH-2139&#x25;20ECH-2041&#x25;20ECH-4064&#x25;20ECH-4065&#x25;20ECH-2137&#x25;20ECH-7001&#x25;20ECH-2145&#x25;20ECH-2131&amp;ShowObserv...&#x5b;truncated, 188 chars&#x5d;	
+439	1797	OK	e5fcc29e9cd2930f87f9872957eea2dc	&amp;catnum&#x3d;ECH-2142&#x25;20ECH-2143&#x25;20ECH-2146&#x25;20ECH-2043&#x25;20ECH-3870&#x25;20ECH-2046&#x25;20ECH-8864&#x25;20ECH-2045&#x25;20ECH-2044&#x25;20ECH-2053&#x25;20ECH-2058&#x25;20ECH-4066&#x25;20ECH-6098&#x25;20ECH-2141&#x25;...&#x5b;truncated, 252 chars&#x5d;	
+440	1798	OK	846e0a932c633a5b6b05a9d6fab68c87	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;continent_ocean&#x3d;Atlantic&#x25;20Ocean&amp;Country&#x3d;United&#x25;20States&amp;preserve_method&#x3d;70&#x25;2525&#x25;20ethanol&amp;type_status&#x3d;any&#x25;20primary&amp;exc...&#x5b;truncated, 177 chars&#x5d;	
+441	1801	OK	10c7d20fac7663fe6e138631e59dd97c	&amp;catnum&#x3d;ECH-9249&#x25;20ECH-2070&#x25;20ECH-8861&#x25;20ECH-2052&#x25;20ECH-4554&#x25;20ECH-4553&#x25;20ECH-2069&#x25;20ECH-2088&#x25;20ECH-2050&#x25;20ECH-2888&#x25;20ECH-2063&#x25;20ECH-2094&#x25;20ECH-2049&#x25;20ECH-2056&amp;...&#x5b;truncated, 198 chars&#x5d;	
+442	1802	OK	5f277d74c683fd2b832b6cd1afdad8c2	&amp;catnum&#x3d;ECH-6097&#x25;20ECH-8855&#x25;20ECH-4047&#x25;20ECH-4048&#x25;20ECH-164079&#x25;20ECH-2065&#x25;20ECH-4059&#x25;20ECH-2060&#x25;20ECH-2047&#x25;20ECH-8862&#x25;20164080&#x25;20ECH-8866&#x25;20ECH-7618&amp;ShowObserva...&#x5b;truncated, 187 chars&#x5d;	
+443	1803	OK	0d7bab5c3af867c7651c5ddfb54e7725	&amp;catnum&#x3d;ECH-8867,&#x25;20ECH-2064,&#x25;20ECH-2061,&#x25;20ECH-2051,&#x25;20ECH-3867,&#x25;20ECH-2055,&#x25;20ECH-4059&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+444	1804	OK	345df9c93d74495bf5cdccdd92bfea9a	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;preserve_method&#x3d;dry&amp;type_status&#x3d;any&#x25;20primary	
+445	1805	OK	4fb1a3eef0d46f175a5bb67f90f25bf9	&amp;catnum&#x3d;398990,&#x25;20398587,&#x25;20398555,&#x25;20398988,&#x25;20398985,&#x25;20398833,&#x25;20398556,&#x25;20398557,&#x25;20398788,&#x25;20398832,&#x25;20398834,&#x25;20398984,&#x25;20398989,&#x25;20398960,&#x25;20398987,&#x25;2039...&#x5b;truncated, 203 chars&#x5d;	
+446	1806	OK	fa413ce15d37b87aee40a6a274b9d947	&amp;catnum&#x3d;ECH-2071&#x25;20ECH-2062&#x25;20ECH-2066&#x25;20ECH-2068&#x25;20ECH-7399&#x25;20ECH-7414&#x25;20ECH-2710&#x25;20ECH-4626&#x25;20ECH-4627&#x25;20ECH-4623&#x25;20ECH-4618&#x25;20ECH-4621&#x25;20ECH-2844&#x25;20ECH-1126&#x25;...&#x5b;truncated, 341 chars&#x5d;	
+447	1810	OK	4a2eff50d6e246a54b9321ec9059efb1	&amp;catnum&#x3d;ECH-2071&#x25;20ECH-2062&#x25;20ECH-2066&#x25;20ECH-2068&#x25;20ECH-7399&#x25;20ECH-7414&#x25;20ECH-2710&#x25;20ECH-4626&#x25;20ECH-4627&#x25;20ECH-4623&#x25;20ECH-4618&#x25;20ECH-4621&#x25;20ECH-2844&#x25;20ECH-1126&#x25;...&#x5b;truncated, 323 chars&#x5d;	
+448	1811	OK	8927209c00abc278444d1f5566c7406b	&amp;catnum&#x3d;A-101932&#x25;20A-101935&#x25;20A-101936&#x25;20A-101937&#x25;20A-101941&#x25;20A-102063&#x25;20A-102069&#x25;20A-65510&#x25;20A-66730&#x25;20A-66746&#x25;20A-66759&#x25;20A-66765&#x25;20A-66766&#x25;20A-66773&#x25;20A-107...&#x5b;truncated, 2269 chars&#x5d;	
+449	1812	OK	70b7d8727ecc39910a837c11daadefa2	&amp;catnum&#x3d;A-101932&#x25;20A-101935&#x25;20A-101936&#x25;20A-101937&#x25;20A-101941&#x25;20A-102063&#x25;20A-102069&#x25;20A-65510&#x25;20A-66730&#x25;20A-66746&#x25;20A-66759&#x25;20A-66765&#x25;20A-66766&#x25;20A-66773&#x25;20A-107...&#x5b;truncated, 1877 chars&#x5d;	
+450	1813	OK	90d1d96827a085a1eff2d4653fe4b9ef	&amp;catnum&#x3d;A-101932&#x25;20A-101935&#x25;20A-101936&#x25;20A-101937&#x25;20A-101941&#x25;20A-102063&#x25;20A-102069&#x25;20A-65510&#x25;20A-66730&#x25;20A-66746&#x25;20A-66759&#x25;20A-66765&#x25;20A-66766&#x25;20A-66773&#x25;20A-107...&#x5b;truncated, 1893 chars&#x5d;	
+451	1814	OK	d000a36c411a719301c57bb2327fc690	&amp;catnum&#x3d;ECH-4050&#x25;20ECH-4161&#x25;20ECH-2067&#x25;20ECH-164083&#x25;20ECH-2093&#x25;20ECH-4045&#x25;20ECH-4046&#x25;20ECH-164084&#x25;20ECH-164085&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+452	1816	OK	984cc091d50e42b650ab9600f0d72f56	&amp;catnum&#x3d;ECH-2585&#x25;20ECH-2637&#x25;20ECH-7886&#x25;20ECH-164097&#x25;20ECH-164089&#x25;20ECH-164098&#x25;20ECH-4284&#x25;20ECH-3868&#x25;20ECH-2740&#x25;20ECH-2742&#x25;20ECH-164096&#x25;20ECH-164095&amp;ShowObservat...&#x5b;truncated, 186 chars&#x5d;	
+453	1818	OK	c292a145ecac957bb8a0778530a5dcd7	&amp;catnum&#x3d;ECH-2637,&#x25;20ECH-2578,&#x25;20ECH-2579,&#x25;20ECH-2747,&#x25;20ECH-4069,&#x25;20ECH-4229,&#x25;20ECH-2745,&#x25;20ECH-2575,&#x25;20ECH-2577,&#x25;20ECH-2577,&#x25;20ECH-4192&amp;ShowObservations&#x3d;false&amp;...&#x5b;truncated, 175 chars&#x5d;	
+454	1820	OK	c6b7b4f03ec54838adf22983b059e662	&amp;catnum&#x3d;ECH-164081,&#x25;20ECH-164082,&#x25;20ECH-2747,&#x25;20ECH-2745,&#x25;20ECH-2062,&#x25;20ECH-2579,&#x25;20ECH-2741&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+455	1823	OK	46856258a250b71c15a5286d232c85da	&amp;catnum&#x3d;ECH-2587,&#x25;20ECH-2602,&#x25;20ECH-2889,&#x25;20ECH-2604,&#x25;20ECH-2890,&#x25;20ECH-2601,&#x25;20ECH-2605,&#x25;20ECH-2609,&#x25;20ECH-3874,&#x25;20ECH-2603,&#x25;20ECH-2608,&#x25;20ECH-2600,&#x25;20ECH-2606...&#x5b;truncated, 355 chars&#x5d;	
+456	1824	OK	05de1bff067feb2192f8cd068a0b3e7d	&amp;catnum&#x3d;ECH-2589,&#x25;20ECH-2592,&#x25;20ECH-2600,&#x25;20ECH-2591,&#x25;20ECH-7506,&#x25;20ECH-2594,&#x25;20ECH-165767,&#x25;20ECH-2595&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+457	1826	OK	d3493351dc22a3dab9b478833fb01526	&amp;catnum&#x3d;ECH-4563,&#x25;20ECH-165768,&#x25;20ECH-4230,&#x25;20ECH-2617,&#x25;20ECH-2614,&#x25;20ECH-4070&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+458	1830	OK	e3ad895394686a6025cdb5a3d1c2e196	&amp;catnum&#x3d;3725-3728,&#x25;203730-3732,&#x25;203734-3736&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;10	
+459	1831	OK	031371ac324df71947d13e1d469695bb	&amp;catnum&#x3d;165772-165775,&#x25;20CNID-3544,&#x25;20CNID-4802,&#x25;20CNID-4803,&#x25;20CNID-4804,&#x25;20CNID-4805,&#x25;20CNID-4806,&#x25;20144592,&#x25;20144595,&#x25;20145063,&#x25;20145154,&#x25;20151047,&#x25;20151101,...&#x5b;truncated, 258 chars&#x5d;	
+460	1832	OK	93dde6a026d7a956e2a4103364ce3b06	&amp;catnum&#x3d;ECH-3231,&#x25;20ECH-4397,&#x25;20ECH-4394,&#x25;20ECH-4395,&#x25;20ECH-4393,&#x25;20ECH-4401,&#x25;20ECH-4418,&#x25;20ECH-4419,&#x25;20ECH-4396,&#x25;20ECH-3230,&#x25;20ECH-7007,&#x25;20ECH-7890,&#x25;20ECH-7885...&#x5b;truncated, 291 chars&#x5d;	
+461	1833	OK	60d04c066151af7554e422e1bc1e4b34	&amp;catnum&#x3d;ECH-8572,&#x25;20ECH-8599,&#x25;20ECH-8587,&#x25;20ECH-8565,&#x25;20ECH-8591&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+462	1834	OK	334adb0da73fdaf81e2cd8092e74abb4	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;2&amp;any_taxa_term&#x3d;Lagidium&amp;searchUnaccepted&#x3d;Yes	
+463	1835	OK	73b4def54218da4ac284ea2d4fd98b9b	&amp;catnum&#x3d;153370,&#x25;20153223,&#x25;20153331,&#x25;20166569,&#x25;20162552,&#x25;20166520,&#x25;20166563,&#x25;20166618,&#x25;20166580,&#x25;20153270&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+464	1836	OK	2f28bc0e45421bfbccd74c65e58a337d	&amp;catnum&#x3d;404648,&#x25;20404647,&#x25;20404646,&#x25;20ECH-3228,&#x25;20ECH-7609,&#x25;20ECH-3225,&#x25;20ECH-3229,&#x25;20ECH-3226,&#x25;20ECH-3224,&#x25;20ECH-4405,&#x25;20ECH-4408,&#x25;20ECH-4407,&#x25;20ECH-4411,&#x25;20EC...&#x5b;truncated, 325 chars&#x5d;	
+465	1837	OK	fcdedc14da9d6a8951975eb6f5b1a943	&amp;catnum&#x3d;ECH-4416,&#x25;20ECH-8567,&#x25;20167599,&#x25;20167600,&#x25;20ECH-4417,&#x25;20ECH-8560,&#x25;20ECH-7015,&#x25;20ECH-4071,&#x25;20ECH-4391,&#x25;20ECH-3244,&#x25;20&#x25;20ECH-4392,&#x25;20ECH-9250&amp;ShowObservat...&#x5b;truncated, 186 chars&#x5d;	
+466	1842	OK	f5c48d1362495c9ba2c645bf61e62cc5	&amp;catnum&#x3d;ECH-3269,&#x25;20ECH-3268,&#x25;20ECH-3264,&#x25;20ECH-8567,&#x25;20&#x25;20ECH-3895,&#x25;20ECH-3872,&#x25;20ECH-4434,&#x25;20ECH-4567,&#x25;20ECH-8567,&#x25;20ECH-3247,&#x25;20ECH-3267,&#x25;20ECH-3265&#x25;20ECH-32...&#x5b;truncated, 415 chars&#x5d;	
+467	1843	OK	ca7736fdac5856b302b27605281aa574	&amp;catnum&#x3d;ECH-7009,&#x25;20ECH-4687,&#x25;20ECH-3255,&#x25;20ECH-3254,&#x25;20ECH-7839,&#x25;20ECH-3246,&#x25;20ECH-3245&amp;ShowObservations&#x3d;false	
+468	1844	OK	4b4d7e13607fb2221c20fd347cd424e7	&amp;ShowObservations&#x3d;false&amp;encumbrance_id&#x3d;213	
+469	1848	OK	67d2c873cc197693247da7c85a46bc48	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Pseudoscorpiones&amp;searchUnaccepted&#x3d;Yes&amp;begYear&#x3d;2010&amp;endYear&#x3d;2020&amp;any_geog&#x3d;Puerto&#x25;20Rico	
+470	1849	OK	dba18bae1e6b5c4e06dd67dec046b553	&amp;ShowObservations&#x3d;false&amp;coll&#x3d;Yee&amp;coll_role&#x3d;c&amp;any_taxa_term&#x3d;Pseudoscorpiones&amp;searchUnaccepted&#x3d;Yes&amp;any_geog&#x3d;Puerto&#x25;20Rico	
+471	1851	OK	868e2c8c43a53672ca357ae64bbff850	&amp;catnum&#x3d;167913&#x25;20167912&#x25;20167911&#x25;20167910&#x25;20167909&#x25;20167908&#x25;20167907&#x25;20167906&#x25;20167246&#x25;20167245&#x25;20167243&#x25;20167241&#x25;20167240&#x25;20167237&#x25;20167234&#x25;20167224&#x25;20167223&#x25;2...&#x5b;truncated, 313 chars&#x5d;	
+472	1852	OK	e6f3063620c0845a5f354bfae5024568	&amp;catnum&#x3d;48262&#x25;20153344&#x25;20153405&#x25;20153281&#x25;20153399&#x25;20153497&#x25;20153482&#x25;20153390&#x25;20154361&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+473	1853	OK	37c03b858e5bac70796aa8a0021f022d	&amp;catnum&#x3d;404187&#x25;2028359&#x25;20217994&#x25;20316365&#x25;2043299&#x25;20404188&#x25;20404186&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+474	1854	OK	db5f4c8533994347f276ed5df1fb70ae	&amp;catnum&#x3d;164293,&#x25;20ECH-7322,&#x25;20167601,&#x25;20ECH-7009,&#x25;20ECH-7365,&#x25;20ECH-3251,&#x25;20ECH-3248,&#x25;20ECH-7016,&#x25;20ECH-8854,&#x25;20ECH-3249&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+475	1855	OK	30822005a3fbd7cfd693a3012fc05f78	&amp;catnum&#x3d;ECH-3277,&#x25;20ECH-4423,&#x25;20ECH-3278,&#x25;20ECH-3274,&#x25;20ECH-3273,&#x25;20&#x25;20ECH-8282,&#x25;20ECH-3272,&#x25;20ECH-3271&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+476	1856	OK	21bd3fbc2779b019f80df1fc0b9eeb44	&amp;catnum&#x3d;167841,&#x25;20167836,&#x25;20167843&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+477	1859	OK	8e8af44f3b5e6fbe65adb92a035d2c05	&amp;catnum&#x3d;404080&#x25;20403997&#x25;20404086&#x25;20403996&#x25;20404041&#x25;20404040&#x25;20404005&#x25;20404082&#x25;20404076&#x25;20404010&#x25;20404081&#x25;20396661&#x25;20404055&#x25;20404071&#x25;20404051&#x25;20404061&#x25;20404077&#x25;2...&#x5b;truncated, 440 chars&#x5d;	
+478	1861	OK	9250dafed20d332445dec7c61999c627	&amp;ShowObservations&#x3d;false&amp;any_taxa_term&#x3d;Tadarida&#x25;20constantinei&amp;searchUnaccepted&#x3d;Yes	
+479	1862	OK	c0b70fc5fe4d7ed86e1b33ee22110ea2	&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3&amp;any_taxa_term&#x3d;conus&amp;searchUnaccepted&#x3d;Yes&amp;preserve_method&#x3d;ethanol	
+480	1863	OK	ad311a3a7ee3ca96a1e6b0f2fdd5bcc9	&amp;catnum&#x3d;ECH-7280,&#x25;20ECH-7279,&#x25;20ECH-7278,&#x25;20ECH-4439,&#x25;20ECH-3259,&#x25;20ECH-3260,&#x25;20ECH-7287,&#x25;20ECH-4111,&#x25;20ECH-7369,&#x25;20ECH-7321,&#x25;20ECH-3283,&#x25;20ECH-3287,&#x25;20ECH-7686...&#x5b;truncated, 341 chars&#x5d;	
+481	1864	OK	47a4e66dd28ccaa703604d5e2260eb32	&amp;catnum&#x3d;ECH-7011,&#x25;20ECH-3258,&#x25;20ECH-4771,&#x25;20ECH-3261,&#x25;20ECH-3263,&#x25;20ECH-3257,&#x25;20ECH-4527,&#x25;20ECH-3262,&#x25;20ECH-3308,&#x25;20ECH-3256&amp;ShowObservations&#x3d;false&amp;collection_i...&#x5b;truncated, 163 chars&#x5d;	
+482	1865	OK	61cd4ae3b7c12f73ee41d2265829e1e0	&amp;catnum&#x3d;404046&#x25;20404083&#x25;20404679&#x25;20403983&#x25;20404079&#x25;20403947&#x25;20403954&#x25;20404072&#x25;20404041&#x25;20403978&#x25;20404678&#x25;20406725&#x25;20406722&#x25;20406728&#x25;20406724&amp;ShowObservations&#x3d;fa...&#x5b;truncated, 179 chars&#x5d;	
+483	1866	OK	f71d7c6149de4fb3649fe686585f0078	&amp;catnum&#x3d;ECH-4399,&#x25;20ECH-7889,&#x25;20ECH-4420,&#x25;20ECH-7888,&#x25;20ECH-4565&#x25;20&#x28;update&#x25;20taxonomy&#x29;.&#x25;20ECH-2837,&#x25;20ECH-2838&#x25;20&#x28;check&#x25;20condition&#x29;,&#x25;20168022,&#x25;20ECH-4438,&#x25;20EC...&#x5b;truncated, 241 chars&#x5d;	
+484	1867	OK	3e21643f796d5b26a565b93bd426a2dd	&amp;catnum&#x3d;ECH-4420,&#x25;20ECH-2838,&#x25;20ECH-4565,&#x25;20ECH-7888,&#x25;20ECH-7889&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+485	1868	OK	44bf21ac3627edb3e954d5babfde47c4	&amp;catnum&#x3d;403640,&#x25;20403639,&#x25;20402184,&#x25;20403641,&#x25;20404678&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+486	1869	OK	a14750a04a49e46e16eaea21a43809dc	&amp;catnum&#x3d;167918-167933,&#x25;20ECH-1899&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8&amp;exclCollObjId&#x3d;5689254,5689256	
+487	1870	OK	516ed50c96d9299696b3b192fbc25553	&amp;catnum&#x3d;111108&#x25;20111108&#x25;20111109&#x25;20111110&#x25;20111110&#x25;20111113&#x25;20113451&#x25;20113597&#x25;20113597&#x25;20113598&#x25;20113598&#x25;20113599&#x25;20113601&#x25;20113601&#x25;20113603&#x25;20113604&#x25;20113604&#x25;2...&#x5b;truncated, 3849 chars&#x5d;	
+488	1872	OK	de9eb86eca598a83fb3a011ea6881274	&amp;catnum&#x3d;404369&#x25;20404370&#x25;20404371&#x25;20404372&#x25;20404373&#x25;20404374&#x25;20404375&#x25;20404376&#x25;20404326&#x25;20404327&#x25;20404328&#x25;20404329&#x25;20404330&#x25;20404331&#x25;20404332&#x25;20404333&#x25;20404334&#x25;2...&#x5b;truncated, 577 chars&#x5d;	
+489	1874	OK	29a678e38768d3248b73abb547a77f12	&amp;catnum&#x3d;167918,&#x25;20167919,&#x25;20167920,&#x25;20167921,&#x25;20167922,&#x25;20167923,&#x25;20167924,&#x25;20167926,&#x25;20167927,&#x25;20167928,&#x25;20167929,&#x25;20167930,&#x25;20167931,&#x25;20167933,&#x25;20167936,&#x25;2016...&#x5b;truncated, 242 chars&#x5d;	
+490	1876	OK	6602e01ccc781792596aaeee4115ab76	&amp;catnum&#x3d;ECH-3281,&#x25;20ECH-3276,&#x25;20167921,&#x25;20ECH-1899,&#x25;20167929,&#x25;20167953,&#x25;20164106,&#x25;20164107,&#x25;20164105,&#x25;20164104,&#x25;20164103,&#x25;20167932,&#x25;20167941,&#x25;20167939,&#x25;20167924...&#x5b;truncated, 199 chars&#x5d;	
+491	1877	OK	b32da68a68e6f47c0ffb32d1e9ec8989	&amp;entered_by&#x3d;Melissa&#x25;20Anne&#x25;20Merkel&amp;beg_entered_date&#x3d;2024-03-01&amp;end_entered_date&#x3d;2024-04-30&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;8	
+492	1878	OK	e142541ccd273ffa9abbbec76048ce9a	&amp;catnum&#x3d;169795-169800,&#x25;20164110,&#x25;20164109,&#x25;20167918,&#x25;20a86929,&#x25;20164107,&#x25;20167935,&#x25;20167925,&#x25;20164101,&#x25;20164102,&#x25;20ECH-1995,&#x25;20ECH-3864&amp;ShowObservations&#x3d;false&amp;c...&#x5b;truncated, 174 chars&#x5d;	
+493	1882	OK	0972d76aa744321fba7e2cb1daf1dc89	&amp;catnum&#x3d;398922&#x25;20398923&#x25;20398924&#x25;20398925&#x25;20398926&#x25;20398927&#x25;20398928&#x25;20398929&#x25;20398930&#x25;20398931&#x25;20398932&#x25;20398933&#x25;20398934&#x25;20398935&#x25;20398936&#x25;20398937&#x25;20398938&#x25;2...&#x5b;truncated, 199 chars&#x5d;	
+494	1885	OK	1bc19dc869b5db11f973223979937940	&amp;barcode&#x3d;1022PLACE0862,1022PLACE0835,1022PLACE0845,1022PLACE0855,1022PLACE0852,1022PLACE0826&amp;ShowObservations&#x3d;false	
+495	1888	OK	872f0e31926cf26f87b424e900e24b9f	&amp;catnum&#x3d;404514&#x25;20404515&#x25;20404516&#x25;20404517&#x25;20404518&#x25;20404520&#x25;20404527&#x25;20404528&#x25;20404529&#x25;20404530&#x25;20404531&#x25;20404532&#x25;20404533&#x25;20404534&#x25;20404535&#x25;20404536&#x25;20404537&#x25;2...&#x5b;truncated, 656 chars&#x5d;	
+496	1889	OK	bb3d16c486b2ff49e254cc2420f171c7	&amp;catnum&#x3d;404589&#x25;20404590&#x25;20404591&#x25;20404592&#x25;20404593&#x25;20404594&#x25;20404595&#x25;20404596&#x25;20404597&#x25;20404598&#x25;20399940&#x25;20399941&#x25;20399942&#x25;20399943&#x25;20399944&#x25;20399945&#x25;20399946&#x25;2...&#x5b;truncated, 620 chars&#x5d;	
+497	1890	OK	c44c748f02c229141a29b5edf41f560e	&amp;catnum&#x3d;405036&#x25;20405037&#x25;20405038&#x25;20405039&#x25;20405040&#x25;20405041&#x25;20405042&#x25;20405043&#x25;20405044&#x25;20405045&#x25;20405046&#x25;20405047&#x25;20405048&#x25;20405049&#x25;20405050&#x25;20405051&#x25;20405052&#x25;2...&#x5b;truncated, 289 chars&#x5d;	
+498	1891	OK	d2345192765a62c4a00db5c4735883c1	&amp;catnum&#x3d;405047&#x25;20405045&#x25;20405048&#x25;20404523&#x25;20404533&#x25;20404510&#x25;20404508&#x25;20404509&#x25;20404511&#x25;20405046&#x25;20404512&amp;ShowObservations&#x3d;false	
+499	1892	OK	426705d963f2a11b8ece8ea4ab3ec88a	&amp;catnum&#x3d;405023&#x25;20404513&#x25;20405022&#x25;20404338&#x25;20405026&#x25;20405025&#x25;20405029&#x25;20404332&#x25;20405033&#x25;20405028&#x25;20405003&#x25;20405024&#x25;20404491&amp;ShowObservations&#x3d;false	
+500	1893	OK	15e45b68195bfd228abcc55acf99d072	&amp;catnum&#x3d;404497&#x25;20404538&#x25;20404498&#x25;20404504&#x25;20404542&#x25;20404503&#x25;20404495&#x25;20405062&#x25;20404369&#x25;20404337&#x25;20404331&#x25;20404335&amp;ShowObservations&#x3d;false	
+501	1894	OK	17d747759fd07445863bb3d7d5181142	&amp;catnum&#x3d;405051&#x25;20404494&#x25;20404580&#x25;20405063&#x25;20404329&#x25;20404371&#x25;20404506&#x25;20404528&amp;ShowObservations&#x3d;false	
+502	1895	OK	56ae2f1e4eb0fd013a4add5979e15d59	&amp;catnum&#x3d;404532&#x25;20404522&#x25;20404526&#x25;20404490&#x25;20404525&#x25;20405053&#x25;20404530&#x25;20404336&#x25;20404488&amp;ShowObservations&#x3d;false	
+503	1896	OK	d009d3ed19d179912df2856686af76ac	&amp;catnum&#x3d;404516&#x25;20404518&#x25;20404520&#x25;20404517&#x25;20404515&#x25;20405021&#x25;20405013&#x25;20404514&#x25;20405017&#x25;20405019&amp;ShowObservations&#x3d;false	
+504	1897	OK	584c5349e7ba4515b4b7935c66bd1a93	&amp;catnum&#x3d;404557&#x25;20404565&#x25;20404558&#x25;20404556&#x25;20404555&#x25;20404569&#x25;20404553&#x25;20404554&amp;ShowObservations&#x3d;false	
+505	1898	OK	ebb588c27e6cb89107d98191bab34295	&amp;catnum&#x3d;405034&#x25;20405032&#x25;20405031&#x25;20405027&#x25;20405030&#x25;20404521&#x25;20404543&amp;ShowObservations&#x3d;false	
+506	1899	OK	deaadb1060228f3dbd03808721563977	&amp;catnum&#x3d;405034&#x25;20405032&#x25;20405031&#x25;20405027&#x25;20405030&#x25;20404521&#x25;20404543&#x25;20404501&amp;ShowObservations&#x3d;false	
+507	1900	OK	1ffb1ea2a35efbf426621b401b2f19de	&amp;catnum&#x3d;405011&#x25;20405004&#x25;20405006&#x25;20405005&#x25;20405010&#x25;20405009&#x25;20404330&#x25;20405008&#x25;20405007&amp;ShowObservations&#x3d;false	
+508	1901	OK	0ff69aaed20866725535297044bea108	&amp;catnum&#x3d;405110&#x25;20404507&#x25;20405020&#x25;20405012&#x25;20405014&#x25;20405015&#x25;20405018&#x25;20405016&amp;ShowObservations&#x3d;false	
+509	1902	OK	57fe3c721b36b6c73bea050e9c55b83d	&amp;catnum&#x3d;405038&#x25;20405041&#x25;20405037&#x25;20405040&#x25;20405036&#x25;20405042&#x25;20404541&#x25;20405039&#x25;20405044&#x25;20405043&#x25;20405035&#x25;20404551&#x25;20404540&amp;ShowObservations&#x3d;false	
+510	1903	OK	fd87a4ce7e0dcf86c168ce20766b3437	&amp;catnum&#x3d;404527&#x25;20404559&#x25;20404561&#x25;20404562&#x25;20404563&#x25;20404566&#x25;20404564&#x25;20404596&#x25;20399940&#x25;20404598&#x25;20404597&#x25;20404568&#x25;20404567&amp;ShowObservations&#x3d;false	
+511	1904	OK	3ef5a3d16154215669437d4c0e2f94c6	&amp;catnum&#x3d;404496&#x25;20404489&#x25;20404375&#x25;20404370&#x25;20404376&#x25;20404327&#x25;20404373&#x25;20404500&#x25;20404502&#x25;20404534&#x25;20404328&#x25;20404334&#x25;20404524&amp;ShowObservations&#x3d;false	
+512	1905	OK	e6f0ed38070660998ae68c1ac135af0b	&amp;catnum&#x3d;399943&#x25;20399942&#x25;20399941&#x25;20405055&#x25;20404333&#x25;20405054&#x25;20404372&#x25;20404326&#x25;20399945&#x25;20404492&#x25;20399944&#x25;20405052&amp;ShowObservations&#x3d;false	
+513	1906	OK	166f68e568a88454259e2b9017112b83	&amp;catnum&#x3d;404570&#x25;20404560&#x25;20404574&#x25;20404571&#x25;20404339&#x25;20404439&#x25;20404519&#x25;20404579&#x25;20404578&#x25;20404577&#x25;20404573&#x25;20404572&#x25;20404575&amp;ShowObservations&#x3d;false	
+514	1907	OK	c60fa5b2f0fcbdb5ad2f0b5ad538e7e0	&amp;catnum&#x3d;404581&#x25;20404595&#x25;20404594&#x25;20404592&#x25;20404593&#x25;20404585&#x25;20404586&#x25;20404584&#x25;20404591&#x25;20404587&#x25;20404589&#x25;20404590&#x25;20404583&#x25;20404582&amp;ShowObservations&#x3d;false	
+515	1908	OK	17c149e2e36f5dfea114ee3ee35454ed	&amp;catnum&#x3d;404535&#x25;20404539&#x25;20404536&#x25;20404537&#x25;20404576&#x25;20404552&#x25;20404550&#x25;20404549&#x25;20404544&#x25;20404588&#x25;20404546&#x25;20404545&#x25;20404547&#x25;20404548&amp;ShowObservations&#x3d;false	
+516	1909	OK	08cd081f8e108853f0157a196109ac33	&amp;catnum&#x3d;399947&#x25;20405002&#x25;20405001&#x25;20399956&#x25;20405000&#x25;20399953&#x25;20399950&#x25;20399955&#x25;20399952&#x25;20399948&#x25;20399954&#x25;20399951&#x25;20399946&#x25;20399946&amp;ShowObservations&#x3d;false	
+517	1910	OK	ef6080e8aa86dc78313e6af762cdf2d1	&amp;catnum&#x3d;404531&#x25;20405064&#x25;20405061&#x25;20404529&#x25;20404374&#x25;20404499&#x25;20405057&#x25;20405059&#x25;20405058&#x25;20404505&#x25;20405049&#x25;20405050&#x25;20405056&#x25;20405060&amp;ShowObservations&#x3d;false	
+518	1911	OK	aae36311a73776d43ef93111b75157cb	&amp;catnum&#x3d;404570&#x25;20404560&#x25;20404574&#x25;20404571&#x25;20404339&#x25;20404493&#x25;20404519&#x25;20404579&#x25;20404578&#x25;20404577&#x25;20404573&#x25;20404572&#x25;20404575&amp;ShowObservations&#x3d;false	
+519	1912	OK	42c0218d73eb954bff5a7d6e16f5772d	&amp;catnum&#x3d;405052&#x25;20405055&#x25;20405054&#x25;20404492&#x25;20399945&#x25;20404326&#x25;20404372&amp;ShowObservations&#x3d;false	
+520	1914	OK	640610ec5e407ce4a41d2cc5683c0246	&amp;catnum&#x3d;A-100276&#x25;20A-100305&#x25;20A-100306&#x25;20A-100307&#x25;20A-100419&#x25;20A-100762&#x25;20A-100979&#x25;20A-101042&#x25;20A-101103&#x25;20A-101104&#x25;20A-101108&#x25;20A-101160&#x25;20A-101256&#x25;20A-101257&#x25;...&#x5b;truncated, 3924 chars&#x5d;	
+521	1915	OK	92a50f5334e4c5852bfdcf6cbc3bfee2	&amp;ShowObservations&#x3d;false&amp;taxon_name_id&#x3d;68468	
+522	1919	OK	c82718d1fdaf9ff9e925dc57880170c5	&amp;catnum&#x3d;413271,&#x25;20413270,&#x25;20413269,&#x25;20413267,&#x25;20413265,&#x25;20413264,&#x25;20413266,&#x25;20413268&amp;ShowObservations&#x3d;false&amp;collection_id&#x3d;3	
+523	1924	OK	d6d4a7e90e49a4f2d58167e6bdd8e43c	&amp;catnum&#x3d;1&amp;ShowObservations&#x3d;false	
+
+# END OF REPORT
+# processed seq 1 through 523
+# OK 523, ABORTED 0, ERROR 0, other 0 </pre></body></html>

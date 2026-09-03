@@ -138,3 +138,31 @@ returns two entries, both `catnum`, both the `cat_num_prefix` literal that
 `listcatnumToBasQualTable` emits. That helper whitelists its input to digits,
 letters, percent, comma and hyphen, so no quote can survive it; see the unit
 tests in `tests/TestListcatnumToBasQual.cfc`.
+
+## Result at fe1302b9aa
+
+Captured after `checkSql` was removed from the callers, four criteria gates were
+given a length test beside their `isdefined`, and the criteria were copied out of
+the url and form scopes into the variables scope explicitly. Compares clean
+against the pre-conversion baseline:
+
+```
+compared 523 corpus entries
+  predicate identical                        : 523
+  predicate identical up to AND clause order : 0
+  predicate DIFFERS                          : 0
+```
+
+Three hashes moved against `2550dee4ba`, entries 58, 59 and 111, each of which
+supplies `CustomOidOper` with an empty value. The difference is confined to
+`mapurl`, which now records `CustomOidOper=LIKE` where it previously recorded an
+empty value: the gate that defaults the operator to `LIKE` now fires for an
+empty value as well as an absent one. The SQL is unchanged, because the operator
+branches already end in a catch-all `<cfelse>` that produces the `LIKE`
+predicate, so an empty operator was never dropped from the statement.
+
+Note this baseline cannot exercise the url and form population loop. The driver
+sets criteria in the variables scope and includes the file directly, so the loop
+finds nothing in either request scope and leaves those values alone. A clean
+comparison here shows the include path is unchanged and says nothing about the
+loop, which needs checking through real GET and POST requests.
