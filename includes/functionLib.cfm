@@ -1149,7 +1149,7 @@ function ProperMod(y,x) {
 	<cfelseif #unit# is "m">
 		<cfset valInM = #val#>
 	<cfelseif #unit# is "yd">
-		<cfset valInM = #val# * 9144 >
+		<cfset valInM = #val# * 0.9144 >
 	<cfelseif #unit# is "fms">
 		<cfset valInM = #val# * 1.8288 >
 	<cfelseif #unit# is "in">
