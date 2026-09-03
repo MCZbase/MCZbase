@@ -53,6 +53,7 @@
 		CustomIdentifierValue,CustomOidOper,depth_units,derived_relationship,edited_by,
 		edited_by_id,encumbering_agent_id,encumbrance_id,end_entered_date,end_last_edit_date,
 		endDate,endDay,endMon,endYear,entered_by,entered_by_id,exclCollObjId,family,feature,
+		freetextsearch,
 		genus,geog_auth_rec_id,geology_attribute,geology_attribute_value,geology_hierarchies,
 		higher_geog,HighTaxa,identification_remarks,identified_agent,identified_agent_id,
 		ImgNoConfirm,inCounty,inMon,institution_appearance,is_tissue,Island,island_group,
@@ -101,13 +102,20 @@
 		collection_object_id from attributes where attribute_type='image confirmed' and attribute_value='yes')")>
 </cfif>
 
+<!--- Links recorded this criterion as freetextsearch before they recorded it under its own
+	name, so a request carrying either is honoured.  containssearch wins if both arrive. --->
+<cfif isdefined("freetextsearch") AND len(freetextsearch) gt 0>
+	<cfif not isdefined("containssearch") OR len(containssearch) EQ 0>
+		<cfset containssearch = freetextsearch>
+	</cfif>
+</cfif>
 <cfif isdefined("containssearch") and len(containssearch) gt 0>
 	<cfset basSelect = "#basSelect#,SCORE(1) as sco ">
 	<!--- SCORE(1) is ancillary to a labelled CONTAINS and is rejected without one, so a shell
 		built without the criteria still needs a CONTAINS carrying the same label.  The text is a
 		fixed literal: the shell matches no rows, and a bind is not permitted in DDL. --->
 	<cfset variables.basShellPredicate = "#variables.basShellPredicate# AND CONTAINS(#session.flatTableName#.cat_num, 'shellonly', 1) > 0">
-	<cfset mapurl = "#mapurl#&freetextsearch=#containssearch#">
+	<cfset mapurl = "#mapurl#&containssearch=#containssearch#">
 	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"CONTAINS(#session.flatTableName#.cat_num, #addNamedQueryParam(variables.sqlParams,'containssearch',containssearch,'CF_SQL_VARCHAR')#, 1) > 0 AND ROWNUM <= 1000")>
 		<cfif len(trim(basOrder)) GT 0>
 	   	<cfset basOrder = "#basOrder#, SCORE(1) desc " >
