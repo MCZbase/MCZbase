@@ -29,6 +29,11 @@
 	it, and the criteria are therefore left out of the shell and applied by a following INSERT.
 	A select list expression can still require a predicate to be legal, which is what this
 	carries: it must contain no user supplied value. --->
+<!--- Set once the shared custom identifier type predicate has been added, so the blocks that
+	share it do not each add their own copy. --->
+<cfif not isdefined("variables.customIdTypeAdded")>
+	<cfset variables.customIdTypeAdded = false>
+</cfif>
 <cfif not isdefined("variables.basShellPredicate")>
 	<cfset variables.basShellPredicate = "">
 </cfif>
@@ -1037,10 +1042,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
-	<cfif #basQual# does not contain "customIdentifier.other_id_type">
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_type = '#session.CustomOtherIdentifier#'">
+	<cfif NOT variables.customIdTypeAdded>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_type = #addNamedQueryParam(variables.sqlParams,'custom_other_id_type',session.CustomOtherIdentifier,'CF_SQL_VARCHAR')#")>
+		<cfset variables.customIdTypeAdded = true>
 	</cfif>
-	<cfset basQual = " #basQual# AND upper(customIdentifier.other_id_prefix) LIKE '%#ucase(custom_id_prefix)#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(customIdentifier.other_id_prefix) LIKE #addNamedLikeParam(variables.sqlParams,'custom_id_prefix',custom_id_prefix)#")>
 </cfif>
 <cfif isdefined("custom_id_suffix") and len(custom_id_suffix) gt 0>
 	<cfset mapurl = "#mapurl#&custom_id_suffix=#custom_id_suffix#">
@@ -1048,10 +1054,11 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
-	<cfif basQual does not contain "customIdentifier.other_id_type">
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_type = '#session.CustomOtherIdentifier#'">
+	<cfif NOT variables.customIdTypeAdded>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_type = #addNamedQueryParam(variables.sqlParams,'custom_other_id_type',session.CustomOtherIdentifier,'CF_SQL_VARCHAR')#")>
+		<cfset variables.customIdTypeAdded = true>
 	</cfif>
-	<cfset basQual = " #basQual# AND upper(customIdentifier.other_id_suffix) LIKE '%#ucase(custom_id_suffixid_prefix)#%'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(customIdentifier.other_id_suffix) LIKE #addNamedLikeParam(variables.sqlParams,'custom_id_suffix',custom_id_suffix)#")>
 </cfif>
 <cfif isdefined("custom_id_number") and len(custom_id_number) gt 0>
 	<cfset mapurl = "#mapurl#&custom_id_number=#custom_id_number#">
@@ -1059,26 +1066,19 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
-	<cfif basQual does not contain "customIdentifier.other_id_type">
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_type = '#session.CustomOtherIdentifier#'">
+	<cfif NOT variables.customIdTypeAdded>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_type = #addNamedQueryParam(variables.sqlParams,'custom_other_id_type',session.CustomOtherIdentifier,'CF_SQL_VARCHAR')#")>
+		<cfset variables.customIdTypeAdded = true>
 	</cfif>
 	<cfif custom_id_number contains "-">
 		<!--- range --->
 		<cfset start=listgetat(custom_id_number,1,"-")>
 		<cfset stop=listgetat(custom_id_number,2,"-")>
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_number between #start# and #stop# ">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_number BETWEEN #addNamedQueryParam(variables.sqlParams,'custom_id_number_start',start,'CF_SQL_DECIMAL')# AND #addNamedQueryParam(variables.sqlParams,'custom_id_number_end',stop,'CF_SQL_DECIMAL')#")>
 	<cfelseif custom_id_number contains ",">
-		<cfset CustOidList="">
-		<cfloop list="#custom_id_number#" delimiters="," index="v">
-			<cfif len(CustOidList) is 0>
-				<cfset CustOidList = v>
-			<cfelse>
-				<cfset CustOidList = "#CustOidList#,#v#">
-			</cfif>
-		</cfloop>
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_number IN ( #CustOidList#) ">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_number IN (#addNamedQueryParam(variables.sqlParams,'custom_id_number',custom_id_number,'CF_SQL_DECIMAL',true)#)")>
 	<cfelseif isnumeric(custom_id_number)>
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_number = #custom_id_number# ">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_number = #addNamedQueryParam(variables.sqlParams,'custom_id_number',custom_id_number,'CF_SQL_DECIMAL')#")>
 	<cfelse>
 		<div class="error">
 		Custom ID Number may be any of the following formats:
@@ -1103,14 +1103,15 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num customIdentifier ON
 		(cataloged_item.collection_object_id = customIdentifier.collection_object_id)">
 	</cfif>
-	<cfif basQual does not contain "customIdentifier.other_id_type">
-		<cfset basQual = " #basQual# AND customIdentifier.other_id_type = '#session.CustomOtherIdentifier#'">
+	<cfif NOT variables.customIdTypeAdded>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.other_id_type = #addNamedQueryParam(variables.sqlParams,'custom_other_id_type',session.CustomOtherIdentifier,'CF_SQL_VARCHAR')#")>
+		<cfset variables.customIdTypeAdded = true>
 	</cfif>
 	<cfif CustomOidOper is "IS">
-		<cfset basQual = " #basQual# AND customIdentifier.DISPLAY_VALUE = '#CustomIdentifierValue#'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"customIdentifier.DISPLAY_VALUE = #addNamedQueryParam(variables.sqlParams,'custom_id_value',CustomIdentifierValue,'CF_SQL_VARCHAR')#")>
 	<cfelseif CustomOidOper is "LIST">
 		<cfset noSpace=replace(CustomIdentifierValue,' ','','all')>
-		<cfset basQual = " #basQual# AND upper(customIdentifier.DISPLAY_VALUE) IN (#ucase(ListQualify(ListChangeDelims(noSpace,','),''''))#)">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(customIdentifier.DISPLAY_VALUE) IN (#addNamedQueryParam(variables.sqlParams,'custom_id_value',ucase(noSpace),'CF_SQL_VARCHAR',true)#)")>
 	<cfelseif CustomOidOper is "BETWEEN">
 		<cfif CustomIdentifierValue does not contain "-">
 			<div class="error">
@@ -1122,9 +1123,9 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset dash = find("-",CustomIdentifierValue)>
 		<cfset idFrom = left(CustomIdentifierValue,dash-1)>
 		<cfset idTo = mid(CustomIdentifierValue,dash+1,len(CustomIdentifierValue))>
-		<cfset basQual = " #basQual# AND to_number(customIdentifier.DISPLAY_VALUE) BETWEEN #idFrom# and #idTo#">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"to_number(customIdentifier.DISPLAY_VALUE) BETWEEN #addNamedQueryParam(variables.sqlParams,'custom_id_value_start',idFrom,'CF_SQL_DECIMAL')# AND #addNamedQueryParam(variables.sqlParams,'custom_id_value_end',idTo,'CF_SQL_DECIMAL')#")>
 	<cfelse><!---- LIKE ---->
-		<cfset basQual = " #basQual# AND upper(customIdentifier.DISPLAY_VALUE) LIKE '%#ucase(CustomIdentifierValue)#%'">
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"upper(customIdentifier.DISPLAY_VALUE) LIKE #addNamedLikeParam(variables.sqlParams,'custom_id_value',CustomIdentifierValue)#")>
 	</cfif>
 </cfif>
 <cfif isdefined("OIDType") AND len(OIDType) gt 0>
@@ -1133,7 +1134,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON
 		(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND otherIdSearch.other_id_type = '#OIDType#'">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"otherIdSearch.other_id_type = #addNamedQueryParam(variables.sqlParams,'OIDType',OIDType,'CF_SQL_VARCHAR')#")>
 </cfif>
 <cfif isdefined("OIDNum") and len(OIDNum) gt 0>
 	<cfif not isdefined("oidOper") OR len(oidOper) is 0>
@@ -1145,24 +1146,15 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basJoin = " #basJoin# INNER JOIN coll_obj_other_id_num otherIdSearch ON
 		(cataloged_item.collection_object_id = otherIdSearch.collection_object_id)">
 	</cfif>
-	<cfset oidList="">
+	<cfset variables.oidClauses = arrayNew(1)>
 	<cfloop list="#OIDNum#" delimiters="," index="i">
 		<cfif oidOper is "LIKE">
-			<cfif len(oidList) is 0>
-				<cfset oidList = "AND ( upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
-			<cfelse>
-				<cfset oidList = "#oidList# OR upper(otherIdSearch.display_value) LIKE '%#ucase(i)#%'">
-			</cfif>
+			<cfset arrayAppend(variables.oidClauses,"upper(otherIdSearch.display_value) LIKE #addNamedLikeParam(variables.sqlParams,'OIDNum',i)#")>
 		<cfelse>
-			<cfif len(oidList) is 0>
-				<cfset oidList = "AND ( otherIdSearch.display_value = '#i#'">
-			<cfelse>
-				<cfset oidList = "#oidList# OR otherIdSearch.display_value = '#i#'">
-			</cfif>
+			<cfset arrayAppend(variables.oidClauses,"otherIdSearch.display_value = #addNamedQueryParam(variables.sqlParams,'OIDNum',i,'CF_SQL_VARCHAR')#")>
 		</cfif>
 	</cfloop>
-	<cfset oidList = "#oidList# )">
-	<cfset basQual = " #basQual# #oidList#">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"( " & arrayToList(variables.oidClauses," OR ") & " )")>
 </cfif>
 <cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
 	<cfif compare(continent_ocean,"NULL") is 0>
@@ -2010,7 +2002,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			<cfset brkPnt=999999>
 		</cfif>
 	</CFLOOP>
-	<cfset basQual = " #basQual# AND cataloged_item.collection_object_id NOT IN (#exclCollObjId#)">
+	<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"cataloged_item.collection_object_id NOT IN (#addNamedQueryParam(variables.sqlParams,'exclCollObjId',exclCollObjId,'CF_SQL_DECIMAL',true)#)")>
 </cfif>
 <cfif isdefined("institution_appearance") AND len(institution_appearance) gt 0>
 	<cfquery name="whatInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
