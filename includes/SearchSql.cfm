@@ -30,6 +30,52 @@
 <cfif not isdefined("variables.basShellPredicate")>
 	<cfset variables.basShellPredicate = "">
 </cfif>
+<!--- Criteria this file reads from the request.  Values are copied out of the url and form
+	scopes into the variables scope below rather than resolved implicitly, which the developer's
+	guide requires and which a future ColdFusion release will require, since the resolution of
+	an unscoped name across those two scopes is deprecated.
+
+	A name absent from both scopes, or present but empty, is left unset, so a block gated on
+	isdefined() still distinguishes a criterion that was not supplied from one that was.
+	Precedence is url over form, matching the order ColdFusion itself searches; no request path
+	supplies both for the same name, so the choice is not observable today. --->
+<cfset SEARCH_CRITERIA = "
+		accn_agency,accn_inst,accn_list,accn_number,accn_permit_trans_id,accn_trans_id,
+		any_geog,any_taxa_term,AnySciName,anyTaxId,attOper_1,attOper_2,attOper_3,
+		attribute_operator,attribute_type,attribute_type_1,attribute_type_2,attribute_type_3,
+		attribute_units_1,attribute_units_2,attribute_units_3,attribute_value,
+		attribute_value_1,attribute_value_2,attribute_value_3,attributed_determiner_agent_id,
+		barcode,beg_entered_date,beg_last_edit_date,begDate,begDay,begMon,begYear,cat_num,
+		catnum,chronological_extent,cited_taxon_name_id,coll,coll_obj_disposition,
+		coll_obj_flags,coll_role,collecting_event_id,collecting_source,collection_cde,
+		collection_id,collection_object_id,collector_agent_id,Common_Name,containssearch,
+		continent_ocean,Country,county,custom_id_number,custom_id_prefix,custom_id_suffix,
+		CustomIdentifierValue,CustomOidOper,depth_units,derived_relationship,edited_by,
+		edited_by_id,encumbering_agent_id,encumbrance_id,end_entered_date,end_last_edit_date,
+		endDate,endDay,endMon,endYear,entered_by,entered_by_id,exclCollObjId,family,feature,
+		genus,geog_auth_rec_id,geology_attribute,geology_attribute_value,geology_hierarchies,
+		higher_geog,HighTaxa,identification_remarks,identified_agent,identified_agent_id,
+		ImgNoConfirm,inCounty,inMon,institution_appearance,is_tissue,Island,island_group,
+		kingdom,last_edited_person_id,listcatnum,loan_number,loan_permit_trans_id,
+		loan_project_id,loan_project_name,loan_trans_id,locality_id,max_error_in_meters,
+		max_error_units,max_max_error,maximum_depth,maximum_elevation,media_type,mime_type,
+		min_max_error,minimum_depth,minimum_elevation,nature_of_id,NWLat,NWLong,ocr_text,
+		oid2Oper,OIDNum,oidOper,OIDType,orig_elev_units,part_disposition,part_name,partname,
+		permit_issued_by,permit_issued_to,permit_num,permit_type,Phylclass,phylorder,phylum,
+		preserve_method,preservemethod,print_fg,project_id,project_name,project_sponsor,
+		publication_id,Quad,relationship,remark,scientific_name,sciname,sciNameOper,sea,
+		searchOnlyCurrent,searchOtherIDs,SELat,SELong,spec_locality,species,srchParts,
+		state_prov,subject,subspecies,taxon_name_id,type_status,underscore_coll_id,
+		verbatim_date,verbatim_locality,verificationstatus,water_feature
+	">
+<cfloop list="#SEARCH_CRITERIA#" index="variables.criteriaListEntry">
+	<cfset variables.criteriaName = trim(variables.criteriaListEntry)>
+	<cfif structKeyExists(url,variables.criteriaName) AND len(url[variables.criteriaName]) GT 0>
+		<cfset variables[variables.criteriaName] = url[variables.criteriaName]>
+	<cfelseif structKeyExists(form,variables.criteriaName) AND len(form[variables.criteriaName]) GT 0>
+		<cfset variables[variables.criteriaName] = form[variables.criteriaName]>
+	</cfif>
+</cfloop>
 <cfif isdefined("listcatnum") AND len(listcatnum) GT 0>
 	<cfset catnum = listcatnum>
 </cfif>
