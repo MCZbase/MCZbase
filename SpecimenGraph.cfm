@@ -1,4 +1,21 @@
 <cfinclude template="includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,cbifurl,chartType,detail_level,graphThis,mapurl,newQuery,newSearch,order_by,
+	order_order,searchParams,show3D,size,startRow,type">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.chartType" default="">
+<cfparam name="variables.graphThis" default="">
+<cfparam name="variables.searchParams" default="">
+<cfparam name="variables.show3D" default="">
+<cfparam name="variables.type" default="">
+<!--- Columns graphThis may name.  These are grouped on, and an identifier cannot be bound,
+	so the value is matched against this list rather than passed through. --->
+<cfset GRAPHABLE_COLUMNS = "continent_ocean,country,state_prov,scientific_name,phylclass,genus,family,phylorder">
 <cfif #action# is "nothing">
 <cfoutput>
 	<cfset searchParams = "">
@@ -65,7 +82,6 @@
 								<td align="right">Format:<sup>2</sup></td>
 								<td>
 									<select name="chartType" size="1">
-										<option value="flash">Flash</option>
 										<option value="jpg">JPG</option>
 										<option value="png">PNG</option>
 									</select>
@@ -165,39 +181,50 @@
 <cfoutput>
 	<cfset chartHeight = listfirst(size," x ")>
 	<cfset chartWidth = listlast(size," x ")>
+	<cfloop list="#graphThis#" index="variables.graphColumn">
+		<cfif NOT listfindnocase(GRAPHABLE_COLUMNS,variables.graphColumn)>
+			<cfthrow message="Unsupported value for graphThis.">
+		</cfif>
+	</cfloop>
 	<cfloop list="#graphThis#" index="item">
 		<cfset x = "#item#">
 		<cfset y="Specimens">
 			<cfif listcontains("family,phylorder,genus",#item#)>
-				<cfset basSelect = "SELECT count(#session.flatTableName#.cat_num) as y_data,
-					getTaxa(#session.flatTableName#.collection_object_id,'#item#') as x_data">
-				<cfset basGroup = "GROUP BY getTaxa(#session.flatTableName#.collection_object_id,'#item#')">
+				<cfset basSelect = "SELECT count(flatTableName.cat_num) as y_data,
+					getTaxa(flatTableName.collection_object_id,'#item#') as x_data">
+				<cfset basGroup = "GROUP BY getTaxa(flatTableName.collection_object_id,'#item#')">
 			<cfelse>
-				<cfset basSelect = "SELECT count(#session.flatTableName#.cat_num) y_data,
-					decode(#session.flatTableName#.#item#,
+				<cfset basSelect = "SELECT count(flatTableName.cat_num) y_data,
+					decode(flatTableName.#item#,
 					NULL,'not recorded',
-					#session.flatTableName#.#item#) as x_data">
+					flatTableName.#item#) as x_data">
 				<cfif #item# is "scientific_name">
-					<cfset basGroup = "GROUP BY #session.flatTableName#.#item#">
+					<cfset basGroup = "GROUP BY flatTableName.#item#">
 				<cfelse>
 					<cfset basGroup = "GROUP BY #item#">
 				</cfif>
 				
 			</cfif>
 			
-			<cfset basFrom = " FROM #session.flatTableName#">
-			<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-			<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">	
+			<cfset basFrom = " FROM #session.flatTableName# flatTableName">
+			<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+			<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">	
 			
-			<cfset basQual = "">
 			<cfset mapurl="">
-			<cfset basOrder = "ORDER BY count(#session.flatTableName#.cat_num) DESC">
+			<!--- One chart per column, each with its own criteria, so the clauses and their values
+				start empty on every pass rather than accumulating across the loop. --->
+			<cfset variables.whereClauses = arrayNew(1)>
+			<cfset variables.sqlParams = structNew()>
+			<cfset variables.customIdTypeAdded = false>
+			<cfset variables.basShellPredicate = "">
+			<cfset basOrder = "ORDER BY count(flatTableName.cat_num) DESC">
 			<cfinclude template="includes/SearchSql.cfm">
-			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basGroup# #basOrder#">	
-			<cfset checkSql(SqlString)>	
-			<cfquery name="getGraph" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				#preservesinglequotes(SqlString)#
-			</cfquery>
+			<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basGroup# #basOrder#">	
+			<cfset getGraph = queryExecute(SqlString,variables.sqlParams,{
+				datasource = "user_login",
+				username = session.dbuser,
+				password = decrypt(session.epw,cookie.cfid)
+			})>
 			
 			 
 			

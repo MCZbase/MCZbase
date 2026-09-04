@@ -1,4 +1,10 @@
 <cfinclude  template="/includes/_header.cfm"> 
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,includeTimeSpan,mapByLocality,method,next,showErrors,showUnaccepted,
+	userFileName">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <cfset table_name=session.SpecSrchTab>
 <cfset internalPath="#Application.webDirectory#/bnhmMaps/tabfiles/">
 <cfset externalPath="#Application.ServerRootUrl#/bnhmMaps/tabfiles/">
@@ -80,19 +86,18 @@
 <!--- handle direct calls --->
 <cfif action is "newReq">
 	<cfoutput>
-		<cfset basSelect = " SELECT distinct #flatTableName#.collection_object_id">
+		<cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
 		<cfquery name="reqd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_spec_res_cols where category='required'
 		</cfquery>
 		<cfset basSelect = listappend(basSelect,valuelist(reqd.SQL_ELEMENT))>
-		<cfset basFrom = " FROM #flatTableName#">
-		<cfset basJoin = "INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-		<cfset basWhere = " WHERE #flatTableName#.collection_object_id IS NOT NULL ">	
-		<cfset basQual = "">
+		<cfset basFrom = " FROM #flatTableName# flatTableName">
+		<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+		<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">	
 		<cfset mapurl="">
 		<cfinclude template="/includes/SearchSql.cfm">
-		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
-		<cfset sqlstring = replace(sqlstring,"flatTableName","#flatTableName#","all")>
+		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
+		<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
 		<cfset srchTerms="">
 		<cfloop list="#mapurl#" delimiters="&" index="t">
 			<cfset tt=listgetat(t,1,"=")>
@@ -118,11 +123,20 @@
 				<!--- not there, so what? --->
 			</cfcatch>
 		</cftry>
-		<cfset checkSql(SqlString)>	
-		<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
-		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preserveSingleQuotes(SqlString)#
-		</cfquery>
+		<!--- Two statements rather than one CREATE TABLE ... AS SELECT: that is DDL, and Oracle
+			permits no bind variable in DDL, so the shell is created empty with AND 1=0 in place of
+			the criteria and the criteria run as an INSERT, which does take binds.  SpecSrchTab is
+			built from the session identity with no user input. --->
+		<cfset queryExecute("CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#",{},{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
+		<cfset queryExecute("INSERT INTO #session.SpecSrchTab# #SqlString#",variables.sqlParams,{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
 		<cfset burl="kml.cfm?method=#method#&showErrors=#showErrors#&mapByLocality=#mapByLocality#">
 		<cfset burl=burl & "&showUnaccepted=#showUnaccepted#&userFileName=#userFileName#&action=#next#">	
 		<cflocation url="#burl#" addtoken="false">

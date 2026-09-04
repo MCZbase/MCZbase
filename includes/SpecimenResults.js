@@ -2,7 +2,9 @@ function saveSearch(returnURL){
 	var sName=prompt("Name this search", "my search");
 	if (sName!==null){
 		var sn=encodeURIComponent(sName);
-		var ru=encodeURI(returnURL);
+		// jQuery.getJSON escapes each parameter it sends, so escaping the url here as well
+		// left every escape in it doubled once it was stored.
+		var ru=returnURL;
 		jQuery.getJSON("/component/functions.cfc",
 			{
 				method : "saveSearch",
