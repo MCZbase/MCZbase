@@ -179,39 +179,39 @@
 						SELECT #columnName# as valCode 
 						FROM valCT
 						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
-				</cfquery>
-			<cfelse>
-				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCode 
-					from valCT
-				</cfquery>
-			</cfif>
-			<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
-			<cfset result = QueryNew("V")>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "units")>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-			<cfset i=3>
-			<cfloop query="valCodes">
+					</cfquery>
+				<cfelse>
+					<cfquery name="valCodes" dbtype="query">
+						SELECT #columnName# as valCode 
+						FROM valCT
+					</cfquery>
+				</cfif>
+				<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
+				<cfset result = QueryNew("V")>
 				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
-				<cfset i=#i#+1>
-			</cfloop>
+				<cfset temp = QuerySetCell(result, "v", "units")>
+				<cfset newRow = QueryAddRow(result, 1)>
+				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
+				<cfset i=3>
+				<cfloop query="valCodes">
+					<cfset newRow = QueryAddRow(result, 1)>
+					<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
+					<cfset i=#i#+1>
+				</cfloop>
+			<cfelse>
+				<cfset result = QueryNew("V")>
+				<cfset newRow = QueryAddRow(result, 1)>
+				<cfset temp = QuerySetCell(result, "v", "ERROR")>
+				<cfset newRow = QueryAddRow(result, 1)>
+				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
+			</cfif>
 		<cfelse>
 			<cfset result = QueryNew("V")>
 			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "ERROR")>
+			<cfset temp = QuerySetCell(result, "v", "NONE")>
 			<cfset newRow = QueryAddRow(result, 1)>
 			<cfset temp = QuerySetCell(result, "v", "#element#",2)>
 		</cfif>
-	<cfelse>
-		<cfset result = QueryNew("V")>
-		<cfset newRow = QueryAddRow(result, 1)>
-		<cfset temp = QuerySetCell(result, "v", "NONE")>
-		<cfset newRow = QueryAddRow(result, 1)>
-		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-	</cfif>
 		<cfoutput>#SerializeJSON(result,true)#</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="#threadname#" />
