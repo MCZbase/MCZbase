@@ -72,7 +72,12 @@
 	<cfargument name="good" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			insert into agent_relations (agent_id,related_agent_id,agent_relationship) values (#bad#,#good#,'bad duplicate of')
+			INSERT INTO 
+				agent_relations (agent_id,related_agent_id,agent_relationship) 
+			VALUES 
+				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bad#">
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#good#">
+				,'bad duplicate of')
 		</cfquery>
 		<cfset result = querynew("STATUS,GOOD,BAD,MSG")>
 		<cfset temp = queryaddrow(result,1)>
@@ -95,77 +100,90 @@
 	<cfargument name="attribute" type="string" required="yes">
 	<cfargument name="collection_cde" type="string" required="yes">
 	<cfargument name="element" type="string" required="yes">
-        <cftry>
-        <cfset threadname = "getAttCodeTblThread">
-        <cfthread name="#threadname#"  >
-	<cfquery name="isCtControlled" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select VALUE_CODE_TABLE,UNITS_CODE_TABLE from ctattribute_code_tables where attribute_type='#attribute#'
-	</cfquery>
-	<cfif isCtControlled.recordcount is 1>
-		<cfif len(isCtControlled.VALUE_CODE_TABLE) gt 0>
-			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isCtControlled.value_code_table)#'
-				and column_name <> 'DESCRIPTION'
-			</cfquery>
-			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isCtControlled.value_code_table#
-			</cfquery>
-			<cfset collCode = "">
-			<cfset columnName = "">
-			<cfloop query="getCols">
-				<cfif getCols.column_name is "COLLECTION_CDE">
-					<cfset collCode = "yes">
-				  <cfelse>
-					<cfset columnName = "#getCols.column_name#">
-				</cfif>
-			</cfloop>
-			<cfif len(#collCode#) gt 0>
-				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCode from valCT
-					WHERE collection_cde='#collection_cde#'
-				</cfquery>
-			  <cfelse>
-				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCode from valCT
-				</cfquery>
-			</cfif>
-			<cfset result = QueryNew("V")>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "value",1)>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-			<cfset i=3>
-			<cfloop query="valCodes">
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
-				<cfset i=#i#+1>
-			</cfloop>
 
-		<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
-			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isCtControlled.UNITS_CODE_TABLE)#'
-				and column_name <> 'DESCRIPTION'
+	<cftry>
+		<cfset threadname = "getAttCodeTblThread">
+		<cfthread name="#threadname#" attribute="#attribute#" collection_cde="#collection_cde#" element="#element#">
+			<cfquery name="isCtControlled" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					value_code_table,units_code_table 
+				FROM ctattribute_code_tables 
+				WHERE attribute_type <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 			</cfquery>
-			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isCtControlled.UNITS_CODE_TABLE#
-			</cfquery>
-			<cfset collCode = "">
-			<cfset columnName = "">
-			<cfloop query="getCols">
-				<cfif getCols.column_name is "COLLECTION_CDE">
-					<cfset collCode = "yes">
-				  <cfelse>
-					<cfset columnName = "#getCols.column_name#">
-				</cfif>
-			</cfloop>
-			<cfif len(#collCode#) gt 0>
-				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCode from valCT
-					WHERE collection_cde='#collection_cde#'
+			<cfif isCtControlled.recordcount is 1>
+				<cfif len(isCtControlled.VALUE_CODE_TABLE) gt 0>
+					<cfquery name="getCols" datasource="uam_god">
+						SELECT column_name 
+						FROM sys.user_tab_columns 
+						WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isCtControlled.value_code_table)#">
+							and column_name <> 'DESCRIPTION'
+					</cfquery>
+					<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT * 
+						FROM #isCtControlled.value_code_table#
+					</cfquery>
+					<cfset collCode = "">
+					<cfset columnName = "">
+					<cfloop query="getCols">
+						<cfif getCols.column_name is "COLLECTION_CDE">
+							<cfset collCode = "yes">
+						<cfelse>
+							<cfset columnName = "#getCols.column_name#">
+						</cfif>
+					</cfloop>
+					<cfif len(#collCode#) gt 0>
+						<cfquery name="valCodes" dbtype="query">
+							SELECT #columnName# as valCode 
+							FROM valCT
+							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+						</cfquery>
+			  		<cfelse>
+						<cfquery name="valCodes" dbtype="query">
+							SELECT #columnName# as valCode 
+							FROM valCT
+						</cfquery>
+					</cfif>
+				<cfset result = QueryNew("V")>
+				<cfset newRow = QueryAddRow(result, 1)>
+				<cfset temp = QuerySetCell(result, "v", "value",1)>
+				<cfset newRow = QueryAddRow(result, 1)>
+				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
+				<cfset i=3>
+				<cfloop query="valCodes">
+					<cfset newRow = QueryAddRow(result, 1)>
+					<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
+					<cfset i=#i#+1>
+				</cfloop>
+			<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
+				<cfquery name="getCols" datasource="uam_god">
+					SELECT column_name 
+					FROM sys.user_tab_columns 
+					WHERE table_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#ucase(isCtControlled.UNITS_CODE_TABLE)#'>
+						and column_name <> 'DESCRIPTION'
 				</cfquery>
-			  <cfelse>
+				<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * 
+					FROM #isCtControlled.UNITS_CODE_TABLE#
+				</cfquery>
+				<cfset collCode = "">
+				<cfset columnName = "">
+				<cfloop query="getCols">
+					<cfif getCols.column_name is "COLLECTION_CDE">
+						<cfset collCode = "yes">
+					  <cfelse>
+						<cfset columnName = "#getCols.column_name#">
+					</cfif>
+				</cfloop>
+				<cfif len(#collCode#) gt 0>
+					<cfquery name="valCodes" dbtype="query">
+						SELECT #columnName# as valCode 
+						FROM valCT
+						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
+				</cfquery>
+			<cfelse>
 				<cfquery name="valCodes" dbtype="query">
-					SELECT #columnName# as valCode from valCT
+					SELECT #columnName# as valCode 
+					from valCT
 				</cfquery>
 			</cfif>
 			<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
@@ -194,19 +212,19 @@
 		<cfset newRow = QueryAddRow(result, 1)>
 		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
 	</cfif>
-        <cfoutput>#SerializeJSON(result,true)#</cfoutput>
-        </cfthread>
-        <cfthread action="join" name="#threadname#" />
-        <cfcatch>
+		<cfoutput>#SerializeJSON(result,true)#</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="#threadname#" />
+	<cfcatch>
 		<cfset result = QueryNew("V")>
 		<cfset newRow = QueryAddRow(result, 1)>
 		<cfset temp = QuerySetCell(result, "v", "ERROR")>
 		<cfset newRow = QueryAddRow(result, 1)>
 		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-	        <cfreturn result>
-        </cfcatch>
-        </cftry>
-        <cfreturn getAttCodeTblThread.output>
+		<cfreturn result>
+	</cfcatch>
+	</cftry>
+	<cfreturn getAttCodeTblThread.output>
 </cffunction>
 <!---------------------------------------------------------------->
 <cffunction name="removeAccnContainer" access="remote">
