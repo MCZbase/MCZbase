@@ -1,4 +1,9 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,lat_long_id,result_id,showRangeMaps">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <cfset fn="arctos_#randRange(1,1000)#">
 <cfset variables.localXmlFile="#Application.webDirectory#/bnhmMaps/tabfiles/#fn#.xml">
 <cfset variables.localTabFile="#Application.webDirectory#/bnhmMaps/tabfiles/#fn#.txt">
@@ -16,7 +21,6 @@
 <cfelse>
 	<cfset flatTableName = "filtered_flat">
 </cfif>
-<cfset mediaFlatTableName = "media_flat">
 <!----------------------------------------------------------------->
 <cfif isdefined("action") and action IS "mapPoint">
 	<!--- map a single point --->
@@ -48,40 +52,6 @@
 				lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 		</cfquery>
 	</cfoutput>
-<cfelseif isdefined("search") and search IS "MediaSearch">
-	<!--- map coordinates for specimens in a media search, incomplete implementation --->
-
-	<cfset ShowObservations = "true">
-
-	<cfset basSelect = "SELECT DISTINCT
-		#flatTableName#.collection,
-		#flatTableName#.collection_id,
-		#flatTableName#.cat_num,
-		#flatTableName#.scientific_name,
-		#flatTableName#.verbatim_date,
-		#flatTableName#.spec_locality,
-		#flatTableName#.dec_lat,
-		#flatTableName#.dec_long,
-		#flatTableName#.COORDINATEUNCERTAINTYINMETERS,
-		#flatTableName#.datum,
-		#flatTableName#.collection_object_id,
-		#flatTableName#.collectors">
-	<cfset basFrom = "	FROM #flatTableName#, #mediaFlatTableName#">
-	<cfset basWhere = " WHERE
-		#flatTableName#.collection_object_id IN (#mediaFlatTableName#.collecting_object_id) AND
-		#flatTableName#.dec_lat is not null AND
-		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
-
-	<cfset srch = "">
-
-	<!--- TODO: No such file --->
-	<cfinclude template="/development/MediaSearchSql.cfm">
-	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
-	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
 <cfelseif isDefined("result_id") and len(result_id) GT 0>
 	<!--- mapping search results from user_search_table by result_id ---->
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -117,45 +87,54 @@
 		<cfset ShowObservations = "true">
 	</cfif>
 	<cfset basSelect = "SELECT DISTINCT
-		#flatTableName#.collection,
-		#flatTableName#.collection_id,
-		#flatTableName#.cat_num,
-		#flatTableName#.scientific_name,
-		#flatTableName#.verbatim_date,
-		#flatTableName#.spec_locality,
-		#flatTableName#.dec_lat,
-		#flatTableName#.dec_long,
-		#flatTableName#.COORDINATEUNCERTAINTYINMETERS,
-		#flatTableName#.datum,
-		#flatTableName#.collection_object_id,
-		#flatTableName#.collectors">
-	<cfset basFrom = "	FROM #flatTableName#">
+		flatTableName.collection,
+		flatTableName.collection_id,
+		flatTableName.cat_num,
+		flatTableName.scientific_name,
+		flatTableName.verbatim_date,
+		flatTableName.spec_locality,
+		flatTableName.dec_lat,
+		flatTableName.dec_long,
+		flatTableName.COORDINATEUNCERTAINTYINMETERS,
+		flatTableName.datum,
+		flatTableName.collection_object_id,
+		flatTableName.collectors">
+	<cfset basFrom = "	FROM #flatTableName# flatTableName">
 	<!----
-	<cfset basJoin = " INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)
-		INNER JOIN collecting_event flatCollEvent ON (#flatTableName#.collecting_event_id = flatCollEvent.collecting_event_id)">
+	<cfset basJoin = " INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)
+		INNER JOIN collecting_event flatCollEvent ON (flatTableName.collecting_event_id = flatCollEvent.collecting_event_id)">
 	<cfset basWhere = " WHERE
 		dec_lat is not null AND
 		dec_long is not null AND
 		flatCollEvent.collecting_source = 'wild caught' ">
 	---->
-	<cfset basJoin = " INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
+	<cfset basJoin = " INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE
-		#flatTableName#.dec_lat is not null AND
-		#flatTableName#.dec_long is not null AND
-		#flatTableName#.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
-	<cfset basQual = "">
+		flatTableName.dec_lat is not null AND
+		flatTableName.dec_long is not null AND
+		flatTableName.collecting_source in ('wild caught', 'unknown', 'rock/outcrop') ">
 	<cfif not isdefined("basJoin")>
 		<cfset basJoin = "">
 	</cfif>
 	<cfinclude template="/includes/SearchSql.cfm">
-	<cfif basQual EQ "  AND flat.collection_cde not in ('HerpOBS')" or basQual EQ "  AND filtered_flat.collection_cde not in ('HerpOBS')">
-		<cfset basQual = "AND 1<>1">
+	<!--- Criteria other than the observations filter are required: without them this feed
+		would return every georeferenced specimen. --->
+	<cfset variables.srchTerms = "">
+	<cfloop list="#mapurl#" delimiters="&" index="variables.mapurlTerm">
+		<cfset variables.srchTerms = listappend(variables.srchTerms,listgetat(variables.mapurlTerm,1,"="))>
+	</cfloop>
+	<cfif listfindnocase(variables.srchTerms,"ShowObservations") GT 0>
+		<cfset variables.srchTerms = listdeleteat(variables.srchTerms,listfindnocase(variables.srchTerms,"ShowObservations"))>
 	</cfif>
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
-	<cfset checkSQL(SqlString)>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfif len(variables.srchTerms) EQ 0>
+		<cfset variables.whereClauses = appendWhereClause(variables.whereClauses,"1<>1")>
+	</cfif>
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
+	<cfset getMapData = queryExecute(SqlString,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid)
+	})>
 </cfif><!--- end point map option --->
 <cfif getMapData.recordcount is 0>
 	<div class="error">

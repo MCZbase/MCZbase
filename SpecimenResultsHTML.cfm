@@ -1,4 +1,15 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,cbifurl,cfidAndToken,cnt,collobjidlist,detail_level,displayrows,goWhere,
+	mapurl,newQuery,newSearch,oidOper,order_by,order_order,returnURL,searchParams,
+	sciNameOper,startRow,transaction_id">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.collobjidlist" default="">
 <script>
  function checkUncheck(formName,CollObjValue)
  {
@@ -61,29 +72,28 @@
 
 <cfif #newQuery# is 1>	<!--- build and send the query--->
 	<cfset basSelect = " SELECT
-		#session.flatTableName#.collection_object_id,
-		#session.flatTableName#.cat_num,
-		#session.flatTableName#.institution_acronym,
-		#session.flatTableName#.collection_cde,
-		#session.flatTableName#.collection_id,
-		#session.flatTableName#.parts,
-		#session.flatTableName#.sex,
-		#session.flatTableName#.scientific_name,
-		#session.flatTableName#.country,
-		#session.flatTableName#.state_prov,
-		#session.flatTableName#.spec_locality,
-		#session.flatTableName#.verbatim_date
+		flatTableName.collection_object_id,
+		flatTableName.cat_num,
+		flatTableName.institution_acronym,
+		flatTableName.collection_cde,
+		flatTableName.collection_id,
+		flatTableName.parts,
+		flatTableName.sex,
+		flatTableName.scientific_name,
+		flatTableName.country,
+		flatTableName.state_prov,
+		flatTableName.spec_locality,
+		flatTableName.verbatim_date
 		">
 	<cfif len(#session.CustomOtherIdentifier#) gt 0>
 		<cfset basSelect = "#basSelect#
-			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-			to_number(ConcatSingleOtherIdInt(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
+			,concatSingleOtherId(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+			to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
 	</cfif>
-	<cfset basFrom = " FROM #session.flatTableName#">
-	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
+	<cfset basFrom = " FROM #session.flatTableName# flatTableName">
+	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+	<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">
 <!--------------------------------------------------------------->
-	<cfset basQual = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 <!--- require some actual searching --->
@@ -108,17 +118,17 @@
 
 	<cfif #detail_level# gte 2>
 		<cfset basSelect = "#basSelect#,
-			#session.flatTableName#.accession,
-			#session.flatTableName#.coll_obj_disposition,
-			#session.flatTableName#.county,
-			#session.flatTableName#.feature,
-      #session.flatTableName#.water_feature,
-			#session.flatTableName#.quad,
-			#session.flatTableName#.remarks,
-			#session.flatTableName#.ISLAND,
-			#session.flatTableName#.ISLAND_GROUP,
-			#session.flatTableName#.associated_species,
-			#session.flatTableName#.habitat,
+			flatTableName.accession,
+			flatTableName.coll_obj_disposition,
+			flatTableName.county,
+			flatTableName.feature,
+      flatTableName.water_feature,
+			flatTableName.quad,
+			flatTableName.remarks,
+			flatTableName.ISLAND,
+			flatTableName.ISLAND_GROUP,
+			flatTableName.associated_species,
+			flatTableName.habitat,
 			 round(MIN_ELEV_IN_M) MIN_ELEV_IN_M,
 			 round(MAX_ELEV_IN_M) MAX_ELEV_IN_M">
 	</cfif><!--- end detail_level 2---->
@@ -133,26 +143,26 @@
 			<cfset thisName = #left(thisName,20)#>
 			<cfif #thisName# is not "sex"><!--- already got it --->
 				<cfset basSelect = "#basSelect# ,
-							ConcatAttributeValue(#session.flatTableName#.collection_object_id,'#ctAtt.attribute_type#')
+							ConcatAttributeValue(flatTableName.collection_object_id,'#ctAtt.attribute_type#')
 				""#thisName#""">
 			</cfif>
 		</cfloop>
 		<cfset basSelect = "#basSelect# ,
-					#session.flatTableName#.began_date,
-						#session.flatTableName#.ended_date,
-							get_scientific_name_auths(#session.flatTableName#.collection_object_id) sci_name_with_auth,
-							concatAcceptedIdentifyingAgent(#session.flatTableName#.collection_object_id) identified_by">
+					flatTableName.began_date,
+						flatTableName.ended_date,
+							get_scientific_name_auths(flatTableName.collection_object_id) sci_name_with_auth,
+							concatAcceptedIdentifyingAgent(flatTableName.collection_object_id) identified_by">
 	</cfif><!--- end detail_level 3---->
 	<cfif #detail_level# gte 4>
 		<cfset basSelect = "#basSelect#,
-			#session.flatTableName#.datum,
-			#session.flatTableName#.orig_lat_long_units,
-			#session.flatTableName#.lat_long_determiner,
-			#session.flatTableName#.lat_long_ref_source,
-			#session.flatTableName#.lat_long_remarks,
-			#session.flatTableName#.COORDINATEUNCERTAINTYINMETERS,
-			#session.flatTableName#.CONTINENT_OCEAN,
-			#session.flatTableName#.SEA,
+			flatTableName.datum,
+			flatTableName.orig_lat_long_units,
+			flatTableName.lat_long_determiner,
+			flatTableName.lat_long_ref_source,
+			flatTableName.lat_long_remarks,
+			flatTableName.COORDINATEUNCERTAINTYINMETERS,
+			flatTableName.CONTINENT_OCEAN,
+			flatTableName.SEA,
 			get_taxonomy(cataloged_item.collection_object_id,'family') family,
 			get_taxonomy(cataloged_item.collection_object_id,'phylorder') phylorder
 		">
@@ -166,7 +176,7 @@
 	</cfif>
 	--->
 	<!--- wrap everything up in a string --->
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
 	<!--- define the list of search paramaters that we need to get back here --->
 	<cfoutput>
 	<cfset searchParams = "">
@@ -235,7 +245,7 @@
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
 
 	</cfoutput>
-		<cfif len(#basQual#) is 0 AND basFrom does not contain "binary_object">
+		<cfif arrayLen(variables.whereClauses) EQ 0 AND basFrom does not contain "binary_object">
 			<CFSETTING ENABLECFOUTPUTONLY=0>
 
 			<font color="##FF0000" size="+2">You must enter some search criteria!</font>
@@ -260,10 +270,12 @@
 
 	<!-------------------------- / dlm debug -------------------------------------->
 	<!---cfoutput>#SqlString#</cfoutput--->
-	<cfset checkSql(SqlString)>
-	<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset getData = queryExecute(SqlString,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		cachedwithin = createtimespan(0,0,60,0)
+	})>
 	<cfset userSql = #preserveSingleQuotes(SqlString)#>
 
 	<cfif getData.recordcount is 0>
@@ -393,7 +405,7 @@
 	<cfset nextRows = #DisplayRows#>
 </cfif>
 
-<form name="map" method="post" action="/bnhmMaps/bnhmMapData.cfm?#mapurl#" target="_blank">
+<form name="map" method="post" action="/bnhmMaps/bnhmMapData.cfm?#encodeForHtml(mapurl)#" target="_blank">
 
   <H4>List of specimens #StartRow# through #ToRow# of the #collectionObjectIds.RecordCount# records that matched your criteria.
   <br>Click on catalog numbers for individual details.
@@ -412,7 +424,8 @@ document.getElementById('saveme').submit();
 </script>
 		<cfif isdefined("returnURL")>
 		<form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#encodeForURL(mapURL)#&detail_level=#encodeForURL(detail_level)#" />
+			<cfset variables.saveReturnUrl = "#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#mapURL#&detail_level=#encodeForURL(detail_level)#">
+			<input type="hidden" name="returnURL" value="#encodeForHtml(variables.saveReturnUrl)#" />
 			<input type="button" value="Save This Search" onclick="cForm();" class="savBtn"
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
 		</form>
@@ -427,7 +440,7 @@ document.getElementById('saveme').submit();
 
 
 				<input type="hidden" name="searchParams" value='#searchParams#'>
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
 				<input name="NewQuery" type="hidden" value="0">
@@ -496,7 +509,7 @@ document.getElementById('saveme').submit();
 <form name="reorder" action="SpecimenResultsHTML.cfm" method="post">
 				#searchParams#
 				<input type="hidden" name="searchParams" value='#searchParams#'>
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
 				<input name="NewQuery" type="hidden" value="0">
@@ -1349,7 +1362,7 @@ document.getElementById('saveme').submit();
 	---->
 <form name="level" action="SpecimenResultsHTML.cfm" method="post">
 #searchParams#
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
@@ -1441,7 +1454,7 @@ document.getElementById('saveme').submit();
 <form name="reloadThis" action="SpecimenResultsHTML.cfm" method="post" id="reloadThis">
 	<input type="hidden" name="exclCollObjId" value="#passExclCollObjId#">
 #searchParams#
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input name="StartRow" type="hidden" value="1">
 				<input type="hidden" name="Action" value="#Action#">
@@ -1467,7 +1480,7 @@ document.getElementById('saveme').submit();
 <form name="dlData" action="SpecimenResultsHTML.cfm" method="post">
 			<input type="hidden" name="searchParams" value='#searchParams#'>
 				<input type="hidden" name="detail_level" value="#detail_level#">
-				<input name="mapurl" type="hidden" value="#mapurl#">
+				<input name="mapurl" type="hidden" value="#encodeForHtml(mapurl)#">
 				<input type="hidden" name="cnt" value="#getBasic.recordcount#">
 				<input type="hidden" name="Action" value="Download">
 				<input name="NewQuery" type="hidden" value="0">
