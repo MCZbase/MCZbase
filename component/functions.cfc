@@ -108,7 +108,7 @@
 				SELECT 
 					value_code_table,units_code_table 
 				FROM ctattribute_code_tables 
-				WHERE attribute_type <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
+				WHERE attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 			</cfquery>
 			<cfif isCtControlled.recordcount is 1>
 				<cfif len(isCtControlled.VALUE_CODE_TABLE) gt 0>
@@ -158,7 +158,7 @@
 				<cfquery name="getCols" datasource="uam_god">
 					SELECT column_name 
 					FROM sys.user_tab_columns 
-					WHERE table_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#ucase(isCtControlled.UNITS_CODE_TABLE)#'>
+					WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#ucase(isCtControlled.UNITS_CODE_TABLE)#'>
 						and column_name <> 'DESCRIPTION'
 				</cfquery>
 				<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
