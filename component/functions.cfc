@@ -160,7 +160,7 @@
 					<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
 					<cfset i=#i#+1>
 				</cfloop>
-			<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
+			<cfelseif len(isCtControlled.UNITS_CODE_TABLE) GT 0>
 				<cfquery name="getCols" datasource="uam_god">
 					SELECT column_name 
 					FROM sys.user_tab_columns 

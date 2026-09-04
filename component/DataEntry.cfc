@@ -63,7 +63,7 @@
 				<cfset i=#i#+1>
 			</cfloop>
 
-		<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
+		<cfelseif len(isCtControlled.UNITS_CODE_TABLE) GT 0>
 			<!--- As above: the catalog lookup authorizes the table name before it is used. --->
 			<cfquery name="getCols" datasource="uam_god">
 				SELECT 
