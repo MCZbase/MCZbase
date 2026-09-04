@@ -5,14 +5,30 @@
 	<cfargument name="collection_cde" type="string" required="yes">
 	<cfargument name="element" type="string" required="yes">
 	<cfquery name="isCtControlled" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select VALUE_CODE_TABLE,UNITS_CODE_TABLE from ctattribute_code_tables where attribute_type='#attribute#'
+		SELECT 
+			value_code_table,units_code_table 
+		FROM 
+			ctattribute_code_tables 
+		WHERE 
+			attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute#">
 	</cfquery>
 	<cfif isCtControlled.recordcount is 1>
 		<cfif len(isCtControlled.VALUE_CODE_TABLE) gt 0>
+			<!--- The catalog lookup runs first because a table name cannot be bound: no rows means
+				the name out of ctattribute_code_tables is not a table this account has, and the
+				select below must not be assembled from it. --->
 			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isCtControlled.value_code_table)#'
-				and column_name <> 'DESCRIPTION'
+				SELECT 
+					column_name 
+				FROM 
+					sys.user_tab_columns 
+				WHERE 
+					table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isCtControlled.value_code_table)#">
+					and column_name <> 'DESCRIPTION'
 			</cfquery>
+			<cfif getCols.recordcount EQ 0>
+				<cfthrow message="Not a code table: #encodeForHtml(isCtControlled.value_code_table)#" type="error">
+			</cfif>
 			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from #isCtControlled.value_code_table#
 			</cfquery>
@@ -28,7 +44,7 @@
 			<cfif len(#collCode#) gt 0>
 				<cfquery name="valCodes" dbtype="query">
 					SELECT #columnName# as valCodes from valCT
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_cde#">
 				</cfquery>
 			  <cfelse>
 				<cfquery name="valCodes" dbtype="query">
@@ -48,10 +64,19 @@
 			</cfloop>
 
 		<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
+			<!--- As above: the catalog lookup authorizes the table name before it is used. --->
 			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isCtControlled.UNITS_CODE_TABLE)#'
-				and column_name <> 'DESCRIPTION'
+				SELECT 
+					column_name 
+				FROM 
+					sys.user_tab_columns 
+				WHERE 
+					table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isCtControlled.UNITS_CODE_TABLE)#">
+					and column_name <> 'DESCRIPTION'
 			</cfquery>
+			<cfif getCols.recordcount EQ 0>
+				<cfthrow message="Not a code table: #encodeForHtml(isCtControlled.UNITS_CODE_TABLE)#" type="error">
+			</cfif>
 			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * from #isCtControlled.UNITS_CODE_TABLE#
 			</cfquery>
@@ -67,7 +92,7 @@
 			<cfif len(#collCode#) gt 0>
 				<cfquery name="valCodes" dbtype="query">
 					SELECT #columnName# as valCodes from valCT
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_cde#">
 				</cfquery>
 			  <cfelse>
 				<cfquery name="valCodes" dbtype="query">
@@ -109,21 +134,30 @@
 	<cfset inst = trim(left(coll,theSpace))>
 	<cfset collcde = trim(mid(coll,theSpace,len(coll)))>
 	<cfquery name="collID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_id from collection where
-		institution_acronym='#inst#' and
-		collection_cde='#collcde#'
+		SELECT 
+			collection_id 
+		FROM 
+			collection 
+		WHERE
+			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inst#">
+			AND collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collcde#">
 	</cfquery>
 	<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select max(cat_num + 1) as nextnum
-		from cataloged_item
-		where
-		collection_id=#collID.collection_id#
+		SELECT 
+			max(cat_num + 1) as nextnum
+		FROM 
+			cataloged_item
+		WHERE
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collID.collection_id#">
 	</cfquery>
 	<cfquery name="b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select max(to_number(cat_num) + 1) as nextnum from bulkloader
-		where
-		institution_acronym='#inst#' and
-		collection_cde='#collcde#'
+		SELECT 
+			max(to_number(cat_num) + 1) as nextnum 
+		FROM 
+			bulkloader
+		WHERE
+			institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inst#">
+			AND collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collcde#">
 	</cfquery>
 	<cfif #q.nextnum# gt #b.nextnum#>
 		<cfset result = "#q.nextnum#">
@@ -159,9 +193,9 @@
 		WHERE
 			accn.transaction_id = trans.transaction_id AND
 			trans.collection_id=collection.collection_id and
-			accn.accn_number = '#ac#' and
-			collection.institution_acronym = '#ia#' and
-			(collection.collection_cde = '#cc#' or collection.collection_cde = 'MCZ')
+			accn.accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ac#"> and
+			collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ia#"> and
+			(collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cc#"> or collection.collection_cde = 'MCZ')
 	</cfquery>
 		<cfset result = "#q.cnt#">
 	<cfcatch>
@@ -250,7 +284,7 @@
 			locality.LOCALITY_ID = geology_attributes.LOCALITY_ID (+) AND
 			geology_attributes.GEO_ATT_DETERMINER_ID = geoAgnt.agent_id (+) AND
 			accepted_lat_long.DETERMINED_BY_AGENT_ID = llAgnt.agent_id (+) AND
-			collecting_event.collecting_event_id = #collecting_event_id#
+			collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
 	</cfquery>
 	<cfcatch>
 	<cfset result = QueryNew("COLLECTING_EVENT_ID,MSG")>
@@ -323,7 +357,7 @@
 				locality.LOCALITY_ID = geology_attributes.LOCALITY_ID (+) AND
 				geology_attributes.GEO_ATT_DETERMINER_ID = geoAgnt.agent_id (+) AND
 				accepted_lat_long.DETERMINED_BY_AGENT_ID = llAgnt.agent_id (+) AND
-				locality.locality_id = #locality_id#
+				locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
 		</cfquery>
 	<cfcatch>
 		<cfset result = QueryNew("LOCALITY_ID,MSG")>
