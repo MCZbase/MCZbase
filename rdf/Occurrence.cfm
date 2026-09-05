@@ -249,7 +249,7 @@ limitations under the License.
 		<cfif lookup EQ "guid">
 			'https://mczbase.mcz.harvard.edu/guid/' || flat.guid resolvable_guid, 
 		<cfelse>
-			'#lookupUUID.assembled_resolvable#' as resolvable_guid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupUUID.assembled_resolvable#"> as resolvable_guid,
 		</cfif>
 		flat.basisofrecord,	
 		flat.country, 
@@ -267,14 +267,14 @@ limitations under the License.
 			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 			flat.author_text,
 		<cfelse>
-			'#scientificName#' as scientific_name,
-			'#taxonId#' as taxonid,
-			'#scientificNameId#' as scientificnameid,
-			'#identifiedBy#' as identifiedby,
-			'#identifiedByID#' as identifiedbyid,
-			'#dateIdentified#' as date_identified,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificName#"> as scientific_name,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonId#"> as taxonid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificNameId#"> as scientificnameid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identifiedBy#"> as identifiedby,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identifiedByID#"> as identifiedbyid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateIdentified#"> as date_identified,
 			'' AS typestatus,
-			'#author_text#' as author_text,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#"> as author_text,
 		</cfif>
 		flat.collectors,
 		flat.recordedbyid,

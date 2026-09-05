@@ -1,7 +1,14 @@
 <cfinclude template="/includes/_pickHeader.cfm">
+<!--- Called from getInfo() in /includes/ajax.js, which supplies both of these as url
+	parameters; declared explicitly rather than resolved implicitly across scopes. --->
+<cfparam name="url.subject" default="">
+<cfparam name="url.thisId" default="">
+
+<cfset variables.subject = url.subject>
+<cfset variables.thisId = url.thisId>
 <cfoutput>
 <div align="left">
-<cfif #subject# is "lat_long">
+<cfif variables.subject IS "lat_long">
 	<cfset title="Lat Long Details">
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select 
@@ -27,7 +34,7 @@
 			 FROM
 		 lat_long, 
 		 agent_name 
-		 WHERE locality_id = #thisId# and 
+		 WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.thisId#"> and 
 		 determined_by_agent_id = agent_id and 
 		 agent_name_type='preferred' 
 		 order by accepted_lat_long_fg desc
@@ -72,7 +79,7 @@
 </cfif>
 
 <!--------------------------------------------------------------------------------------------->
-<cfif #subject# is "identification">
+<cfif variables.subject IS "identification">
 <cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			identification.scientific_name,
@@ -85,7 +92,7 @@
 		FROM
 			identification 
 		WHERE
-			identification.collection_object_id = #thisId# 
+			identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.thisId#"> 
 		ORDER BY accepted_id_fg DESC
 	</cfquery>
 	<table border>
@@ -117,7 +124,7 @@
 						taxonomy
 					WHERE
 						identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and
-						identification_id=#identification_id#
+						identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 				</cfquery>
 				<cfif #getTaxa.recordcount# is 1>
 					<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#getTaxa.taxon_name_id#" target="_blank"><i>#scientific_name#</i></a> #getTaxa.author_text#
@@ -146,7 +153,7 @@
 </cfif>
 <!--------------------------------------------------------------------------------------------->
 
-<cfif #subject# is "parts">
+<cfif variables.subject IS "parts">
 <cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			part_name,
@@ -167,7 +174,7 @@
 			specimen_part.collection_object_id= coll_object.collection_object_id AND
 			coll_object.entered_person_id = enteredPerson.agent_id (+) AND
 			coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-			specimen_part.derived_from_cat_item= #thisId# 
+			specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.thisId#"> 
 		ORDER BY part_name
 	</cfquery>
 	<table border>
@@ -200,7 +207,7 @@
 		</cfloop>
 	</table>
 </cfif>
-<cfif #subject# is "attributes">
+<cfif variables.subject IS "attributes">
 <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			*
@@ -209,7 +216,7 @@
 			preferred_agent_name
 		WHERE
 			attributes.determined_by_agent_id = preferred_agent_name.agent_id AND
-			collection_object_id = #thisId#
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.thisId#">
 		ORDER BY 
 			attribute_type,
 			determined_date

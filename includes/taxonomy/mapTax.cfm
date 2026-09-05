@@ -4,16 +4,21 @@
 		float:right;
 	}
 </style>
+<!--- This page invokes no role check, so it is reachable without a login whatever
+	cf_form_permissions says; both parameters are declared explicitly rather than resolved
+	implicitly across scopes. --->
+<cfparam name="url.scientific_name" default="">
+<cfparam name="url.method" default="">
+
+<cfset variables.scientific_name = url.scientific_name>
+<cfset variables.method = url.method>
 <cfoutput>
 	<cfset internalPath="#Application.webDirectory#/cache/">
 	<cfset externalPath="#Application.ServerRootUrl#/cache/">
-	<cfif not isdefined("method")>
-		<cfset method="">
-	</cfif>
-	<cfif method is "exact">
-		<cfset fn="_#replace(scientific_name,' ','-','all')#.kml">
+	<cfif variables.method IS "exact">
+		<cfset fn="_#replace(variables.scientific_name,' ','-','all')#.kml">
 	<cfelse>
-		<cfset fn="#replace(scientific_name,' ','-','all')#.kml">
+		<cfset fn="#replace(variables.scientific_name,' ','-','all')#.kml">
 	</cfif>
 	<cfif not fileexists("#internalPath##fn#")>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -29,10 +34,10 @@
 		 	where
 				dec_lat is not null and
 		 		dec_long is not null and
-		 		<cfif method is "exact">
-					scientific_name = '#scientific_name#'
+		 		<cfif variables.method IS "exact">
+					scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.scientific_name#">
 				<cfelse>
-					scientific_name like '#scientific_name#%'
+					scientific_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.scientific_name#%">
 				</cfif>
 		 	group by
 		 		locality_id,
@@ -102,7 +107,7 @@
 
 		function reloadThis(method){
 			$('##toggleExactmatch').html('<img src="/images/indicator.gif">');
-			var ptl="/includes/taxonomy/mapTax.cfm?scientific_name=#scientific_name#&method=" + method;
+			var ptl="/includes/taxonomy/mapTax.cfm?scientific_name=#encodeForURL(variables.scientific_name)#&method=" + method;
 			jQuery.get(ptl, function(data){
 				 jQuery('##mapTax').html(data);
 			})
@@ -123,10 +128,10 @@
                 });
       </script--->
 	<span id="toggleExactmatch">
-		<cfif method is "exact">
-			Showing exact matches - <span class="likeLink" onclick="reloadThis('')"> show matches for '#scientific_name#%'</span>
+		<cfif variables.method IS "exact">
+			Showing exact matches - <span class="likeLink" onclick="reloadThis('')"> show matches for '#encodeForHtml(variables.scientific_name)#%'</span>
 		<cfelse>
-			Showing fuzzy matches - <span class="likeLink" onclick="reloadThis('exact')"> show matches for exactly '#scientific_name#'</span>
+			Showing fuzzy matches - <span class="likeLink" onclick="reloadThis('exact')"> show matches for exactly '#encodeForHtml(variables.scientific_name)#'</span>
 		</cfif>
 	</span>
 </cfoutput>

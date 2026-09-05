@@ -1,5 +1,11 @@
 <cfcomponent>
 <cfinclude template = "../includes/functionLib.cfm">
+<!--- Columns of cf_users that setSrchVal is allowed to toggle: the NUMBER(1,0) search criteria
+	flags.  Deliberately excludes KILLROW and APPROVED_TO_REQUEST_LOANS, which are not search
+	preferences and carry privilege, and SHOWOBSERVATIONS, FANCYCOID and BLOCK_SUGGEST, which have
+	their own methods.  setSrchVal names a column rather than supplying a value, and a column name
+	cannot be bound, so the name is checked against this list instead. --->
+<cfset SEARCH_PREFERENCE_COLUMNS = "PARTS,ACCN_NUM,HIGHER_TAXA,AF_NUM,IMAGES,PERMIT,CITATION,PROJECT,PRESMETH,ATTRIBUTES,COLLS,PHYLCLASS,SCINAMEOPERATOR,DATES,DETAIL_LEVEL,COLL_ROLE,CURATORIAL_STUFF,IDENTIFIER,BOUNDINGBOX,BIGSEARCHBOX,COLLECTING_SOURCE,SCIENTIFIC_NAME,CHRONOLOGICAL_EXTENT,MAX_ERROR_IN_METERS,MISCELLANEOUS,LOCALITY">
 <!------------------------------------------------------------------->
 <cffunction name="getPartByContainer" access="remote">
 	<cfargument name="barcode" type="string" required="yes">
@@ -94,137 +100,6 @@
 		</cfcatch>
 	</cftry>
 	<cfreturn result>
-</cffunction>
-<!----------------------------------------------->
-<cffunction name="getAttCodeTbl"  access="remote">
-	<cfargument name="attribute" type="string" required="yes">
-	<cfargument name="collection_cde" type="string" required="yes">
-	<cfargument name="element" type="string" required="yes">
-
-	<cftry>
-		<cfset threadname = "getAttCodeTblThread">
-		<cfthread name="#threadname#" attribute="#attribute#" collection_cde="#collection_cde#" element="#element#">
-			<cfquery name="isCtControlled" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					value_code_table,units_code_table 
-				FROM ctattribute_code_tables 
-				WHERE attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
-			</cfquery>
-			<cfif isCtControlled.recordcount is 1>
-				<cfif len(isCtControlled.VALUE_CODE_TABLE) gt 0>
-					<cfquery name="getCols" datasource="uam_god">
-						SELECT column_name 
-						FROM sys.user_tab_columns 
-						WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isCtControlled.value_code_table)#">
-							and column_name <> 'DESCRIPTION'
-					</cfquery>
-					<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT * 
-						FROM #isCtControlled.value_code_table#
-					</cfquery>
-					<cfset collCode = "">
-					<cfset columnName = "">
-					<cfloop query="getCols">
-						<cfif getCols.column_name is "COLLECTION_CDE">
-							<cfset collCode = "yes">
-						<cfelse>
-							<cfset columnName = "#getCols.column_name#">
-						</cfif>
-					</cfloop>
-					<cfif len(#collCode#) gt 0>
-						<cfquery name="valCodes" dbtype="query">
-							SELECT #columnName# as valCode 
-							FROM valCT
-							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
-						</cfquery>
-			  		<cfelse>
-						<cfquery name="valCodes" dbtype="query">
-							SELECT #columnName# as valCode 
-							FROM valCT
-						</cfquery>
-					</cfif>
-				<cfset result = QueryNew("V")>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "value",1)>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-				<cfset i=3>
-				<cfloop query="valCodes">
-					<cfset newRow = QueryAddRow(result, 1)>
-					<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
-					<cfset i=#i#+1>
-				</cfloop>
-			<cfelseif #isCtControlled.UNITS_CODE_TABLE# gt 0>
-				<cfquery name="getCols" datasource="uam_god">
-					SELECT column_name 
-					FROM sys.user_tab_columns 
-					WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#ucase(isCtControlled.UNITS_CODE_TABLE)#'>
-						and column_name <> 'DESCRIPTION'
-				</cfquery>
-				<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
-					FROM #isCtControlled.UNITS_CODE_TABLE#
-				</cfquery>
-				<cfset collCode = "">
-				<cfset columnName = "">
-				<cfloop query="getCols">
-					<cfif getCols.column_name is "COLLECTION_CDE">
-						<cfset collCode = "yes">
-					  <cfelse>
-						<cfset columnName = "#getCols.column_name#">
-					</cfif>
-				</cfloop>
-				<cfif len(#collCode#) gt 0>
-					<cfquery name="valCodes" dbtype="query">
-						SELECT #columnName# as valCode 
-						FROM valCT
-						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#collection_cde#'>
-					</cfquery>
-				<cfelse>
-					<cfquery name="valCodes" dbtype="query">
-						SELECT #columnName# as valCode 
-						FROM valCT
-					</cfquery>
-				</cfif>
-				<cfset result = "unit - #isCtControlled.UNITS_CODE_TABLE#">
-				<cfset result = QueryNew("V")>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "units")>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-				<cfset i=3>
-				<cfloop query="valCodes">
-					<cfset newRow = QueryAddRow(result, 1)>
-					<cfset temp = QuerySetCell(result, "v", "#valCodes.valCode#",#i#)>
-					<cfset i=#i#+1>
-				</cfloop>
-			<cfelse>
-				<cfset result = QueryNew("V")>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "ERROR")>
-				<cfset newRow = QueryAddRow(result, 1)>
-				<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-			</cfif>
-		<cfelse>
-			<cfset result = QueryNew("V")>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "NONE")>
-			<cfset newRow = QueryAddRow(result, 1)>
-			<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-		</cfif>
-		<cfoutput>#SerializeJSON(result,true)#</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="#threadname#" />
-	<cfcatch>
-		<cfset result = QueryNew("V")>
-		<cfset newRow = QueryAddRow(result, 1)>
-		<cfset temp = QuerySetCell(result, "v", "ERROR")>
-		<cfset newRow = QueryAddRow(result, 1)>
-		<cfset temp = QuerySetCell(result, "v", "#element#",2)>
-		<cfreturn result>
-	</cfcatch>
-	</cftry>
-	<cfreturn getAttCodeTblThread.output>
 </cffunction>
 <!---------------------------------------------------------------->
 <cffunction name="removeAccnContainer" access="remote">
@@ -1869,13 +1744,20 @@
 	<cfargument name="onoff" type="string" required="yes">
 	<cfif onoff is "true">
 		<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			insert into cf_form_permissions (form_path,role_name) values ('#form#','#role#')
+			INSERT INTO cf_form_permissions (
+				form_path,
+				role_name
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.form#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#">
+			)
 		</cfquery>
 	<cfelseif onoff is "false">
 		<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from cf_form_permissions where
-				form_path = '#form#' and
-				role_name = '#role#'
+			DELETE FROM cf_form_permissions 
+			WHERE
+				form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.form#">
+				AND role_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#">
 		</cfquery>
 	<cfelse>
 		<cfreturn "Error:invalid state">
@@ -1890,12 +1772,13 @@
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
 					fancyCOID =
-					<cfif #tgt# is 1>
-						#tgt#
+					<cfif arguments.tgt IS 1>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.tgt#">
 					<cfelse>
 						NULL
 					</cfif>
-				WHERE username = '#session.username#'
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif #tgt# gt 0>
 				<cfset session.fancyCOID = "#tgt#">
@@ -1919,12 +1802,13 @@
 		<cfquery name="up" datasource="cf_dbuser">
 			UPDATE cf_users SET
 				exclusive_collection_id =
-				<cfif #tgt# gt 0>
-					#tgt#
+				<cfif arguments.tgt GT 0>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.tgt#">
 				<cfelse>
 					NULL
 				</cfif>
-			WHERE username = '#session.username#'
+			WHERE 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		<cfset setDbUser(tgt)>
 		<cfset result="success">
@@ -1941,12 +1825,13 @@
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
 					customOtherIdentifier =
-					<cfif len(#tgt#) gt 0>
-						'#tgt#'
+					<cfif len(arguments.tgt) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.tgt#">
 					<cfelse>
 						NULL
 					</cfif>
-				WHERE username = '#session.username#'
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.customOtherIdentifier = "#tgt#">
 		<cfset result="success">
@@ -1961,8 +1846,12 @@
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 		<cftry>
 			<cfquery name="ins" datasource="cf_dbuser">
-				select specsrchprefs from cf_users
-				where username='#session.username#'
+				SELECT 
+					specsrchprefs 
+				FROM 
+					cf_users
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				<cfreturn ins.specsrchprefs>
 			<cfcatch><!-- nada --></cfcatch>
@@ -2002,19 +1891,45 @@
 	<cfset orderBy=replace(orderBy,"%2C",",","all")>
 	<cfset orderBy=replace(orderBy,"cat_num","cat_num_prefix,cat_num_integer","all")>
 	<cftry>
+		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				column_name 
+			FROM 
+				user_tab_cols 
+			WHERE
+				upper(table_name) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">) 
+			ORDER BY 
+				internal_column_id
+		</cfquery>
+		<!--- orderBy names columns of the session's results table, and a column name cannot be
+			bound, so each name is checked against the columns that table actually has.  An
+			unrecognised name throws, and the catch below returns it as this method's error row. --->
+		<cfset validColumns = valuelist(cols.column_name)>
+		<cfset safeOrderBy = "">
+		<cfloop list="#orderBy#" index="orderTerm">
+			<cfset orderTerm = trim(orderTerm)>
+			<cfset orderDirection = "">
+			<cfif listlen(orderTerm," ") GT 1>
+				<cfset lastToken = listlast(orderTerm," ")>
+				<cfif listfindnocase("asc,desc",lastToken) GT 0>
+					<cfset orderDirection = " " & lastToken>
+					<cfset orderTerm = trim(listdeleteat(orderTerm,listlen(orderTerm," ")," "))>
+				</cfif>
+			</cfif>
+			<cfif listfindnocase(validColumns,orderTerm) EQ 0>
+				<cfthrow message="Not a column of the search results: #encodeForHtml(orderTerm)#" type="error">
+			</cfif>
+			<cfset safeOrderBy = listappend(safeOrderBy,"#orderTerm##orderDirection#")>
+		</cfloop>
 		<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			Select * from (
-				Select a.*, rownum rnum From (
-					select * from #session.SpecSrchTab# order by #orderBy#
-				) a where rownum <= #stoprow#
-			) where rnum >= #startrow#
+			SELECT * FROM (
+				SELECT a.*, rownum rnum FROM (
+					SELECT * FROM #session.SpecSrchTab# ORDER BY #safeOrderBy#
+				) a WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stoprow#">
+			) WHERE rnum >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startrow#">
 		</cfquery>
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
-		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			 select column_name from user_tab_cols where
-			 upper(table_name)=upper('#session.SpecSrchTab#') order by internal_column_id
-		</cfquery>
 		<cfset clist = result.COLUMNLIST>
 		<cfset t = arrayNew(1)>
 		<cfset temp = queryaddcolumn(result,"COLUMNLIST",t)>
@@ -2050,8 +1965,10 @@
 		</cfloop>
 	</cfif>
 	<cfquery name ="upDb" datasource="cf_dbuser">
-		update cf_users set resultcolumnlist='#session.resultColumnList#' where
-		username='#session.username#'
+		UPDATE cf_users SET 
+			resultcolumnlist = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.resultColumnList#">
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfreturn result>
 </cffunction>
@@ -4365,30 +4282,37 @@
 	<cfset srchName=urldecode(srchName)>
 	<cftry>
 		<cfquery name="me" datasource="cf_dbuser">
-			select user_id
-			from cf_users
-			where username='#session.username#'
+			SELECT 
+				user_id
+			FROM 
+				cf_users
+			WHERE 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfset urlRoot=left(returnURL,find(".cfm", returnURL))>
 		<cfquery name="alreadyGotOne" datasource="cf_dbuser">
-			select search_name
-			from cf_canned_search
-			where search_name='#srchName#'
-				and user_id='#me.user_id#'
-				and url like '#urlRoot#%'
+			SELECT 
+				search_name
+			FROM 
+				cf_canned_search
+			WHERE 
+				search_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srchName#">
+				AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#me.user_id#">
+				AND url LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urlRoot#%">
 		</cfquery>
 		<cfif len(alreadyGotOne.search_name) gt 0>
 			<cfset msg="The name of your saved search is already in use.">
 		<cfelse>
 			<cfquery name="i" datasource="cf_dbuser">
-				insert into cf_canned_search (
-				user_id,
-				search_name,
-				url
-				) values (
-				 #me.user_id#,
-				 '#srchName#',
-				 '#returnURL#')
+				INSERT INTO cf_canned_search (
+					user_id,
+					search_name,
+					url
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#me.user_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srchName#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#returnURL#">
+				)
 			</cfquery>
 			<cfset msg="success">
 		</cfif>
@@ -4404,8 +4328,9 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					result_sort = '#tgt#'
-				WHERE username = '#session.username#'
+					result_sort = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.tgt#">
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.result_sort = "#tgt#">
 		<cfset result="success">
@@ -4548,11 +4473,14 @@
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="tgt" type="numeric" required="yes">
 	<cftry>
+			<cfif listfindnocase(SEARCH_PREFERENCE_COLUMNS,arguments.name) EQ 0>
+				<cfthrow message="Not a search preference: #encodeForHtml(arguments.name)#" type="error">
+			</cfif>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					#name# =
-					#tgt#
-				WHERE username = '#session.username#'
+					#arguments.name# = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.tgt#">
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif #tgt# is 1>
 				<cfset session.searchBy="#session.searchBy#,#name#">
@@ -4739,8 +4667,9 @@ Annotation to report problematic data concerning #annotated.guid#
 	<cftry>
 		<cfquery name="up" datasource="cf_dbuser">
 			UPDATE cf_users SET
-				showObservations = #t#
-			WHERE username = '#session.username#'
+				showObservations = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#t#">
+			WHERE 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfset session.showObservations = "#t#">
 		<cfset result="success">
@@ -4761,21 +4690,17 @@ Annotation to report problematic data concerning #annotated.guid#
 				where username=<cfqueryparam value="#session.username#" CFSQLType="CF_SQL_VARCHAR">
 			</cfquery>
 			<cfset cv=valuelist(ins.specsrchprefs)>
+			<!--- Default to the list as it stands, so the update below is well defined when the
+				requested change is already in effect.  The two updates that used to sit inside
+				these branches duplicated that update without binding their values. --->
+			<cfset nv = cv>
 			<cfif onOff is 1>
 				<cfif not listfind(cv,id)>
 					<cfset nv=listappend(cv,id)>
-					<cfquery name="ins" datasource="cf_dbuser">
-						update cf_users set specsrchprefs='#nv#'
-						where username='#session.username#'
-					</cfquery>
 				</cfif>
 			<cfelse>
 				<cfif listfind(cv,id)>
 					<cfset nv=listdeleteat(cv,listfind(cv,id))>
-					<cfquery name="ins" datasource="cf_dbuser">
-						update cf_users set specsrchprefs='#nv#'
-						where username='#session.username#'
-					</cfquery>
 				</cfif>
 			</cfif>
 			<cfquery name="ins" datasource="cf_dbuser">
