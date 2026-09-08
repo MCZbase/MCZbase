@@ -94,7 +94,31 @@
 	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">
 <!--------------------------------------------------------------->
+	<!--- The criteria arrive in url or form and are carried between requests as the hidden fields
+		held in searchParams, which is rebuilt only inside this newQuery block.  A request that
+		skipped the rebuild passes an empty searchParams on, and the browse form posts searchParams
+		as one field's value rather than as the fields themselves, so the next form here that sets
+		NewQuery=1 can arrive carrying mapurl and no criteria at all.  SearchSql.cfm then records
+		nothing and the guard below reports no search criteria over a result set that plainly had
+		some.  mapurl is posted by every form on this page and is the record of the criteria that
+		produced the current results, so recover them from it before it is cleared and rebuilt.
+		Only a name the request did not supply and the page has not already set is taken, so this
+		cannot overwrite a criterion that did arrive, nor anything set above. --->
+	<cfset variables.postedMapurl = mapurl>
 	<cfset mapurl="">
+	<cfif variables.postedMapurl IS NOT "null" AND len(variables.postedMapurl) GT 0>
+		<cfloop list="#variables.postedMapurl#" delimiters="&" index="mapPair">
+			<cfif listlen(mapPair,"=") GT 1>
+				<cfset variables.mapKey = listfirst(mapPair,"=")>
+				<cfif refind("^[A-Za-z_][A-Za-z0-9_]*$",variables.mapKey) GT 0
+					AND NOT structKeyExists(url,variables.mapKey)
+					AND NOT structKeyExists(form,variables.mapKey)
+					AND NOT structKeyExists(variables,variables.mapKey)>
+					<cfset variables[variables.mapKey] = urldecode(listrest(mapPair,"="))>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
 	<cfinclude template="includes/SearchSql.cfm">
 <!--- require some actual searching --->
 	<cfset srchTerms="">
