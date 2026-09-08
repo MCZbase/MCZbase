@@ -1127,6 +1127,27 @@ function ProperMod(y,x) {
 	<cfset inStr = trim(inStr)>
 	<cfreturn inStr>
 </cffunction>
+<!--- Escape text for inclusion in a JSON string literal, per RFC 8259: the reverse solidus and
+	the quotation mark, then the control characters, which a JSON string may not carry raw.  The
+	surrounding quotes are left to the caller, so a value stays a JSON string rather than being
+	retyped as a number, which is what serializeJSON would do to one that happens to look numeric.
+	@param inStr the text to escape.
+	@return the text with backslash, quote and control characters escaped.
+	@see escapeDoubleQuotes --->
+<cffunction name="escapeForJson" returntype="string" output="false">
+	<cfargument name="inStr" type="string" required="yes">
+	<cfset var outStr = arguments.inStr>
+	<cfset outStr = replace(outStr,"\","\\","all")>
+	<cfset outStr = replace(outStr,'"','\"',"all")>
+	<cfset outStr = replace(outStr,chr(8),"\b","all")>
+	<cfset outStr = replace(outStr,chr(9),"\t","all")>
+	<cfset outStr = replace(outStr,chr(10),"\n","all")>
+	<cfset outStr = replace(outStr,chr(12),"\f","all")>
+	<cfset outStr = replace(outStr,chr(13),"\r","all")>
+	<!--- anything still below 0x20 has no short escape and cannot appear raw --->
+	<cfset outStr = rereplace(outStr,"[[:cntrl:]]","","all")>
+	<cfreturn outStr>
+</cffunction>
 <cffunction name="escapeDoubleQuotes" returntype="string" output="false">
 	<cfargument name="inStr" type="string">
 	<cfset inStr = replace(inStr,'"','""',"all")>
