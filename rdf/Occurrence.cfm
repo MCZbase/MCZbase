@@ -13,6 +13,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:Occurrence records (both cataloged items and specimen parts with identification histories) from MCZbase --->
+<cfsilent>
+<!--- Escape text for a JSON string literal, per RFC 8259: the reverse solidus and the quotation
+	mark, then the control characters, which a JSON string may not carry raw.  The surrounding
+	quotes are left to the caller, so a value stays a JSON string rather than being retyped as a
+	number, which is what serializeJSON does to one that happens to look numeric.
+
+	Defined here rather than in includes/functionLib.cfm because this page includes nothing: that
+	library includes /shared/loginFunctions.cfm in turn, which sets up a session, and this page
+	serves anonymous requests routed through errors/missing.cfm.  cfsilent keeps the definition
+	from contributing whitespace to a document that has to parse.
+
+	@param inStr the text to escape.
+	@return the text with backslash, quote and control characters escaped. --->
+<cffunction name="escapeForJson" returntype="string" output="false">
+	<cfargument name="inStr" type="string" required="yes">
+	<cfset var outStr = arguments.inStr>
+	<cfset outStr = replace(outStr,"\","\\","all")>
+	<cfset outStr = replace(outStr,'"','\"',"all")>
+	<cfset outStr = replace(outStr,chr(8),"\b","all")>
+	<cfset outStr = replace(outStr,chr(9),"\t","all")>
+	<cfset outStr = replace(outStr,chr(10),"\n","all")>
+	<cfset outStr = replace(outStr,chr(12),"\f","all")>
+	<cfset outStr = replace(outStr,chr(13),"\r","all")>
+	<cfset outStr = rereplace(outStr,"[[:cntrl:]]","","all")>
+	<cfreturn outStr>
+</cffunction>
+</cfsilent>
 <cfset referencedRecordDeleted = false>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
