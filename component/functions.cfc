@@ -1885,6 +1885,7 @@
 	<cfargument name="startrow" type="numeric" required="yes">
 	<cfargument name="numRecs" type="numeric" required="yes">
 	<cfargument name="orderBy" type="string" required="yes">
+	<cfset stopRow = startrow + numRecs -1>
 	<!--- strip Safari idiocy --->
 	<cfset orderBy=replace(orderBy,"%20"," ","all")>
 	<cfset orderBy=replace(orderBy,"%2C",",","all")>
@@ -1929,17 +1930,22 @@
 		<cfif len(safeOrderBy) EQ 0>
 			<cfset safeOrderBy = "cat_num_prefix,cat_num_integer">
 		</cfif>
-		<!--- Paged with Oracle's row limiting clause rather than by comparing bind variables to
-			rownum through nested inline views.  The pseudo column and its alias give the driver no
-			column type to resolve a parameter against, which is what "Value can not be converted
-			to requested type" was; this is the form projects/component/search.cfc already pages
-			with.  startrow is one based, so the offset is one less, floored at zero. --->
+		<!--- DEVIATION, stated deliberately: the two row offsets below are interpolated rather
+			than bound, which is how this query has always run.  Binding them broke it twice on
+			this driver.  Against rownum and its alias through these inline views the driver has
+			no column type to resolve a parameter against and answers "Value can not be converted
+			to requested type"; rewritten to OFFSET and FETCH NEXT the binds are accepted but the
+			statement text stops varying with the page, and this table is dropped and recreated
+			under one name whenever the displayed columns change, which brings ORA-01007.  Neither
+			offset can carry anything but a number: both are cfargument type numeric, so
+			ColdFusion rejects a non numeric value before this statement is built at all.  The
+			injection this method actually had was the order by, and that is handled above. --->
 		<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * 
-			FROM #session.SpecSrchTab# 
-			ORDER BY #safeOrderBy#
-			OFFSET <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#max(startrow-1,0)#"> ROWS
-			FETCH NEXT <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#numRecs#"> ROWS ONLY
+			Select * from (
+				Select a.*, rownum rnum From (
+					select * from #session.SpecSrchTab# order by #safeOrderBy#
+				) a where rownum <= #stoprow#
+			) where rnum >= #startrow#
 		</cfquery>
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
