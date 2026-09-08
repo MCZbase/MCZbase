@@ -511,36 +511,6 @@ function changeshowObservations (tgt) {
 	);
 }
 
-function saveComplete(savedStr){
-	var savedArray = savedStr.split(",");
-	var result = savedArray[0];
-	var id = savedArray[1];
-	var onOff = savedArray[2];
-	if (result == "cookie") {
-		var cookieArray = new Array();
-		var cCookie = readCookie("specsrchprefs");
-		var idFound = -1;
-		if (cCookie!==null)	{
-			cookieArray = cCookie.split(",");
-			for (i = 0; i<cookieArray.length; i++) {
-				if (cookieArray[i] == id) {
-					idFound = i;
-				}
-			}
-		}
-		if (onOff==1) { //showHide On			
-			if (idFound == -1) { // no current id in cookie
-				cookieArray.push(id);
-			}
-		}
-		else {
-			if (idFound != -1)
-				cookieArray.splice(idFound,1);
-		}
-		var nCookie = cookieArray.join();
-		createCookie("specsrchprefs", nCookie, 0);
-	}
-}
 function showHide(id,onOff) {
 	var t='e_' + id;
 	var z='c_' + id;

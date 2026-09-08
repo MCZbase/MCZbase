@@ -238,8 +238,7 @@
 				</cfif>
 			 </cfif>
 		</cfloop>
-		<cfset strippyReturnURL = replace(returnURL,'"','&quot;','all')>
-		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForURL(strippyReturnURL)#"'>
+		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForHtml(returnURL)#">'>
 
 
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
