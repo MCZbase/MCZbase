@@ -1891,16 +1891,26 @@
 	<cfset orderBy=replace(orderBy,"cat_num","cat_num_prefix,cat_num_integer","all")>
 	<cftry>
 		<!--- orderBy names columns of the session's results table, and a column name cannot be
-			bound, so each name is checked against the columns that table actually has.  The list
-			comes from a row free select against the table itself rather than from the data
-			dictionary, so that what authorizes the name cannot disagree with what the order by
-			runs against.  A term that is not a column is dropped, and an order by left with
-			nothing falls back to the default sort: this method's error reply is an alert on the
-			results page, which is not the place to put a stale sort term. --->
-		<cfquery name="probeColumns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * FROM #session.SpecSrchTab# WHERE 1=0
+			bound, so each name is checked against the columns that table actually has.  This is
+			the lookup that also supplies the COLUMNLIST cell below; it reads the data dictionary,
+			which is what makes it safe to ask here.  The results table is dropped and recreated
+			whenever the user changes the displayed columns, so a select against the table itself
+			can be answered from a cursor prepared before that happened and raise ORA-01007.
+
+			A term that is not a column is dropped, and an order by left with nothing falls back
+			to the default sort: this method's error reply is an alert on the results page, which
+			is not the place to put a stale sort term. --->
+		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				column_name 
+			FROM 
+				user_tab_cols 
+			WHERE
+				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.SpecSrchTab)#">
+			ORDER BY 
+				internal_column_id
 		</cfquery>
-		<cfset validColumns = probeColumns.columnList>
+		<cfset validColumns = valuelist(cols.column_name)>
 		<cfset safeOrderBy = "">
 		<cfloop list="#orderBy#" index="orderTerm">
 			<cfset orderTerm = trim(orderTerm)>
@@ -1933,17 +1943,6 @@
 		</cfquery>
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
-		<cfquery name="cols" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				column_name 
-			FROM 
-				user_tab_cols 
-			WHERE
-				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.SpecSrchTab)#">
-			ORDER BY 
-				internal_column_id
-		</cfquery>
-		<cfset clist = result.COLUMNLIST>
 		<cfset t = arrayNew(1)>
 		<cfset temp = queryaddcolumn(result,"COLUMNLIST",t)>
 		<cfset temp = QuerySetCell(result, "COLUMNLIST", "#valuelist(cols.column_name)#", 1)>
