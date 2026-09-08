@@ -541,18 +541,6 @@ function saveComplete(savedStr){
 		createCookie("specsrchprefs", nCookie, 0);
 	}
 }
-function saveSpecSrchPref(id,onOff){
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "saveSpecSrchPref",
-			id : id,
-			onOff : onOff,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		saveComplete
-	);
-}
 function showHide(id,onOff) {
 	var t='e_' + id;
 	var z='c_' + id;
@@ -577,7 +565,6 @@ function showHide(id,onOff) {
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML=offText;
 		}
-	    //  saveSpecSrchPref(id,onOff);
 	}
 }
 function closeAndRefresh(){
