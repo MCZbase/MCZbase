@@ -1924,8 +1924,8 @@
 			SELECT * FROM (
 				SELECT a.*, rownum rnum FROM (
 					SELECT * FROM #session.SpecSrchTab# ORDER BY #safeOrderBy#
-				) a WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stoprow#">
-			) WHERE rnum >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startrow#">
+				) a WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#stoprow#">
+			) WHERE rnum >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#startrow#">
 		</cfquery>
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
@@ -1935,7 +1935,7 @@
 			FROM 
 				user_tab_cols 
 			WHERE
-				upper(table_name) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">) 
+				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.SpecSrchTab)#">
 			ORDER BY 
 				internal_column_id
 		</cfquery>
