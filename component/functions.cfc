@@ -1885,7 +1885,6 @@
 	<cfargument name="startrow" type="numeric" required="yes">
 	<cfargument name="numRecs" type="numeric" required="yes">
 	<cfargument name="orderBy" type="string" required="yes">
-	<cfset stopRow = startrow + numRecs -1>
 	<!--- strip Safari idiocy --->
 	<cfset orderBy=replace(orderBy,"%20"," ","all")>
 	<cfset orderBy=replace(orderBy,"%2C",",","all")>
@@ -1920,12 +1919,17 @@
 		<cfif len(safeOrderBy) EQ 0>
 			<cfset safeOrderBy = "cat_num_prefix,cat_num_integer">
 		</cfif>
+		<!--- Paged with Oracle's row limiting clause rather than by comparing bind variables to
+			rownum through nested inline views.  The pseudo column and its alias give the driver no
+			column type to resolve a parameter against, which is what "Value can not be converted
+			to requested type" was; this is the form projects/component/search.cfc already pages
+			with.  startrow is one based, so the offset is one less, floored at zero. --->
 		<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * FROM (
-				SELECT a.*, rownum rnum FROM (
-					SELECT * FROM #session.SpecSrchTab# ORDER BY #safeOrderBy#
-				) a WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#stoprow#">
-			) WHERE rnum >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#startrow#">
+			SELECT * 
+			FROM #session.SpecSrchTab# 
+			ORDER BY #safeOrderBy#
+			OFFSET <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#max(startrow-1,0)#"> ROWS
+			FETCH NEXT <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#numRecs#"> ROWS ONLY
 		</cfquery>
 		<cfset collObjIdList = valuelist(result.collection_object_id)>
 		<cfset session.collObjIdList=collObjIdList>
