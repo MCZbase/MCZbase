@@ -159,7 +159,8 @@ limitations under the License.
 @prefix dcterms: <http://purl.org/dc/terms/>. 
 <#variables.rdfEscape.escapeForIri(lookupUUID.assembled_resolvable)#>
    a dwc:Taxon;
-   dwc:scientificName "#variables.rdfEscape.escapeForTurtle(scientific_name)#";
+   dwc:scientificName "#variables.rdfEscape.escapeForTurtle(scientific_name)#"<cfif len(author_text) GT 0>;
+   dwc:scientificNameAuthorship "#variables.rdfEscape.escapeForTurtle(author_text)#"</cfif> .
 </cfoutput>
 </cfif><!--- end Turtle --->
 <cfif deliver IS 'application/ld+json'>
