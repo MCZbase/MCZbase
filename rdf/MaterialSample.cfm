@@ -192,7 +192,7 @@ limitations under the License.
 	<dwc:catalogNumber>#xmlFormat(CAT_NUM)#</dwc:catalogNumber>
 	<dwc:scientificName>#xmlFormat(variables.outScientificName)#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-	<dwciri:occurrenceID>#xmlFormat(variables.outOccurrenceID)#</dwciri:occurrenceID>
+	<dwciri:occurrenceID rdf:resource="#xmlFormat(variables.outOccurrenceID)#"/>
 	<dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
 <cfif len(country) GT 0>	<dwc:country>#xmlFormat(country)#</dwc:country>
 </cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#xmlFormat(state_province)#</dwc:stateProvince>

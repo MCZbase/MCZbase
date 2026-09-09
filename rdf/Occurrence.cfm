@@ -417,14 +417,14 @@ limitations under the License.
    <dwc:taxonID>#xmlFormat(taxonid)#</dwc:taxonID>
    <dwc:scientificNameID>#xmlFormat(scientificnameid)#</dwc:scientificNameID>
    <dwc:identifiedBy>#xmlFormat(identifiedby)#</dwc:identifiedBy>
-   <dwciri:identifiedBy>#xmlFormat(identifiedbyid)#</dwciri:identifiedBy>
-<cfif len(date_identified) GT 0>   <dwc:dateIdentified>#xmlFormat(date_identified)#</dwc:dateIdentified>
+<cfif len(identifiedbyid) GT 0>   <dwciri:identifiedBy rdf:resource="#xmlFormat(identifiedbyid)#"/>
+</cfif><cfif len(date_identified) GT 0>   <dwc:dateIdentified>#xmlFormat(date_identified)#</dwc:dateIdentified>
 </cfif><cfif len(typestatus) GT 0>   <dwc:typeStatus>#xmlFormat(typestatus)#</dwc:typeStatus>
 </cfif>   <dwc:country>#xmlFormat(country)#</dwc:country>
    <dwc:stateProvince>#xmlFormat(state_prov)#</dwc:stateProvince>
    <dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
    <dwc:recordedBy>#xmlFormat(collectors)#</dwc:recordedBy><cfif colls.recordcount GT 0><cfloop query="colls">
-   <dwciri:recordedBy>#xmlFormat(colls.agentguid)#</dwciri:recordedBy>
+   <dwciri:recordedBy rdf:resource="#xmlFormat(colls.agentguid)#"/>
 </cfloop></cfif>   <dwc:eventDate>#xmlFormat(eventDate)#</dwc:eventDate>
    <dwc:day>#xmlFormat(day)#</dwc:day>
    <dwc:month>#xmlFormat(month)#</dwc:month>
@@ -433,8 +433,8 @@ limitations under the License.
    <dwc:decimalLongitude>#xmlFormat(variables.outDecLong)#</dwc:decimalLongitude>
    <dwc:geodeticDatum>#xmlFormat(geodeticdatum)#</dwc:geodeticDatum>
    <dwc:coordinateUncertaintyInMeters>#xmlFormat(coordinateuncertaintyinmeters)#</dwc:coordinateUncertaintyInMeters>
-   <dwciri:georeferencedBy>#xmlFormat(georeferencedbyid)#</dwciri:georeferencedBy>
-<cfif basisofrecord IS "FossilSpecimen">   <dwc:group>#xmlFormat(geol_group)#</dwc:group>
+<cfif len(georeferencedbyid) GT 0>   <dwciri:georeferencedBy rdf:resource="#xmlFormat(georeferencedbyid)#"/>
+</cfif><cfif basisofrecord IS "FossilSpecimen">   <dwc:group>#xmlFormat(geol_group)#</dwc:group>
    <dwc:formation>#xmlFormat(formation)#</dwc:formation>
    <dwc:member>#xmlFormat(member)#</dwc:member>
    <dwc:bed>#xmlFormat(bed)#</dwc:bed>
@@ -449,7 +449,7 @@ limitations under the License.
    <dwc:latestageorhigheststage>#xmlFormat(latestageorhigheststage)#</dwc:latestageorhigheststage>
 </cfif>
 <cfif parts.recordcount GT 0><cfloop query="parts">
-	<dwciri:materialSampleID>#xmlFormat(parts.materialSampleID)#</dwciri:materialSampleID>
+	<dwciri:materialSampleID rdf:resource="#xmlFormat(parts.materialSampleID)#"/>
 </cfloop></cfif>
    <dcterms:modified>#xmlFormat(last_edit_date)#</dcterms:modified>
 </dwc:Occurrence>
@@ -479,14 +479,14 @@ limitations under the License.
 <cfif len(taxonid) GT 0>   dwc:taxonID "#variables.rdfEscape.escapeForTurtle(taxonid)#";
 </cfif><cfif len(scientificnameid) GT 0>   dwc:scientificNameID "#variables.rdfEscape.escapeForTurtle(scientificnameid)#";
 </cfif>   dwc:identifiedBy "#variables.rdfEscape.escapeForTurtle(identifiedby)#";
-<cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy "#variables.rdfEscape.escapeForTurtle(identifiedbyid)#";
+<cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy <#variables.rdfEscape.escapeForIri(identifiedbyid)#>;
 </cfif><cfif len(date_identified) GT 0>   dwc:dateIdentified "#variables.rdfEscape.escapeForTurtle(date_identified)#";
 </cfif><cfif len(typestatus) GT 0>   dwc:typeStatus "#variables.rdfEscape.escapeForTurtle(typeStatus)#";
 </cfif>   dwc:country "#variables.rdfEscape.escapeForTurtle(country)#";
 <cfif len(state_prov) GT 0>   dwc:stateProvince "#variables.rdfEscape.escapeForTurtle(state_prov)#";
 </cfif>   dwc:locality "#variables.rdfEscape.escapeForTurtle(spec_locality)#";
    dwc:recordedBy "#variables.rdfEscape.escapeForTurtle(collectors)#";<cfif colls.recordcount GT 0><cfloop query="colls">
-   dwciri:recordedBy "#variables.rdfEscape.escapeForTurtle(colls.agentguid)#";
+   dwciri:recordedBy <#variables.rdfEscape.escapeForIri(colls.agentguid)#>;
 </cfloop>
 </cfif>   dwc:eventDate "#variables.rdfEscape.escapeForTurtle(eventDate)#";
 <cfif len(day) GT 0>   dwc:day "#variables.rdfEscape.escapeForTurtle(day)#";
@@ -496,7 +496,7 @@ limitations under the License.
    dwc:decimalLongitude "#variables.rdfEscape.escapeForTurtle(variables.outDecLong)#";
    dwc:geodeticDatum "#variables.rdfEscape.escapeForTurtle(geodeticdatum)#";
    dwc:coordinateUncertaintyInMeters "#variables.rdfEscape.escapeForTurtle(coordinateuncertaintyinmeters)#";
-<cfif len(georeferencedbyid) GT 0>   dwciri:georeferencedBy "#variables.rdfEscape.escapeForTurtle(georeferencedbyid)#";
+<cfif len(georeferencedbyid) GT 0>   dwciri:georeferencedBy <#variables.rdfEscape.escapeForIri(georeferencedbyid)#>;
 </cfif><cfif basisofrecord IS "FossilSpecimen">   dwc:group "#variables.rdfEscape.escapeForTurtle(geol_group)#";
    dwc:formation "#variables.rdfEscape.escapeForTurtle(formation)#";
    dwc:member "#variables.rdfEscape.escapeForTurtle(member)#";
@@ -535,21 +535,22 @@ limitations under the License.
   "dwc:catalogNumber":"#variables.rdfEscape.escapeForJson(cat_num)#",
   "dwc:basisOfRecord":"#variables.rdfEscape.escapeForJson(basisofrecord)#",
   "dcterms:rightsHolder":"President and Fellows of Harvard College",
-  "dcterms:modified":"#variables.rdfEscape.escapeForJson(last_edit_date)#",
   "dwc:scientificName":"#variables.rdfEscape.escapeForJson(scientific_name)#",
   "dwc:scientificNameAuthorship":"#variables.rdfEscape.escapeForJson(author_text)#",
 <cfif len(taxonid) GT 0>  "dwc:taxonID":"#variables.rdfEscape.escapeForJson(taxonid)#",
 </cfif><cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#variables.rdfEscape.escapeForJson(scientificnameid)#",
 </cfif>  "dwc:identifiedBy":"#variables.rdfEscape.escapeForJson(identifiedby)#",
-  "dwciri:identifiedBy":"#variables.rdfEscape.escapeForJson(identifiedbyid)#",
-<cfif len(date_identified) GT 0>  "dwc:dateIdentified":"#variables.rdfEscape.escapeForJson(date_identified)#",
+<cfif len(identifiedbyid) GT 0>  "dwciri:identifiedBy": { "@id": "#variables.rdfEscape.escapeForJson(identifiedbyid)#" },
+</cfif><cfif len(date_identified) GT 0>  "dwc:dateIdentified":"#variables.rdfEscape.escapeForJson(date_identified)#",
 </cfif><cfif len(typestatus) GT 0>  "dwc:typeStatus":"#variables.rdfEscape.escapeForJson(typestatus)#",
 </cfif>  "dwc:country":"#variables.rdfEscape.escapeForJson(country)#",
 <cfif len(state_prov) GT 0>  "dwc:stateProvince":"#variables.rdfEscape.escapeForJson(state_prov)#",
 </cfif> "dwc:locality":"#variables.rdfEscape.escapeForJson(spec_locality)#",
-  "dwc:recordedBy":"#variables.rdfEscape.escapeForJson(collectors)#",<cfif colls.recordcount GT 0><cfloop query="colls">
-  "dwciri:recordedBy":"#variables.rdfEscape.escapeForJson(colls.agentguid)#",
-</cfloop></cfif>  "dwc:eventDate":"#variables.rdfEscape.escapeForJson(eventDate)#",
+  "dwc:recordedBy":"#variables.rdfEscape.escapeForJson(collectors)#",<cfif colls.recordcount GT 0>
+  "dwciri:recordedBy": [
+<cfset separator=""><cfloop query="colls">    #separator#{ "@id": "#variables.rdfEscape.escapeForJson(colls.agentguid)#" }
+<cfset separator=","></cfloop>  ],
+</cfif>  "dwc:eventDate":"#variables.rdfEscape.escapeForJson(eventDate)#",
 <cfif len(day) GT 0>  "dwc:day":"#variables.rdfEscape.escapeForJson(day)#",
 </cfif><cfif len(month) GT 0>  "dwc:month":"#variables.rdfEscape.escapeForJson(month)#",
 </cfif><cfif len(year) GT 0>  "dwc:year":"#variables.rdfEscape.escapeForJson(year)#",
@@ -557,7 +558,7 @@ limitations under the License.
   "dwc:decimalLongitude":"#variables.rdfEscape.escapeForJson(variables.outDecLong)#",
   "dwc:geodeticDatum":"#variables.rdfEscape.escapeForJson(geodeticdatum)#",
   "dwc:coordinateUncertaintyInMeters":"#variables.rdfEscape.escapeForJson(coordinateuncertaintyinmeters)#",
-<cfif len(georeferencedbyid) GT 0>  "dwciri:georeferencedBy":"#variables.rdfEscape.escapeForJson(georeferencedbyid)#",
+<cfif len(georeferencedbyid) GT 0>  "dwciri:georeferencedBy": { "@id": "#variables.rdfEscape.escapeForJson(georeferencedbyid)#" },
 </cfif><cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#variables.rdfEscape.escapeForJson(geol_group)#",
   "dwc:formation":"#variables.rdfEscape.escapeForJson(formation)#",
   "dwc:member":"#variables.rdfEscape.escapeForJson(member)#",
