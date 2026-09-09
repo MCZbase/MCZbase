@@ -186,15 +186,20 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 		</cfquery>
 		<cfif isdefined("isValCt.value_code_table") and len(#isValCt.value_code_table#) gt 0>
 			<!--- there's a code table --->
-			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isValCt.value_code_table#
-			</cfquery>
-			<!----------------------->
-			<!---- get column names --->
+			<!---- get column names.  This runs before the select below because a table name cannot
+				be bound: returning no rows means the name out of ctCodes is not a table this
+				account has, and the select must not be assembled from it. --->
 			<cfquery name="getCols" datasource="uam_god">
 				select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isValCt.value_code_table)#">
 				and column_name <> 'DESCRIPTION'
 			</cfquery>
+			<cfif getCols.recordcount EQ 0>
+				<cfthrow message="Not a code table: #encodeForHtml(isValCt.value_code_table)#" type="error">
+			</cfif>
+			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select * from #isValCt.value_code_table#
+			</cfquery>
+			<!----------------------->
 				<cfset collCode = "">
 				<cfset columnName = "">
 				<cfloop query="getCols">
@@ -244,14 +249,19 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 		<cfif isdefined("isUnitCt.units_code_table") and len(#isUnitCt.units_code_table#) gt 0>
 		
 			<!---- there's a code table --->
-			<!---- get the data --->
-			<cfquery name="unitCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isUnitCt.units_code_table#
-			</cfquery>
-			<!---- get column names --->
+			<!---- get column names.  This runs before the select below because a table name cannot
+				be bound: returning no rows means the name out of ctCodes is not a table this
+				account has, and the select must not be assembled from it. --->
 			<cfquery name="getCols" datasource="uam_god">
 				select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isUnitCt.units_code_table)#">
 				and column_name <> 'DESCRIPTION'
+			</cfquery>
+			<cfif getCols.recordcount EQ 0>
+				<cfthrow message="Not a code table: #encodeForHtml(isUnitCt.units_code_table)#" type="error">
+			</cfif>
+			<!---- get the data --->
+			<cfquery name="unitCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select * from #isUnitCt.units_code_table#
 			</cfquery>
 				<cfset collCode = "">
 				<cfset columnName = "">
