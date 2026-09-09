@@ -172,7 +172,8 @@ limitations under the License.
   },
   "@id": "#variables.rdfEscape.escapeForJson(lookupUUID.assembled_resolvable)#",
   "@type":"dwc:Taxon",
-  "dwc:scientificName":"#variables.rdfEscape.escapeForJson(scientific_name)#"
+  "dwc:scientificName":"#variables.rdfEscape.escapeForJson(scientific_name)#"<cfif len(author_text) GT 0>,
+  "dwc:scientificNameAuthorship":"#variables.rdfEscape.escapeForJson(author_text)#"</cfif>
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
