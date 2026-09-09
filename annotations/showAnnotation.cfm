@@ -383,6 +383,11 @@ limitations under the License.
 					},
 					"reviewed": <cfif val(requestedAnnRow.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 					"visibility": "<cfif val(requestedAnnRow.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>",
+					<!--- This array carries every other annotation in the conversation, not only those
+						replying to the requested one, so for a reply it holds its ancestors and siblings as
+						well.  Intended: what a caller wants from this endpoint is the conversation, and the
+						direction of each relationship is recoverable from the target of each member.  Noted
+						because reading the loop alone suggests the name is wrong. --->
 					"replies": [
 						<cfset variables.firstAnnotation = true>
 						<cfloop query="includedConversationAnns">
