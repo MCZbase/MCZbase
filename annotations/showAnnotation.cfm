@@ -348,6 +348,9 @@ limitations under the License.
 		<cfabort>
 	</cfif>
 	
+	<!--- Escaping for the values written into the data serializations below.  Shared with the
+		rdf/ templates, which emit the same three formats. --->
+	<cfset variables.rdfEscape = createObject("component","rdf.component.public")>
 	<cfswitch expression="#variables.format#">
 		<cfcase value="json-ld">
 			<!--- W3C Web Annotation Data Model: JSON-LD output.
@@ -363,23 +366,28 @@ limitations under the License.
 				<cfset variables.requestedTargetJson = "">
 				<cfset variables.requestedMotivationJson = "">
 				<cfif len(variables.requestedTarget) GT 0>
-					<cfset variables.requestedTargetJson = ', "target": "' & JSStringFormat(variables.requestedTarget) & '"' >
+					<cfset variables.requestedTargetJson = ', "target": "' & variables.rdfEscape.escapeForJson(variables.requestedTarget) & '"' >
 				</cfif>
 				<cfif len(requestedAnnRow.motivation) GT 0>
-					<cfset variables.requestedMotivationJson = ', "motivation": "' & JSStringFormat(requestedAnnRow.motivation) & '"' >
+					<cfset variables.requestedMotivationJson = ', "motivation": "' & variables.rdfEscape.escapeForJson(requestedAnnRow.motivation) & '"' >
 				</cfif>
 				{
 					"@context": "http://www.w3.org/ns/anno.jsonld",
-					"id": "#JSStringFormat(variables.thisAnnotationIRI)#",
+					"id": "#variables.rdfEscape.escapeForJson(variables.thisAnnotationIRI)#",
 					"type": "Annotation",
-					"body": {"type": "TextualBody", "value": "#JSStringFormat(requestedAnnRow.body_value)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
+					"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(requestedAnnRow.body_value)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
 					"created": "#dateformat(requestedAnnRow.annotate_date,'yyyy-mm-dd')#",
 					"creator": {
-						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#JSStringFormat(requestedAnnRow.creator_uri)#",</cfif>
-						"name": "#JSStringFormat(requestedAnnRow.creator_name)#"
+						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_uri)#",</cfif>
+						"name": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_name)#"
 					},
 					"reviewed": <cfif val(requestedAnnRow.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 					"visibility": "<cfif val(requestedAnnRow.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>",
+					<!--- This array carries every other annotation in the conversation, not only those
+						replying to the requested one, so for a reply it holds its ancestors and siblings as
+						well.  Intended: what a caller wants from this endpoint is the conversation, and the
+						direction of each relationship is recoverable from the target of each member.  Noted
+						because reading the loop alone suggests the name is wrong. --->
 					"replies": [
 						<cfset variables.firstAnnotation = true>
 						<cfloop query="includedConversationAnns">
@@ -395,20 +403,20 @@ limitations under the License.
 									<cfset variables.annotationTargetJson = "">
 									<cfset variables.annotationMotivationJson = "">
 									<cfif len(variables.annotationTarget) GT 0>
-										<cfset variables.annotationTargetJson = ', "target": "' & JSStringFormat(variables.annotationTarget) & '"' >
+										<cfset variables.annotationTargetJson = ', "target": "' & variables.rdfEscape.escapeForJson(variables.annotationTarget) & '"' >
 									</cfif>
 									<cfif len(includedConversationAnns.motivation) GT 0>
-										<cfset variables.annotationMotivationJson = ', "motivation": "' & JSStringFormat(includedConversationAnns.motivation) & '"' >
+										<cfset variables.annotationMotivationJson = ', "motivation": "' & variables.rdfEscape.escapeForJson(includedConversationAnns.motivation) & '"' >
 									</cfif>
 									<cfif NOT variables.firstAnnotation>,</cfif>
 									{
-										"id": "#JSStringFormat(variables.annotationIRI)#",
+										"id": "#variables.rdfEscape.escapeForJson(variables.annotationIRI)#",
 										"type": "Annotation",
-										"body": {"type": "TextualBody", "value": "#JSStringFormat(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
+										"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
 										"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
 										"creator": {
-											<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#JSStringFormat(includedConversationAnns.creator_uri)#",</cfif>
-											"name": "#JSStringFormat(includedConversationAnns.creator_name)#"
+											<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_uri)#",</cfif>
+											"name": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_name)#"
 										},
 										"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 										"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
@@ -484,19 +492,19 @@ limitations under the License.
 <cfelse>
 	<cfset variables.annotationTarget = Application.ServerRootUrl & "/annotations/showAnnotation.cfm?annotation_id=" & includedConversationAnns.parent_annotation_id>
 </cfif>
-<#variables.annotationIRI#>
+<#variables.rdfEscape.escapeForIri(variables.annotationIRI)#>
     a oa:Annotation ;
-    <cfif len(variables.motivationIRI) GT 0>oa:motivatedBy <#variables.motivationIRI#> ;</cfif>
+    <cfif len(variables.motivationIRI) GT 0>oa:motivatedBy <#variables.rdfEscape.escapeForIri(variables.motivationIRI)#> ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
-        rdf:value "#JSStringFormat(includedConversationAnns.body_value)#" ;
+        rdf:value "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.body_value)#" ;
         dcterms:language "en"
     ] ;
-    <cfif len(variables.annotationTarget) GT 0>oa:hasTarget <#variables.annotationTarget#> ;</cfif>
+    <cfif len(variables.annotationTarget) GT 0>oa:hasTarget <#variables.rdfEscape.escapeForIri(variables.annotationTarget)#> ;</cfif>
     dcterms:created "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-    dcterms:creator <cfif len(includedConversationAnns.creator_uri) GT 0><#includedConversationAnns.creator_uri#><cfelse>[ a foaf:Agent ; foaf:name "#JSStringFormat(includedConversationAnns.creator_name)#" ]</cfif> .
+    dcterms:creator <cfif len(includedConversationAnns.creator_uri) GT 0><#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#><cfelse>[ a foaf:Agent ; foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" ]</cfif> .
 <cfif len(includedConversationAnns.creator_uri) GT 0>
-<#includedConversationAnns.creator_uri#> foaf:name "#JSStringFormat(includedConversationAnns.creator_name)#" .
+<#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#> foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" .
 </cfif>
 </cfif>
 </cfloop></cfoutput>

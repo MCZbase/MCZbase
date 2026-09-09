@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:Taxon (taxon_name) records from MCZbase --->
+<!--- Escaping for the values written into each serialization below.  Instantiated rather than
+	included: this page sets its content type with cfheader, which does not reset the output
+	buffer, so an include's whitespace would land in a document that has to parse. --->
+<cfset variables.rdfEscape = createObject("component","rdf.component.public")>
 
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
@@ -37,7 +41,10 @@ limitations under the License.
 	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 		SELECT target_table, guid_our_thing_id, taxon_name_id,  guid_is_a, disposition, assembled_resolvable
 		FROM guid_our_thing
-		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+		<!--- Compared without regard to case: existing rows hold identifiers in both cases.  The
+			value is uppercased in ColdFusion rather than in SQL because a bind inside upper()
+			leaves this driver without a column type to resolve the parameter against. --->
+		WHERE upper(local_identifier) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(uuid)#">
 			AND scheme = 'urn' 
 			AND type = 'uuid'
 	</cfquery>
@@ -141,9 +148,9 @@ limitations under the License.
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
-<dwc:Taxon rdf:about="#lookupUUID.assembled_resolvable#">
-   <dwc:scientificName>#scientific_name#</dwc:scientificName>
-   <dwc:scientificNameAuthorship>#author_text#</dwc:scientificNameAuthorship>
+<dwc:Taxon rdf:about="#xmlFormat(lookupUUID.assembled_resolvable)#">
+   <dwc:scientificName>#xmlFormat(scientific_name)#</dwc:scientificName>
+   <dwc:scientificNameAuthorship>#xmlFormat(author_text)#</dwc:scientificNameAuthorship>
 </dwc:Taxon>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -153,9 +160,10 @@ limitations under the License.
 @prefix dwc: <http://rs.tdwg.org/dwc/terms/>.
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/>.
 @prefix dcterms: <http://purl.org/dc/terms/>. 
-<#lookupUUID.assembled_resolvable#>
+<#variables.rdfEscape.escapeForIri(lookupUUID.assembled_resolvable)#>
    a dwc:Taxon;
-   dwc:scientificName "#scientific_name#";
+   dwc:scientificName "#variables.rdfEscape.escapeForTurtle(scientific_name)#"<cfif len(author_text) GT 0>;
+   dwc:scientificNameAuthorship "#variables.rdfEscape.escapeForTurtle(author_text)#"</cfif> .
 </cfoutput>
 </cfif><!--- end Turtle --->
 <cfif deliver IS 'application/ld+json'>
@@ -165,9 +173,10 @@ limitations under the License.
      "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
-  "@id": "#lookupUUID.assembled_resolvable#",
+  "@id": "#variables.rdfEscape.escapeForJson(lookupUUID.assembled_resolvable)#",
   "@type":"dwc:Taxon",
-  "dwc:scientificName":"#scientific_name#"
+  "dwc:scientificName":"#variables.rdfEscape.escapeForJson(scientific_name)#"<cfif len(author_text) GT 0>,
+  "dwc:scientificNameAuthorship":"#variables.rdfEscape.escapeForJson(author_text)#"</cfif>
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->

@@ -88,7 +88,6 @@ Disallow: /moveContainer.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
 Disallow: /SpecimenContainerLabels.cfm
-Disallow: /specLocality.cfm
 Disallow: /TAG.cfm
 Disallow: /Transactions.cfm
 Disallow: /userBrowseBulked.cfm
