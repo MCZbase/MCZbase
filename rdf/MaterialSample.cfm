@@ -33,6 +33,11 @@ limitations under the License.
    	<cfset accept = "text/turtle">
 	</cfif>
 </cfif>
+<!--- Defaulted because the lookups below leave both unset on one path: if the material sample has
+	an identification but no undeleted occurrenceID, neither the assignment nor the else that
+	blanks them is reached, and the length test on them would then throw. --->
+<cfset variables.scientificName = "">
+<cfset variables.occurrenceID = "">
 <cfif lookup EQ "uuid">
 	<cfif NOT isDefined("uuid")>
 		<cfset uuid = "">
@@ -99,13 +104,13 @@ limitations under the License.
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
 						collection.institution_acronym institution_acronym,
-						<cfif len(occurrenceID) GT 0> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurrenceID#"> <cfelse> 'https://mczbase.mcz.harvard.edu/guid/' || flat.guid </cfif> as occurrenceID,
+						'https://mczbase.mcz.harvard.edu/guid/' || flat.guid AS guid_occurrence_id,
 						flat.guid,
 						flat.country,
 						flat.state_prov state_province,
 						flat.county,
 						flat.spec_locality,
-						<cfif len(scientificName) GT 0> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificName#"> <cfelse> flat.scientific_name </cfif> as scientific_name
+						flat.scientific_name AS flat_scientific_name
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
@@ -151,6 +156,23 @@ limitations under the License.
 	<cfthrow message="Error: No material sample record found">
 </cfif>
 <cfloop query="getMaterialSample">
+<cfsilent>
+<!--- The identifier and scientific name are either what the lookups above found or, failing
+	that, what the record itself carries.  Chosen here rather than in the select list: these are
+	page values, so sending them through the database only to read them back would put a bind in
+	a select list, where the driver has no column to infer a type from.  cfsilent because this
+	page sets its content type with cfheader, which does not reset the output buffer. --->
+<cfif len(variables.occurrenceID) GT 0>
+	<cfset variables.outOccurrenceID = variables.occurrenceID>
+<cfelse>
+	<cfset variables.outOccurrenceID = guid_occurrence_id>
+</cfif>
+<cfif len(variables.scientificName) GT 0>
+	<cfset variables.outScientificName = variables.scientificName>
+<cfelse>
+	<cfset variables.outScientificName = flat_scientific_name>
+</cfif>
+</cfsilent>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
@@ -165,9 +187,9 @@ limitations under the License.
 	<dwc:institutionCode>#xmlFormat(institution_acronym)#</dwc:institutionCode>
 	<dwc:collectionCode>#xmlFormat(COLLECTION_CDE)#</dwc:collectionCode>
 	<dwc:catalogNumber>#xmlFormat(CAT_NUM)#</dwc:catalogNumber>
-	<dwc:scientificName>#xmlFormat(scientific_name)#</dwc:scientificName>
+	<dwc:scientificName>#xmlFormat(variables.outScientificName)#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-	<dwciri:occurrenceID>#xmlFormat(occurrenceID)#</dwciri:occurrenceID>
+	<dwciri:occurrenceID>#xmlFormat(variables.outOccurrenceID)#</dwciri:occurrenceID>
 	<dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
 <cfif len(country) GT 0>	<dwc:country>#xmlFormat(country)#</dwc:country>
 </cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#xmlFormat(state_province)#</dwc:stateProvince>
@@ -188,8 +210,8 @@ limitations under the License.
 	dwc:institutionCode "#variables.rdfEscape.escapeForTurtle(institution_acronym)#";
 	dwc:collectionCode "#variables.rdfEscape.escapeForTurtle(COLLECTION_CDE)#";
 	dwc:catalogNumber "#variables.rdfEscape.escapeForTurtle(CAT_NUM)#";
-	dwc:scientificName "#variables.rdfEscape.escapeForTurtle(scientific_name)#";
-	dwciri:occurrenceID <#variables.rdfEscape.escapeForIri(occurrenceID)#>;
+	dwc:scientificName "#variables.rdfEscape.escapeForTurtle(variables.outScientificName)#";
+	dwciri:occurrenceID <#variables.rdfEscape.escapeForIri(variables.outOccurrenceID)#>;
 	dwc:locality "#variables.rdfEscape.escapeForTurtle(spec_locality)#";
 <cfif len(country) GT 0>	dwc:country "#variables.rdfEscape.escapeForTurtle(country)#";
 </cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#variables.rdfEscape.escapeForTurtle(state_province)#";
@@ -211,8 +233,8 @@ limitations under the License.
   "dwc:institutionCode": "#variables.rdfEscape.escapeForJson(institution_acronym)#",
   "dwc:collectionCode": "#variables.rdfEscape.escapeForJson(COLLECTION_CDE)#",
   "dwc:catalogNumber": "#variables.rdfEscape.escapeForJson(CAT_NUM)#",
-  "dwc:scientificName": "#variables.rdfEscape.escapeForJson(scientific_name)#",
-  "dwciri:occurrenceID": { "@id": "#variables.rdfEscape.escapeForJson(occurrenceID)#" },
+  "dwc:scientificName": "#variables.rdfEscape.escapeForJson(variables.outScientificName)#",
+  "dwciri:occurrenceID": { "@id": "#variables.rdfEscape.escapeForJson(variables.outOccurrenceID)#" },
   "dwc:locality": "#variables.rdfEscape.escapeForJson(spec_locality)#",
 <cfif len(country) GT 0>  "dwc:country": "#variables.rdfEscape.escapeForJson(country)#",
 </cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#variables.rdfEscape.escapeForJson(state_province)#",
