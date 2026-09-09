@@ -165,6 +165,7 @@ limitations under the License.
 	page values, so sending them through the database only to read them back would put a bind in
 	a select list, where the driver has no column to infer a type from.  cfsilent because this
 	page sets its content type with cfheader, which does not reset the output buffer. --->
+<!--- TODO: Under Redmine 997, supporting material sample IDs with part relationships, evaluate and test the logic in the following occurrenceID/scientificName assignments. --->
 <cfif len(variables.occurrenceID) GT 0>
 	<cfset variables.outOccurrenceID = variables.occurrenceID>
 <cfelse>
