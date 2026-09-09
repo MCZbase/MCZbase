@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:MaterialSample (specimen part) records from MCZbase --->
+<!--- Escaping for the values written into each serialization below.  Instantiated rather than
+	included: this page sets its content type with cfheader, which does not reset the output
+	buffer, so an include's whitespace would land in a document that has to parse. --->
+<cfset variables.rdfEscape = createObject("component","rdf.component.public")>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
 	<cftry>
@@ -155,19 +159,19 @@ limitations under the License.
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
-<dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#uuid#">
-	<dwc:materialSampleID>#uuid#</dwc:materialSampleID>
-	<dwc:preparations>#PART_NAME# (#preserve_method#)</dwc:preparations>
-	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
-	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
-	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
-	<dwc:scientificName>#scientific_name#</dwc:scientificName>
+<dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#xmlFormat(uuid)#">
+	<dwc:materialSampleID>#xmlFormat(uuid)#</dwc:materialSampleID>
+	<dwc:preparations>#xmlFormat(PART_NAME)# (#xmlFormat(preserve_method)#)</dwc:preparations>
+	<dwc:institutionCode>#xmlFormat(institution_acronym)#</dwc:institutionCode>
+	<dwc:collectionCode>#xmlFormat(COLLECTION_CDE)#</dwc:collectionCode>
+	<dwc:catalogNumber>#xmlFormat(CAT_NUM)#</dwc:catalogNumber>
+	<dwc:scientificName>#xmlFormat(scientific_name)#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-	<dwciri:occurrenceID>#occurrenceID#</dwciri:occurrenceID>
-	<dwc:locality>#spec_locality#</dwc:locality>
-<cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
-</cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
-</cfif><cfif len(county) GT 0>	<dwc:county>#county#</dwc:county>
+	<dwciri:occurrenceID>#xmlFormat(occurrenceID)#</dwciri:occurrenceID>
+	<dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
+<cfif len(country) GT 0>	<dwc:country>#xmlFormat(country)#</dwc:country>
+</cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#xmlFormat(state_province)#</dwc:stateProvince>
+</cfif><cfif len(county) GT 0>	<dwc:county>#xmlFormat(county)#</dwc:county>
 </cfif></dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -177,19 +181,19 @@ limitations under the License.
 @prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-<https://mczbase.mcz.harvard.edu/uuid/#uuid#>
+<https://mczbase.mcz.harvard.edu/uuid/#variables.rdfEscape.escapeForIri(uuid)#>
    a dwc:MaterialSample;
-	dwc:materialSampleID "#uuid#";
-	dwc:preparations "#PART_NAME# (#preserve_method#)";
-	dwc:institutionCode "#institution_acronym#";
-	dwc:collectionCode "#COLLECTION_CDE#";
-	dwc:catalogNumber "#CAT_NUM#";
-	dwc:scientificName "#scientific_name#";
-	dwciri:occurrenceID <#occurrenceID#>;
-	dwc:locality "#spec_locality#";
-<cfif len(country) GT 0>	dwc:country "#country#";
-</cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#state_province#";
-</cfif><cfif len(county) GT 0>	dwc:county "#county#";
+	dwc:materialSampleID "#variables.rdfEscape.escapeForTurtle(uuid)#";
+	dwc:preparations "#variables.rdfEscape.escapeForTurtle(PART_NAME)# (#variables.rdfEscape.escapeForTurtle(preserve_method)#)";
+	dwc:institutionCode "#variables.rdfEscape.escapeForTurtle(institution_acronym)#";
+	dwc:collectionCode "#variables.rdfEscape.escapeForTurtle(COLLECTION_CDE)#";
+	dwc:catalogNumber "#variables.rdfEscape.escapeForTurtle(CAT_NUM)#";
+	dwc:scientificName "#variables.rdfEscape.escapeForTurtle(scientific_name)#";
+	dwciri:occurrenceID <#variables.rdfEscape.escapeForIri(occurrenceID)#>;
+	dwc:locality "#variables.rdfEscape.escapeForTurtle(spec_locality)#";
+<cfif len(country) GT 0>	dwc:country "#variables.rdfEscape.escapeForTurtle(country)#";
+</cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#variables.rdfEscape.escapeForTurtle(state_province)#";
+</cfif><cfif len(county) GT 0>	dwc:county "#variables.rdfEscape.escapeForTurtle(county)#";
 </cfif>	dcterms:rightsHolder "President and Fellows of Harvard College".
 </cfoutput>
 </cfif><!--- end Turtle --->
@@ -200,19 +204,19 @@ limitations under the License.
      "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
-  "@id": "https://mczbase.mcz.harvard.edu/uuid/#uuid#",
+  "@id": "https://mczbase.mcz.harvard.edu/uuid/#variables.rdfEscape.escapeForJson(uuid)#",
   "@type":"dwc:MaterialSample",
-  "dwc:materialSampleID": "#uuid#",
-  "dwc:preparations": "#PART_NAME# (#preserve_method#)",
-  "dwc:institutionCode": "#institution_acronym#",
-  "dwc:collectionCode": "#COLLECTION_CDE#",
-  "dwc:catalogNumber": "#CAT_NUM#",
-  "dwc:scientificName": "#scientific_name#",
-  "dwciri:occurrenceID": { "@id": "#occurrenceID#" },
-  "dwc:locality": "#spec_locality#",
-<cfif len(country) GT 0>  "dwc:country": "#country#",
-</cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#state_province#",
-</cfif><cfif len(county) GT 0>  "dwc:county": "#county#",
+  "dwc:materialSampleID": "#variables.rdfEscape.escapeForJson(uuid)#",
+  "dwc:preparations": "#variables.rdfEscape.escapeForJson(PART_NAME)# (#variables.rdfEscape.escapeForJson(preserve_method)#)",
+  "dwc:institutionCode": "#variables.rdfEscape.escapeForJson(institution_acronym)#",
+  "dwc:collectionCode": "#variables.rdfEscape.escapeForJson(COLLECTION_CDE)#",
+  "dwc:catalogNumber": "#variables.rdfEscape.escapeForJson(CAT_NUM)#",
+  "dwc:scientificName": "#variables.rdfEscape.escapeForJson(scientific_name)#",
+  "dwciri:occurrenceID": { "@id": "#variables.rdfEscape.escapeForJson(occurrenceID)#" },
+  "dwc:locality": "#variables.rdfEscape.escapeForJson(spec_locality)#",
+<cfif len(country) GT 0>  "dwc:country": "#variables.rdfEscape.escapeForJson(country)#",
+</cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#variables.rdfEscape.escapeForJson(state_province)#",
+</cfif><cfif len(county) GT 0>  "dwc:county": "#variables.rdfEscape.escapeForJson(county)#",
 </cfif>  "dcterms:rightsHolder": "President and Fellows of Harvard College"
 }
 </cfoutput>
