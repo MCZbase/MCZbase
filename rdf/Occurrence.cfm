@@ -303,6 +303,7 @@ limitations under the License.
 		flat.LITHOSTRATIGRAPHICTERMS,
 		flat.dec_lat,
 		flat.dec_long,
+		flat.coordinate_precision,
 		flat.datum as geodeticdatum,
 		flat.coordinateuncertaintyinmeters,
 		flat.georeferencedbyid,
@@ -358,6 +359,37 @@ limitations under the License.
 			</cfif>
 		</cfif>
 </cfquery>
+<cfsilent>
+<!--- FLAT.COORDINATE_PRECISION records how many digits below the decimal point are significant for
+	dec_lat and dec_long, so the coordinates are rendered to that many places rather than to the ten
+	the column stores.  A georeference that does not say, and a record with no coordinates at all,
+	are emitted as they are held.  cfsilent because this page sets its content type with cfheader,
+	which does not reset the output buffer. --->
+<cfset variables.outDecLat = occur.dec_lat>
+<cfset variables.outDecLong = occur.dec_long>
+<cfif isNumeric(occur.coordinate_precision)>
+	<cfif occur.coordinate_precision GT 0>
+		<cfset variables.coordinateMask = "0." & repeatString("0",occur.coordinate_precision)>
+	<cfelse>
+		<cfset variables.coordinateMask = "0">
+	</cfif>
+	<!--- The sign is applied here rather than left to the mask.  A mask that got it wrong would
+		put a coordinate in the opposite hemisphere without erroring, which is not a failure worth
+		risking on a reading of how numberFormat treats a negative. --->
+	<cfif isNumeric(occur.dec_lat)>
+		<cfset variables.outDecLat = numberFormat(abs(occur.dec_lat),variables.coordinateMask)>
+		<cfif occur.dec_lat LT 0>
+			<cfset variables.outDecLat = "-" & variables.outDecLat>
+		</cfif>
+	</cfif>
+	<cfif isNumeric(occur.dec_long)>
+		<cfset variables.outDecLong = numberFormat(abs(occur.dec_long),variables.coordinateMask)>
+		<cfif occur.dec_long LT 0>
+			<cfset variables.outDecLong = "-" & variables.outDecLong>
+		</cfif>
+	</cfif>
+</cfif>
+</cfsilent>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
@@ -389,8 +421,8 @@ limitations under the License.
    <dwc:day>#xmlFormat(day)#</dwc:day>
    <dwc:month>#xmlFormat(month)#</dwc:month>
    <dwc:year>#xmlFormat(year)#</dwc:year>
-   <dwc:decimalLatitude>#xmlFormat(dec_lat)#</dwc:decimalLatitude>
-   <dwc:decimalLongitude>#xmlFormat(dec_long)#</dwc:decimalLongitude>
+   <dwc:decimalLatitude>#xmlFormat(variables.outDecLat)#</dwc:decimalLatitude>
+   <dwc:decimalLongitude>#xmlFormat(variables.outDecLong)#</dwc:decimalLongitude>
    <dwc:geodeticDatum>#xmlFormat(geodeticdatum)#</dwc:geodeticDatum>
    <dwc:coordinateUncertaintyInMeters>#xmlFormat(coordinateuncertaintyinmeters)#</dwc:coordinateUncertaintyInMeters>
    <dwciri:georeferencedBy>#xmlFormat(georeferencedbyid)#</dwciri:georeferencedBy>
@@ -452,8 +484,8 @@ limitations under the License.
 <cfif len(day) GT 0>   dwc:day "#variables.rdfEscape.escapeForTurtle(day)#";
 </cfif><cfif len(month) GT 0>   dwc:month "#variables.rdfEscape.escapeForTurtle(month)#";
 </cfif><cfif len(year) GT 0>   dwc:year "#variables.rdfEscape.escapeForTurtle(year)#";
-</cfif>   dwc:decimalLatitude "#variables.rdfEscape.escapeForTurtle(dec_lat)#";
-   dwc:decimalLongitude "#variables.rdfEscape.escapeForTurtle(dec_long)#";
+</cfif>   dwc:decimalLatitude "#variables.rdfEscape.escapeForTurtle(variables.outDecLat)#";
+   dwc:decimalLongitude "#variables.rdfEscape.escapeForTurtle(variables.outDecLong)#";
    dwc:geodeticDatum "#variables.rdfEscape.escapeForTurtle(geodeticdatum)#";
    dwc:coordinateUncertaintyInMeters "#variables.rdfEscape.escapeForTurtle(coordinateuncertaintyinmeters)#";
 <cfif len(georeferencedbyid) GT 0>   dwciri:georeferencedBy "#variables.rdfEscape.escapeForTurtle(georeferencedbyid)#";
@@ -513,8 +545,8 @@ limitations under the License.
 <cfif len(day) GT 0>  "dwc:day":"#variables.rdfEscape.escapeForJson(day)#",
 </cfif><cfif len(month) GT 0>  "dwc:month":"#variables.rdfEscape.escapeForJson(month)#",
 </cfif><cfif len(year) GT 0>  "dwc:year":"#variables.rdfEscape.escapeForJson(year)#",
-</cfif>  "dwc:decimalLatitude":"#variables.rdfEscape.escapeForJson(dec_lat)#",
-  "dwc:decimalLongitude":"#variables.rdfEscape.escapeForJson(dec_long)#",
+</cfif>  "dwc:decimalLatitude":"#variables.rdfEscape.escapeForJson(variables.outDecLat)#",
+  "dwc:decimalLongitude":"#variables.rdfEscape.escapeForJson(variables.outDecLong)#",
   "dwc:geodeticDatum":"#variables.rdfEscape.escapeForJson(geodeticdatum)#",
   "dwc:coordinateUncertaintyInMeters":"#variables.rdfEscape.escapeForJson(coordinateuncertaintyinmeters)#",
 <cfif len(georeferencedbyid) GT 0>  "dwciri:georeferencedBy":"#variables.rdfEscape.escapeForJson(georeferencedbyid)#",
