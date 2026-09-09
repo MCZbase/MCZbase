@@ -18,6 +18,9 @@ limitations under the License.
 	included: this page sets its content type with cfheader, which does not reset the output
 	buffer, so an include's whitespace would land in a document that has to parse. --->
 <cfset variables.rdfEscape = createObject("component","rdf.component.public")>
+<!--- Places below the decimal point to render dec_lat and dec_long to when the georeference does
+	not state a precision of its own. --->
+<cfset COORDINATE_PRECISION_DEFAULT = 5>
 <cfset referencedRecordDeleted = false>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
@@ -362,31 +365,33 @@ limitations under the License.
 <cfsilent>
 <!--- FLAT.COORDINATE_PRECISION records how many digits below the decimal point are significant for
 	dec_lat and dec_long, so the coordinates are rendered to that many places rather than to the ten
-	the column stores.  A georeference that does not say, and a record with no coordinates at all,
-	are emitted as they are held.  cfsilent because this page sets its content type with cfheader,
-	which does not reset the output buffer. --->
+	the column stores.  A georeference that does not state one is rendered to the default above.  A
+	record with no coordinates is emitted as held.  cfsilent because this page sets its content
+	type with cfheader, which does not reset the output buffer. --->
+<cfset variables.coordinatePrecision = COORDINATE_PRECISION_DEFAULT>
+<cfif isNumeric(occur.coordinate_precision)>
+	<cfset variables.coordinatePrecision = occur.coordinate_precision>
+</cfif>
+<cfif variables.coordinatePrecision GT 0>
+	<cfset variables.coordinateMask = "0." & repeatString("0",variables.coordinatePrecision)>
+<cfelse>
+	<cfset variables.coordinateMask = "0">
+</cfif>
 <cfset variables.outDecLat = occur.dec_lat>
 <cfset variables.outDecLong = occur.dec_long>
-<cfif isNumeric(occur.coordinate_precision)>
-	<cfif occur.coordinate_precision GT 0>
-		<cfset variables.coordinateMask = "0." & repeatString("0",occur.coordinate_precision)>
-	<cfelse>
-		<cfset variables.coordinateMask = "0">
+<!--- The sign is applied here rather than left to the mask.  A mask that got it wrong would put a
+	coordinate in the opposite hemisphere without erroring, which is not a failure worth risking on
+	a reading of how numberFormat treats a negative. --->
+<cfif isNumeric(occur.dec_lat)>
+	<cfset variables.outDecLat = numberFormat(abs(occur.dec_lat),variables.coordinateMask)>
+	<cfif occur.dec_lat LT 0>
+		<cfset variables.outDecLat = "-" & variables.outDecLat>
 	</cfif>
-	<!--- The sign is applied here rather than left to the mask.  A mask that got it wrong would
-		put a coordinate in the opposite hemisphere without erroring, which is not a failure worth
-		risking on a reading of how numberFormat treats a negative. --->
-	<cfif isNumeric(occur.dec_lat)>
-		<cfset variables.outDecLat = numberFormat(abs(occur.dec_lat),variables.coordinateMask)>
-		<cfif occur.dec_lat LT 0>
-			<cfset variables.outDecLat = "-" & variables.outDecLat>
-		</cfif>
-	</cfif>
-	<cfif isNumeric(occur.dec_long)>
-		<cfset variables.outDecLong = numberFormat(abs(occur.dec_long),variables.coordinateMask)>
-		<cfif occur.dec_long LT 0>
-			<cfset variables.outDecLong = "-" & variables.outDecLong>
-		</cfif>
+</cfif>
+<cfif isNumeric(occur.dec_long)>
+	<cfset variables.outDecLong = numberFormat(abs(occur.dec_long),variables.coordinateMask)>
+	<cfif occur.dec_long LT 0>
+		<cfset variables.outDecLong = "-" & variables.outDecLong>
 	</cfif>
 </cfif>
 </cfsilent>
