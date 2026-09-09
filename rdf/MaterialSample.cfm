@@ -99,13 +99,13 @@ limitations under the License.
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
 						collection.institution_acronym institution_acronym,
-						<cfif len(occurrenceID) GT 0> '#occurrenceID#' <cfelse> 'https://mczbase.mcz.harvard.edu/guid/' || flat.guid </cfif> as occurrenceID,
+						<cfif len(occurrenceID) GT 0> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurrenceID#"> <cfelse> 'https://mczbase.mcz.harvard.edu/guid/' || flat.guid </cfif> as occurrenceID,
 						flat.guid,
 						flat.country,
 						flat.state_prov state_province,
 						flat.county,
 						flat.spec_locality,
-						<cfif len(scientificName) GT 0> '#scientificName#' <cfelse> flat.scientific_name </cfif> as scientific_name
+						<cfif len(scientificName) GT 0> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificName#"> <cfelse> flat.scientific_name </cfif> as scientific_name
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
