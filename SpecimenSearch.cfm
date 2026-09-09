@@ -1170,7 +1170,7 @@
           			</select>
           			<input type="text" name="attribute_value_2" size="20">
           			<span class="infoLink"
-          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
+          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=2&attribute='+SpecData.attribute_type_2.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
           			<input type="text" name="attribute_units_2" size="6">(units)
@@ -1195,7 +1195,7 @@
           			</select>
           			<input type="text" name="attribute_value_3" size="20">
           			<span class="infoLink"
-          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
+          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=3&attribute='+SpecData.attribute_type_3.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
           			<input type="text" name="attribute_units_3" size="6">(units)
