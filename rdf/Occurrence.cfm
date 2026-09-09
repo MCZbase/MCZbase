@@ -451,7 +451,7 @@ limitations under the License.
 <cfif parts.recordcount GT 0><cfloop query="parts">
 	<dwciri:materialSampleID rdf:resource="#xmlFormat(parts.materialSampleID)#"/>
 </cfloop></cfif>
-   <dcterms:modified>#xmlFormat(last_edit_date)#</dcterms:modified>
+   <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema##dateTime">#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#</dcterms:modified>
 </dwc:Occurrence>
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <dwc:MaterialSample rdf:about="#xmlFormat(parts.materialSampleID)#">
