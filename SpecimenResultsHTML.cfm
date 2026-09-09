@@ -94,7 +94,31 @@
 	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
 	<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">
 <!--------------------------------------------------------------->
+	<!--- The criteria arrive in url or form and are carried between requests as the hidden fields
+		held in searchParams, which is rebuilt only inside this newQuery block.  A request that
+		skipped the rebuild passes an empty searchParams on, and the browse form posts searchParams
+		as one field's value rather than as the fields themselves, so the next form here that sets
+		NewQuery=1 can arrive carrying mapurl and no criteria at all.  SearchSql.cfm then records
+		nothing and the guard below reports no search criteria over a result set that plainly had
+		some.  mapurl is posted by every form on this page and is the record of the criteria that
+		produced the current results, so recover them from it before it is cleared and rebuilt.
+		Only a name the request did not supply and the page has not already set is taken, so this
+		cannot overwrite a criterion that did arrive, nor anything set above. --->
+	<cfset variables.postedMapurl = mapurl>
 	<cfset mapurl="">
+	<cfif variables.postedMapurl IS NOT "null" AND len(variables.postedMapurl) GT 0>
+		<cfloop list="#variables.postedMapurl#" delimiters="&" index="mapPair">
+			<cfif listlen(mapPair,"=") GT 1>
+				<cfset variables.mapKey = listfirst(mapPair,"=")>
+				<cfif refind("^[A-Za-z_][A-Za-z0-9_]*$",variables.mapKey) GT 0
+					AND NOT structKeyExists(url,variables.mapKey)
+					AND NOT structKeyExists(form,variables.mapKey)
+					AND NOT structKeyExists(variables,variables.mapKey)>
+					<cfset variables[variables.mapKey] = urldecode(listrest(mapPair,"="))>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
 	<cfinclude template="includes/SearchSql.cfm">
 <!--- require some actual searching --->
 	<cfset srchTerms="">
@@ -238,8 +262,7 @@
 				</cfif>
 			 </cfif>
 		</cfloop>
-		<cfset strippyReturnURL = replace(returnURL,'"','&quot;','all')>
-		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForURL(strippyReturnURL)#"'>
+		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForHtml(returnURL)#">'>
 
 
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
@@ -346,8 +369,29 @@
 	select * from SpecRes#cfidAndToken#
 </cfquery>
 
+<!--- order_by and order_order arrive from the reorder form further down this page and name
+	columns of the results query and a sort direction.  Neither a column name nor a sort
+	direction can be bound, so both are checked against what the results query actually offers.
+	A term that does not match is dropped rather than throwing, and an order_by left with
+	nothing falls back to the default sort: this page is reachable without a login, and a stale
+	bookmark or a changed set of result columns should not produce an error page. --->
+<cfset variables.resultColumns = variables["SpecRes" & cfidAndToken].columnList>
+<cfset variables.safeOrderBy = "">
+<cfloop list="#order_by#" index="orderTerm">
+	<cfif listfindnocase(variables.resultColumns,trim(orderTerm)) GT 0>
+		<cfset variables.safeOrderBy = listappend(variables.safeOrderBy,trim(orderTerm))>
+	</cfif>
+</cfloop>
+<cfif len(variables.safeOrderBy) EQ 0>
+	<cfset variables.safeOrderBy = "cat_num">
+</cfif>
+<cfif listfindnocase("asc,desc",order_order) GT 0>
+	<cfset variables.safeOrderOrder = order_order>
+<cfelse>
+	<cfset variables.safeOrderOrder = "asc">
+</cfif>
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cfidAndToken# order by #order_by# #order_order#
+	select * from SpecRes#cfidAndToken# order by #variables.safeOrderBy# #variables.safeOrderOrder#
 </cfquery>
 
 <cfquery name="mappable" dbtype="query">
@@ -559,7 +603,7 @@ document.getElementById('saveme').submit();
 		cf_user_loan,cf_users where
 		cf_user_loan.user_id=cf_users.user_id and
 		IS_ACTIVE=1
-		and username='#session.username#'
+		and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif len(#active_loan_id.USER_LOAN_ID#) is 0>
 		<cfset thisLoanId = "-1">
@@ -962,8 +1006,8 @@ document.getElementById('saveme').submit();
 			select cf_loan_item.collection_object_id from
 			cf_loan_item,specimen_part
 			where cf_loan_item.collection_object_id=specimen_part.collection_object_id
-			and specimen_part.derived_from_cat_item=#collection_object_id#
-			and cf_loan_item.user_loan_id = #thisLoanId#
+			and specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			and cf_loan_item.user_loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLoanId#">
 		</cfquery>
 		<a href="javascript:void(0);" onClick="addLoanItem(#collection_object_id#)"><img src="/images/cart.gif" border="0"></a>
 		<span id="shopcart#collection_object_id#">
@@ -1186,7 +1230,7 @@ document.getElementById('saveme').submit();
 			specimen_part.collection_object_id = coll_object.collection_object_id AND
 			specimen_part.collection_object_id = coll_object_encumbrance.collection_object_id (+) AND
 			coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-			specimen_part.derived_from_cat_item = #collection_object_id#
+			specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		group by part_name, specimen_part.collection_object_id,coll_obj_disposition,encumbrance_action
 	  </cfquery>
 	    <td nowrap>

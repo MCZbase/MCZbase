@@ -50,16 +50,6 @@ limitations under the License.
 
 			<cfreturn />
 		</cfif>
-		<cfif StructKeyExists(form,"C0-METHODNAME")>
-			<!--- cfajax calling cfabort --->
-                         <cfif  Application.serverRootUrl contains "-test">
-                                <cfset showErr=1 />
-                        <cfelse>
-                                <cfset showErr=0 />
-                        </cfif>
-
-			<cfreturn />
-		</cfif>
 		<cfif showErr is 1>
 			<cfsavecontent variable="errortext">
 				<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>

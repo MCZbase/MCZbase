@@ -481,7 +481,10 @@ function success_getSpecResultsData(result){
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
 	if (collection_object_id < 1) {
-		var msg = data.message[0];
+		// ColdFusion serializes query column names in upper case, so the error row this method
+		// returns arrives as MESSAGE.  Reading data.message turned every server side error on
+		// this call into a TypeError instead of reporting what went wrong.
+		var msg = data.MESSAGE[0];
 		alert(msg);
 	} else {
 		var clist = data.COLUMNLIST[0];

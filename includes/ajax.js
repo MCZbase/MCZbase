@@ -511,48 +511,6 @@ function changeshowObservations (tgt) {
 	);
 }
 
-function saveComplete(savedStr){
-	var savedArray = savedStr.split(",");
-	var result = savedArray[0];
-	var id = savedArray[1];
-	var onOff = savedArray[2];
-	if (result == "cookie") {
-		var cookieArray = new Array();
-		var cCookie = readCookie("specsrchprefs");
-		var idFound = -1;
-		if (cCookie!==null)	{
-			cookieArray = cCookie.split(",");
-			for (i = 0; i<cookieArray.length; i++) {
-				if (cookieArray[i] == id) {
-					idFound = i;
-				}
-			}
-		}
-		if (onOff==1) { //showHide On			
-			if (idFound == -1) { // no current id in cookie
-				cookieArray.push(id);
-			}
-		}
-		else {
-			if (idFound != -1)
-				cookieArray.splice(idFound,1);
-		}
-		var nCookie = cookieArray.join();
-		createCookie("specsrchprefs", nCookie, 0);
-	}
-}
-function saveSpecSrchPref(id,onOff){
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "saveSpecSrchPref",
-			id : id,
-			onOff : onOff,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		saveComplete
-	);
-}
 function showHide(id,onOff) {
 	var t='e_' + id;
 	var z='c_' + id;
@@ -577,7 +535,6 @@ function showHide(id,onOff) {
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML=offText;
 		}
-	    //  saveSpecSrchPref(id,onOff);
 	}
 }
 function closeAndRefresh(){
@@ -879,11 +836,6 @@ function getQuadHelp() {
 function getLegal(blurb) {
 	var blurb;
 	helpWin=windowOpener("/info/legal.cfm?content="+blurb,"legalWin","width=400,height=338, resizable,scrollbars");
-}	
-function getInfo(subject,id) {
-	var subject;
-	var id;
-	infoWin=windowOpener("/info/SpecInfo.cfm?subject=" + subject + "&thisId="+id,"infoWin","width=800,height=500, resizable,scrollbars");
 }	
 function addLoanItem(coll_obj_id) {
 	var coll_obj_id;
