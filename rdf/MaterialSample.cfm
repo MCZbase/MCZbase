@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:MaterialSample (specimen part) records from MCZbase --->
+<!--- Escaping for the values written into each serialization below.  Instantiated rather than
+	included: this page sets its content type with cfheader, which does not reset the output
+	buffer, so an include's whitespace would land in a document that has to parse. --->
+<cfset variables.rdfEscape = createObject("component","rdf.component.public")>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
 	<cftry>
@@ -29,6 +33,11 @@ limitations under the License.
    	<cfset accept = "text/turtle">
 	</cfif>
 </cfif>
+<!--- Defaulted because the lookups below leave both unset on one path: if the material sample has
+	an identification but no undeleted occurrenceID, neither the assignment nor the else that
+	blanks them is reached, and the length test on them would then throw. --->
+<cfset variables.scientificName = "">
+<cfset variables.occurrenceID = "">
 <cfif lookup EQ "uuid">
 	<cfif NOT isDefined("uuid")>
 		<cfset uuid = "">
@@ -36,7 +45,10 @@ limitations under the License.
 	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 		SELECT target_table, guid_our_thing_id, sp_collection_object_id,  guid_is_a, disposition, local_identifier
 		FROM guid_our_thing
-		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+		<!--- Compared without regard to case: existing rows hold identifiers in both cases.  The
+			value is uppercased in ColdFusion rather than in SQL because a bind inside upper()
+			leaves this driver without a column type to resolve the parameter against. --->
+		WHERE upper(local_identifier) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(uuid)#">
 			AND scheme = 'urn' 
 			AND type = 'uuid'
 	</cfquery>
@@ -95,13 +107,13 @@ limitations under the License.
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
 						collection.institution_acronym institution_acronym,
-						<cfif len(occurrenceID) GT 0> '#occurrenceID#' <cfelse> 'https://mczbase.mcz.harvard.edu/guid/' || flat.guid </cfif> as occurrenceID,
+						'https://mczbase.mcz.harvard.edu/guid/' || flat.guid AS guid_occurrence_id,
 						flat.guid,
 						flat.country,
 						flat.state_prov state_province,
 						flat.county,
 						flat.spec_locality,
-						<cfif len(scientificName) GT 0> '#scientificName#' <cfelse> flat.scientific_name </cfif> as scientific_name
+						flat.scientific_name AS flat_scientific_name
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
@@ -147,6 +159,24 @@ limitations under the License.
 	<cfthrow message="Error: No material sample record found">
 </cfif>
 <cfloop query="getMaterialSample">
+<cfsilent>
+<!--- The identifier and scientific name are either what the lookups above found or, failing
+	that, what the record itself carries.  Chosen here rather than in the select list: these are
+	page values, so sending them through the database only to read them back would put a bind in
+	a select list, where the driver has no column to infer a type from.  cfsilent because this
+	page sets its content type with cfheader, which does not reset the output buffer. --->
+<!--- TODO: Under Redmine 997, supporting material sample IDs with part relationships, evaluate and test the logic in the following occurrenceID/scientificName assignments. --->
+<cfif len(variables.occurrenceID) GT 0>
+	<cfset variables.outOccurrenceID = variables.occurrenceID>
+<cfelse>
+	<cfset variables.outOccurrenceID = guid_occurrence_id>
+</cfif>
+<cfif len(variables.scientificName) GT 0>
+	<cfset variables.outScientificName = variables.scientificName>
+<cfelse>
+	<cfset variables.outScientificName = flat_scientific_name>
+</cfif>
+</cfsilent>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
@@ -155,19 +185,19 @@ limitations under the License.
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
-<dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#uuid#">
-	<dwc:materialSampleID>#uuid#</dwc:materialSampleID>
-	<dwc:preparations>#PART_NAME# (#preserve_method#)</dwc:preparations>
-	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
-	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
-	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
-	<dwc:scientificName>#scientific_name#</dwc:scientificName>
+<dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#xmlFormat(uuid)#">
+	<dwc:materialSampleID>#xmlFormat(uuid)#</dwc:materialSampleID>
+	<dwc:preparations>#xmlFormat(PART_NAME)# (#xmlFormat(preserve_method)#)</dwc:preparations>
+	<dwc:institutionCode>#xmlFormat(institution_acronym)#</dwc:institutionCode>
+	<dwc:collectionCode>#xmlFormat(COLLECTION_CDE)#</dwc:collectionCode>
+	<dwc:catalogNumber>#xmlFormat(CAT_NUM)#</dwc:catalogNumber>
+	<dwc:scientificName>#xmlFormat(variables.outScientificName)#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-	<dwciri:occurrenceID>#occurrenceID#</dwciri:occurrenceID>
-	<dwc:locality>#spec_locality#</dwc:locality>
-<cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
-</cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
-</cfif><cfif len(county) GT 0>	<dwc:county>#county#</dwc:county>
+	<dwciri:occurrenceID rdf:resource="#xmlFormat(variables.outOccurrenceID)#"/>
+	<dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
+<cfif len(country) GT 0>	<dwc:country>#xmlFormat(country)#</dwc:country>
+</cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#xmlFormat(state_province)#</dwc:stateProvince>
+</cfif><cfif len(county) GT 0>	<dwc:county>#xmlFormat(county)#</dwc:county>
 </cfif></dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -177,19 +207,19 @@ limitations under the License.
 @prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-<https://mczbase.mcz.harvard.edu/uuid/#uuid#>
+<https://mczbase.mcz.harvard.edu/uuid/#variables.rdfEscape.escapeForIri(uuid)#>
    a dwc:MaterialSample;
-	dwc:materialSampleID "#uuid#";
-	dwc:preparations "#PART_NAME# (#preserve_method#)";
-	dwc:institutionCode "#institution_acronym#";
-	dwc:collectionCode "#COLLECTION_CDE#";
-	dwc:catalogNumber "#CAT_NUM#";
-	dwc:scientificName "#scientific_name#";
-	dwciri:occurrenceID <#occurrenceID#>;
-	dwc:locality "#spec_locality#";
-<cfif len(country) GT 0>	dwc:country "#country#";
-</cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#state_province#";
-</cfif><cfif len(county) GT 0>	dwc:county "#county#";
+	dwc:materialSampleID "#variables.rdfEscape.escapeForTurtle(uuid)#";
+	dwc:preparations "#variables.rdfEscape.escapeForTurtle(PART_NAME)# (#variables.rdfEscape.escapeForTurtle(preserve_method)#)";
+	dwc:institutionCode "#variables.rdfEscape.escapeForTurtle(institution_acronym)#";
+	dwc:collectionCode "#variables.rdfEscape.escapeForTurtle(COLLECTION_CDE)#";
+	dwc:catalogNumber "#variables.rdfEscape.escapeForTurtle(CAT_NUM)#";
+	dwc:scientificName "#variables.rdfEscape.escapeForTurtle(variables.outScientificName)#";
+	dwciri:occurrenceID <#variables.rdfEscape.escapeForIri(variables.outOccurrenceID)#>;
+	dwc:locality "#variables.rdfEscape.escapeForTurtle(spec_locality)#";
+<cfif len(country) GT 0>	dwc:country "#variables.rdfEscape.escapeForTurtle(country)#";
+</cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#variables.rdfEscape.escapeForTurtle(state_province)#";
+</cfif><cfif len(county) GT 0>	dwc:county "#variables.rdfEscape.escapeForTurtle(county)#";
 </cfif>	dcterms:rightsHolder "President and Fellows of Harvard College".
 </cfoutput>
 </cfif><!--- end Turtle --->
@@ -200,19 +230,19 @@ limitations under the License.
      "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
-  "@id": "https://mczbase.mcz.harvard.edu/uuid/#uuid#",
+  "@id": "https://mczbase.mcz.harvard.edu/uuid/#variables.rdfEscape.escapeForJson(uuid)#",
   "@type":"dwc:MaterialSample",
-  "dwc:materialSampleID": "#uuid#",
-  "dwc:preparations": "#PART_NAME# (#preserve_method#)",
-  "dwc:institutionCode": "#institution_acronym#",
-  "dwc:collectionCode": "#COLLECTION_CDE#",
-  "dwc:catalogNumber": "#CAT_NUM#",
-  "dwc:scientificName": "#scientific_name#",
-  "dwciri:occurrenceID": { "@id": "#occurrenceID#" },
-  "dwc:locality": "#spec_locality#",
-<cfif len(country) GT 0>  "dwc:country": "#country#",
-</cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#state_province#",
-</cfif><cfif len(county) GT 0>  "dwc:county": "#county#",
+  "dwc:materialSampleID": "#variables.rdfEscape.escapeForJson(uuid)#",
+  "dwc:preparations": "#variables.rdfEscape.escapeForJson(PART_NAME)# (#variables.rdfEscape.escapeForJson(preserve_method)#)",
+  "dwc:institutionCode": "#variables.rdfEscape.escapeForJson(institution_acronym)#",
+  "dwc:collectionCode": "#variables.rdfEscape.escapeForJson(COLLECTION_CDE)#",
+  "dwc:catalogNumber": "#variables.rdfEscape.escapeForJson(CAT_NUM)#",
+  "dwc:scientificName": "#variables.rdfEscape.escapeForJson(variables.outScientificName)#",
+  "dwciri:occurrenceID": { "@id": "#variables.rdfEscape.escapeForJson(variables.outOccurrenceID)#" },
+  "dwc:locality": "#variables.rdfEscape.escapeForJson(spec_locality)#",
+<cfif len(country) GT 0>  "dwc:country": "#variables.rdfEscape.escapeForJson(country)#",
+</cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#variables.rdfEscape.escapeForJson(state_province)#",
+</cfif><cfif len(county) GT 0>  "dwc:county": "#variables.rdfEscape.escapeForJson(county)#",
 </cfif>  "dcterms:rightsHolder": "President and Fellows of Harvard College"
 }
 </cfoutput>

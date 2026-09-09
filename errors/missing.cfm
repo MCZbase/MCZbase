@@ -109,7 +109,10 @@
 			<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 				SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id, taxon_name_id, guid_is_a, disposition
 				FROM guid_our_thing
-				WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+				<!--- Compared without regard to case: existing rows hold identifiers in both cases.  The
+					value is uppercased in ColdFusion rather than in SQL because a bind inside upper()
+					leaves this driver without a column type to resolve the parameter against. --->
+				WHERE upper(local_identifier) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(uuid)#">
 					AND scheme = 'urn' 
 					AND type = 'uuid'
 			</cfquery>
