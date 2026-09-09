@@ -446,7 +446,7 @@ limitations under the License.
 <cfif len(state_prov) GT 0>   dwc:stateProvince "#variables.rdfEscape.escapeForTurtle(state_prov)#";
 </cfif>   dwc:locality "#variables.rdfEscape.escapeForTurtle(spec_locality)#";
    dwc:recordedBy "#variables.rdfEscape.escapeForTurtle(collectors)#";<cfif colls.recordcount GT 0><cfloop query="colls">
-   dwciri:recordedBy> "#variables.rdfEscape.escapeForTurtle(colls.agentguid)#";
+   dwciri:recordedBy "#variables.rdfEscape.escapeForTurtle(colls.agentguid)#";
 </cfloop>
 </cfif>   dwc:eventDate "#variables.rdfEscape.escapeForTurtle(eventDate)#";
 <cfif len(day) GT 0>   dwc:day "#variables.rdfEscape.escapeForTurtle(day)#";
