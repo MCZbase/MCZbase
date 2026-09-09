@@ -32,7 +32,7 @@ table##t th {
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -61,7 +61,7 @@ table##t th {
 						#aColumnName# is NOT NULL
 						AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 						<cfif len(accn) gt 0>
-							AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+							AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 						</cfif>
 						<cfif isdefined("colln") and len(colln) gt 0>
 							AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -77,7 +77,7 @@ table##t th {
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 				<cfif len(accn) gt 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 				</cfif>
 				<cfif isdefined("colln") and len(colln) gt 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -124,7 +124,7 @@ table##t th {
 		WHERE 
 			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -150,7 +150,7 @@ table##t th {
 			AND loaded <> 'MARK FOR DELETION'
 			AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -224,7 +224,7 @@ table##t th {
 									loaded like '%#loadedArray[i]#%'
 									AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 									<cfif len(accn) gt 0>
-										AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+										AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 									</cfif>
 									<cfif isdefined("colln") and len(colln) gt 0>
 										AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -261,7 +261,7 @@ table##t th {
 										loaded like '%#errorCase#%'
 										AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 										<cfif len(accn) gt 0>
-											AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+											AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 										</cfif>
 										<cfif isdefined("colln") and len(colln) gt 0>
 											AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -276,7 +276,7 @@ table##t th {
 											AND #columnInError# = '#getErrorCases.value_error#'
 											AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 											<cfif len(accn) gt 0>
-												AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+												AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 											</cfif>
 											<cfif isdefined("colln") and len(colln) gt 0>
 												AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -387,7 +387,7 @@ table##t th {
 							#aColumnName# is NOT NULL
 							AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 							<cfif len(accn) gt 0>
-								AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+								AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 							</cfif>
 							<cfif isdefined("colln") and len(colln) gt 0>
 								AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -673,7 +673,7 @@ table##t th {
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -1016,7 +1016,7 @@ table##t th {
 								#aColumnName# is NOT NULL
 								AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 								<cfif len(accn) gt 0>
-									AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+									AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 								</cfif>
 								<cfif isdefined("colln") and len(colln) gt 0>
 									AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -1187,7 +1187,7 @@ table##t th {
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)

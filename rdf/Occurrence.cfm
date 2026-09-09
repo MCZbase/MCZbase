@@ -13,6 +13,68 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:Occurrence records (both cataloged items and specimen parts with identification histories) from MCZbase --->
+<cfsilent>
+<!--- Escape text for a JSON string literal, per RFC 8259: the reverse solidus and the quotation
+	mark, then the control characters, which a JSON string may not carry raw.  The surrounding
+	quotes are left to the caller, so a value stays a JSON string rather than being retyped as a
+	number, which is what serializeJSON does to one that happens to look numeric.
+
+	Defined here rather than in includes/functionLib.cfm because this page includes nothing: that
+	library includes /shared/loginFunctions.cfm in turn, which sets up a session, and this page
+	serves anonymous requests routed through errors/missing.cfm.  cfsilent keeps the definition
+	from contributing whitespace to a document that has to parse.
+
+	@param inStr the text to escape.
+	@return the text with backslash, quote and control characters escaped. --->
+<cffunction name="escapeForJson" returntype="string" output="false">
+	<cfargument name="inStr" type="string" required="yes">
+	<cfset var outStr = arguments.inStr>
+	<cfset outStr = replace(outStr,"\","\\","all")>
+	<cfset outStr = replace(outStr,'"','\"',"all")>
+	<cfset outStr = replace(outStr,chr(8),"\b","all")>
+	<cfset outStr = replace(outStr,chr(9),"\t","all")>
+	<cfset outStr = replace(outStr,chr(10),"\n","all")>
+	<cfset outStr = replace(outStr,chr(12),"\f","all")>
+	<cfset outStr = replace(outStr,chr(13),"\r","all")>
+	<cfset outStr = rereplace(outStr,"[[:cntrl:]]","","all")>
+	<cfreturn outStr>
+</cffunction>
+<!--- Escape text for a Turtle quoted literal.  Turtle's STRING_LITERAL_QUOTE permits exactly the
+	escapes JSON does for these characters, \\ \" \b \t \n \f \r, and forbids a raw control
+	character just as JSON does, so the two escape sets coincide here and this defers rather than
+	restating them.  Named separately so each call site says which syntax it is writing.
+	@param inStr the text to escape.
+	@return the text escaped for a double quoted Turtle literal.
+	@see escapeForJson --->
+<cffunction name="escapeForTurtle" returntype="string" output="false">
+	<cfargument name="inStr" type="string" required="yes">
+	<cfreturn escapeForJson(arguments.inStr)>
+</cffunction>
+<!--- Percent encode the characters an IRI reference may not contain, for a value written between
+	angle brackets in Turtle or into an rdf:about.  Turtle's IRIREF excludes the space, the angle
+	brackets, the quotation mark, brace, bracket, pipe, caret, backtick and backslash, and any
+	control character.  Everything else is left alone, so a colon or a solidus still delimits the
+	IRI as it should, which is why this is not encodeForURL.
+	@param inStr the IRI to escape.
+	@return the IRI with the excluded characters percent encoded. --->
+<cffunction name="escapeForIri" returntype="string" output="false">
+	<cfargument name="inStr" type="string" required="yes">
+	<cfset var outStr = arguments.inStr>
+	<cfset outStr = rereplace(outStr,"[[:cntrl:]]","","all")>
+	<cfset outStr = replace(outStr,"%","%25","all")>
+	<cfset outStr = replace(outStr,"\","%5C","all")>
+	<cfset outStr = replace(outStr," ","%20","all")>
+	<cfset outStr = replace(outStr,"<","%3C","all")>
+	<cfset outStr = replace(outStr,">","%3E","all")>
+	<cfset outStr = replace(outStr,'"',"%22","all")>
+	<cfset outStr = replace(outStr,"{","%7B","all")>
+	<cfset outStr = replace(outStr,"}","%7D","all")>
+	<cfset outStr = replace(outStr,"|","%7C","all")>
+	<cfset outStr = replace(outStr,"^","%5E","all")>
+	<cfset outStr = replace(outStr,chr(96),"%60","all")>
+	<cfreturn outStr>
+</cffunction>
+</cfsilent>
 <cfset referencedRecordDeleted = false>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
@@ -115,13 +177,13 @@ limitations under the License.
   xmlns:prov="http://www.w3.org/ns/prov##"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema##"
 >
-  <dwc:Occurrence rdf:about="#lookupUUID.assembled_resolvable#">
-    <prov:invalidatedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:invalidatedAtTime>
+  <dwc:Occurrence rdf:about="#xmlFormat(lookupUUID.assembled_resolvable)#">
+    <prov:invalidatedAtTime rdf:datatype="xsd:dateTime">#xmlFormat(lookupUUID.xsd_modified)#</prov:invalidatedAtTime>
     <prov:wasInvalidatedBy rdf:resource="##deleteActivity"/>
   </dwc:Occurrence>
 
   <prov:Activity rdf:about="##deleteActivity">
-    <prov:endedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:endedAtTime>
+    <prov:endedAtTime rdf:datatype="xsd:dateTime">#xmlFormat(lookupUUID.xsd_modified)#</prov:endedAtTime>
     <prov:type>deletion</prov:type>
   </prov:Activity>
 </rdf:RDF>
@@ -132,12 +194,12 @@ limitations under the License.
 @prefix prov: <http://www.w3.org/ns/prov##> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
 
-<#lookupUUID.assembled_resolvable#> a dwc:Occurrence ;
-    prov:invalidatedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
+<#escapeForIri(lookupUUID.assembled_resolvable)#> a dwc:Occurrence ;
+    prov:invalidatedAtTime "#escapeForTurtle(lookupUUID.xsd_modified)#"^^xsd:dateTime ;
     prov:wasInvalidatedBy <##deleteActivity> .
 
 <##deleteActivity> a prov:Activity ;
-    prov:endedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
+    prov:endedAtTime "#escapeForTurtle(lookupUUID.xsd_modified)#"^^xsd:dateTime ;
     prov:type "deletion" .
 </cfoutput>
 <cfabort>
@@ -150,10 +212,10 @@ limitations under the License.
   },
   "@graph": [
     {
-      "@id": "#lookupUUID.assembled_resolvable#",
+      "@id": "#escapeForJson(lookupUUID.assembled_resolvable)#",
       "@type":"dwc:Occurrence",
       "prov:invalidatedAtTime": {
-        "@value": "#lookupUUID.xsd_modified#",
+        "@value": "#escapeForJson(lookupUUID.xsd_modified)#",
         "@type": "xsd:dateTime"
       },
       "prov:wasInvalidatedBy": {
@@ -164,7 +226,7 @@ limitations under the License.
       "@id": "##deleteActivity",
       "@type":"prov:Activity",
       "prov:endedAtTime": {
-         "@value": "#lookupUUID.xsd_modified#",
+         "@value": "#escapeForJson(lookupUUID.xsd_modified)#",
          "@type": "xsd:dateTime"
       },
       "prov:type":"deletion"
@@ -249,7 +311,7 @@ limitations under the License.
 		<cfif lookup EQ "guid">
 			'https://mczbase.mcz.harvard.edu/guid/' || flat.guid resolvable_guid, 
 		<cfelse>
-			'#lookupUUID.assembled_resolvable#' as resolvable_guid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupUUID.assembled_resolvable#"> as resolvable_guid,
 		</cfif>
 		flat.basisofrecord,	
 		flat.country, 
@@ -267,14 +329,14 @@ limitations under the License.
 			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 			flat.author_text,
 		<cfelse>
-			'#scientificName#' as scientific_name,
-			'#taxonId#' as taxonid,
-			'#scientificNameId#' as scientificnameid,
-			'#identifiedBy#' as identifiedby,
-			'#identifiedByID#' as identifiedbyid,
-			'#dateIdentified#' as date_identified,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificName#"> as scientific_name,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonId#"> as taxonid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificNameId#"> as scientificnameid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identifiedBy#"> as identifiedby,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identifiedByID#"> as identifiedbyid,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateIdentified#"> as date_identified,
 			'' AS typestatus,
-			'#author_text#' as author_text,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#"> as author_text,
 		</cfif>
 		flat.collectors,
 		flat.recordedbyid,
@@ -361,56 +423,56 @@ limitations under the License.
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
-<dwc:Occurrence rdf:about="#resolvable_guid#">
+<dwc:Occurrence rdf:about="#xmlFormat(resolvable_guid)#">
    <dwc:institutionCode>MCZ</dwc:institutionCode>
-   <dwc:collectionCode>#collection_cde#</dwc:collectionCode>
-   <dwc:catalogNumber>#cat_num#</dwc:catalogNumber>
-   <dwc:basisOfRecord>#basisofrecord#</dwc:basisOfRecord>
+   <dwc:collectionCode>#xmlFormat(collection_cde)#</dwc:collectionCode>
+   <dwc:catalogNumber>#xmlFormat(cat_num)#</dwc:catalogNumber>
+   <dwc:basisOfRecord>#xmlFormat(basisofrecord)#</dwc:basisOfRecord>
    <dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-   <dwc:scientificName>#scientific_name#</dwc:scientificName>
-   <dwc:scientificNameAuthorship>#author_text#</dwc:scientificNameAuthorship>
-   <dwc:taxonID>#taxonid#</dwc:taxonID>
-   <dwc:scientificNameID>#scientificnameid#</dwc:scientificNameID>
-   <dwc:identifiedBy>#identifiedby#</dwc:identifiedBy>
-   <dwciri:identifiedBy>#identifiedbyid#</dwciri:identifiedBy>
-<cfif len(date_identified) GT 0>   <dwc:dateIdentified>#date_identified#</dwc:dateIdentified>
-</cfif><cfif len(typestatus) GT 0>   <dwc:typeStatus>#typestatus#</dwc:typeStatus>
-</cfif>   <dwc:country>#country#</dwc:country>
-   <dwc:stateProvince>#state_prov#</dwc:stateProvince>
-   <dwc:locality>#spec_locality#</dwc:locality>
-   <dwc:recordedBy>#collectors#</dwc:recordedBy><cfif colls.recordcount GT 0><cfloop query="colls">
-   <dwciri:recordedBy>#colls.agentguid#</dwciri:recordedBy>
-</cfloop></cfif>   <dwc:eventDate>#eventDate#</dwc:eventDate>
-   <dwc:day>#day#</dwc:day>
-   <dwc:month>#month#</dwc:month>
-   <dwc:year>#year#</dwc:year>
-   <dwc:decimalLatitude>#dec_lat#</dwc:decimalLatitude>
-   <dwc:decimalLongitude>#dec_long#</dwc:decimalLongitude>
-   <dwc:geodeticDatum>#geodeticdatum#</dwc:geodeticDatum>
-   <dwc:coordinateUncertaintyInMeters>#coordinateuncertaintyinmeters#</dwc:coordinateUncertaintyInMeters>
-   <dwciri:georeferencedBy>#georeferencedbyid#</dwciri:georeferencedBy>
-<cfif basisofrecord IS "FossilSpecimen">   <dwc:group>#geol_group#</dwc:group>
-   <dwc:formation>#formation#</dwc:formation>
-   <dwc:member>#member#</dwc:member>
-   <dwc:bed>#bed#</dwc:bed>
-   <dwc:lithostratigraphicterms>#lithostratigraphicterms#</dwc:lithostratigraphicterms>
-   <dwc:earliesteraorlowesterathem>#earliesteraorlowesterathem#</dwc:earliesteraorlowesterathem>
-   <dwc:latesteraorhighesterathem>#latesteraorhighesterathem#</dwc:latesteraorhighesterathem>
-   <dwc:earliestperiodorlowestsystem>#earliestperiodorlowestsystem#</dwc:earliestperiodorlowestsystem>
-   <dwc:latestperiodorhighestsystem>#latestperiodorhighestsystem#</dwc:latestperiodorhighestsystem>
-   <dwc:earliestepochorlowestseries>#earliestepochorlowestseries#</dwc:earliestepochorlowestseries>
-   <dwc:latestepochorhighestseries>#latestepochorhighestseries#</dwc:latestepochorhighestseries>
-   <dwc:earliestageorloweststage>#earliestageorloweststage#</dwc:earliestageorloweststage>
-   <dwc:latestageorhigheststage>#latestageorhigheststage#</dwc:latestageorhigheststage>
+   <dwc:scientificName>#xmlFormat(scientific_name)#</dwc:scientificName>
+   <dwc:scientificNameAuthorship>#xmlFormat(author_text)#</dwc:scientificNameAuthorship>
+   <dwc:taxonID>#xmlFormat(taxonid)#</dwc:taxonID>
+   <dwc:scientificNameID>#xmlFormat(scientificnameid)#</dwc:scientificNameID>
+   <dwc:identifiedBy>#xmlFormat(identifiedby)#</dwc:identifiedBy>
+   <dwciri:identifiedBy>#xmlFormat(identifiedbyid)#</dwciri:identifiedBy>
+<cfif len(date_identified) GT 0>   <dwc:dateIdentified>#xmlFormat(date_identified)#</dwc:dateIdentified>
+</cfif><cfif len(typestatus) GT 0>   <dwc:typeStatus>#xmlFormat(typestatus)#</dwc:typeStatus>
+</cfif>   <dwc:country>#xmlFormat(country)#</dwc:country>
+   <dwc:stateProvince>#xmlFormat(state_prov)#</dwc:stateProvince>
+   <dwc:locality>#xmlFormat(spec_locality)#</dwc:locality>
+   <dwc:recordedBy>#xmlFormat(collectors)#</dwc:recordedBy><cfif colls.recordcount GT 0><cfloop query="colls">
+   <dwciri:recordedBy>#xmlFormat(colls.agentguid)#</dwciri:recordedBy>
+</cfloop></cfif>   <dwc:eventDate>#xmlFormat(eventDate)#</dwc:eventDate>
+   <dwc:day>#xmlFormat(day)#</dwc:day>
+   <dwc:month>#xmlFormat(month)#</dwc:month>
+   <dwc:year>#xmlFormat(year)#</dwc:year>
+   <dwc:decimalLatitude>#xmlFormat(dec_lat)#</dwc:decimalLatitude>
+   <dwc:decimalLongitude>#xmlFormat(dec_long)#</dwc:decimalLongitude>
+   <dwc:geodeticDatum>#xmlFormat(geodeticdatum)#</dwc:geodeticDatum>
+   <dwc:coordinateUncertaintyInMeters>#xmlFormat(coordinateuncertaintyinmeters)#</dwc:coordinateUncertaintyInMeters>
+   <dwciri:georeferencedBy>#xmlFormat(georeferencedbyid)#</dwciri:georeferencedBy>
+<cfif basisofrecord IS "FossilSpecimen">   <dwc:group>#xmlFormat(geol_group)#</dwc:group>
+   <dwc:formation>#xmlFormat(formation)#</dwc:formation>
+   <dwc:member>#xmlFormat(member)#</dwc:member>
+   <dwc:bed>#xmlFormat(bed)#</dwc:bed>
+   <dwc:lithostratigraphicterms>#xmlFormat(lithostratigraphicterms)#</dwc:lithostratigraphicterms>
+   <dwc:earliesteraorlowesterathem>#xmlFormat(earliesteraorlowesterathem)#</dwc:earliesteraorlowesterathem>
+   <dwc:latesteraorhighesterathem>#xmlFormat(latesteraorhighesterathem)#</dwc:latesteraorhighesterathem>
+   <dwc:earliestperiodorlowestsystem>#xmlFormat(earliestperiodorlowestsystem)#</dwc:earliestperiodorlowestsystem>
+   <dwc:latestperiodorhighestsystem>#xmlFormat(latestperiodorhighestsystem)#</dwc:latestperiodorhighestsystem>
+   <dwc:earliestepochorlowestseries>#xmlFormat(earliestepochorlowestseries)#</dwc:earliestepochorlowestseries>
+   <dwc:latestepochorhighestseries>#xmlFormat(latestepochorhighestseries)#</dwc:latestepochorhighestseries>
+   <dwc:earliestageorloweststage>#xmlFormat(earliestageorloweststage)#</dwc:earliestageorloweststage>
+   <dwc:latestageorhigheststage>#xmlFormat(latestageorhigheststage)#</dwc:latestageorhigheststage>
 </cfif>
 <cfif parts.recordcount GT 0><cfloop query="parts">
-	<dwciri:materialSampleID>#parts.materialSampleID#</dwciri:materialSampleID>
+	<dwciri:materialSampleID>#xmlFormat(parts.materialSampleID)#</dwciri:materialSampleID>
 </cfloop></cfif>
-   <dcterms:modified>#last_edit_date#</dcterms:modified>
+   <dcterms:modified>#xmlFormat(last_edit_date)#</dcterms:modified>
 </dwc:Occurrence>
 <cfif parts.recordcount GT 0><cfloop query="parts">
-<dwc:MaterialSample rdf:about="#parts.materialSampleID#">
-	<dwc:preparations>#parts.part_name# (#parts.preserve_method#)</dwc:preparations>
+<dwc:MaterialSample rdf:about="#xmlFormat(parts.materialSampleID)#">
+	<dwc:preparations>#xmlFormat(parts.part_name)# (#xmlFormat(parts.preserve_method)#)</dwc:preparations>
 </dwc:MaterialSample>
 </cfloop></cfif>
 </rdf:RDF> </cfoutput>
@@ -422,57 +484,57 @@ limitations under the License.
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
-<#resolvable_guid#>
+<#escapeForIri(resolvable_guid)#>
    a dwc:Occurrence;
    dwc:institutionCode "MCZ";
-   dwc:collectionCode "#collection_cde#";
-   dwc:catalogNumber "#cat_num#";
-   dwc:basisOfRecord "#basisofrecord#";
+   dwc:collectionCode "#escapeForTurtle(collection_cde)#";
+   dwc:catalogNumber "#escapeForTurtle(cat_num)#";
+   dwc:basisOfRecord "#escapeForTurtle(basisofrecord)#";
    dcterms:rightsHolder "President and Fellows of Harvard College";
-   dwc:scientificName "#scientific_name#";
-   dwc:scientificNameAuthorship "#author_text#";
-<cfif len(taxonid) GT 0>   dwc:taxonID "#taxonid#";
-</cfif><cfif len(scientificnameid) GT 0>   dwc:scientificNameID "#scientificnameid#";
-</cfif>   dwc:identifiedBy "#identifiedby#";
-<cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy "#identifiedbyid#";
-</cfif><cfif len(date_identified) GT 0>   dwc:dateIdentified "#date_identified#";
-</cfif><cfif len(typestatus) GT 0>   dwc:typeStatus "#typeStatus#";
-</cfif>   dwc:country "#country#";
-<cfif len(state_prov) GT 0>   dwc:stateProvince "#state_prov#";
-</cfif>   dwc:locality "#spec_locality#";
-   dwc:recordedBy "#collectors#";<cfif colls.recordcount GT 0><cfloop query="colls">
-   dwciri:recordedBy> "#colls.agentguid#";
+   dwc:scientificName "#escapeForTurtle(scientific_name)#";
+   dwc:scientificNameAuthorship "#escapeForTurtle(author_text)#";
+<cfif len(taxonid) GT 0>   dwc:taxonID "#escapeForTurtle(taxonid)#";
+</cfif><cfif len(scientificnameid) GT 0>   dwc:scientificNameID "#escapeForTurtle(scientificnameid)#";
+</cfif>   dwc:identifiedBy "#escapeForTurtle(identifiedby)#";
+<cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy "#escapeForTurtle(identifiedbyid)#";
+</cfif><cfif len(date_identified) GT 0>   dwc:dateIdentified "#escapeForTurtle(date_identified)#";
+</cfif><cfif len(typestatus) GT 0>   dwc:typeStatus "#escapeForTurtle(typeStatus)#";
+</cfif>   dwc:country "#escapeForTurtle(country)#";
+<cfif len(state_prov) GT 0>   dwc:stateProvince "#escapeForTurtle(state_prov)#";
+</cfif>   dwc:locality "#escapeForTurtle(spec_locality)#";
+   dwc:recordedBy "#escapeForTurtle(collectors)#";<cfif colls.recordcount GT 0><cfloop query="colls">
+   dwciri:recordedBy> "#escapeForTurtle(colls.agentguid)#";
 </cfloop>
-</cfif>   dwc:eventDate "#eventDate#";
-<cfif len(day) GT 0>   dwc:day "#day#";
-</cfif><cfif len(month) GT 0>   dwc:month "#month#";
-</cfif><cfif len(year) GT 0>   dwc:year "#year#";
-</cfif>   dwc:decimalLatitude "#dec_lat#";
-   dwc:decimalLongitude "#dec_long#";
-   dwc:geodeticDatum "#geodeticdatum#";
-   dwc:coordinateUncertaintyInMeters "#coordinateuncertaintyinmeters#";
-<cfif len(georeferencedbyid) GT 0>   dwciri:georeferencedBy "#georeferencedbyid#";
-</cfif><cfif basisofrecord IS "FossilSpecimen">   dwc:group "#geol_group#";
-   dwc:formation "#formation#";
-   dwc:member "#member#";
-   dwc:bed "#bed#";
-   dwc:lithostratigraphicterms "#lithostratigraphicterms#";
-   dwc:earliesteraorlowesterathem "#earliesteraorlowesterathem#";
-   dwc:latesteraorhighesterathem "#latesteraorhighesterathem#";
-   dwc:earliestperiodorlowestsystem "#earliestperiodorlowestsystem#";
-   dwc:latestperiodorhighestsystem "#latestperiodorhighestsystem#";
-   dwc:earliestepochorlowestseries "#earliestepochorlowestseries#";
-   dwc:latestepochorhighestseries "#latestepochorhighestseries#";
-   dwc:earliestageorloweststage "#earliestageorloweststage#";
-   dwc:latestageorhigheststage "#latestageorhigheststage#";
+</cfif>   dwc:eventDate "#escapeForTurtle(eventDate)#";
+<cfif len(day) GT 0>   dwc:day "#escapeForTurtle(day)#";
+</cfif><cfif len(month) GT 0>   dwc:month "#escapeForTurtle(month)#";
+</cfif><cfif len(year) GT 0>   dwc:year "#escapeForTurtle(year)#";
+</cfif>   dwc:decimalLatitude "#escapeForTurtle(dec_lat)#";
+   dwc:decimalLongitude "#escapeForTurtle(dec_long)#";
+   dwc:geodeticDatum "#escapeForTurtle(geodeticdatum)#";
+   dwc:coordinateUncertaintyInMeters "#escapeForTurtle(coordinateuncertaintyinmeters)#";
+<cfif len(georeferencedbyid) GT 0>   dwciri:georeferencedBy "#escapeForTurtle(georeferencedbyid)#";
+</cfif><cfif basisofrecord IS "FossilSpecimen">   dwc:group "#escapeForTurtle(geol_group)#";
+   dwc:formation "#escapeForTurtle(formation)#";
+   dwc:member "#escapeForTurtle(member)#";
+   dwc:bed "#escapeForTurtle(bed)#";
+   dwc:lithostratigraphicterms "#escapeForTurtle(lithostratigraphicterms)#";
+   dwc:earliesteraorlowesterathem "#escapeForTurtle(earliesteraorlowesterathem)#";
+   dwc:latesteraorhighesterathem "#escapeForTurtle(latesteraorhighesterathem)#";
+   dwc:earliestperiodorlowestsystem "#escapeForTurtle(earliestperiodorlowestsystem)#";
+   dwc:latestperiodorhighestsystem "#escapeForTurtle(latestperiodorhighestsystem)#";
+   dwc:earliestepochorlowestseries "#escapeForTurtle(earliestepochorlowestseries)#";
+   dwc:latestepochorhighestseries "#escapeForTurtle(latestepochorhighestseries)#";
+   dwc:earliestageorloweststage "#escapeForTurtle(earliestageorloweststage)#";
+   dwc:latestageorhigheststage "#escapeForTurtle(latestageorhigheststage)#";
 </cfif>
-<cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#chr(60)##parts.materialSampleID##chr(62)# <cfif parts.currentRow LT parts.recordcount>,
+<cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#chr(60)##escapeForIri(parts.materialSampleID)##chr(62)# <cfif parts.currentRow LT parts.recordcount>,
       </cfif></cfloop>;
 </cfif>   dcterms:modified "#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#"^^xsd:dateTime .
 <cfif parts.recordcount GT 0><cfloop query="parts">
-<#parts.materialSampleID#>
+<#escapeForIri(parts.materialSampleID)#>
    a dwc:MaterialSample;
-   dwc:preparations "#parts.part_name# (#parts.preserve_method#)" .
+   dwc:preparations "#escapeForTurtle(parts.part_name)# (#escapeForTurtle(parts.preserve_method)#)" .
 </cfloop></cfif>
 </cfoutput>
 </cfif><!--- Turtle --->
@@ -483,56 +545,56 @@ limitations under the License.
      "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
-  "@id": "#resolvable_guid#",
+  "@id": "#escapeForJson(resolvable_guid)#",
   "@type":"dwc:Occurrence",
   "dwc:institutionCode":"MCZ",
-  "dwc:collectionCode":"#collection_cde#",
-  "dwc:catalogNumber":"#cat_num#",
-  "dwc:basisOfRecord":"#basisofrecord#",
+  "dwc:collectionCode":"#escapeForJson(collection_cde)#",
+  "dwc:catalogNumber":"#escapeForJson(cat_num)#",
+  "dwc:basisOfRecord":"#escapeForJson(basisofrecord)#",
   "dcterms:rightsHolder":"President and Fellows of Harvard College",
-  "dcterms:modified":"#last_edit_date#",
-  "dwc:scientificName":"#scientific_name#",
-  "dwc:scientificNameAuthorship":"#author_text#",
-<cfif len(taxonid) GT 0>  "dwc:taxonID":"#taxonid#",
-</cfif><cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#scientificnameid#",
-</cfif>  "dwc:identifiedBy":"#identifiedby#",
-  "dwciri:identifiedBy":"#identifiedbyid#",
-<cfif len(date_identified) GT 0>  "dwc:dateIdentified":"#date_identified#",
-</cfif><cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
-</cfif>  "dwc:country":"#country#",
-<cfif len(state_prov) GT 0>  "dwc:stateProvince":"#state_prov#",
-</cfif> "dwc:locality":"#spec_locality#",
-  "dwc:recordedBy":"#collectors#",<cfif colls.recordcount GT 0><cfloop query="colls">
-  "dwciri:recordedBy":"#colls.agentguid#",
-</cfloop></cfif>  "dwc:eventDate":"#eventDate#",
-<cfif len(day) GT 0>  "dwc:day":"#day#",
-</cfif><cfif len(month) GT 0>  "dwc:month":"#month#",
-</cfif><cfif len(year) GT 0>  "dwc:year":"#year#",
-</cfif>  "dwc:decimalLatitude":"#dec_lat#",
-  "dwc:decimalLongitude":"#dec_long#",
-  "dwc:geodeticDatum":"#geodeticdatum#",
-  "dwc:coordinateUncertaintyInMeters":"#coordinateuncertaintyinmeters#",
-<cfif len(georeferencedbyid) GT 0>  "dwciri:georeferencedBy":"#georeferencedbyid#",
-</cfif><cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#geol_group#",
-  "dwc:formation":"#formation#",
-  "dwc:member":"#member#",
-  "dwc:bed":"#bed#",
-  "dwc:lithostratigraphicterms":"#lithostratigraphicterms#",
-  "dwc:earliesteraorlowesterathem":"#earliesteraorlowesterathem#",
-  "dwc:latesteraorhighesterathem":"#latesteraorhighesterathem#",
-  "dwc:earliestperiodorlowestsystem":"#earliestperiodorlowestsystem#",
-  "dwc:latestperiodorhighestsystem":"#latestperiodorhighestsystem#",
-  "dwc:earliestepochorlowestseries":"#earliestepochorlowestseries#",
-  "dwc:latestepochorhighestseries":"#latestepochorhighestseries#",
-  "dwc:earliestageorloweststage":"#earliestageorloweststage#",
-  "dwc:latestageorhigheststage":"#latestageorhigheststage#",
+  "dcterms:modified":"#escapeForJson(last_edit_date)#",
+  "dwc:scientificName":"#escapeForJson(scientific_name)#",
+  "dwc:scientificNameAuthorship":"#escapeForJson(author_text)#",
+<cfif len(taxonid) GT 0>  "dwc:taxonID":"#escapeForJson(taxonid)#",
+</cfif><cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#escapeForJson(scientificnameid)#",
+</cfif>  "dwc:identifiedBy":"#escapeForJson(identifiedby)#",
+  "dwciri:identifiedBy":"#escapeForJson(identifiedbyid)#",
+<cfif len(date_identified) GT 0>  "dwc:dateIdentified":"#escapeForJson(date_identified)#",
+</cfif><cfif len(typestatus) GT 0>  "dwc:typeStatus":"#escapeForJson(typestatus)#",
+</cfif>  "dwc:country":"#escapeForJson(country)#",
+<cfif len(state_prov) GT 0>  "dwc:stateProvince":"#escapeForJson(state_prov)#",
+</cfif> "dwc:locality":"#escapeForJson(spec_locality)#",
+  "dwc:recordedBy":"#escapeForJson(collectors)#",<cfif colls.recordcount GT 0><cfloop query="colls">
+  "dwciri:recordedBy":"#escapeForJson(colls.agentguid)#",
+</cfloop></cfif>  "dwc:eventDate":"#escapeForJson(eventDate)#",
+<cfif len(day) GT 0>  "dwc:day":"#escapeForJson(day)#",
+</cfif><cfif len(month) GT 0>  "dwc:month":"#escapeForJson(month)#",
+</cfif><cfif len(year) GT 0>  "dwc:year":"#escapeForJson(year)#",
+</cfif>  "dwc:decimalLatitude":"#escapeForJson(dec_lat)#",
+  "dwc:decimalLongitude":"#escapeForJson(dec_long)#",
+  "dwc:geodeticDatum":"#escapeForJson(geodeticdatum)#",
+  "dwc:coordinateUncertaintyInMeters":"#escapeForJson(coordinateuncertaintyinmeters)#",
+<cfif len(georeferencedbyid) GT 0>  "dwciri:georeferencedBy":"#escapeForJson(georeferencedbyid)#",
+</cfif><cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#escapeForJson(geol_group)#",
+  "dwc:formation":"#escapeForJson(formation)#",
+  "dwc:member":"#escapeForJson(member)#",
+  "dwc:bed":"#escapeForJson(bed)#",
+  "dwc:lithostratigraphicterms":"#escapeForJson(lithostratigraphicterms)#",
+  "dwc:earliesteraorlowesterathem":"#escapeForJson(earliesteraorlowesterathem)#",
+  "dwc:latesteraorhighesterathem":"#escapeForJson(latesteraorhighesterathem)#",
+  "dwc:earliestperiodorlowestsystem":"#escapeForJson(earliestperiodorlowestsystem)#",
+  "dwc:latestperiodorhighestsystem":"#escapeForJson(latestperiodorhighestsystem)#",
+  "dwc:earliestepochorlowestseries":"#escapeForJson(earliestepochorlowestseries)#",
+  "dwc:latestepochorhighestseries":"#escapeForJson(latestepochorhighestseries)#",
+  "dwc:earliestageorloweststage":"#escapeForJson(earliestageorloweststage)#",
+  "dwc:latestageorhigheststage":"#escapeForJson(latestageorhigheststage)#",
 </cfif><cfif parts.recordcount GT 0>
   "dwciri:materialSampleID": [ 
 <cfset separator=""><cfloop query="parts">    #separator#{
-    "@id": "#parts.materialSampleID#",
+    "@id": "#escapeForJson(parts.materialSampleID)#",
       "@type": "dwc:MaterialSample",
-      "dwc:materialSampleID": "#parts.materialSampleID#",
-      "dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
+      "dwc:materialSampleID": "#escapeForJson(parts.materialSampleID)#",
+      "dwc:preparations": "#escapeForJson(parts.part_name)# (#escapeForJson(parts.preserve_method)#)"
     }
 <cfset separator=","></cfloop>  ],
 </cfif>  "dcterms:modified": "#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#"
