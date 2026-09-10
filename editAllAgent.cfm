@@ -1261,7 +1261,7 @@ function opendialogrank(page,id,title,agentId) {
 <cfif #Action# is "newAddress">
 	<cfoutput>
 		<cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select agent_name from preferred_agent_name where agent_id=#agent_id#
+			select agent_name from preferred_agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO addr (
