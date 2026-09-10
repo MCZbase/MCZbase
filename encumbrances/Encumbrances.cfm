@@ -899,7 +899,7 @@ from this file.
 									<cfquery name="getParts" dbtype="query">
 										SELECT part_name, partID
 										FROM getData
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+										WHERE collection_object_id = #collection_object_id#
 										GROUP BY part_name, partID
 									</cfquery>
 									<cfloop query="getParts">
@@ -924,7 +924,7 @@ from this file.
 											expiration_event,
 											enc_remarks
 										FROM getData
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+										WHERE collection_object_id = #collection_object_id#
 										GROUP BY
 											collection_object_id,
 											encumbrance_id,
