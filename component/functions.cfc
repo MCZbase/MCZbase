@@ -550,19 +550,20 @@
 
 
 			<cfif oid.recordcount gt 0>
-				<cfset i=1>
-				<cfset sql="update bulkloader set ">
-				<cfloop query="oid">
-					<cfif i lt 5>
-						<cfset sql=sql & "OTHER_ID_NUM_TYPE_#i# = '#other_id_type#',
-							OTHER_ID_NUM_#i#='#display_value#',">
-						<cfset i=i+1>
-					</cfif>
-				</cfloop>
-				<cfset sql=sql & ' where collection_object_id=#key#'>
-				<cfset sql=replace(sql,", where"," where","all")>
 				<cfquery name="ioid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					#preservesinglequotes(sql)#
+					UPDATE bulkloader SET
+					<cfset variables.i = 1>
+					<cfset variables.separator = "">
+					<cfloop query="oid">
+						<cfif variables.i LT 5>
+							#variables.separator#
+							OTHER_ID_NUM_TYPE_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oid.other_id_type#">
+							,OTHER_ID_NUM_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oid.display_value#">
+							<cfset variables.separator = ",">
+							<cfset variables.i = variables.i + 1>
+						</cfif>
+					</cfloop>
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.key#">
 				</cfquery>
 			</cfif>
 			<cfif oid.recordcount gt 4>
@@ -589,19 +590,20 @@
 			</cfquery>
 
 			<cfif col.recordcount gt 0>
-				<cfset i=1>
-				<cfset sql="update bulkloader set ">
-				<cfloop query="col">
-					<cfif i lt 9>
-						<cfset sql=sql & "COLLECTOR_AGENT_#i# = '#replace(agent_name, "'", "''")#',
-							COLLECTOR_ROLE_#i#='#COLLECTOR_ROLE#',">
-						<cfset i=i+1>
-					</cfif>
-				</cfloop>
-				<cfset sql=sql & ' where collection_object_id=#key#'>
-				<cfset sql=replace(sql,", where"," where","all")>
 				<cfquery name="icoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					#preservesinglequotes(sql)#
+					UPDATE bulkloader SET
+					<cfset variables.i = 1>
+					<cfset variables.separator = "">
+					<cfloop query="col">
+						<cfif variables.i LT 9>
+							#variables.separator#
+							COLLECTOR_AGENT_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#col.agent_name#">
+							,COLLECTOR_ROLE_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#col.COLLECTOR_ROLE#">
+							<cfset variables.separator = ",">
+							<cfset variables.i = variables.i + 1>
+						</cfif>
+					</cfloop>
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.key#">
 				</cfquery>
 			</cfif>
 			<cfif col.recordcount gt 8>
@@ -639,22 +641,23 @@
 			</cfquery>
 
 			<cfif part.recordcount gt 0>
-				<cfset i=1>
-				<cfset sql="update bulkloader set ">
-				<cfloop query="part">
-					<cfif i lt 13>
-						<cfset sql=sql & "PART_NAME_#i# = '#part_name#',
-							PART_CONDITION_#i#='#condition#',
-							PART_LOT_COUNT_#i#='#lot_count#',
-							PART_DISPOSITION_#i#='#COLL_OBJ_DISPOSITION#',
-							PART_REMARK_#i#='#replace(coll_object_remarks,"'","''","all")#',">
-						<cfset i=i+1>
-					</cfif>
-				</cfloop>
-				<cfset sql=sql & ' where collection_object_id=#key#'>
-				<cfset sql=replace(sql,", where"," where","all")>
 				<cfquery name="ipart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					#preservesinglequotes(sql)#
+					UPDATE bulkloader SET
+					<cfset variables.i = 1>
+					<cfset variables.separator = "">
+					<cfloop query="part">
+						<cfif variables.i LT 13>
+							#variables.separator#
+							PART_NAME_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part.part_name#">
+							,PART_CONDITION_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part.condition#">
+							,PART_LOT_COUNT_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part.lot_count#">
+							,PART_DISPOSITION_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part.COLL_OBJ_DISPOSITION#">
+							,PART_REMARK_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part.coll_object_remarks#">
+							<cfset variables.separator = ",">
+							<cfset variables.i = variables.i + 1>
+						</cfif>
+					</cfloop>
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.key#">
 				</cfquery>
 			</cfif>
 			<cfif part.recordcount gt 12>
@@ -681,24 +684,25 @@
 			</cfquery>
 			<!--- attributes 1 through 6 are customizable and we can't use them here --->
 			<cfif att.recordcount gt 0>
-				<cfset i=7>
-				<cfset sql="update bulkloader set ">
-				<cfloop query="att">
-					<cfif i lte 10>
-						<cfset sql=sql & "ATTRIBUTE_#i# = '#ATTRIBUTE_TYPE#',
-							ATTRIBUTE_VALUE_#i#='#ATTRIBUTE_VALUE#',
-							ATTRIBUTE_UNITS_#i#='#ATTRIBUTE_UNITS#',
-							ATTRIBUTE_REMARKS_#i#='#ATTRIBUTE_REMARK#',
-							ATTRIBUTE_DATE_#i#='#DETERMINED_DATE#',
-							ATTRIBUTE_DET_METH_#i#='#DETERMINATION_METHOD#',
-							ATTRIBUTE_DETERMINER_#i#='#agent_name#',">
-						<cfset i=i+1>
-					</cfif>
-				</cfloop>
-				<cfset sql=sql & ' where collection_object_id=#key#'>
-				<cfset sql=replace(sql,", where"," where","all")>
 				<cfquery name="iatt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					#preservesinglequotes(sql)#
+					UPDATE bulkloader SET
+					<cfset variables.i = 7>
+					<cfset variables.separator = "">
+					<cfloop query="att">
+						<cfif variables.i LTE 10>
+							#variables.separator#
+							ATTRIBUTE_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.ATTRIBUTE_TYPE#">
+							,ATTRIBUTE_VALUE_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.ATTRIBUTE_VALUE#">
+							,ATTRIBUTE_UNITS_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.ATTRIBUTE_UNITS#">
+							,ATTRIBUTE_REMARKS_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.ATTRIBUTE_REMARK#">
+							,ATTRIBUTE_DATE_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.DETERMINED_DATE#">
+							,ATTRIBUTE_DET_METH_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.DETERMINATION_METHOD#">
+							,ATTRIBUTE_DETERMINER_#variables.i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att.agent_name#">
+							<cfset variables.separator = ",">
+							<cfset variables.i = variables.i + 1>
+						</cfif>
+					</cfloop>
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.key#">
 				</cfquery>
 			</cfif>
 			<cfif att.recordcount gt 4>
@@ -706,7 +710,7 @@
 			</cfif>
 			<cfquery name="irel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update bulkloader set
-					COLL_OBJECT_REMARKS='#problem#',
+					COLL_OBJECT_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem#">,
 					RELATIONSHIP='cloned from record',
 					RELATED_TO_NUMBER= (
 										select
@@ -714,15 +718,15 @@
 										from
 											cataloged_item,collection
 										where cataloged_item.collection_id=collection.collection_id and
-										cataloged_item.collection_object_id=#collection_object_id#
+										cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 										),
 					RELATED_TO_NUM_TYPE='catalog number'
-				where collection_object_id=#key#
+				where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.key#">
 			</cfquery>
 		</cftransaction>
 			<cfreturn "spiffy:#key#">
 		<cfcatch>
-			<cfreturn "fail: #cfcatch.message# #problem# SQL:#preservesinglequotes(sql)#">
+			<cfreturn "fail: #cfcatch.message# #problem#">
 		</cfcatch>
 	</cftry>
 </cffunction>
