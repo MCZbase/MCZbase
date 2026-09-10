@@ -9,10 +9,13 @@
 <!------------------------------------------------------------------->
 <cffunction name="getPartByContainer" access="remote">
 	<cfargument name="barcode" type="string" required="yes">
-	<cfargument name="i" type="string" required="yes">
+	<cfargument name="i" type="numeric" required="yes">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			1 C,
+			<!--- Echoed back so the caller can match the row to the input it sent.  Interpolated
+				rather than bound because a parameter in a select list gives this driver no column to
+				resolve its type against; the argument is declared numeric above. --->
 			#i# I,
 			cat_num,
 			cataloged_item.collection_object_id,
@@ -107,7 +110,7 @@
 	<cfargument name="barcode" type="string" required="yes">
 	<cftry>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select container_id from container where barcode='#barcode#'
+			select container_id from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
 		</cfquery>
 		<cfif c.recordcount is 1>
 			<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -141,7 +144,7 @@
 	<cfargument name="barcode" type="string" required="yes">
 	<cftry>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select container_id from container where barcode='#barcode#'
+			select container_id from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
 		</cfquery>
 		<cfif c.recordcount is 1>
 			<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -196,12 +199,14 @@
 				attribute_remark
 			) values (
 				#partID#,
-				'#attribute_type#',
-				'#attribute_value#',
-				'#attribute_units#',
-				'#determined_date#',
-				'#determined_by_agent_id#',
-				'#attribute_remark#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">,
+				<!--- DETERMINED_DATE is a DATE and DETERMINED_BY_AGENT_ID a NUMBER, bound as strings
+					so Oracle converts them exactly as it did for the quoted literals these replace. --->
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_date#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_remark#">
 			)
 		</cfquery>
 		<cfset r=structNew()>
@@ -228,7 +233,7 @@
 <cffunction name="getPartAttOptions" access="remote">
 	<cfargument name="patype" type="string" required="yes">
 	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from ctspec_part_att_att where attribute_type='#patype#'
+		select * from ctspec_part_att_att where attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#patype#">
 	</cfquery>
 	<cfif len(k.VALUE_code_table) gt 0>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -435,7 +440,7 @@
 			INSERT INTO agent_name (
 				agent_name_id, agent_id, agent_name_type, agent_name)
 			VALUES (
-				sq_agent_name_id.nextval, #id#, 'aka','#name#')
+				sq_agent_name_id.nextval, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">, 'aka', <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">)
 		</cfquery>
 		<cfreturn "success">
 	<cfcatch>
@@ -731,7 +736,7 @@
 			geology_attribute_hierarchy
 		WHERE
 			USABLE_VALUE_FG=1 and
-			attribute='#attribute#'
+			attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 		group by attribute_value
 		order by attribute_value
 	</cfquery>
@@ -761,11 +766,11 @@
 				remark,
 				transaction_type
 			) values (
-				#agent_id#,
-				'#agent_rank#',
-				#session.myAgentId#,
-				'#escapeQuotes(remark)#',
-				'#transaction_type#'
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_rank#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#transaction_type#">
 			)
 		</cfquery>
 		<cfreturn agent_id>
@@ -1133,8 +1138,8 @@
 	<cftry>
 		<cfquery name="upPartDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update coll_object set COLL_OBJ_DISPOSITION
-			='#disposition#' where
-			collection_object_id=#part_id#
+			=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#"> where
+			collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 		</cfquery>
 		<cfset result = querynew("STATUS,PART_ID,DISPOSITION")>
 		<cfset temp = queryaddrow(result,1)>
@@ -1264,7 +1269,7 @@
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update loan_item set
-				ITEM_INSTRUCTIONS = '#item_instructions#'
+				ITEM_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1293,7 +1298,7 @@
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update loan_item set
-				loan_item_remarks = '#loan_item_remarks#'
+				loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1323,7 +1328,7 @@
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update deacc_item set
-				deacc_item_remarks = '#deacc_item_remarks#'
+				deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1352,7 +1357,7 @@
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update deacc_item set
-				item_instructions = '#item_instructions#'
+				item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 				where
 				TRANSACTION_ID=#transaction_id# and
 				COLLECTION_OBJECT_ID = #part_id#
@@ -1601,7 +1606,7 @@
            from
                media_relations left join media on media_relations.media_id = media.media_id
            where
-               media_relationship like '% #transaction_type#'
+               media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #transaction_type#">
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
 	<cfif query.recordcount gt 0>
@@ -1667,7 +1672,7 @@
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update coll_object set
-				condition = '#condition#'
+				condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
 				where
 				COLLECTION_OBJECT_ID = #part_id#
 			</cfquery>
@@ -1867,7 +1872,7 @@
 		<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT accn.TRANSACTION_ID FROM accn,trans WHERE
 			accn.TRANSACTION_ID=trans.TRANSACTION_ID AND
-			accn_number = '#accn_number#'
+			accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
 			and collection_id = #collection_id#
 		</cfquery>
 		<cfif accn.recordcount is 1 and len(accn.transaction_id) gt 0>
@@ -2181,12 +2186,12 @@
 				'in loan',
 				#session.myagentid#,
 				sysdate
-				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
-					,'#instructions#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
 				</cfif>
 				<cfif len(#remark#) gt 0>
-					,'#remark#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 				</cfif>
 				)
 		</cfquery>
@@ -2324,12 +2329,12 @@
 				</cfif>
 				#session.myagentid#,
 				sysdate
-				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
-					,'#instructions#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
 				</cfif>
 				<cfif len(#remark#) gt 0>
-					,'#remark#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 				</cfif>
 				)
 		</cfquery>
@@ -3453,7 +3458,7 @@
     <cfset result = "">
     <cftry>
 		<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
+			INSERT INTO permit_trans (permit_id, transaction_id) VALUES (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">)
 		</cfquery>
 
 		<cfset result = "Added this permit (#permit_id#) to transaction #transaction_label#. ">
@@ -3483,7 +3488,7 @@
                 issued_to_agent_id, mczbase.get_agentnamebytype(issued_to_agent_id,'preferred') as issued_to_agent,
                 permit_remarks
            from permit
-           where permit.permit_id in ( #permitidList# )
+           where permit.permit_id in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permitidList#" list="yes"> )
            order by permit_type, issued_date
       </cfquery>
       <cfif theResult.recordcount eq 0>
@@ -3999,7 +4004,7 @@
              from shipment
                   left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
                   left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
-             where shipment_id in (#shipmentidList#)
+             where shipment_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipmentidList#" list="yes">)
 		</cfquery>
 		<cfif theResult.recordcount eq 0>
 	  	  <cfset theResult=queryNew("status, message")>
