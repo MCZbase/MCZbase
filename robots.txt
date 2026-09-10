@@ -88,7 +88,6 @@ Disallow: /part2container.cfm
 Disallow: /SpecimenContainerLabels.cfm
 Disallow: /TAG.cfm
 Disallow: /Transactions.cfm
-Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /users/
 Sitemap: https://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
