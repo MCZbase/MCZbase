@@ -196,9 +196,6 @@
 		<cfif #detail_level# gte 2>
 			<cfset basSelect = "#basSelect#, collectors,VerbatimLatitude,VerbatimLongitude,OTHERCATALOGNUMBERS">
 		</cfif>
-		<!---
-	</cfif>
-	--->
 	<!--- wrap everything up in a string --->
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
 	<!--- define the list of search paramaters that we need to get back here --->
