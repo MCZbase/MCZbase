@@ -11,7 +11,7 @@
                 from
                         geog_auth_rec
                 where
-                        higher_geog='#geog#'
+                        higher_geog=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog#">
         </cfquery>
         <cfset guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run&locality=#specloc#">
         <cfif len(g.country) gt 0>
@@ -38,7 +38,7 @@
                 from
                         geog_auth_rec
                 where
-                        higher_geog='#geog#'
+                        higher_geog=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog#">
         </cfquery>
         <cfhttp method="post" url="#Application.protocol#://www.geo-locate.org/webservices/geolocatesvcv2/geolocatesvc.asmx/Georef2" timeout="5">
             <cfhttpparam name="Country" type="FormField" value="#g.country#">
@@ -102,9 +102,9 @@
 <!----------------------------------------------------------------------------------------->
 
 <cffunction name="loadRecord" access="remote">
-	<cfargument name="collection_object_id" required="yes">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from bulkloader where collection_object_id=#collection_object_id#
+		select * from bulkloader where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
 	<cfreturn d>
 </cffunction>
@@ -112,15 +112,18 @@
 <!----------------------------------------------------------------------------------------->
 
 <cffunction name="deleteRecord" access="remote">
-	<cfargument name="collection_object_id" required="yes">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cftransaction>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from bulkloader where collection_object_id=#collection_object_id#
+			delete from bulkloader where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 	</cftransaction>
 	<cfquery name="next" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<!--- oldValue is echoed back rather than bound: a bind in a select list has no column for
+			this driver to resolve a type against.  The argument is declared numeric above, which
+			is what makes interpolating it here safe. --->
 		select #collection_object_id# oldValue, max(collection_object_id) nextValue from bulkloader
-		where enteredby = '#session.username#'
+		where enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
     <!--- cfreturn next --->
     <!--- Using $.getJSON, we can't include a queryFormat = columns, but we can force the desired JSON serialization here --->
@@ -131,7 +134,7 @@
 
 <cffunction name="getPrefs" access="remote">
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from cf_dataentry_settings where username='#session.username#'
+		select * from cf_dataentry_settings where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfreturn d>
 </cffunction>
