@@ -126,7 +126,7 @@
 				determined_by_agent_id,
 				attribute_remark
 			) values (
-				#partID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_type#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">,
@@ -204,7 +204,7 @@
 	<cfargument name="ctspnid" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from ctspecimen_part_name where ctspnid=#ctspnid#
+			delete from ctspecimen_part_name where ctspnid=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ctspnid#">
 		</cfquery>
 		<cfreturn ctspnid>
 	<cfcatch>
@@ -427,7 +427,7 @@
 						identification.accepted_id_fg=1 and
 						cataloged_item.collection_object_id=coll_object.collection_object_id and
 						cataloged_item.collection_object_id=COLL_OBJECT_REMARK.collection_object_id (+) and
-						cataloged_item.collection_object_id = #collection_object_id#
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				)
 			</cfquery>
 			<cfset debugmsg="record inserted">
@@ -441,7 +441,7 @@
 				where
 					identification.identification_id=identification_agent.identification_id and
 					identification_agent.agent_id=preferred_agent_name.agent_id and
-					identification.collection_object_id = #collection_object_id#
+					identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				order by IDENTIFIER_ORDER
 			</cfquery>
 			<cfif idby.recordcount is 1>
@@ -457,7 +457,7 @@
 					other_id_type,
 					display_value
 				from coll_obj_other_id_num
-				where collection_object_id=#collection_object_id#
+				where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 
 
@@ -495,7 +495,7 @@
 					preferred_agent_name
 				where
 					collector.agent_id=preferred_agent_name.agent_id and
-					collector.collection_object_id=#collection_object_id#
+					collector.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				order by
 					COLLECTOR_ROLE,
 					COLL_ORDER
@@ -549,7 +549,7 @@
 					specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
 					coll_obj_cont_hist.container_id=c.container_id (+) and
 					c.parent_container_id=p.container_id (+) and
-					specimen_part.derived_from_cat_item=#collection_object_id#
+					specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 
 			<cfif part.recordcount gt 0>
@@ -592,7 +592,7 @@
 					preferred_agent_name
 				where
 					attributes.DETERMINED_BY_AGENT_ID=preferred_agent_name.agent_id and
-					attributes.collection_object_id=#collection_object_id#
+					attributes.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 			<!--- attributes 1 through 6 are customizable and we can't use them here --->
 			<cfif att.recordcount gt 0>
@@ -977,7 +977,7 @@
 	<cfargument name="canned_id" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="res" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from cf_canned_search where canned_id=#canned_id#
+			delete from cf_canned_search where canned_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#canned_id#">
 		</cfquery>
 		<cfset result="#canned_id#">
 	<cfcatch>
@@ -1079,8 +1079,8 @@
 	<cftry>
 		<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from loan_item where
-			collection_object_id = #part_id# and
-			transaction_id=#transaction_id#
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> and
+			transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfset result = querynew("PART_ID,MESSAGE")>
 		<cfset temp = queryaddrow(result,1)>
@@ -1103,8 +1103,8 @@
 	<cftry>
 		<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from deacc_item where
-			collection_object_id = #part_id# and
-			transaction_id=#transaction_id#
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> and
+			transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfset result = querynew("PART_ID,MESSAGE")>
 		<cfset temp = queryaddrow(result,1)>
@@ -1128,11 +1128,11 @@
 		<cftransaction>
 			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				delete from loan_item where
-				collection_object_id = #part_id# and
-				transaction_id=#transaction_id#
+				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> and
+				transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfquery name="killPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				delete from specimen_part where collection_object_id = #part_id#
+				delete from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1159,8 +1159,8 @@
 				update loan_item set
 				ITEM_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 				where
-				TRANSACTION_ID=#transaction_id# and
-				COLLECTION_OBJECT_ID = #part_id#
+				TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+				COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1188,8 +1188,8 @@
 				update loan_item set
 				loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 				where
-				TRANSACTION_ID=#transaction_id# and
-				COLLECTION_OBJECT_ID = #part_id#
+				TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+				COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1218,8 +1218,8 @@
 				update deacc_item set
 				deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
 				where
-				TRANSACTION_ID=#transaction_id# and
-				COLLECTION_OBJECT_ID = #part_id#
+				TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+				COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1247,8 +1247,8 @@
 				update deacc_item set
 				item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 				where
-				TRANSACTION_ID=#transaction_id# and
-				COLLECTION_OBJECT_ID = #part_id#
+				TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+				COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1562,7 +1562,7 @@
 				update coll_object set
 				condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
 				where
-				COLLECTION_OBJECT_ID = #part_id#
+				COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
@@ -1761,7 +1761,7 @@
 			SELECT accn.TRANSACTION_ID FROM accn,trans WHERE
 			accn.TRANSACTION_ID=trans.TRANSACTION_ID AND
 			accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
-			and collection_id = #collection_id#
+			and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfquery>
 		<cfif accn.recordcount is 1 and len(accn.transaction_id) gt 0>
 			<cfreturn accn.transaction_id>
@@ -1905,7 +1905,7 @@
 			cataloged_item,
 			coll_object,
 			specimen_part,
-			(select * from loan_item where transaction_id = #transaction_id#) loan_item,
+			(select * from loan_item where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">) loan_item,
 			coll_obj_cont_hist,
 			container p0,
 			container p1
@@ -1946,7 +1946,7 @@
 			cataloged_item,
 			coll_object,
 			specimen_part,
-			(select * from deacc_item where transaction_id = #transaction_id#) deacc_item,
+			(select * from deacc_item where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">) deacc_item,
 			coll_obj_cont_hist,
 			container p0,
 			container p1
@@ -1996,7 +1996,7 @@
 				where
 				cataloged_item.collection_id=collection.collection_id and
 				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-				specimen_part.collection_object_id=#partID#
+				specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
 			<cfif #subsample# is 1>
 			<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2010,7 +2010,7 @@
 					coll_object, specimen_part
 				WHERE
 					coll_object.collection_object_id = specimen_part.collection_object_id AND
-					coll_object.collection_object_id = #partID#
+					coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfquery>
 			<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO coll_object (
@@ -2045,7 +2045,7 @@
 					#n.n#
 					,'#parentData.part_name#'
 					,'#parentData.preserve_method#'
-					,#partID#
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					,#parentData.derived_from_cat_item#)
 			</cfquery>
 		</cfif>
@@ -2065,11 +2065,11 @@
 				</cfif>
 				       )
 			VALUES (
-				#TRANSACTION_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
 					#n.n#,
 				<cfelse>
-					#partID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
 				'in loan',
 				#session.myagentid#,
@@ -2089,7 +2089,7 @@
 		<cfif #subsample# is 1>
 				#n.n#
 			<cfelse>
-				#partID#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>
 		</cfquery>
 	<cfcatch>
@@ -2209,11 +2209,11 @@
 				</cfif>
 				       )
 			VALUES (
-				#TRANSACTION_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
 					#n.n#,
 				<cfelse>
-					#partID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
 				#session.myagentid#,
 				sysdate
@@ -2228,7 +2228,7 @@
 		</cfquery>
 
                <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                       select deacc_type from deaccession where transaction_id = #TRANSACTION_ID#
+                       select deacc_type from deaccession where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
                </cfquery>
 
                <cfset partDisp = getDeaccType.deacc_type>
@@ -2243,7 +2243,7 @@
 		<cfif #subsample# is 1>
 				#n.n#
 			<cfelse>
-				#partID#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>
 		</cfquery>
 	<cfcatch>

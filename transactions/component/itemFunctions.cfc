@@ -131,11 +131,11 @@ limitations under the License.
 				</cfif>
 				       )
 			VALUES (
-				#TRANSACTION_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
 					#n.n#,
 				<cfelse>
-					#partID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
 				#session.myagentid#,
 				sysdate
@@ -150,7 +150,7 @@ limitations under the License.
 		</cfquery>
 
                <cfquery name="getDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                       select deacc_type from deaccession where transaction_id = #TRANSACTION_ID#
+                       select deacc_type from deaccession where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
                </cfquery>
 
                <cfset partDisp = getDeaccType.deacc_type>
@@ -166,7 +166,7 @@ limitations under the License.
 			<cfif #subsample# is 1>
 				#n.n#
 			<cfelse>
-				#partID#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>
 		</cfquery>
 	<cfcatch>
