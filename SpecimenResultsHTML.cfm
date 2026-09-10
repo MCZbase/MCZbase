@@ -1555,11 +1555,6 @@ document.getElementById('saveme').submit();
 			<option value="/containers/Containers.cfm?collection_object_id=#collObjIdList#&execute=true">
 				Part Locations
 			</option>
-			<!--- 
-			<option value="bulkCollEvent.cfm?collection_object_id=#collObjIdList#">
-				Collecting Events
-			</option>
-			--->
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<option value="/grouping/addToNamedCollection.cfm">
 					Add To Named Group

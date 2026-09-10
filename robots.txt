@@ -57,7 +57,6 @@ Disallow: /containers/allContainerLeafNodes.cfm
 Disallow: /Application.cfc
 Disallow: /Application_down.cfc
 Disallow: /batchScan.cfm
-Disallow: /bulkCollEvent.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
 Disallow: /vocabularies/manageControlledVocabulary.cfm
