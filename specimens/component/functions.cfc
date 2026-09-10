@@ -9690,7 +9690,7 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 						object_condition,preferred_agent_name
 					where 
 						determined_agent_id = agent_id and
-						collection_object_id = #collection_object_id#
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					group by
 						object_condition_id,
 						determined_agent_id,

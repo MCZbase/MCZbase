@@ -139,12 +139,12 @@ limitations under the License.
 				</cfif>
 				#session.myagentid#,
 				sysdate
-				,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
-					,'#instructions#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
 				</cfif>
 				<cfif len(#remark#) gt 0>
-					,'#remark#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 				</cfif>
 				)
 		</cfquery>
