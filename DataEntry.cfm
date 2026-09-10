@@ -1,4 +1,8 @@
 <cfheader name="Cache-Control" value="no-cache, must-revalidate">
+<!--- Checked before the header is included so a denial does not follow half a page.  This page
+	sits at the web root, which Application.cfc's directory gate does not cover, and _header.cfm
+	uses session.roles only to decide which menu entries to draw.  Nothing else gated it. --->
+<cf_rolecheck>
 <cfset usealternatehead="DataEntry">
 <cfinclude template="/includes/_header.cfm">
 <div id="msg"></div>

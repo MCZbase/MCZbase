@@ -1,4 +1,9 @@
 <cfcomponent>
+<!--- Every method here backs the bulkloader and the data entry screen, so the check is at
+	component level: it runs on instantiation and therefore on any method, including a direct
+	request for one.  The roles it demands come from cf_form_permissions keyed on this path, not
+	from here. --->
+<cf_rolecheck>
 
 <cffunction name="splitGeog" access="remote">
         <cfargument name="geog" required="yes">
