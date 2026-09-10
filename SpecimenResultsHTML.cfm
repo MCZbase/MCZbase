@@ -597,22 +597,6 @@ document.getElementById('saveme').submit();
 	</form>
 	</td>
 </cfif>
-<cfif isdefined("session.loan_request_coll_id") and #session.loan_request_coll_id# gt 0>
-	<cfquery name="active_loan_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select  USER_LOAN_ID from
-		cf_user_loan,cf_users where
-		cf_user_loan.user_id=cf_users.user_id and
-		IS_ACTIVE=1
-		and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	</cfquery>
-	<cfif len(#active_loan_id.USER_LOAN_ID#) is 0>
-		<cfset thisLoanId = "-1">
-	<cfelse>
-		<cfset thisLoanId = #active_loan_id.USER_LOAN_ID#>
-	</cfif>
-
-	<td><b>Request</b></td>
-</cfif>
 	<td nowrap><strong>Catalog ##</strong>
 	<a href="##"
 		onClick="reorder.order_by.value='cat_num';reorder.order_order.value='asc';reorder.submit();"
@@ -995,29 +979,6 @@ document.getElementById('saveme').submit();
 	<input type="checkbox" name="exclCollObjId" value="#collection_object_id#" onchange="checkUncheck('remove#i#','#collection_object_id#');">
 </form>
 
-	</td>
-</cfif>
-<cfif isdefined("session.loan_request_coll_id") and #session.loan_request_coll_id# gt 0>
-	<td>
-	<cfif listfind(#session.loan_request_coll_id#,#collection_id#,",")>
-
-		<!--- see if they've already got a part --->
-		<cfquery name="isThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select cf_loan_item.collection_object_id from
-			cf_loan_item,specimen_part
-			where cf_loan_item.collection_object_id=specimen_part.collection_object_id
-			and specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			and cf_loan_item.user_loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLoanId#">
-		</cfquery>
-		<a href="javascript:void(0);" onClick="addLoanItem(#collection_object_id#)"><img src="/images/cart.gif" border="0"></a>
-		<span id="shopcart#collection_object_id#">
-			<cfif len(#isThere.collection_object_id#) gt 0>
-				<img src="/images/check.gif" border="0">
-			</cfif>
-		</span>
-	<cfelse>
-		<img src="/images/del.gif" border="0">
-	</cfif>
 	</td>
 </cfif>
       <td nowrap>

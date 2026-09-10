@@ -3,7 +3,7 @@
 	rather than resolved implicitly across the url and form scopes, which is deprecated.
 	A name that was not supplied is omitted, so the defaults below still apply. --->
 <cfset REQUEST_PARAMETERS = "accentInsensitive,action,customID,debug,detail_level,displayrows,goWhere,killrow,
-	killRowList,killRows,loan_request_coll_id,mapurl,oidOper,orderBy1,orderBy2,
+	killRowList,killRows,mapurl,oidOper,orderBy1,orderBy2,
 	page_record,result_sort,resultList,returnURL,searchParams,sciNameOper,transaction_id">
 <cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <!--- These are read without an isdefined guard, so they need a value even when the
@@ -324,9 +324,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<cfset session.mapURL = mapURL>
 	<cfif isdefined("transaction_id")>
 			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	</cfif>
-	<cfif isdefined("loan_request_coll_id")>
-			<input type="hidden" name="loan_request_coll_id" id="loan_request_coll_id" value="#loan_request_coll_id#">
 	</cfif>
 </form>
 	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
