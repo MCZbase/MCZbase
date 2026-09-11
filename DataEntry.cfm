@@ -32,8 +32,28 @@ Some Totally Random String Data .....
 --->
 <cf_setDataEntryGroups>
 
-<cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
-	<cfset ImAGod = "no">
+<!--- What record set the caller is asking to navigate.  A statement of intent that carries no
+	authority of its own: whether it is honoured is decided from the roles the database grants,
+	below.  It travels in the request, and in a hidden field so it survives a save, which is safe
+	because it is revalidated on every request. --->
+<cfparam name="url.showAllUsers" default="">
+<cfparam name="form.showAllUsers" default="">
+<cfset variables.showAllUsers = false>
+<cfif url.showAllUsers IS "true" OR form.showAllUsers IS "true">
+	<cfset variables.showAllUsers = true>
+</cfif>
+<!--- inAdminGroups is the collections this user manages, set by cf_setDataEntryGroups above.  Non
+	empty means they hold manage_collection somewhere, which is what permits working on records
+	entered by other people. --->
+<cfset variables.mayEditOthers = false>
+<cfif isDefined("inAdminGroups") AND len(inAdminGroups) GT 0>
+	<cfset variables.mayEditOthers = true>
+</cfif>
+<!--- A request for other people's records is honoured only where the roles allow it, and otherwise
+	falls back to the caller's own records rather than failing. --->
+<cfset variables.recordSetIsAllUsers = false>
+<cfif variables.showAllUsers AND variables.mayEditOthers>
+	<cfset variables.recordSetIsAllUsers = true>
 </cfif>
 <cfif isdefined("CFGRIDKEY") and not isdefined("collection_object_id")>
 	<cfset collection_object_id = CFGRIDKEY>
@@ -346,7 +366,7 @@ Some Totally Random String Data .....
 			SELECT collection_object_id
 			FROM bulkloader
 			WHERE collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
-			<cfif ImAGod is "no">
+			<cfif NOT variables.recordSetIsAllUsers>
 				AND enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			<cfelse>
 				<cfif len(variables.accn2) GT 0>
@@ -377,7 +397,7 @@ Some Totally Random String Data .....
 		<form name="dataEntry" method="post" action="DataEntry.cfm" onsubmit="return cleanup(); return noEnter();" id="dataEntry">
 			<input type="hidden" name="action" value="" id="action">
 			<input type="hidden" name="nothing" value="" id="nothing"/><!--- trashcan for picks - don't delete --->
-			<input type="hidden" name="ImAGod" value="#ImAGod#" id="ImAGod"><!--- allow power users to browse other's records --->
+			<input type="hidden" name="showAllUsers" value="#variables.showAllUsers#" id="showAllUsers"><!--- which record set to navigate; revalidated against roles on each request --->
 			<input type="hidden" name="collection_cde" value="#collection_cde#" id="collection_cde">
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
@@ -1542,12 +1562,12 @@ Some Totally Random String Data .....
 					<tr>
 						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
 						<td width="100%">
-							<cfif ImAGod is not "yes">
-								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
-							<cfelseif ImAGod is "yes">
+							<!--- Only a manager may put someone else's name on a record; for everyone else this
+								is their own name and not editable. --->
+							<cfif variables.mayEditOthers>
 								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
 							<cfelse>
-								ERROR!!!
+								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
 							</cfif>
 						</td>
 					</tr>

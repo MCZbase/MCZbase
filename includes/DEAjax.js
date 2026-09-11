@@ -556,12 +556,6 @@ function loadedEditRecord(){
 	$("#selectbrowse").val($("#collection_object_id").val());
 	// force attribute check
 	checkRequiredParts();
-	// set up edit URL
-	var theURL='/DataEntry.cfm?action=edit';
-	if ($("#ImAGod").val()=="yes"){
-		theURL+='&ImAGod=yes';
-	}
-	theURL+='&collection_object_id=' + $("#collection_object_id").val();
 }
 
 function checkRequiredParts(){

@@ -440,7 +440,7 @@ table##t th {
 					<cfinput type="hidden" name="colln" value="#colln#">
 					<cfgrid attributeCollection="#args#">
 						<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-						<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
+						<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&showAllUsers=true&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 							hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" autoExpand="yes">
 						<cfloop list="#ColNameList#" index="thisName">
 							<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
@@ -1253,7 +1253,7 @@ table##t th {
 				<cfinput type="hidden" name="returnAction" value="viewTable">
 
 				<cfgrid query="data"  name="blGrid" selectmode="edit">
-					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
+					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&showAllUsers=true&pMode=edit" hrefkey="collection_object_id" target="_blank">
 					<cfloop list="#ColNameList#" index="thisName">
 						<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
 							<cfgridcolumn name="#thisName#" values=",c,p">
