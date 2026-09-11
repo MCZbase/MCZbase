@@ -1,5 +1,15 @@
 <cfinclude template="/includes/_header.cfm">
-<cfif action is "ajaxGrid">
+<!--- This page sits at the web root, which Application.cfc's directory gate does not cover,
+	and it edits staged bulkloader rows.  action was read without being declared, so a request
+	without it failed on an undefined variable. --->
+<cf_rolecheck>
+<cfparam name="form.action" default="nothing">
+<cfparam name="url.action" default="">
+<cfset variables.action = form.action>
+<cfif len(url.action) GT 0>
+	<cfset variables.action = url.action>
+</cfif>
+<cfif variables.action is "ajaxGrid">
 <cfoutput>
 <cfquery name="cNames" datasource="uam_god">
 	select column_name from user_tab_cols where table_name='BULKLOADER'
@@ -22,7 +32,9 @@
 <cfform method="post" action="userBrowseBulkedGrid.cfm">
 	<cfinput type="hidden" name="returnAction" value="ajaxGrid">
 	<cfinput type="hidden" name="action" value="saveGridUpdate">
-	<cfinput type="hidden" name="enteredby" value="'#session.username#'">
+	<!--- Unquoted: component/Bulkloader.cfc binds this as a list, and quotes carried in the
+		value would become part of the element rather than delimit it. --->
+	<cfinput type="hidden" name="enteredby" value="#session.username#">
 	<cfinput type="hidden" name="accn" value="">
 	<cfinput type="hidden" name="colln" value="">
 	<cfgrid attributeCollection="#args#">
@@ -44,7 +56,7 @@
 
 
 
-<cfif #action# is "nothing">
+<cfif variables.action is "nothing">
 
 <cfquery name="getCols" datasource="uam_god">
 	select column_name from sys.user_tab_cols
@@ -54,7 +66,7 @@
 <cfoutput>
 <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select * from bulkloader
-	where enteredby = '#session.username#'
+	where enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
 <cfset ColNameList = valuelist(getCols.column_name)>
 <cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
@@ -78,7 +90,7 @@
 
 </cfif>
 
-<cfif #action# is "saveGridUpdate">
+<cfif variables.action is "saveGridUpdate">
 <cfoutput>
 <cfquery name="cNames" datasource="uam_god">
 	select column_name from user_tab_cols where table_name='BULKLOADER'
@@ -91,18 +103,26 @@
 <cfloop from="1" to="#numRows#" index="i">
 	<!--- and for each column --->
 	<cfset thisCollObjId = evaluate("Form.#GridName#.collection_object_id[#i#]")>
-	<cfset sql ='update BULKLOADER SET collection_object_id = #thisCollObjId#'>
-	<cfloop index="ColName" list="#ColNameList#">
-		<cfset oldValue = evaluate("Form.#GridName#.original.#ColName#[#i#]")>
-		<cfset newValue = evaluate("Form.#GridName#.#ColName#[#i#]")>
-		<cfif #oldValue# neq #newValue#>
-			<cfset sql = "#sql#, #ColName# = '#newValue#'">
-		</cfif>
-	</cfloop>
+	<cfif NOT isNumeric(thisCollObjId)>
+		<cfthrow type="InvalidParameter" message="collection_object_id must be numeric.">
+	</cfif>
 	
-		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
+	<!--- Column names come from the data dictionary and are trusted; the values come from the
+		posted grid and bind.  collection_object_id is skipped in the loop: it is set once from
+		the validated key above, and setting a column twice in one SET list is not legal. --->
+	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		UPDATE bulkloader SET
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjId#">
+		<cfloop index="ColName" list="#ColNameList#">
+			<cfif ColName IS NOT "collection_object_id">
+				<cfset oldValue = evaluate("Form.#GridName#.original.#ColName#[#i#]")>
+				<cfset newValue = evaluate("Form.#GridName#.#ColName#[#i#]")>
+				<cfif oldValue neq newValue>
+					,#ColName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newValue#">
+				</cfif>
+			</cfif>
+		</cfloop>
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjId#">
 	</cfquery>
 	
 
