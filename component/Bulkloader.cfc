@@ -226,23 +226,34 @@
 	<cfset var result = "">
 	<cfset var temp = "">
 	<cfset var out = "">
+	<cfset var paramName = "">
 	<cfif NOT structKeyExists(fields,"collection_object_id") OR NOT isNumeric(fields["collection_object_id"])>
 		<cfthrow type="InvalidParameter" message="A numeric collection_object_id is required to save edits.">
 	</cfif>
 	<cfset collection_object_id = fields["collection_object_id"]>
 	<!--- Iterated over the column list rather than the struct so the clauses come out in table
-		order, and so each identifier written into the statement is a data dictionary value. --->
+		order, and so each identifier written into the statement is a data dictionary value.
+
+		The parameters are named by position rather than after the column, and the number is padded
+		to a fixed width so that no parameter name can be a prefix of another.  Column names here
+		overlap as prefixes wholesale: ATTRIBUTE_DATE_1 is a prefix of ATTRIBUTE_DATE_11 through _14,
+		and so is every other _1 among these 929 columns.  An unpadded counter would just move the
+		problem, p1 being a prefix of p11.  Named parameter substitution on prefix overlapping names
+		is not safe to rely on, which is why the helper this follows, addNamedQueryParam in
+		localities/component/search.cfc, generates a unique name rather than using the field's. --->
 	<cfloop list="#columns#" index="fieldName">
 		<cfif fieldName IS NOT "collection_object_id" AND structKeyExists(fields,fieldName)>
-			<cfset arrayAppend(setClauses,"#fieldName# = :#fieldName#")>
-			<cfset sqlParams[fieldName] = { value=fields[fieldName], cfsqltype="CF_SQL_VARCHAR" }>
+			<cfset paramName = "p" & numberFormat(structCount(sqlParams) + 1,"0000")>
+			<cfset arrayAppend(setClauses,"#fieldName# = :#paramName#")>
+			<cfset sqlParams[paramName] = { value=fields[fieldName], cfsqltype="CF_SQL_VARCHAR" }>
 		</cfif>
 	</cfloop>
 	<cftry>
 		<cftransaction>
 			<cfif arrayLen(setClauses) GT 0>
-				<cfset sqlParams["collection_object_id"] = { value=collection_object_id, cfsqltype="CF_SQL_DECIMAL" }>
-				<cfset sqlString = "UPDATE bulkloader SET " & arrayToList(setClauses,", ") & " WHERE collection_object_id = :collection_object_id">
+				<!--- pcoid rather than the column name, for the same reason as the padding above --->
+				<cfset sqlParams["pcoid"] = { value=collection_object_id, cfsqltype="CF_SQL_DECIMAL" }>
+				<cfset sqlString = "UPDATE bulkloader SET " & arrayToList(setClauses,", ") & " WHERE collection_object_id = :pcoid">
 				<cfset queryExecute(sqlString,sqlParams,{
 					datasource = "user_login",
 					username = session.dbuser,
@@ -310,11 +321,15 @@
 	<cfset var result = "">
 	<cfset var temp = "">
 	<cfset var out = "">
+	<cfset var paramName = "">
+	<!--- Parameters named by padded position rather than after the column, so that no name can be a
+		prefix of another.  See the note in saveEdits. --->
 	<cfloop list="#columns#" index="fieldName">
 		<cfif fieldName IS NOT "collection_object_id" AND structKeyExists(fields,fieldName)>
+			<cfset paramName = "p" & numberFormat(structCount(sqlParams) + 1,"0000")>
 			<cfset arrayAppend(insertColumns,fieldName)>
-			<cfset arrayAppend(insertValues,":#fieldName#")>
-			<cfset sqlParams[fieldName] = { value=fields[fieldName], cfsqltype="CF_SQL_VARCHAR" }>
+			<cfset arrayAppend(insertValues,":#paramName#")>
+			<cfset sqlParams[paramName] = { value=fields[fieldName], cfsqltype="CF_SQL_VARCHAR" }>
 		</cfif>
 	</cfloop>
 	<cftry>
