@@ -55,6 +55,15 @@ Some Totally Random String Data .....
 <cfif variables.showAllUsers AND variables.mayEditOthers>
 	<cfset variables.recordSetIsAllUsers = true>
 </cfif>
+<!--- The users whose records this caller may navigate: the data entry users in the collections they
+	manage, which cf_setDataEntryGroups put in adminForUsers above, or themselves.  getPage in
+	component/Bulkloader.cfc narrows its grid to the same list, so the set navigated here and the
+	set the grid buttons open agree.  Managing a collection is not licence to reach every record in
+	the table. --->
+<cfset variables.permittedUsers = session.username>
+<cfif variables.mayEditOthers AND isDefined("adminForUsers") AND len(adminForUsers) GT 0>
+	<cfset variables.permittedUsers = adminForUsers>
+</cfif>
 <cfif isdefined("CFGRIDKEY") and not isdefined("collection_object_id")>
 	<cfset collection_object_id = CFGRIDKEY>
 </cfif>
@@ -362,6 +371,21 @@ Some Totally Random String Data .....
 		<cfset variables.accn2 = replace(url.accn2,"'","","All")>
 		<cfset variables.colln2 = replace(url.colln2,"'","","All")>
 		<cfset variables.enteredby2 = replace(url.enteredby2,"'","","All")>
+		<!--- enteredby2 is intent, narrowed to the users the roles permit, the same three steps getPage
+			takes: a named user is kept only if permitted, naming none means all the permitted ones, and
+			naming only users out of scope leaves the caller their own records. --->
+		<cfset variables.navigableUsers = "">
+		<cfloop list="#variables.enteredby2#" index="variables.oneUser">
+			<cfif listfindnocase(variables.permittedUsers,variables.oneUser)>
+				<cfset variables.navigableUsers = listappend(variables.navigableUsers,variables.oneUser)>
+			</cfif>
+		</cfloop>
+		<cfif len(variables.enteredby2) EQ 0>
+			<cfset variables.navigableUsers = variables.permittedUsers>
+		</cfif>
+		<cfif len(variables.navigableUsers) EQ 0>
+			<cfset variables.navigableUsers = session.username>
+		</cfif>
 		<cfquery name="whatIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_object_id
 			FROM bulkloader
@@ -375,10 +399,9 @@ Some Totally Random String Data .....
 				<cfif len(variables.colln2) GT 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln2#" list="yes">)
 				</cfif>
-				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-				<cfif len(variables.enteredby2) GT 0>
-					AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.enteredby2#" list="yes">)
-				</cfif>
+				<!--- Always applied, so managing a collection does not reach past the users it covers.
+					enteredby2 rather than enteredby in the request, as DataEntry.cfm overwrites enteredby. --->
+				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.navigableUsers#" list="yes">)
 			</cfif>
 			ORDER BY collection_object_id
 		</cfquery>
@@ -1815,19 +1838,14 @@ Some Totally Random String Data .....
 					</td>
 					<td width="16%">
 						<!--- Two routes into the bulkloader grid.  The first shows the set being
-							navigated here; the second is drawn only when it would go somewhere else,
-							which is whenever this caller is navigating someone else's records.
-							Bulkloader/browseBulk.cfm filters its grid on enteredby unconditionally, so
-							a set with no enteredby of its own is sent as the users this caller may act
-							for. --->
+							navigated here, sending the same user list the Jump to query was narrowed
+							to, so the two agree.  The second is drawn only when it would go somewhere
+							else, which is whenever this caller is navigating someone else's
+							records. --->
 						<cfset variables.myRecordsUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby=" & urlEncodedFormat(session.username) & "&accn=&colln=">
 						<cfif variables.recordSetIsAllUsers>
-							<cfset variables.gridUsers = variables.enteredby2>
-							<cfif len(variables.gridUsers) EQ 0 AND isDefined("adminForUsers")>
-								<cfset variables.gridUsers = adminForUsers>
-							</cfif>
 							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&showAllUsers=true&enteredby="
-								& urlEncodedFormat(variables.gridUsers)
+								& urlEncodedFormat(variables.navigableUsers)
 								& "&accn=" & urlEncodedFormat(variables.accn2)
 								& "&colln=" & urlEncodedFormat(variables.colln2)>
 						<cfelse>
