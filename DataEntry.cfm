@@ -429,7 +429,7 @@ Some Totally Random String Data .....
 							<cfloop from="1" to="8" index="i">
 								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
 								<td id="d_collector_role_#i#" align="right">
-									<select name="collector_role_#i#" title="COLLECTOR_ROLE_X" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
+									<select name="collector_role_#i#" title="COLLECTOR_ROLE_#i#" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
 										<option <cfif evaluate("data.collector_role_" & i) is "c">selected="selected"</cfif> value="c">Collector&nbsp;&nbsp;&nbsp; </option>
 										<cfif i gt 1>
 											<option <cfif evaluate("data.collector_role_" & i) is "p">selected="selected"</cfif> value="p">Preparator</option>
@@ -438,7 +438,7 @@ Some Totally Random String Data .....
 								</td>
 								<td  id="d_collector_agent_#i#" nowrap="nowrap">
 									<span class="f11a">#i#</span>
-									<input title="COLLECTOR_AGENT_X" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
+									<input title="COLLECTOR_AGENT_#i#" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
 										<cfif i is 1>class="reqdClr"</cfif> id="collector_agent_#i#"
 										onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 										onkeypress="return noenter(event);">
@@ -459,7 +459,7 @@ Some Totally Random String Data .....
 							<tr>
 								<td id="d_other_id_num_#i#">
 									<span class="f11a">OtherID #i#</span>
-									<select name="other_id_num_type_#i#" title="OTHER_ID_NUM_TYPE_X" style="width:250px"
+									<select name="other_id_num_type_#i#" title="OTHER_ID_NUM_TYPE_#i#" style="width:250px"
 										id="other_id_num_type_#i#"
 										onChange="this.className='reqdClr';dataEntry.other_id_num_#i#.className='reqdClr';dataEntry.other_id_num_#i#.focus();">
 										<option value=""></option>
@@ -468,7 +468,7 @@ Some Totally Random String Data .....
 												value="#other_id_type#">#other_id_type#</option>
 										</cfloop>
 									</select>
-									<input type="text" name="other_id_num_#i#" title="OTHER_ID_NUM_X" value="#evaluate("data.other_id_num_" & i)#" id="other_id_num_#i#">
+									<input type="text" name="other_id_num_#i#" title="OTHER_ID_NUM_#i#" value="#evaluate("data.other_id_num_" & i)#" id="other_id_num_#i#">
 								</td>
 							</tr>
 						</cfloop>
@@ -1110,7 +1110,7 @@ Some Totally Random String Data .....
 											<div id="#i#">
 											<tr id="d_geology_attribute_#i#">
 												<td>
-													<select name="geology_attribute_#i#" id="geology_attribute_#i#" size="1" title="GEOLOGY_ATTRIBUTE_X" onchange="populateGeology(this.id);">
+													<select name="geology_attribute_#i#" id="geology_attribute_#i#" size="1" title="GEOLOGY_ATTRIBUTE_#i#" onchange="populateGeology(this.id);">
 														<option value=""></option>
 														<cfloop query="ctgeology_attribute">
 															<option
@@ -1120,7 +1120,7 @@ Some Totally Random String Data .....
 													</select>
 												</td>
 												<td>
-													<select title="GEO_ATT_VALUE_X" name="geo_att_value_#i#" id="geo_att_value_#i#">
+													<select title="GEO_ATT_VALUE_#i#" name="geo_att_value_#i#" id="geo_att_value_#i#">
 														<option value="#thisVal#">#thisVal#</option>
 													</select>
 												</td>
@@ -1129,13 +1129,13 @@ Some Totally Random String Data .....
 														name="geo_att_determiner_#i#"
 														id="geo_att_determiner_#i#"
 														value="#thisDeterminer#"
-                                                        title="GEO_ATT_DETERMINER_X"
+                                                        title="GEO_ATT_DETERMINER_#i#"
 														onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 														onkeypress="return noenter(event);">
 												</td>
 												<td>
 													<input type="text"
-                                                    title="GEO_ATT_DETERMINED_DATE_X"
+                                                    title="GEO_ATT_DETERMINED_DATE_#i#"
 														name="geo_att_determined_date_#i#"
 														id="geo_att_determined_date_#i#"
 														value="#thisDate#"
@@ -1144,14 +1144,14 @@ Some Totally Random String Data .....
 												<td>
 													<input type="text"
 														name="geo_att_determined_method_#i#"
-                                                        title="GEO_ATT_DETERMINED_METHOD_X"
+                                                        title="GEO_ATT_DETERMINED_METHOD_#i#"
 														id="geo_att_determined_method_#i#"
 														value="#thisMeth#"
 														size="15">
 												</td>
 												<td>
 													<input type="text"
-                                                    title="GEO_ATT_REMARK_X"
+                                                    title="GEO_ATT_REMARK_#i#"
 														name="geo_att_remark_#i#"
 														id="geo_att_remark_#i#"
 														value="#thisRemark#"
@@ -1244,7 +1244,7 @@ Some Totally Random String Data .....
 												<span class="f11a">Meth</span>
 												<input size="12" title="ATTRIBUTE_DET_METH_2" type="text" name="attribute_det_meth_2" value="#attribute_det_meth_2#" id="attribute_det_meth_2">
 												<span class="f11a">Rem</span>
-												<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_2" id="attribute_remarks_2" value="#attribute_remarks_2#">
+												<input type="text" title="ATTRIBUTE_REMARKS_2" name="attribute_remarks_2" id="attribute_remarks_2" value="#attribute_remarks_2#">
 											</td>
 										</tr>
 										<tr>
@@ -1475,7 +1475,7 @@ Some Totally Random String Data .....
 								<cfloop from="7" to="14" index="i">
 									<tr id="de_attribute_#i#">
 										<td>
-											<select title="ATTRIBUTE_X" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"
+											<select title="ATTRIBUTE_#i#" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"
 												style="width:100px;" id="attribute_#i#">
 												<option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
 												<cfloop query="ctAttributeType">
@@ -1486,34 +1486,34 @@ Some Totally Random String Data .....
 										</td>
 										<td>
 											<div id="attribute_value_cell_#i#">
-												<input type="text" title="ATTRIBUTE_VALUE_X" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
+												<input type="text" title="ATTRIBUTE_VALUE_#i#" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
 													id="attribute_value_#i#"size="14">
 											</div>
 										</td>
 										<td>
 											<div id="attribute_units_cell_#i#">
-											<input type="text" title="ATTRIBUTE_UNITS_X" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
+											<input type="text" title="ATTRIBUTE_UNITS_#i#" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
 												id="attribute_units_#i#" size="4">
 											</div>
 										</td>
 										<td>
-											<input type="text" title="ATTRIBUTE_DATE_X" name="attribute_date_#i#" value="#evaluate("data.attribute_date_" & i)#"
+											<input type="text" title="ATTRIBUTE_DATE_#i#" name="attribute_date_#i#" value="#evaluate("data.attribute_date_" & i)#"
 												id="attribute_date_#i#" size="9">
 										</td>
 										<td>
 											 <input type="text" name="attribute_determiner_#i#"
 												id="attribute_determiner_#i#" size="14"
-                                                title="ATTRIBUTE_DETERMINER_X"
+                                                title="ATTRIBUTE_DETERMINER_#i#"
 												value="#evaluate("data.attribute_determiner_" & i)#"
 												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 												onkeypress="return noenter(event);">
 										</td>
 										<td>
 											<input type="text" name="attribute_det_meth_#i#"
-												title="ATTRIBUTE_DET_METH_X" id="attribute_det_meth_#i#" size="12" value="#evaluate("data.attribute_det_meth_" & i)#">
+												title="ATTRIBUTE_DET_METH_#i#" id="attribute_det_meth_#i#" size="12" value="#evaluate("data.attribute_det_meth_" & i)#">
 										</td>
 										<td>
-											<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_#i#"
+											<input type="text" title="ATTRIBUTE_REMARKS_#i#" name="attribute_remarks_#i#"
 												id="attribute_remarks_#i#"
 												value="#evaluate("data.attribute_remarks_" & i)#">
 										</td>
