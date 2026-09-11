@@ -1814,7 +1814,29 @@ Some Totally Random String Data .....
 						</span>
 					</td>
 					<td width="16%">
-						<a href="userBrowseBulkedGrid.cfm?action=ajaxGrid">[ AJAX table ]</a>
+						<!--- Two routes into the bulkloader grid.  The first shows the set being
+							navigated here; the second is drawn only when it would go somewhere else,
+							which is whenever this caller is navigating someone else's records.
+							Bulkloader/browseBulk.cfm filters its grid on enteredby unconditionally, so
+							a set with no enteredby of its own is sent as the users this caller may act
+							for. --->
+						<cfset variables.myRecordsUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby=" & urlEncodedFormat(session.username) & "&accn=&colln=">
+						<cfif variables.recordSetIsAllUsers>
+							<cfset variables.gridUsers = variables.enteredby2>
+							<cfif len(variables.gridUsers) EQ 0 AND isDefined("adminForUsers")>
+								<cfset variables.gridUsers = adminForUsers>
+							</cfif>
+							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&showAllUsers=true&enteredby="
+								& urlEncodedFormat(variables.gridUsers)
+								& "&accn=" & urlEncodedFormat(variables.accn2)
+								& "&colln=" & urlEncodedFormat(variables.colln2)>
+						<cfelse>
+							<cfset variables.showInGridUrl = variables.myRecordsUrl>
+						</cfif>
+						<a href="#variables.showInGridUrl#" class="lnkBtn" style="font-size: 13px;padding: 2px 10px;">[ show in grid ]</a>
+						<cfif variables.showInGridUrl IS NOT variables.myRecordsUrl>
+							<a href="#variables.myRecordsUrl#" class="lnkBtn" style="font-size: 13px;padding: 2px 10px;">[ my records ]</a>
+						</cfif>
 					</td>
 					<td align="right" width="16%" nowrap="nowrap">
 						<span id="recCount">#whatIds.recordcount#</span> records
