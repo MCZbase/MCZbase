@@ -331,23 +331,36 @@ Some Totally Random String Data .....
 
         <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
 
-		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
-		<cfif ImAGod is "no">
-			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
-		<cfelse>
-		<cfif isdefined("accn2") and len(accn2) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn2#)">
-		</cfif>
-		<cfif isdefined("colln2") and len(colln2) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln2#)">
-		</cfif>
-        <cfif isdefined("enteredby2") and len(enteredby2) gt 0>
-      		<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-			<cfset sql = "#sql# AND enteredby IN (#enteredby2#)">
-		</cfif></cfif>
-		<cfset sql = "#sql# order by collection_object_id">
+		<!--- These three arrive as url parameters from Bulkloader/browseBulk.cfm:443, which wraps
+			each element of each list in single quotes.  The quotes were SQL string delimiters while this
+			statement was assembled as text; bound as lists they would become part of an element instead
+			of delimiting it, so they are stripped.  The form on this page does not post them, so the set
+			falls back to the caller's own records after a save, as it did before. --->
+		<cfparam name="url.accn2" default="">
+		<cfparam name="url.colln2" default="">
+		<cfparam name="url.enteredby2" default="">
+		<cfset variables.accn2 = replace(url.accn2,"'","","All")>
+		<cfset variables.colln2 = replace(url.colln2,"'","","All")>
+		<cfset variables.enteredby2 = replace(url.enteredby2,"'","","All")>
 		<cfquery name="whatIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#
+			SELECT collection_object_id
+			FROM bulkloader
+			WHERE collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+			<cfif ImAGod is "no">
+				AND enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfelse>
+				<cfif len(variables.accn2) GT 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn2#" list="yes">)
+				</cfif>
+				<cfif len(variables.colln2) GT 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln2#" list="yes">)
+				</cfif>
+				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
+				<cfif len(variables.enteredby2) GT 0>
+					AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.enteredby2#" list="yes">)
+				</cfif>
+			</cfif>
+			ORDER BY collection_object_id
 		</cfquery>
 
 		<cfset idList=valuelist(whatIds.collection_object_id)>
