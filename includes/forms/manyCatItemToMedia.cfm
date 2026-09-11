@@ -29,42 +29,41 @@
 		<input type="submit" value="Search" class="schBtn">
 	</form>
 	<cfif action is "search">
-		<cfset sql = "SELECT
-						cat_num, 
-						collection,
-						cataloged_item.collection_object_id,
-						scientific_name,
-						concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-					 FROM 
-						cataloged_item,
-						identification,
-                        collection">
-	
-		<cfif oidType is not "catalog_number">
-			<cfset sql = "#sql#	,coll_obj_other_id_num">
-		</cfif>
-		<cfset sql = "#sql#  WHERE 
-					  cataloged_item.collection_object_id = identification.collection_object_id AND
-                      cataloged_item.collection_id=collection.collection_id and
-					  identification.accepted_id_fg = 1">
-		<cfif oidType is "catalog_number">
-			<cfset oidNumList=listqualify(oidNum,"'")>
-			<cfset sql = "#sql#	AND cat_num IN ( #oidNumList# )">
-		<cfelse>
-			<cfset oidNumList=listqualify(oidNum,"'")>
-			<cfset sql = "#sql#
-				AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
-				AND other_id_type = '#oidType#'
-				AND display_value IN ( #oidNumList# )">
-		</cfif>
-		<cfif len(collID) gt 0>
-	        <cfset sql = "#sql# AND collection='#collID#'">
-	    </cfif>
-					
-	
-	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
-	</cfquery>
+		<!--- Was assembled as text and run through preservesinglequotes, splicing oidType and collID
+			into quoted literals and oidNum through listqualify, which wraps each element in quotes without
+			escaping any it contains.  All four columns compared here are character columns, so the binds
+			match what the quoted literals did.  The varying FROM clause is expressed with cfif inside the
+			block rather than by building a string.  The custom identifier binds inside
+			concatSingleOtherId's argument list, as tools/parent_child_taxonomy.cfm:400 already does. --->
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				cat_num,
+				collection,
+				cataloged_item.collection_object_id,
+				scientific_name,
+				concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#" null="#NOT isDefined('session.CustomOtherIdentifier') OR len(session.CustomOtherIdentifier) EQ 0#">) AS CustomID
+			FROM
+				cataloged_item,
+				identification,
+				collection
+				<cfif oidType is not "catalog_number">
+					,coll_obj_other_id_num
+				</cfif>
+			WHERE
+				cataloged_item.collection_object_id = identification.collection_object_id
+				AND cataloged_item.collection_id = collection.collection_id
+				AND identification.accepted_id_fg = 1
+				<cfif oidType is "catalog_number">
+					AND cat_num IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidNum#" list="yes">)
+				<cfelse>
+					AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
+					AND other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidType#">
+					AND display_value IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidNum#" list="yes">)
+				</cfif>
+				<cfif len(collID) GT 0>
+					AND collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collID#">
+				</cfif>
+		</cfquery>
         <cfif getItems.recordcount is 0>
 			-foundNothing-
 		<cfelse>
