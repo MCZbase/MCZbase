@@ -522,7 +522,7 @@ table##t th {
 						the only routes to their own staged records: the pickers below, which reach the
 						same two views for a chosen set, are not drawn for them. --->
 					<p class="mt-2 mb-3">
-						<a class="btn btn-xs btn-info" href="browseBulk.cfm?action=ajaxGrid&enteredby=#session.username#&accn=&colln=">View all my records in grid</a>
+						<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=ajaxGrid&enteredby=#session.username#&accn=&colln=">Edit all my records in Grid</a>
 						<cfif NOT variables.mayBrowseOthers>
 							<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=sqlTab&enteredby=#session.username#&accn=&colln=">Edit my records in Bulk</a>
 						</cfif>

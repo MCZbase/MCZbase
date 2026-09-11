@@ -440,7 +440,7 @@
 		<cfset sortDirection = "DESC">
 	</cfif>
 	<!--- Callers disagree about quoting.  Bulkloader/browseBulk.cfm:408 passes these three lists with
-		each element already wrapped in single quotes, while its own View all my records button and
+		each element already wrapped in single quotes, while its own Edit all my records buttons and
 		DataEntry.cfm's grid buttons pass bare values.  The quotes were SQL string delimiters back
 		when the list was spliced into the statement; bound, they would be part of the value and match
 		nothing.  Stripped here, which is what browseBulk.cfm:26-28 already does for its own
