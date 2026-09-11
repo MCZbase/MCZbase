@@ -439,11 +439,12 @@
 	<cfif arguments.gridsortdirection IS "desc">
 		<cfset sortDirection = "DESC">
 	</cfif>
-	<!--- The two callers disagree about quoting: Bulkloader/browseBulk.cfm:408 passes these three
-		lists with each element already wrapped in single quotes, userBrowseBulkedGrid.cfm:35 passes
-		a bare value.  The quotes were SQL string delimiters back when the list was spliced into the
-		statement; bound, they would be part of the value and match nothing.  Stripped here, which is
-		what browseBulk.cfm:26-28 already does for its own queries. --->
+	<!--- Callers disagree about quoting.  Bulkloader/browseBulk.cfm:408 passes these three lists with
+		each element already wrapped in single quotes, while its own View all my records button and
+		DataEntry.cfm's grid buttons pass bare values.  The quotes were SQL string delimiters back
+		when the list was spliced into the statement; bound, they would be part of the value and match
+		nothing.  Stripped here, which is what browseBulk.cfm:26-28 already does for its own
+		queries. --->
 	<cfset accnList = replace(arguments.accn,"'","","All")>
 	<cfset enteredbyList = replace(arguments.enteredby,"'","","All")>
 	<cfset collnList = replace(arguments.colln,"'","","All")>
