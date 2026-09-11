@@ -718,12 +718,23 @@ table##t th {
 			</cfif>
 		</cfquery>
 		<cfset hasFilter = false>
-		<cfset sql = "select * from bulkloader where enteredby IN (#enteredby#)">
+		<!--- The statement below is assembled as text, so these three lists have to arrive in it
+			already quoted.  The pickers on this page send them that way, but the Edit my records in
+			Bulk button does not, and a bare value produced IN (mole) and ORA-00904.  Quoting is done
+			here from the cleaned values rather than relied on from the caller, so either form works;
+			the cleaned values have had their quotes stripped, so requoting cannot double them.
+			TODO: The rest of this statement, the column, operator and value triples below, is still
+			assembled as text. It is inside /Bulkloader/, which Application.cfc gates, so it is out of
+			scope for this issue; binding it is separate work. --->
+		<cfset enteredByQuoted = listqualify(enteredByCleaned,"'")>
+		<cfset accnQuoted = listqualify(accnCleaned,"'")>
+		<cfset collnQuoted = listqualify(collnCleaned,"'")>
+		<cfset sql = "select * from bulkloader where enteredby IN (#enteredByQuoted#)">
 		<cfif isdefined("accn") and len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
+			<cfset sql = "#sql# AND accn IN (#accnQuoted#)">
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
+			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#collnQuoted#)">
 		</cfif>
 		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
 			<cfset hasFilter = true>
