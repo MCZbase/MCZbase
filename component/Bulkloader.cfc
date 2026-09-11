@@ -377,6 +377,9 @@
 	<cfset var sortDirection = "ASC">
 	<cfset var sqlString = "">
 	<cfset var data = "">
+	<cfset var accnList = "">
+	<cfset var enteredbyList = "">
+	<cfset var collnList = "">
 	<!--- A sort column and a sort direction are identifiers and a keyword, neither of which can be
 		bound, so each is replaced by a value this code chose: the column as the data dictionary
 		spells it, or the default. --->
@@ -387,17 +390,25 @@
 	<cfif arguments.gridsortdirection IS "desc">
 		<cfset sortDirection = "DESC">
 	</cfif>
-	<cfif len(arguments.accn) GT 0>
+	<!--- The two callers disagree about quoting: Bulkloader/browseBulk.cfm:408 passes these three
+		lists with each element already wrapped in single quotes, userBrowseBulkedGrid.cfm:35 passes
+		a bare value.  The quotes were SQL string delimiters back when the list was spliced into the
+		statement; bound, they would be part of the value and match nothing.  Stripped here, which is
+		what browseBulk.cfm:26-28 already does for its own queries. --->
+	<cfset accnList = replace(arguments.accn,"'","","All")>
+	<cfset enteredbyList = replace(arguments.enteredby,"'","","All")>
+	<cfset collnList = replace(arguments.colln,"'","","All")>
+	<cfif len(accnList) GT 0>
 		<cfset arrayAppend(whereClauses,"accn IN (:accn)")>
-		<cfset sqlParams["accn"] = { value=arguments.accn, cfsqltype="CF_SQL_VARCHAR", list=true }>
+		<cfset sqlParams["accn"] = { value=accnList, cfsqltype="CF_SQL_VARCHAR", list=true }>
 	</cfif>
-	<cfif len(arguments.enteredby) GT 0>
+	<cfif len(enteredbyList) GT 0>
 		<cfset arrayAppend(whereClauses,"enteredby IN (:enteredby)")>
-		<cfset sqlParams["enteredby"] = { value=arguments.enteredby, cfsqltype="CF_SQL_VARCHAR", list=true }>
+		<cfset sqlParams["enteredby"] = { value=enteredbyList, cfsqltype="CF_SQL_VARCHAR", list=true }>
 	</cfif>
-	<cfif len(arguments.colln) GT 0>
+	<cfif len(collnList) GT 0>
 		<cfset arrayAppend(whereClauses,"institution_acronym || ':' || collection_cde IN (:colln)")>
-		<cfset sqlParams["colln"] = { value=arguments.colln, cfsqltype="CF_SQL_VARCHAR", list=true }>
+		<cfset sqlParams["colln"] = { value=collnList, cfsqltype="CF_SQL_VARCHAR", list=true }>
 	</cfif>
 	<cfset sqlString = "SELECT * FROM bulkloader">
 	<cfif arrayLen(whereClauses) GT 0>
