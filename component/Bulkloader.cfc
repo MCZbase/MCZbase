@@ -175,6 +175,37 @@
 	<cfreturn columns>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
+<!--- Function usersCallerMayBrowse returns the usernames whose staged records this caller is
+	allowed to see and change: the data entry users in the collections they manage, or just
+	themselves if they manage none.  The methods here are access="remote", so they answer a URL
+	whatever a page offers, and an enteredby arriving in the request is a statement of intent that
+	has to be narrowed to this.
+
+	cf_setDataEntryGroups writes its results into the caller scope, which is a page when the tag is
+	used as it is elsewhere.  Invoked from inside a function its result may not land where it does
+	on a page, so the outcome is not assumed: anything other than a list actually arriving leaves
+	the caller with their own records only.  This degrades access rather than widening it.
+
+	TODO: The query behind cf_setDataEntryGroups belongs in a component method both that tag and
+	this can call, rather than being reached through the caller scope. That refactor is separate
+	work from this.
+
+@return comma delimited list of usernames, never empty.
+--->
+<cffunction name="usersCallerMayBrowse" access="private" returntype="string">
+	<cfset var permitted = session.username>
+	<cftry>
+		<cf_setDataEntryGroups>
+		<cfif isDefined("adminForUsers") AND len(adminForUsers) GT 0>
+			<cfset permitted = adminForUsers>
+		</cfif>
+	<cfcatch>
+		<!--- leave permitted as the session user --->
+	</cfcatch>
+	</cftry>
+	<cfreturn permitted>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
 <!--- Function parseFieldValues splits the query string the data entry screen sends into a struct
 	of column name to value, discarding any name that is not a column of the bulkloader table.
 	This replaces a loop that did <cfset "variables.#k#"=urldecode(v)>, which let a caller create
@@ -395,6 +426,9 @@
 	<cfset var accnList = "">
 	<cfset var enteredbyList = "">
 	<cfset var collnList = "">
+	<cfset var permittedUsers = "">
+	<cfset var allowedUsers = "">
+	<cfset var oneUser = "">
 	<!--- A sort column and a sort direction are identifiers and a keyword, neither of which can be
 		bound, so each is replaced by a value this code chose: the column as the data dictionary
 		spells it, or the default. --->
@@ -413,14 +447,27 @@
 	<cfset accnList = replace(arguments.accn,"'","","All")>
 	<cfset enteredbyList = replace(arguments.enteredby,"'","","All")>
 	<cfset collnList = replace(arguments.colln,"'","","All")>
+	<!--- The requested users are narrowed to the ones this caller's roles allow, and an empty
+		request means all of those rather than everyone.  A request naming only users they may not
+		act for leaves them their own records.  The enteredby clause is therefore always applied. --->
+	<cfset permittedUsers = usersCallerMayBrowse()>
+	<cfloop list="#enteredbyList#" index="oneUser">
+		<cfif listfindnocase(permittedUsers,oneUser)>
+			<cfset allowedUsers = listappend(allowedUsers,oneUser)>
+		</cfif>
+	</cfloop>
+	<cfif len(enteredbyList) EQ 0>
+		<cfset allowedUsers = permittedUsers>
+	</cfif>
+	<cfif len(allowedUsers) EQ 0>
+		<cfset allowedUsers = session.username>
+	</cfif>
 	<cfif len(accnList) GT 0>
 		<cfset arrayAppend(whereClauses,"accn IN (:accn)")>
 		<cfset sqlParams["accn"] = { value=accnList, cfsqltype="CF_SQL_VARCHAR", list=true }>
 	</cfif>
-	<cfif len(enteredbyList) GT 0>
-		<cfset arrayAppend(whereClauses,"enteredby IN (:enteredby)")>
-		<cfset sqlParams["enteredby"] = { value=enteredbyList, cfsqltype="CF_SQL_VARCHAR", list=true }>
-	</cfif>
+	<cfset arrayAppend(whereClauses,"enteredby IN (:enteredby)")>
+	<cfset sqlParams["enteredby"] = { value=allowedUsers, cfsqltype="CF_SQL_VARCHAR", list=true }>
 	<cfif len(collnList) GT 0>
 		<cfset arrayAppend(whereClauses,"institution_acronym || ':' || collection_cde IN (:colln)")>
 		<cfset sqlParams["colln"] = { value=collnList, cfsqltype="CF_SQL_VARCHAR", list=true }>
@@ -452,6 +499,7 @@
 	<cfset var changedColumn = structKeyList(arguments.cfgridchanged)>
 	<cfset var columnPosition = listfindnocase(columns,changedColumn)>
 	<cfset var fieldName = "">
+	<cfset var owner = "">
 	<cfif columnPosition EQ 0>
 		<!--- Also reached when more than one column arrives at once, which this cannot express. --->
 		<cfthrow type="InvalidParameter" message="Not a single column of the bulkloader table.">
@@ -460,6 +508,19 @@
 		<cfthrow type="InvalidParameter" message="A numeric collection_object_id is required to edit a record.">
 	</cfif>
 	<cfset fieldName = listgetat(columns,columnPosition)>
+	<!--- This is a write, and the row identifies its own owner, so who entered it is checked here
+		rather than trusted from whatever set the grid was showing. --->
+	<cfquery name="owner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT enteredby
+		FROM bulkloader
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.cfgridrow.collection_object_id#">
+	</cfquery>
+	<cfif owner.recordCount EQ 0>
+		<cfthrow type="InvalidParameter" message="No such staged record.">
+	</cfif>
+	<cfif NOT listfindnocase(usersCallerMayBrowse(),owner.enteredby)>
+		<cfthrow type="InvalidParameter" message="That record was entered by someone whose records you may not change.">
+	</cfif>
 	<cfset queryExecute(
 		"UPDATE bulkloader SET #fieldName# = :newValue WHERE collection_object_id = :collection_object_id",
 		{
