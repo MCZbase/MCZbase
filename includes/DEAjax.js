@@ -1063,114 +1063,67 @@ function UAMArtDefaults() {
 	}
 }
 	
+/** Function attributeRowFields collects the inputs of one attribute column that the form has
+ * actually rendered, so that copying a value into the attribute rows does not depend on a row
+ * count written into this file.  Which attribute rows a collection offers for entry varies, and
+ * when rows 11 to 14 were added to the form the lists this replaces were left at 10, so a copied
+ * date reached some rows and not others.  Hidden inputs are left out: a value put into one cannot
+ * be seen or corrected by the person who copied it.
+ *
+ * @param idPrefix id prefix of the column to collect, for example attribute_date_
+ * @return jQuery set of the matching inputs, empty if the form rendered none.
+ */
+function attributeRowFields(idPrefix) {
+	return $('input[id^="' + idPrefix + '"]').not('[type=hidden]');
+}
+
+/** Function copyAllDates copies one date into every date field on the data entry screen,
+ * including the date of each attribute row the form rendered.
+ *
+ * @param theID id of the field holding the date to copy.
+ */
 function copyAllDates(theID) {
-	var theDate = document.getElementById(theID).value;
-	if (theDate.length > 0) {
-		var date_array = new Array();
-		date_array.push('ended_date');
-		date_array.push('began_date');
-		date_array.push('determined_date');
-		date_array.push('made_date');
-		date_array.push('attribute_date_1');
-		date_array.push('attribute_date_2');
-		date_array.push('attribute_date_3');
-		date_array.push('attribute_date_4');
-		date_array.push('attribute_date_5');
-		date_array.push('attribute_date_6');
-		date_array.push('attribute_date_7');
-		date_array.push('attribute_date_8');
-		date_array.push('attribute_date_9');
-		date_array.push('attribute_date_10');
-		for (i=0;i<date_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(date_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theDate;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theDate = $('#' + theID).val();
+	if (theDate && theDate.length > 0) {
+		$('#ended_date, #began_date, #determined_date, #made_date').val(theDate);
+		attributeRowFields('attribute_date_').val(theDate);
 	}
 }
+
+/** Function copyAttributeDates copies one date into the date of each attribute row the form
+ * rendered.
+ *
+ * @param theID id of the field holding the date to copy.
+ */
 function copyAttributeDates(theID) {
-	var theDate = document.getElementById(theID).value;
-	if (theDate.length > 0) {
-		var date_array = new Array();
-		date_array.push('attribute_date_1');
-		date_array.push('attribute_date_2');
-		date_array.push('attribute_date_3');
-		date_array.push('attribute_date_4');
-		date_array.push('attribute_date_5');
-		date_array.push('attribute_date_6');
-		date_array.push('attribute_date_7');
-		date_array.push('attribute_date_8');
-		date_array.push('attribute_date_9');
-		date_array.push('attribute_date_10');
-		for (i=0;i<date_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(date_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theDate;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theDate = $('#' + theID).val();
+	if (theDate && theDate.length > 0) {
+		attributeRowFields('attribute_date_').val(theDate);
 	}
 }
+
+/** Function copyAttributeDetr copies one agent into the determiner of each attribute row the form
+ * rendered.
+ *
+ * @param theID id of the field holding the agent to copy.
+ */
 function copyAttributeDetr(theID) {
-	var theAgent = document.getElementById(theID).value;
-	if (theAgent.length > 0) {
-		var agnt_array = new Array();
-		agnt_array.push('attribute_determiner_1');
-		agnt_array.push('attribute_determiner_2');
-		agnt_array.push('attribute_determiner_3');
-		agnt_array.push('attribute_determiner_4');
-		agnt_array.push('attribute_determiner_5');
-		agnt_array.push('attribute_determiner_6');
-		agnt_array.push('attribute_determiner_7');
-		agnt_array.push('attribute_determiner_8');
-		agnt_array.push('attribute_determiner_9');
-		agnt_array.push('attribute_determiner_10');
-		for (i=0;i<agnt_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(agnt_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theAgent;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theAgent = $('#' + theID).val();
+	if (theAgent && theAgent.length > 0) {
+		attributeRowFields('attribute_determiner_').val(theAgent);
 	}
 }
+
+/** Function copyAllAgents copies one agent into every agent field on the data entry screen,
+ * including the determiner of each attribute row the form rendered.
+ *
+ * @param theID id of the field holding the agent to copy.
+ */
 function copyAllAgents(theID) {
-	var theAgent = document.getElementById(theID).value;
-	if (theAgent.length > 0) {
-		var agnt_array = new Array();
-		agnt_array.push('determined_by_agent');
-		agnt_array.push('id_made_by_agent');
-		agnt_array.push('attribute_determiner_1');
-		agnt_array.push('attribute_determiner_2');
-		agnt_array.push('attribute_determiner_3');
-		agnt_array.push('attribute_determiner_4');
-		agnt_array.push('attribute_determiner_5');
-		agnt_array.push('attribute_determiner_6');
-		agnt_array.push('attribute_determiner_7');
-		agnt_array.push('attribute_determiner_8');
-		agnt_array.push('attribute_determiner_9');
-		agnt_array.push('attribute_determiner_10');
-		for (i=0;i<agnt_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(agnt_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theAgent;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theAgent = $('#' + theID).val();
+	if (theAgent && theAgent.length > 0) {
+		$('#determined_by_agent, #id_made_by_agent').val(theAgent);
+		attributeRowFields('attribute_determiner_').val(theAgent);
 	}
 }
 function highlightErrors (loadedMsg) {
