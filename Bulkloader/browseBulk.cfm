@@ -518,10 +518,14 @@ table##t th {
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 col-xl-10 mx-auto">
 					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h1>
-					<!--- Offered to everyone.  For a data entry user who manages no collection this is
-						the only route to their own staged records. --->
+					<!--- Offered to everyone.  For a data entry user who manages no collection these are
+						the only routes to their own staged records: the pickers below, which reach the
+						same two views for a chosen set, are not drawn for them. --->
 					<p class="mt-2 mb-3">
 						<a class="btn btn-xs btn-info" href="browseBulk.cfm?action=ajaxGrid&enteredby=#session.username#&accn=&colln=">View all my records in grid</a>
+						<cfif NOT variables.mayBrowseOthers>
+							<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=sqlTab&enteredby=#session.username#&accn=&colln=">Edit my records in Bulk</a>
+						</cfif>
 					</p>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
 						<cfif variables.mayBrowseOthers>
