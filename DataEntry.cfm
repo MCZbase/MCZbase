@@ -1837,23 +1837,29 @@ Some Totally Random String Data .....
 						</span>
 					</td>
 					<td width="16%">
-						<!--- Two routes into the bulkloader grid.  The first shows the set being
-							navigated here, sending the same user list the Jump to query was narrowed
-							to, so the two agree.  The second is drawn only when it would go somewhere
-							else, which is whenever this caller is navigating someone else's
-							records. --->
+						<!--- Two routes into the bulkloader grid.  Whether the second is worth drawing
+							is decided on the set being navigated, not on whether the two urls differ as
+							text: a caller who asked for all users but whose set resolves to just
+							themselves is looking at their own records, however the url reads. --->
 						<cfset variables.myRecordsUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby=" & urlEncodedFormat(session.username) & "&accn=&colln=">
+						<cfset variables.setIsMyRecords = true>
 						<cfif variables.recordSetIsAllUsers>
+							<cfif len(variables.accn2) GT 0 OR len(variables.colln2) GT 0 OR variables.navigableUsers IS NOT session.username>
+								<cfset variables.setIsMyRecords = false>
+							</cfif>
+						</cfif>
+						<cfif variables.setIsMyRecords>
+							<cfset variables.showInGridUrl = variables.myRecordsUrl>
+						<cfelse>
 							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&showAllUsers=true&enteredby="
 								& urlEncodedFormat(variables.navigableUsers)
 								& "&accn=" & urlEncodedFormat(variables.accn2)
 								& "&colln=" & urlEncodedFormat(variables.colln2)>
-						<cfelse>
-							<cfset variables.showInGridUrl = variables.myRecordsUrl>
 						</cfif>
-						<a href="#variables.showInGridUrl#" class="lnkBtn" style="font-size: 13px;padding: 2px 10px;">[ show in grid ]</a>
-						<cfif variables.showInGridUrl IS NOT variables.myRecordsUrl>
-							<a href="#variables.myRecordsUrl#" class="lnkBtn" style="font-size: 13px;padding: 2px 10px;">[ my records ]</a>
+						<cfif NOT variables.setIsMyRecords>
+							<input type="button" value="My Records" class="lnkBtn"
+								style="font-size: 13px;padding: 2px 10px;"
+								onclick="window.location='#variables.myRecordsUrl#';">
 						</cfif>
 					</td>
 					<td align="right" width="16%" nowrap="nowrap">
@@ -1873,6 +1879,11 @@ Some Totally Random String Data .....
 							</select>
 							<!-- span id="nBrowse" class="infoLink" onclick="browseTo('next')">[ next ]</span -->
 						</span>
+						<!--- Outside browseThingy, which DEAjax.js hides in entry mode, so this stays
+							reachable there. --->
+						<input type="button" value="Show in Grid" class="lnkBtn"
+							style="font-size: 13px;padding: 2px 10px;"
+							onclick="window.location='#variables.showInGridUrl#';">
 					</td>
 				</tr>
 			</table>
