@@ -5,6 +5,14 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+<!--- Declared because the branches below read them unconditionally, so a link that omits one died
+	on an undefined variable.
+	TODO: These are declared without a scope, matching the unscoped reads throughout this file.
+	Giving every reference an explicit url or form scope, as the developer's guide requires, is a
+	separate job from this one. --->
+<cfparam name="enteredby" default="">
+<cfparam name="accn" default="">
+<cfparam name="colln" default="">
 <style>
 .blTabDiv {
 	width: 100%;
@@ -459,6 +467,15 @@ table##t th {
 <cfif action IS "nothing">
 	<cfoutput>
 		<cf_setDataEntryGroups>
+		<!--- adminForUsers is the data entry users in the collections this caller manages, so it is
+			non empty only for a manager, and it is what the pickers below are built from.  A data
+			entry user who manages no collection gets no pickers, and reaches their own records
+			through the link above them instead. --->
+		<cfset variables.mayBrowseOthers = false>
+		<cfif len(adminForUsers) GT 0>
+			<cfset variables.mayBrowseOthers = true>
+		</cfif>
+		<cfif variables.mayBrowseOthers>
 		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
 		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
@@ -496,12 +513,20 @@ table##t th {
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
+		</cfif>
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 col-xl-10 mx-auto">
-					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h2>
+					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h1>
+					<!--- Offered to everyone.  For a data entry user who manages no collection this is
+						the only route to their own staged records. --->
+					<p class="mt-2 mb-3">
+						<a class="btn btn-xs btn-info" href="browseBulk.cfm?action=ajaxGrid&enteredby=#session.username#&accn=&colln=">View all my records in grid</a>
+					</p>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
-						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+						<cfif variables.mayBrowseOthers>
+							<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+						</cfif>
 							<ul>
 								<li>
 									<h2 class="h3">Edit in Bulk</h2>
@@ -521,6 +546,14 @@ table##t th {
 							</ul>
 					</div>
 					<div class="col-12 col-md-auto px-0 float-left">
+						<cfif NOT variables.mayBrowseOthers>
+							<p>
+								You can edit the records you entered yourself with the button above.
+								Choosing another person&apos;s records, or a whole accession or collection,
+								needs the manage collection role for that collection.
+							</p>
+						</cfif>
+						<cfif variables.mayBrowseOthers>
 						<form name="f" method="post" action="browseBulk.cfm">
 							<table class="">
 								<tr>
@@ -561,6 +594,7 @@ table##t th {
 								</tr>
 							</table>
 						</form>
+						</cfif>
 					</div>
 
 				</div>
