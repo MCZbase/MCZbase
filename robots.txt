@@ -47,7 +47,6 @@ Disallow: /tempImages/
 Disallow: /tests/
 Disallow: /tools/
 Disallow: /transactions/
-Disallow: /user/
 Disallow: /users/
 Disallow: /vocabularies/component/
 Disallow: /.gitignore
