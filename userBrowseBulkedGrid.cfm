@@ -1,8 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
-<!--- This page sits at the web root, which Application.cfc's directory gate does not cover,
-	and it edits staged bulkloader rows.  action was read without being declared, so a request
-	without it failed on an undefined variable. --->
-<cf_rolecheck>
+<!--- action was read at three branch points without being declared, so a request omitting it
+	failed on an undefined variable. --->
 <cfparam name="form.action" default="nothing">
 <cfparam name="url.action" default="">
 <cfset variables.action = form.action>
