@@ -371,17 +371,32 @@ Some Totally Random String Data .....
 			does travel in a hidden field, so after a save a caller who had asked for a filtered set
 			keeps the request for other people's records but loses the accession, collection and user
 			that narrowed it: the set widens to every user they may act for.  That is the shape the
-			page had before this branch, where ImAGod survived a save and the filters did not, except
-			that the set it widens to is now bounded by the caller's roles rather than being every
-			record in the table.
-			TODO: Carry accn2, colln2 and enteredby2 in hidden fields as well, so the set a caller is
-			navigating survives a save intact. --->
+			page had before this branch, where ImAGod survived a save and the filters did not.
+
+			They are read from both scopes and posted back in hidden fields alongside showAllUsers, so
+			the set a caller is navigating survives a save whole rather than widening to every user
+			they may act for.  A link supplies them in the url; a post supplies them in the form. --->
 		<cfparam name="url.accn2" default="">
+		<cfparam name="form.accn2" default="">
 		<cfparam name="url.colln2" default="">
+		<cfparam name="form.colln2" default="">
 		<cfparam name="url.enteredby2" default="">
-		<cfset variables.accn2 = replace(url.accn2,"'","","All")>
-		<cfset variables.colln2 = replace(url.colln2,"'","","All")>
-		<cfset variables.enteredby2 = replace(url.enteredby2,"'","","All")>
+		<cfparam name="form.enteredby2" default="">
+		<cfset variables.accn2 = url.accn2>
+		<cfif len(variables.accn2) EQ 0>
+			<cfset variables.accn2 = form.accn2>
+		</cfif>
+		<cfset variables.colln2 = url.colln2>
+		<cfif len(variables.colln2) EQ 0>
+			<cfset variables.colln2 = form.colln2>
+		</cfif>
+		<cfset variables.enteredby2 = url.enteredby2>
+		<cfif len(variables.enteredby2) EQ 0>
+			<cfset variables.enteredby2 = form.enteredby2>
+		</cfif>
+		<cfset variables.accn2 = replace(variables.accn2,"'","","All")>
+		<cfset variables.colln2 = replace(variables.colln2,"'","","All")>
+		<cfset variables.enteredby2 = replace(variables.enteredby2,"'","","All")>
 		<!--- enteredby2 is intent, narrowed to the users the roles permit, the same three steps getPage
 			takes: a named user is kept only if permitted, naming none means all the permitted ones, and
 			naming only users out of scope leaves the caller their own records. --->
@@ -435,6 +450,12 @@ Some Totally Random String Data .....
 				reads above test for "true", so the round trip would rest on YES and true comparing
 				equal.  Which record set to navigate; revalidated against roles on each request. --->
 			<input type="hidden" name="showAllUsers" value="#variables.showAllUsersField#" id="showAllUsers">
+			<!--- The filters that narrow that set, posted back so it survives a save whole.  They are
+				re-read and re-validated on arrival like any other request value, and they carry the
+				quote stripped form, which stripping again leaves alone. --->
+			<input type="hidden" name="accn2" value="#encodeForHtml(variables.accn2)#" id="accn2">
+			<input type="hidden" name="colln2" value="#encodeForHtml(variables.colln2)#" id="colln2">
+			<input type="hidden" name="enteredby2" value="#encodeForHtml(variables.enteredby2)#" id="enteredby2">
 			<input type="hidden" name="collection_cde" value="#collection_cde#" id="collection_cde">
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
