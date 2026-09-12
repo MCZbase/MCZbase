@@ -46,7 +46,7 @@
 				        identification.identification_id=identification_taxonomy.identification_id and
 					MCZBASE.is_media_encumbered(media.media_id) < 1 and
 				        --media.preview_uri is not null and
-				        identification_taxonomy.taxon_name_id=#q#
+				        identification_taxonomy.taxon_name_id=:q
 				    UNION
 				    select
 				        media.media_id,
@@ -62,7 +62,7 @@
 				         media.media_id=media_relations.media_id and
 				         media_relations.media_relationship like '%taxonomy' and
 					 MCZBASE.is_media_encumbered(media.media_id) < 1 and
-				         media_relations.related_primary_key = #q#
+				         media_relations.related_primary_key = :q
 				 ) group by
 				 	media_id,
 				    media_uri,
@@ -88,7 +88,7 @@
 					 media.media_id=media_relations.media_id and
 				     media_relations.media_relationship like '% accn' and
 					MCZBASE.is_media_encumbered(media.media_id) < 1 and
-				     media_relations.related_primary_key=#q#
+				     media_relations.related_primary_key=:q
 				group by
 				 	media.media_id,
 			        media.media_uri,
@@ -100,9 +100,20 @@
 	<cfelse>
 		<cfabort>
 	</cfif>
-	<cfquery name="mediaResultsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,0,0)#">
-	   	#preservesinglequotes(sql)#
-	</cfquery>
+	<!--- q identifies the record whose media these are and arrives in the request.  It was spliced
+		into three of the statements above in numeric position, where there is no quoting to break out
+		of, and this page invokes no role check and is not in a directory Application.cfc gates.  The
+		statement text still varies by typ, which is why this binds through queryExecute rather than
+		a cfqueryparam. --->
+	<cfif NOT isNumeric(q)>
+		<cfabort>
+	</cfif>
+	<cfset mediaResultsQuery = queryExecute(sql,{ q = { value=q, cfsqltype="CF_SQL_DECIMAL" } },{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		cachedwithin = createtimespan(0,0,0,0)
+	})>
 	<cfif mediaResultsQuery.recordcount is 0>
 		<cfabort>
 	</cfif>

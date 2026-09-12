@@ -74,26 +74,26 @@
 
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update tag set
-					reftop=#reftop#,
-					refleft=#refleft#,
-					refh=#refh#,
-					refw=#refw#,
-					imgh=#imgh#,
-					imgw=#imgw#
+					reftop=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reftop#">,
+					refleft=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refleft#">,
+					refh=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refh#">,
+					refw=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refw#">,
+					imgh=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgh#">,
+					imgw=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgw#">
 					<cfif reftype is "cataloged_item">
-						,collection_object_id=#refid#
+						,collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
 					<cfelseif reftype is "collecting_event">
-						,collecting_event_id=#refid#
+						,collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
 					<cfelseif reftype is "locality">
-						,locality_id=#refid#
+						,locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
 					<cfelseif reftype is "agent">
-						,agent_id=#refid#
+						,agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
 					</cfif>
 					<cfif len(remark) gt 0>
-						,remark='#escapeQuotes(remark)#'
+						,remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 					</cfif>
 				where
-					tag_id=#tag_id#
+					tag_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tag_id#">
 			</cfquery>
 			<cfset rx=getTagReln(tag_id)>
 			<cfreturn rx>
@@ -146,19 +146,19 @@
 						,remark
 					</cfif>
 				) values (
-					#pkey.n#,
-					#media_id#,
-					#reftop#,
-					#refleft#,
-					#refh#,
-					#refw#,
-					#imgh#,
-					#imgw#
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pkey.n#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reftop#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refleft#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refh#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refw#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgh#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgw#">
 					<cfif reftype is "cataloged_item" or reftype is "collecting_event" or reftype is "locality" or reftype is "agent">
-						,#refid#
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
 					</cfif>
 					<cfif len(remark) gt 0>
-						,'#remark#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 					</cfif>
 				)
 			</cfquery>

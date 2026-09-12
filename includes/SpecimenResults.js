@@ -504,11 +504,6 @@ function success_getSpecResultsData(result){
 		} else {
 			var transaction_id='';
 		}
-		if (document.getElementById('loan_request_coll_id') && document.getElementById('loan_request_coll_id').value.length>0){
-			var loan_request_coll_id = document.getElementById('loan_request_coll_id').value;
-		} else {
-			var loan_request_coll_id='';
-		}
 		if (document.getElementById('deacc_request_coll_id') && document.getElementById('deacc_request_coll_id').value.length>0){
 			var deacc_request_coll_id = document.getElementById('deacc_request_coll_id').value;
 		} else {
@@ -524,9 +519,6 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Remove</th>';
 			}
 			theInnerHtml += '<th>Cat&nbsp;Num</th>';
-			if (loan_request_coll_id.length > 0){
-				theInnerHtml +='<th>Request</th>';
-			}
 			if (action == 'dispCollObj'){
 				theInnerHtml +='<th>Loan</th>';
 			}
@@ -810,15 +802,6 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '<div class="showType">' + typestatus + '</div>';
 				}
 				theInnerHtml += '</td>';
-				if (loan_request_coll_id.length > 0) {
-					if (loan_request_coll_id == data.COLLECTION_ID[i]){
-						theInnerHtml +='<td><span class="likeLink" onclick="addLoanItem(' + "'";
-						theInnerHtml += data.COLLECTION_OBJECT_ID;
-						theInnerHtml += "');" + '">Request</span></td>';
-					} else {
-						theInnerHtml +='<td>N/A</td>';
-					}
-				}
 				if (action == 'dispCollObj' || action == 'dispCollObjDeacc'){
 					theInnerHtml +='<td id="partCell_' + data.COLLECTION_OBJECT_ID[i] + '"></td>';
 				}

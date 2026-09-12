@@ -123,7 +123,7 @@ table.stat th {
 						<cfloop query="failures">
 							<tr>
 								<td>
-									<a href="/DataEntry.cfm?ImAGod=yes&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
+									<a href="/DataEntry.cfm?showAllUsers=true&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
 										#collection_object_id#
 									</a>
 									 (#institution_acronym# #collection_cde#)

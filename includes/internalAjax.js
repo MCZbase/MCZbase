@@ -111,50 +111,6 @@ function setPartAttOptions(id,patype,collectionCDE) {
 		}
 	);
 }
-function mgPartAtts(partID, collectionCDE) {
-	addBGDiv('closePartAtts()');
-	var theDiv = document.createElement('iFrame');
-	theDiv.id = 'partsAttDiv';
-	theDiv.className = 'annotateBox';
-	theDiv.innerHTML='<br>Loading...';
-	document.body.appendChild(theDiv);
-	var ptl="/form/partAtts.cfm?partID=" + partID + "&collectionCde=" + collectionCDE;
-	theDiv.src=ptl;
-	viewport.init("#partsAttDiv");
-}
-function mgPartAttsDE(ctPartName, collection_CDE) {
-	addBGDiv('closePartAtts()');
-	var theDiv = document.createElement('iFrame');
-	theDiv.id = 'partsAttDiv';
-	theDiv.className = 'annotateBox';
-	theDiv.innerHTML='<br>Loading...';
-	document.body.appendChild(theDiv);
-	var ptl="/form/partAtts.cfm?partID=" + ctPartName + "&collection_Cde=" + collection_CDE;
-	theDiv.src=ptl;
-	viewport.init("#partsAttDiv");
-}
-function closePartAtts() {
-	/*
-	 *
-	 * var theDiv = document.getElementById('bgDiv');
-	document.body.removeChild(theDiv);
-	var theDiv = document.getElementById('partsAttDiv');
-	document.body.removeChild(theDiv);
-
-		var theDiv = parent.document.getElementById('bgDiv');
-	parent.document.body.removeChild(theDiv);
-	var theDiv = parent.document.getElementById('partsAttDiv');
-	parent.document.body.removeChild(theDiv);
-
-
-	*/
-	$('#bgDiv').remove();
-	$('#partsAttDiv').remove();
-	$('#bgDiv', window.parent.document).remove();
-	$('#partsAttDiv', window.parent.document).remove();
-
-
-}
 function cloneTransAgent(i){
 	var id=jQuery('#agent_id_' + i).val();
 	var name=jQuery('#trans_agent_' + i).val();

@@ -1,4 +1,11 @@
 <cfinclude template="/includes/_pickHeader.cfm">
+<!--- collection_object_id arrived through implicit scope resolution, so a request could
+	supply it in place of the picks page that links here. --->
+<cfparam name="url.collection_object_id" default="">
+<cfset variables.collection_object_id = url.collection_object_id>
+<cfif NOT isNumeric(variables.collection_object_id)>
+	<cfthrow message="A numeric collection_object_id is required.">
+</cfif>
 <cfoutput>
 <!---- see what we're getting a condition of ---->
 <cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -15,7 +22,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		accepted_id_fg=1 AND
 		cataloged_item.collection_id = collection.collection_id AND
-		cataloged_item.collection_object_id = #collection_object_id#
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 	UNION
 	select 
 			part_name,
@@ -32,7 +39,7 @@
 			accepted_id_fg=1 AND
 			cataloged_item.collection_id = collection.collection_id AND
 			cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-			specimen_part.collection_object_id = #collection_object_id#
+			specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 </cfquery>
 
 <strong>Condition History of #itemDetails.collection# #itemDetails.cat_num#
@@ -46,7 +53,7 @@
 		condition
 	from object_condition,preferred_agent_name
 		where determined_agent_id = agent_id and
-		collection_object_id = #collection_object_id#
+		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 		group by
 		object_condition_id,
 		determined_agent_id,

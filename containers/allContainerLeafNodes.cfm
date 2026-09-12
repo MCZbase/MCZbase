@@ -29,6 +29,12 @@ limitations under the License.
 </cfif>
 
 <cfif isdefined("url.container_id") and len(url.container_id) GT 0>
+	<!--- Checked numeric here because of the one place below it cannot be bound: it reaches
+		get_storedas_by_contid() in a select list, and this driver has no column to resolve a
+		parameter type against either inside a function's argument list or in a select list. --->
+	<cfif NOT isNumeric(url.container_id)>
+		<cfthrow type="InvalidParameter" message="container_id must be numeric.">
+	</cfif>
 	<cfset variables.container_id = url.container_id>
 <cfelse>
 	<cfif isdefined("url.barcode") and len(url.barcode) GT 0>
@@ -49,7 +55,7 @@ limitations under the License.
 		SELECT barcode, container_type, label
 		FROM container 
 		WHERE 
-			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.container_id#">
+			container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 	</cfquery>
 	<cfif getContainerInfo.recordcount EQ 0>
 		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">

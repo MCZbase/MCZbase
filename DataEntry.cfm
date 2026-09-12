@@ -32,8 +32,39 @@ Some Totally Random String Data .....
 --->
 <cf_setDataEntryGroups>
 
-<cfif not isdefined("ImAGod") or len(#ImAGod#) is 0>
-	<cfset ImAGod = "no">
+<!--- What record set the caller is asking to navigate.  A statement of intent that carries no
+	authority of its own: whether it is honoured is decided from the roles the database grants,
+	below.  It travels in the request, and in a hidden field so it survives a save, which is safe
+	because it is revalidated on every request. --->
+<cfparam name="url.showAllUsers" default="">
+<cfparam name="form.showAllUsers" default="">
+<cfset variables.showAllUsers = false>
+<cfset variables.showAllUsersField = "false">
+<cfif url.showAllUsers IS "true" OR form.showAllUsers IS "true">
+	<cfset variables.showAllUsers = true>
+	<cfset variables.showAllUsersField = "true">
+</cfif>
+<!--- inAdminGroups is the collections this user manages, set by cf_setDataEntryGroups above.  Non
+	empty means they hold manage_collection somewhere, which is what permits working on records
+	entered by other people. --->
+<cfset variables.mayEditOthers = false>
+<cfif isDefined("inAdminGroups") AND len(inAdminGroups) GT 0>
+	<cfset variables.mayEditOthers = true>
+</cfif>
+<!--- A request for other people's records is honoured only where the roles allow it, and otherwise
+	falls back to the caller's own records rather than failing. --->
+<cfset variables.recordSetIsAllUsers = false>
+<cfif variables.showAllUsers AND variables.mayEditOthers>
+	<cfset variables.recordSetIsAllUsers = true>
+</cfif>
+<!--- The users whose records this caller may navigate: the data entry users in the collections they
+	manage, which cf_setDataEntryGroups put in adminForUsers above, or themselves.  getPage in
+	component/Bulkloader.cfc narrows its grid to the same list, so the set navigated here and the
+	set the grid buttons open agree.  Managing a collection is not licence to reach every record in
+	the table. --->
+<cfset variables.permittedUsers = session.username>
+<cfif variables.mayEditOthers AND isDefined("adminForUsers") AND len(adminForUsers) GT 0>
+	<cfset variables.permittedUsers = adminForUsers>
 </cfif>
 <cfif isdefined("CFGRIDKEY") and not isdefined("collection_object_id")>
 	<cfset collection_object_id = CFGRIDKEY>
@@ -331,23 +362,74 @@ Some Totally Random String Data .....
 
         <!--- Note: MAXTEMPLATE is the largest collection_id used for a template in bulkloader by using the collection_id as the value in bulkloader.collection_object_id --->
 
-		<cfset sql = "select collection_object_id from bulkloader where collection_object_id > #MAXTEMPLATE#">
-		<cfif ImAGod is "no">
-			 <cfset sql = "#sql# AND enteredby = '#session.username#'">
-		<cfelse>
-		<cfif isdefined("accn2") and len(accn2) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn2#)">
+		<!--- These three arrive as url parameters from Bulkloader/browseBulk.cfm:443, which wraps
+			each element of each list in single quotes.  The quotes were SQL string delimiters while this
+			statement was assembled as text; bound as lists they would become part of an element instead
+			of delimiting it, so they are stripped.
+
+			These three are read from the url only, because the form does not post them.  showAllUsers
+			does travel in a hidden field, so after a save a caller who had asked for a filtered set
+			keeps the request for other people's records but loses the accession, collection and user
+			that narrowed it: the set widens to every user they may act for.  That is the shape the
+			page had before this branch, where ImAGod survived a save and the filters did not.
+
+			They are read from both scopes and posted back in hidden fields alongside showAllUsers, so
+			the set a caller is navigating survives a save whole rather than widening to every user
+			they may act for.  A link supplies them in the url; a post supplies them in the form. --->
+		<cfparam name="url.accn2" default="">
+		<cfparam name="form.accn2" default="">
+		<cfparam name="url.colln2" default="">
+		<cfparam name="form.colln2" default="">
+		<cfparam name="url.enteredby2" default="">
+		<cfparam name="form.enteredby2" default="">
+		<cfset variables.accn2 = url.accn2>
+		<cfif len(variables.accn2) EQ 0>
+			<cfset variables.accn2 = form.accn2>
 		</cfif>
-		<cfif isdefined("colln2") and len(colln2) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln2#)">
+		<cfset variables.colln2 = url.colln2>
+		<cfif len(variables.colln2) EQ 0>
+			<cfset variables.colln2 = form.colln2>
 		</cfif>
-        <cfif isdefined("enteredby2") and len(enteredby2) gt 0>
-      		<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-			<cfset sql = "#sql# AND enteredby IN (#enteredby2#)">
-		</cfif></cfif>
-		<cfset sql = "#sql# order by collection_object_id">
+		<cfset variables.enteredby2 = url.enteredby2>
+		<cfif len(variables.enteredby2) EQ 0>
+			<cfset variables.enteredby2 = form.enteredby2>
+		</cfif>
+		<cfset variables.accn2 = replace(variables.accn2,"'","","All")>
+		<cfset variables.colln2 = replace(variables.colln2,"'","","All")>
+		<cfset variables.enteredby2 = replace(variables.enteredby2,"'","","All")>
+		<!--- enteredby2 is intent, narrowed to the users the roles permit, the same three steps getPage
+			takes: a named user is kept only if permitted, naming none means all the permitted ones, and
+			naming only users out of scope leaves the caller their own records. --->
+		<cfset variables.navigableUsers = "">
+		<cfloop list="#variables.enteredby2#" index="variables.oneUser">
+			<cfif listfindnocase(variables.permittedUsers,variables.oneUser)>
+				<cfset variables.navigableUsers = listappend(variables.navigableUsers,variables.oneUser)>
+			</cfif>
+		</cfloop>
+		<cfif len(variables.enteredby2) EQ 0>
+			<cfset variables.navigableUsers = variables.permittedUsers>
+		</cfif>
+		<cfif len(variables.navigableUsers) EQ 0>
+			<cfset variables.navigableUsers = session.username>
+		</cfif>
 		<cfquery name="whatIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#
+			SELECT collection_object_id
+			FROM bulkloader
+			WHERE collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+			<cfif NOT variables.recordSetIsAllUsers>
+				AND enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfelse>
+				<cfif len(variables.accn2) GT 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn2#" list="yes">)
+				</cfif>
+				<cfif len(variables.colln2) GT 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln2#" list="yes">)
+				</cfif>
+				<!--- Always applied, so managing a collection does not reach past the users it covers.
+					enteredby2 rather than enteredby in the request, as DataEntry.cfm overwrites enteredby. --->
+				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.navigableUsers#" list="yes">)
+			</cfif>
+			ORDER BY collection_object_id
 		</cfquery>
 
 		<cfset idList=valuelist(whatIds.collection_object_id)>
@@ -364,7 +446,16 @@ Some Totally Random String Data .....
 		<form name="dataEntry" method="post" action="DataEntry.cfm" onsubmit="return cleanup(); return noEnter();" id="dataEntry">
 			<input type="hidden" name="action" value="" id="action">
 			<input type="hidden" name="nothing" value="" id="nothing"/><!--- trashcan for picks - don't delete --->
-			<input type="hidden" name="ImAGod" value="#ImAGod#" id="ImAGod"><!--- allow power users to browse other's records --->
+			<!--- The literal rather than the boolean: ColdFusion renders a boolean as YES, and the
+				reads above test for "true", so the round trip would rest on YES and true comparing
+				equal.  Which record set to navigate; revalidated against roles on each request. --->
+			<input type="hidden" name="showAllUsers" value="#variables.showAllUsersField#" id="showAllUsers">
+			<!--- The filters that narrow that set, posted back so it survives a save whole.  They are
+				re-read and re-validated on arrival like any other request value, and they carry the
+				quote stripped form, which stripping again leaves alone. --->
+			<input type="hidden" name="accn2" value="#encodeForHtml(variables.accn2)#" id="accn2">
+			<input type="hidden" name="colln2" value="#encodeForHtml(variables.colln2)#" id="colln2">
+			<input type="hidden" name="enteredby2" value="#encodeForHtml(variables.enteredby2)#" id="enteredby2">
 			<input type="hidden" name="collection_cde" value="#collection_cde#" id="collection_cde">
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
@@ -429,7 +520,7 @@ Some Totally Random String Data .....
 							<cfloop from="1" to="8" index="i">
 								<cfif i is 1 or i is 3 or i is 5 or i is 7><tr></cfif>
 								<td id="d_collector_role_#i#" align="right">
-									<select name="collector_role_#i#" title="COLLECTOR_ROLE_X" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
+									<select name="collector_role_#i#" title="COLLECTOR_ROLE_#i#" size="1" <cfif i is 1>class="reqdClr"</cfif> id="collector_role_#i#">
 										<option <cfif evaluate("data.collector_role_" & i) is "c">selected="selected"</cfif> value="c">Collector&nbsp;&nbsp;&nbsp; </option>
 										<cfif i gt 1>
 											<option <cfif evaluate("data.collector_role_" & i) is "p">selected="selected"</cfif> value="p">Preparator</option>
@@ -438,7 +529,7 @@ Some Totally Random String Data .....
 								</td>
 								<td  id="d_collector_agent_#i#" nowrap="nowrap">
 									<span class="f11a">#i#</span>
-									<input title="COLLECTOR_AGENT_X" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
+									<input title="COLLECTOR_AGENT_#i#" type="text" name="collector_agent_#i#" value="#evaluate("data.collector_agent_" & i)#"
 										<cfif i is 1>class="reqdClr"</cfif> id="collector_agent_#i#"
 										onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 										onkeypress="return noenter(event);">
@@ -459,7 +550,7 @@ Some Totally Random String Data .....
 							<tr>
 								<td id="d_other_id_num_#i#">
 									<span class="f11a">OtherID #i#</span>
-									<select name="other_id_num_type_#i#" title="OTHER_ID_NUM_TYPE_X" style="width:250px"
+									<select name="other_id_num_type_#i#" title="OTHER_ID_NUM_TYPE_#i#" style="width:250px"
 										id="other_id_num_type_#i#"
 										onChange="this.className='reqdClr';dataEntry.other_id_num_#i#.className='reqdClr';dataEntry.other_id_num_#i#.focus();">
 										<option value=""></option>
@@ -468,7 +559,7 @@ Some Totally Random String Data .....
 												value="#other_id_type#">#other_id_type#</option>
 										</cfloop>
 									</select>
-									<input type="text" name="other_id_num_#i#" title="OTHER_ID_NUM_X" value="#evaluate("data.other_id_num_" & i)#" id="other_id_num_#i#">
+									<input type="text" name="other_id_num_#i#" title="OTHER_ID_NUM_#i#" value="#evaluate("data.other_id_num_" & i)#" id="other_id_num_#i#">
 								</td>
 							</tr>
 						</cfloop>
@@ -1110,7 +1201,7 @@ Some Totally Random String Data .....
 											<div id="#i#">
 											<tr id="d_geology_attribute_#i#">
 												<td>
-													<select name="geology_attribute_#i#" id="geology_attribute_#i#" size="1" title="GEOLOGY_ATTRIBUTE_X" onchange="populateGeology(this.id);">
+													<select name="geology_attribute_#i#" id="geology_attribute_#i#" size="1" title="GEOLOGY_ATTRIBUTE_#i#" onchange="populateGeology(this.id);">
 														<option value=""></option>
 														<cfloop query="ctgeology_attribute">
 															<option
@@ -1120,7 +1211,7 @@ Some Totally Random String Data .....
 													</select>
 												</td>
 												<td>
-													<select title="GEO_ATT_VALUE_X" name="geo_att_value_#i#" id="geo_att_value_#i#">
+													<select title="GEO_ATT_VALUE_#i#" name="geo_att_value_#i#" id="geo_att_value_#i#">
 														<option value="#thisVal#">#thisVal#</option>
 													</select>
 												</td>
@@ -1129,13 +1220,13 @@ Some Totally Random String Data .....
 														name="geo_att_determiner_#i#"
 														id="geo_att_determiner_#i#"
 														value="#thisDeterminer#"
-                                                        title="GEO_ATT_DETERMINER_X"
+                                                        title="GEO_ATT_DETERMINER_#i#"
 														onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 														onkeypress="return noenter(event);">
 												</td>
 												<td>
 													<input type="text"
-                                                    title="GEO_ATT_DETERMINED_DATE_X"
+                                                    title="GEO_ATT_DETERMINED_DATE_#i#"
 														name="geo_att_determined_date_#i#"
 														id="geo_att_determined_date_#i#"
 														value="#thisDate#"
@@ -1144,14 +1235,14 @@ Some Totally Random String Data .....
 												<td>
 													<input type="text"
 														name="geo_att_determined_method_#i#"
-                                                        title="GEO_ATT_DETERMINED_METHOD_X"
+                                                        title="GEO_ATT_DETERMINED_METHOD_#i#"
 														id="geo_att_determined_method_#i#"
 														value="#thisMeth#"
 														size="15">
 												</td>
 												<td>
 													<input type="text"
-                                                    title="GEO_ATT_REMARK_X"
+                                                    title="GEO_ATT_REMARK_#i#"
 														name="geo_att_remark_#i#"
 														id="geo_att_remark_#i#"
 														value="#thisRemark#"
@@ -1244,7 +1335,7 @@ Some Totally Random String Data .....
 												<span class="f11a">Meth</span>
 												<input size="12" title="ATTRIBUTE_DET_METH_2" type="text" name="attribute_det_meth_2" value="#attribute_det_meth_2#" id="attribute_det_meth_2">
 												<span class="f11a">Rem</span>
-												<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_2" id="attribute_remarks_2" value="#attribute_remarks_2#">
+												<input type="text" title="ATTRIBUTE_REMARKS_2" name="attribute_remarks_2" id="attribute_remarks_2" value="#attribute_remarks_2#">
 											</td>
 										</tr>
 										<tr>
@@ -1475,7 +1566,7 @@ Some Totally Random String Data .....
 								<cfloop from="7" to="14" index="i">
 									<tr id="de_attribute_#i#">
 										<td>
-											<select title="ATTRIBUTE_X" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"
+											<select title="ATTRIBUTE_#i#" name="attribute_#i#" onChange="getAttributeStuff(this.value,this.id);"
 												style="width:100px;" id="attribute_#i#">
 												<option value="">&nbsp;&nbsp;&nbsp;&nbsp;</option>
 												<cfloop query="ctAttributeType">
@@ -1486,34 +1577,34 @@ Some Totally Random String Data .....
 										</td>
 										<td>
 											<div id="attribute_value_cell_#i#">
-												<input type="text" title="ATTRIBUTE_VALUE_X" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
+												<input type="text" title="ATTRIBUTE_VALUE_#i#" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
 													id="attribute_value_#i#"size="14">
 											</div>
 										</td>
 										<td>
 											<div id="attribute_units_cell_#i#">
-											<input type="text" title="ATTRIBUTE_UNITS_X" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
+											<input type="text" title="ATTRIBUTE_UNITS_#i#" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
 												id="attribute_units_#i#" size="4">
 											</div>
 										</td>
 										<td>
-											<input type="text" title="ATTRIBUTE_DATE_X" name="attribute_date_#i#" value="#evaluate("data.attribute_date_" & i)#"
+											<input type="text" title="ATTRIBUTE_DATE_#i#" name="attribute_date_#i#" value="#evaluate("data.attribute_date_" & i)#"
 												id="attribute_date_#i#" size="9">
 										</td>
 										<td>
 											 <input type="text" name="attribute_determiner_#i#"
 												id="attribute_determiner_#i#" size="14"
-                                                title="ATTRIBUTE_DETERMINER_X"
+                                                title="ATTRIBUTE_DETERMINER_#i#"
 												value="#evaluate("data.attribute_determiner_" & i)#"
 												onchange="getAgent('nothing',this.id,'dataEntry',this.value);"
 												onkeypress="return noenter(event);">
 										</td>
 										<td>
 											<input type="text" name="attribute_det_meth_#i#"
-												title="ATTRIBUTE_DET_METH_X" id="attribute_det_meth_#i#" size="12" value="#evaluate("data.attribute_det_meth_" & i)#">
+												title="ATTRIBUTE_DET_METH_#i#" id="attribute_det_meth_#i#" size="12" value="#evaluate("data.attribute_det_meth_" & i)#">
 										</td>
 										<td>
-											<input type="text" title="ATTRIBUTE_REMARKS_X" name="attribute_remarks_#i#"
+											<input type="text" title="ATTRIBUTE_REMARKS_#i#" name="attribute_remarks_#i#"
 												id="attribute_remarks_#i#"
 												value="#evaluate("data.attribute_remarks_" & i)#">
 										</td>
@@ -1529,12 +1620,13 @@ Some Totally Random String Data .....
 					<tr>
 						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
 						<td width="100%">
-							<cfif ImAGod is not "yes">
-								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
-							<cfelseif ImAGod is "yes">
+							<!--- Only a manager may put someone else's name on a record; for everyone else it is
+								their own name, shown as text beside the hidden field that posts it. --->
+							<cfif variables.mayEditOthers>
 								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
 							<cfelse>
-								ERROR!!!
+								#encodeForHtml(session.username)#
+								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
 							</cfif>
 						</td>
 					</tr>
@@ -1781,7 +1873,30 @@ Some Totally Random String Data .....
 						</span>
 					</td>
 					<td width="16%">
-						<a href="userBrowseBulkedGrid.cfm?action=ajaxGrid">[ AJAX table ]</a>
+						<!--- Two routes into the bulkloader grid.  Whether the second is worth drawing
+							is decided on the set being navigated, not on whether the two urls differ as
+							text: a caller who asked for all users but whose set resolves to just
+							themselves is looking at their own records, however the url reads. --->
+						<cfset variables.myRecordsUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby=" & urlEncodedFormat(session.username) & "&accn=&colln=">
+						<cfset variables.setIsMyRecords = true>
+						<cfif variables.recordSetIsAllUsers>
+							<cfif len(variables.accn2) GT 0 OR len(variables.colln2) GT 0 OR variables.navigableUsers IS NOT session.username>
+								<cfset variables.setIsMyRecords = false>
+							</cfif>
+						</cfif>
+						<cfif variables.setIsMyRecords>
+							<cfset variables.showInGridUrl = variables.myRecordsUrl>
+						<cfelse>
+							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&showAllUsers=true&enteredby="
+								& urlEncodedFormat(variables.navigableUsers)
+								& "&accn=" & urlEncodedFormat(variables.accn2)
+								& "&colln=" & urlEncodedFormat(variables.colln2)>
+						</cfif>
+						<cfif NOT variables.setIsMyRecords>
+							<input type="button" value="My Records" class="lnkBtn"
+								style="font-size: 13px;padding: 2px 10px;"
+								onclick="window.location='#variables.myRecordsUrl#';">
+						</cfif>
 					</td>
 					<td align="right" width="16%" nowrap="nowrap">
 						<span id="recCount">#whatIds.recordcount#</span> records
@@ -1800,6 +1915,11 @@ Some Totally Random String Data .....
 							</select>
 							<!-- span id="nBrowse" class="infoLink" onclick="browseTo('next')">[ next ]</span -->
 						</span>
+						<!--- Outside browseThingy, which DEAjax.js hides in entry mode, so this stays
+							reachable there. --->
+						<input type="button" value="Show in Grid" class="lnkBtn"
+							style="font-size: 13px;padding: 2px 10px;"
+							onclick="window.location='#variables.showInGridUrl#';">
 					</td>
 				</tr>
 			</table>

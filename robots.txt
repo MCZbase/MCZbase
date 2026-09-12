@@ -47,7 +47,6 @@ Disallow: /tempImages/
 Disallow: /tests/
 Disallow: /tools/
 Disallow: /transactions/
-Disallow: /user/
 Disallow: /users/
 Disallow: /vocabularies/component/
 Disallow: /.gitignore
@@ -57,8 +56,6 @@ Disallow: /containers/allContainerLeafNodes.cfm
 Disallow: /Application.cfc
 Disallow: /Application_down.cfc
 Disallow: /batchScan.cfm
-Disallow: /bulkCollEvent.cfm
-Disallow: /bulkLocality.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
 Disallow: /vocabularies/manageControlledVocabulary.cfm
@@ -90,8 +87,6 @@ Disallow: /part2container.cfm
 Disallow: /SpecimenContainerLabels.cfm
 Disallow: /TAG.cfm
 Disallow: /Transactions.cfm
-Disallow: /userBrowseBulked.cfm
-Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /users/
 Sitemap: https://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
 User-agent: dotbot
