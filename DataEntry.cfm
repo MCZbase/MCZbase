@@ -39,8 +39,10 @@ Some Totally Random String Data .....
 <cfparam name="url.showAllUsers" default="">
 <cfparam name="form.showAllUsers" default="">
 <cfset variables.showAllUsers = false>
+<cfset variables.showAllUsersField = "false">
 <cfif url.showAllUsers IS "true" OR form.showAllUsers IS "true">
 	<cfset variables.showAllUsers = true>
+	<cfset variables.showAllUsersField = "true">
 </cfif>
 <!--- inAdminGroups is the collections this user manages, set by cf_setDataEntryGroups above.  Non
 	empty means they hold manage_collection somewhere, which is what permits working on records
@@ -363,8 +365,17 @@ Some Totally Random String Data .....
 		<!--- These three arrive as url parameters from Bulkloader/browseBulk.cfm:443, which wraps
 			each element of each list in single quotes.  The quotes were SQL string delimiters while this
 			statement was assembled as text; bound as lists they would become part of an element instead
-			of delimiting it, so they are stripped.  The form on this page does not post them, so the set
-			falls back to the caller's own records after a save, as it did before. --->
+			of delimiting it, so they are stripped.
+
+			These three are read from the url only, because the form does not post them.  showAllUsers
+			does travel in a hidden field, so after a save a caller who had asked for a filtered set
+			keeps the request for other people's records but loses the accession, collection and user
+			that narrowed it: the set widens to every user they may act for.  That is the shape the
+			page had before this branch, where ImAGod survived a save and the filters did not, except
+			that the set it widens to is now bounded by the caller's roles rather than being every
+			record in the table.
+			TODO: Carry accn2, colln2 and enteredby2 in hidden fields as well, so the set a caller is
+			navigating survives a save intact. --->
 		<cfparam name="url.accn2" default="">
 		<cfparam name="url.colln2" default="">
 		<cfparam name="url.enteredby2" default="">
@@ -420,7 +431,10 @@ Some Totally Random String Data .....
 		<form name="dataEntry" method="post" action="DataEntry.cfm" onsubmit="return cleanup(); return noEnter();" id="dataEntry">
 			<input type="hidden" name="action" value="" id="action">
 			<input type="hidden" name="nothing" value="" id="nothing"/><!--- trashcan for picks - don't delete --->
-			<input type="hidden" name="showAllUsers" value="#variables.showAllUsers#" id="showAllUsers"><!--- which record set to navigate; revalidated against roles on each request --->
+			<!--- The literal rather than the boolean: ColdFusion renders a boolean as YES, and the
+				reads above test for "true", so the round trip would rest on YES and true comparing
+				equal.  Which record set to navigate; revalidated against roles on each request. --->
+			<input type="hidden" name="showAllUsers" value="#variables.showAllUsersField#" id="showAllUsers">
 			<input type="hidden" name="collection_cde" value="#collection_cde#" id="collection_cde">
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
