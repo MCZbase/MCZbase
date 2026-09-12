@@ -1585,11 +1585,12 @@ Some Totally Random String Data .....
 					<tr>
 						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
 						<td width="100%">
-							<!--- Only a manager may put someone else's name on a record; for everyone else this
-								is their own name and not editable. --->
+							<!--- Only a manager may put someone else's name on a record; for everyone else it is
+								their own name, shown as text beside the hidden field that posts it. --->
 							<cfif variables.mayEditOthers>
 								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
 							<cfelse>
+								#encodeForHtml(session.username)#
 								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
 							</cfif>
 						</td>
