@@ -1061,14 +1061,19 @@ function UAMArtDefaults() {
  * actually rendered, so that copying a value into the attribute rows does not depend on a row
  * count written into this file.  Which attribute rows a collection offers for entry varies, and
  * when rows 11 to 14 were added to the form the lists this replaces were left at 10, so a copied
- * date reached some rows and not others.  Hidden inputs are left out: a value put into one cannot
- * be seen or corrected by the person who copied it.
+ * date reached some rows and not others.
+ *
+ * Hidden inputs are included, which is deliberate.  Several collection layouts fix the attribute
+ * of a row and render only its value, carrying that row's date and determiner as hidden inputs:
+ * DataEntry.cfm:1383 onward does this for tail length, hind foot with claw, ear from notch and
+ * weight, and :1468 onward for fat deposition, molt condition and ossification.  Those rows are
+ * real, and filling their date and determiner is the reason these copy functions exist.
  *
  * @param idPrefix id prefix of the column to collect, for example attribute_date_
  * @return jQuery set of the matching inputs, empty if the form rendered none.
  */
 function attributeRowFields(idPrefix) {
-	return $('input[id^="' + idPrefix + '"]').not('[type=hidden]');
+	return $('input[id^="' + idPrefix + '"]');
 }
 
 /** Function copyAllDates copies one date into every date field on the data entry screen,
