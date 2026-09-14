@@ -439,17 +439,23 @@ Some Totally Random String Data .....
 			SELECT collection_object_id
 			FROM bulkloader
 			WHERE collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+			<!--- An accession or a collection only narrows the set and names no user, so it carries
+				no privilege and applies to whichever set of users is in play.  Putting these behind
+				the same gate as the user filter meant asking for your own records silently dropped
+				them: showAllUsers=false with accn2 set returned every record you had entered rather
+				than the ones in that accession, which is a wider set than the same request with
+				showAllUsers=true. --->
+			<cfif len(variables.accn2) GT 0>
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn2#" list="yes">)
+			</cfif>
+			<cfif len(variables.colln2) GT 0>
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln2#" list="yes">)
+			</cfif>
+			<!--- Which users, on the other hand, is the privileged part.  enteredby2 rather than
+				enteredby in the request, as DataEntry.cfm overwrites enteredby. --->
 			<cfif NOT variables.recordSetIsAllUsers>
 				AND enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			<cfelse>
-				<cfif len(variables.accn2) GT 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn2#" list="yes">)
-				</cfif>
-				<cfif len(variables.colln2) GT 0>
-					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln2#" list="yes">)
-				</cfif>
-				<!--- Always applied, so managing a collection does not reach past the users it covers.
-					enteredby2 rather than enteredby in the request, as DataEntry.cfm overwrites enteredby. --->
 				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.navigableUsers#" list="yes">)
 			</cfif>
 			ORDER BY collection_object_id
@@ -1910,18 +1916,24 @@ Some Totally Random String Data .....
 							themselves is looking at their own records, however the url reads. --->
 						<cfset variables.myRecordsUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby=" & urlEncodedFormat(session.username) & "&accn=&colln=">
 						<cfset variables.setIsMyRecords = true>
-						<cfif variables.recordSetIsAllUsers>
-							<cfif len(variables.accn2) GT 0 OR len(variables.colln2) GT 0 OR variables.navigableUsers IS NOT session.username>
-								<cfset variables.setIsMyRecords = false>
-							</cfif>
+						<cfif variables.recordSetIsAllUsers AND variables.navigableUsers IS NOT session.username>
+							<cfset variables.setIsMyRecords = false>
+						</cfif>
+						<cfif len(variables.accn2) GT 0 OR len(variables.colln2) GT 0>
+							<!--- Narrowed by accession or collection, so not the plain my-records set even
+								when it is only this caller's records. --->
+							<cfset variables.setIsMyRecords = false>
 						</cfif>
 						<cfif variables.setIsMyRecords>
 							<cfset variables.showInGridUrl = variables.myRecordsUrl>
 						<cfelse>
-							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&showAllUsers=true&enteredby="
+							<cfset variables.showInGridUrl = "/Bulkloader/browseBulk.cfm?action=ajaxGrid&enteredby="
 								& urlEncodedFormat(variables.navigableUsers)
 								& "&accn=" & urlEncodedFormat(variables.accn2)
 								& "&colln=" & urlEncodedFormat(variables.colln2)>
+							<cfif variables.recordSetIsAllUsers>
+								<cfset variables.showInGridUrl = variables.showInGridUrl & "&showAllUsers=true">
+							</cfif>
 						</cfif>
 						<cfif NOT variables.setIsMyRecords>
 							<input type="button" value="My Records" class="lnkBtn"
