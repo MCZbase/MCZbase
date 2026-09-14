@@ -231,7 +231,9 @@
 	<cfif owner.recordCount EQ 0>
 		<cfthrow type="InvalidParameter" message="No such staged record.">
 	</cfif>
-	<cfif NOT listfindnocase(usersCallerMayBrowse(),owner.enteredby)>
+	<!--- A row with no enteredby belongs to no one.  It is left reachable rather than stranded
+		beyond repair; DataEntry.cfm stamps a name on it at the next save. --->
+	<cfif len(trim(owner.enteredby)) GT 0 AND NOT listfindnocase(usersCallerMayBrowse(),owner.enteredby)>
 		<cfthrow type="InvalidParameter" message="That record was entered by someone whose records you may not #arguments.verb#.">
 	</cfif>
 </cffunction>

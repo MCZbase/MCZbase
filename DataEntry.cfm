@@ -214,8 +214,15 @@ Some Totally Random String Data .....
 				<!--- A caller who manages no collection may open only their own staged records.  The
 					key arrives in the request, so without this any staged record could be loaded by
 					id whatever the browse page offered.  Templates, whose key is at or below
-					MAXTEMPLATE, are shared and not scoped. --->
-				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+					MAXTEMPLATE, are shared and not scoped.
+
+					A row with no enteredby at all is matched by neither test and would be stranded,
+					openable by nobody and so unrepairable.  It belongs to no one, so it stays
+					reachable; the form above now stamps a name on it at the next save. --->
+				AND (
+					enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+					OR enteredby IS NULL
+				)
 			</cfif>
 		</cfquery>
 		<cfif data.recordCount EQ 0>
@@ -1636,18 +1643,19 @@ Some Totally Random String Data .....
 					<tr>
 						<td align="right"><span class="f11a">Entered&nbsp;By</span></td>
 						<td width="100%">
-							<!--- Only a manager may put someone else's name on a record; for everyone else it is
-								their own name, shown as text beside the hidden field that posts it. --->
+							<!--- The record's own value, and the session user only where it has none, which is
+								a new record or one started from a template.  Both branches take that default:
+								keeping it in the read only branch alone left a manager with an empty editable
+								field on a new record, so nothing was stamped and the saved row had no owner.
+								Writing the session user unconditionally is the other error, and moved ownership
+								of any record the caller opened. --->
+							<cfset variables.recordEnteredBy = enteredby>
+							<cfif len(trim(variables.recordEnteredBy)) EQ 0>
+								<cfset variables.recordEnteredBy = session.username>
+							</cfif>
 							<cfif variables.mayEditOthers>
-								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
+								<input type="text" name="enteredby" value="#encodeForHtml(variables.recordEnteredBy)#" id="enteredby"/>
 							<cfelse>
-								<!--- The record's own value, not the session user: writing the session user
-									here moved ownership of any record this caller opened.  A record started
-									from a template has none yet, and takes theirs. --->
-								<cfset variables.recordEnteredBy = enteredby>
-								<cfif len(variables.recordEnteredBy) EQ 0>
-									<cfset variables.recordEnteredBy = session.username>
-								</cfif>
 								#encodeForHtml(variables.recordEnteredBy)#
 								<input type="hidden" name="enteredby" value="#variables.recordEnteredBy#" id="enteredby" class="readClr"/>
 							</cfif>
