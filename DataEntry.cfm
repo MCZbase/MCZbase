@@ -200,11 +200,27 @@ Some Totally Random String Data .....
 		<cfif not isdefined("collection_object_id") or len(collection_object_id) is 0>
 			you don't have an ID. <cfabort>
 		</cfif>
+		<!--- Checked here because the key is compared against MAXTEMPLATE below and reaches
+			bulk_check_one's argument list, where a bind gives this driver no column to type
+			against. --->
+		<cfif NOT isNumeric(collection_object_id)>
+			<cfthrow type="InvalidParameter" message="collection_object_id must be numeric.">
+		</cfif>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * 
 			FROM bulkloader 
 			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			<cfif collection_object_id GT MAXTEMPLATE>
+				<!--- A caller who manages no collection may open only their own staged records.  The
+					key arrives in the request, so without this any staged record could be loaded by
+					id whatever the browse page offered.  Templates, whose key is at or below
+					MAXTEMPLATE, are shared and not scoped. --->
+				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+			</cfif>
 		</cfquery>
+		<cfif data.recordCount EQ 0>
+			<cfthrow type="InvalidParameter" message="No staged record with that id that you may work on.">
+		</cfif>
 		<!---  Was hard coded magic number, value of 50 in v3.9 then 30 in v2.5.1  --->
 		<cfif collection_object_id GT #MAXTEMPLATE#>
 			<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1625,8 +1641,15 @@ Some Totally Random String Data .....
 							<cfif variables.mayEditOthers>
 								<input type="text" name="enteredby" value="#enteredby#" id="enteredby"/>
 							<cfelse>
-								#encodeForHtml(session.username)#
-								<input type="hidden" name="enteredby" value="#session.username#" id="enteredby" class="readClr"/>
+								<!--- The record's own value, not the session user: writing the session user
+									here moved ownership of any record this caller opened.  A record started
+									from a template has none yet, and takes theirs. --->
+								<cfset variables.recordEnteredBy = enteredby>
+								<cfif len(variables.recordEnteredBy) EQ 0>
+									<cfset variables.recordEnteredBy = session.username>
+								</cfif>
+								#encodeForHtml(variables.recordEnteredBy)#
+								<input type="hidden" name="enteredby" value="#variables.recordEnteredBy#" id="enteredby" class="readClr"/>
 							</cfif>
 						</td>
 					</tr>

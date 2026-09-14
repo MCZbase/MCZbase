@@ -110,6 +110,7 @@
 
 <cffunction name="loadRecord" access="remote">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfset assertCallerMayUseRecord(collection_object_id=arguments.collection_object_id,verb="see")>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select * from bulkloader where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
@@ -120,6 +121,7 @@
 
 <cffunction name="deleteRecord" access="remote">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfset assertCallerMayUseRecord(collection_object_id=arguments.collection_object_id,verb="delete")>
 	<cftransaction>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from bulkloader where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -206,6 +208,34 @@
 	<cfreturn permitted>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
+<!--- Function assertCallerMayUseRecord throws unless the staged record belongs to a user this
+	caller may act for.  Every method here that names a record by its key calls this: the key comes
+	from the request, the row states its own owner, and these methods are access="remote", so what a
+	page chose to offer is not a restriction on what they will answer.
+
+@param collection_object_id key of the staged record.
+@param verb what the caller is trying to do, for the message.
+--->
+<cffunction name="assertCallerMayUseRecord" access="private" returntype="void">
+	<cfargument name="collection_object_id" required="yes">
+	<cfargument name="verb" type="string" required="no" default="use">
+	<cfset var owner = "">
+	<cfif NOT isNumeric(arguments.collection_object_id)>
+		<cfthrow type="InvalidParameter" message="A numeric collection_object_id is required.">
+	</cfif>
+	<cfquery name="owner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT enteredby
+		FROM bulkloader
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+	</cfquery>
+	<cfif owner.recordCount EQ 0>
+		<cfthrow type="InvalidParameter" message="No such staged record.">
+	</cfif>
+	<cfif NOT listfindnocase(usersCallerMayBrowse(),owner.enteredby)>
+		<cfthrow type="InvalidParameter" message="That record was entered by someone whose records you may not #arguments.verb#.">
+	</cfif>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
 <!--- Function parseFieldValues splits the query string the data entry screen sends into a struct
 	of column name to value, discarding any name that is not a column of the bulkloader table.
 	This replaces a loop that did <cfset "variables.#k#"=urldecode(v)>, which let a caller create
@@ -262,6 +292,7 @@
 		<cfthrow type="InvalidParameter" message="A numeric collection_object_id is required to save edits.">
 	</cfif>
 	<cfset collection_object_id = fields["collection_object_id"]>
+	<cfset assertCallerMayUseRecord(collection_object_id=collection_object_id,verb="change")>
 	<!--- Iterated over the column list rather than the struct so the clauses come out in table
 		order, and so each identifier written into the statement is a data dictionary value.
 
@@ -500,28 +531,12 @@
 	<cfset var changedColumn = structKeyList(arguments.cfgridchanged)>
 	<cfset var columnPosition = listfindnocase(columns,changedColumn)>
 	<cfset var fieldName = "">
-	<cfset var owner = "">
 	<cfif columnPosition EQ 0>
 		<!--- Also reached when more than one column arrives at once, which this cannot express. --->
 		<cfthrow type="InvalidParameter" message="Not a single column of the bulkloader table.">
 	</cfif>
-	<cfif NOT isNumeric(arguments.cfgridrow.collection_object_id)>
-		<cfthrow type="InvalidParameter" message="A numeric collection_object_id is required to edit a record.">
-	</cfif>
+	<cfset assertCallerMayUseRecord(collection_object_id=arguments.cfgridrow.collection_object_id,verb="change")>
 	<cfset fieldName = listgetat(columns,columnPosition)>
-	<!--- This is a write, and the row identifies its own owner, so who entered it is checked here
-		rather than trusted from whatever set the grid was showing. --->
-	<cfquery name="owner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT enteredby
-		FROM bulkloader
-		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.cfgridrow.collection_object_id#">
-	</cfquery>
-	<cfif owner.recordCount EQ 0>
-		<cfthrow type="InvalidParameter" message="No such staged record.">
-	</cfif>
-	<cfif NOT listfindnocase(usersCallerMayBrowse(),owner.enteredby)>
-		<cfthrow type="InvalidParameter" message="That record was entered by someone whose records you may not change.">
-	</cfif>
 	<cfset queryExecute(
 		"UPDATE bulkloader SET #fieldName# = :newValue WHERE collection_object_id = :collection_object_id",
 		{
