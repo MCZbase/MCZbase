@@ -696,7 +696,7 @@ from this file.
 			<cfif len(variables.collection_object_id) GT 0>
 				<cfset additional="&collection_object_id=#URLEncodedFormat(variables.collection_object_id)#">
 			</cfif>
-			<!--- After saving, redirect to the view page in the encumbrances sub-directory. --->
+			<!--- After saving, redirect to the view page in the encumbrances sub-directory. --->
 			<cflocation url="/encumbrances/viewEncumbrance.cfm?encumbrance_id=#variables.encumbrance_id#" addtoken="false">
 		</cfcase>
 

@@ -22,19 +22,24 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <!--------------------------------------------------------------------->
-<cfif isDefined("result_id") and len(result_id) GT 0>
-	<cfset table_name="user_search_table">
-</cfif>
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
+	<!--- Support for a table_name parameter is withdrawn: it named the table to select from,
+		and a table name cannot be bound.  Every branch that used it had a result_id branch
+		beside it, and result_id is what the one entry point, specimens/manageSpecimens.cfm,
+		passes.  Required here rather than per branch so no action can reach a query without
+		it. --->
+	<cfif not (isDefined("result_id") AND len(result_id) GT 0)>
+		<cfthrow message="Unable to identify parts to work on [required parameter result_id not provided].">
+	</cfif>
 	<cfswitch expression="#action#">
 	<cfcase value="entryPoint">
 		<cfoutput>
-			<cfif isDefined("result_id") and len(result_id) GT 0>
+			
 				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(*) ct
 					FROM 
@@ -42,16 +47,7 @@ limitations under the License.
 					WHERE
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
-			<cfelse>
-				<cfif not isdefined("table_name")>
-					<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
-				</cfif>
-				<!--- TODO: Remove support for table_name --->
-				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) ct
-					from #table_name#
-				</cfquery>
-			</cfif>
+			
 			<script>
 				var bc = new BroadcastChannel('resultset_channel');
 				bc.onmessage = function (message) { 
@@ -68,21 +64,15 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="col-12">
 					<h1 class="h2 px-2">Bulk Part Management</h1>
-					<cfif isDefined("result_id") and len(result_id) GT 0>
+					
 						<p class="px-2 mb-1">Add, Modify, or Delete Parts on #getCount.ct# cataloged items from specimen search result [#result_id#]</p>
-					<cfelse>
-						<p class="px-2 mb-1">Add, Modify, or Delete parts on list of #getCount.ct# cataloged items.</p>
-					</cfif>
+					
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
 
 					<cfset numParts=3>
-					<cfif not isdefined("table_name")>
-						<!--- TODO: Remove support for table_name --->
-						<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
-					</cfif>
-					<cfif isDefined("result_id") and len(result_id) GT 0>
+					
 						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT distinct(collection_cde) 
 							FROM 
@@ -91,13 +81,7 @@ limitations under the License.
 							WHERE
 								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						</cfquery>
-					<cfelse>
-						<!--- TODO: Remove support for table_name --->
-						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select distinct(collection_cde) 
-							from #table_name#
-						</cfquery>
-					</cfif>
+					
 					<cfset colcdes = valuelist(colcde.collection_cde)>
 					<cfif listlen(colcdes) is not 1>
 						<cfthrow message="You can only use this form on one collection at a time. Please revise your search.">
@@ -145,11 +129,10 @@ limitations under the License.
 								</p>
 								<form name="newPart" method="post" action="/specimens/changeQueryParts.cfm">
 									<input type="hidden" name="action" value="newPart">
-									<input type="hidden" name="table_name" value="#table_name#">
 									<input type="hidden" name="numParts" value="#numParts#">
-									<cfif isDefined("result_id") and len(result_id) GT 0>
+									
 										<input type="hidden" name="result_id" value="#result_id#">
-									</cfif>
+									
 									<div class="form-row mx-0">
 										<cfloop from="1" to="#numParts#" index="i">
 											<div class="col-12 col-md-4 border-left border-bottom border-top px-0">
@@ -262,13 +245,9 @@ limitations under the License.
 									specimen_part.part_name
 								FROM
 									specimen_part
-									<cfif isDefined("result_id") and len(result_id) GT 0>
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 								WHERE
 										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-								</cfif>
 								GROUP BY specimen_part.part_name
 								ORDER BY specimen_part.part_name
 							</cfquery>
@@ -278,13 +257,9 @@ limitations under the License.
 									specimen_part.preserve_method
 								FROM
 									specimen_part
-									<cfif isDefined("result_id") and len(result_id) GT 0>
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 								WHERE
 										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
 								GROUP BY specimen_part.preserve_method
 								ORDER BY specimen_part.preserve_method
 							</cfquery>
@@ -294,13 +269,9 @@ limitations under the License.
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-									<cfif isDefined("result_id") and len(result_id) GT 0>
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 								WHERE
 										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
 								GROUP BY 
 									coll_object.lot_count_modifier
 							</cfquery>
@@ -310,13 +281,9 @@ limitations under the License.
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-									<cfif isDefined("result_id") and len(result_id) GT 0>
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 								WHERE
 										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
 								GROUP BY 
 									coll_object.lot_count
 							</cfquery>
@@ -326,13 +293,9 @@ limitations under the License.
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-									<cfif isDefined("result_id") and len(result_id) GT 0>
 										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
 								WHERE
 										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
 								GROUP BY 
 									coll_object.coll_obj_disposition
 							</cfquery>
@@ -343,10 +306,9 @@ limitations under the License.
 
 								<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 									<input type="hidden" name="action" value="modPart">
-									<input type="hidden" name="table_name" value="#table_name#">
-									<cfif isDefined("result_id") and len(result_id) GT 0>
+									
 										<input type="hidden" name="result_id" value="#result_id#">
-									</cfif>
+									
 									<table class="table table-responsive d-xl-table">
 										<thead class="thead-light">
 											<tr>
@@ -480,10 +442,9 @@ limitations under the License.
 								<h3 class="h4 px-2">Select values to identify the existing parts to be deleted.</h3>
 								<form name="delPart" id="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 									<input type="hidden" name="action" value="delPart">
-									<input type="hidden" name="table_name" value="#table_name#">
-									<cfif isDefined("result_id") and len(result_id) GT 0>
+									
 										<input type="hidden" name="result_id" value="#result_id#">
-									</cfif>
+									
 									<div class="form-row mx-0">
 										<div class="col-12 col-md-3 pt-1">
 											<label for="exist_part_name" class="data-entry-label">Part Name</label>
@@ -566,19 +527,11 @@ limitations under the License.
 							specimen_part,
 							identification,
 							coll_object_remark,
-							<cfif isDefined("result_id") and len(result_id) GT 0>
 								user_search_table
-							<cfelse>
-								#table_name#
-							</cfif>
 						WHERE
 							cataloged_item.collection_id=collection.collection_id and
-							<cfif isDefined("result_id") and len(result_id) GT 0>
 								cataloged_item.collection_object_id=user_search_table.collection_object_id and
 								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-							<cfelse>
-								cataloged_item.collection_object_id=#table_name#.collection_object_id and
-							</cfif>
 							cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 							specimen_part.collection_object_id=coll_object.collection_object_id and
 							specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
@@ -669,11 +622,9 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="col-12 mt-2">
 					<h2>Successfully deleted #delete_result.recordcount# parts</h2>
-					<cfif isDefined("result_id") and len(result_id) GT 0>
+					
 						<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-					<cfelse>
-						<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-					</cfif>
+					
 					<h4 class="mt-2"><a href="#targeturl#">Return to bulk part editor (see remaining parts)</a></h4>
 				</div>
 			</div>
@@ -702,19 +653,11 @@ limitations under the License.
 					specimen_part,
 					identification,
 					coll_object_remark,
-					<cfif isDefined("result_id") and len(result_id) GT 0>
 						user_search_table
-					<cfelse>
-						#table_name#
-					</cfif>
 				where
 					cataloged_item.collection_id=collection.collection_id and
-					<cfif isDefined("result_id") and len(result_id) GT 0>
 						cataloged_item.collection_object_id=user_search_table.collection_object_id and
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-					<cfelse>
-						cataloged_item.collection_object_id=#table_name#.collection_object_id and
-					</cfif>
 					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 					specimen_part.collection_object_id=coll_object.collection_object_id and
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
@@ -741,11 +684,9 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12">
 						<h2 class="mt-2">Found #d.recordcount# parts to delete</h2>
-						<cfif isDefined("result_id") and len(result_id) GT 0>
+						
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-						<cfelse>
-							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-						</cfif>
+						
 						<cfif d.recordcount EQ 0>
 							<h3 class="h4 mt-2">
 								Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
@@ -753,10 +694,9 @@ limitations under the License.
 						<cfelse>
 							<form name="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 								<input type="hidden" name="action" value="delPart2">
-								<input type="hidden" name="table_name" value="#table_name#">
-								<cfif isDefined("result_id") and len(result_id) GT 0>
+								
 									<input type="hidden" name="result_id" value="#result_id#">
-								</cfif>
+								
 								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 								<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 							</form>
@@ -921,11 +861,9 @@ limitations under the License.
 						<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
 					</cfif>
 					<h3 class="h4 pt-2">
-						<cfif isDefined("result_id") and len(result_id) GT 0>
+						
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-						<cfelse>
-							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-						</cfif>
+						
 						<a href="#targeturl#">Return to bulk part editor</a>
 					</h3>
 				</div>
@@ -959,19 +897,11 @@ limitations under the License.
 					specimen_part,
 					identification,
 					coll_object_remark,
-					<cfif isDefined("result_id") and len(result_id) GT 0>
 						user_search_table
-					<cfelse>
-						#table_name#
-					</cfif>
 				where
 					cataloged_item.collection_id=collection.collection_id and
-					<cfif isDefined("result_id") and len(result_id) GT 0>
 						cataloged_item.collection_object_id=user_search_table.collection_object_id and
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-					<cfelse>
-						cataloged_item.collection_object_id=#table_name#.collection_object_id and
-					</cfif>
 					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 					specimen_part.collection_object_id=coll_object.collection_object_id and
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
@@ -993,11 +923,9 @@ limitations under the License.
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-			<cfif isDefined("result_id") and len(result_id) GT 0>
+			
 				<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-			<cfelse>
-				<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-			</cfif>
+			
 			<h2 class="h2 mt-2">Found #d.recordcount# parts to modifiy.</h2>
 			<cfif d.recordcount EQ 0>
 				<p class="px-2">
@@ -1017,10 +945,9 @@ limitations under the License.
 				</script>
 				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="modPart2">
-					<input type="hidden" name="table_name" value="#table_name#">
-					<cfif isDefined("result_id") and len(result_id) GT 0>
+					
 						<input type="hidden" name="result_id" value="#result_id#">
-					</cfif>
+					
 					<input type="hidden" name="exist_part_name" value="#exist_part_name#">
 					<input type="hidden" name="new_part_name" value="#new_part_name#">
 					<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
@@ -1135,15 +1062,10 @@ limitations under the License.
 			<cfquery name="ids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT DISTINCT 
 					collection_object_id 
-				<cfif isDefined("result_id") and len(result_id) GT 0>
 				FROM
 					user_search_table
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				<cfelse>
-				FROM
-					#table_name#
-				</cfif>
 			</cfquery>
 			<cfset partCounter = 0>
 			<cfset remarkCounter = 0>
@@ -1233,11 +1155,9 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<h3 class="p-2">
-						<cfif isDefined("result_id") and len(result_id) GT 0>
+						
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-						<cfelse>
-							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-						</cfif>
+						
 						<a href="#targeturl#">Return to bulk part editor (see added parts)</a>
 					</h3>
 				</div>

@@ -942,7 +942,7 @@ authority, update a row in the taxon_relations table.
 		<cftransaction>
 			<cfquery name="saveTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveTaxonRelation_result">
 				UPDATE taxon_relations SET
-					taxon_relationship = '#new_taxon_relationship#'
+					taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_taxon_relationship#">
 					,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_related_taxon_name_id#">
 					<cfif len(#relation_authority#) gt 0>
 						,relation_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relation_authority#">

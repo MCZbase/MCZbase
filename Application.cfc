@@ -503,6 +503,13 @@ limitations under the License.
 			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
 		</cfif>
+		<!--- coldfusion_user distinguishes a logged in account from a visitor: setDbUser gives
+			anything without it the portal's Oracle account. --->
+		<cfif (currentPath contains "/Reports/") and
+			(not isdefined("session.roles") or not listFindNoCase(session.roles,"coldfusion_user"))>
+			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
+			<cfabort />
+		</cfif>
 		<cfreturn true />
 	</cffunction>
 

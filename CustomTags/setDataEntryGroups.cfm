@@ -10,7 +10,10 @@
 		upper(collroles.granted_role) = upper(collection.institution_acronym || '_' || collection.collection_cde) and
 		isMgr.granted_role='MANAGE_COLLECTION' and
 		isMgr.grantee=collroles.grantee and
-		upper(collroles.grantee) = '#ucase(session.username)#'
+		<!--- Bound with the value uppercased in ColdFusion and upper() left on the column: a
+			parameter inside upper() gives this driver no column to resolve its type against, the
+			same constraint recorded for the uuid resolver on PR #59. --->
+		upper(collroles.grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 </cfquery>
 <!--- collections for which current user is authorized data entry ---->
 <cfquery name="get_entry_group" datasource="uam_god">
@@ -24,7 +27,7 @@
 		upper(collroles.granted_role) = upper(collection.institution_acronym || '_' || collection.collection_cde) and
 		isMgr.granted_role='DATA_ENTRY' and
 		isMgr.grantee=collroles.grantee and
-		upper(collroles.grantee) = '#ucase(session.username)#'
+		upper(collroles.grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 </cfquery>
 <!--- users who current user can act as admin for --->
 <cfquery name="admin_for_users" datasource="uam_god">
@@ -49,7 +52,7 @@
 				upper(collroles.granted_role) = upper(collection.institution_acronym || '_' || collection.collection_cde) and
 				isMgr.granted_role='MANAGE_COLLECTION' and
 				isMgr.grantee=collroles.grantee and
-				upper(collroles.grantee) = '#ucase(session.username)#'
+				upper(collroles.grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 		)
 	order by cf_users.username
 </cfquery>

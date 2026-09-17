@@ -303,23 +303,23 @@
 			</cfif>
 			)
 			VALUES (
-			#publication_id#,
-			#collection_object_id#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 			1
 			<cfif len(#cited_taxon_name_id#) gt 0>
-				,#cited_taxon_name_id#
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 			</cfif>
 			<cfif len(#occurs_page_number#) gt 0>
-				,#occurs_page_number#
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">
 			</cfif>
 			<cfif len(#type_status#) gt 0>
-				,'#type_status#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,'#escapequotes(citation_remarks)#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">
 			</cfif>
 			<cfif len(#citation_page_uri#) gt 0>
-				,'#escapequotes(citation_page_uri)#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 			</cfif>
 			)
 			</cfquery>
@@ -335,35 +335,35 @@
 		UPDATE citation SET
 			cit_current_fg = 1
 			<cfif len(#cited_taxon_name_id#) gt 0>
-				,cited_taxon_name_id = #cited_taxon_name_id#
+				,cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 			  <cfelse>
 			  	,cited_taxon_name_id = null
 			</cfif>
 			<cfif len(#occurs_page_number#) gt 0>
-				,occurs_page_number = #occurs_page_number#
+				,occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">
 			  <cfelse>
 			  	,occurs_page_number = null
 			</cfif>
 			<cfif len(#type_status#) gt 0>
-				,type_status = '#type_status#'
+				,type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 			  <cfelse>
 				,type_status = null
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,citation_remarks = '#escapequotes(citation_remarks)#'
+				,citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">
 			  <cfelse>
 			  	,citation_remarks = null
 			</cfif>
 			<cfif len(#citation_page_uri#) gt 0>
-				,citation_page_uri = '#escapequotes(citation_page_uri)#'
+				,citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 			  <cfelse>
 			  	,citation_page_uri = null
 			</cfif>
 
 		WHERE
-			publication_id = #publication_id# AND
-			collection_object_id = #collection_object_id# AND
-			cited_taxon_name_id = #current_cited_taxon_name_id#
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> AND
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> AND
+			cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_cited_taxon_name_id#">
 		</cfquery>
 		<cflocation url="Citation.cfm?publication_id=#publication_id#">
 	</cfoutput>

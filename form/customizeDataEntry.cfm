@@ -397,19 +397,32 @@ grant all on cf_dataentry_settings to data_entry;
 			order by internal_column_id
 		</cfquery>
 		
-		<cfset sql = "UPDATE cf_dataentry_settings SET ">
+		<!--- Was assembled as text and run through preservesinglequotes, with each posted value
+			escaped by doubling its quotes rather than bound.  The column names come from the data
+			dictionary and USERNAME is excluded by that query, so the names are trusted; only the
+			values needed binding, and a column list not known until runtime is what queryExecute is
+			for.  Parameters are named by padded position so that no name can be a prefix of another,
+			as in component/Bulkloader.cfc. --->
+		<cfset sqlParams = structNew()>
+		<cfset setClauses = arrayNew(1)>
 		<cfloop query="getCols">
-			<cfif isDefined("form.#column_name#")>
-				<cfset thisData = evaluate("form." & column_name)>
-				<cfset thisData = replace(thisData,"'","''","all")>
-				<cfset sql = "#SQL#,#COLUMN_NAME# = '#thisData#'">
+			<cfif isDefined("form.#getCols.column_name#")>
+				<cfset paramName = "p" & numberFormat(structCount(sqlParams) + 1,"0000")>
+				<cfset arrayAppend(setClauses,"#getCols.column_name# = :#paramName#")>
+				<cfset sqlParams[paramName] = { value=evaluate("form." & getCols.column_name), cfsqltype="CF_SQL_VARCHAR" }>
 			</cfif>
 		</cfloop>
-		<cfset sql = "#SQL# where username = '#session.username#'">
-		<cfset sql = replace(sql,"UPDATE cf_dataentry_settings SET ,","UPDATE cf_dataentry_settings SET ")>			
-		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#
-		</cfquery>
+		<cfif arrayLen(setClauses) GT 0>
+			<cfset sqlParams["pusername"] = { value=session.username, cfsqltype="CF_SQL_VARCHAR" }>
+			<cfset queryExecute(
+				"UPDATE cf_dataentry_settings SET " & arrayToList(setClauses,", ") & " WHERE username = :pusername",
+				sqlParams,
+				{
+					datasource = "user_login",
+					username = session.dbuser,
+					password = decrypt(session.epw,cookie.cfid)
+				})>
+		</cfif>
 		<script>
 			parent.closeCust();
 		</script>

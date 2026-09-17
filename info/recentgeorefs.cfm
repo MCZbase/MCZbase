@@ -71,33 +71,47 @@ li.fontLocHG{
 	padding-left: 5px;
 }
 </style>
-<cfif not isdefined("filterTimeFrame")>
-  <cfset filterTimeFrame=7>
+<!--- The three filters were read from implicit scope, the form posting them being on this page. --->
+<cfset TIMEFRAME_DEFAULT_DAYS = 7>
+<cfparam name="form.filterTimeFrame" default="#TIMEFRAME_DEFAULT_DAYS#">
+<cfparam name="form.filterCollections" default="">
+<cfparam name="form.sortOrder" default="ASC">
+<cfset variables.filterCollections = form.filterCollections>
+<cfset variables.filterTimeFrame = TIMEFRAME_DEFAULT_DAYS>
+<cfif isNumeric(form.filterTimeFrame) AND form.filterTimeFrame GT 0>
+	<cfset variables.filterTimeFrame = int(form.filterTimeFrame)>
 </cfif>
-<cfif not isdefined("sortOrder")>
-  <cfset sortOrder="ASC">
+<!--- A sort direction is a keyword, which cannot be bound, so it is replaced by one of two values
+	chosen here rather than by what arrived. --->
+<cfset variables.sortOrder = "ASC">
+<cfif form.sortOrder IS "DESC">
+	<cfset variables.sortOrder = "DESC">
 </cfif>
 
 <div style="width: 100%;overflow: hidden;height: auto;padding-bottom: 5em;">
   <div style="width: 75em;margin:0 auto;padding: 1em 0 5em 0;"> <cfoutput>
       <cfset title="Recently Georeferenced Localities">
-      <h2>Recently Georeferenced Localities (past #filterTimeFrame# days)</h2>
+      <h2>Recently Georeferenced Localities (past #encodeForHtml(variables.filterTimeFrame)# days)</h2>
       <cfquery name="newgeorefs" datasource="uam_god">
 		select l.locality_id, l.spec_locality, g.higher_geog, f.collection_cde, f.collection_id, to_char(l.GEOREF_UPDATED_DATE, 'YYYY-MM-DD') as GEOREF_UPDATED_DATE, count(*) as cnt
 		from locality l, flat f, COLL_OBJECT co, geog_auth_rec g
 		where l.locality_id = f.locality_id
 		and f.collection_object_id = co.collection_object_id
 		and l.geog_auth_rec_id = g.geog_auth_rec_id
-		and GEOREF_UPDATED_DATE is not null and GEOREF_UPDATED_DATE > sysdate - #filterTimeFrame#
+		<!--- The day count is interpolated rather than bound because a parameter in arithmetic
+			against sysdate gives this driver no column to resolve its type against, the same
+			position that breaks a bind inside a function call.  It is forced to a positive
+			integer above. --->
+		and GEOREF_UPDATED_DATE is not null and GEOREF_UPDATED_DATE > sysdate - #variables.filterTimeFrame#
 		and GEOREF_UPDATED_DATE - CO.COLL_OBJECT_ENTERED_DATE > 1
-		<cfif isdefined("filterCollections") and len(#filterCollections#) GT 0>
+		<cfif len(variables.filterCollections) GT 0>
 			and l.locality_id in
-			(select locality_id from flat where collection_cde = '#filterCollections#')
+			(select locality_id from flat where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.filterCollections#">)
 		</cfif>
 		group by l.locality_id, l.spec_locality, g.higher_geog, f.collection_cde,f.collection_id,l.GEOREF_UPDATED_DATE
 	</cfquery>
       <cfquery name="localities" dbtype="query">
-		select distinct locality_id, spec_locality, higher_geog, GEOREF_UPDATED_DATE from newgeorefs order by GEOREF_UPDATED_DATE #sortOrder#
+		select distinct locality_id, spec_locality, higher_geog, GEOREF_UPDATED_DATE from newgeorefs order by GEOREF_UPDATED_DATE #variables.sortOrder#
 	</cfquery>
       <cfquery name="colls" datasource="uam_god">
 		select * from ctcollection_cde where collection_cde <> 'SC'
@@ -114,7 +128,7 @@ li.fontLocHG{
 
         <option></option>
         <cfloop query="colls">
-          <option <cfif isdefined("filterCollections") and #collection_cde# EQ #filterCollections#>selected</cfif>>#collection_cde#</option>
+          <option <cfif colls.collection_cde EQ variables.filterCollections>selected</cfif>>#collection_cde#</option>
         </cfloop>
           </td>
 
@@ -123,10 +137,10 @@ li.fontLocHG{
 
           <select name="filterTimeFrame" style="width:50px" onChange='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'>
 
-        <option <cfif #filterTimeFrame# EQ 7>selected</cfif>>7</option>
-        <option <cfif #filterTimeFrame# EQ 14>selected</cfif>>14</option>
-        <option <cfif #filterTimeFrame# EQ 21>selected</cfif>>21</option>
-        <option <cfif #filterTimeFrame# EQ 28>selected</cfif>>28</option>
+        <option <cfif variables.filterTimeFrame EQ 7>selected</cfif>>7</option>
+        <option <cfif variables.filterTimeFrame EQ 14>selected</cfif>>14</option>
+        <option <cfif variables.filterTimeFrame EQ 21>selected</cfif>>21</option>
+        <option <cfif variables.filterTimeFrame EQ 28>selected</cfif>>28</option>
           </td>
 
           <td width="33%" align="right">
@@ -134,8 +148,8 @@ li.fontLocHG{
 
           <select name="sortOrder" style="width:100px" onChange='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'>
 
-        <option value="ASC"<cfif #sortOrder# EQ "ASC">selected</cfif>>Oldest first</option>
-        <option value="DESC"<cfif #sortOrder# EQ "DESC">selected</cfif>>Newest first</option>
+        <option value="ASC"<cfif variables.sortOrder EQ "ASC">selected</cfif>>Oldest first</option>
+        <option value="DESC"<cfif variables.sortOrder EQ "DESC">selected</cfif>>Newest first</option>
           </td>
 
           </tr>
@@ -160,8 +174,8 @@ li.fontLocHG{
               <ul class="locLabel fontLoc">
                 <li> <a href="/localities/Locality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a> </li>
                 <li>#GEOREF_UPDATED_DATE#</li>
-                <li class="wide"><cfif len(spec_locality) is 0>&nbsp;<cfelse>#spec_locality#</cfif></li>
-                <li class="notSoWide fontLocHG">#higher_geog#</li>
+                <li class="wide"><cfif len(spec_locality) is 0>&nbsp;<cfelse>#encodeForHtml(spec_locality)#</cfif></li>
+                <li class="notSoWide fontLocHG">#encodeForHtml(higher_geog)#</li>
               </ul>
             </div>
             <cfquery name="colls" dbtype="query">
