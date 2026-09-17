@@ -37,8 +37,8 @@ Disallow: /ScheduledTasks/
 Disallow: /service/
 Disallow: /shared/
 Disallow: /specimen_images/
-Allow /specimens/Specimen.cfm
-Allow /specimens/SpecimenResultsHTML.cfm
+Allow: /specimens/Specimen.cfm
+Allow: /specimens/SpecimenResultsHTML.cfm
 Disallow: /specimens/
 Disallow: /taxonomy/component/
 Disallow: /taxonomy/js/
