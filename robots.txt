@@ -61,7 +61,6 @@ Disallow: /DataEntry.cfm
 Disallow: /download.cfm
 Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
-Disallow: /editAllAgent.cfm
 Disallow: /localities/Locality.cfm
 Disallow: /localities/HigherGeography.cfm
 Disallow: /encumbrances/
