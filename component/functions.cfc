@@ -160,12 +160,25 @@
 
 <cffunction name="getPartAttOptions" access="remote">
 	<cfargument name="patype" type="string" required="yes">
+	<!--- collectionCDE is sent by setPartAttOptions() in /includes/internalAjax.js.  It was read
+		here through implicit scope resolution, so the caller's value reached the statement
+		without being declared anywhere; it is an argument now, and bound below. --->
+	<cfargument name="collectionCDE" type="string" required="no" default="">
 	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from ctspec_part_att_att where attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#patype#">
+		select * from ctspec_part_att_att where attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.patype#">
 	</cfquery>
+	<!--- The two code table names below name tables and so cannot be bound.  They come from
+		ctspec_part_att_att rather than from the request, and are checked to be plain identifiers
+		so that nothing needing quoting can reach the statement. --->
+	<cfif len(k.VALUE_code_table) GT 0 AND REFind("^[A-Za-z_][A-Za-z0-9_]*$",k.VALUE_code_table) EQ 0>
+		<cfthrow type="InvalidParameter" message="Configured value code table is not a plain identifier.">
+	</cfif>
+	<cfif len(k.unit_code_table) GT 0 AND REFind("^[A-Za-z_][A-Za-z0-9_]*$",k.unit_code_table) EQ 0>
+		<cfthrow type="InvalidParameter" message="Configured unit code table is not a plain identifier.">
+	</cfif>
 	<cfif len(k.VALUE_code_table) gt 0>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from #k.VALUE_code_table# where collection_cde = '#collectionCDE#'
+			select * from #k.VALUE_code_table# where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collectionCDE#">
 		</cfquery>
 		<cfloop list="#d.columnlist#" index="i">
 			<cfif i is not "description" and i is not "collection_cde">
@@ -403,7 +416,7 @@
 					select
 						#key#,
 						'cloned from ' || collection || ' ' || cat_num,
-						'#session.username#',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
 						accn_number,
 						scientific_name,
 						nature_of_id,
@@ -446,7 +459,7 @@
 			</cfquery>
 			<cfif idby.recordcount is 1>
 				<cfquery name="iidby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update bulkloader set ID_MADE_BY_AGENT='#idby.agent_name#'
+					update bulkloader set ID_MADE_BY_AGENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idby.agent_name#">
 					where collection_object_id=#key#
 				</cfquery>
 			<cfelse>
@@ -870,7 +883,7 @@
 								agent_name
 							where
 								preferred_agent_name.agent_id=agent_name.agent_id and
-								upper(agent_name.agent_name) like '%#ucase(a)#%'
+								upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(a)#%">
 							group by
 								preferred_agent_name.agent_name,
 								preferred_agent_name.agent_id
@@ -899,7 +912,7 @@
 									agent_name
 								where
 									preferred_agent_name.agent_id=agent_name.agent_id and
-									upper(agent_name.agent_name) like '%#ucase(thisLastName)#%'
+									upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(thisLastName)#%">
 							) where rownum<=5
 						</cfquery>
 						<cfif a.recordcount gt 0>
@@ -2238,7 +2251,7 @@
                </cfif>
 
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                       UPDATE coll_object SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
+                       UPDATE coll_object SET coll_obj_disposition = 'deaccessioned - ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#partDisp#">
 			where collection_object_id =
 		<cfif #subsample# is 1>
 				#n.n#
@@ -2266,6 +2279,12 @@
 	        <cfset threadname = "getMediaThread">
 	        <cfthread name="#threadname#" >
 		   <cfloop list="#idList#" index="cid">
+			<!--- cid comes from the caller's idList.  A bind inside a function's argument list
+				leaves this driver with no column to resolve a type against, so it is checked
+				numeric here and interpolated; tabl is from the fixed tableList above. --->
+			<cfif NOT isnumeric(cid)>
+				<cfthrow type="InvalidParameter" message="Identifiers must be numeric.">
+			</cfif>
 			<cfloop list="#tableList#" index="tabl">
 				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select MCZBASE.getMediaBySpecimen('#tabl#',#cid#) midList from dual

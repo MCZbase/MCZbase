@@ -154,7 +154,7 @@
 					from
 						media_labels
 					where
-						media_id=#media_id#
+						media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfquery name="desc" dbtype="query">
 					select label_value from labels where media_label='description'
