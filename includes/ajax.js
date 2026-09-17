@@ -514,21 +514,13 @@ function changeshowObservations (tgt) {
 function showHide(id,onOff) {
 	var t='e_' + id;
 	var z='c_' + id;
-	if (document.getElementById(t) && document.getElementById(z)) {	
-		var tab=document.getElementById(t);
+	if (document.getElementById(t) && document.getElementById(z)) {
 		var ctl=document.getElementById(z);
-		if (t=='e_spatial_query'){
-			var offText='Select on Google Map';
-			var onText='Hide Google Map';
-		} else {
-			var onText='Show Fewer Options';
-			var offText='Show More Options';
-		}
+		var onText='Show Fewer Options';
+		var offText='Show More Options';
 		if (onOff==1) {
-			var ptl="/includes/SpecSearch/" + id + ".cfm";
-            $('#'+t).show();
-			ctl.innerHTML='<img src="/images/indicator.gif">';
-		    ctl.innerHTML=onText;
+			$('#'+t).show();
+			ctl.innerHTML=onText;
 			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 		} else {
 			$('#'+t).hide();
@@ -837,10 +829,6 @@ function getLegal(blurb) {
 	var blurb;
 	helpWin=windowOpener("/info/legal.cfm?content="+blurb,"legalWin","width=400,height=338, resizable,scrollbars");
 }	
-function addLoanItem(coll_obj_id) {
-	var coll_obj_id;
-	loanItemWin=windowOpener("/user/loanItem.cfm?collection_object_id="+coll_obj_id,"loanItemWin","width=800,height=500, resizable,scrollbars,toolbar,menubar");
-}
 function findMedia(mediaStringFld,mediaIdFld,media_uri){
 	var url="/picks/findMedia.cfm";
 	var mediaIdFld;
