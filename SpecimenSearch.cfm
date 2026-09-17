@@ -543,13 +543,9 @@
 			<td class="srch">
             <p class="topspace">&nbsp;</p>
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
-				<span class="secControl" style="font-size:.9em;" id="c_spatial_query" onclick="showHide('spatial_query',1)">Select on Google Map</span>
-				<!--- launches includes/SpecSearch/spatial_query.cfm but map is returning a 404 --->
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div id="e_spatial_query"></div>
+				<!--- The map box-select control that stood here was removed; it drew a Google Maps v2
+					map, an API retired in 2013.  The bounding box search it fed is still live and
+					still reachable by passing NWLat, NWLong, SELat and SELong to this page --->
 			</td>
 		</tr>
 	</table>
