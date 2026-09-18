@@ -609,19 +609,38 @@ limitations under the License.
 				own "collection object" leaf, unless that leaf's immediate parent is a proxy-role
 				container (pin/slide/cryovial/envelope/glass vial), in which case the proxy is what
 				actually gets reparented. Mirrors tools/BulkloadPartContainer.cfm's Phase 1 pattern
-				exactly, driven by ctcontainer_type.role='proxy' rather than a hand-maintained list. --->
+				exactly, driven by ctcontainer_type.role='proxy' rather than a hand-maintained list.
+
+				Unlike BulkloadPartContainer.cfm (where every row is a container placement by
+				definition), this is a general part-editing bulkloader -- CONTAINER_UNIQUE_ID is one
+				optional field among many, and most rows in a typical batch won't set it at all.
+				Scoped to parent_container_id is not null (resolved from CONTAINER_UNIQUE_ID above)
+				so a row that isn't proposing any container move doesn't get a spurious "moving it
+				will move the [proxy]..." warning for a move nobody asked for. --->
 			<cfquery name="getTempTablePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, part_collection_object_id
 				FROM cf_temp_edit_parts
 				WHERE part_collection_object_id is not null
+					AND parent_container_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTablePart">
 				<cfset local.partContainer = resolvePartCurrentContainer(getTempTablePart.part_collection_object_id)>
+				<!--- resolvePartCurrentContainer only sets move_container_id/is_proxy/etc. once it
+					finds a current coll_obj_cont_hist row -- when found is false, those keys don't
+					exist on the returned struct at all. Resolve into a plain local variable first
+					rather than referencing local.partContainer.move_container_id directly inside
+					<cfqueryparam value="...">, since that attribute is evaluated regardless of the
+					null attribute's value and would throw "element MOVE_CONTAINER_ID is undefined"
+					for any part with no current container recorded at all. --->
+				<cfset local.resolvedPartContainerId = "">
+				<cfif local.partContainer.found>
+					<cfset local.resolvedPartContainerId = local.partContainer.move_container_id>
+				</cfif>
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts
 					SET
-						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#" null="#NOT local.partContainer.found#">
+						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.resolvedPartContainerId#" null="#NOT local.partContainer.found#">
 						<cfif local.partContainer.found AND local.partContainer.is_proxy>
 							, placement_severity = 'warn'
 							, placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="This part is inside a #local.partContainer.move_type# (#local.partContainer.move_label#) -- moving it will move the #local.partContainer.move_type#, not just the collection object container specified.">)
@@ -1285,9 +1304,14 @@ limitations under the License.
 			<h2 class="h4">Third Step: Load Data</h2>
 			<cfset problem_key = "">
 			<cftransaction>
+				<!--- 'LOADED' is never actually written to status anywhere in this file -- this
+					exclusion appears to be vestigial (perhaps intended for a re-entrant load after
+					a partial failure) rather than live behavior. Not changed here since it's
+					unrelated to this fix; the exact-string success check on getTempData.status just
+					below is what actually gates which rows this loop proceeds to update. --->
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
-					FROM cf_temp_edit_parts 
+					SELECT *
+					FROM cf_temp_edit_parts
 					WHERE status not in ('LOADED', 'PART NOT FOUND')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
