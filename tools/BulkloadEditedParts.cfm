@@ -1310,11 +1310,17 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<!--- the query above filters status NOT IN ('LOADED', 'PART NOT FOUND') --
-							any OTHER non-empty status (including a placement_blocked result set during
+							any OTHER problem status (including a placement_blocked result set during
 							validate) would still pass that filter, since it isn't literally either of
 							those two exact strings. Gate on it explicitly here too, the same real gap
-							Phase 1 found and fixed in tools/BulkloadPartContainer.cfm's load action. --->
-						<cfif len(trim(getTempData.status)) GT 0>
+							Phase 1 found and fixed in tools/BulkloadPartContainer.cfm's load action --
+							but unlike that file, a blank/null status is NOT this file's own success
+							marker: a fully validated row's status is always the exact literal string
+							' :Found Cataloged Item; Found Part' (see cleanoutValidFromInvalid above,
+							and the identical comparison countFailures already uses above), never
+							blank. Gate on that same comparison, not on "any non-empty status", which
+							rejected every row, including fully valid ones. --->
+						<cfif getTempData.status NEQ ' :Found Cataloged Item; Found Part' OR len(trim(getTempData.collection_object_id)) EQ 0>
 							<cfthrow message = "Row (key #getTempData.key#) has unresolved validation problems: #getTempData.status#">
 						</cfif>
 						<cfif len(#part_collection_object_id#) is 0>
