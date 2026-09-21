@@ -888,7 +888,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: PART_COLLECTION_OBJECT_ID not found in MCZbase' 
+						'ERROR: PART_COLLECTION_OBJECT_ID in your file was not found in MCZbase -- remove it to identify the part by PART_NAME, PRESERVE_METHOD, CURRENT_REMARKS, LOT_COUNT and LOT_COUNT_MODIFIER instead' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -1280,7 +1280,7 @@ limitations under the License.
 											repeating "ERROR:" on every line. The stored messages mostly carry their own
 											'ERROR: ' prefix (PART NOT FOUND does not), so the prefix is stripped here -- the
 											heading says it once. Stripping is display-only; the stored status is unchanged. --->
-										<div><strong class="text-danger">ERRORS</strong></div>
+										<div><strong class="text-danger">ERROR<cfif ArrayLen(local.statusProblems) GT 1>S</cfif></strong></div>
 										<ul class="mb-0 pl-4 text-danger font-weight-bold">
 											<cfloop array="#local.statusProblems#" index="local.statusProblem">
 												<li>#reReplace(local.statusProblem, '^ERROR:[[:space:]]*', '')#</li>
