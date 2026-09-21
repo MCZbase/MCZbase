@@ -1275,9 +1275,18 @@ limitations under the License.
 									<cfif ArrayLen(local.statusChecks) GT 0>
 										<div class="text-muted">Checked: #ArrayToList(local.statusChecks, '; ')#</div>
 									</cfif>
-									<cfloop array="#local.statusProblems#" index="local.statusProblem">
-										<div><strong class="text-danger"><cfif left(local.statusProblem,6) NEQ 'ERROR:'>ERROR: </cfif>#local.statusProblem#</strong></div>
-									</cfloop>
+									<cfif ArrayLen(local.statusProblems) GT 0>
+										<!--- One ERRORS heading for the row, then the problems as a bullet list, rather than
+											repeating "ERROR:" on every line. The stored messages mostly carry their own
+											'ERROR: ' prefix (PART NOT FOUND does not), so the prefix is stripped here -- the
+											heading says it once. Stripping is display-only; the stored status is unchanged. --->
+										<div><strong class="text-danger">ERRORS</strong></div>
+										<ul class="mb-0 pl-4 text-danger font-weight-bold">
+											<cfloop array="#local.statusProblems#" index="local.statusProblem">
+												<li>#reReplace(local.statusProblem, '^ERROR:[[:space:]]*', '')#</li>
+											</cfloop>
+										</ul>
+									</cfif>
 								</cfif>
 							</td>
 							<td><cfif getTempDataToShow.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#getTempDataToShow.placement_message#</cfif></td>
