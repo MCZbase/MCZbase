@@ -1270,12 +1270,24 @@ limitations under the License.
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
 							<td>#OTHER_ID_NUMBER#</td>
-							<td> <cfif PART_NAME NEQ NEW_PART_NAME><strong>#NEW_PART_NAME#</strong><cfelse>#NEW_PART_NAME#</cfif> </td>
-							<td> <cfif PRESERVE_METHOD NEQ NEW_PRESERVE_METHOD><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
-							<td> <cfif COLL_OBJ_DISPOSITION NEQ NEW_COLL_OBJ_DISPOSITION><strong>#NEW_COLL_OBJ_DISPOSITION#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITION#</cfif> </td>
-							<td> <cfif LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
+							<!--- The five NEW_ columns below bold a value that differs from the row's current value,
+								i.e. one the load action will actually write. The len() guard matters: the load skips
+								each of these fields when its NEW_ value is blank (see the len(...) gt 0 gates in the
+								load loop), so a blank NEW_ value is "leave this alone", not "clear it". Without the
+								guard the NEQ alone was true for every blank NEW_ value and emitted <strong></strong>
+								-- an invisible bold on a change that never happens. NEW_LOT_COUNT_MODIFIER below is
+								deliberately different: it IS written unconditionally alongside lot_count, so a blank
+								there really does clear the existing modifier and is shown as a bold [empty].
+								The text fields compare with compare() rather than NEQ, which is case-insensitive in
+								CFML: a case-only edit ("Skin" -> "skin") is a real change the load writes, and NEQ
+								treated it as no change. NEW_LOT_COUNT deliberately keeps NEQ so it compares
+								numerically -- compare() is a string compare and would bold 8 against 8.0. --->
+							<td> <cfif len(NEW_PART_NAME) GT 0 AND compare(PART_NAME, NEW_PART_NAME) NEQ 0><strong>#NEW_PART_NAME#</strong><cfelse>#NEW_PART_NAME#</cfif> </td>
+							<td> <cfif len(NEW_PRESERVE_METHOD) GT 0 AND compare(PRESERVE_METHOD, NEW_PRESERVE_METHOD) NEQ 0><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
+							<td> <cfif len(NEW_COLL_OBJ_DISPOSITION) GT 0 AND compare(COLL_OBJ_DISPOSITION, NEW_COLL_OBJ_DISPOSITION) NEQ 0><strong>#NEW_COLL_OBJ_DISPOSITION#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITION#</cfif> </td>
+							<td> <cfif len(NEW_LOT_COUNT) GT 0 AND LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
 							<td> 
-								<cfif LOT_COUNT_MODIFIER NEQ NEW_LOT_COUNT_MODIFIER>
+								<cfif compare(LOT_COUNT_MODIFIER, NEW_LOT_COUNT_MODIFIER) NEQ 0>
 									<cfif len(LOT_COUNT_MODIFIER) GT 0 AND len(new_lot_count) GT 0 AND len(NEW_LOT_COUNT_MODIFIER) EQ 0>
 										<strong>[empty]</strong>
 									<cfelse>
@@ -1285,7 +1297,7 @@ limitations under the License.
 									#NEW_LOT_COUNT_MODIFIER#
 								</cfif> 
 							</td>
-							<td> <cfif CONDITION NEQ NEW_CONDITION><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
+							<td> <cfif len(NEW_CONDITION) GT 0 AND compare(CONDITION, NEW_CONDITION) NEQ 0><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
 							<td>#coll_obj_disposition#</td>
