@@ -1212,7 +1212,11 @@ limitations under the License.
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
 								</cfloop>
 								<cfif len(#collection_object_id#) gt 0 and (#status# is ' :Found Cataloged Item; Found Part')>
-									<!--- no need to display status --->
+									<!--- Row passed every validation check. This used to render an empty cell, which asked
+										the user to read "nothing wrong here" out of a blank -- hard to distinguish, on a wide
+										horizontally scrolling table, from a row whose checks had not run (which has its own
+										'BUG: Validation checks not run.' branch below). Stated positively instead. --->
+									<span class="text-success">Valid</span>
 								<cfelseif left(status,5) is 'VALID'>
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> (#status#)
