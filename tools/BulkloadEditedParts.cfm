@@ -1216,13 +1216,49 @@ limitations under the License.
 								<cfelseif left(status,5) is 'VALID'>
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> (#status#)
-								<cfelseif left(status,6) is 'ERROR:'>
-									<a href="/guid/#guid#"
-										target="_blank">#guid#</a> <strong>#status#</strong>
 								<cfelseif len(status) EQ 0>
 									<strong>BUG: Validation checks not run.</strong>
 								<cfelse>
-									<strong>ERROR: #status#</strong>
+									<!--- status is a single ';'-delimited string that mixes informational findings
+										('Found Cataloged Item', 'Found Part') with failures. This branch used to wrap a
+										blanket "ERROR: " around the whole string, which labelled the informational
+										segments as errors and produced doubled "ERROR: ... ERROR: ..." text -- e.g.
+										"ERROR: Found Cataloged Item; ERROR: no matching part by part id; ...".
+										Rendered segment by segment instead, so the checks that passed read as checks.
+
+										Segments are classified against an allowlist of the two informational literals
+										rather than by testing for an 'ERROR:' prefix, because not every failure carries
+										that prefix -- markPartsNotFound above appends a bare 'PART NOT FOUND', which a
+										prefix test would render as a passing check.
+
+										Display only: the stored status value is not touched, so the exact-string sentinel
+										' :Found Cataloged Item; Found Part' that getProblemData's decode, countFailures
+										and the load-action gate all compare against still matches as before. --->
+									<cfset local.statusSegments = listToArray(reReplace(status, '^[[:space:]]*:[[:space:]]*', ''), ';')>
+									<cfset local.statusChecks = ArrayNew(1)>
+									<cfset local.statusProblems = ArrayNew(1)>
+									<cfloop array="#local.statusSegments#" index="local.statusSegment">
+										<cfset local.statusSegment = trim(local.statusSegment)>
+										<cfif len(local.statusSegment) GT 0>
+											<cfif listFindNoCase("Found Cataloged Item,Found Part", local.statusSegment) GT 0>
+												<cfset ArrayAppend(local.statusChecks, local.statusSegment)>
+											<cfelse>
+												<cfset ArrayAppend(local.statusProblems, local.statusSegment)>
+											</cfif>
+										</cfif>
+									</cfloop>
+									<!--- guid is the literal "MCZ:error:error" placeholder when no cataloged item was
+										matched (see the lookupGuid fallback above), so only link it when there is a real
+										collection_object_id behind it. --->
+									<cfif len(collection_object_id) GT 0>
+										<a href="/guid/#guid#" target="_blank">#guid#</a>
+									</cfif>
+									<cfif ArrayLen(local.statusChecks) GT 0>
+										<div class="text-muted">Checked: #ArrayToList(local.statusChecks, '; ')#</div>
+									</cfif>
+									<cfloop array="#local.statusProblems#" index="local.statusProblem">
+										<div><strong class="text-danger"><cfif left(local.statusProblem,6) NEQ 'ERROR:'>ERROR: </cfif>#local.statusProblem#</strong></div>
+									</cfloop>
 								</cfif>
 							</td>
 							<td><cfif getTempDataToShow.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#getTempDataToShow.placement_message#</cfif></td>
