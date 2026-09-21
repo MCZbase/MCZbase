@@ -1129,7 +1129,7 @@ limitations under the License.
 				<cfset placementAlertClass = "alert-warning">
 			</cfif>
 			<div class="alert #placementAlertClass# py-2 px-3 small">
-				<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional.
+				<strong>About Placement Warnings:</strong> The PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional.
 				<cfif warnCount.c gt 0>
 					#warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
 				<cfelse>
@@ -1141,7 +1141,7 @@ limitations under the License.
 				a green Valid, the ERRORS list) read for themselves, so this covers only the bolding.
 				Styled to match the placement-warning box above. --->
 			<div class="alert alert-info py-2 px-3 small">
-				<strong>About bolded values:</strong> in the NEW_ columns, a <strong>bold</strong> value
+				<strong>About Bolded Values:</strong> In the NEW_ columns, a <strong>bold</strong> value
 				differs from the record's current value and will replace it when you load; a NEW_ column
 				left blank is not changed. In NEW_LOT_COUNT_MODIFIER, a bold <strong>[empty]</strong> means
 				the part's existing modifier will be cleared -- setting NEW_LOT_COUNT always writes the
