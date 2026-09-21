@@ -888,7 +888,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part id' 
+						'ERROR: PART_COLLECTION_OBJECT_ID not found in MCZbase' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -908,7 +908,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part fields' 
+						'ERROR: No part on this record matches the PART_NAME, PRESERVE_METHOD, CURRENT_REMARKS, LOT_COUNT and LOT_COUNT_MODIFIER given' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -936,7 +936,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: Provided current_remarks do not match the part remarks for this record' 
+						'ERROR: CURRENT_REMARKS does not match this part' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -961,7 +961,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: provided lot_count and lot_count_modifier do not match the part values for this record' 
+						'ERROR: LOT_COUNT / LOT_COUNT_MODIFIER do not match this part' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -988,7 +988,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: More that one matching part by part fields' 
+						'ERROR: More than one part on this record matches these values' 
 					)
 				WHERE cf_temp_edit_parts.key in 
 					(
