@@ -1102,6 +1102,14 @@ limitations under the License.
 				SELECT * 
 				FROM cf_temp_edit_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				<!--- Ordered so the on-screen rows follow the uploaded file's row order, which is what
+					the ROW column below counts, and what the problem-report CSV (getProblemData) already
+					used. Without it Oracle may return these in any order, and the many UPDATEs the
+					validate step runs against this table can migrate rows and reorder them -- leaving a
+					user unable to match a flagged row to a line in their spreadsheet. Affects sequence
+					only: the same rows come back, so recordcount and the warnCount query-of-query below
+					are unaffected. --->
+				ORDER BY key
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
@@ -1131,6 +1139,7 @@ limitations under the License.
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
+						<th>ROW</th>
 						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>PLACEMENT WARNING</th>
 						<th>INSTITUTION_ACRONYM</th>
@@ -1194,6 +1203,12 @@ limitations under the License.
 				<tbody>
 					<cfloop query="getTempDataToShow">
 						<tr>
+							<!--- Position in the uploaded file (the query above is ORDER BY key), so a flagged row
+								can be matched to a line in the user's spreadsheet -- PART_COLLECTION_OBJECT_ID is
+								deliberately not shown in this table. currentRow rather than key itself: key is a
+								database sequence value, not a 1-based line number. Unlike screen position, this
+								survives the user re-sorting this sortable table. --->
+							<td>#getTempDataToShow.currentRow#</td>
 							<td>
 								<cfif len(getTempDataToShow.collection_object_id) EQ 0>
 									<!--- fail gracefully if no collection_object_id --->
