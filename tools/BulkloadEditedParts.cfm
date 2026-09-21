@@ -1136,6 +1136,18 @@ limitations under the License.
 					No rows in this batch currently have a placement warning.
 				</cfif>
 			</div>
+			<!--- Bold in the NEW_ columns has carried meaning since this table was written but was
+				never explained on the page, leaving users to infer it. The other conventions here (ROW,
+				a green Valid, the ERRORS list) read for themselves, so this covers only the bolding.
+				Styled to match the placement-warning box above. --->
+			<div class="alert alert-info py-2 px-3 small">
+				<strong>About bolded values:</strong> in the NEW_ columns, a <strong>bold</strong> value
+				differs from the record's current value and will replace it when you load; a NEW_ column
+				left blank is not changed. In NEW_LOT_COUNT_MODIFIER, a bold <strong>[empty]</strong> means
+				the part's existing modifier will be cleared -- setting NEW_LOT_COUNT always writes the
+				modifier alongside it. APPEND_TO_REMARKS is always shown in bold, since anything there is
+				added to the record.
+			</div>
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
