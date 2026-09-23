@@ -82,8 +82,17 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
+								<!--- reviewed_fg is the closest the data comes to recording why an annotation
+									is masked: nothing stores the reason.  Unreviewed means no curator has
+									looked at it yet, which is the state every external annotation starts in
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator saw it and chose to keep it hidden - some other reason. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(reviewed_fg) EQ 1>
+										<span class="small font-weight-bold">[Hidden] </span>
+									<cfelse>
+										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
 								#annotation_display#
 								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
@@ -166,8 +175,17 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
+								<!--- reviewed_fg is the closest the data comes to recording why an annotation
+									is masked: nothing stores the reason.  Unreviewed means no curator has
+									looked at it yet, which is the state every external annotation starts in
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator saw it and chose to keep it hidden - some other reason. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(reviewed_fg) EQ 1>
+										<span class="small font-weight-bold">[Hidden] </span>
+									<cfelse>
+										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
 								#annotation_display#
 								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
@@ -250,8 +268,17 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
+								<!--- reviewed_fg is the closest the data comes to recording why an annotation
+									is masked: nothing stores the reason.  Unreviewed means no curator has
+									looked at it yet, which is the state every external annotation starts in
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator saw it and chose to keep it hidden - some other reason. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(reviewed_fg) EQ 1>
+										<span class="small font-weight-bold">[Hidden] </span>
+									<cfelse>
+										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
 								#annotation_display#
 								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
@@ -334,8 +361,17 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
+								<!--- reviewed_fg is the closest the data comes to recording why an annotation
+									is masked: nothing stores the reason.  Unreviewed means no curator has
+									looked at it yet, which is the state every external annotation starts in
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator saw it and chose to keep it hidden - some other reason. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(reviewed_fg) EQ 1>
+										<span class="small font-weight-bold">[Hidden] </span>
+									<cfelse>
+										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
 								#annotation_display#
 								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>

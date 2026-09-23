@@ -1892,6 +1892,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="highlight_label" type="string" required="no" default="Highlighted">
 	<cfargument name="parent_mask_annotation_fg" type="string" required="no" default="0">
 	<cfargument name="read_only"           type="boolean" required="no" default="false">
+	<cfargument name="show_view_action"    type="boolean" required="no" default="true">
 
 	<cfset var showVisibility = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<!--- Mask the body of a masked annotation, except for coldfusion_user role holders and the
@@ -1961,6 +1962,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfif showMaskedBody>
 						<div class="px-1 small font-italic text-muted">[Masked]</div>
 					<cfelse>
+						<!--- The body is shown, so the viewer is staff or the annotation's own author.
+							Say that it is hidden from everyone else, which nothing in this row did
+							before - an external annotator had no way to tell.  See the card bodies in
+							public.cfc for why reviewed_fg stands in for the reason. --->
+						<cfif val(arguments.mask_annotation_fg) EQ 1>
+							<div class="px-1 small font-italic text-muted"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
+						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation. --->
 						<div class="px-1 small">#arguments.annotation_display#</div>
 					</cfif>
@@ -2028,10 +2036,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfif NOT arguments.highlight_as_editing>
 								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 							</cfif>
+							<!--- History is a curator tool: it is an audit trail of edits, and only
+								manage_collection holders can make those edits.  getAnnotationHistoryDialogHtml
+								is also reachable only through functions.cfc, which requires coldfusion_user,
+								so rendering it more widely offers a button that returns 403. --->
+							<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
 						</cfif>
 					</cfif>
-					<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
-					<cfif NOT arguments.is_response>
+					<!--- View is offered only when showAnnotation.cfm would actually serve the page:
+						not on showAnnotation.cfm itself (it would link to the page being viewed), not
+						for a response (no standalone page), and only when the annotation is unmasked or
+						the viewer holds manage_collection - the same rule showAnnotation.cfm applies. --->
+					<cfif arguments.show_view_action AND NOT arguments.is_response
+							AND ( val(arguments.mask_annotation_fg) EQ 0
+								OR (isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")) )>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
 					</cfif>
 				</div>

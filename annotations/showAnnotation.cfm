@@ -562,6 +562,8 @@ limitations under the License.
 							<cfelse>
 								<cfset variables.rootDisplayText = rootAnn.annotation>
 							</cfif>
+							<!--- show_view_action=false: this page IS showAnnotation.cfm, so a View
+								button here would link to the page already being viewed. --->
 							<cfset rootRowHtml = renderAnnotationReviewRow(
 								annotation_id=rootAnn.annotation_id,
 								annotation_display=variables.rootDisplayText,
@@ -579,7 +581,8 @@ limitations under the License.
 								root_annotation_id=rootAnn.annotation_id,
 								show_reply_action=variables.canManage,
 								highlight_as_target=(val(rootAnn.annotation_id) EQ val(variables.annotation_id)),
-								highlight_label="Selected Annotation")>
+								highlight_label="Selected Annotation",
+								show_view_action=false)>
 							#rootRowHtml#
 							<cfset variables.fullConversation = getAnnotationConversationForRoot(rootAnnotationId=variables.rootAnnotationId)>
 							<cfset variables.conversationSectionHtml = renderAnnotationConversationReplies(
