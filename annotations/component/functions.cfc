@@ -2526,6 +2526,23 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													<cfset currentRootResolutionLabel = currentRootResolution>
 												</cfif>
 											</cfif>
+											<!--- Reviewed? for a root annotation.  The response case renders its own
+												"Mark Root Reviewed?" control above; without this one there was no way to
+												set reviewed_fg on a root annotation at all, which is every annotation an
+												external user creates.  Uses the same field id, so saveAnnotationEdit posts
+												it as root_reviewed_fg and updateAnnotationText writes it to
+												root_annotation_id, which for a root annotation is the annotation itself. --->
+											<cfif NOT isResponseAnnotation>
+												<div class="col-12 col-md-2 pb-1">
+													<label for="#editRootReviewedFieldId#" class="data-entry-label">Reviewed?</label>
+													<select id="#editRootReviewedFieldId#" class="data-entry-select">
+														<cfif val(editAnn.reviewed_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<option value="0"#selected#>No</option>
+														<cfif val(editAnn.reviewed_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<option value="1"#selected#>Yes</option>
+													</select>
+												</div>
+											</cfif>
 											<div class="col-12 col-md-2 pb-1">
 												<label for="#editRootStateFieldId#" class="data-entry-label"><cfif isResponseAnnotation>Root State (#encodeForHTML(currentRootStateLabel)#)<cfelse>State</cfif></label>
 												<select id="#editRootStateFieldId#" class="data-entry-select">

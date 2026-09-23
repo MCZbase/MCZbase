@@ -82,13 +82,15 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
-								<!--- reviewed_fg is the closest the data comes to recording why an annotation
-									is masked: nothing stores the reason.  Unreviewed means no curator has
-									looked at it yet, which is the state every external annotation starts in
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
 									(addAnnotation masks them by default).  Reviewed and still masked means a
-									curator saw it and chose to keep it hidden - some other reason. --->
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<cfif val(reviewed_fg) EQ 1>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
 										<span class="small font-weight-bold">[Hidden] </span>
 									<cfelse>
 										<span class="small font-weight-bold">[Hidden - Pending review] </span>
@@ -175,13 +177,15 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
-								<!--- reviewed_fg is the closest the data comes to recording why an annotation
-									is masked: nothing stores the reason.  Unreviewed means no curator has
-									looked at it yet, which is the state every external annotation starts in
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
 									(addAnnotation masks them by default).  Reviewed and still masked means a
-									curator saw it and chose to keep it hidden - some other reason. --->
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<cfif val(reviewed_fg) EQ 1>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
 										<span class="small font-weight-bold">[Hidden] </span>
 									<cfelse>
 										<span class="small font-weight-bold">[Hidden - Pending review] </span>
@@ -268,13 +272,15 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
-								<!--- reviewed_fg is the closest the data comes to recording why an annotation
-									is masked: nothing stores the reason.  Unreviewed means no curator has
-									looked at it yet, which is the state every external annotation starts in
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
 									(addAnnotation masks them by default).  Reviewed and still masked means a
-									curator saw it and chose to keep it hidden - some other reason. --->
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<cfif val(reviewed_fg) EQ 1>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
 										<span class="small font-weight-bold">[Hidden] </span>
 									<cfelse>
 										<span class="small font-weight-bold">[Hidden - Pending review] </span>
@@ -361,13 +367,15 @@ limitations under the License.
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
 								<span class="small font-weight-bold">Annotation: </span>
-								<!--- reviewed_fg is the closest the data comes to recording why an annotation
-									is masked: nothing stores the reason.  Unreviewed means no curator has
-									looked at it yet, which is the state every external annotation starts in
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
 									(addAnnotation masks them by default).  Reviewed and still masked means a
-									curator saw it and chose to keep it hidden - some other reason. --->
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<cfif val(reviewed_fg) EQ 1>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
 										<span class="small font-weight-bold">[Hidden] </span>
 									<cfelse>
 										<span class="small font-weight-bold">[Hidden - Pending review] </span>
