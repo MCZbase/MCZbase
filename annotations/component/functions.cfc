@@ -680,6 +680,12 @@ limitations under the License.
 	<cfargument name="root_resolution" type="string" required="no" default="">
 	<cfargument name="root_reviewed_fg" type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
+	<!--- /annotations/component/public.cfc is reachable without a login, and this method is
+		callable there by URL, so authentication cannot be left to the caller's cf_rolecheck. --->
+	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
+		<cfheader statusCode="403" statusText="You must be logged in to MCZbase to annotate.">
+		<cfabort>
+	</cfif>
 
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
@@ -1888,7 +1894,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="read_only"           type="boolean" required="no" default="false">
 
 	<cfset var showVisibility = (NOT arguments.read_only) AND isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-	<cfset var showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1) AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
+	<!--- Mask the body of a masked annotation, except for coldfusion_user role holders and the
+		annotation's own author.  renderAnnotatorHtml already makes the same author exception;
+		without it here, external annotators cannot read back their own annotations, which
+		addAnnotation masks by default. --->
+	<cfset var showMaskedBody = (val(arguments.mask_annotation_fg) EQ 1)
+		AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))
+		AND NOT (isDefined("session.username") AND len(trim(session.username)) GT 0 AND arguments.cf_username EQ session.username)>
 	<cfset var parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
 	<cfset var rootAnnotationId = "">
 	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>

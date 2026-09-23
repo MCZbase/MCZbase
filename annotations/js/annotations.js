@@ -35,7 +35,7 @@ function reloadAnnotationBlock(rootAnnotationId) {
  */
 function reloadAnnotationsDialogSection(dialogId, targetType, targetId) {
 	$.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getAnnotationDialogHtml",
@@ -213,7 +213,7 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 		postData.root_resolution = $("#root_resolution" + suffix).val();
 	}
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "post",
 		data: postData,
 		success: function(data) {
@@ -281,7 +281,7 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getAnnotationDialogHtml",
