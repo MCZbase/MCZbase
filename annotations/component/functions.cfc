@@ -1095,6 +1095,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 
 <!--- Update the mask_annotation_fg flag for an annotation.
+ Unmasking an annotation also marks it reviewed: making it public IS the review decision,
+ so reviewed_fg and reviewer_agent_id are set at the same time.  Masking again does not
+ clear the flag - the annotation was still reviewed.  Marking an annotation reviewed while
+ leaving it hidden is done from the Reviewed? control in getEditAnnotationDialogHtml.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param mask_annotation_fg 1 to hide the annotation from users without coldfusion_user role, 0 to show.
  @return json with status=updated or an http 500 error if the update fails.
@@ -1103,18 +1107,33 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="annotation_id" type="string" required="yes">
 	<cfargument name="mask_annotation_fg" type="string" required="yes">
 
+	<!--- The role check and the agent lookup both happen BEFORE the transaction opens.
+		requireCurrentUserAnnotationEditorAgentId queries uam_god while the update below uses
+		user_login, and ColdFusion requires every query inside one cftransaction to use the same
+		datasource - running the lookup inside it made this method fail every time with
+		"Datasource names for all the database tags within the cftransaction tag must be the
+		same".  This is the same order updateAnnotationText uses.  The role check moves out with
+		it, so it reports 403 directly rather than throwing where no cftry can catch it. --->
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
+		<cfheader statusCode="403" statusText="The manage_collection role is required to set annotation visibility.">
+		<cfabort>
+	</cfif>
 	<cfset data = ArrayNew(1)>
+	<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
-			<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
-				<cfthrow message="The manage_collection role is required to set annotation visibility.">
-			</cfif>
-			<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 			<cfquery name="updateMask" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMask_result">
 				UPDATE annotations
-				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(mask_annotation_fg)#">,
+				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">,
 					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+					<cfif val(arguments.mask_annotation_fg) EQ 0>
+						<!--- Making an annotation public is the review decision, so record it as one.
+							reviewer_agent_id becomes whoever published it, matching
+							last_updated_by_agent_id above. --->
+						,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
+						,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+					</cfif>
+				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 			</cfquery>
 			<cfif updateMask_result.recordcount NEQ 1>
 				<cfthrow message="Annotation to update not found.">
