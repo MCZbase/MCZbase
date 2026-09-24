@@ -4251,7 +4251,7 @@ limitations under the License.
 						</cfif>
 						<cfloop query="annotations">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">
+								<span class="font-weight-lessbold">
 									Annotation: 
 									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
 										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
@@ -4266,9 +4266,9 @@ limitations under the License.
 									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
 									<cfif val(annotations.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
+										<span class="font-weight-lessbold">[Hidden] </span>
 									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -4293,10 +4293,10 @@ limitations under the License.
 									front of it that reads as a statement about the annotation rather than about the
 									person.  The dash also hung with nothing after it when the call returned an empty
 									string. --->
-								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
-										<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed<cfif len(trim(reviewer)) GT 0> by</cfif>:</span><cfif len(trim(reviewer)) GT 0> #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
+										<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed<cfif len(trim(reviewer)) GT 0> by</cfif>:</span><cfif len(trim(reviewer)) GT 0> #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 									</cfif>
 								</cfif>
 								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->

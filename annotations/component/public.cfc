@@ -81,7 +81,7 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
 								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
 									it: not yet reviewed means no curator has assessed whether the annotation is
 									suitable to show publicly, which is where every external annotation starts
@@ -182,7 +182,7 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
 								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
 									it: not yet reviewed means no curator has assessed whether the annotation is
 									suitable to show publicly, which is where every external annotation starts
@@ -283,7 +283,7 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
 								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
 									it: not yet reviewed means no curator has assessed whether the annotation is
 									suitable to show publicly, which is where every external annotation starts
@@ -384,7 +384,7 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
 								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
 									it: not yet reviewed means no curator has assessed whether the annotation is
 									suitable to show publicly, which is where every external annotation starts
