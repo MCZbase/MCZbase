@@ -1999,7 +1999,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<span class="data-entry-label font-weight-bold small">Motivation:</span>
 					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
 				</div>
-				<cfif NOT arguments.is_response>
+				<!--- State and Resolution are curator triage vocabulary from ctstate/ctresolution,
+					shown only to internal staff.  To an annotator "State: Approved, Resolution:
+					RESOLVED" on an annotation that is still hidden reads as a verdict on what they
+					asked for, which is not what those values mean.  Reviewed? stays visible - whether
+					anyone has looked at their submission is fairly theirs to know. --->
+				<cfif NOT arguments.is_response AND isDefined("session.roles")
+						AND listfindnocase(session.roles,"coldfusion_user")>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<!--- Label above value, matching the Motivation, Reviewed? and Visibility
 							columns.  These two previously wrapped label and value in one div, so
