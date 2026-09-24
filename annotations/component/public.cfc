@@ -91,9 +91,9 @@ limitations under the License.
 									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
 									<cfif val(annQuery.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
+										<span class="font-weight-lessbold">[Hidden] </span>
 									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
 								#annotation_display#
@@ -103,9 +103,9 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
@@ -121,7 +121,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getAgentAnnotationCardBodyHtml", note="agent_id=#arguments.agent_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -192,9 +192,9 @@ limitations under the License.
 									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
 									<cfif val(annQuery.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
+										<span class="font-weight-lessbold">[Hidden] </span>
 									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
 								#annotation_display#
@@ -204,16 +204,16 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this taxon record.</p>
+					<p class="my-2 text-muted">There are no annotations on this taxon record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -222,7 +222,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getTaxonomyAnnotationCardBodyHtml", note="taxon_name_id=#arguments.taxon_name_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -293,9 +293,9 @@ limitations under the License.
 									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
 									<cfif val(annQuery.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
+										<span class="font-weight-lessbold">[Hidden] </span>
 									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
 								#annotation_display#
@@ -305,16 +305,16 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this project record.</p>
+					<p class="my-2 text-muted">There are no annotations on this project record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -394,9 +394,9 @@ limitations under the License.
 									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
 									<cfif val(annQuery.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
+										<span class="font-weight-lessbold">[Hidden] </span>
 									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
 								#annotation_display#
@@ -406,16 +406,16 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this publication record.</p>
+					<p class="my-2 text-muted">There are no annotations on this publication record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -424,7 +424,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getPublicationAnnotationCardBodyHtml", note="publication_id=#arguments.publication_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
