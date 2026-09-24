@@ -1181,7 +1181,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			a.annotator_agent_id,
 			ud.first_name,
 			ud.last_name,
-			ud.email,
 			pan.agent_name preferred_name,
 			ag.agentguid,
 			ag.agentguid_guid_type
@@ -1251,15 +1250,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<a href="#guidLink#" target="_blank" title="#encodeForHTMLAttribute(annAnnotator.agentguid_guid_type)# identifier (opens in new tab)">#guidIcon#</a>
 			</cfif>
 		<cfelse>
-			<!--- Annotator has no linked agent record --->
-			<cfif showAll>
-				<strong>#encodeForHTML(annotatorUsername)#</strong>
-				<cfif len(trim(annAnnotator.first_name)) GT 0 OR len(trim(annAnnotator.last_name)) GT 0>
-					#encodeForHTML(trim(annAnnotator.first_name & " " & annAnnotator.last_name))#
-				</cfif>
-				<cfif len(trim(annAnnotator.email)) GT 0>
-					#encodeForHTML(annAnnotator.email)#
-				</cfif>
+			<!--- Annotator has no linked agent record.  Most external annotators have none,
+				so this branch - not the agent link above - is what the public sees for their
+				annotations.  It shows the name alone, falling back to the username when the
+				user has given no name, so it reads the same as the agent link above rather than
+				naming the same person twice.  The email address is not rendered at all: it put a
+				contact address on every annotation an external user authored, on a page anyone
+				can load, to tell staff and the author something neither needed shown back to
+				them.  Staff who need the account name or the address have the History dialog,
+				the review dialog and the user admin screens. --->
+			<cfif showAll AND (len(trim(annAnnotator.first_name)) GT 0 OR len(trim(annAnnotator.last_name)) GT 0)>
+				#encodeForHTML(trim(annAnnotator.first_name & " " & annAnnotator.last_name))#
 			<cfelse>
 				#encodeForHTML(annotatorUsername)#
 			</cfif>
