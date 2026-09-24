@@ -4296,7 +4296,7 @@ limitations under the License.
 								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
-										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+										<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed<cfif len(trim(reviewer)) GT 0> by</cfif>:</span><cfif len(trim(reviewer)) GT 0> #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 									</cfif>
 								</cfif>
 								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->

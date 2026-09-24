@@ -1894,6 +1894,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
 	<cfargument name="annotation_id"       type="string" required="yes">
 	<cfargument name="annotation_display"  type="string" required="yes">
+	<!--- Accepted but not rendered.  It used to be appended to the "Response Annotation:"
+		label, but the callers pass each reply's OWN display_summary, which the conversation
+		query defines as the body itself for anything under 60 characters - so every short
+		reply printed its text twice, once bold in the label and once as the body below.
+		Kept on the signature because the useful version of this is the PARENT annotation's
+		summary ("Response Annotation: to ...") and parentSummaryOf is already built for it. --->
 	<cfargument name="annotation_summary"  type="string" required="no" default="">
 	<cfargument name="cf_username"         type="string" required="yes">
 	<cfargument name="email"               type="string" required="no" default="">
@@ -1930,25 +1936,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
-	<cfset var annotationLabelSummary = "">
-	<cfset var summaryText = "">
-	<cfset var maxSummaryLength = 60>
 	<cfif responseReadOnlyLayout>
 		<cfset annotationBodyColClass = "col-12 col-md-7 pt-2 px-1">
 		<cfset annotatorColClass = "col-12 col-md-3 pt-2 px-1">
 		<cfset motivationColClass = "col-12 col-md-2 pt-2 px-1">
-	</cfif>
-	<cfif arguments.is_response>
-		<cfif len(trim(arguments.annotation_summary)) GT 0>
-			<cfset summaryText = trim(arguments.annotation_summary)>
-		<cfelse>
-			<cfset summaryText = trim(arguments.annotation_display)>
-		</cfif>
-		<cfset summaryText = rereplace(summaryText, "\s+", " ", "all")>
-		<cfif len(summaryText) GT maxSummaryLength>
-			<cfset summaryText = left(summaryText, maxSummaryLength - 3) & "...">
-		</cfif>
-		<cfset annotationLabelSummary = encodeForHTML(summaryText)>
 	</cfif>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
@@ -1969,7 +1960,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<div class="#annotationBodyColClass#">
 					<span class="data-entry-label font-weight-bold small">
 						<cfif arguments.is_response>
-							Response Annotation:<cfif len(annotationLabelSummary) GT 0> #annotationLabelSummary#</cfif>
+							Response Annotation:
 						<cfelse>
 							Annotation:
 							<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" target="_blank">

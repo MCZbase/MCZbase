@@ -97,10 +97,15 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
-								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
@@ -193,10 +198,15 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
-								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
@@ -289,10 +299,15 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
-								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
@@ -385,10 +400,15 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
-								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+									<span class="d-inline small"><span class="d-inline font-weight-bold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
