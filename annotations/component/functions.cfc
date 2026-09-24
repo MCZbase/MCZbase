@@ -1095,10 +1095,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 
 <!--- Update the mask_annotation_fg flag for an annotation.
- Unmasking an annotation also marks it reviewed: making it public IS the review decision,
- so reviewed_fg and reviewer_agent_id are set at the same time.  Masking again does not
- clear the flag - the annotation was still reviewed.  Marking an annotation reviewed while
- leaving it hidden is done from the Reviewed? control in getEditAnnotationDialogHtml.
+ Visibility and reviewed_fg are deliberately independent: changing visibility here does not
+ touch the review flag.  A curator sets Reviewed? explicitly, from the control in
+ getEditAnnotationDialogHtml.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param mask_annotation_fg 1 to hide the annotation from users without coldfusion_user role, 0 to show.
  @return json with status=updated or an http 500 error if the update fails.
@@ -1126,13 +1125,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				UPDATE annotations
 				SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">,
 					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-					<cfif val(arguments.mask_annotation_fg) EQ 0>
-						<!--- Making an annotation public is the review decision, so record it as one.
-							reviewer_agent_id becomes whoever published it, matching
-							last_updated_by_agent_id above. --->
-						,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
-						,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-					</cfif>
 				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 			</cfquery>
 			<cfif updateMask_result.recordcount NEQ 1>
@@ -2850,16 +2842,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					UPDATE annotations
 					SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">,
 						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-						<!--- Making an annotation public is the review decision, so record it as one -
-							the same rule setAnnotationMask applies.  Skipped when the caller set
-							Reviewed? explicitly for this same row, so an explicit choice is never
-							silently overridden. --->
-						<cfif val(arguments.mask_annotation_fg) EQ 0
-								AND NOT ( len(trim(arguments.root_reviewed_fg)) GT 0
-									AND val(arguments.root_annotation_id) EQ val(arguments.annotation_id) )>
-							,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
-							,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-						</cfif>
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 				</cfquery>
 			</cfif>
@@ -2925,12 +2907,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						UPDATE annotations
 						SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_mask_annotation_fg)#">,
 							last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-							<!--- Same rule as above, applied to the root.  Skipped when Mark Root
-								Reviewed? was set explicitly in this same save. --->
-							<cfif val(arguments.root_mask_annotation_fg) EQ 0 AND len(trim(arguments.root_reviewed_fg)) EQ 0>
-								,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
-								,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
