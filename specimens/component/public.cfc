@@ -349,7 +349,7 @@ limitations under the License.
 													<li class="h5 mb-0">
 											</cfif>
 											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
-											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
+											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
 												</li>
@@ -359,7 +359,7 @@ limitations under the License.
 													<li class="h5 mb-0" style="line-height: 0.5rem;">
 														occurrenceID: <a class="mb-0" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
-															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" width="21" alt="JSON-LD"></a>
 														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
@@ -1682,7 +1682,7 @@ limitations under the License.
 												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
 													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
-														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21">
 													</a>
 												</cfif>
 											</span>
@@ -1888,7 +1888,7 @@ limitations under the License.
 													<span class="font-italic">materialSampleID:</span> 
 													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 													<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
-														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21"></a>
 													</cfif>
 												</span>
 											</td>
@@ -4254,7 +4254,7 @@ limitations under the License.
 								<span class="font-weight-lessbold">
 									Annotation: 
 									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
-										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21">
 									</a>
 								</span>
 								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for

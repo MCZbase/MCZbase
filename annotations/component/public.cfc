@@ -204,7 +204,7 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
@@ -305,7 +305,7 @@ limitations under the License.
 									span:last-child { display: block }", which otherwise catches whichever span ends up
 									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
 									record, which makes the label itself the last element. --->
-								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>

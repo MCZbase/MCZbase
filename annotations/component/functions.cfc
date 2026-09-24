@@ -1958,16 +1958,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="#annotationBodyColClass#">
-					<span class="data-entry-label font-weight-bold small">
+					<span class="data-entry-label font-weight-lessbold">
 						<cfif arguments.is_response>
 							Response Annotation:
 						<cfelse>
 							Annotation:
 							<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" target="_blank">
-								<img src="/shared/images/json-ld-data-24.png" width="22" alt="JSON-LD">
+								<img src="/shared/images/json-ld-data-24.png" width="21" alt="JSON-LD">
 							</a> 
 						</cfif>
-						<span class="text-muted small text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
+						<span class="text-muted text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
 						<cfif arguments.highlight_as_target>
 							<span class="badge badge-light border text-muted ml-1 align-middle" style="font-size:0.7em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</span>
 						</cfif>
@@ -1980,22 +1980,22 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							before - an external annotator had no way to tell.  See the card bodies in
 							public.cfc for why reviewed_fg stands in for the reason. --->
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
-							<div class="px-1 small font-italic text-muted"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
+							<div class="px-1 font-italic text-muted"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation. --->
-						<div class="px-1 small">#arguments.annotation_display#</div>
+						<div class="px-1">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
-					<span class="data-entry-label font-weight-bold small">Annotator:</span>
-					<div class="px-1 small">
+					<span class="data-entry-label font-weight-lessbold">Annotator:</span>
+					<div class="px-1">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
 					</div>
 				</div>
 				<div class="#motivationColClass#">
-					<span class="data-entry-label font-weight-bold small">Motivation:</span>
-					<div class="px-1 small">#encodeForHTML(arguments.motivation)#</div>
+					<span class="data-entry-label font-weight-bold">Motivation:</span>
+					<div class="px-1">#encodeForHTML(arguments.motivation)#</div>
 				</div>
 				<!--- State and Resolution are curator triage vocabulary from ctstate/ctresolution,
 					shown only to internal staff.  To an annotator "State: Approved, Resolution:
@@ -2008,18 +2008,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<!--- Label above value, matching the Motivation, Reviewed? and Visibility
 							columns.  These two previously wrapped label and value in one div, so
 							they were the only fields rendering on a single line. --->
-						<span class="data-entry-label font-weight-bold small">State:</span>
-						<div class="px-1 small">#encodeForHTML(arguments.state)#</div>
+						<span class="data-entry-label font-weight-lessbold">State:</span>
+						<div class="px-1">#encodeForHTML(arguments.state)#</div>
 						<cfif len(trim(arguments.resolution)) GT 0>
-							<span class="data-entry-label font-weight-bold small">Resolution:</span>
-							<div class="px-1 small">#encodeForHTML(arguments.resolution)#</div>
+							<span class="data-entry-label font-weight-lessbold">Resolution:</span>
+							<div class="px-1">#encodeForHTML(arguments.resolution)#</div>
 						</cfif>
 					</div>
 				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-bold small d-block">Reviewed?</span>
-						<span class="px-1 small"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
+						<span class="data-entry-label font-weight-lessbold d-block">Reviewed?</span>
+						<span class="px-1"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
 					</div>
 				</cfif>
 				<!--- Visibility is shown here, not edited here.  This list is a data display; changing
@@ -2027,8 +2027,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					together rather than publishing another person's annotation in one click. --->
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-bold small d-block">Visibility:</span>
-						<span class="px-1 small"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></span>
+						<span class="data-entry-label font-weight-lessbold d-block">Visibility:</span>
+						<span class="px-1"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></span>
 					</div>
 				</cfif>
 				<cfif NOT arguments.read_only>
@@ -2296,9 +2296,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfif val(chainId) NEQ val(annotation_id)>
 								<!--- Include all ancestors except the annotation being edited (shown in dialog heading) --->
 								<cfif val(chainId) EQ val(rootAnnotationId)>
-									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'><!--- '--->	
+									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="d-block mt-1">Root annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'><!--- '--->	
 								<cfelse>
-									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="small d-block mt-1">&##8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'><!--- '--->
+									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="d-block mt-1">&##8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'><!--- '--->
 								</cfif>
 								<cfif val(chainId) EQ val(immediateParentId)>
 									<cfset immediateParentBody = editAncestorChain.display_summary>
@@ -2435,10 +2435,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<cfif len(ancestorChainHtml) GT 0>
 										<!--- Depth >= 2: show full chain from root to immediate parent --->
 										#ancestorChainHtml#
-										<span class="small d-block mt-1">&##8627; Editing this annotation <strong>#annotation_id#</strong></span>
+										<span class="d-block mt-1">&##8627; Editing this annotation <strong>#annotation_id#</strong></span>
 									<cfelse>
 										<!--- Depth 1: direct reply to root annotation --->
-										<span class="small d-block mt-1">
+										<span class="d-block mt-1">
 											Reply to root annotation <strong>#rootAnnotationId#</strong>
 											<cfif len(rootAnnotationBody) GT 0>
 												: #encodeForHTML(left(rootAnnotationBody, rootBodyPreviewLength))#
@@ -2673,7 +2673,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													</cfloop>
 												</select>
 												<cfif len(rootResolutionGuidanceText) GT 0>
-													<span class="small text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
+													<span class="text-muted d-block">#encodeForHTML(rootResolutionGuidanceText)#</span>
 												</cfif>
 											</div>
 											<cfif len(rootResolutionGuidanceText) GT 0>
