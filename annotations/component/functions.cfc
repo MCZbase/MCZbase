@@ -1158,6 +1158,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
  unauthenticated or unidentifiable viewers receive [Masked], styled to match the
  [Masked] label used elsewhere on the specimen page (font-italic, no text-muted, and
  no nested .small - the calling line is already .small).
+ The returned spans carry d-inline because the specimen page renders this inside
+ .card-body li.list-group-item, where bootstrap_override.css forces the last element
+ child span to display:block.  Without it the placeholder drops onto its own line and
+ strands whatever label or separator precedes it.
  @param annotation_id numeric annotation primary key.
  @return HTML string describing the annotator.
 --->
@@ -1169,7 +1173,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<!--- Not logged in: always mask --->
 	<cfif NOT isLoggedIn>
-		<cfreturn "<span class=""font-italic"">[Masked]</span>">
+		<cfreturn "<span class=""d-inline font-italic"">[Masked]</span>">
 	</cfif>
 
 	<cfset var oneOfUs = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
@@ -1193,7 +1197,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cfquery>
 
 	<cfif annAnnotator.recordcount EQ 0>
-		<cfreturn "<span class=""text-muted small"">[unknown]</span>">
+		<cfreturn "<span class=""d-inline text-muted small"">[unknown]</span>">
 	</cfif>
 
 	<cfset var annotatorUsername = annAnnotator.cf_username>
@@ -1218,7 +1222,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 		</cfif>
 		<cfif NOT viewerIdentifiable>
-			<cfreturn "<span class=""font-italic"">[Masked]</span>">
+			<cfreturn "<span class=""d-inline font-italic"">[Masked]</span>">
 		</cfif>
 	</cfif>
 

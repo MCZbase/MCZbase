@@ -4276,12 +4276,24 @@ limitations under the License.
 								<cfelse>
 									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
 								</cfif>
-								<!--- The annotator is labelled rather than joined on with an m-dash.
+								<!--- The metadata follows the annotation text in the same run and breaks only
+									when it runs out of room, rather than always taking a line of its own.  The li
+									is the block that separates one annotation from the next.
+									d-inline is load-bearing here, not decoration.  bootstrap_override.css has
+									".card-body li.list-group-item span:last-child { display: block }", a descendant
+									selector, so any span that is the last ELEMENT child of its parent inside this li
+									is forced to block.  Text nodes do not count for :last-child, so when
+									renderAnnotatorHtml returns bare text - which it does for an annotator with no
+									agent record, meaning most external users - the "Annotator:" label itself becomes
+									the last element child and drops the name onto its own line.  An annotator with an
+									agent record returns an <a>, so the same markup looked correct for them and wrong
+									for everyone else.  d-inline is display:inline !important, which outranks it.
+									The annotator is labelled rather than joined on with an m-dash.
 									renderAnnotatorHtml returns [Masked] for anonymous viewers, and with only a dash in
 									front of it that reads as a statement about the annotation rather than about the
 									person.  The dash also hung with nothing after it when the call returned an empty
 									string. --->
-								<span class="d-block small mb-0 pb-0"><span class="font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-inline small"><span class="d-inline font-weight-bold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-bold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
 										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
