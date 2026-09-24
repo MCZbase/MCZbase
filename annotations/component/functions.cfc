@@ -2045,7 +2045,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</div>
 				</cfif>
 				<cfif NOT arguments.read_only>
-				<div class="col-12 col-md-2 pt-3 px-1">
+				<div class="col-12 col-md-2 pt-4 mt-1 px-1">
 					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 							<cfif arguments.show_reply_action>
@@ -2850,6 +2850,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					UPDATE annotations
 					SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.mask_annotation_fg)#">,
 						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+						<!--- Making an annotation public is the review decision, so record it as one -
+							the same rule setAnnotationMask applies.  Skipped when the caller set
+							Reviewed? explicitly for this same row, so an explicit choice is never
+							silently overridden. --->
+						<cfif val(arguments.mask_annotation_fg) EQ 0
+								AND NOT ( len(trim(arguments.root_reviewed_fg)) GT 0
+									AND val(arguments.root_annotation_id) EQ val(arguments.annotation_id) )>
+							,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
+							,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+						</cfif>
 					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
 				</cfquery>
 			</cfif>
@@ -2915,6 +2925,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						UPDATE annotations
 						SET mask_annotation_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(arguments.root_mask_annotation_fg)#">,
 							last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+							<!--- Same rule as above, applied to the root.  Skipped when Mark Root
+								Reviewed? was set explicitly in this same save. --->
+							<cfif val(arguments.root_mask_annotation_fg) EQ 0 AND len(trim(arguments.root_reviewed_fg)) EQ 0>
+								,reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
+								,reviewer_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+							</cfif>
 						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.root_annotation_id#">
 					</cfquery>
 				</cfif>
