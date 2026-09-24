@@ -4251,38 +4251,66 @@ limitations under the License.
 						</cfif>
 						<cfloop query="annotations">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">
-									Annotation: 
-									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
-										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
-									</a>
-								</span>
-								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
-									it: not yet reviewed means no curator has assessed whether the annotation is
-									suitable to show publicly, which is where every external annotation starts
-									(addAnnotation masks them by default).  Reviewed and still masked means a
-									curator assessed it and chose to keep it hidden - some other reason.  state is
-									deliberately NOT used: its ctstate vocabulary describes workflow position, not
-									fitness for publication. --->
-								<cfif mask_annotation_fg EQ "1">
-									<cfif val(annotations.reviewed_fg) EQ 1>
-										<span class="small font-weight-bold">[Hidden] </span>
-									<cfelse>
-										<span class="small font-weight-bold">[Hidden - Pending review] </span>
+								<!--- Labelled columns, so each value says what it is.  The annotator line previously
+									carried no label, which left the [Masked] that renderAnnotatorHtml returns for
+									anonymous viewers sitting on the page with nothing saying what had been masked -
+									easily read as a statement about the annotation rather than about the person. --->
+								<div class="form-row mx-0 col-12 px-0">
+									<div class="col-12 px-1">
+										<span class="data-entry-label font-weight-bold small">
+											Annotation: 
+											<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
+												<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+											</a>
+										</span>
+										<div class="px-1">
+											<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+												it: not yet reviewed means no curator has assessed whether the annotation is
+												suitable to show publicly, which is where every external annotation starts
+												(addAnnotation masks them by default).  Reviewed and still masked means a
+												curator assessed it and chose to keep it hidden - some other reason.  state is
+												deliberately NOT used: its ctstate vocabulary describes workflow position, not
+												fitness for publication. --->
+											<cfif mask_annotation_fg EQ "1">
+												<cfif val(annotations.reviewed_fg) EQ 1>
+													<span class="small font-weight-bold">[Hidden] </span>
+												<cfelse>
+													<span class="small font-weight-bold">[Hidden - Pending review] </span>
+												</cfif>
+											</cfif>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												#annotation_display#
+											<cfelse>
+												#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
+											</cfif>
+										</div>
+									</div>
+								</div>
+								<!--- Metadata sits on its own row below the annotation, so the body gets the full
+									width of the block.  This column list is inside the left-hand half of the specimen
+									page, and Bootstrap divides the container rather than the viewport, so giving the
+									body only part of that width squeezes the text for the sake of two short values. --->
+								<div class="form-row mx-0 col-12 px-0">
+									<div class="col-12 col-md-2 px-1">
+										<span class="data-entry-label font-weight-bold small">Motivation:</span>
+										<div class="px-1 small">#motivation#</div>
+									</div>
+									<div class="col-12 col-md-5 px-1">
+										<span class="data-entry-label font-weight-bold small">Annotator:</span>
+										<div class="px-1 small">
+											#renderAnnotatorHtml(annotation_id=val(annotation_id))#
+											on #annotate_date#
+										</div>
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										<cfif reviewed_fg EQ "1">
+											<div class="col-12 col-md-5 px-1">
+												<span class="data-entry-label font-weight-bold small">Reviewed:</span>
+												<div class="px-1 small">Yes<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></div>
+											</div>
+										</cfif>
 									</cfif>
-								</cfif>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-									#annotation_display#
-								<cfelse>
-									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
-								</cfif>
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
-								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-									<cfif reviewed_fg EQ "1">
-										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
-									</cfif>
-								</cfif>
+								</div>
 								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->
 									#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversationAnnotations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
