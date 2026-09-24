@@ -1964,7 +1964,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfelse>
 							Annotation:
 							<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" target="_blank">
-								<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+								<img src="/shared/images/json-ld-data-24.png" width="22" alt="JSON-LD">
 							</a> 
 						</cfif>
 						<span class="text-muted small text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
