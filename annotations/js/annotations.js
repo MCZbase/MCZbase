@@ -698,6 +698,17 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
 /** doAnnotationUpdate reads review form field values for a given annotation and
  * calls updateAnnotationReview() to save the review via ajax.
  *
+ * DEAD CODE - do not build on this without fixing it first.  Nothing calls this
+ * function, and the three controls it reads are not rendered anywhere in MCZbase:
+ * reviewed_fg_<id> and reviewer_comment_<id> do not exist at all, and while
+ * mask_annotation_fg_<id> IS rendered by renderAnnotationReviewRow, that control
+ * already saves itself through setAnnotationMask() on change.  So calling this as
+ * written would post an empty reviewed_fg and blank out reviewer_comment.
+ *
+ * The working way to set reviewed_fg is the Reviewed? dropdown in
+ * getEditAnnotationDialogHtml, which posts root_reviewed_fg to updateAnnotationText.
+ * Either wire this function to controls that exist, or delete it.
+ *
  * @param annotation_id the numeric primary key of the annotation to update.
  */
 function doAnnotationUpdate(annotation_id) {
