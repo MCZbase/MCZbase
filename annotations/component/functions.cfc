@@ -2001,15 +2001,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</div>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<div class="px-1 small">
-							<span class="font-weight-bold">State:</span>
-							#encodeForHTML(arguments.state)#
-						</div>
+						<!--- Label above value, matching the Motivation, Reviewed? and Visibility
+							columns.  These two previously wrapped label and value in one div, so
+							they were the only fields rendering on a single line. --->
+						<span class="data-entry-label font-weight-bold small">State:</span>
+						<div class="px-1 small">#encodeForHTML(arguments.state)#</div>
 						<cfif len(trim(arguments.resolution)) GT 0>
-							<div class="px-1 small">
-								<span class="font-weight-bold">Resolution:</span>
-								#encodeForHTML(arguments.resolution)#
-							</div>
+							<span class="data-entry-label font-weight-bold small">Resolution:</span>
+							<div class="px-1 small">#encodeForHTML(arguments.resolution)#</div>
 						</cfif>
 					</div>
 				</cfif>
