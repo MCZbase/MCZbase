@@ -1958,7 +1958,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="#annotationBodyColClass#">
-					<span class="data-entry-label font-weight-lessbold">
+					<span class="data-entry-label font-weight-bold">
 						<cfif arguments.is_response>
 							Response Annotation:
 						<cfelse>
@@ -1980,14 +1980,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							before - an external annotator had no way to tell.  See the card bodies in
 							public.cfc for why reviewed_fg stands in for the reason. --->
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
-							<div class="px-1 font-italic text-muted"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
+							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation. --->
 						<div class="px-1">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
-					<span class="data-entry-label font-weight-lessbold">Annotator:</span>
+					<span class="data-entry-label font-weight-bold">Annotator:</span>
 					<div class="px-1">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
@@ -2008,17 +2008,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<!--- Label above value, matching the Motivation, Reviewed? and Visibility
 							columns.  These two previously wrapped label and value in one div, so
 							they were the only fields rendering on a single line. --->
-						<span class="data-entry-label font-weight-lessbold">State:</span>
+						<span class="data-entry-label font-weight-bold">State:</span>
 						<div class="px-1">#encodeForHTML(arguments.state)#</div>
 						<cfif len(trim(arguments.resolution)) GT 0>
-							<span class="data-entry-label font-weight-lessbold">Resolution:</span>
+							<span class="data-entry-label font-weight-bold">Resolution:</span>
 							<div class="px-1">#encodeForHTML(arguments.resolution)#</div>
 						</cfif>
 					</div>
 				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-lessbold d-block">Reviewed?</span>
+						<span class="data-entry-label font-weight-bold d-block">Reviewed?</span>
 						<span class="px-1"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
 					</div>
 				</cfif>
@@ -2027,7 +2027,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					together rather than publishing another person's annotation in one click. --->
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-lessbold d-block">Visibility:</span>
+						<span class="data-entry-label font-weight-bold d-block">Visibility:</span>
 						<span class="px-1"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></span>
 					</div>
 				</cfif>
