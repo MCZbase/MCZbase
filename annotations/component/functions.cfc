@@ -1098,6 +1098,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
  Visibility and reviewed_fg are deliberately independent: changing visibility here does not
  touch the review flag.  A curator sets Reviewed? explicitly, from the control in
  getEditAnnotationDialogHtml.
+ NOTE: no caller as of Sep 2026.  The inline control in renderAnnotationReviewRow that used
+ to call this was removed in favour of a read-only display, so visibility is now changed only
+ through getEditAnnotationDialogHtml -> updateAnnotationText.  This method still works and is
+ still reachable as a remote endpoint; retire it or wire it up rather than leaving it drifting.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param mask_annotation_fg 1 to hide the annotation from users without coldfusion_user role, 0 to show.
  @return json with status=updated or an http 500 error if the update fails.
@@ -2015,25 +2019,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<span class="px-1 small"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
 					</div>
 				</cfif>
+				<!--- Visibility is shown here, not edited here.  This list is a data display; changing
+					visibility goes through Edit, where it sits beside Reviewed? so a curator sees both
+					together rather than publishing another person's annotation in one click. --->
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<label for="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-label font-weight-bold small mb-0">
-							Visibility:
-							<cfif parentMasked>
-								<span id="inherited_note_#arguments.annotation_id#" class="small" aria-label="Visibility inherited from parent annotation">hidden</span>
-							</cfif>
-						</label>
-						<cfif parentMasked>
-							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12" style="background-color: aliceblue;" disabled="disabled" aria-describedby="inherited_note_#arguments.annotation_id#">
-						<cfelse>
-							<select id="mask_annotation_fg_#arguments.annotation_id#" class="data-entry-select col-12">
-						</cfif>
-							<cfif val(arguments.mask_annotation_fg) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-							<option value="0" #selected#>Public</option>
-							<cfif val(arguments.mask_annotation_fg) EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-							<option value="1" #selected#>Hidden</option>
-						</select>
-						<output id="mask_result_#arguments.annotation_id#" aria-live="polite" class="small d-block"></output>
+						<span class="data-entry-label font-weight-bold small d-block">Visibility:</span>
+						<span class="px-1 small"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></span>
 					</div>
 				</cfif>
 				<cfif NOT arguments.read_only>
@@ -2066,15 +2058,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</div>
 				</cfif>
 			</div>
-			<cfif showVisibility>
-				<script>
-					$(document).ready(function() {
-						$("##mask_annotation_fg_#arguments.annotation_id#").off("change.annotationmask").on("change.annotationmask", function() {
-							setAnnotationMask(#arguments.annotation_id#, this.value, "mask_result_#arguments.annotation_id#");
-						});
-					});
-				</script>
-			</cfif>
 		</div>
 		</cfoutput>
 	</cfsavecontent>
@@ -2489,12 +2472,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 										</div>
 										<div class="col-12 col-md-2 pb-1">
 											<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
-											<select id="#editMaskFieldId#" class="data-entry-select">
+											<select id="#editMaskFieldId#" class="data-entry-select"<cfif val(editAnn.reviewed_fg) EQ 0> aria-describedby="visibility_hint_#dq#"</cfif>>
 												<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 												<option value="0"#selected#>Public</option>
 												<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 												<option value="1"#selected#>Hidden</option>
 											</select>
+											<!--- Visibility and Reviewed? are independent by design, so nothing sets the review
+												flag for the curator.  Shown only while the annotation is unreviewed, which is the
+												only case where the wording would be misleading.  aria-describedby, not a second
+												label: the select already has one accessible name. --->
+											<cfif val(editAnn.reviewed_fg) EQ 0>
+												<span id="visibility_hint_#dq#" class="small text-muted d-block">Displays as "[Hidden - Pending review]" until Reviewed? is set to Yes.</span>
+											</cfif>
 										</div>
 										<cfif isResponseAnnotation>
 											<div class="col-12 col-md-2 pb-1">
