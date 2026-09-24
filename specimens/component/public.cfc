@@ -4225,7 +4225,21 @@ limitations under the License.
 				<cfif annotations.recordcount GT 0>
 					<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
 				</cfif>
-				<!--- Personal-info masking pattern applied to legacy annotation text when user lacks manage_specimens role --->
+				<!--- Personal-info masking for legacy annotation text: annotation_display carries the
+					annotator's name, affiliation and email, baked into annotations.annotation by
+					addAnnotation.  The role here is effectively "is this internal staff" - neither
+					manage_specimens nor manage_collection is granted anything on CF_USERS or
+					CF_USER_DATA, and any Oracle account holding either also holds coldfusion_user,
+					which has EXECUTE on MCZBASE.GET_EMAILADDRESSES.  So the meaningful boundary is
+					external vs internal, which any of these roles draws identically; swapping the role
+					here would change nothing for anyone it protects.
+					Scope is narrower than it looks: insTextualBody stores the clean text, and every
+					display query prefers NVL(atb.body_value, annotations.annotation), so the prefix only
+					surfaces for rows with no annotation_textualbody record.  And this is the only place
+					the mask is applied - the agent/taxonomy/project/publication cards,
+					renderAnnotationReviewRow and showAnnotation.cfm (including its turtle and JSON-LD
+					output) all render the same text unmasked.  Backfilling annotation_textualbody for
+					legacy rows would remove the exposure everywhere at once. --->
 				<cfset maskPattern = "^.* reported:">
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object annotations if mask parts ---->

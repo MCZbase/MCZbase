@@ -2038,10 +2038,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfif NOT arguments.highlight_as_editing>
 								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 							</cfif>
-							<!--- History is a curator tool: it is an audit trail of edits, and only
-								manage_collection holders can make those edits.  getAnnotationHistoryDialogHtml
-								is also reachable only through functions.cfc, which requires coldfusion_user,
-								so rendering it more widely offers a button that returns 403. --->
+						</cfif>
+						<!--- History reads ANNOTATION_HISTORY, which COLDFUSION_USER holds SELECT on, and
+							getAnnotationHistoryDialogHtml sits on functions.cfc behind cf_rolecheck, which
+							also requires coldfusion_user.  Gating the button on manage_collection would be
+							narrower than both the grant and the route, hiding a working feature from staff
+							who can use it.  Reading an audit trail does not require the right to edit. --->
+						<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 							<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
 						</cfif>
 					</cfif>
