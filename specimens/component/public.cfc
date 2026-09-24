@@ -4276,7 +4276,8 @@ limitations under the License.
 								<cfelse>
 									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
 								</cfif>
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
 										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>

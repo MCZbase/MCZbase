@@ -468,7 +468,7 @@ limitations under the License.
 									<div class="add-form-header px-2 pb-1">
 										<h3 class="h4 my-0 px-1 py-1" tabindex="0"><cfif variables.target_type EQ "ANNOTATIONS">Add Reply Annotation<cfelse>Add New Annotation</cfif></h3>
 									</div>
-									<div class="row col-12 mx-0 mt-1 d-block">
+									<div class="row col-12 mx-0 my-2 d-block">
 										<form name="annotate" onSubmit="return false;" class="form-row">
 											<input type="hidden" name="action" value="insert">
 											<input type="hidden" name="idtype" id="#idtypeFieldId#" value="#variables.target_type#">
@@ -508,7 +508,7 @@ limitations under the License.
 													</select>
 												</div>
 												<cfif canRespond>
-													<div class="col-12 col-md-3 pb-1">
+													<div class="col-12 col-md-2 pb-1">
 														<label for="#rootStateFieldId#" class="data-entry-label">Root State</label>
 														<select id="#rootStateFieldId#" name="root_state" class="data-entry-select">
 															<option value="" selected="selected">No Change</option>
@@ -539,7 +539,7 @@ limitations under the License.
 												</cfif>
 											</cfif>
 											<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection")>
-												<cfif variables.target_type EQ "ANNOTATIONS"><cfset colvar="col-md-3"><cfelse><cfset colvar="col-md-6"></cfif>
+												<cfif variables.target_type EQ "ANNOTATIONS"><cfset colvar="col-md-2"><cfelse><cfset colvar="col-md-6"></cfif>
 												<div class="col-12 #colvar# pb-1">
 													<label for="#maskFieldId#" class="data-entry-label">
 														<cfif variables.target_type EQ "ANNOTATIONS">
@@ -554,7 +554,7 @@ limitations under the License.
 													</select>
 												</div>
 												<cfif variables.target_type EQ "ANNOTATIONS">
-													<div class="col-12 col-md-3 pb-1">
+													<div class="col-12 col-md-2 pb-1">
 														<label for="#rootMaskFieldId#" class="data-entry-label">Root Visibility:</label>
 														<select id="#rootMaskFieldId#" name="root_mask_annotation_fg" class="data-entry-select">
 															<option value="" selected="selected">No Change</option>
@@ -1155,7 +1155,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
  Determines what information to show based on the current viewer's permissions:
  coldfusion_user role members and the annotator themselves see all available info;
  other identifiable logged-in users see agent name/link (or username only when no agent);
- unauthenticated or unidentifiable viewers receive [masked].
+ unauthenticated or unidentifiable viewers receive [Masked], styled to match the
+ [Masked] label used elsewhere on the specimen page (font-italic, no text-muted, and
+ no nested .small - the calling line is already .small).
  @param annotation_id numeric annotation primary key.
  @return HTML string describing the annotator.
 --->
@@ -1167,7 +1169,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<!--- Not logged in: always mask --->
 	<cfif NOT isLoggedIn>
-		<cfreturn "<span class=""text-muted small"">[masked]</span>">
+		<cfreturn "<span class=""font-italic"">[Masked]</span>">
 	</cfif>
 
 	<cfset var oneOfUs = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
@@ -1217,7 +1219,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 		</cfif>
 		<cfif NOT viewerIdentifiable>
-			<cfreturn "<span class=""text-muted small"">[masked]</span>">
+			<cfreturn "<span class=""font-italic"">[Masked]</span>">
 		</cfif>
 	</cfif>
 
@@ -1920,7 +1922,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
 	<cfset var rootAnnotationId = "">
 	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>
-	<cfset var annotationBodyColClass = "col-12 col-md-4 pt-2 px-1">
+	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
 	<cfset var annotationLabelSummary = "">
@@ -1975,7 +1977,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</cfif>
 					</span>
 					<cfif showMaskedBody>
-						<div class="px-1 small font-italic text-muted">[Masked]</div>
+						<div class="px-1 font-italic">[Masked]</div>
 					<cfelse>
 						<!--- The body is shown, so the viewer is staff or the annotation's own author.
 							Say that it is hidden from everyone else, which nothing in this row did
@@ -2034,7 +2036,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</div>
 				</cfif>
 				<cfif NOT arguments.read_only>
-				<div class="col-12 col-md-2 pt-4 mt-1 px-1">
+				<div class="col-12 col-md-3 pt-4 mt-1 px-1">
 					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 							<cfif arguments.show_reply_action>
@@ -2455,7 +2457,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<div class="add-form-header px-2 pb-1">
 									<h3 class="h4 my-0 px-1 py-1" tabindex="0">Edit Annotation</h3>
 								</div>
-								<div class="row col-12 mx-0 mt-1 d-block">
+								<div class="row col-12 mx-0 my-2 d-block">
 									<form name="editAnnotationForm_#dq#" onSubmit="return false;" class="form-row">
 										<div class="col-12 pb-1">
 											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text (<span id="#editAnnLengthId#"></span>)</label>

@@ -97,7 +97,8 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 								</cfif>
@@ -192,7 +193,8 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 								</cfif>
@@ -287,7 +289,8 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 								</cfif>
@@ -382,7 +385,8 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#)</span>
+								<span class="d-block small mb-0 pb-0">#renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
 									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
 								</cfif>
