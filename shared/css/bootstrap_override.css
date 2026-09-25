@@ -3272,8 +3272,8 @@ END END END
 }
 
 /* Annotation row size utility.  Declared last and !important so it does not depend on
-   source order against other single-class rules - .data-entry-label and friends sit far
-   below the other .smallNN utilities and would otherwise win on position. */
+	source order against other single-class rules - .data-entry-label and friends sit far
+	below the other .smallNN utilities and would otherwise win on position. */
 .small875 {
 	font-size: 0.875rem !important;
 }
