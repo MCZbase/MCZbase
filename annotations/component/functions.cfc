@@ -990,15 +990,15 @@ limitations under the License.
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
 An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.  Motivation: #motivation#.
-    
-    			<blockquote>
-    				#annotation#
-    			</blockquote>
-    
-    			View details at
-    			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#">
-    			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#
-    			</a>
+
+			<blockquote>
+				#annotation#
+			</blockquote>
+
+			View details at
+			<a href="#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#">
+			#Application.ServerRootUrl#/annotations/Annotations.cfm?action=show&type=#variables.target_type#&id=#target_id#
+			</a>
 			</cfmail>
 			<cfset newline= Chr(13) & Chr(10)>
 			<cfset reported_name = "#annotator.first_name# #annotator.last_name# #annotator.affiliation#">
@@ -1961,17 +1961,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var rootAnnotationId = "">
 	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>
 	<cfset var parentLabelSummary = "">
-	<!--- One class for every label in this row, at font-weight-lessbold (560) to match the
-		labels elsewhere on the specimen page.  700 made a nested reply read as heavier than the
-		root it answers.
-		data-entry-label is dropped rather than added to, because it sets font-weight:450 at line
-		1388 of bootstrap_override.css - later in the file than .font-weight-lessbold at line 61
-		and of equal specificity, so it wins and the label would render at 450.  (.font-weight-bold
-		is 700 !important, which is why the bold version never hit this.)  d-block px-1 replaces
-		what that class provided here: block display, and the .25rem left padding that keeps each
-		label aligned with the px-1 value paragraph beneath it.  No size class, deliberately - the
-		row inherits its context, which is .875rem inside a list-group. --->
+
 	<cfset var labelClass = "d-block px-1 font-weight-lessbold">
+
 	<!--- Each action is decided once here and used both to render the button and to decide
 		whether the action column is worth its 3 of 12.  Computing them twice would let the
 		column and its contents drift apart, leaving an empty column holding space open. --->
@@ -1988,7 +1980,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var hasStaffActions = showReplyBtn OR showEditBtn OR showHistoryBtn>
 	<cfset var actionColClass = "col-12 col-md-3 pt-4 mt-1 px-1">
 	<cfset var summaryText = "">
-	<cfset var maxSummaryLength = 60>
+	<cfset var maxSummaryLength = 30>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
@@ -2015,7 +2007,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfif arguments.is_response AND len(trim(arguments.annotation_summary)) GT 0>
 		<cfset summaryText = rereplace(trim(arguments.annotation_summary), "\s+", " ", "all")>
 		<cfif len(summaryText) GT maxSummaryLength>
-			<cfset summaryText = left(summaryText, maxSummaryLength - 3) & "...">
+			<cfset summaryText = left(summaryText, maxSummaryLength) & "...">
 		</cfif>
 		<cfset parentLabelSummary = encodeForHTML(summaryText)>
 	</cfif>
@@ -2027,7 +2019,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<cfsavecontent variable="rowHTML">
 		<cfoutput>
-		<div class="card-body bg-light border-bottom py-2<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success</cfif>"><!--- " --->
+		<!--- small875 here, on the row wrapper, is the only place the size is set.  Everything
+			inside - labels, values, the id, the reply preview - inherits .875rem from it, so the row
+			renders at 13.125px whether it sits inside <ul class="list-group"> (specimen page and the
+			four cards, which already give .875rem) or inside a plain card (conversation page, dialog
+			and search, which would otherwise fall back to the 15px body base).  Do not move this
+			onto the individual elements: a <p> would not inherit it, because `p { font-size: .95rem }`
+			is a matching rule and beats an inherited value. --->
+		<div class="card-body bg-light border-bottom py-2 small875<cfif arguments.highlight_as_editing> border-left border-primary<cfelseif arguments.highlight_as_replying_to> border-left border-success</cfif>"><!--- " --->
 			<cfif arguments.highlight_as_editing>
 				<div class="badge badge-primary mb-1" style="font-size:0.8em;">&##9998; Editing</div>
 			</cfif>
@@ -2066,14 +2065,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
-							div, not p, and no size class: the row then inherits whatever its context sets, the
-							same way the root annotation beside it does.  On the specimen page and the annotation
-							cards this sits inside <ul class="list-group">, and bootstrap_override.css has
-							`dl, ol, ul { font-size: .875rem }` - 13.125px.  A <p> does not inherit that, because
-							the same file has `p { font-size: .95rem }` and an element rule beats inheritance no
-							matter how low its specificity - which rendered every reply at 14.25px, larger than the
-							root annotation introducing it.  The root has no element rule against it because its
-							body is bare text in the li. --->
+							div, and no size class - it inherits .875rem from the card-body wrapper. --->
 						<div class="px-1">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
