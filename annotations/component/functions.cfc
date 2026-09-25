@@ -1984,15 +1984,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		AND ( val(arguments.mask_annotation_fg) EQ 0 OR viewerCanManage )>
 	<cfset var hasRowActions = (NOT arguments.read_only)
 		AND (showReplyBtn OR showEditBtn OR showHistoryBtn OR showViewBtn)>
+	<cfset var hasStaffActions = showReplyBtn OR showEditBtn OR showHistoryBtn>
+	<cfset var actionColClass = "col-12 col-md-3 pt-4 mt-1 px-1">
 	<cfset var summaryText = "">
 	<cfset var maxSummaryLength = 60>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
-	<!--- Anonymous and external viewers get no actions on the dialog or the conversation page,
-		so the 3 columns the action block would have used go to the annotation text instead. --->
-	<cfif (NOT arguments.read_only) AND (NOT hasRowActions)>
+	<!--- Anonymous and external viewers get at most one action - View, on a public root - so the
+		column holding it does not need the 3 of 12 that Reply, Edit and History between them do.
+		It drops to 1 and the annotation text takes the rest.  Keyed on the staff actions rather
+		than on hasRowActions so a View-only row is laid out the same as a row with no actions at
+		all; only the presence of the wider buttons should hold the text column back. --->
+	<cfif (NOT arguments.read_only) AND (NOT hasStaffActions)>
 		<cfset annotationBodyColClass = "col-12 col-md-6 pt-2 px-1">
+		<cfset actionColClass = "col-12 col-md-1 pt-4 mt-1 px-1">
 	</cfif>
 	<cfif responseReadOnlyLayout>
 		<!--- pt-1 rather than pt-2: the card-body around this row already contributes py-2, so a
@@ -2115,7 +2121,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</div>
 				</cfif>
 				<cfif hasRowActions>
-				<div class="col-12 col-md-3 pt-4 mt-1 px-1">
+				<div class="#actionColClass#">
 					<cfif viewerLoggedIn>
 						<cfif viewerCanManage>
 							<cfif showReplyBtn>
