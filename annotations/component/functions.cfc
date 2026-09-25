@@ -1961,19 +1961,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var rootAnnotationId = "">
 	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>
 	<cfset var parentLabelSummary = "">
-	<!--- A reply rendered read-only sits inside the specimen page and the agent/taxonomy/
-		project/publication cards, where every other label is font-weight-lessbold (560).  At
-		700 the nested reply read as heavier than the root it answers, which is backwards.
-		data-entry-label is dropped there rather than added to, because it sets font-weight:450
-		at line 1388 of bootstrap_override.css - later in the file than .font-weight-lessbold at
-		line 61 and of equal specificity, so it wins and the label renders at 450.  (.font-weight-bold
+	<!--- One class for every label in this row, at font-weight-lessbold (560) to match the
+		labels elsewhere on the specimen page.  700 made a nested reply read as heavier than the
+		root it answers.
+		data-entry-label is dropped rather than added to, because it sets font-weight:450 at line
+		1388 of bootstrap_override.css - later in the file than .font-weight-lessbold at line 61
+		and of equal specificity, so it wins and the label would render at 450.  (.font-weight-bold
 		is 700 !important, which is why the bold version never hit this.)  small95 d-block px-1
-		replaces what that class provided here: .905rem, block, and the .25rem left padding that
-		keeps the label aligned with the px-1 value paragraph beneath it.
-		The editable surfaces - the annotation dialog and the search results - keep 700 for now.
-		Only these three labels exist on a response row: State, Resolution, Reviewed? and
-		Visibility are all gated to non-responses or to edit mode. --->
-	<cfset var labelClass = "data-entry-label font-weight-bold">
+		replaces what that class provided: .905rem, block, and the .25rem left padding that keeps
+		each label aligned with the px-1 value paragraph beneath it. --->
+	<cfset var labelClass = "small95 d-block px-1 font-weight-lessbold">
 	<cfset var summaryText = "">
 	<cfset var maxSummaryLength = 60>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
@@ -1996,9 +1993,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfset summaryText = left(summaryText, maxSummaryLength - 3) & "...">
 		</cfif>
 		<cfset parentLabelSummary = encodeForHTML(summaryText)>
-	</cfif>
-	<cfif responseReadOnlyLayout>
-		<cfset labelClass = "small95 d-block px-1 font-weight-lessbold">
 	</cfif>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
@@ -2079,18 +2073,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<!--- Label above value, matching the Motivation, Reviewed? and Visibility
 							columns.  These two previously wrapped label and value in one div, so
 							they were the only fields rendering on a single line. --->
-						<span class="data-entry-label font-weight-bold">State:</span>
-						<div class="px-1">#encodeForHTML(arguments.state)#</div>
+						<span class="#labelClass#">State:</span>
+						<p class="px-1 small95 mb-0">#encodeForHTML(arguments.state)#</p>
 						<cfif len(trim(arguments.resolution)) GT 0>
-							<span class="data-entry-label font-weight-bold">Resolution:</span>
-							<div class="px-1">#encodeForHTML(arguments.resolution)#</div>
+							<span class="#labelClass#">Resolution:</span>
+							<p class="px-1 small95 mb-0">#encodeForHTML(arguments.resolution)#</p>
 						</cfif>
 					</div>
 				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-bold d-block">Reviewed?</span>
-						<span class="px-1"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></span>
+						<span class="#labelClass#">Reviewed?</span>
+						<p class="px-1 small95 mb-0"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></p>
 					</div>
 				</cfif>
 				<!--- Visibility is shown here, not edited here.  This list is a data display; changing
@@ -2098,8 +2092,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					together rather than publishing another person's annotation in one click. --->
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
-						<span class="data-entry-label font-weight-bold d-block">Visibility:</span>
-						<span class="px-1"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></span>
+						<span class="#labelClass#">Visibility:</span>
+						<p class="px-1 small95 mb-0"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></p>
 					</div>
 				</cfif>
 				<cfif NOT arguments.read_only>
