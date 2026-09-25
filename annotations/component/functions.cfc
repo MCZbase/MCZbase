@@ -1672,6 +1672,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var d2key = "">
 	<cfset var deepItem = {}>
 	<cfset var parentSummaryOf = {}>
+	<cfset var rawSummaryOf = {}>
+	<cfset var rootNode = QueryNew("")>
+	<cfset var replyParentSummary = "">
 	<cfset var maskOf = {}>
 	<cfset var precomputedParentMask = 0>
 	<cfif arguments.conversationAnnotations.recordcount EQ 0>
@@ -1713,7 +1716,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfset nodeDepth[allDescendants.annotation_id] = allDescendants.depth>
 		<cfset maskOf[allDescendants.annotation_id] = allDescendants.mask_annotation_fg>
 		<cfset parentSummaryOf[allDescendants.annotation_id] = encodeForHTML(allDescendants.display_summary) & " (" & allDescendants.annotation_id & ")">
+		<cfset rawSummaryOf[allDescendants.annotation_id] = allDescendants.display_summary>
 	</cfloop>
+	<!--- The root is not in allDescendants (depth > 0), but it is the parent of every depth-1
+		reply, so its summary has to be in the map for those replies to name what they answer. --->
+	<cfquery name="rootNode" dbtype="query">
+		SELECT annotation_id, display_summary
+		FROM localConversation
+		WHERE root_annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.rootAnnotationId#">
+			AND depth = 0
+	</cfquery>
+	<cfif rootNode.recordcount EQ 1>
+		<cfset rawSummaryOf[rootNode.annotation_id] = rootNode.display_summary>
+	</cfif>
 	<!--- Group each deepNode under its nearest depth-2 ancestor so the deep replies
 	      can be rendered directly below that depth-2 annotation.
 	      walkLimit caps the ancestor walk at 20 levels, well beyond realistic conversation depth. --->
@@ -1758,10 +1773,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif depth1Nodes.recordcount GT 0>
 			<div class="ml-4 pl-0 border-left border-dark" data-reply-parent-id="#arguments.rootAnnotationId#">
 				<cfloop query="depth1Nodes">
+					<cfset replyParentSummary = "">
+					<cfif structKeyExists(rawSummaryOf, depth1Nodes.parent_annotation_id)>
+						<cfset replyParentSummary = rawSummaryOf[depth1Nodes.parent_annotation_id]>
+					</cfif>
 					<cfset rowHtml = renderAnnotationReviewRow(
 						annotation_id=depth1Nodes.annotation_id,
 						annotation_display=depth1Nodes.annotation_display,
-						annotation_summary=depth1Nodes.display_summary,
+						annotation_summary=replyParentSummary,
 						cf_username=depth1Nodes.cf_username,
 						email=depth1Nodes.email,
 						annotate_date=depth1Nodes.annotate_date,
@@ -1794,10 +1813,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					<cfif depth2Children.recordcount GT 0>
 						<div class="ml-4 pl-0 border-left border-secondary" data-reply-parent-id="#depth1Nodes.annotation_id#">
 							<cfloop query="depth2Children">
+								<cfset replyParentSummary = "">
+								<cfif structKeyExists(rawSummaryOf, depth2Children.parent_annotation_id)>
+									<cfset replyParentSummary = rawSummaryOf[depth2Children.parent_annotation_id]>
+								</cfif>
 								<cfset rowHtml = renderAnnotationReviewRow(
 									annotation_id=depth2Children.annotation_id,
 									annotation_display=depth2Children.annotation_display,
-									annotation_summary=depth2Children.display_summary,
+									annotation_summary=replyParentSummary,
 									cf_username=depth2Children.cf_username,
 									email=depth2Children.email,
 									annotate_date=depth2Children.annotate_date,
@@ -1822,9 +1845,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<div class="ml-4 pl-0 border-left border-secondary" data-thread-deep="true">
 										<cfloop array="#deepByDepth2[d2key]#" index="deepItem">
 											<cfset parentSummary = "">
+											<cfset replyParentSummary = "">
 											<cfif isNumeric(deepItem.parent_annotation_id) AND val(deepItem.parent_annotation_id) GT 0
 												AND structKeyExists(parentSummaryOf, deepItem.parent_annotation_id)>
 												<cfset parentSummary = parentSummaryOf[deepItem.parent_annotation_id]>
+											</cfif>
+											<cfif isNumeric(deepItem.parent_annotation_id) AND val(deepItem.parent_annotation_id) GT 0
+												AND structKeyExists(rawSummaryOf, deepItem.parent_annotation_id)>
+												<cfset replyParentSummary = rawSummaryOf[deepItem.parent_annotation_id]>
 											</cfif>
 											<cfif len(parentSummary) GT 0>
 												<div class="px-2 pt-1 pb-0 text-muted small" aria-label="Replying to annotation">
@@ -1834,7 +1862,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfset rowHtml = renderAnnotationReviewRow(
 												annotation_id=deepItem.annotation_id,
 												annotation_display=deepItem.annotation_display,
-												annotation_summary=deepItem.display_summary,
+												annotation_summary=replyParentSummary,
 												cf_username=deepItem.cf_username,
 												email=deepItem.email,
 												annotate_date=deepItem.annotate_date,
@@ -1894,12 +1922,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 <cffunction name="renderAnnotationReviewRow" returntype="string" access="public">
 	<cfargument name="annotation_id"       type="string" required="yes">
 	<cfargument name="annotation_display"  type="string" required="yes">
-	<!--- Accepted but not rendered.  It used to be appended to the "Response Annotation:"
-		label, but the callers pass each reply's OWN display_summary, which the conversation
-		query defines as the body itself for anything under 60 characters - so every short
-		reply printed its text twice, once bold in the label and once as the body below.
-		Kept on the signature because the useful version of this is the PARENT annotation's
-		summary ("Response Annotation: to ...") and parentSummaryOf is already built for it. --->
+	<!--- The PARENT annotation's text, used to label a response with what it replies to.
+		It must not be this row's own summary: the callers used to pass that, and since the
+		conversation query defines display_summary as the body itself for anything under 60
+		characters, every short reply printed its text twice - once in the label, once as the
+		body below.  Ignored for a root annotation. --->
 	<cfargument name="annotation_summary"  type="string" required="no" default="">
 	<cfargument name="cf_username"         type="string" required="yes">
 	<cfargument name="email"               type="string" required="no" default="">
@@ -1933,13 +1960,39 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var parentMasked = arguments.is_response AND val(arguments.parent_mask_annotation_fg) EQ 1>
 	<cfset var rootAnnotationId = "">
 	<cfset var responseReadOnlyLayout = arguments.is_response AND arguments.read_only>
+	<cfset var parentLabelSummary = "">
+	<!--- A reply rendered read-only sits inside the specimen page and the agent/taxonomy/
+		project/publication cards, where every other label is font-weight-lessbold (560).  At
+		700 the nested reply read as heavier than the root it answers, which is backwards.
+		The editable surfaces - the annotation dialog and the search results - keep 700 for now.
+		Only these three labels exist on a response row: State, Resolution, Reviewed? and
+		Visibility are all gated to non-responses or to edit mode. --->
+	<cfset var labelWeightClass = "font-weight-bold">
+	<cfset var summaryText = "">
+	<cfset var maxSummaryLength = 60>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
 	<cfif responseReadOnlyLayout>
-		<cfset annotationBodyColClass = "col-12 col-md-7 pt-2 px-1">
-		<cfset annotatorColClass = "col-12 col-md-3 pt-2 px-1">
-		<cfset motivationColClass = "col-12 col-md-2 pt-2 px-1">
+		<!--- pt-1 rather than pt-2: the card-body around this row already contributes py-2, so a
+			second 0.5rem on the columns put a full 1rem above the first line of a reply. --->
+		<cfset annotationBodyColClass = "col-12 col-md-7 pt-1 px-1">
+		<cfset annotatorColClass = "col-12 col-md-3 pt-1 px-1">
+		<cfset motivationColClass = "col-12 col-md-2 pt-1 px-1">
+	</cfif>
+	<!--- The label on a response names the annotation it answers, so a reader can tell what a
+		reply is about without scrolling up.  Sourced only from annotation_summary, which the
+		callers set to the PARENT's text - never falling back to this row's own body, which is
+		what used to print every short reply twice. --->
+	<cfif arguments.is_response AND len(trim(arguments.annotation_summary)) GT 0>
+		<cfset summaryText = rereplace(trim(arguments.annotation_summary), "\s+", " ", "all")>
+		<cfif len(summaryText) GT maxSummaryLength>
+			<cfset summaryText = left(summaryText, maxSummaryLength - 3) & "...">
+		</cfif>
+		<cfset parentLabelSummary = encodeForHTML(summaryText)>
+	</cfif>
+	<cfif responseReadOnlyLayout>
+		<cfset labelWeightClass = "font-weight-lessbold">
 	</cfif>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
@@ -1958,44 +2011,56 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="#annotationBodyColClass#">
-					<span class="data-entry-label font-weight-bold">
+					<span class="data-entry-label #labelWeightClass#">
 						<cfif arguments.is_response>
 							Response Annotation:
+							<cfif len(parentLabelSummary) GT 0>
+								<span class="d-inline text-muted font-weight-normal">in reply to &quot;#parentLabelSummary#&quot;</span>
+							</cfif>
 						<cfelse>
 							Annotation:
 							<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForUrl(arguments.annotation_id)#&format=turtle" target="_blank">
 								<img src="/shared/images/json-ld-data-24.png" width="21" alt="JSON-LD">
 							</a> 
 						</cfif>
-						<span class="text-muted text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
+						<cfif NOT arguments.is_response>
+							<span class="text-muted text-nowrap" style="display:inline;">(#encodeForHtml(arguments.annotation_id)#)</span>
+						</cfif>
 						<cfif arguments.highlight_as_target>
 							<span class="badge badge-light border text-muted ml-1 align-middle" style="font-size:0.7em;" aria-label="#encodeForHTMLAttribute(arguments.highlight_label)# annotation">#encodeForHTML(arguments.highlight_label)#</span>
 						</cfif>
 					</span>
 					<cfif showMaskedBody>
-						<div class="px-1 font-italic">[Masked]</div>
+						<p class="px-1 small95 mb-0 font-italic">[Masked]</p>
 					<cfelse>
 						<!--- The body is shown, so the viewer is staff or the annotation's own author.
 							Say that it is hidden from everyone else, which nothing in this row did
 							before - an external annotator had no way to tell.  See the card bodies in
 							public.cfc for why reviewed_fg stands in for the reason. --->
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
-							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
+							<p class="px-1 small95 mb-0 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></p>
 						</cfif>
-						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation. --->
-						<div class="px-1">#arguments.annotation_display#</div>
+						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
+							Values under a label are paragraphs at .small95 (.905rem = 13.58px against the 15px
+							root), sitting with .data-entry-label and the table/td text used elsewhere on the
+							specimen page.  A bare div inherits 15px and renders the value LARGER than the label
+							naming it; .small is 12px, smaller than both.  rem rather than a percentage on purpose:
+							a percentage is relative to the parent and compounds when these rows nest, which is how
+							.small inside .small ends up near 64%.  mb-0 because the row is a grid cell, not running
+							prose - Bootstrap's 1rem paragraph margin pulls the row apart. --->
+						<p class="px-1 small95 mb-0">#arguments.annotation_display#</p>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
-					<span class="data-entry-label font-weight-bold">Annotator:</span>
-					<div class="px-1">
+					<span class="data-entry-label #labelWeightClass#">Annotator:</span>
+					<p class="px-1 small95 mb-0">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
-					</div>
+					</p>
 				</div>
 				<div class="#motivationColClass#">
-					<span class="data-entry-label font-weight-bold">Motivation:</span>
-					<div class="px-1">#encodeForHTML(arguments.motivation)#</div>
+					<span class="data-entry-label #labelWeightClass#">Motivation:</span>
+					<p class="px-1 small95 mb-0">#encodeForHTML(arguments.motivation)#</p>
 				</div>
 				<!--- State and Resolution are curator triage vocabulary from ctstate/ctresolution,
 					shown only to internal staff.  To an annotator "State: Approved, Resolution:

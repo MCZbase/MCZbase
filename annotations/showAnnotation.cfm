@@ -526,8 +526,12 @@ limitations under the License.
 						<div class="d-flex justify-content-between align-items-start mb-2">
 							<div>
 								<h1 class="h3 mb-0">Annotation Conversation</h1>
+								<!--- The target is what the whole page is about, so it is a heading rather than
+									a .small paragraph.  targetSummary already carries markup - the scientific name
+									in italics and the author in small caps - from get_scientific_name_auths, so it
+									is output unescaped as it was before. --->
 								<cfif len(variables.targetSummary) GT 0>
-									<p class="mb-1 text-muted small">
+									<h2 class="mb-1 h4 text-muted">
 										Target: 
 										<cfif len(variables.targetIRI) GT 0>
 											<a href="#variables.targetIRI#">
@@ -536,7 +540,7 @@ limitations under the License.
 										<cfelse>
 											#variables.targetSummary#
 										</cfif>
-									</p>
+									</h2>
 								</cfif>
 							</div>
 							<div class="text-right">
@@ -554,7 +558,6 @@ limitations under the License.
 								<h2 class="h5 mb-0">
 									Root Annotation 
 									<span class="text-muted small">(#variables.rootAnnotationId#)</span>
-									on #targetSummary#
 								</h2>
 							</div>
 							<cfif len(rootAnn.body_value) GT 0>
