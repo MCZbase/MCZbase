@@ -1964,10 +1964,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<!--- A reply rendered read-only sits inside the specimen page and the agent/taxonomy/
 		project/publication cards, where every other label is font-weight-lessbold (560).  At
 		700 the nested reply read as heavier than the root it answers, which is backwards.
+		data-entry-label is dropped there rather than added to, because it sets font-weight:450
+		at line 1388 of bootstrap_override.css - later in the file than .font-weight-lessbold at
+		line 61 and of equal specificity, so it wins and the label renders at 450.  (.font-weight-bold
+		is 700 !important, which is why the bold version never hit this.)  small95 d-block px-1
+		replaces what that class provided here: .905rem, block, and the .25rem left padding that
+		keeps the label aligned with the px-1 value paragraph beneath it.
 		The editable surfaces - the annotation dialog and the search results - keep 700 for now.
 		Only these three labels exist on a response row: State, Resolution, Reviewed? and
 		Visibility are all gated to non-responses or to edit mode. --->
-	<cfset var labelWeightClass = "font-weight-bold">
+	<cfset var labelClass = "data-entry-label font-weight-bold">
 	<cfset var summaryText = "">
 	<cfset var maxSummaryLength = 60>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
@@ -1992,7 +1998,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfset parentLabelSummary = encodeForHTML(summaryText)>
 	</cfif>
 	<cfif responseReadOnlyLayout>
-		<cfset labelWeightClass = "font-weight-lessbold">
+		<cfset labelClass = "small95 d-block px-1 font-weight-lessbold">
 	</cfif>
 	<cfif len(arguments.root_annotation_id) EQ 0>
 		<cfset rootAnnotationId = arguments.annotation_id>
@@ -2011,7 +2017,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			</cfif>
 			<div class="form-row mx-0 col-12 px-0">
 				<div class="#annotationBodyColClass#">
-					<span class="data-entry-label #labelWeightClass#">
+					<span class="#labelClass#">
 						<cfif arguments.is_response>
 							Response Annotation:
 							<cfif len(parentLabelSummary) GT 0>
@@ -2052,14 +2058,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
-					<span class="data-entry-label #labelWeightClass#">Annotator:</span>
+					<span class="#labelClass#">Annotator:</span>
 					<p class="px-1 small95 mb-0">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
 					</p>
 				</div>
 				<div class="#motivationColClass#">
-					<span class="data-entry-label #labelWeightClass#">Motivation:</span>
+					<span class="#labelClass#">Motivation:</span>
 					<p class="px-1 small95 mb-0">#encodeForHTML(arguments.motivation)#</p>
 				</div>
 				<!--- State and Resolution are curator triage vocabulary from ctstate/ctresolution,
