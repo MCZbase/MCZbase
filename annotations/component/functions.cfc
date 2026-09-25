@@ -1967,10 +1967,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		data-entry-label is dropped rather than added to, because it sets font-weight:450 at line
 		1388 of bootstrap_override.css - later in the file than .font-weight-lessbold at line 61
 		and of equal specificity, so it wins and the label would render at 450.  (.font-weight-bold
-		is 700 !important, which is why the bold version never hit this.)  small95 d-block px-1
-		replaces what that class provided: .905rem, block, and the .25rem left padding that keeps
-		each label aligned with the px-1 value paragraph beneath it. --->
-	<cfset var labelClass = "small95 d-block px-1 font-weight-lessbold">
+		is 700 !important, which is why the bold version never hit this.)  d-block px-1 replaces
+		what that class provided here: block display, and the .25rem left padding that keeps each
+		label aligned with the px-1 value paragraph beneath it.  No size class, deliberately - the
+		row inherits its context, which is .875rem inside a list-group. --->
+	<cfset var labelClass = "d-block px-1 font-weight-lessbold">
 	<!--- Each action is decided once here and used both to render the button and to decide
 		whether the action column is worth its 3 of 12.  Computing them twice would let the
 		column and its contents drift apart, leaving an empty column holding space open. --->
@@ -2055,36 +2056,37 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</cfif>
 					</span>
 					<cfif showMaskedBody>
-						<p class="px-1 small95 mb-0 font-italic">[Masked]</p>
+						<div class="px-1 font-italic">[Masked]</div>
 					<cfelse>
 						<!--- The body is shown, so the viewer is staff or the annotation's own author.
 							Say that it is hidden from everyone else, which nothing in this row did
 							before - an external annotator had no way to tell.  See the card bodies in
 							public.cfc for why reviewed_fg stands in for the reason. --->
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
-							<p class="px-1 small95 mb-0 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></p>
+							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
-							Values under a label are paragraphs at .small95 (.905rem = 13.58px against the 15px
-							root), sitting with .data-entry-label and the table/td text used elsewhere on the
-							specimen page.  A bare div inherits 15px and renders the value LARGER than the label
-							naming it; .small is 12px, smaller than both.  rem rather than a percentage on purpose:
-							a percentage is relative to the parent and compounds when these rows nest, which is how
-							.small inside .small ends up near 64%.  mb-0 because the row is a grid cell, not running
-							prose - Bootstrap's 1rem paragraph margin pulls the row apart. --->
-						<p class="px-1 small95 mb-0">#arguments.annotation_display#</p>
+							div, not p, and no size class: the row then inherits whatever its context sets, the
+							same way the root annotation beside it does.  On the specimen page and the annotation
+							cards this sits inside <ul class="list-group">, and bootstrap_override.css has
+							`dl, ol, ul { font-size: .875rem }` - 13.125px.  A <p> does not inherit that, because
+							the same file has `p { font-size: .95rem }` and an element rule beats inheritance no
+							matter how low its specificity - which rendered every reply at 14.25px, larger than the
+							root annotation introducing it.  The root has no element rule against it because its
+							body is bare text in the li. --->
+						<div class="px-1">#arguments.annotation_display#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
 					<span class="#labelClass#">Annotator:</span>
-					<p class="px-1 small95 mb-0">
+					<div class="px-1">
 						#renderAnnotatorHtml(annotation_id=val(arguments.annotation_id))#
 						on #dateformat(arguments.annotate_date, "yyyy-mm-dd")#
-					</p>
+					</div>
 				</div>
 				<div class="#motivationColClass#">
 					<span class="#labelClass#">Motivation:</span>
-					<p class="px-1 small95 mb-0">#encodeForHTML(arguments.motivation)#</p>
+					<div class="px-1">#encodeForHTML(arguments.motivation)#</div>
 				</div>
 				<!--- State and Resolution are curator triage vocabulary from ctstate/ctresolution,
 					shown only to internal staff.  To an annotator "State: Approved, Resolution:
@@ -2098,17 +2100,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							columns.  These two previously wrapped label and value in one div, so
 							they were the only fields rendering on a single line. --->
 						<span class="#labelClass#">State:</span>
-						<p class="px-1 small95 mb-0">#encodeForHTML(arguments.state)#</p>
+						<div class="px-1">#encodeForHTML(arguments.state)#</div>
 						<cfif len(trim(arguments.resolution)) GT 0>
 							<span class="#labelClass#">Resolution:</span>
-							<p class="px-1 small95 mb-0">#encodeForHTML(arguments.resolution)#</p>
+							<div class="px-1">#encodeForHTML(arguments.resolution)#</div>
 						</cfif>
 					</div>
 				</cfif>
 				<cfif NOT arguments.is_response>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<span class="#labelClass#">Reviewed?</span>
-						<p class="px-1 small95 mb-0"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></p>
+						<div class="px-1"><cfif val(arguments.reviewed_fg) EQ 1>Yes<cfelse>No</cfif></div>
 					</div>
 				</cfif>
 				<!--- Visibility is shown here, not edited here.  This list is a data display; changing
@@ -2117,7 +2119,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif showVisibility>
 					<div class="col-12 col-md-1 pt-2 px-1">
 						<span class="#labelClass#">Visibility:</span>
-						<p class="px-1 small95 mb-0"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></p>
+						<div class="px-1"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></div>
 					</div>
 				</cfif>
 				<cfif hasRowActions>
