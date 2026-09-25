@@ -1971,11 +1971,29 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		replaces what that class provided: .905rem, block, and the .25rem left padding that keeps
 		each label aligned with the px-1 value paragraph beneath it. --->
 	<cfset var labelClass = "small95 d-block px-1 font-weight-lessbold">
+	<!--- Each action is decided once here and used both to render the button and to decide
+		whether the action column is worth its 3 of 12.  Computing them twice would let the
+		column and its contents drift apart, leaving an empty column holding space open. --->
+	<cfset var viewerLoggedIn = isdefined("session.username") AND len(trim(session.username)) GT 0>
+	<cfset var viewerCanManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
+	<cfset var viewerIsInternal = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
+	<cfset var showReplyBtn = viewerLoggedIn AND viewerCanManage AND arguments.show_reply_action>
+	<cfset var showEditBtn = viewerLoggedIn AND viewerCanManage AND (NOT arguments.highlight_as_editing)>
+	<cfset var showHistoryBtn = viewerLoggedIn AND viewerIsInternal>
+	<cfset var showViewBtn = arguments.show_view_action AND (NOT arguments.is_response)
+		AND ( val(arguments.mask_annotation_fg) EQ 0 OR viewerCanManage )>
+	<cfset var hasRowActions = (NOT arguments.read_only)
+		AND (showReplyBtn OR showEditBtn OR showHistoryBtn OR showViewBtn)>
 	<cfset var summaryText = "">
 	<cfset var maxSummaryLength = 60>
 	<cfset var annotationBodyColClass = "col-12 col-md-3 pt-2 px-1">
 	<cfset var annotatorColClass = "col-12 col-md-2 pt-2 px-1">
 	<cfset var motivationColClass = "col-12 col-md-1 pt-2 px-1">
+	<!--- Anonymous and external viewers get no actions on the dialog or the conversation page,
+		so the 3 columns the action block would have used go to the annotation text instead. --->
+	<cfif (NOT arguments.read_only) AND (NOT hasRowActions)>
+		<cfset annotationBodyColClass = "col-12 col-md-6 pt-2 px-1">
+	</cfif>
 	<cfif responseReadOnlyLayout>
 		<!--- pt-1 rather than pt-2: the card-body around this row already contributes py-2, so a
 			second 0.5rem on the columns put a full 1rem above the first line of a reply. --->
@@ -2096,15 +2114,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<p class="px-1 small95 mb-0"><cfif parentMasked>Hidden <span class="text-muted">(inherited)</span><cfelseif val(arguments.mask_annotation_fg) EQ 1>Hidden<cfelse>Public</cfif></p>
 					</div>
 				</cfif>
-				<cfif NOT arguments.read_only>
+				<cfif hasRowActions>
 				<div class="col-12 col-md-3 pt-4 mt-1 px-1">
-					<cfif isdefined("session.username") AND len(#session.username#) GT 0>
-						<cfif isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
-							<cfif arguments.show_reply_action>
+					<cfif viewerLoggedIn>
+						<cfif viewerCanManage>
+							<cfif showReplyBtn>
 								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
 							</cfif>
 							<!--- TODO: Support users editing their own annotations even without manage_collection --->
-							<cfif NOT arguments.highlight_as_editing>
+							<cfif showEditBtn>
 								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 							</cfif>
 						</cfif>
@@ -2113,7 +2131,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							also requires coldfusion_user.  Gating the button on manage_collection would be
 							narrower than both the grant and the route, hiding a working feature from staff
 							who can use it.  Reading an audit trail does not require the right to edit. --->
-						<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						<cfif showHistoryBtn>
 							<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
 						</cfif>
 					</cfif>
@@ -2121,9 +2139,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						not on showAnnotation.cfm itself (it would link to the page being viewed), not
 						for a response (no standalone page), and only when the annotation is unmasked or
 						the viewer holds manage_collection - the same rule showAnnotation.cfm applies. --->
-					<cfif arguments.show_view_action AND NOT arguments.is_response
-							AND ( val(arguments.mask_annotation_fg) EQ 0
-								OR (isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")) )>
+					<cfif showViewBtn>
 						<a href="/annotations/showAnnotation.cfm?annotation_id=#encodeForHTMLAttribute(arguments.annotation_id)#" class="btn btn-xs btn-outline-secondary mb-1" title="View full conversation" target="_blank">View</a>
 					</cfif>
 				</div>
