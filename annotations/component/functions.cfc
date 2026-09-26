@@ -373,7 +373,7 @@ limitations under the License.
 							<cfset var chainLabel = "">
 							<cfloop query="ancestorChainForDialog">
 								<cfset chainAnnId = ancestorChainForDialog.annotation_id>
-								<cfset chainSummary = ancestorChainForDialog.display_summary>
+								<cfset chainSummary = maskAnnotationSummary(ancestorChainForDialog.display_summary)>
 								<cfif val(chainAnnId) EQ val(responseRootAnnotationId)>
 									<cfset chainLabel = "Root annotation">
 								<cfelseif val(chainAnnId) EQ val(targetAnnotationId)>
@@ -1159,10 +1159,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
  the prefix is normally shadowed and never seen.  It surfaces on rows that have no textual body:
  rows predating that table, and rows whose body was deleted by hand.
 
- The role is effectively "is this internal staff".  Neither manage_specimens nor manage_collection
- is granted anything on CF_USERS or CF_USER_DATA, and any Oracle account holding either also holds
- coldfusion_user, so all three draw the same external/internal boundary.  manage_specimens is used
- because that is what getAnnotationsHTML has always used for this.
+ manage_specimens is deliberately narrower than coldfusion_user here, not a synonym for it.
+ Everyone holding manage_specimens also holds coldfusion_user, but not the reverse - a read-only
+ internal account can have coldfusion_user alone.  The prefix carries the reporting person's name,
+ affiliation AND email address, so it is held to the narrower role: someone with read access, an
+ intern say, should not be handed the contact details of whoever reported a data problem.
+ This is a tighter gate than renderAnnotatorHtml, which shows the annotator to any coldfusion_user
+ - that is intended, because the Annotator field shows a name and no email, while this prefix does.
 
  @param annotation_display the text as selected for display.
  @return the text, with any leading identity prefix replaced by "[Masked] reported:".
@@ -1173,6 +1176,39 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfreturn arguments.annotation_display>
 	</cfif>
 	<cfreturn rereplace(arguments.annotation_display, "^.* reported:", "[Masked] reported:")>
+</cffunction>
+
+
+<!--- maskAnnotationSummary mask the identity prefix in a truncated annotation preview.
+
+ Same problem as maskAnnotationPersonalInfo, same gate, different input.  Previews reach the
+ display already cut to 60 or 80 characters by a SUBSTR in the query that produced them, so the
+ "reported:" the other function anchors on has usually fallen past the cut and there is nothing
+ left for it to match - what remains is the identity prefix with its tail removed.
+
+ The prefix is recognised by its opening instead: addAnnotation writes "For " followed by the
+ annotated record, and every form of that record carries a colon before the first space - guid
+ for a cataloged item (MCZ:Herp:R-12345), and the literals Taxon:, Publication:, Project:,
+ Agent: and Annotation: for the rest.  Ordinary annotation text that begins "For " does not look
+ like that, so a reply starting "For the record, ..." is left alone.  A matching preview is
+ replaced whole rather than trimmed, because after truncation there is no boundary left to cut
+ at - the name, affiliation and email run to the end of what we have.
+
+ As with the full text this only fires on rows that have no annotation_textualbody, since every
+ query builds its preview from NVL(atb.body_value, a.annotation).
+
+ @param annotation_summary a truncated preview of an annotation's text.
+ @return the preview, or "[Masked]" when it is the identity prefix and the viewer may not see it.
+--->
+<cffunction name="maskAnnotationSummary" returntype="string" access="public">
+	<cfargument name="annotation_summary" type="string" required="yes">
+	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+		<cfreturn arguments.annotation_summary>
+	</cfif>
+	<cfif refind("^For [^ ]*:", arguments.annotation_summary) GT 0>
+		<cfreturn "[Masked]">
+	</cfif>
+	<cfreturn maskAnnotationPersonalInfo(arguments.annotation_summary)>
 </cffunction>
 
 
@@ -2029,20 +2065,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		reply is about without scrolling up.  Sourced only from annotation_summary, which the
 		callers set to the PARENT's text - never falling back to this row's own body, which is
 		what used to print every short reply twice. --->
-	<!--- Known gap: this preview is NOT run through maskAnnotationPersonalInfo, and cannot be.
-		annotation_summary arrives already cut to 60 characters by the conversation query's
-		SUBSTR, while the mask anchors on the "reported:" that addAnnotation writes after the
-		annotator's name, affiliation and email - which falls beyond the cut, so there is nothing
-		left to match.  It only matters when the PARENT annotation has no annotation_textualbody
-		row, because the query then falls back to annotations.annotation and the first 60
-		characters are that identity prefix.  Normally impossible: insTextualBody runs in the same
-		transaction as the insert.  It happens when someone deletes an annotation on the back end
-		and the textual body goes but the annotation row survives - the reply's label then shows
-		the parent author's name instead of the parent's text.  Fixing it means masking the full
-		text before truncating rather than after; backfilling annotation_textualbody for rows that
-		lack one removes it, and every other surface, at the source. --->
+	<!--- maskAnnotationSummary rather than maskAnnotationPersonalInfo: annotation_summary arrives
+		already cut to 60 characters by the conversation query's SUBSTR, so the "reported:" that
+		the full-text mask anchors on has fallen past the cut and there is nothing left for it to
+		match.  It only matters when the PARENT annotation has no annotation_textualbody row,
+		because the query then falls back to annotations.annotation and the first 60 characters
+		are the identity prefix.  Normally impossible - insTextualBody runs in the same transaction
+		as the insert - so it takes a back-end delete that removes the textual body and leaves the
+		annotation row.  Backfilling annotation_textualbody for rows that lack one removes the
+		cause here and on every other surface at once. --->
 	<cfif arguments.is_response AND len(trim(arguments.annotation_summary)) GT 0>
-		<cfset summaryText = rereplace(trim(arguments.annotation_summary), "\s+", " ", "all")>
+		<cfset summaryText = rereplace(trim(maskAnnotationSummary(arguments.annotation_summary)), "\s+", " ", "all")>
 		<cfif len(summaryText) GT maxSummaryLength>
 			<cfset summaryText = left(summaryText, maxSummaryLength) & "...">
 		</cfif>
@@ -2410,7 +2443,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</cfquery>
 						<cfloop query="editAncestorChain">
 							<cfset chainId = editAncestorChain.annotation_id>
-							<cfset chainDisplay = editAncestorChain.display_summary>
+							<cfset chainDisplay = maskAnnotationSummary(editAncestorChain.display_summary)>
 							<cfif val(chainId) NEQ val(annotation_id)>
 								<!--- Include all ancestors except the annotation being edited (shown in dialog heading) --->
 								<cfif val(chainId) EQ val(rootAnnotationId)>
@@ -2419,7 +2452,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<cfset ancestorChainHtml = ancestorChainHtml & '<span class="d-block mt-1">&##8627; Reply annotation <strong>#chainId#</strong>: #encodeForHTML(chainDisplay)#</span>'><!--- '--->
 								</cfif>
 								<cfif val(chainId) EQ val(immediateParentId)>
-									<cfset immediateParentBody = editAncestorChain.display_summary>
+									<cfset immediateParentBody = maskAnnotationSummary(editAncestorChain.display_summary)>
 								</cfif>
 							</cfif>
 						</cfloop>
