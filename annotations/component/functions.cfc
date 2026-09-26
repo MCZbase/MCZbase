@@ -1151,6 +1151,31 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
+<!--- maskAnnotationPersonalInfo strip the annotator's identity out of legacy annotation text.
+
+ addAnnotation writes "For <record> <first> <last> <affiliation> <email> reported: <text>" into
+ annotations.annotation for every annotation it creates, and the clean text into
+ annotation_textualbody.  Display queries prefer NVL(atb.body_value, annotations.annotation), so
+ the prefix is normally shadowed and never seen.  It surfaces on rows that have no textual body:
+ rows predating that table, and rows whose body was deleted by hand.
+
+ The role is effectively "is this internal staff".  Neither manage_specimens nor manage_collection
+ is granted anything on CF_USERS or CF_USER_DATA, and any Oracle account holding either also holds
+ coldfusion_user, so all three draw the same external/internal boundary.  manage_specimens is used
+ because that is what getAnnotationsHTML has always used for this.
+
+ @param annotation_display the text as selected for display.
+ @return the text, with any leading identity prefix replaced by "[Masked] reported:".
+--->
+<cffunction name="maskAnnotationPersonalInfo" returntype="string" access="public">
+	<cfargument name="annotation_display" type="string" required="yes">
+	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+		<cfreturn arguments.annotation_display>
+	</cfif>
+	<cfreturn rereplace(arguments.annotation_display, "^.* reported:", "[Masked] reported:")>
+</cffunction>
+
+
 <!--- Render a short HTML block describing the annotator of a given annotation.
  Determines what information to show based on the current viewer's permissions:
  coldfusion_user role members and the annotator themselves see all available info;
@@ -2004,6 +2029,18 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		reply is about without scrolling up.  Sourced only from annotation_summary, which the
 		callers set to the PARENT's text - never falling back to this row's own body, which is
 		what used to print every short reply twice. --->
+	<!--- Known gap: this preview is NOT run through maskAnnotationPersonalInfo, and cannot be.
+		annotation_summary arrives already cut to 60 characters by the conversation query's
+		SUBSTR, while the mask anchors on the "reported:" that addAnnotation writes after the
+		annotator's name, affiliation and email - which falls beyond the cut, so there is nothing
+		left to match.  It only matters when the PARENT annotation has no annotation_textualbody
+		row, because the query then falls back to annotations.annotation and the first 60
+		characters are that identity prefix.  Normally impossible: insTextualBody runs in the same
+		transaction as the insert.  It happens when someone deletes an annotation on the back end
+		and the textual body goes but the annotation row survives - the reply's label then shows
+		the parent author's name instead of the parent's text.  Fixing it means masking the full
+		text before truncating rather than after; backfilling annotation_textualbody for rows that
+		lack one removes it, and every other surface, at the source. --->
 	<cfif arguments.is_response AND len(trim(arguments.annotation_summary)) GT 0>
 		<cfset summaryText = rereplace(trim(arguments.annotation_summary), "\s+", " ", "all")>
 		<cfif len(summaryText) GT maxSummaryLength>
@@ -2066,7 +2103,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</cfif>
 						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
 							div, and no size class - it inherits .875rem from the card-body wrapper. --->
-						<div class="px-1">#arguments.annotation_display#</div>
+						<div class="px-1">#maskAnnotationPersonalInfo(arguments.annotation_display)#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">

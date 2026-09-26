@@ -96,7 +96,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#annotation_display#
+								#maskAnnotationPersonalInfo(annotation_display)#
 								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
 									of the block, rather than each value taking a row of its own.  d-inline is required,
 									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
@@ -202,7 +202,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#annotation_display#
+								#maskAnnotationPersonalInfo(annotation_display)#
 								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
 									of the block, rather than each value taking a row of its own.  d-inline is required,
 									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
@@ -308,7 +308,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#annotation_display#
+								#maskAnnotationPersonalInfo(annotation_display)#
 								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
 									of the block, rather than each value taking a row of its own.  d-inline is required,
 									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
@@ -414,7 +414,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#annotation_display#
+								#maskAnnotationPersonalInfo(annotation_display)#
 								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
 									of the block, rather than each value taking a row of its own.  d-inline is required,
 									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
