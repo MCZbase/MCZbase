@@ -2,9 +2,7 @@
  * Place scripts that should be available only to authenticated users here.
 */
 
-/* setFeedbackControlState moved to /shared/js/shared-scripts.js: this file is only loaded
- * for sessions holding the coldfusion_user role (shared/_header.cfm:148), and the annotation
- * save flow needs that helper for external (cf_users only) annotators too. */
+// setFeedbackControlState moved to /shared/js/shared-scripts.js
 
 /**
  * Given an url and a window name, either load the url in an existing window of that name, 

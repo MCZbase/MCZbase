@@ -35,6 +35,32 @@ limitations under the License.
 	<cfreturn canRespond>
 </cffunction>
 
+<!--- Determine whether the current session may create annotations.  Single definition of the
+ test so that the dialog and addAnnotation cannot drift apart: an annotator needs a login with
+ a registered email address so that a curator has somewhere to reply.
+ @return boolean true when the current session may create annotations.
+--->
+<cffunction name="currentUserCanAnnotate" returntype="boolean" access="public">
+	<cfset var hasEmail = "">
+	<cfset var canAnnotate = false>
+	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
+		<cfreturn false>
+	</cfif>
+	<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT email
+		FROM
+			cf_user_data,
+			cf_users
+		WHERE
+			cf_user_data.user_id = cf_users.user_id
+			AND cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif hasEmail.recordcount GT 0 AND len(hasEmail.email) GT 0>
+		<cfset canAnnotate = true>
+	</cfif>
+	<cfreturn canAnnotate>
+</cffunction>
+
 <!--- Get an agent_id for a login username from agent_name(login).
  @param login_name the login username to resolve to an agent_id.
  @return numeric agent_id or 0 when no mapping exists.
@@ -162,17 +188,7 @@ limitations under the License.
 	<cfsavecontent variable="dialogHtml">
 		<cftry>
 			<cfoutput>
-				<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-					SELECT email 
-					FROM cf_user_data,cf_users
-					WHERE cf_user_data.user_id = cf_users.user_id and
-						cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfif hasEmail.recordcount GT 0 AND len(hasEmail.email) GT 0>
-					<cfset canAnnotate = true>
-				<cfelse>
-					<cfset canAnnotate = false>
-				</cfif>
+				<cfset canAnnotate = currentUserCanAnnotate()>
 				<cfset manageIRI = "">
 				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset dialogTargetId = target_id>
@@ -220,7 +236,7 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name#" ><!--- " --->
-							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#d.collection#&collection_object_id=#collection_object_id#">
+							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#encodeForUrl(d.collection)#&collection_object_id=#encodeForUrl(collection_object_id)#">
 						</cfloop>
 					</cfcase>
 					<cfcase value="TAXONOMY">
@@ -236,7 +252,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Taxon <strong>#display_name# <span class='sm-caps'>#author_text#</span></strong>"><!--- " --->
 						</cfloop>
-						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#taxon_name_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#encodeForUrl(taxon_name_id)#">
 					</cfcase>
 					<cfcase value="PROJECT">
 						<cfset project_id = target_id>
@@ -251,7 +267,7 @@ limitations under the License.
 						<cfloop query="d">
 							<cfset summary="Project <strong>#project_name#</strong>"><!--- " --->
 						</cfloop>
-						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#project_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#encodeForUrl(project_id)#">
 					</cfcase>
 					<cfcase value="PUBLICATION">
 						<cfset publication_id = target_id>
@@ -269,7 +285,7 @@ limitations under the License.
 							<cfset cleaned_formatted_publication = reReplace(d.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
 							<cfset summary="Publication <strong>#cleaned_formatted_publication#</strong>"><!--- " --->
 						</cfloop>
-						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#publication_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#encodeForUrl(publication_id)#">
 					</cfcase>
 					<cfcase value="AGENT">
 						<cfset agent_id = target_id>
@@ -284,7 +300,7 @@ limitations under the License.
 						<cfelse>
 							<cfset summary = "Agent <strong>#agent_id#</strong>"><!--- " --->
 						</cfif>
-						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=agent_id&agent_id=#agent_id#">
+						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=agent_id&agent_id=#encodeForUrl(agent_id)#">
 					</cfcase>
 					<cfcase value="ANNOTATIONS">
 						<cfset annotation_id = target_id>
@@ -586,7 +602,7 @@ limitations under the License.
 									<div class="d-flex justify-content-between align-items-center mt-1 px-1">
 										<h2 class="h4 mb-0"><cfif variables.target_type EQ "ANNOTATIONS">Annotation in Context<cfelse>Annotations on this Record</cfif></h2>
 										<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-											<a href="#manageIRI#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
+											<a href="#encodeForHTMLAttribute(manageIRI)#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
 										</cfif>
 									</div>
 									<cfquery name="rootDialogAnnotations" dbtype="query">
@@ -665,10 +681,11 @@ limitations under the License.
  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
  * @param motivation the motivation for the annotation (optional, defaults to commenting).
  * @param mask_annotation_fg optional; 1 to hide the annotation from public, 0 for public; only applied for manage_collection role.
- * @param root_state optional state to set on the root annotation when target_type is annotation.
- * @param root_resolution optional resolution to set on the root annotation when target_type is annotation.
- * @param root_reviewed_fg optional reviewed value (0/1) to set on the root annotation when target_type is annotation.
+ * @param root_state optional state to set on the root annotation when target_type is annotation; only applied for manage_collection role.
+ * @param root_resolution optional resolution to set on the root annotation when target_type is annotation; only applied for manage_collection role.
+ * @param root_reviewed_fg optional reviewed value (0/1) to set on the root annotation when target_type is annotation; only applied for manage_collection role.
  * @param root_mask_annotation_fg optional mask value (0/1) to set on the root annotation when target_type is annotation; only applied for manage_collection role.
+ * @see currentUserCanAnnotate for the access test enforced on every caller.
 --->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="target_type" type="string" required="yes">
@@ -680,10 +697,10 @@ limitations under the License.
 	<cfargument name="root_resolution" type="string" required="no" default="">
 	<cfargument name="root_reviewed_fg" type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
-	<!--- /annotations/component/public.cfc is reachable without a login, and this method is
-		callable there by URL, so authentication cannot be left to the caller's cf_rolecheck. --->
-	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
-		<cfheader statusCode="403" statusText="You must be logged in to MCZbase to annotate.">
+	<!--- public.cfc exposes this method by URL, so cf_rolecheck cannot be relied on to
+		authenticate the caller. --->
+	<cfif NOT currentUserCanAnnotate()>
+		<cfheader statusCode="403" statusText="Annotating requires a login with a registered email address.">
 		<cfabort>
 	</cfif>
 
@@ -824,9 +841,13 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfif variables.target_type EQ "ANNOTATIONS">
-		<cfif len(trim(root_state)) GT 0 OR len(trim(root_resolution)) GT 0>
+		<!--- Triage fields are curator controls, and the writes below run on uam_god, so no
+			grant backstops them. --->
+		<cfif len(trim(arguments.root_state)) GT 0
+			OR len(trim(arguments.root_resolution)) GT 0
+			OR len(trim(arguments.root_reviewed_fg)) GT 0>
 			<cfif NOT canRespond>
-				<cfheader statusCode="403" statusText="Only users with response workflow permissions may set root annotation state or resolution.">
+				<cfheader statusCode="403" statusText="Only users with response workflow permissions may set root annotation state, resolution, or reviewed status.">
 				<cfabort>
 			</cfif>
 		</cfif>
@@ -940,11 +961,14 @@ limitations under the License.
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
 					</cfquery>
 				</cfif>
-				<cfif target_type EQ "ANNOTATIONS" AND len(trim(root_reviewed_fg)) GT 0 AND REFind("^[01]$", trim(root_reviewed_fg)) GT 0>
+				<cfif variables.target_type EQ "ANNOTATIONS"
+					AND canRespond
+					AND len(trim(arguments.root_reviewed_fg)) GT 0
+					AND REFind("^[01]$", trim(arguments.root_reviewed_fg)) GT 0>
 					<cfquery name="updRootAnnReviewed" datasource="uam_god">
 						UPDATE annotations
 						SET
-							reviewed_fg = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#trim(root_reviewed_fg)#'>,
+							reviewed_fg = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#trim(arguments.root_reviewed_fg)#'>,
 							reviewer_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">,
 							last_updated_by_agent_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
 						WHERE annotation_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#rootAnnotationId#'>
@@ -1044,7 +1068,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	)>
 </cffunction>
 
-<!--- Update the review status and optional comment for an annotation.
+<!--- Update the review status and optional comment for an annotation.  Requires manage_collection.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param reviewed_fg 1 if the annotation has been reviewed, 0 if not.
  @param reviewer_comment optional text comment about the review of the annotation.
@@ -1053,9 +1077,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 --->
 <cffunction name="updateAnnotationReview" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id" type="string" required="yes">
-   <cfargument name="reviewed_fg" type="string" required="yes">
+	<cfargument name="reviewed_fg" type="string" required="yes">
 	<cfargument name="reviewer_comment" type="string" required="no" default="">
 	<cfargument name="mask_annotation_fg" type="string" required="no" default="">
+
+	<cfif NOT userCanRespondToAnnotations()>
+		<cfheader statusCode="403" statusText="The manage_collection role is required to review annotations.">
+		<cfabort>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cfset reviewerAgentId = requireCurrentUserAnnotationEditorAgentId()>
@@ -1110,13 +1139,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="annotation_id" type="string" required="yes">
 	<cfargument name="mask_annotation_fg" type="string" required="yes">
 
-	<!--- The role check and the agent lookup both happen BEFORE the transaction opens.
-		requireCurrentUserAnnotationEditorAgentId queries uam_god while the update below uses
-		user_login, and ColdFusion requires every query inside one cftransaction to use the same
-		datasource - running the lookup inside it made this method fail every time with
-		"Datasource names for all the database tags within the cftransaction tag must be the
-		same".  This is the same order updateAnnotationText uses.  The role check moves out with
-		it, so it reports 403 directly rather than throwing where no cftry can catch it. --->
+	<!--- Role check and agent lookup precede the transaction: the lookup queries uam_god while the
+		update uses user_login, and one cftransaction cannot span two datasources. --->
 	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
 		<cfheader statusCode="403" statusText="The manage_collection role is required to set annotation visibility.">
 		<cfabort>

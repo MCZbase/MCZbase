@@ -21,8 +21,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif isDefined("url.annotation_id")><cfset variables.annotation_id = url.annotation_id><cfelse><cfset variables.annotation_id = ""></cfif>
-<cfif isDefined("url.format")><cfset variables.format = lcase(trim(url.format))><cfelse><cfset variables.format = "html"></cfif>
+<cfparam name="url.annotation_id" default="">
+<cfparam name="url.format" default="html">
+<cfset variables.annotation_id = url.annotation_id>
+<cfset variables.format = lcase(trim(url.format))>
 <cfif variables.format EQ "json" OR variables.format EQ "json-ld" OR variables.format EQ "application/ld+json"><cfset variables.format = "json-ld"></cfif>
 <cfif variables.format EQ "rdf" OR variables.format EQ "application/rdf+xml" OR variables.format EQ "rdf+xml"><cfset variables.format = "rdf"></cfif>
 <cfif variables.format EQ "turtle" OR variables.format EQ "text/turtle"><cfset variables.format = "turtle"></cfif>
@@ -32,7 +34,7 @@ limitations under the License.
 	<cfif variables.format EQ "html">
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
-		<main class="container py-3">
+		<main class="container py-3" id="content">
 			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
@@ -61,7 +63,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Found">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
@@ -214,7 +216,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Found">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<cfoutput>
 					<div class="alert alert-warning">
 						<p>Root annotation not found for annotation #encodeForHTML(variables.annotation_id)#.</p>
@@ -321,7 +323,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Available">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<div class="alert alert-info">This annotation is not publicly available.</div>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
@@ -338,7 +340,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Available">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<div class="alert alert-info">This annotation is not publicly available.</div>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
@@ -546,9 +548,9 @@ limitations under the License.
 							<div class="text-right">
 								<div class="btn-group btn-group-sm" role="group" aria-label="Data formats">
 									<span class="btn btn-sm btn-secondary disabled">HTML</span>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
 								</div>
 							</div>
 						</div>
