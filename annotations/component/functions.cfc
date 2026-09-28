@@ -2239,7 +2239,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<!--- History reads ANNOTATION_HISTORY, which COLDFUSION_USER holds SELECT on, and
 							getAnnotationHistoryDialogHtml enforces that same role.  Gating the button on
 							manage_collection would be narrower than both the grant and the method, hiding a
-							working feature from staff who can use it.  Reading an audit trail does not require the right to edit. --->
+							working feature from staff who can use it.  Reading an audit trail does not
+							require the right to edit. --->
 						<cfif showHistoryBtn>
 							<button type="button" class="btn btn-xs btn-outline-secondary mb-1 open-annotation-history-dialog" data-history-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" aria-label="View history for annotation #encodeForHTMLAttribute(arguments.annotation_id)#">History</button>
 						</cfif>
