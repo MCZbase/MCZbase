@@ -192,7 +192,6 @@ links do) redisplays correctly.
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
 <link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
-<script src="/shared/js/tabulator-common.js"></script>
 <script src="/projects/js/projects.js"></script>
 
 <div id="overlaycontainer" style="position: relative;">
@@ -453,12 +452,22 @@ links do) redisplays correctly.
 							      hide/show wrapper must carry no competing display-affecting class. --->
 							<div class="d-flex flex-wrap align-items-center">
 								<div id="showhide"></div>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="$('#columnChooserDialog').dialog('open');">Select Columns</button>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="openProjectsColumnChooser('columnChooserDialog');">Select Columns</button>
 								<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
 									<div id="columnChooserList" class="px-1"></div>
 								</div>
 								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="downloadProjectsCsv();">Export to CSV</button>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
+								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
+								<!--- Outer span carries the show/hide; the flex class sits on the inner one
+								      (Bootstrap's d-inline-flex is !important and would beat display:none). --->
+								<span id="exportSelectedOnlyContainer" style="display:none;">
+									<span class="d-inline-flex align-items-center mx-1">
+										<input type="checkbox" id="exportSelectedOnly" class="mr-1">
+										<label for="exportSelectedOnly" class="mb-0">Selected rows only</label>
+									</span>
+								</span>
+								<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
 								<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
 									<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
 									<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
@@ -502,12 +511,24 @@ links do) redisplays correctly.
 	/* Preserved across a selection-mode rebuild the same way projectColumnPinned is --
 	   a user's chosen page size is a preference, not something a fresh table build (or a
 	   fresh search) should silently reset back to the default. */
-	var currentPageSize = 50;
+	/* The page size the user last chose (true means "All"). Kept separately from the
+	   size actually in effect: a search with fewer matches than this shows them all on
+	   one page, and a later, larger result (e.g. after clearing a column filter) goes
+	   back to this size -- see mczAdjustProjectsPageSizeOptions. */
+	var preferredPageSize = 50;
 	/* Base page-size choices offered below the largest total seen so far -- a fixed
 	   choice larger than the actual result set is redundant with (and more confusing
 	   than) the "All" choice already covering that case. mczAdjustProjectsPageSizeOptions
 	   filters this list down per search once the real total is known. */
 	var PROJECTS_PAGE_SIZE_BASE_OPTIONS = [5, 50, 100];
+	/* Fields search.cfc accepts a column header filter for, as filter_{field}. */
+	var projectsFilterFields = ["project_name", "participants", "sponsors", "start_date", "end_date"];
+	/* Shared ⋮ menu on each column header: sort, hide this column (saved like the
+	   Select Columns dialog), and open Select Columns. */
+	var projectsHeaderMenu = mczStandardHeaderMenu({
+		onColumnHidden: function () { saveProjectsColumnVisibility("actionFeedback"); },
+		onChooseColumns: function () { openProjectsColumnChooser("columnChooserDialog"); }
+	});
 	/* Started once, up front, rather than inside ensureProjectsTableBuilt -- a
 	   coldfusion_user's persisted column choices should be in flight from page load, not
 	   only once the user's first search kicks off the fetch. Resolves immediately for
@@ -517,6 +538,15 @@ links do) redisplays correctly.
 			savedColumnVisibility = settings;
 		})
 		: $.when();
+	/* A coldfusion_user's saved column order (drag a column header to move it), stored in
+	   the same cf_grid_properties.column_order field and [field, position] format that
+	   the jqxGrid pages use. Fetched up front alongside the visibility settings. */
+	var savedColumnOrder = {};
+	var columnOrderPromise = oneOfUs
+		? mczFetchColumnOrder(pageFilePath, "Default").then(function (order) {
+			savedColumnOrder = order;
+		})
+		: Promise.resolve();
 
 	/**
 	 * buildProjectsTable creates (or recreates) the Tabulator instance for the results grid,
@@ -559,12 +589,19 @@ links do) redisplays correctly.
 				/* CSV export gets the plain project name, not the rendered <a> markup. */
 				accessorDownload: function (value, data) {
 					return data.project_name;
-				}
+				},
+				headerFilter: "input",
+				headerFilterPlaceholder: "filter...",
+				headerFilterParams: mczHeaderFilterLabel("Project"),
+				headerMenu: projectsHeaderMenu
 			},
-			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter },
-			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter },
-			{ title: "Start Date", field: "start_date", width: 110, formatter: mczSafeTextFormatter },
-			{ title: "End Date", field: "end_date", width: 110, formatter: mczSafeTextFormatter }
+			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
+			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsor(s)"), headerMenu: projectsHeaderMenu },
+			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
+			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu },
+			/* Opens a dialog listing every column's value for the row, hidden ones
+			   included -- the counterpart of the jqxGrid pages' row details popup. */
+			mczDetailsButtonColumn("Project Details")
 		];
 
 		if (canManageProjects) {
@@ -593,6 +630,9 @@ links do) redisplays correctly.
 				col.visible = !savedColumnVisibility[col.field];
 			}
 		});
+		/* Apply any persisted column order the same way. mczApplyColumnOrder keeps a frozen
+		   (pinned) Project column first regardless of the saved order. */
+		mczApplyColumnOrder(columns, savedColumnOrder);
 
 		var options = {
 			/* No height set -- an explicit height (or Tabulator's own default) gives the
@@ -600,6 +640,16 @@ links do) redisplays correctly.
 			   small, fixed number of rows, so the table can size to its content and let
 			   the browser's own page scroll handle anything taller than the viewport. */
 			layout: "fitColumns",
+			/* Drag a column header to reorder. Frozen (pinned) columns can't be dragged,
+			   and nothing can be dropped ahead of them (confirmed against source), so a
+			   pinned Project column stays first. */
+			movableColumns: true,
+			/* Column header filters run on the server, like paging and sorting: Tabulator
+			   passes the active header filters to mczProjectsAjaxRequest as params.filter,
+			   which converts them to the filter_* arguments search.cfc accepts. A short
+			   delay keeps typing from sending a request per keystroke. */
+			filterMode: "remote",
+			headerFilterLiveFilterDelay: 600,
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
 			placeholder: "No projects matched your search.",
@@ -623,7 +673,7 @@ links do) redisplays correctly.
 			paginationMode: "remote",
 			sortMode: "remote",
 			pagination: true,
-			paginationSize: currentPageSize,
+			paginationSize: preferredPageSize,
 			paginationSizeSelector: PROJECTS_PAGE_SIZE_BASE_OPTIONS.concat([true]),
 			/* Tabulator's own built-in "rows" counter preset ("Showing 1-50 of 173
 			   rows"), rather than a custom one -- this app has no existing convention of
@@ -653,6 +703,21 @@ links do) redisplays correctly.
 			options.selectableRange = true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
+			if (mode === "multiplerows") {
+				/* A checkbox column (with select-all for the page in its header), so rows
+				   can be picked without Shift/Ctrl-clicking. */
+				options.rowHeader = {
+					formatter: "rowSelection",
+					titleFormatter: "rowSelection",
+					headerSort: false,
+					resizable: false,
+					frozen: true,
+					width: 40,
+					hozAlign: "center",
+					headerHozAlign: "center",
+					download: false
+				};
+			}
 		}
 		/* mode === "text": no selection module enabled. Native text selection needs the
 		   mcz-text-select-mode class below too -- see tabulator_overrides.css. */
@@ -663,13 +728,26 @@ links do) redisplays correctly.
 		   already works there on its own (once selected), with no Tabulator-tracked
 		   row or range selection for this button to act on. */
 		$("##copySelectionButton").toggle(mode !== "text");
+		/* Exporting selected rows only makes sense where rows can be selected. */
+		$("##exportSelectedOnlyContainer").toggle(mode === "singlerow" || mode === "multiplerows");
+		if (!(mode === "singlerow" || mode === "multiplerows")) {
+			$("##exportSelectedOnly").prop("checked", false);
+		}
 		projectsTable = new Tabulator("##projectsGridDiv", options);
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		mczAddPageJumpControl(projectsTable, "projectsPageJump");
 		projectsTable.on("tableBuilt", populateColumnChooser);
+		projectsTable.on("tableBuilt", function () {
+			mczMakeHeaderMenuButtonsAccessible(projectsTable);
+		});
 		projectsTable.on("pageSizeChanged", function (size) {
-			currentPageSize = size;
+			preferredPageSize = size;
+		});
+		projectsTable.on("columnMoved", function () {
+			if (oneOfUs) {
+				mczSaveTableColumnOrder(projectsTable, pageFilePath, "Default", "actionFeedback");
+			}
 		});
 	}
 
@@ -702,7 +780,11 @@ links do) redisplays correctly.
 	 * @param params request body: mczProjectsAjaxParams' fields plus page, size, and
 	 *   sort (an array of {field, dir}, at most one entry -- multi-column sort isn't
 	 *   enabled on this grid).
-	 * @return a Promise resolving to {data, last_page, last_row} on success.
+	 * @return a native Promise resolving to {data, last_page, last_row} on success. The
+	 *   jqXHR is wrapped with mczToNativePromise() because Tabulator chains .finally()
+	 *   onto this result, and jQuery 3.x Deferreds have no finally(): returning the bare
+	 *   jqXHR throws inside Tabulator's initial load, so "tableBuilt" never fires (leaving
+	 *   the column chooser empty) even though the rows still render.
 	 */
 	function mczProjectsAjaxRequest(url, config, params) {
 		$("##overlay").show();
@@ -713,7 +795,13 @@ links do) redisplays correctly.
 			sort_dir: sorter.dir || ""
 		});
 		delete requestData.sort;
-		return $.ajax({
+		$.extend(requestData, mczHeaderFilterParams(params.filter, projectsFilterFields, "filter_"));
+		delete requestData.filter;
+		/* Every reload comes through here, so this keeps Clear Column Filters showing
+		   exactly when a header filter is active. The button id is named directly because
+		   Tabulator fixes this function's signature, leaving no way to pass it in. */
+		$("##clearHeaderFiltersButton").toggle(Object.keys(mczHeaderFilterParams(params.filter, projectsFilterFields, "filter_")).length > 0);
+		return mczToNativePromise($.ajax({
 			url: url,
 			data: requestData,
 			dataType: "json"
@@ -723,7 +811,7 @@ links do) redisplays correctly.
 		}).fail(function (jqXHR, status, error) {
 			$("##overlay").hide();
 			handleFail(jqXHR, status, error, "searching for projects");
-		});
+		}));
 	}
 
 	/**
@@ -775,7 +863,15 @@ links do) redisplays correctly.
 		visibleSizes.push(true);
 		if (pageModule.size !== true && pageModule.size > totalRows) {
 			pageModule.size = true;
-			currentPageSize = true;
+		} else if (pageModule.size === true && preferredPageSize !== true && totalRows > preferredPageSize) {
+			/* Showing "All" only because an earlier result was small: return to the
+			   user's chosen size. setPageSize() reloads, so defer it until Tabulator has
+			   finished handling the response now in progress. */
+			setTimeout(function () {
+				if (projectsTable) {
+					projectsTable.setPageSize(preferredPageSize);
+				}
+			}, 0);
 		}
 		projectsTable.options.paginationSizeSelector = visibleSizes;
 		pageModule.generatePageSizeSelectList();
@@ -810,13 +906,128 @@ links do) redisplays correctly.
 	 */
 	function togglePinProjectColumn() {
 		projectColumnPinned = !projectColumnPinned;
+		/* Once unpinned, the Project column can be dragged elsewhere. A frozen column that
+		   follows an unfrozen one is frozen to the right edge rather than the left, so move
+		   it back to the first position before pinning it again. */
+		if (projectColumnPinned) {
+			/* Skip the checkbox column Multiple Rows mode adds, which has no field. */
+			var firstField = projectsTable.getColumns().map(function (column) {
+				return column.getField();
+			}).filter(function (field) { return field; })[0];
+			if (firstField && firstField !== "project_name") {
+				projectsTable.moveColumn("project_name", firstField, false);
+			}
+		}
 		var column = projectsTable.getColumn("project_name");
-		column.updateDefinition({ frozen: projectColumnPinned });
+		/* updateDefinition rebuilds the header, so re-apply the menu button's keyboard access. */
+		column.updateDefinition({ frozen: projectColumnPinned }).then(function () {
+			mczMakeHeaderMenuButtonsAccessible(projectsTable);
+		});
 	}
 
-	function downloadProjectsCsv() {
+	/**
+	 * exportProjects downloads the current search as CSV or Excel.
+	 *
+	 * Exports every project matching the current search, not just the page on screen:
+	 * in remote pagination mode the table only holds the current page, so
+	 * table.download() would export that page alone. Instead this asks search.cfc for
+	 * every matching row (size "true", the same value the "All" page-size choice sends)
+	 * with the grid's current sort and column header filters. Hidden columns are
+	 * included, matching the jqxGrid pages' exportGridToCSV().
+	 *
+	 * When "Selected rows only" is checked (offered in the row selection modes), exports
+	 * just the selected rows instead, with no server request.
+	 *
+	 * @param format "csv" or "xlsx".
+	 * @param selectedOnlyCheckboxId id (no leading #) of the "Selected rows only" checkbox.
+	 * @param overlayId id (no leading #) of the loading overlay to show while working.
+	 */
+	function exportProjects(format, selectedOnlyCheckboxId, overlayId) {
+		if (!projectsTable) {
+			return;
+		}
+		var filename = mczExportFilename("project", format);
+		function writeRows(rows) {
+			if (format === "xlsx") {
+				$("##" + overlayId).show();
+				return mczExportRowsToExcel(projectsTable, rows, true, filename, "Projects").then(function () {
+					$("##" + overlayId).hide();
+				}, function (error) {
+					$("##" + overlayId).hide();
+					messageDialog("Could not create the Excel file: " + error.message, "Export to Excel");
+				});
+			}
+			exportToCSV(mczBuildCsv(projectsTable, rows, true), filename);
+		}
+		if ($("##" + selectedOnlyCheckboxId).is(":checked")) {
+			var selected = projectsTable.getSelectedData();
+			if (!selected.length) {
+				messageDialog("No rows are selected. Select one or more rows, or uncheck Selected rows only to export every result.", "Export");
+				return;
+			}
+			writeRows(selected);
+			return;
+		}
+		var sorter = projectsTable.getSorters()[0] || {};
+		var requestData = $.extend({}, mczProjectsAjaxParams(), {
+			page: 1,
+			size: "true",
+			sort_field: sorter.field || "",
+			sort_dir: sorter.dir || ""
+		}, mczHeaderFilterParams(projectsTable.getHeaderFilters(), projectsFilterFields, "filter_"));
+		$("##" + overlayId).show();
+		$.ajax({
+			url: "/projects/component/search.cfc",
+			data: requestData,
+			dataType: "json"
+		}).done(function (response) {
+			$("##" + overlayId).hide();
+			writeRows((response && response.data) || []);
+		}).fail(function (jqXHR, status, error) {
+			$("##" + overlayId).hide();
+			handleFail(jqXHR, status, error, "exporting projects");
+		});
+	}
+
+	/**
+	 * clearProjectsHeaderFilters removes every column header filter; the table reloads
+	 * from the server on its own.
+	 */
+	function clearProjectsHeaderFilters() {
 		if (projectsTable) {
-			projectsTable.download("csv", "projects.csv");
+			projectsTable.clearHeaderFilter();
+		}
+	}
+
+	/**
+	 * openProjectsColumnChooser refreshes the Select Columns checkbox list from the
+	 * table's current state and opens the dialog.
+	 *
+	 * @param dialogId id (no leading #) of the Select Columns dialog.
+	 */
+	function openProjectsColumnChooser(dialogId) {
+		populateColumnChooser();
+		$("##" + dialogId).dialog("open");
+	}
+
+	/**
+	 * saveProjectsColumnVisibility records which columns are hidden, and for a
+	 * coldfusion_user saves that to the server (the same settings the Select Columns
+	 * dialog saves), so a column hidden from its header menu stays hidden next time.
+	 *
+	 * @param feedbackDivId id (no leading #) of the element that shows save feedback.
+	 */
+	function saveProjectsColumnVisibility(feedbackDivId) {
+		var hidden = {};
+		projectsTable.getColumns().forEach(function (column) {
+			var def = column.getDefinition();
+			if (def.title && def.field) {
+				hidden[def.field] = !column.isVisible();
+			}
+		});
+		savedColumnVisibility = hidden;
+		if (oneOfUs) {
+			saveColumnVisibilities(pageFilePath, hidden, "Default", feedbackDivId);
 		}
 	}
 
@@ -855,7 +1066,7 @@ links do) redisplays correctly.
 		if (projectsTable) {
 			return $.when();
 		}
-		return columnVisibilityPromise.then(function () {
+		return Promise.all([columnVisibilityPromise, columnOrderPromise]).then(function () {
 			if (!projectsTable) {
 				var $selectionMode = $("##selectionMode");
 				buildProjectsTable($selectionMode.length ? $selectionMode.val() : "text");
@@ -903,25 +1114,25 @@ links do) redisplays correctly.
 							});
 							savedColumnVisibility = {};
 							saveColumnVisibilities(pageFilePath, {}, "Default", "actionFeedback");
-							populateColumnChooser();
+							/* Also restore the default column order. Rebuilding is the simplest
+							   way to put every column back in its defined position; the rebuild
+							   reloads page 1 and repopulates this list on "tableBuilt". */
+							savedColumnOrder = {};
+							saveColumnOrder(pageFilePath, null, "Default", "actionFeedback");
+							buildProjectsTable($("##selectionMode").val());
 						}
 					});
 				}
 				buttons.push({
 					text: "Ok",
 					click: function () {
-						var hidden = {};
 						$("##columnChooserList .columnChooserCheckbox").each(function () {
 							var field = $(this).data("field");
 							var checked = $(this).is(":checked");
 							var column = projectsTable.getColumn(field);
 							if (checked) { column.show(); } else { column.hide(); }
-							hidden[field] = !checked;
 						});
-						if (oneOfUs) {
-							savedColumnVisibility = hidden;
-							saveColumnVisibilities(pageFilePath, hidden, "Default", "actionFeedback");
-						}
+						saveProjectsColumnVisibility("actionFeedback");
 						$(this).dialog("close");
 					}
 				});

@@ -136,6 +136,15 @@ the caller. Returns one row per matching project, ordered by project_name.
 	collection_object_id.
 @param accn_number see accn_transaction_id.
 @param project_id restrict results to this specific project.
+@param filter_project_name column header filter from the results grid: case-insensitive
+	substring match on the project name (markup stripped, as for p_title).
+@param filter_participants column header filter: case-insensitive substring match against
+	any one participant as displayed in the grid, "agent name (role)".
+@param filter_sponsors column header filter: case-insensitive substring match against any
+	one sponsor's name.
+@param filter_start_date column header filter: prefix match on the start date as
+	displayed, 'YYYY-MM-DD', so "2013" matches a year and "2013-07" a month.
+@param filter_end_date column header filter: as filter_start_date, for the end date.
 @param page 1-based page number of results to return; ignored (treated as 1) if size
 	indicates "return every row" (see size below).
 @param size rows per page; any non-numeric value (Tabulator sends the literal string
@@ -173,6 +182,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="accn_transaction_id" type="string" required="no" default="">
 	<cfargument name="accn_number" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="filter_project_name" type="string" required="no" default="">
+	<cfargument name="filter_participants" type="string" required="no" default="">
+	<cfargument name="filter_sponsors" type="string" required="no" default="">
+	<cfargument name="filter_start_date" type="string" required="no" default="">
+	<cfargument name="filter_end_date" type="string" required="no" default="">
 	<cfargument name="page" type="string" required="no" default="1">
 	<cfargument name="size" type="string" required="no" default="50">
 	<cfargument name="sort_field" type="string" required="no" default="">
@@ -496,6 +510,39 @@ the caller. Returns one row per matching project, ordered by project_name.
 				</cfif>
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
+				</cfif>
+				<!--- Column header filters from the results grid, applied on top of the search
+				      form's criteria. Each matches the value as the grid displays it. --->
+				<cfif len(trim(arguments.filter_project_name)) GT 0>
+					AND UPPER(REGEXP_REPLACE(project.project_name,'<[^>]*>')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_project_name))#%">
+				</cfif>
+				<cfif len(trim(arguments.filter_participants)) GT 0>
+					AND EXISTS (
+						SELECT 1
+						FROM
+							project_agent filter_pa
+							JOIN agent_name filter_pa_name ON filter_pa.agent_name_id = filter_pa_name.agent_name_id
+						WHERE
+							filter_pa.project_id = project.project_id AND
+							UPPER(filter_pa_name.agent_name || ' (' || filter_pa.project_agent_role || ')') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_participants))#%">
+					)
+				</cfif>
+				<cfif len(trim(arguments.filter_sponsors)) GT 0>
+					AND EXISTS (
+						SELECT 1
+						FROM
+							project_sponsor filter_ps
+							JOIN agent_name filter_ps_name ON filter_ps.agent_name_id = filter_ps_name.agent_name_id
+						WHERE
+							filter_ps.project_id = project.project_id AND
+							UPPER(filter_ps_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_sponsors))#%">
+					)
+				</cfif>
+				<cfif len(trim(arguments.filter_start_date)) GT 0>
+					AND TO_CHAR(project.start_date,'YYYY-MM-DD') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.filter_start_date)#%">
+				</cfif>
+				<cfif len(trim(arguments.filter_end_date)) GT 0>
+					AND TO_CHAR(project.end_date,'YYYY-MM-DD') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.filter_end_date)#%">
 				</cfif>
 			ORDER BY
 				<cfswitch expression="#arguments.sort_field#">
