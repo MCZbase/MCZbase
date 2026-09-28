@@ -37,6 +37,28 @@ tabulator_bootstrap4.min.css so these rules win.
 	border-right: 1px solid #dee2e6;
 }
 
+/* tabulator_bootstrap4.min.css removes both of the base theme's ruling lines -- the
+   grid's outer border (".tabulator{...border:none}") and the vertical rule between
+   body cells (".tabulator-row .tabulator-cell{border-right:none...}") -- leaving the
+   body separated only by row striping. Put both back, for the ruled look of the
+   jqxGrids these replace. The cell rule is deliberately fainter than the header's own
+   #dee2e6 above, so the header still reads as the stronger line and the body lines
+   stay quiet behind the data. */
+.tabulator {
+	border: 1px solid #dee2e6;
+}
+
+.tabulator-row .tabulator-cell {
+	border-right: 1px solid #eceff0;
+}
+
+/* The final column's rule would otherwise double up against the grid's own right
+   edge. Lower specificity than the .tabulator-frozen rule below, which keeps its teal
+   border either way. */
+.tabulator-row .tabulator-cell:last-child {
+	border-right: none;
+}
+
 .tabulator-row.tabulator-row-even {
 	background-color: #e9edf2;
 }

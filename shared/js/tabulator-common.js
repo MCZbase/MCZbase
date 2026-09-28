@@ -597,6 +597,91 @@ function mczExportFilename(searchType, extension) {
 }
 
 /**
+ * mczIsDataColumn reports whether a column definition describes a column holding a
+ * row's data, as opposed to one holding a control (a details button, an edit link).
+ *
+ * Control columns are marked by a field name beginning "_mcz" -- a name no query
+ * returns, so it cannot collide with a real database field. The test is on the field
+ * name rather than on `download: false` because those mean different things:
+ * `download: false` means only "leave this column out of CSV/Excel exports", which a
+ * genuine data column may legitimately want, and using it as a proxy for "not data"
+ * silently drops such a column from the row details dialog too -- the one place it
+ * would still be wanted. A purpose-built column-definition property would read better
+ * but is not usable here: Tabulator's OptionsList.generate() console.warns on any
+ * column key it does not recognize (gated on debugInvalidOptions, which defaults to
+ * true), once per offending column on every build -- and these tables rebuild on every
+ * search and every selection-mode change. (Note for anyone chasing that message: the
+ * method named checkDefinition(), whose text reads "Invalid column definition option
+ * in 'X' column", appears exactly once in tabulator.min.js and is never called. The
+ * warning that actually fires is OptionsList.generate()'s shorter one.)
+ *
+ * @param definition a Tabulator column definition, as column.getDefinition() returns.
+ * @return true if the column holds row data.
+ */
+function mczIsDataColumn(definition) {
+	return !!(definition && definition.field && definition.title
+		&& definition.field.indexOf("_mcz") !== 0);
+}
+
+/**
+ * mczHideableColumns returns the columns a user can show or hide: every column with a
+ * title, which is what the Select Columns chooser lists and therefore what a
+ * "show hidden columns" control has to be able to bring back.
+ *
+ * @param table the Tabulator instance.
+ * @return an array of ColumnComponents.
+ */
+function mczHideableColumns(table) {
+	return table.getColumns().filter(function (column) {
+		return !!column.getDefinition().title;
+	});
+}
+
+/**
+ * mczShowAllColumns makes every hidden column visible again.
+ *
+ * This needs a control of its own because "Hide column" in a column's header menu
+ * removes the very header that menu lives in, leaving no way back from the control
+ * that did the hiding; without this, a user has to already know that the Select
+ * Columns dialog lists hidden columns as well as shown ones.
+ *
+ * @param table the Tabulator instance.
+ * @return the number of columns made visible.
+ */
+function mczShowAllColumns(table) {
+	var shown = 0;
+	mczHideableColumns(table).forEach(function (column) {
+		if (!column.isVisible()) {
+			column.show();
+			shown++;
+		}
+	});
+	return shown;
+}
+
+/**
+ * mczRefreshShowHiddenColumnsButton matches a "show hidden columns" button to the
+ * table's current state: hidden when nothing is hidden, otherwise shown and labelled
+ * with the count, so the button states what it will actually do. Set as text, never
+ * markup.
+ *
+ * @param table the Tabulator instance.
+ * @param buttonId id (no leading #) of the button element.
+ */
+function mczRefreshShowHiddenColumnsButton(table, buttonId) {
+	var hidden = mczHideableColumns(table).filter(function (column) {
+		return !column.isVisible();
+	}).length;
+	var button = jQuery("#" + buttonId);
+	if (hidden === 0) {
+		button.hide();
+		return;
+	}
+	button.text("Show " + hidden + " Hidden Column" + (hidden === 1 ? "" : "s"));
+	button.show();
+}
+
+/**
  * mczShowRowDetailsDialog opens a jQuery UI dialog listing every column's title and
  * value for one row, including hidden columns -- the Tabulator counterpart of
  * createRowDetailsDialog() in shared-scripts.js used by the jqxGrid pages' row
@@ -612,7 +697,7 @@ function mczShowRowDetailsDialog(table, row, title) {
 	list.className = "mb-0";
 	table.getColumns().forEach(function (column) {
 		var def = column.getDefinition();
-		if (!def.field || !def.title || def.download === false) {
+		if (!mczIsDataColumn(def)) {
 			return;
 		}
 		var value = data[def.field];
@@ -662,7 +747,12 @@ function mczDetailsButtonColumn(dialogTitle) {
 			   results grid cell. */
 			button.className = "btn btn-xs btn-outline-primary py-0";
 			button.setAttribute("aria-label", "Show all values for this row");
-			button.innerHTML = '<i class="fas fa-info-circle" aria-hidden="true"></i>';
+			/* fa-list-ul rather than fa-info-circle: the dialog is this row's fields as a
+			   list, and an "i" in a circle is the web-wide convention for help or an
+			   explanation of a feature, which is not what this opens. Avoid fa-eye (already
+			   the hide-search-form toggle), fa-file-alt (reads as the CSV/Excel downloads)
+			   and any magnifier (reads as search on a search page). */
+			button.innerHTML = '<i class="fas fa-list-ul" aria-hidden="true"></i>';
 			return button;
 		},
 		cellClick: function (e, cell) {

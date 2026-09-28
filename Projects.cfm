@@ -456,6 +456,10 @@ links do) redisplays correctly.
 								<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
 									<div id="columnChooserList" class="px-1"></div>
 								</div>
+								<!--- Hidden until a column is actually hidden; mczRefreshShowHiddenColumnsButton
+								      sets the label and reveals it. btn-warning to match Clear Column Filters,
+								      the other reset-style control in this toolbar. --->
+								<button type="button" id="showHiddenColumnsButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="showAllProjectsColumns();">Show Hidden Columns</button>
 								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
 								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
 								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
@@ -526,7 +530,7 @@ links do) redisplays correctly.
 	/* Shared ⋮ menu on each column header: sort, hide this column (saved like the
 	   Select Columns dialog), and open Select Columns. */
 	var projectsHeaderMenu = mczStandardHeaderMenu({
-		onColumnHidden: function () { saveProjectsColumnVisibility("actionFeedback"); },
+		onColumnHidden: function () { saveProjectsColumnVisibility("actionFeedback", "showHiddenColumnsButton"); },
 		onChooseColumns: function () { openProjectsColumnChooser("columnChooserDialog"); }
 	});
 	/* Started once, up front, rather than inside ensureProjectsTableBuilt -- a
@@ -607,7 +611,11 @@ links do) redisplays correctly.
 		if (canManageProjects) {
 			columns.push({
 				title: "Edit",
-				field: "project_id",
+				/* A control column, not data -- "_mcz"-prefixed so mczIsDataColumn() keeps it
+				   out of the row details dialog. Binding it to project_id would also have a
+				   second column claim a field it never displays; the formatter reads
+				   project_id from the row data itself. */
+				field: "_mczEdit",
 				width: 80,
 				headerSort: false,
 				download: false,
@@ -703,20 +711,25 @@ links do) redisplays correctly.
 			options.selectableRange = true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
+			/* A checkbox column, so rows can be picked without having to know that a bare
+			   click selects -- shown in both row modes, since row selection is otherwise
+			   invisible until a row is already selected. In Single Row mode
+			   selectableRows: 1 makes Tabulator deselect the previously selected row, so
+			   these checkboxes behave like radio buttons; a select-all header would have
+			   nothing valid to do there, hence titleFormatter only in Multiple Rows. */
+			options.rowHeader = {
+				formatter: "rowSelection",
+				headerSort: false,
+				resizable: false,
+				frozen: true,
+				width: 40,
+				hozAlign: "center",
+				headerHozAlign: "center",
+				download: false
+			};
 			if (mode === "multiplerows") {
-				/* A checkbox column (with select-all for the page in its header), so rows
-				   can be picked without Shift/Ctrl-clicking. */
-				options.rowHeader = {
-					formatter: "rowSelection",
-					titleFormatter: "rowSelection",
-					headerSort: false,
-					resizable: false,
-					frozen: true,
-					width: 40,
-					hozAlign: "center",
-					headerHozAlign: "center",
-					download: false
-				};
+				/* Select-all / deselect-all for the rows on the current page. */
+				options.rowHeader.titleFormatter = "rowSelection";
 			}
 		}
 		/* mode === "text": no selection module enabled. Native text selection needs the
@@ -738,6 +751,9 @@ links do) redisplays correctly.
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		mczAddPageJumpControl(projectsTable, "projectsPageJump");
 		projectsTable.on("tableBuilt", populateColumnChooser);
+		projectsTable.on("tableBuilt", function () {
+			mczRefreshShowHiddenColumnsButton(projectsTable, "showHiddenColumnsButton");
+		});
 		projectsTable.on("tableBuilt", function () {
 			mczMakeHeaderMenuButtonsAccessible(projectsTable);
 		});
@@ -1016,8 +1032,11 @@ links do) redisplays correctly.
 	 * dialog saves), so a column hidden from its header menu stays hidden next time.
 	 *
 	 * @param feedbackDivId id (no leading ##) of the element that shows save feedback.
+	 * @param hiddenColumnsButtonId id (no leading ##) of the "show hidden columns"
+	 *   button to bring back into step. Refreshed here rather than at each call site so
+	 *   a future caller cannot leave the button showing a stale count.
 	 */
-	function saveProjectsColumnVisibility(feedbackDivId) {
+	function saveProjectsColumnVisibility(feedbackDivId, hiddenColumnsButtonId) {
 		var hidden = {};
 		projectsTable.getColumns().forEach(function (column) {
 			var def = column.getDefinition();
@@ -1026,9 +1045,23 @@ links do) redisplays correctly.
 			}
 		});
 		savedColumnVisibility = hidden;
+		if (hiddenColumnsButtonId) {
+			mczRefreshShowHiddenColumnsButton(projectsTable, hiddenColumnsButtonId);
+		}
 		if (oneOfUs) {
 			saveColumnVisibilities(pageFilePath, hidden, "Default", feedbackDivId);
 		}
+	}
+
+	/**
+	 * showAllProjectsColumns brings back every hidden column and persists the change.
+	 *
+	 * @see mczShowAllColumns for why this is a control of its own rather than something
+	 *   reachable from the header menu that hid the column.
+	 */
+	function showAllProjectsColumns() {
+		mczShowAllColumns(projectsTable);
+		saveProjectsColumnVisibility("actionFeedback", "showHiddenColumnsButton");
 	}
 
 	/**
@@ -1132,7 +1165,7 @@ links do) redisplays correctly.
 							var column = projectsTable.getColumn(field);
 							if (checked) { column.show(); } else { column.hide(); }
 						});
-						saveProjectsColumnVisibility("actionFeedback");
+						saveProjectsColumnVisibility("actionFeedback", "showHiddenColumnsButton");
 						$(this).dialog("close");
 					}
 				});
