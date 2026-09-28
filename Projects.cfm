@@ -233,7 +233,7 @@ links do) redisplays correctly.
 										</div>
 										<cfif oneOfUs EQ 1>
 											<div class="col-12 col-md-2 col-xl-2">
-												<label for="descr_len" class="data-entry-label">Descr. Min. Length</label>
+												<label for="descr_len" class="data-entry-label">Desc. Min. Len.</label>
 												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 											</div>
 										</cfif>
