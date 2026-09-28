@@ -215,10 +215,10 @@ links do) redisplays correctly.
 							<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHtml(variables.publication_id)#" class="excludeFromLink">
 							<input type="hidden" name="project_id" id="project_id" value="#encodeForHtml(variables.project_id)#" class="excludeFromLink">
 							<div class="col-12 px-2">
-								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
 									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-3">
+										<div class="col-12 col-md-3 col-xl-3">
 											<label for="p_title" class="data-entry-label">Title</label>
 											<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
 											<script>
@@ -227,38 +227,35 @@ links do) redisplays correctly.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-4 col-xl-3">
+										<div class="col-12 col-md-3 col-xl-3">
 											<label for="project_description" class="data-entry-label">Description</label>
 											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
 										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-4 col-xl-3">
-												<label for="descr_len" class="data-entry-label">Description Min. Length</label>
+											<div class="col-12 col-md-2 col-xl-2">
+												<label for="descr_len" class="data-entry-label">Descr. Min. Length</label>
 												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 											</div>
 										</cfif>
-										<div class="col-12 col-md-4 col-xl-2">
+										<div class="col-12 col-md-2 col-xl-2">
 											<label for="year" class="data-entry-label">Active in Year</label>
 											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
 										</div>
-										<div class="col-12 col-md-4 col-xl-2">
+										<div class="col-12 col-md-2 col-xl-2">
 											<label for="start_year" class="data-entry-label">Start Year</label>
 											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
 										</div>
-										<div class="col-12 col-md-4 col-xl-2">
+										<div class="col-12 col-md-2 col-xl-2">
 											<label for="end_year" class="data-entry-label d-inline w-auto">End Year</label>
-											<span class="text-secondary small">(</span>
-											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>,
-											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button>
-											<span class="text-secondary small">)</span>
+											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
 											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
 										</div>
 										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-3 col-xl-3">
 												<label for="project_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" id="project_remarks" name="project_remarks" class="data-entry-input" value="#encodeForHtml(variables.project_remarks)#">
 											</div>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-2 col-xl-3">
 												<label for="mask_project_fg" class="data-entry-label">Visibility</label>
 												<cfset selected = "">
 												<cfif variables.mask_project_fg EQ ""><cfset selected = "selected"></cfif>
@@ -281,7 +278,7 @@ links do) redisplays correctly.
 								      col-xl-6 to stay legible in half the width. --->
 								<div class="form-row">
 									<div class="col-12 col-xl-6">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-4 col-xl-6">
@@ -350,7 +347,7 @@ links do) redisplays correctly.
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
 											<div class="form-row">
-												<div class="col-12 col-md-4 col-xl-6">
+												<div class="col-12 col-md-6">
 													<label for="guid" class="data-entry-label d-inline w-auto">Cataloged Item</label>
 													<span class="text-secondary small">(</span>
 													<button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button>,
@@ -365,27 +362,18 @@ links do) redisplays correctly.
 													</script>
 												</div>
 												<cfif oneOfUs EQ 1>
-													<div class="col-12 col-md-4 col-xl-6">
+													<div class="col-12 col-md-6">
 														<label for="loan_number" class="data-entry-label d-inline w-auto">Loan Number</label>
-														<span class="text-secondary small">(exact:</span>
-														<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
-														<span class="text-secondary small">exclude:</span>
-														<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>,
-														<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button>,
-														<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>
-														<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
+														<span class="text-secondary small">(exact: </span><button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>, <span class="text-secondary small">exclude: </span><button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>)</span> <input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
 														<script>
 															$(document).ready(function () {
 																makeLoanPickerSearch("loan_number");
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-4 col-xl-6">
+													<div class="col-12 col-md-6">
 														<label for="accn_number" class="data-entry-label d-inline w-auto">Accession</label>
-														<span class="text-secondary small">(</span>
-														<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button>,
-														<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>
-														<span class="text-secondary small">)</span>
+														<span class="text-secondary small">(</span> <button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button>, <button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button><span class="text-secondary small">)</span>
 														<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" onchange="document.getElementById('accn_transaction_id').value='';">
 														<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
 														<script>
@@ -395,7 +383,7 @@ links do) redisplays correctly.
 														</script>
 													</div>
 												</cfif>
-												<div class="col-12 col-md-4 col-xl-6">
+												<div class="col-12 col-md-6">
 													<label for="project_type" class="data-entry-label">Nature of Contributions</label>
 													<cfset selected = "">
 													<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>

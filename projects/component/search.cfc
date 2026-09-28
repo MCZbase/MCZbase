@@ -37,7 +37,7 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 		<cfelse>
 			<cfset oneOfUs = 0>
 		</cfif>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				project_id, project_name, project_description,
