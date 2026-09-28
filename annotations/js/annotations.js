@@ -741,7 +741,8 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	var rootStateField = document.getElementById("edit_root_state" + dialogFieldQualifier);
 	var rootResolutionField = document.getElementById("edit_root_resolution" + dialogFieldQualifier);
 	var resultDivId = "editAnnotationResultDiv" + dialogFieldQualifier;
-	if (!annField || !annField.value || annField.value.length === 0) {
+	// trimmed, so that the client and updateAnnotationText agree on what counts as empty
+	if (!annField || !annField.value || annField.value.trim().length === 0) {
 		alert('You must enter annotation text to save.');
 		return false;
 	}

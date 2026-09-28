@@ -2352,8 +2352,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var viewerLoggedIn = isdefined("session.username") AND len(trim(session.username)) GT 0>
 	<cfset var viewerCanManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset var viewerIsInternal = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
+	<!--- An author may revise their own annotation until a curator acts on it.  This repeats
+		currentUserCanEditAnnotation's column tests against values the caller already supplied,
+		rather than querying once per rendered row; the dialog and updateAnnotationText apply
+		the authoritative test, which additionally reads annotation_history.  The two differ
+		only where a curator has published an annotation without otherwise triaging it, in
+		which case the button shows and the dialog then opens read only. --->
+	<cfset var viewerIsAuthor = viewerLoggedIn AND arguments.cf_username EQ session.username>
+	<cfset var annotationIsUntriaged = val(arguments.reviewed_fg) EQ 0
+		AND arguments.state EQ variables.INITIALANNOTATIONSTATE
+		AND len(trim(arguments.resolution)) EQ 0
+		AND len(trim(arguments.reviewer)) EQ 0>
 	<cfset var showReplyBtn = viewerLoggedIn AND viewerCanManage AND arguments.show_reply_action>
-	<cfset var showEditBtn = viewerLoggedIn AND viewerCanManage AND (NOT arguments.highlight_as_editing)>
+	<cfset var showEditBtn = viewerLoggedIn
+		AND (viewerCanManage OR (viewerIsAuthor AND annotationIsUntriaged))
+		AND (NOT arguments.highlight_as_editing)>
 	<cfset var showHistoryBtn = viewerLoggedIn AND viewerIsInternal>
 	<cfset var showViewBtn = arguments.show_view_action AND (NOT arguments.is_response)
 		AND ( val(arguments.mask_annotation_fg) EQ 0 OR viewerCanManage )>
@@ -2508,14 +2521,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif hasRowActions>
 				<div class="#actionColClass#">
 					<cfif viewerLoggedIn>
-						<cfif viewerCanManage>
-							<cfif showReplyBtn>
-								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
-							</cfif>
-							<!--- TODO: Support users editing their own annotations even without manage_collection --->
-							<cfif showEditBtn>
-								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
-							</cfif>
+						<cfif showReplyBtn>
+							<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
+						</cfif>
+						<cfif showEditBtn>
+							<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 						</cfif>
 						<!--- History reads ANNOTATION_HISTORY, which COLDFUSION_USER holds SELECT on, and
 							getAnnotationHistoryDialogHtml enforces that same role.  Gating the button on
@@ -2637,6 +2647,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset canAnnotate = currentUserCanAnnotate()>
+				<!--- True for manage_collection, and for the author while no curator has acted.
+					An author gets the annotation text and nothing else: motivation, visibility and
+					the triage controls below stay behind canManage. --->
+				<cfset canEditThisAnnotation = currentUserCanEditAnnotation(arguments.annotation_id)>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
@@ -2910,7 +2924,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									</cfif>
 								</cfif>
 							</h2>
-							<cfif canManage>
+							<cfif canEditThisAnnotation>
 							<div class="col-12 px-0 add-form">
 								<div class="add-form-header px-2 pb-1">
 									<h3 class="h4 my-0 px-1 py-1" tabindex="0">Edit Annotation</h3>
@@ -2929,32 +2943,34 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-2 pb-1">
-											<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
-											<select id="#editMotivationFieldId#" class="data-entry-select">
-												<cfloop query="ctmotivation">
-													<cfif motivation EQ editAnn.motivation><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2 pb-1">
-											<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
-											<select id="#editMaskFieldId#" class="data-entry-select"<cfif val(editAnn.reviewed_fg) EQ 0> aria-describedby="visibility_hint_#dq#"</cfif>>
-												<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="0"#selected#>Public</option>
-												<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="1"#selected#>Hidden</option>
-											</select>
-											<!--- Visibility and Reviewed? are independent by design, so nothing sets the review
-												flag for the curator.  Shown only while the annotation is unreviewed, which is the
-												only case where the wording would be misleading.  aria-describedby, not a second
-												label: the select already has one accessible name. --->
-											<cfif val(editAnn.reviewed_fg) EQ 0>
-												<span id="visibility_hint_#dq#" class="small text-muted d-block">Displays as "[Hidden - Pending review]" until Reviewed? is set to Yes.</span>
-											</cfif>
-										</div>
-										<cfif isResponseAnnotation>
+										<cfif canManage>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
+												<select id="#editMotivationFieldId#" class="data-entry-select">
+													<cfloop query="ctmotivation">
+														<cfif motivation EQ editAnn.motivation><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
+												<select id="#editMaskFieldId#" class="data-entry-select"<cfif val(editAnn.reviewed_fg) EQ 0> aria-describedby="visibility_hint_#dq#"</cfif>>
+													<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="0"#selected#>Public</option>
+													<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="1"#selected#>Hidden</option>
+												</select>
+												<!--- Visibility and Reviewed? are independent by design, so nothing sets the review
+													flag for the curator.  Shown only while the annotation is unreviewed, which is the
+													only case where the wording would be misleading.  aria-describedby, not a second
+													label: the select already has one accessible name. --->
+												<cfif val(editAnn.reviewed_fg) EQ 0>
+													<span id="visibility_hint_#dq#" class="small text-muted d-block">Displays as "[Hidden - Pending review]" until Reviewed? is set to Yes.</span>
+												</cfif>
+											</div>
+										</cfif>
+										<cfif canManage AND isResponseAnnotation>
 											<div class="col-12 col-md-2 pb-1">
 												<cfset currentRootReviewedLabel = "No">
 												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.reviewed_fg) EQ 1>
@@ -3251,7 +3267,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param root_state optional; controlled vocabulary state value to set on root annotation.
  @param root_resolution optional; controlled vocabulary resolution value to set on root annotation, or __NULL__ to unset.
  @param root_mask_annotation_fg optional; 0 or 1 to set visibility on the root annotation.
- @return json with status=updated or an http 500 error if the update fails.
+ Requires manage_collection, except that an author may revise the body text of their own
+ annotation until a curator acts on it; every other argument is ignored for an author.  The
+ body text may not be emptied.
+ @return json with status=updated, an http 400 if the body is empty, an http 403 if the
+ caller may not edit this annotation, or an http 500 error if the update fails.
+ @see currentUserCanEditAnnotation
 --->
 <cffunction name="updateAnnotationText" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id"      type="string" required="yes">
@@ -3264,9 +3285,29 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="root_resolution"    type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
 
-	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection"))>
-		<cfheader statusCode="403" statusText="The manage_collection role is required to edit annotations.">
+	<cfset var curatorEdit = userCanRespondToAnnotations()>
+
+	<!--- public.cfc exposes this method by URL, so cf_rolecheck cannot be relied on.  An author
+		may revise their own annotation while no curator has acted on it, but may write only the
+		body text: every field below is a curator control, the writes all run on uam_god, and so
+		no grant limits what an unchecked argument would change. --->
+	<cfif NOT curatorEdit AND NOT currentUserCanEditAnnotation(arguments.annotation_id)>
+		<cfheader statusCode="403" statusText="You may only edit your own annotation, and only until it has been reviewed.">
 		<cfabort>
+	</cfif>
+	<cfif len(trim(urldecode(arguments.annotation))) EQ 0>
+		<cfheader statusCode="400" statusText="An annotation cannot be saved with no text.">
+		<cfabort>
+	</cfif>
+	<!--- An author supplies none of these, because the dialog does not render them for one.
+		Ignore rather than reject, so that a stale form cannot strand a legitimate text edit. --->
+	<cfif NOT curatorEdit>
+		<cfset arguments.motivation = "">
+		<cfset arguments.mask_annotation_fg = "">
+		<cfset arguments.root_reviewed_fg = "">
+		<cfset arguments.root_state = "">
+		<cfset arguments.root_resolution = "">
+		<cfset arguments.root_mask_annotation_fg = "">
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
