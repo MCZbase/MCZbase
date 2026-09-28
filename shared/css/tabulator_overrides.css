@@ -41,20 +41,22 @@ tabulator_bootstrap4.min.css so these rules win.
    grid's outer border (".tabulator{...border:none}") and the vertical rule between
    body cells (".tabulator-row .tabulator-cell{border-right:none...}") -- leaving the
    body separated only by row striping. Put both back, for the ruled look of the
-   jqxGrids these replace. The cell rule is deliberately fainter than the header's own
-   #dee2e6 above, so the header still reads as the stronger line and the body lines
-   stay quiet behind the data. */
+   jqxGrids these replace. Same #dee2e6 as the theme's own row bottom-border, so the
+   two axes match and the body reads as a grid; the header needs no heavier rule to
+   stand apart, having its own #deebec background. A lighter value was tried first and
+   failed outright -- anything near the #e9edf2 even-row stripe is invisible on half
+   the rows. */
 .tabulator {
 	border: 1px solid #dee2e6;
 }
 
 .tabulator-row .tabulator-cell {
-	border-right: 1px solid #eceff0;
+	border-right: 1px solid #dee2e6;
 }
 
 /* The final column's rule would otherwise double up against the grid's own right
-   edge. Lower specificity than the .tabulator-frozen rule below, which keeps its teal
-   border either way. */
+   edge. Lower specificity than the .tabulator-frozen rules below, so a frozen column
+   keeps its heavier border even if it ends up last. */
 .tabulator-row .tabulator-cell:last-child {
 	border-right: none;
 }
@@ -85,7 +87,21 @@ tabulator_bootstrap4.min.css so these rules win.
 	background-color: #caeaad;
 }
 
+/* A neutral gray, not the teal accent: a pinned data column's edge is structural, and
+   teal here competed with the teal used for emphasis elsewhere. Kept at 2px so the
+   vertical rules stay ranked -- #eceff0 1px between body cells, #dee2e6 1px between
+   header cells, this one strongest. */
 .tabulator .tabulator-cell.tabulator-frozen {
+	border-right: 2px solid #adb5bd;
+}
+
+/* The row-selection gutter keeps the teal, marking where the grid's own controls end
+   and the record begins -- a different kind of boundary from a pinned data column, and
+   the one place the accent earns its weight. Both class names are needed: this has to
+   outrank the frozen rule above (the gutter is frozen too) and the theme's own
+   ".tabulator-row .tabulator-cell.tabulator-row-header" 1px #dee2e6, and all three
+   otherwise tie on specificity. */
+.tabulator .tabulator-cell.tabulator-frozen.tabulator-row-header {
 	border-right: 2px solid #3e6f7d;
 }
 
