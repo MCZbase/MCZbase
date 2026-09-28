@@ -133,8 +133,230 @@ limitations under the License.
 	<cfreturn resolvedAgentId>
 </cffunction>
 
+<!--- Resolve a login to an agent_id, finding an existing agent or creating one when none can
+ be found.  An annotator needs an agent record to be recorded as the author of their own
+ annotation and of any later revision to it, and a self registered account has none.
+
+ The cf user record is linked to the agent by an agent_name row of type login: there is no
+ agent_id column on cf_users or cf_user_data, so that row is the link, and it is what
+ getAgentIdForLoginName reads.  This function creates that row for a found agent as well as
+ for a new one.
+
+ An existing agent is reused only when both the user's full name and their email address match
+ exactly.  A looser match risks attributing annotations to the wrong person, whereas a
+ duplicate agent costs only a later merge.
+
+ @param login_name the login username to resolve to an agent_id.
+ @return numeric agent_id for the login, or 0 when none could be resolved or created.
+ @see getAgentIdForLoginName
+--->
+<cffunction name="getOrCreateAgentIdForLogin" returntype="numeric" access="public">
+	<cfargument name="login_name" type="string" required="yes">
+
+	<cfset var resolvedAgentId = getAgentIdForLoginName(arguments.login_name)>
+	<cfset var accountHolder = "">
+	<cfset var emailAddressType = "">
+	<cfset var existingAgent = "">
+	<cfset var newAgentId = "">
+	<cfset var newAgentNameId = "">
+	<cfset var insAgent = "">
+	<cfset var insPerson = "">
+	<cfset var insPreferredName = "">
+	<cfset var insElectronicAddress = "">
+	<cfset var insLoginName = "">
+	<cfset var existingLoginName = "">
+	<cfset var loginNameId = "">
+	<cfset var fullName = "">
+	<cfset var agentRemarks = "">
+	<cfset var cleanLoginName = trim(arguments.login_name)>
+
+	<!--- already linked --->
+	<cfif resolvedAgentId GT 0>
+		<cfreturn resolvedAgentId>
+	</cfif>
+	<!--- CK_AGENT_NAME_NOT_ALL_DIGITS forbids an all digit agent_name, so an all digit login
+		cannot be stored as the linking name and no agent can be resolved for it. --->
+	<cfif len(cleanLoginName) EQ 0 OR REFind("^[0-9]+$", cleanLoginName) GT 0>
+		<cfreturn 0>
+	</cfif>
+
+	<cfquery name="accountHolder" datasource="uam_god">
+		SELECT
+			cf_user_data.first_name,
+			cf_user_data.middle_name,
+			cf_user_data.last_name,
+			cf_user_data.affiliation,
+			cf_user_data.email
+		FROM
+			cf_users
+			JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+		WHERE
+			cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">
+	</cfquery>
+	<cfif accountHolder.recordcount NEQ 1>
+		<cfreturn 0>
+	</cfif>
+
+	<!--- preferred name is composed as the agent editor composes it, first middle last --->
+	<cfset fullName = trim(accountHolder.first_name)>
+	<cfif len(trim(accountHolder.middle_name)) GT 0>
+		<cfset fullName = fullName & " " & trim(accountHolder.middle_name)>
+	</cfif>
+	<cfif len(trim(accountHolder.last_name)) GT 0>
+		<cfset fullName = fullName & " " & trim(accountHolder.last_name)>
+	</cfif>
+	<cfset fullName = trim(fullName)>
+	<cfif len(fullName) EQ 0 OR REFind("^[0-9]+$", fullName) GT 0>
+		<cfreturn 0>
+	</cfif>
+
+	<!--- the application writes both email and e-mail in different places; take whichever
+		value the code table actually holds rather than assuming one of them. --->
+	<cfquery name="emailAddressType" datasource="uam_god">
+		SELECT address_type
+		FROM ctelectronic_addr_type
+		WHERE LOWER(REPLACE(address_type, '-', '')) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="email">
+		ORDER BY address_type
+	</cfquery>
+
+	<!--- reuse an agent only on an exact match of both name and email --->
+	<cfif len(trim(accountHolder.email)) GT 0 AND emailAddressType.recordcount GT 0>
+		<cfquery name="existingAgent" datasource="uam_god">
+			SELECT MIN(agent_name.agent_id) AS agent_id
+			FROM
+				agent_name
+				JOIN electronic_address ON agent_name.agent_id = electronic_address.agent_id
+			WHERE
+				agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fullName#">
+				AND electronic_address.address = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
+				AND electronic_address.address_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#emailAddressType.address_type#">
+		</cfquery>
+		<cfif existingAgent.recordcount GT 0 AND val(existingAgent.agent_id) GT 0>
+			<cfset resolvedAgentId = val(existingAgent.agent_id)>
+		</cfif>
+	</cfif>
+
+	<cfif resolvedAgentId EQ 0>
+		<cfquery name="newAgentId" datasource="uam_god">
+			SELECT sq_agent_id.nextval AS nextAgentId FROM dual
+		</cfquery>
+		<cfquery name="newAgentNameId" datasource="uam_god">
+			SELECT sq_agent_name_id.nextval AS nextAgentNameId FROM dual
+		</cfquery>
+		<cfset resolvedAgentId = val(newAgentId.nextAgentId)>
+		<cfif len(trim(accountHolder.affiliation)) GT 0>
+			<cfset agentRemarks = "Affiliation on MCZbase account creation: " & trim(accountHolder.affiliation)>
+		</cfif>
+		<!--- edited = 0: created from account data without curatorial vetting --->
+		<cfquery name="insAgent" datasource="uam_god">
+			INSERT INTO agent (
+				agent_id,
+				agent_type,
+				preferred_agent_name_id,
+				edited
+				<cfif len(agentRemarks) GT 0>
+					,agent_remarks
+				</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="person">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(newAgentNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+				<cfif len(agentRemarks) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentRemarks#">
+				</cfif>
+			)
+		</cfquery>
+		<cfquery name="insPerson" datasource="uam_god">
+			INSERT INTO person (
+				person_id,
+				last_name
+				<cfif len(trim(accountHolder.first_name)) GT 0>
+					,first_name
+				</cfif>
+				<cfif len(trim(accountHolder.middle_name)) GT 0>
+					,middle_name
+				</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.last_name)#">
+				<cfif len(trim(accountHolder.first_name)) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.first_name)#">
+				</cfif>
+				<cfif len(trim(accountHolder.middle_name)) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.middle_name)#">
+				</cfif>
+			)
+		</cfquery>
+		<cfquery name="insPreferredName" datasource="uam_god">
+			INSERT INTO agent_name (
+				agent_name_id,
+				agent_id,
+				agent_name_type,
+				agent_name,
+				donor_card_present_fg
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(newAgentNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="preferred">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fullName#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+			)
+		</cfquery>
+		<cfif len(trim(accountHolder.email)) GT 0 AND emailAddressType.recordcount GT 0>
+			<cfquery name="insElectronicAddress" datasource="uam_god">
+				INSERT INTO electronic_address (
+					agent_id,
+					address_type,
+					address
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#emailAddressType.address_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
+				)
+			</cfquery>
+		</cfif>
+	</cfif>
+
+	<!--- link the cf user record to the agent, whether found or created.  The check and the
+		insert are separate statements because Oracle rejects sequence.nextval in an
+		INSERT ... SELECT qualified by a subquery. --->
+	<cfquery name="existingLoginName" datasource="uam_god">
+		SELECT COUNT(*) AS name_count
+		FROM agent_name
+		WHERE
+			agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
+			AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">
+	</cfquery>
+	<cfif val(existingLoginName.name_count) EQ 0>
+		<cfquery name="loginNameId" datasource="uam_god">
+			SELECT sq_agent_name_id.nextval AS nextAgentNameId FROM dual
+		</cfquery>
+		<cfquery name="insLoginName" datasource="uam_god">
+			INSERT INTO agent_name (
+				agent_name_id,
+				agent_id,
+				agent_name_type,
+				agent_name,
+				donor_card_present_fg
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(loginNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+			)
+		</cfquery>
+	</cfif>
+
+	<cfreturn resolvedAgentId>
+</cffunction>
+
 <!--- Require current user login to resolve to an agent_id for annotation edit/update actions.
+ Creates the agent record when the login has none, so that an annotator who registered an
+ account without one can still be recorded as the author of their own edits.
  @return numeric non-zero agent_id for the current session user.
+ @see getOrCreateAgentIdForLogin
 --->
 <cffunction name="requireCurrentUserAnnotationEditorAgentId" returntype="numeric" access="public">
 	<cfset var editorAgentId = 0>
@@ -142,7 +364,7 @@ limitations under the License.
 		<cfheader statusCode="403" statusText="Editing annotations requires a logged-in user.">
 		<cfabort>
 	</cfif>
-	<cfset editorAgentId = getAgentIdForLoginName(session.username)>
+	<cfset editorAgentId = getOrCreateAgentIdForLogin(session.username)>
 	<cfif editorAgentId LTE 0>
 		<cfheader statusCode="403" statusText="Editing annotations requires your login name to be associated with an agent record.">
 		<cfabort>
@@ -932,7 +1154,7 @@ limitations under the License.
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
-				<cfset annotatorAgentId = getAgentIdForLoginName(session.username)>
+				<cfset annotatorAgentId = getOrCreateAgentIdForLogin(session.username)>
 				<cfquery name="annotator" datasource="uam_god">
 					SELECT username, first_name, last_name, affiliation, email 
 					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
