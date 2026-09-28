@@ -216,7 +216,7 @@ links do) redisplays correctly.
 							<input type="hidden" name="project_id" id="project_id" value="#encodeForHtml(variables.project_id)#" class="excludeFromLink">
 							<div class="col-12 px-2">
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
+									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Project</legend>
 									<div class="form-row">
 										<div class="col-12 col-md-4 col-xl-3">
 											<label for="p_title" class="data-entry-label">Title</label>
@@ -279,7 +279,7 @@ links do) redisplays correctly.
 								<div class="form-row">
 									<div class="col-12 col-xl-6">
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-2 mr-md-0">
-											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
+											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Agents</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-4 col-xl-6">
 													<div class="form-row mx-0 my-0 py-0">
@@ -345,7 +345,7 @@ links do) redisplays correctly.
 									</div>
 									<div class="col-12 col-xl-6">
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-2 ml-md-0">
-											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
+											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Related</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-6">
 													<label for="guid" class="data-entry-label d-inline w-auto">Cataloged Item</label>
