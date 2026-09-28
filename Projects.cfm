@@ -278,7 +278,7 @@ links do) redisplays correctly.
 								      col-xl-6 to stay legible in half the width. --->
 								<div class="form-row">
 									<div class="col-12 col-xl-6">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-2 mr-md-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-4 col-xl-6">
@@ -344,7 +344,7 @@ links do) redisplays correctly.
 										</fieldset>
 									</div>
 									<div class="col-12 col-xl-6">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-2 ml-md-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-6">
