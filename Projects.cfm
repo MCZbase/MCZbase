@@ -939,8 +939,8 @@ links do) redisplays correctly.
 	 * just the selected rows instead, with no server request.
 	 *
 	 * @param format "csv" or "xlsx".
-	 * @param selectedOnlyCheckboxId id (no leading #) of the "Selected rows only" checkbox.
-	 * @param overlayId id (no leading #) of the loading overlay to show while working.
+	 * @param selectedOnlyCheckboxId id (no leading ##) of the "Selected rows only" checkbox.
+	 * @param overlayId id (no leading ##) of the loading overlay to show while working.
 	 */
 	function exportProjects(format, selectedOnlyCheckboxId, overlayId) {
 		if (!projectsTable) {
@@ -1003,7 +1003,7 @@ links do) redisplays correctly.
 	 * openProjectsColumnChooser refreshes the Select Columns checkbox list from the
 	 * table's current state and opens the dialog.
 	 *
-	 * @param dialogId id (no leading #) of the Select Columns dialog.
+	 * @param dialogId id (no leading ##) of the Select Columns dialog.
 	 */
 	function openProjectsColumnChooser(dialogId) {
 		populateColumnChooser();
@@ -1015,7 +1015,7 @@ links do) redisplays correctly.
 	 * coldfusion_user saves that to the server (the same settings the Select Columns
 	 * dialog saves), so a column hidden from its header menu stays hidden next time.
 	 *
-	 * @param feedbackDivId id (no leading #) of the element that shows save feedback.
+	 * @param feedbackDivId id (no leading ##) of the element that shows save feedback.
 	 */
 	function saveProjectsColumnVisibility(feedbackDivId) {
 		var hidden = {};
