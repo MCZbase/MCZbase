@@ -21,6 +21,11 @@ limitations under the License.
 --->
 <cfcomponent>
 
+<!--- WARNING: this file is cfincluded by /annotations/component/public.cfc, so every
+	access="remote" method below is also callable at that path.  cf_rolecheck keys on
+	cgi.script_name, and so sees only public.cfc for those calls: it does NOT gate them.
+	Each method MUST therefore enforce its own access control.
+	@see currentUserCanAnnotate, userCanRespondToAnnotations --->
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
