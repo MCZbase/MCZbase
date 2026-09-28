@@ -602,7 +602,7 @@ limitations under the License.
 								<cfif variables.target_type EQ "ANNOTATIONS">
 									<p class="px-1 py-1 text-muted small">The manage_collection role is required to reply to annotations.</p>
 								<cfelse>
-									<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address.</p>
+									<p class="px-1 py-1 text-muted small">To add an annotation, you must be logged in with a registered email address <a href="/users/UserProfile.cfm" target="_blank">in your MCZbase user profile</a>.</p>
 								</cfif>
 							</cfif>
 							<div id="annotations_on_record_#dialogFieldQualifier#" class="col-12 mx-0 px-0 mt-2" data-dialog-id="#encodeForHTMLAttribute(arguments.dialogId)#" data-target-type="#encodeForHTMLAttribute(variables.target_type)#" data-target-id="#encodeForHTMLAttribute(arguments.target_id)#">
