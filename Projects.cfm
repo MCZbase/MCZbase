@@ -237,16 +237,16 @@ links do) redisplays correctly.
 												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 											</div>
 										</cfif>
-										<div class="col-12 col-md-4 col-xl-3">
+										<div class="col-12 col-md-4 col-xl-2">
 											<label for="year" class="data-entry-label">Active in Year</label>
 											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
 										</div>
-										<div class="col-12 col-md-4 col-xl-3">
+										<div class="col-12 col-md-4 col-xl-2">
 											<label for="start_year" class="data-entry-label">Start Year</label>
 											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
 										</div>
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="end_year">End Year</label>
+										<div class="col-12 col-md-4 col-xl-2">
+											<label for="end_year" class="data-entry-label d-inline w-auto">End Year</label>
 											<span class="text-secondary small">(</span>
 											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>,
 											<button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button>
@@ -275,149 +275,159 @@ links do) redisplays correctly.
 										</cfif>
 									</div>
 								</fieldset>
-								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
-									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-3">
-											<div class="form-row mx-0 my-0 py-0">
-												<label for="participant_agent_name" id="participant_agent_name_label" class="data-entry-label mb-0 pb-0">Participant
-													<span id="participant_agent_view" class="ml-2"></span>
-												</label>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-													</div>
-													<input type="text" name="participant_agent_name" id="participant_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
-													<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
-												</div>
-											</div>
-											<script>
-												$(document).ready(function () {
-													makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#variables.participant_agent_id#", "project_agent", false);
-												});
-											</script>
-										</div>
-										<div class="col-12 col-md-4 col-xl-3">
-											<div class="form-row mx-0 my-0 py-0">
-												<label for="sponsor_agent_name" id="sponsor_agent_name_label" class="data-entry-label mb-0 pb-0">Sponsor
-													<span id="sponsor_agent_view" class="ml-2"></span>
-												</label>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-													</div>
-													<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
-													<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
-												</div>
-											</div>
-											<script>
-												$(document).ready(function () {
-													makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#variables.sponsor_agent_id#", "project_sponsor", false);
-												});
-											</script>
-										</div>
-										<cfif canManageTransactions>
-											<div class="col-12 col-md-4 col-xl-3">
-												<div class="form-row mx-0 my-0 py-0">
-													<label for="transaction_agent_name" id="transaction_agent_name_label" class="data-entry-label mb-0 pb-0">Transaction Agent
-														<span id="transaction_agent_view" class="ml-2"></span>
-													</label>
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+								<!--- Agents and Related side by side from xl up: together they hold fewer
+								      fields than Project above, and stacking them pushed the Search button
+								      below the fold on a wide screen. Each fieldset's own fields drop to
+								      col-xl-6 to stay legible in half the width. --->
+								<div class="form-row">
+									<div class="col-12 col-xl-6">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Agents</legend>
+											<div class="form-row">
+												<div class="col-12 col-md-4 col-xl-6">
+													<div class="form-row mx-0 my-0 py-0">
+														<label for="participant_agent_name" id="participant_agent_name_label" class="data-entry-label mb-0 pb-0">Participant
+															<span id="participant_agent_view" class="ml-2"></span>
+														</label>
+														<div class="input-group">
+															<div class="input-group-prepend">
+																<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+															</div>
+															<input type="text" name="participant_agent_name" id="participant_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
+															<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
 														</div>
-														<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
-														<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
 													</div>
+													<script>
+														$(document).ready(function () {
+															makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#variables.participant_agent_id#", "project_agent", false);
+														});
+													</script>
 												</div>
-												<script>
-													$(document).ready(function () {
-														makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#variables.transaction_agent_id#", "transaction_agent", false);
-													});
-												</script>
+												<div class="col-12 col-md-4 col-xl-6">
+													<div class="form-row mx-0 my-0 py-0">
+														<label for="sponsor_agent_name" id="sponsor_agent_name_label" class="data-entry-label mb-0 pb-0">Sponsor
+															<span id="sponsor_agent_view" class="ml-2"></span>
+														</label>
+														<div class="input-group">
+															<div class="input-group-prepend">
+																<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+															</div>
+															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
+															<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
+														</div>
+													</div>
+													<script>
+														$(document).ready(function () {
+															makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#variables.sponsor_agent_id#", "project_sponsor", false);
+														});
+													</script>
+												</div>
+												<cfif canManageTransactions>
+													<div class="col-12 col-md-4 col-xl-6">
+														<div class="form-row mx-0 my-0 py-0">
+															<label for="transaction_agent_name" id="transaction_agent_name_label" class="data-entry-label mb-0 pb-0">Transaction Agent
+																<span id="transaction_agent_view" class="ml-2"></span>
+															</label>
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+																</div>
+																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
+																<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
+															</div>
+														</div>
+														<script>
+															$(document).ready(function () {
+																makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#variables.transaction_agent_id#", "transaction_agent", false);
+															});
+														</script>
+													</div>
+												</cfif>
 											</div>
-										</cfif>
+										</fieldset>
 									</div>
-								</fieldset>
-								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
-									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
-									<div class="form-row">
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="guid">Cataloged Item</label>
-											<span class="text-secondary small">(</span>
-											<button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button>,
-											<button type="button" class="rules" onclick="document.getElementById('guid').value='NULL';" aria-label="set cataloged item to NULL to find projects related to no cataloged item">None</button>
-											<span class="text-secondary small">)</span>
-											<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" onchange="document.getElementById('collection_object_id').value='';">
-											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
-											<script>
-												$(document).ready(function () {
-													makeCatalogedItemAutocompleteMeta("guid", "collection_object_id");
-												});
-											</script>
-										</div>
-										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-4 col-xl-3">
-												<label for="loan_number">Loan Number</label>
-												<span class="text-secondary small">(exact:</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
-												<span class="text-secondary small">exclude:</span>
-												<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>,
-												<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button>,
-												<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>
-												<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
-												<script>
-													$(document).ready(function () {
-														makeLoanPickerSearch("loan_number");
-													});
-												</script>
+									<div class="col-12 col-xl-6">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2">
+											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Related</legend>
+											<div class="form-row">
+												<div class="col-12 col-md-4 col-xl-6">
+													<label for="guid" class="data-entry-label d-inline w-auto">Cataloged Item</label>
+													<span class="text-secondary small">(</span>
+													<button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button>,
+													<button type="button" class="rules" onclick="document.getElementById('guid').value='NULL';" aria-label="set cataloged item to NULL to find projects related to no cataloged item">None</button>
+													<span class="text-secondary small">)</span>
+													<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" onchange="document.getElementById('collection_object_id').value='';">
+													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
+													<script>
+														$(document).ready(function () {
+															makeCatalogedItemAutocompleteMeta("guid", "collection_object_id");
+														});
+													</script>
+												</div>
+												<cfif oneOfUs EQ 1>
+													<div class="col-12 col-md-4 col-xl-6">
+														<label for="loan_number" class="data-entry-label d-inline w-auto">Loan Number</label>
+														<span class="text-secondary small">(exact:</span>
+														<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>,
+														<span class="text-secondary small">exclude:</span>
+														<button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>,
+														<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button>,
+														<button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>
+														<input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
+														<script>
+															$(document).ready(function () {
+																makeLoanPickerSearch("loan_number");
+															});
+														</script>
+													</div>
+													<div class="col-12 col-md-4 col-xl-6">
+														<label for="accn_number" class="data-entry-label d-inline w-auto">Accession</label>
+														<span class="text-secondary small">(</span>
+														<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button>,
+														<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>
+														<span class="text-secondary small">)</span>
+														<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" onchange="document.getElementById('accn_transaction_id').value='';">
+														<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
+														<script>
+															$(document).ready(function () {
+																makeAccessionAutocompleteMeta("accn_number", "accn_transaction_id");
+															});
+														</script>
+													</div>
+												</cfif>
+												<div class="col-12 col-md-4 col-xl-6">
+													<label for="project_type" class="data-entry-label">Nature of Contributions</label>
+													<cfset selected = "">
+													<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
+													<cfset loanText = "">
+													<cfset accessionText="">
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+														<cfset loanText = " (in loans)">
+														<cfset accessionText = " (in accessions)">
+													</cfif>
+													<select id="project_type" name="project_type" class="data-entry-select">
+														<option value="" #selected#></option>
+														<cfset selected = "">
+														<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
+														<option value="loan" #selected#>Uses Specimens#loanText#</option>
+														<cfset selected = "">
+														<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
+														<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
+														<cfset selected = "">
+														<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
+														<option value="accn" #selected#>Contributes Specimens#accessionText#</option>
+														<cfset selected = "">
+														<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
+														<option value="both" #selected#>Uses and Contributes</option>
+														<cfset selected = "">
+														<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
+														<option value="neither" #selected#>Neither Uses nor Contributes</option>
+													</select>
+												</div>
 											</div>
-											<div class="col-12 col-md-4 col-xl-3">
-												<label for="accn_number">Accession</label>
-												<span class="text-secondary small">(</span>
-												<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button>,
-												<button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>
-												<span class="text-secondary small">)</span>
-												<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" onchange="document.getElementById('accn_transaction_id').value='';">
-												<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
-												<script>
-													$(document).ready(function () {
-														makeAccessionAutocompleteMeta("accn_number", "accn_transaction_id");
-													});
-												</script>
-											</div>
-										</cfif>
-										<div class="col-12 col-md-4 col-xl-3">
-											<label for="project_type" class="data-entry-label">Nature of Contributions</label>
-											<cfset selected = "">
-											<cfif variables.project_type EQ ""><cfset selected = "selected"></cfif>
-											<cfset loanText = "">
-											<cfset accessionText="">
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<cfset loanText = " (in loans)">
-												<cfset accessionText = " (in accessions)">
-											</cfif>
-											<select id="project_type" name="project_type" class="data-entry-select">
-												<option value="" #selected#></option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan"><cfset selected = "selected"></cfif>
-												<option value="loan" #selected#>Uses Specimens#loanText#</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "loan_no_pub"><cfset selected = "selected"></cfif>
-												<option value="loan_no_pub" #selected#>Uses Specimens, no publication</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "accn"><cfset selected = "selected"></cfif>
-												<option value="accn" #selected#>Contributes Specimens#accessionText#</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "both"><cfset selected = "selected"></cfif>
-												<option value="both" #selected#>Uses and Contributes</option>
-												<cfset selected = "">
-												<cfif variables.project_type EQ "neither"><cfset selected = "selected"></cfif>
-												<option value="neither" #selected#>Neither Uses nor Contributes</option>
-											</select>
-										</div>
+										</fieldset>
 									</div>
-								</fieldset>
+								</div>
 							</div>
 							<div class="col-12 px-3 py-2 float-left">
 								<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton">Search<span class="fa fa-search pl-1" aria-hidden="true"></span></button>
