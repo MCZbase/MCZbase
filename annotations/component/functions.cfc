@@ -235,7 +235,9 @@ limitations under the License.
 								cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name#" ><!--- " --->
+							<!--- display_name is get_scientific_name_auths(), which returns html markup for
+								italics and small caps, so it is emitted unencoded. --->
+							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#encodeForUrl(collection_cde)#:#encodeForUrl(cat_num)#' target='_blank'>MCZ:#encodeForHTML(collection)#:#encodeForHTML(cat_num)#</a></strong> #display_name#" ><!--- " --->
 							<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=collection_object_id&collection=#encodeForUrl(d.collection)#&collection_object_id=#encodeForUrl(collection_object_id)#">
 						</cfloop>
 					</cfcase>
@@ -250,7 +252,8 @@ limitations under the License.
 								taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Taxon <strong>#display_name# <span class='sm-caps'>#author_text#</span></strong>"><!--- " --->
+							<!--- taxonomy.display_name holds html markup with italics, so it is emitted unencoded. --->
+							<cfset summary="Taxon <strong>#display_name# <span class='sm-caps'>#encodeForHTML(author_text)#</span></strong>"><!--- " --->
 						</cfloop>
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=taxon_name_id&taxon_name_id=#encodeForUrl(taxon_name_id)#">
 					</cfcase>
@@ -265,7 +268,7 @@ limitations under the License.
 								project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Project <strong>#project_name#</strong>"><!--- " --->
+							<cfset summary="Project <strong>#encodeForHTML(project_name)#</strong>"><!--- " --->
 						</cfloop>
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=project_id&project_id=#encodeForUrl(project_id)#">
 					</cfcase>
@@ -283,7 +286,7 @@ limitations under the License.
 						<cfloop query="d">
 							<!--- title may contain html markup, remove for this use --->
 							<cfset cleaned_formatted_publication = reReplace(d.formatted_publication, "<[^>]+>", "", "all")><!--- " --->
-							<cfset summary="Publication <strong>#cleaned_formatted_publication#</strong>"><!--- " --->
+							<cfset summary="Publication <strong>#encodeForHTML(cleaned_formatted_publication)#</strong>"><!--- " --->
 						</cfloop>
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=publication_id&publication_id=#encodeForUrl(publication_id)#">
 					</cfcase>
@@ -296,9 +299,9 @@ limitations under the License.
 								AND agent_name_type = 'preferred'
 						</cfquery>
 						<cfif d.recordcount GT 0>
-							<cfset summary = "Agent <strong><a href='/agents/Agent.cfm?agent_id=#agent_id#' target='_blank'>#encodeForHTML(d.agent_name)#</a></strong>"><!--- " --->
+							<cfset summary = "Agent <strong><a href='/agents/Agent.cfm?agent_id=#encodeForUrl(agent_id)#' target='_blank'>#encodeForHTML(d.agent_name)#</a></strong>"><!--- " --->
 						<cfelse>
-							<cfset summary = "Agent <strong>#agent_id#</strong>"><!--- " --->
+							<cfset summary = "Agent <strong>#encodeForHTML(agent_id)#</strong>"><!--- " --->
 						</cfif>
 						<cfset manageIRI = "/annotations/Annotations.cfm?action=show&type=agent_id&agent_id=#encodeForUrl(agent_id)#">
 					</cfcase>
@@ -329,9 +332,9 @@ limitations under the License.
 							<cfif len(targetAnnotationBody) GT 60><cfset targetBodyPreview = targetBodyPreview & "..."></cfif>
 						</cfif>
 						<cfif len(targetBodyPreview) GT 0>
-							<cfset summary = "Annotation: " & encodeForHTML(targetBodyPreview) & " (" & targetAnnotationId & ")">
+							<cfset summary = "Annotation: " & encodeForHTML(targetBodyPreview) & " (" & encodeForHTML(targetAnnotationId) & ")">
 						<cfelse>
-							<cfset summary = "Annotation (" & targetAnnotationId & ")">
+							<cfset summary = "Annotation (" & encodeForHTML(targetAnnotationId) & ")">
 						</cfif>
 						<cfquery name="annotationRootForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT annotation_id
@@ -360,9 +363,9 @@ limitations under the License.
 						</cfif>
 						<cfif responseRootAnnotationId NEQ targetAnnotationId>
 							<cfif len(targetBodyPreview) GT 0>
-								<cfset summary = "Response Annotation: " & encodeForHTML(targetBodyPreview) & " (" & targetAnnotationId & ")">
+								<cfset summary = "Response Annotation: " & encodeForHTML(targetBodyPreview) & " (" & encodeForHTML(targetAnnotationId) & ")">
 							<cfelse>
-								<cfset summary = "Response Annotation (" & targetAnnotationId & ")">
+								<cfset summary = "Response Annotation (" & encodeForHTML(targetAnnotationId) & ")">
 							</cfif>
 							<!--- Get full ancestor chain from target up to root for context display --->
 							<cfquery name="ancestorChainForDialog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -399,13 +402,13 @@ limitations under the License.
 									<cfset chainLabel = "↳ Reply">
 								</cfif>
 								<cfif len(chainLabel) GT 0>
-									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#chainAnnId#)</span>'><!--- ' --->
+									<cfset chainHtml = chainHtml & '<span class="small d-block mt-1">#encodeForHTML(chainLabel)#: #encodeForHTML(chainSummary)# (#encodeForHTML(chainAnnId)#)</span>'><!--- ' --->
 								</cfif>
 							</cfloop>
 							<cfif len(chainHtml) GT 0>
 								<cfset summary = summary & chainHtml>
 							</cfif>
-							<cfset summary = summary & '<span class="small d-block mt-1">&##8627; Replying to this annotation <strong>#targetAnnotationId#</strong></span>'><!--- ' --->
+							<cfset summary = summary & '<span class="small d-block mt-1">&##8627; Replying to this annotation <strong>#encodeForHTML(targetAnnotationId)#</strong></span>'><!--- ' --->
 						</cfif>
 					</cfcase>
 					<cfdefaultcase>
@@ -1367,6 +1370,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 --->
 <cffunction name="getAnnotationHistoryDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="annotation_id" type="numeric" required="yes">
+
+	<!--- public.cfc exposes this method by URL, so cf_rolecheck cannot be relied on.  Only
+		coldfusion_user is granted select on annotation_history. --->
+	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
+		<cfheader statusCode="403" statusText="The coldfusion_user role is required to view annotation history.">
+		<cfabort>
+	</cfif>
+
 	<cfset var historyDialogHtml = "">
 	<cfset var annotationExists = QueryNew("")>
 	<cfset var annotationHistory = QueryNew("")>
@@ -2339,17 +2350,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 			<cfoutput>
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 				<cfset canRespond = userCanRespondToAnnotations()>
-				<cfset canAnnotate = false>
-				<cfif isDefined("session.username") AND len(session.username) GT 0>
-					<cfquery name="hasEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-						SELECT email FROM cf_user_data, cf_users
-						WHERE cf_user_data.user_id = cf_users.user_id
-						AND cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfif hasEmail.recordcount GT 0 AND len(hasEmail.email) GT 0>
-						<cfset canAnnotate = true>
-					</cfif>
-				</cfif>
+				<cfset canAnnotate = currentUserCanAnnotate()>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
