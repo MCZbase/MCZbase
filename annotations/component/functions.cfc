@@ -29,6 +29,11 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- State assigned to an annotation at creation.  An annotation still holding this state has
+	not been triaged.  addAnnotation and currentUserCanEditAnnotation MUST agree on this value:
+	if they drift, authors silently lose the ability to revise their own annotations. --->
+<cfset variables.INITIALANNOTATIONSTATE = "New">
+
 <!--- Determine whether current user can perform review/response workflow actions.
  @return boolean true when session user has manage_collection role.
 --->
@@ -38,6 +43,48 @@ limitations under the License.
 		<cfset canRespond = true>
 	</cfif>
 	<cfreturn canRespond>
+</cffunction>
+
+<!--- Determine whether the current session may revise the text of an existing annotation.
+ manage_collection may always edit.  An annotator may revise their own annotation only until a
+ curator acts on it: once it has been reviewed, given a state or a resolution, published, or
+ otherwise changed by someone else, it belongs to the curatorial workflow.  annotation_history
+ records each audited change with its actor, so any change by a hand other than the author's
+ ends the author's ability to edit.
+ @param annotation_id the annotation to test.
+ @return boolean true when the current session may revise this annotation's text.
+ @see userCanRespondToAnnotations, currentUserCanAnnotate
+--->
+<cffunction name="currentUserCanEditAnnotation" returntype="boolean" access="public">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+	<cfset var authorEditable = "">
+	<cfif userCanRespondToAnnotations()>
+		<cfreturn true>
+	</cfif>
+	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
+		<cfreturn false>
+	</cfif>
+	<!--- uam_god: only coldfusion_user is granted select on annotation_history, and an author
+		who is not staff holds no such grant. --->
+	<cfquery name="authorEditable" datasource="uam_god">
+		SELECT COUNT(*) AS editable
+		FROM annotations
+		WHERE
+			annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+			AND annotations.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			AND annotations.reviewed_fg = 0
+			AND annotations.reviewer_agent_id IS NULL
+			AND annotations.resolution IS NULL
+			AND annotations.state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.INITIALANNOTATIONSTATE#">
+			AND NOT EXISTS (
+				SELECT 1
+				FROM annotation_history
+				WHERE
+					annotation_history.annotation_id = annotations.annotation_id
+					AND NVL(annotation_history.changed_by_username, '~none~') <> annotations.cf_username
+			)
+	</cfquery>
+	<cfreturn val(authorEditable.editable) GT 0>
 </cffunction>
 
 <!--- Determine whether the current session may create annotations.  Single definition of the
@@ -917,7 +964,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.target_type#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-						'New',
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.INITIALANNOTATIONSTATE#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
