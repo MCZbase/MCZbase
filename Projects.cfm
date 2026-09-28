@@ -247,7 +247,7 @@ links do) redisplays correctly.
 										</div>
 										<div class="col-12 col-md-3 col-xl-2">
 											<label for="end_year" class="data-entry-label d-inline w-auto">End Year</label>
-											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
+											<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
 											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
 										</div>
 										<cfif oneOfUs EQ 1>
