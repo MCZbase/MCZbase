@@ -218,7 +218,7 @@ links do) redisplays correctly.
 								<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-2">
 									<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-bold">Project</legend>
 									<div class="form-row">
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="p_title" class="data-entry-label">Title</label>
 											<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
 											<script>
@@ -227,7 +227,7 @@ links do) redisplays correctly.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-3 col-xl-3">
+										<div class="col-12 col-md-4 col-xl-3">
 											<label for="project_description" class="data-entry-label">Description</label>
 											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
@@ -245,17 +245,17 @@ links do) redisplays correctly.
 											<label for="start_year" class="data-entry-label">Start Year</label>
 											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
 										</div>
-										<div class="col-12 col-md-2 col-xl-2">
+										<div class="col-12 col-md-3 col-xl-2">
 											<label for="end_year" class="data-entry-label d-inline w-auto">End Year</label>
 											<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
 											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
 										</div>
 										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-3 col-xl-3">
+											<div class="col-12 col-md-4 col-xl-3">
 												<label for="project_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" id="project_remarks" name="project_remarks" class="data-entry-input" value="#encodeForHtml(variables.project_remarks)#">
 											</div>
-											<div class="col-12 col-md-2 col-xl-3">
+											<div class="col-12 col-md-3 col-xl-3">
 												<label for="mask_project_fg" class="data-entry-label">Visibility</label>
 												<cfset selected = "">
 												<cfif variables.mask_project_fg EQ ""><cfset selected = "selected"></cfif>
