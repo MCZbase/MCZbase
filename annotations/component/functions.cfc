@@ -34,6 +34,10 @@ limitations under the License.
 	if they drift, authors silently lose the ability to revise their own annotations. --->
 <cfset variables.INITIALANNOTATIONSTATE = "New">
 
+<!--- ctelectronic_addr_type value for an email address.  Note that several older pages query
+	electronic_address for the type 'e-mail', which this code table does not contain. --->
+<cfset variables.EMAILADDRESSTYPE = "email">
+
 <!--- Determine whether current user can perform review/response workflow actions.
  @return boolean true when session user has manage_collection role.
 --->
@@ -49,8 +53,16 @@ limitations under the License.
  manage_collection may always edit.  An annotator may revise their own annotation only until a
  curator acts on it: once it has been reviewed, given a state or a resolution, published, or
  otherwise changed by someone else, it belongs to the curatorial workflow.  annotation_history
- records each audited change with its actor, so any change by a hand other than the author's
+ records each audited change with its actor, so a history row not attributable to the author
  ends the author's ability to edit.
+
+ Attribution is tested on changed_by_agent_id first.  TR_ANNOTATIONS_HISTORY assigns that
+ column directly from LAST_UPDATED_BY_AGENT_ID, whereas it derives changed_by_username by
+ looking up an agent_name of type login and, on an UPDATE, falls back to the Oracle session
+ user when no such name exists.  Every annotation write uses the uam_god datasource, so that
+ fallback is one shared account rather than the acting person, and matching on it alone would
+ let an author's own earlier edit lock them out.  A username match is still accepted, since it
+ is correct whenever the acting agent does have a login name.
  @param annotation_id the annotation to test.
  @return boolean true when the current session may revise this annotation's text.
  @see userCanRespondToAnnotations, currentUserCanAnnotate
@@ -81,7 +93,17 @@ limitations under the License.
 				FROM annotation_history
 				WHERE
 					annotation_history.annotation_id = annotations.annotation_id
-					AND NVL(annotation_history.changed_by_username, '~none~') <> annotations.cf_username
+					AND NOT (
+						(
+							annotation_history.changed_by_agent_id IS NOT NULL
+							AND annotations.annotator_agent_id IS NOT NULL
+							AND annotation_history.changed_by_agent_id = annotations.annotator_agent_id
+						)
+						OR (
+							annotation_history.changed_by_username IS NOT NULL
+							AND annotation_history.changed_by_username = annotations.cf_username
+						)
+					)
 			)
 	</cfquery>
 	<cfreturn val(authorEditable.editable) GT 0>
@@ -155,7 +177,6 @@ limitations under the License.
 
 	<cfset var resolvedAgentId = getAgentIdForLoginName(arguments.login_name)>
 	<cfset var accountHolder = "">
-	<cfset var emailAddressType = "">
 	<cfset var existingAgent = "">
 	<cfset var newAgentId = "">
 	<cfset var newAgentNameId = "">
@@ -210,17 +231,8 @@ limitations under the License.
 		<cfreturn 0>
 	</cfif>
 
-	<!--- the application writes both email and e-mail in different places; take whichever
-		value the code table actually holds rather than assuming one of them. --->
-	<cfquery name="emailAddressType" datasource="uam_god">
-		SELECT address_type
-		FROM ctelectronic_addr_type
-		WHERE LOWER(REPLACE(address_type, '-', '')) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="email">
-		ORDER BY address_type
-	</cfquery>
-
 	<!--- reuse an agent only on an exact match of both name and email --->
-	<cfif len(trim(accountHolder.email)) GT 0 AND emailAddressType.recordcount GT 0>
+	<cfif len(trim(accountHolder.email)) GT 0>
 		<cfquery name="existingAgent" datasource="uam_god">
 			SELECT MIN(agent_name.agent_id) AS agent_id
 			FROM
@@ -229,7 +241,7 @@ limitations under the License.
 			WHERE
 				agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fullName#">
 				AND electronic_address.address = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
-				AND electronic_address.address_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#emailAddressType.address_type#">
+				AND electronic_address.address_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.EMAILADDRESSTYPE#">
 		</cfquery>
 		<cfif existingAgent.recordcount GT 0 AND val(existingAgent.agent_id) GT 0>
 			<cfset resolvedAgentId = val(existingAgent.agent_id)>
@@ -303,7 +315,7 @@ limitations under the License.
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
 			)
 		</cfquery>
-		<cfif len(trim(accountHolder.email)) GT 0 AND emailAddressType.recordcount GT 0>
+		<cfif len(trim(accountHolder.email)) GT 0>
 			<cfquery name="insElectronicAddress" datasource="uam_god">
 				INSERT INTO electronic_address (
 					agent_id,
@@ -311,7 +323,7 @@ limitations under the License.
 					address
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#emailAddressType.address_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.EMAILADDRESSTYPE#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
 				)
 			</cfquery>
