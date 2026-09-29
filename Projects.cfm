@@ -212,6 +212,51 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 		padding-bottom: .18rem;
 	}
 
+	/* Controls that belong together sit in a .mcz-toolbar-group, and a thin rule marks
+	   where one group ends and the next begins -- whitespace alone left "Selected rows
+	   only" reading as part of "Grid Select:". The first group needs no rule; the bar's
+	   own edge does that. rgba, not a hex colour, so this block stays free of "#", which
+	   ColdFusion would try to evaluate if it ever moved inside a cfoutput. */
+	.mcz-results-toolbar .mcz-toolbar-group {
+		display: inline-flex;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	/* row-gap applies between wrapped flex lines and nowhere else, so buttons that fall to
+	   a second line get clear space to be clicked, while a bar that fits on one line is
+	   untouched -- xl keeps exactly the tight spacing set above. Preferred over a my-1 /
+	   my-xl-0 pair because wrapping depends on how many conditional controls are showing,
+	   not on the viewport alone, so a breakpoint is only ever a guess at it. */
+	.mcz-results-toolbar .d-flex,
+	.mcz-results-toolbar .mcz-toolbar-group {
+		row-gap: .35rem;
+	}
+
+	.mcz-results-toolbar .mcz-toolbar-group + .mcz-toolbar-group {
+		margin-left: .5rem;
+		padding-left: .75rem;
+		border-left: 1px solid rgba(0, 0, 0, .18);
+	}
+
+	/* Below xl (Bootstrap's 1200px), give each group its own full-width line, so the row
+	   controls start at the left edge instead of trailing the column controls mid-line.
+	   Bootstrap 4 has no responsive width utility to do this with -- w-md-* and w-xl-*
+	   arrived in Bootstrap 5 -- which is why it is a media query here. The dividing rule
+	   goes with it: a left border reads as a separator between neighbours, not above a
+	   stacked row, where the my-1 on each group does that job instead. */
+	@media (max-width: 1199.98px) {
+		.mcz-results-toolbar .mcz-toolbar-group {
+			flex: 0 0 100%;
+		}
+
+		.mcz-results-toolbar .mcz-toolbar-group + .mcz-toolbar-group {
+			margin-left: 0;
+			padding-left: 0;
+			border-left: 0;
+		}
+	}
+
 	/* select.data-entry-select sets no line-height, so it resolves to the browser's
 	   default and the select ends up a couple of pixels off the buttons beside it.
 	   .btn-xs uses 1.2rem; matching it lines the two up. */
@@ -477,56 +522,72 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</span>
 						</h1>
-						<div id="resultsToolbarControls" style="display:none;">
-							<!--- The flex layout lives on this inner div rather than resultsToolbarControls
-							      itself -- Bootstrap's d-flex utility is !important, which beats a plain
-							      (non-!important) inline display:none on the same element, so the outer
-							      hide/show wrapper must carry no competing display-affecting class. --->
+						<!--- Line one, beside the heading: the search-form toggle, Save Search and the
+						      feedback Save Search writes. These belong with "Found N records" and "Link to
+						      this search" rather than with the grid's own controls below. --->
+						<!--- mr-md-auto: from md up this absorbs the free space on the line, so when
+						      everything fits the grid's controls sit to the right of the heading rather
+						      than crowding it. A margin utility, so it is safe on a hide/show wrapper. --->
+						<div id="resultsHeadingControls" class="mr-md-auto" style="display:none;">
+							<!--- The flex class sits on this inner div, never on the hide/show wrapper above:
+							      Bootstrap's d-flex is !important and would beat a plain inline display:none. --->
 							<div class="d-flex flex-wrap align-items-center">
 								<div id="showhide"></div>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="openProjectsColumnChooser('columnChooserDialog');">Select Columns</button>
-								<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
-									<div id="columnChooserList" class="px-1"></div>
-								</div>
-								<!--- Hidden until a column is actually hidden; mczRefreshShowHiddenColumnsButton
-								      sets the label and reveals it. btn-warning to match Clear Column Filters,
-								      the other reset-style control in this toolbar. --->
-								<button type="button" id="showHiddenColumnsButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="showAllProjectsColumns();">Show Hidden Columns</button>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
-								<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
-								<!--- Outer span carries the show/hide; the flex class sits on the inner one
-								      (Bootstrap's d-inline-flex is !important and would beat display:none). --->
-								<span id="exportSelectedOnlyContainer" style="display:none;">
-									<span class="d-inline-flex align-items-center mx-1">
-										<input type="checkbox" id="exportSelectedOnly" class="mr-1">
-										<label for="exportSelectedOnly" class="mb-0 small">Selected rows only</label>
-									</span>
-								</span>
-								<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
-								<!--- No pb-1 here: a bottom padding its siblings don't have sat this
-								      group below the row's centre line. --->
-								<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
-									<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
-									<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
-										<option value="text">Text</option>
-										<option value="cell">Cell(s)</option>
-										<option value="singlerow" selected>Single Row</option>
-										<option value="multiplerows">Multiple Rows</option>
-									</select>
-									<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
-								</div>
-								<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
 								<cfif oneOfUs EQ 1>
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
-								<!--- text-nowrap on both: they are the last items in a wrapping flex
-								      row, so without it a two-word message breaks onto its own line.
-								      actionFeedback drops from h5 to small for the same reason -- at
-								      1.25rem it was the widest thing in the bar after the heading. --->
-								<output id="selectionCount" class="ml-1 my-0 small text-muted text-nowrap"></output>
 								<output id="actionFeedback" class="ml-1 my-0 small text-nowrap"></output>
+							</div>
+						</div>
+						<!--- No w-100 here. Bootstrap 4 has no responsive width utilities (w-md-* and
+						      w-xl-* arrived in Bootstrap 5), so width:100%!important would have forced
+						      these controls onto their own line at every width, with no way to undo it on
+						      a wide monitor. The row already wraps, so leaving the width alone gives the
+						      behaviour we want for free: one line when there is room, a second line when
+						      there isn't. --->
+						<div id="resultsToolbarControls" style="display:none;">
+							<div class="d-flex flex-wrap align-items-center">
+								<!--- Columns: what the grid shows. --->
+								<span class="mcz-toolbar-group">
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="openProjectsColumnChooser('columnChooserDialog');">Select Columns</button>
+									<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
+										<div id="columnChooserList" class="px-1"></div>
+									</div>
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+									<!--- Hidden until a column actually is hidden; mczRefreshShowHiddenColumnsButton
+									      sets the label and reveals it. btn-warning to match Clear Column Filters,
+									      the other reset-style control here. --->
+									<button type="button" id="showHiddenColumnsButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="showAllProjectsColumns();">Show Hidden Columns</button>
+									<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
+								</span>
+								<!--- Rows: selecting them, and getting them out. --->
+								<span class="mcz-toolbar-group">
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
+									<!--- Outer span carries the show/hide; the flex class sits on the inner one
+									      (d-inline-flex is !important and would beat display:none). --->
+									<span id="exportSelectedOnlyContainer" style="display:none;">
+										<span class="d-inline-flex align-items-center mx-1">
+											<input type="checkbox" id="exportSelectedOnly" class="mr-1">
+											<label for="exportSelectedOnly" class="mb-0 small">Selected rows only</label>
+										</span>
+									</span>
+									<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
+										<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
+										<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
+											<option value="text">Text</option>
+											<option value="cell">Cell(s)</option>
+											<option value="singlerow" selected>Single Row</option>
+											<option value="multiplerows">Multiple Rows</option>
+										</select>
+										<span id="selectionModeHelp" class="sr-only">In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows.</span>
+									</div>
+									<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
+									<!--- text-nowrap: last in a wrapping flex row, so a two-word value would
+									      otherwise break onto a line of its own. --->
+									<output id="selectionCount" class="ml-1 my-0 small text-muted text-nowrap"></output>
+								</span>
 							</div>
 						</div>
 					</div>
@@ -942,6 +1003,7 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 		   count/link, none of which should be visible before this point. Calling show()
 		   again on every later response is harmless. */
 		$("##resultsMeta").show();
+		$("##resultsHeadingControls").show();
 		$("##resultsToolbarControls").show();
 		mczAdjustProjectsPageSizeOptions(totalRows);
 	}
