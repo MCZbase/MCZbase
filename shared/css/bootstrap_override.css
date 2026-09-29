@@ -1961,6 +1961,17 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	border-radius: .2rem;
 	height: 22px;
 }
+
+/* The rule above carries an id, so its width outranks Bootstrap's
+   .input-group > .form-control and pushes the input below the prepended
+   icon instead of beside it. Restores the flex sizing inside input groups. */
+.tab-content .input-group > input[type="text"],
+#searchForm fieldset .input-group > input[type="text"],
+#annotationSearchForm fieldset .input-group > input[type="text"] {
+	flex: 1 1 auto;
+	width: 1%;
+	min-width: 0;
+}
 .tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
 	border: none;
 	padding: 0 .15rem;
