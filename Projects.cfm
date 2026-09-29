@@ -515,6 +515,12 @@ links do) redisplays correctly.
 	var pageFilePath = "#cgi.script_name#";
 	var savedColumnVisibility = {};
 	var projectColumnPinned = true;
+	/* The fields pinned together as one group at the left edge, in the order they must
+	   keep: a row's identity between its two per-row actions. Frozen columns have to be
+	   contiguous from the left, so this order is not cosmetic. Assigned in
+	   buildProjectsTable, where canManageProjects is known, and read again by
+	   togglePinProjectColumn. */
+	var projectsPinnedFields = [];
 	/* Preserved across a selection-mode rebuild the same way projectColumnPinned is --
 	   a user's chosen page size is a preference, not something a fresh table build (or a
 	   fresh search) should silently reset back to the default. */
@@ -595,18 +601,12 @@ links do) redisplays correctly.
 		   Column. Frozen columns have to be contiguous at the left edge, so their order here
 		   is also the order they must keep. */
 		var detailsColumn = mczDetailsButtonColumn("Project Details");
-		detailsColumn.frozen = projectColumnPinned;
 
 		var columns = [
 			detailsColumn,
 			{
 				title: "Project",
 				field: "project_name",
-				frozen: projectColumnPinned,
-				/* Marks the right-hand edge of the pinned group, so only this column draws the
-				   heavier divider -- Details is pinned too and would otherwise draw a second
-				   one. See .mcz-pin-edge in tabulator_overrides.css. */
-				cssClass: "mcz-pin-edge",
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
@@ -627,7 +627,9 @@ links do) redisplays correctly.
 		];
 
 		if (canManageProjects) {
-			columns.push({
+			/* Third, inside the pinned group: an edit control that has to be scrolled to is
+			   no more use than a details button that has to be scrolled to. */
+			columns.splice(2, 0, {
 				title: "Edit",
 				/* A control column, not data -- "_mcz"-prefixed so mczIsDataColumn() keeps it
 				   out of the row details dialog. Binding it to project_id would also have a
@@ -648,6 +650,20 @@ links do) redisplays correctly.
 			});
 		}
 
+		projectsPinnedFields = canManageProjects
+			? ["_mczDetails", "project_name", "_mczEdit"]
+			: ["_mczDetails", "project_name"];
+		/* Freeze the group together, and mark only its last column, so the heavier divider
+		   draws once where the pinned block ends rather than after every column in it. */
+		columns.forEach(function (col) {
+			if (projectsPinnedFields.indexOf(col.field) !== -1) {
+				col.frozen = projectColumnPinned;
+				if (col.field === projectsPinnedFields[projectsPinnedFields.length - 1]) {
+					col.cssClass = "mcz-pin-edge";
+				}
+			}
+		});
+
 		/* Apply any persisted show/hide choices (see columnVisibilityPromise above, which
 		   ensureProjectsTableBuilt waits on before the first call here) up front, rather
 		   than building with defaults and correcting afterward. */
@@ -656,13 +672,17 @@ links do) redisplays correctly.
 				col.visible = !savedColumnVisibility[col.field];
 			}
 		});
-		/* Apply any persisted column order the same way. mczApplyColumnOrder keeps a frozen
-		   (pinned) Project column first regardless of the saved order. */
-		/* The Details column's place is fixed by this page, not by the user: a column order
-		   saved before it moved to the front would otherwise sort it back behind Project. */
-		var orderWithoutDetails = $.extend({}, savedColumnOrder);
-		delete orderWithoutDetails["_mczDetails"];
-		mczApplyColumnOrder(columns, orderWithoutDetails);
+		/* Apply any persisted column order, minus the pinned group. mczApplyColumnOrder
+		   sorts frozen columns to the front, but within them it would still honour saved
+		   positions -- and a position saved before Details and Edit moved up would shuffle
+		   the group's internal order. While pinned, that order belongs to this page (the
+		   columns can't be dragged anyway); the control columns never belong to the user at
+		   all, so they stay out either way. */
+		var orderForColumns = $.extend({}, savedColumnOrder);
+		(projectColumnPinned ? projectsPinnedFields : ["_mczDetails", "_mczEdit"]).forEach(function (field) {
+			delete orderForColumns[field];
+		});
+		mczApplyColumnOrder(columns, orderForColumns);
 
 		var options = {
 			/* No height set -- an explicit height (or Tabulator's own default) gives the
@@ -964,22 +984,27 @@ links do) redisplays correctly.
 			var firstField = projectsTable.getColumns().map(function (column) {
 				return column.getField();
 			}).filter(function (field) { return field; })[0];
-			if (firstField && firstField !== "_mczDetails") {
-				projectsTable.moveColumn("_mczDetails", firstField, false);
+			if (firstField && firstField !== projectsPinnedFields[0]) {
+				projectsTable.moveColumn(projectsPinnedFields[0], firstField, false);
 			}
-			projectsTable.moveColumn("project_name", "_mczDetails", true);
+			/* Then line the rest of the group up behind it, in order. */
+			for (var i = 1; i < projectsPinnedFields.length; i++) {
+				projectsTable.moveColumn(projectsPinnedFields[i], projectsPinnedFields[i - 1], true);
+			}
 		}
 		/* Sequentially, not in parallel: each updateDefinition re-runs Tabulator's column
 		   initialization and rebuilds the header, and the frozen-columns module reads the
 		   whole column list as it goes. Re-apply the header menu buttons' keyboard access
-		   once at the end, since the rebuild discards it. */
-		projectsTable.getColumn("_mczDetails").updateDefinition({ frozen: projectColumnPinned })
-			.then(function () {
-				return projectsTable.getColumn("project_name").updateDefinition({ frozen: projectColumnPinned });
-			})
-			.then(function () {
-				mczMakeHeaderMenuButtonsAccessible(projectsTable);
+		   once at the end, since the rebuilds discard it. */
+		var pinning = Promise.resolve();
+		projectsPinnedFields.forEach(function (field) {
+			pinning = pinning.then(function () {
+				return projectsTable.getColumn(field).updateDefinition({ frozen: projectColumnPinned });
 			});
+		});
+		pinning.then(function () {
+			mczMakeHeaderMenuButtonsAccessible(projectsTable);
+		});
 	}
 
 	/**
