@@ -601,27 +601,13 @@ function mczExportFilename(searchType, extension) {
 }
 
 /**
- * mczAttachSelectionStore keeps a grid's row selection in a caller-owned Map, so a
- * selection survives paging, sorting and header filtering.
+ * mczAttachSelectionStore keeps a grid's row selection in a caller-owned Map, so it
+ * survives paging, sorting and header filtering. Tabulator's own selection cannot under
+ * paginationMode "remote": setData discards its selected rows on every page change.
  *
- * Tabulator's own selection cannot do this under paginationMode "remote". Every page
- * change runs setData, which builds fresh Row objects, while the SelectRow module's
- * selectedRows array goes on pointing at the previous page's now-detached rows: the
- * checkboxes come back empty and getSelectedData() still reports the stale rows, so an
- * export of "selected rows only" can include rows the user can no longer see -- even
- * rows from an earlier search. The selectableRowsPersistence option (true by default)
- * does not help; it is written for client-side data, where the same Row objects are
- * reused across a page change.
- *
- * The Map holds each row's whole data object, not just its id, so an export can include
- * rows from pages the browser no longer has loaded. This is the same approach the
- * jqxGrid pages take -- see the fixedlisttoremove Set in Specimens.cfm, whose checkbox
- * renderer likewise recomputes each checked state from the Set on every render -- and,
- * like it, the selection lives only as long as the page. A reload clears it.
- *
- * Requires the table's `index` option to name the same field as idField, so Tabulator
- * itself can identify a row; its default index is "id", which most of this app's
- * queries do not return.
+ * The Map holds each row's whole data, so an export can include rows from pages the
+ * browser no longer has loaded. In memory only; a reload clears it. Requires the table's
+ * `index` option to name idField.
  *
  * @param table the Tabulator instance.
  * @param selectionMap a Map owned and read by the caller, keyed by the idField value.
@@ -653,15 +639,12 @@ function mczAttachSelectionStore(table, selectionMap, idField, persistAcrossPage
 		selectionMap.delete(String(row.getData()[idField]));
 		changed();
 	});
-	/* dataProcessed, not renderComplete: the rows exist by then, and it fires after
-	   every completed load -- a page change, a sort, a header filter and a new search
-	   alike -- which is exactly when the checkboxes need re-ticking. */
+	/* dataProcessed fires after every completed load, which is when the checkboxes need
+	   re-ticking. */
 	table.on("dataProcessed", function () {
 		if (!persistAcrossPages) {
-			/* Scoped to what is on screen. setData has already dropped Tabulator's own
-			   selection for the page just replaced (see clearSelectionData), so emptying
-			   the store here keeps the two in agreement rather than leaving the store
-			   describing rows the grid no longer considers selected. */
+			/* Scoped to what is on screen: setData has already dropped Tabulator's own
+			   selection for the page just replaced. */
 			selectionMap.clear();
 			changed();
 			return;
@@ -712,23 +695,10 @@ function mczRefreshSelectionCount(selectionMap, elementId) {
 }
 
 /**
- * mczIsDataColumn reports whether a column definition describes a column holding a
- * row's data, as opposed to one holding a control (a details button, an edit link).
- *
- * Control columns are marked by a field name beginning "_mcz" -- a name no query
- * returns, so it cannot collide with a real database field. The test is on the field
- * name rather than on `download: false` because those mean different things:
- * `download: false` means only "leave this column out of CSV/Excel exports", which a
- * genuine data column may legitimately want, and using it as a proxy for "not data"
- * silently drops such a column from the row details dialog too -- the one place it
- * would still be wanted. A purpose-built column-definition property would read better
- * but is not usable here: Tabulator's OptionsList.generate() console.warns on any
- * column key it does not recognize (gated on debugInvalidOptions, which defaults to
- * true), once per offending column on every build -- and these tables rebuild on every
- * search and every selection-mode change. (Note for anyone chasing that message: the
- * method named checkDefinition(), whose text reads "Invalid column definition option
- * in 'X' column", appears exactly once in tabulator.min.js and is never called. The
- * warning that actually fires is OptionsList.generate()'s shorter one.)
+ * mczIsDataColumn reports whether a column definition describes a column holding row
+ * data rather than a control. Control columns are marked by a field name beginning
+ * "_mcz"; a Tabulator column definition cannot carry a custom property for this without
+ * a console warning on every build.
  *
  * @param definition a Tabulator column definition, as column.getDefinition() returns.
  * @return true if the column holds row data.
@@ -753,12 +723,9 @@ function mczHideableColumns(table) {
 }
 
 /**
- * mczShowAllColumns makes every hidden column visible again.
- *
- * This needs a control of its own because "Hide column" in a column's header menu
- * removes the very header that menu lives in, leaving no way back from the control
- * that did the hiding; without this, a user has to already know that the Select
- * Columns dialog lists hidden columns as well as shown ones.
+ * mczShowAllColumns makes every hidden column visible again. Needed because "Hide
+ * column" in a header menu removes the header that menu lives in, leaving no way back
+ * from the control that did the hiding.
  *
  * @param table the Tabulator instance.
  * @return the number of columns made visible.
@@ -862,11 +829,8 @@ function mczDetailsButtonColumn(dialogTitle) {
 			   results grid cell. */
 			button.className = "btn btn-xs btn-outline-primary py-0";
 			button.setAttribute("aria-label", "Show all values for this row");
-			/* fa-list-ul rather than fa-info-circle: the dialog is this row's fields as a
-			   list, and an "i" in a circle is the web-wide convention for help or an
-			   explanation of a feature, which is not what this opens. Avoid fa-eye (already
-			   the hide-search-form toggle), fa-file-alt (reads as the CSV/Excel downloads)
-			   and any magnifier (reads as search on a search page). */
+			/* fa-list-ul: the dialog lists the row's fields. Avoid fa-eye, which the
+			   hide-search-form toggle uses. */
 			button.innerHTML = '<i class="fas fa-list-ul" aria-hidden="true"></i>';
 			return button;
 		},
@@ -942,23 +906,9 @@ function mczHeaderFilterParams(filters, allowedFields, prefix) {
 
 /**
  * mczHeaderFilterLabel returns the standard headerFilterParams for a column's header
- * filter input: an accessible name, and the app's own input styling.
- *
- * The accessible name ("Filter {title}") is needed because Tabulator's header filter
- * inputs otherwise carry only a placeholder, which the developer's guide doesn't accept
- * as a label; aria-label is the one naming mechanism used, since the input has no
- * visible label.
- *
- * data-entry-input makes the filters match the search form's inputs rather than looking
- * like a different widget. Note what it can and cannot reach: Tabulator's input editor
- * writes padding, width and box-sizing as *inline styles* on the element it creates, and
- * an inline style beats a class, so the class supplies the border, font, colour, radius
- * and background but not the padding. If the remaining few pixels of horizontal padding
- * matter, only an !important rule can override an inline style.
- *
- * (Tabulator also supports a "+" key prefix here to append to an existing attribute
- * rather than replace it -- not used for class, since getAttribute returns null when the
- * element has none and the append would produce "nulldata-entry-input".)
+ * filter input: an accessible name ("Filter {title}"), since the input has only a
+ * placeholder otherwise, and data-entry-input so it matches the search form. Tabulator
+ * writes the input's padding and width as inline styles, which the class cannot override.
  *
  * @param columnTitle the column's title as shown in its header.
  * @return an object usable as a column's headerFilterParams.

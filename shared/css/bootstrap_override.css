@@ -1463,28 +1463,13 @@ select.data-entry-select {
 }
 
 /*
-One control height, for pages that opt in with class="mcz-app-controls" on their
-container.
+One height and text size for every input, select and .btn-xs inside a page that opts in
+with class="mcz-app-controls". The explicit height is what makes a <select> match an
+<input>; .form-control sets one for the same reason, and these three rules do not.
 
-The problem this corrects: .btn-xs, .data-entry-input and select.data-entry-select are
-three hand-maintained forks of Bootstrap's own button and .form-control, and they have
-drifted -- .2rem of vertical padding on the input against .14rem on the select, text at
-rgba(0,0,0,.8) against .67, and no explicit height on any of them. .form-control sets
-height: calc(...) precisely so an <input> and a <select> agree, because a select's
-rendered height is not simply padding plus line-height: browsers apply their own minimum
-and treat the dropdown arrow differently. Omitting it is why a select comes out a couple
-of pixels shorter than the input beside it.
-
-Scoped rather than corrected in place because those three classes have about 2,350 uses
-across 120 .cfm files, and nobody is going to re-test 120 pages at once. Adding the class
-to a page opts that page in; removing it reverts. When every page carries it, move these
-declarations into the three base rules above and delete this block -- the goal is one
-definition per control, not a permanent second layer.
-
-The height is derived from the other two values rather than written out, so tuning the
-line-height or padding cannot leave it out of step. input is element-qualified, and
-checkboxes and radios excluded, so a fixed height never lands on a <textarea> or a
-checkbox carrying the same class.
+Scoped per page because these classes have ~2,350 uses across 120 .cfm files. When every
+page carries the class, fold these declarations into the three base rules above and
+delete this block.
 */
 .mcz-app-controls {
 	--mcz-control-line: 1.2rem;
@@ -1501,7 +1486,7 @@ checkbox carrying the same class.
 	height: calc(var(--mcz-control-line) + (2 * var(--mcz-control-pad)) + 2px);
 }
 
-/* The select's text was paler than the inputs beside it. */
+/* The select's text was paler than the inputs. */
 .mcz-app-controls select.data-entry-select {
 	color: rgba(0, 0, 0, .8);
 }

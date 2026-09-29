@@ -192,20 +192,10 @@ links do) redisplays correctly.
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
 <link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
 <!---
-Deviation from the styleguide, deliberate and temporary: it puts concept styles in a
-stylesheet rather than inline in a .cfm. These are layout rules for the results toolbar,
-kept here while the arrangement is still being settled on this pilot page. They are
-scoped to .mcz-results-toolbar, so any other search page adopting the pattern can opt in
-by putting that class on its own results bar.
-
-To promote: move this block into shared/css/tabulator_overrides.css and keep the scope --
-the class is what marks a results bar, so it stays. What must NOT happen is a second page
-growing its own copy of these rules in its own <style> block; that is the failure mode
-this arrangement exists to avoid.
-
-Control metrics (one height and text size for every input, select and .btn-xs) are NOT
-here: they live in shared/css/bootstrap_override.css behind .mcz-app-controls, which this
-page opts into on its overlaycontainer. See the comment there.
+Results-toolbar layout, scoped to .mcz-results-toolbar. Inline rather than in
+shared/css/ -- a styleguide deviation -- while the arrangement is still being settled on
+this pilot page; move to tabulator_overrides.css, keeping the scope, once it is. Control
+heights are not here: see .mcz-app-controls in bootstrap_override.css.
 --->
 <style>
 	/* Controls that belong together sit in a .mcz-toolbar-group, and a thin rule marks
@@ -219,11 +209,8 @@ page opts into on its overlaycontainer. See the comment there.
 		flex-wrap: wrap;
 	}
 
-	/* row-gap applies between wrapped flex lines and nowhere else, so buttons that fall to
-	   a second line get clear space to be clicked, while a bar that fits on one line is
-	   untouched -- xl keeps exactly the tight spacing set above. Preferred over a my-1 /
-	   my-xl-0 pair because wrapping depends on how many conditional controls are showing,
-	   not on the viewport alone, so a breakpoint is only ever a guess at it. */
+	/* row-gap applies between wrapped flex lines and nowhere else, so controls that fall
+	   to a second line get space to be clicked while a single-line bar stays tight. */
 	.mcz-results-toolbar .d-flex,
 	.mcz-results-toolbar .mcz-toolbar-group {
 		row-gap: .35rem;
@@ -239,8 +226,7 @@ page opts into on its overlaycontainer. See the comment there.
 	   controls start at the left edge instead of trailing the column controls mid-line.
 	   Bootstrap 4 has no responsive width utility to do this with -- w-md-* and w-xl-*
 	   arrived in Bootstrap 5 -- which is why it is a media query here. The dividing rule
-	   goes with it: a left border reads as a separator between neighbours, not above a
-	   stacked row, where the row-gap above does that job instead. */
+	   goes with it: a left border separates neighbours, not stacked rows. */
 	@media (max-width: 1199.98px) {
 		.mcz-results-toolbar .mcz-toolbar-group {
 			flex: 0 0 100%;
@@ -256,10 +242,8 @@ page opts into on its overlaycontainer. See the comment there.
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
 <script src="/projects/js/projects.js"></script>
 
-<!--- mcz-app-controls opts this page into the corrected control metrics in
-      bootstrap_override.css: one height and one text size for every input, select and
-      .btn-xs inside, form and toolbar alike. Piloted per page because those classes have
-      ~2,350 uses across 120 files. --->
+<!--- mcz-app-controls: one height and text size for every input, select and .btn-xs on
+      this page. See bootstrap_override.css. --->
 <div id="overlaycontainer" class="mcz-app-controls" style="position: relative;">
 	<main id="content">
 		<section class="container-fluid" role="search">
@@ -501,13 +485,11 @@ page opts into on its overlaycontainer. See the comment there.
 		<section class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
-					<!--- py-1, not pt-2: top padding alone left the toolbar sitting against the bottom
-					      edge of the bar. align-items-center then centres the heading and the buttons
-					      on each other within that symmetric space. --->
+					<!--- Symmetric padding, with align-items-center to centre the heading and the
+					      buttons on each other within it. --->
 					<div class="row mt-1 mb-0 border px-2 py-1 mx-0 align-items-center mcz-results-toolbar" style="background-color:#deebec;">
-						<!--- my-0: the bar's own padding sets the vertical space. The previous mt-1/mb-1
-						      pair, with mb-xl-2 overriding the bottom at xl, both added height and
-						      pulled the heading off the centre line. --->
+						<!--- my-0: the bar's padding sets the vertical space; a margin here would add
+						      height and pull the heading off the centre line. --->
 						<h1 class="h4 ml-2 ml-md-1 my-0 px-2">
 							<span tabindex="0">Results: </span>
 							<span id="resultsMeta" style="display:none;">
@@ -518,9 +500,9 @@ page opts into on its overlaycontainer. See the comment there.
 						<!--- Line one, beside the heading: the search-form toggle, Save Search and the
 						      feedback Save Search writes. These belong with "Found N records" and "Link to
 						      this search" rather than with the grid's own controls below. --->
-						<!--- mr-md-auto: from md up this absorbs the free space on the line, so when
-						      everything fits the grid's controls sit to the right of the heading rather
-						      than crowding it. A margin utility, so it is safe on a hide/show wrapper. --->
+						<!--- mr-md-auto absorbs the free space, so the grid's controls sit right of the
+						      heading rather than crowding it. A margin utility, safe on a hide/show
+						      wrapper -- unlike a display one, which would beat the inline display:none. --->
 						<div id="resultsHeadingControls" class="mr-md-auto" style="display:none;">
 							<!--- The flex class sits on this inner div, never on the hide/show wrapper above:
 							      Bootstrap's d-flex is !important and would beat a plain inline display:none. --->
@@ -533,12 +515,9 @@ page opts into on its overlaycontainer. See the comment there.
 								<output id="actionFeedback" class="ml-1 my-0 small text-nowrap"></output>
 							</div>
 						</div>
-						<!--- No w-100 here. Bootstrap 4 has no responsive width utilities (w-md-* and
-						      w-xl-* arrived in Bootstrap 5), so width:100%!important would have forced
-						      these controls onto their own line at every width, with no way to undo it on
-						      a wide monitor. The row already wraps, so leaving the width alone gives the
-						      behaviour we want for free: one line when there is room, a second line when
-						      there isn't. --->
+						<!--- Width left alone: the row's own flex-wrap drops these onto a second line
+						      when they don't fit, and Bootstrap 4 has no responsive width utility that
+						      could undo a w-100 on a wide monitor. --->
 						<div id="resultsToolbarControls" style="display:none;">
 							<div class="d-flex flex-wrap align-items-center">
 								<!--- Columns: what the grid shows. --->
@@ -609,12 +588,8 @@ page opts into on its overlaycontainer. See the comment there.
 	var pageFilePath = "#cgi.script_name#";
 	var savedColumnVisibility = {};
 	var projectColumnPinned = true;
-	/* The fields pinned together as one group at the left edge, in the order they must
-	   keep: the row's two actions, then its identity. With the row-selection checkbox
-	   ahead of them the visible order reads select, details, edit, project. Frozen columns
-	   have to be contiguous from the left, so this order is not cosmetic. Assigned in
-	   buildProjectsTable, where canManageProjects is known, and read again by
-	   togglePinProjectColumn. */
+	/* Frozen columns have to be contiguous from the left, so this order is load-bearing,
+	   not cosmetic. Assigned in buildProjectsTable, where canManageProjects is known. */
 	var projectsPinnedFields = [];
 	/* Preserved across a selection-mode rebuild the same way projectColumnPinned is --
 	   a user's chosen page size is a preference, not something a fresh table build (or a
@@ -673,9 +648,8 @@ page opts into on its overlaycontainer. See the comment there.
 			projectsTable.destroy();
 			projectsTable = null;
 		}
-		/* A mode change builds a new instance, and the modes disagree about what selection
-		   even means (Cell(s) and Text have none; Single Row holds one). Clearing keeps the
-		   count honest rather than leaving it describing rows nothing can now show. */
+		/* A mode change builds a new instance, and the modes disagree about what a selection
+		   means, so a carried-over count would describe rows nothing can show. */
 		mczClearSelectionStore(null, projectsSelection, function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
 		});
@@ -768,12 +742,9 @@ page opts into on its overlaycontainer. See the comment there.
 				col.visible = !savedColumnVisibility[col.field];
 			}
 		});
-		/* Apply any persisted column order, minus the pinned group. mczApplyColumnOrder
-		   sorts frozen columns to the front, but within them it would still honour saved
-		   positions -- and a position saved before Details and Edit moved up would shuffle
-		   the group's internal order. While pinned, that order belongs to this page (the
-		   columns can't be dragged anyway); the control columns never belong to the user at
-		   all, so they stay out either way. */
+		/* Minus the pinned group: mczApplyColumnOrder honours saved positions within the
+		   frozen columns, and a position saved before Details and Edit moved up would
+		   shuffle them. A pinned group's order belongs to this page, not the user. */
 		var orderForColumns = $.extend({}, savedColumnOrder);
 		(projectColumnPinned ? projectsPinnedFields : ["_mczDetails", "_mczEdit"]).forEach(function (field) {
 			delete orderForColumns[field];
@@ -796,9 +767,8 @@ page opts into on its overlaycontainer. See the comment there.
 			   delay keeps typing from sending a request per keystroke. */
 			filterMode: "remote",
 			headerFilterLiveFilterDelay: 600,
-			/* Tabulator's index option defaults to "id", a field search() does not return,
-			   which left every row's identity undefined -- nothing that has to recognise a
-			   row across two data loads could work. */
+			/* Tabulator's index defaults to "id", which search() does not return, leaving
+			   every row's identity undefined. */
 			index: "project_id",
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
@@ -853,12 +823,9 @@ page opts into on its overlaycontainer. See the comment there.
 			options.selectableRange = true;
 		} else if (mode === "singlerow" || mode === "multiplerows") {
 			options.selectableRows = (mode === "multiplerows") ? true : 1;
-			/* A checkbox column, so rows can be picked without having to know that a bare
-			   click selects -- shown in both row modes, since row selection is otherwise
-			   invisible until a row is already selected. In Single Row mode
-			   selectableRows: 1 makes Tabulator deselect the previously selected row, so
-			   these checkboxes behave like radio buttons; a select-all header would have
-			   nothing valid to do there, hence titleFormatter only in Multiple Rows. */
+			/* A checkbox column, in both row modes: row selection is otherwise invisible until
+			   a row is already selected. In Single Row these behave like radio buttons, so a
+			   select-all header would have nothing valid to do. */
 			options.rowHeader = {
 				formatter: "rowSelection",
 				headerSort: false,
@@ -1139,9 +1106,8 @@ page opts into on its overlaycontainer. See the comment there.
 			exportToCSV(mczBuildCsv(projectsTable, rows, true), filename);
 		}
 		if ($("##" + selectedOnlyCheckboxId).is(":checked")) {
-			/* From the store, not getSelectedData(): the store holds rows selected on pages
-			   the browser has since replaced, which is the whole point of exporting a
-			   selection gathered across pages. */
+			/* From the store, not getSelectedData(): only the store holds rows from pages the
+			   browser has since replaced. */
 			var selected = Array.from(projectsSelection.values());
 			if (!selected.length) {
 				messageDialog("No rows are selected. Select one or more rows, or uncheck Selected rows only to export every result.", "Export");

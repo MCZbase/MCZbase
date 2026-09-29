@@ -29,15 +29,8 @@ tabulator_bootstrap4.min.css so these rules win.
 	font-size: 0.875em;
 }
 
-/* The vendored theme sets font-weight: 700 here, and the column titles inherit it
-   (.tabulator-col-title declares no weight of its own), so the headings came out fully
-   bold. 600 lightens them. Set in this rule rather than by retuning the app's
-   .font-weight-lessbold utility, which is 560 and used in 113 places -- changing its
-   value to reach the grid would move type on every one of them.
-
-   Cascade: this is the same selector as the theme's own rule and the same specificity
-   (0,2,0), and tabulator_overrides.css is linked after tabulator_bootstrap4.min.css, so
-   source order settles it. No !important required. */
+/* The theme sets font-weight: 700, which the column titles inherit; 600 lightens them.
+   Same selector and specificity as the theme's rule, and this file loads after it. */
 .tabulator .tabulator-header {
 	background-color: #deebec;
 	font-weight: 600;
@@ -47,15 +40,9 @@ tabulator_bootstrap4.min.css so these rules win.
 	border-right: 1px solid #dee2e6;
 }
 
-/* tabulator_bootstrap4.min.css removes both of the base theme's ruling lines -- the
-   grid's outer border (".tabulator{...border:none}") and the vertical rule between
-   body cells (".tabulator-row .tabulator-cell{border-right:none...}") -- leaving the
-   body separated only by row striping. Put both back, for the ruled look of the
-   jqxGrids these replace. Same #dee2e6 as the theme's own row bottom-border, so the
-   two axes match and the body reads as a grid; the header needs no heavier rule to
-   stand apart, having its own #deebec background. A lighter value was tried first and
-   failed outright -- anything near the #e9edf2 even-row stripe is invisible on half
-   the rows. */
+/* tabulator_bootstrap4.min.css removes the base theme's outer border and its cell
+   right borders, leaving the body separated only by row striping. Both restored at
+   #dee2e6, the same value as the theme's own row bottom-border. */
 .tabulator {
 	border: 1px solid #dee2e6;
 }
@@ -64,9 +51,8 @@ tabulator_bootstrap4.min.css so these rules win.
 	border-right: 1px solid #dee2e6;
 }
 
-/* The final column's rule would otherwise double up against the grid's own right
-   edge. Lower specificity than the .tabulator-frozen rules below, so a frozen column
-   keeps its heavier border even if it ends up last. */
+/* The last column's rule would double against the grid's own right edge. Lower
+   specificity than the .tabulator-frozen rules below. */
 .tabulator-row .tabulator-cell:last-child {
 	border-right: none;
 }
@@ -97,25 +83,15 @@ tabulator_bootstrap4.min.css so these rules win.
 	background-color: #caeaad;
 }
 
-/* The heavier divider marks where the pinned group ends, not every column in it: a page
-   puts cssClass: "mcz-pin-edge" on its last pinned column (Projects.cfm uses Project,
-   which Details is pinned ahead of). Requiring .tabulator-frozen as well means the
-   divider disappears by itself when that column is unpinned. Any other pinned column
-   keeps the ordinary 1px #dee2e6 cell border.
-
-   A neutral gray, not the teal accent: this edge is structural, and teal here competed
-   with the teal used for emphasis elsewhere. 2px keeps the vertical rules ranked --
-   #dee2e6 1px between cells, this one stronger, the selection gutter's teal strongest. */
+/* Closes the pinned group. A page puts cssClass: "mcz-pin-edge" on its last pinned
+   column; other pinned columns keep the ordinary 1px cell border. Requiring
+   .tabulator-frozen too means the divider goes when that column is unpinned. */
 .tabulator .tabulator-cell.tabulator-frozen.mcz-pin-edge {
 	border-right: 2px solid #adb5bd;
 }
 
-/* The row-selection gutter keeps the teal, marking where the grid's own controls end
-   and the record begins -- a different kind of boundary from a pinned data column, and
-   the one place the accent earns its weight. Both class names are needed: this has to
-   outrank the frozen rule above (the gutter is frozen too) and the theme's own
-   ".tabulator-row .tabulator-cell.tabulator-row-header" 1px #dee2e6, and all three
-   otherwise tie on specificity. */
+/* The row-selection gutter, in teal. Both class names are needed: this must outrank
+   the rule above and the theme's own row-header border, which tie on specificity. */
 .tabulator .tabulator-cell.tabulator-frozen.tabulator-row-header {
 	border-right: 2px solid #3e6f7d;
 }
