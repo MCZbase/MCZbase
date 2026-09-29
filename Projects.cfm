@@ -590,11 +590,23 @@ links do) redisplays correctly.
 			window.getSelection().removeAllRanges();
 		}
 
+		/* Details sits first, beside the row-selection checkboxes and ahead of Project, and
+		   freezes and unfreezes with Project so the two travel together under Pin Project
+		   Column. Frozen columns have to be contiguous at the left edge, so their order here
+		   is also the order they must keep. */
+		var detailsColumn = mczDetailsButtonColumn("Project Details");
+		detailsColumn.frozen = projectColumnPinned;
+
 		var columns = [
+			detailsColumn,
 			{
 				title: "Project",
 				field: "project_name",
 				frozen: projectColumnPinned,
+				/* Marks the right-hand edge of the pinned group, so only this column draws the
+				   heavier divider -- Details is pinned too and would otherwise draw a second
+				   one. See .mcz-pin-edge in tabulator_overrides.css. */
+				cssClass: "mcz-pin-edge",
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
@@ -611,10 +623,7 @@ links do) redisplays correctly.
 			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
 			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsor(s)"), headerMenu: projectsHeaderMenu },
 			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
-			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu },
-			/* Opens a dialog listing every column's value for the row, hidden ones
-			   included -- the counterpart of the jqxGrid pages' row details popup. */
-			mczDetailsButtonColumn("Project Details")
+			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
 		];
 
 		if (canManageProjects) {
@@ -649,7 +658,11 @@ links do) redisplays correctly.
 		});
 		/* Apply any persisted column order the same way. mczApplyColumnOrder keeps a frozen
 		   (pinned) Project column first regardless of the saved order. */
-		mczApplyColumnOrder(columns, savedColumnOrder);
+		/* The Details column's place is fixed by this page, not by the user: a column order
+		   saved before it moved to the front would otherwise sort it back behind Project. */
+		var orderWithoutDetails = $.extend({}, savedColumnOrder);
+		delete orderWithoutDetails["_mczDetails"];
+		mczApplyColumnOrder(columns, orderWithoutDetails);
 
 		var options = {
 			/* No height set -- an explicit height (or Tabulator's own default) gives the
@@ -763,7 +776,11 @@ links do) redisplays correctly.
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		mczAddPageJumpControl(projectsTable, "projectsPageJump");
-		mczAttachSelectionStore(projectsTable, projectsSelection, "project_id", function (map) {
+		/* Only Multiple Rows gathers a selection across pages. Tabulator can hold Single
+		   Row's limit of one only among the rows it currently has loaded, so the honest
+		   reading of that mode is "the row on screen": the store is told not to persist, and
+		   the count and the export then both describe just this page. */
+		mczAttachSelectionStore(projectsTable, projectsSelection, "project_id", mode === "multiplerows", function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
 		});
 		projectsTable.on("tableBuilt", populateColumnChooser);
@@ -938,23 +955,31 @@ links do) redisplays correctly.
 	 */
 	function togglePinProjectColumn() {
 		projectColumnPinned = !projectColumnPinned;
-		/* Once unpinned, the Project column can be dragged elsewhere. A frozen column that
-		   follows an unfrozen one is frozen to the right edge rather than the left, so move
-		   it back to the first position before pinning it again. */
+		/* Details and Project pin together. Once unpinned, Project can be dragged elsewhere,
+		   and a frozen column that follows an unfrozen one freezes to the right edge rather
+		   than the left -- so both have to be back at the left, Details first, before either
+		   is frozen again. */
 		if (projectColumnPinned) {
-			/* Skip the checkbox column Multiple Rows mode adds, which has no field. */
+			/* Skip the checkbox column the row-selection modes add, which has no field. */
 			var firstField = projectsTable.getColumns().map(function (column) {
 				return column.getField();
 			}).filter(function (field) { return field; })[0];
-			if (firstField && firstField !== "project_name") {
-				projectsTable.moveColumn("project_name", firstField, false);
+			if (firstField && firstField !== "_mczDetails") {
+				projectsTable.moveColumn("_mczDetails", firstField, false);
 			}
+			projectsTable.moveColumn("project_name", "_mczDetails", true);
 		}
-		var column = projectsTable.getColumn("project_name");
-		/* updateDefinition rebuilds the header, so re-apply the menu button's keyboard access. */
-		column.updateDefinition({ frozen: projectColumnPinned }).then(function () {
-			mczMakeHeaderMenuButtonsAccessible(projectsTable);
-		});
+		/* Sequentially, not in parallel: each updateDefinition re-runs Tabulator's column
+		   initialization and rebuilds the header, and the frozen-columns module reads the
+		   whole column list as it goes. Re-apply the header menu buttons' keyboard access
+		   once at the end, since the rebuild discards it. */
+		projectsTable.getColumn("_mczDetails").updateDefinition({ frozen: projectColumnPinned })
+			.then(function () {
+				return projectsTable.getColumn("project_name").updateDefinition({ frozen: projectColumnPinned });
+			})
+			.then(function () {
+				mczMakeHeaderMenuButtonsAccessible(projectsTable);
+			});
 	}
 
 	/**

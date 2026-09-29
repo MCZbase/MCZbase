@@ -97,11 +97,16 @@ tabulator_bootstrap4.min.css so these rules win.
 	background-color: #caeaad;
 }
 
-/* A neutral gray, not the teal accent: a pinned data column's edge is structural, and
-   teal here competed with the teal used for emphasis elsewhere. Kept at 2px so the
-   vertical rules stay ranked -- #eceff0 1px between body cells, #dee2e6 1px between
-   header cells, this one strongest. */
-.tabulator .tabulator-cell.tabulator-frozen {
+/* The heavier divider marks where the pinned group ends, not every column in it: a page
+   puts cssClass: "mcz-pin-edge" on its last pinned column (Projects.cfm uses Project,
+   which Details is pinned ahead of). Requiring .tabulator-frozen as well means the
+   divider disappears by itself when that column is unpinned. Any other pinned column
+   keeps the ordinary 1px #dee2e6 cell border.
+
+   A neutral gray, not the teal accent: this edge is structural, and teal here competed
+   with the teal used for emphasis elsewhere. 2px keeps the vertical rules ranked --
+   #dee2e6 1px between cells, this one stronger, the selection gutter's teal strongest. */
+.tabulator .tabulator-cell.tabulator-frozen.mcz-pin-edge {
 	border-right: 2px solid #adb5bd;
 }
 
@@ -222,6 +227,14 @@ tabulator_bootstrap4.min.css so these rules win.
 
 .tabulator-page-jump-wrapper label {
 	margin: 0 3px 0 0;
+}
+
+/* Tabulator appends a bare <label> straight into the paginator for the page-size
+   select, with no class to hang the app's .font-weight-lessbold utility on, so its 560
+   is set here instead. The direct-child selector deliberately spares the "Page:" label,
+   which sits inside .tabulator-page-jump-wrapper and carries the class itself. */
+.tabulator .tabulator-paginator > label {
+	font-weight: 560;
 }
 
 /* Matches .tabulator-page-size's own look, so the two selects sit consistently. */

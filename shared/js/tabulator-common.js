@@ -298,6 +298,10 @@ function mczAddPageJumpControl(table, selectId) {
 	wrapper.className = "tabulator-page-jump-wrapper";
 	var label = document.createElement("label");
 	label.setAttribute("for", selectId);
+	/* The app's own weight utility (560), matching the "Page Size" label beside it --
+	   that one is built by Tabulator with no class to hook, so it is set in
+	   tabulator_overrides.css instead. */
+	label.className = "font-weight-lessbold";
 	label.textContent = "Page:";
 	var select = document.createElement("select");
 	select.id = selectId;
@@ -622,10 +626,14 @@ function mczExportFilename(searchType, extension) {
  * @param table the Tabulator instance.
  * @param selectionMap a Map owned and read by the caller, keyed by the idField value.
  * @param idField row field holding a stable unique id (the table's index field).
+ * @param persistAcrossPages true to gather a selection across pages; false to scope it
+ *   to the rows currently loaded. Pass false for a single-row selection mode: Tabulator
+ *   enforces selectableRows: 1 only among the rows it has loaded, so across pages such a
+ *   mode would otherwise accumulate rows and report a count its own name contradicts.
  * @param onChange optional; called with the Map after every change, e.g. to update a
  *   count the user can see when the selected rows themselves are on another page.
  */
-function mczAttachSelectionStore(table, selectionMap, idField, onChange) {
+function mczAttachSelectionStore(table, selectionMap, idField, persistAcrossPages, onChange) {
 	/* Re-ticking rows below re-enters rowSelected, which is harmless in itself but
 	   would fire onChange once per row; suppress it and report once at the end. */
 	var reapplying = false;
@@ -649,6 +657,15 @@ function mczAttachSelectionStore(table, selectionMap, idField, onChange) {
 	   every completed load -- a page change, a sort, a header filter and a new search
 	   alike -- which is exactly when the checkboxes need re-ticking. */
 	table.on("dataProcessed", function () {
+		if (!persistAcrossPages) {
+			/* Scoped to what is on screen. setData has already dropped Tabulator's own
+			   selection for the page just replaced (see clearSelectionData), so emptying
+			   the store here keeps the two in agreement rather than leaving the store
+			   describing rows the grid no longer considers selected. */
+			selectionMap.clear();
+			changed();
+			return;
+		}
 		if (selectionMap.size) {
 			reapplying = true;
 			table.getRows().forEach(function (row) {
