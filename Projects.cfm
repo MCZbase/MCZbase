@@ -516,8 +516,9 @@ links do) redisplays correctly.
 	var savedColumnVisibility = {};
 	var projectColumnPinned = true;
 	/* The fields pinned together as one group at the left edge, in the order they must
-	   keep: a row's identity between its two per-row actions. Frozen columns have to be
-	   contiguous from the left, so this order is not cosmetic. Assigned in
+	   keep: the row's two actions, then its identity. With the row-selection checkbox
+	   ahead of them the visible order reads select, details, edit, project. Frozen columns
+	   have to be contiguous from the left, so this order is not cosmetic. Assigned in
 	   buildProjectsTable, where canManageProjects is known, and read again by
 	   togglePinProjectColumn. */
 	var projectsPinnedFields = [];
@@ -627,9 +628,10 @@ links do) redisplays correctly.
 		];
 
 		if (canManageProjects) {
-			/* Third, inside the pinned group: an edit control that has to be scrolled to is
-			   no more use than a details button that has to be scrolled to. */
-			columns.splice(2, 0, {
+			/* Third column overall -- after the selection checkbox and Details, ahead of
+			   Project -- and inside the pinned group: an edit control that has to be scrolled
+			   to is no more use than a details button that has to be scrolled to. */
+			columns.splice(1, 0, {
 				title: "Edit",
 				/* A control column, not data -- "_mcz"-prefixed so mczIsDataColumn() keeps it
 				   out of the row details dialog. Binding it to project_id would also have a
@@ -651,7 +653,7 @@ links do) redisplays correctly.
 		}
 
 		projectsPinnedFields = canManageProjects
-			? ["_mczDetails", "project_name", "_mczEdit"]
+			? ["_mczDetails", "_mczEdit", "project_name"]
 			: ["_mczDetails", "project_name"];
 		/* Freeze the group together, and mark only its last column, so the heavier divider
 		   draws once where the pinned block ends rather than after every column in it. */
