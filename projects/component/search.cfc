@@ -60,7 +60,21 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.project_id#">
 			<cfset row["value"] = "#search.project_name#" >
-			<cfset row["meta"] = "#search.project_name# (#search.start_date# - #search.end_date#)" >
+			<!--- Dates formatted here rather than in SQL, and the empty cases named, to match
+			      how projects/showProject.cfm presents these same two columns. A raw Oracle
+			      DATE would otherwise carry its 00:00:00 into the picklist. (search() below
+			      formats with TO_CHAR instead, because its values reach the grid as strings
+			      and its header filters match on TO_CHAR(...) LIKE.) --->
+			<cfif len(search.start_date) EQ 0 AND len(search.end_date) EQ 0>
+				<cfset projectDates = "Unknown">
+			<cfelseif len(search.start_date) EQ 0>
+				<cfset projectDates = "Unknown - #dateformat(search.end_date,'yyyy-mm-dd')#">
+			<cfelseif len(search.end_date) EQ 0>
+				<cfset projectDates = "#dateformat(search.start_date,'yyyy-mm-dd')# - [ongoing]">
+			<cfelse>
+				<cfset projectDates = "#dateformat(search.start_date,'yyyy-mm-dd')# to #dateformat(search.end_date,'yyyy-mm-dd')#">
+			</cfif>
+			<cfset row["meta"] = "#search.project_name# (#projectDates#)">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

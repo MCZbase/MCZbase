@@ -597,6 +597,104 @@ function mczExportFilename(searchType, extension) {
 }
 
 /**
+ * mczAttachSelectionStore keeps a grid's row selection in a caller-owned Map, so a
+ * selection survives paging, sorting and header filtering.
+ *
+ * Tabulator's own selection cannot do this under paginationMode "remote". Every page
+ * change runs setData, which builds fresh Row objects, while the SelectRow module's
+ * selectedRows array goes on pointing at the previous page's now-detached rows: the
+ * checkboxes come back empty and getSelectedData() still reports the stale rows, so an
+ * export of "selected rows only" can include rows the user can no longer see -- even
+ * rows from an earlier search. The selectableRowsPersistence option (true by default)
+ * does not help; it is written for client-side data, where the same Row objects are
+ * reused across a page change.
+ *
+ * The Map holds each row's whole data object, not just its id, so an export can include
+ * rows from pages the browser no longer has loaded. This is the same approach the
+ * jqxGrid pages take -- see the fixedlisttoremove Set in Specimens.cfm, whose checkbox
+ * renderer likewise recomputes each checked state from the Set on every render -- and,
+ * like it, the selection lives only as long as the page. A reload clears it.
+ *
+ * Requires the table's `index` option to name the same field as idField, so Tabulator
+ * itself can identify a row; its default index is "id", which most of this app's
+ * queries do not return.
+ *
+ * @param table the Tabulator instance.
+ * @param selectionMap a Map owned and read by the caller, keyed by the idField value.
+ * @param idField row field holding a stable unique id (the table's index field).
+ * @param onChange optional; called with the Map after every change, e.g. to update a
+ *   count the user can see when the selected rows themselves are on another page.
+ */
+function mczAttachSelectionStore(table, selectionMap, idField, onChange) {
+	/* Re-ticking rows below re-enters rowSelected, which is harmless in itself but
+	   would fire onChange once per row; suppress it and report once at the end. */
+	var reapplying = false;
+
+	function changed() {
+		if (!reapplying && onChange) {
+			onChange(selectionMap);
+		}
+	}
+
+	table.on("rowSelected", function (row) {
+		var data = row.getData();
+		selectionMap.set(String(data[idField]), data);
+		changed();
+	});
+	table.on("rowDeselected", function (row) {
+		selectionMap.delete(String(row.getData()[idField]));
+		changed();
+	});
+	/* dataProcessed, not renderComplete: the rows exist by then, and it fires after
+	   every completed load -- a page change, a sort, a header filter and a new search
+	   alike -- which is exactly when the checkboxes need re-ticking. */
+	table.on("dataProcessed", function () {
+		if (selectionMap.size) {
+			reapplying = true;
+			table.getRows().forEach(function (row) {
+				if (selectionMap.has(String(row.getData()[idField])) && !row.isSelected()) {
+					row.select();
+				}
+			});
+			reapplying = false;
+		}
+		changed();
+	});
+}
+
+/**
+ * mczClearSelectionStore empties a selection store and deselects whatever rows are
+ * loaded, so the Map and the visible checkboxes cannot drift apart. Call it when the
+ * result set changes underneath the selection -- a new search -- since a selection
+ * held over from different results is how an export ends up with the wrong rows.
+ *
+ * @param table the Tabulator instance, or null if it no longer exists.
+ * @param selectionMap the Map passed to mczAttachSelectionStore.
+ * @param onChange optional; called with the emptied Map.
+ */
+function mczClearSelectionStore(table, selectionMap, onChange) {
+	selectionMap.clear();
+	if (table) {
+		table.deselectRow();
+	}
+	if (onChange) {
+		onChange(selectionMap);
+	}
+}
+
+/**
+ * mczRefreshSelectionCount reports how many rows are selected, as text. Without this
+ * a selection is invisible whenever its rows are on another page.
+ *
+ * @param selectionMap the Map passed to mczAttachSelectionStore.
+ * @param elementId id (no leading #) of the element to write the count into.
+ */
+function mczRefreshSelectionCount(selectionMap, elementId) {
+	var count = selectionMap.size;
+	jQuery("#" + elementId).text(count ? count + (count === 1 ? " row selected" : " rows selected") : "");
+}
+
+/**
  * mczIsDataColumn reports whether a column definition describes a column holding a
  * row's data, as opposed to one holding a control (a details button, an edit link).
  *

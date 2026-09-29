@@ -29,8 +29,18 @@ tabulator_bootstrap4.min.css so these rules win.
 	font-size: 0.875em;
 }
 
+/* The vendored theme sets font-weight: 700 here, and the column titles inherit it
+   (.tabulator-col-title declares no weight of its own), so the headings came out fully
+   bold. 600 lightens them. Set in this rule rather than by retuning the app's
+   .font-weight-lessbold utility, which is 560 and used in 113 places -- changing its
+   value to reach the grid would move type on every one of them.
+
+   Cascade: this is the same selector as the theme's own rule and the same specificity
+   (0,2,0), and tabulator_overrides.css is linked after tabulator_bootstrap4.min.css, so
+   source order settles it. No !important required. */
 .tabulator .tabulator-header {
 	background-color: #deebec;
+	font-weight: 600;
 }
 
 .tabulator .tabulator-col {

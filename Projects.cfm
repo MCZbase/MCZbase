@@ -485,6 +485,7 @@ links do) redisplays correctly.
 									<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
+								<output id="selectionCount" class="mx-1 my-0 small text-muted"></output>
 								<output id="actionFeedback" class="mx-1 my-0 h5"></output>
 							</div>
 						</div>
@@ -505,6 +506,10 @@ links do) redisplays correctly.
 <cfoutput>
 <script>
 	var projectsTable = null;
+	/* Selected rows, keyed by project_id, held here rather than left to Tabulator --
+	   see mczAttachSelectionStore for why remote paging makes its own selection
+	   unreliable. In memory only: a reload clears it. */
+	var projectsSelection = new Map();
 	var oneOfUs = #oneOfUsJs#;
 	var canManageProjects = #canManageProjectsJs#;
 	var pageFilePath = "#cgi.script_name#";
@@ -567,6 +572,12 @@ links do) redisplays correctly.
 			projectsTable.destroy();
 			projectsTable = null;
 		}
+		/* A mode change builds a new instance, and the modes disagree about what selection
+		   even means (Cell(s) and Text have none; Single Row holds one). Clearing keeps the
+		   count honest rather than leaving it describing rows nothing can now show. */
+		mczClearSelectionStore(null, projectsSelection, function (map) {
+			mczRefreshSelectionCount(map, "selectionCount");
+		});
 		/* Root cause of "text mode's native drag-selection stops working after visiting
 		   a range-selection mode, until a full page reload" (confirmed against source):
 		   Tabulator's SelectRange module adds a "tabulator-ranges" class to the container
@@ -656,6 +667,10 @@ links do) redisplays correctly.
 			   delay keeps typing from sending a request per keystroke. */
 			filterMode: "remote",
 			headerFilterLiveFilterDelay: 600,
+			/* Tabulator's index option defaults to "id", a field search() does not return,
+			   which left every row's identity undefined -- nothing that has to recognise a
+			   row across two data loads could work. */
+			index: "project_id",
 			persistence: { sort: true },
 			persistenceID: "projectsSearchGrid_v1",
 			placeholder: "No projects matched your search.",
@@ -748,6 +763,9 @@ links do) redisplays correctly.
 		mczRegisterTabulatorInstance(projectsTable);
 		mczPreventSelectRangeNativeSelection(projectsTable);
 		mczAddPageJumpControl(projectsTable, "projectsPageJump");
+		mczAttachSelectionStore(projectsTable, projectsSelection, "project_id", function (map) {
+			mczRefreshSelectionCount(map, "selectionCount");
+		});
 		projectsTable.on("tableBuilt", populateColumnChooser);
 		projectsTable.on("tableBuilt", function () {
 			mczRefreshShowHiddenColumnsButton(projectsTable, "showHiddenColumnsButton");
@@ -974,7 +992,10 @@ links do) redisplays correctly.
 			exportToCSV(mczBuildCsv(projectsTable, rows, true), filename);
 		}
 		if ($("##" + selectedOnlyCheckboxId).is(":checked")) {
-			var selected = projectsTable.getSelectedData();
+			/* From the store, not getSelectedData(): the store holds rows selected on pages
+			   the browser has since replaced, which is the whole point of exporting a
+			   selection gathered across pages. */
+			var selected = Array.from(projectsSelection.values());
 			if (!selected.length) {
 				messageDialog("No rows are selected. Select one or more rows, or uncheck Selected rows only to export every result.", "Export");
 				return;
@@ -1114,6 +1135,10 @@ links do) redisplays correctly.
 	 */
 	function searchProjects() {
 		var tableAlreadyExisted = !!projectsTable;
+		/* New results, so any held selection described the old ones. */
+		mczClearSelectionStore(projectsTable, projectsSelection, function (map) {
+			mczRefreshSelectionCount(map, "selectionCount");
+		});
 		ensureProjectsTableBuilt().then(function () {
 			if (tableAlreadyExisted) {
 				projectsTable.setPage(1);
