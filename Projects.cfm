@@ -191,6 +191,34 @@ links do) redisplays correctly.
 
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
 <link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
+<!---
+Deviation from the styleguide, deliberate and temporary: it puts concept styles in a
+stylesheet rather than inline in a .cfm. Both rules below are fixes to shared rules that
+every page uses, so they are piloted here, scoped to this one toolbar, rather than moving
+type on every page before we have decided whether this grid becomes the pattern for all
+the search pages.
+
+To promote: move this block into shared/css/bootstrap_override.css beside the rules it
+corrects, and drop the .mcz-results-toolbar scope from both selectors. Nothing else has
+to change -- any other search page adopting the pattern meanwhile can opt in by putting
+mcz-results-toolbar on its own results bar, so this scales either way.
+--->
+<style>
+	/* .btn-xs in bootstrap_override.css sets padding .15rem top / .22rem bottom, which
+	   sits a button's label low in its box -- that rule carries a comment about chasing
+	   exactly this. Even padding centres the label. */
+	.mcz-results-toolbar .btn-xs {
+		padding-top: .18rem;
+		padding-bottom: .18rem;
+	}
+
+	/* select.data-entry-select sets no line-height, so it resolves to the browser's
+	   default and the select ends up a couple of pixels off the buttons beside it.
+	   .btn-xs uses 1.2rem; matching it lines the two up. */
+	.mcz-results-toolbar select.data-entry-select {
+		line-height: 1.2rem;
+	}
+</style>
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
 <script src="/projects/js/projects.js"></script>
 
@@ -435,8 +463,14 @@ links do) redisplays correctly.
 		<section class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
-					<div class="row mt-1 mb-0 border px-2 pt-2 mx-0 align-items-center" style="background-color:#deebec;">
-						<h1 class="h4 ml-2 ml-md-1 mt-1 mb-1 px-2 mb-xl-2">
+					<!--- py-1, not pt-2: top padding alone left the toolbar sitting against the bottom
+					      edge of the bar. align-items-center then centres the heading and the buttons
+					      on each other within that symmetric space. --->
+					<div class="row mt-1 mb-0 border px-2 py-1 mx-0 align-items-center mcz-results-toolbar" style="background-color:#deebec;">
+						<!--- my-0: the bar's own padding sets the vertical space. The previous mt-1/mb-1
+						      pair, with mb-xl-2 overriding the bottom at xl, both added height and
+						      pulled the heading off the centre line. --->
+						<h1 class="h4 ml-2 ml-md-1 my-0 px-2">
 							<span tabindex="0">Results: </span>
 							<span id="resultsMeta" style="display:none;">
 								<span class="pr-2 font-weight-normal" id="resultCount"></span>
@@ -470,7 +504,9 @@ links do) redisplays correctly.
 									</span>
 								</span>
 								<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
-								<div class="d-inline-flex align-items-center flex-wrap mx-1 pb-1">
+								<!--- No pb-1 here: a bottom padding its siblings don't have sat this
+								      group below the row's centre line. --->
+								<div class="d-inline-flex align-items-center flex-wrap mx-1">
 									<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
 									<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
 										<option value="text">Text</option>
@@ -482,7 +518,7 @@ links do) redisplays correctly.
 								</div>
 								<button type="button" id="copySelectionButton" class="btn btn-xs btn-info mx-1" title="Copy selection to clipboard" onclick="mczCopySelectedFromAllInstances();"><i class="fas fa-copy" aria-hidden="true"></i></button>
 								<cfif oneOfUs EQ 1>
-									<button type="button" class="btn btn-xs btn-secondary mx-1 mb-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
 								<output id="selectionCount" class="mx-1 my-0 small text-muted"></output>
@@ -1202,7 +1238,10 @@ links do) redisplays correctly.
 		mczEnableClipboardCopy();
 
 		$("##showhide").html(
-			'<button class="my-0 border rounded" title="hide search form" ' +
+			/* btn btn-xs btn-secondary, like every other control in this toolbar -- the
+			   legacy "border rounded" spelling rendered it at the browser's default button
+			   size, noticeably taller than its neighbours. */
+			'<button type="button" class="btn btn-xs btn-secondary mx-1 my-0" title="hide search form" ' +
 			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +
 			'<i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>'
 		);
