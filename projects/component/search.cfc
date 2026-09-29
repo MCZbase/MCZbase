@@ -113,12 +113,13 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
-@param year restrict to projects active in this year, i.e. this year falls between the
-	project's start year and end year, inclusive.
-@param start_year restrict to projects whose start_date falls in this year.
-@param end_year restrict to projects whose end_date falls in this year; "NOT NULL" restricts
-	to projects with a defined end_date (i.e. not ongoing), "NULL" restricts to projects with
-	no end_date (ongoing).
+@param year retired from the search form; accepted so existing saved searches and links
+	still work, and mapped to a one-year range (start_year = end_year = year).
+@param start_year with end_year, a range of years the project must overlap: it must still
+	have been running in or after start_year.
+@param end_year with start_year, a range of years the project must overlap: it must have
+	started in or before end_year. "NOT NULL" instead restricts to projects with a defined
+	end_date (not ongoing), "NULL" to projects with no end_date (ongoing).
 @param descr_len minimum length, in characters, of project_description.
 @param project_description substring to match against project_description.
 @param project_remarks substring to match against project_remarks.
@@ -267,6 +268,17 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset arguments.accn_transaction_id = "NOT NULL">
 		</cfif>
 
+		<!--- year is retired from the form; a saved search or link carrying it is treated as
+		      a one-year range. --->
+		<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
+			<cfif len(arguments.start_year) EQ 0>
+				<cfset arguments.start_year = arguments.year>
+			</cfif>
+			<cfif len(arguments.end_year) EQ 0>
+				<cfset arguments.end_year = arguments.year>
+			</cfif>
+		</cfif>
+
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				project.project_id,
@@ -387,19 +399,24 @@ the caller. Returns one row per matching project, ordered by project_name.
 							SELECT project_publication.project_id FROM project_publication)
 					</cfif>
 				</cfif>
-				<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
-					AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
-						BETWEEN TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY'))
-				</cfif>
+				<!--- start_year and end_year are two ends of one range, and a project matches if
+				      it OVERLAPS that range rather than sitting inside it, so the comparisons are
+				      crossed: the range's start bounds the project's END, the range's end bounds
+				      the project's START. NVL covers the open cases -- no end_date means still
+				      running, so it counts as running through the end of any range; no start_date
+				      counts as always started. The BETWEEN this replaces evaluated to NULL when
+				      end_date was NULL, silently excluding every ongoing project. --->
 				<cfif len(arguments.start_year) GT 0 AND isnumeric(arguments.start_year)>
-					AND TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
+					AND NVL(TO_NUMBER(TO_CHAR(project.end_date,'YYYY')), 9999)
+						>= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
 				</cfif>
 				<cfif arguments.end_year EQ "NOT NULL">
 					AND project.end_date IS NOT NULL
 				<cfelseif arguments.end_year EQ "NULL">
 					AND project.end_date IS NULL
 				<cfelseif len(arguments.end_year) GT 0 AND isnumeric(arguments.end_year)>
-					AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
+					AND NVL(TO_NUMBER(TO_CHAR(project.start_date,'YYYY')), 0)
+						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
 				</cfif>
 				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
 					AND project.project_id IN (

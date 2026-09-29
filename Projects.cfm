@@ -282,26 +282,34 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 										</div>
 										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-2 col-xl-2">
-												<label for="descr_len" class="data-entry-label">Desc. Min. Len.</label>
+											<div class="col-12 col-md-2 col-xl-1">
+												<label for="descr_len" class="data-entry-label">Min. Len.</label>
 												<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 											</div>
 										</cfif>
-										<div class="col-12 col-md-2 col-xl-2">
-											<label for="year" class="data-entry-label">Active in Year</label>
-											<input type="text" id="year" name="year" class="data-entry-input" value="#encodeForHtml(variables.year)#">
-										</div>
-										<div class="col-12 col-md-2 col-xl-2">
-											<label for="start_year" class="data-entry-label">Start Year</label>
-											<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
-										</div>
-										<div class="col-12 col-md-3 col-xl-2">
-											<label for="end_year" class="data-entry-label d-inline w-auto">End Year</label>
-											<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
-											<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
+										<!--- One group, so the grid cannot separate the two ends of the range. "Active in
+										      Year" was removed from here: it asked whether a project was running in a given
+										      year, which is the same question as a range whose two ends are that year, so
+										      the range subsumes it. Its BETWEEN was also broken -- see the year clauses in
+										      projects/component/search.cfc. The year argument is still accepted there, so
+										      saved searches carrying it keep working. --->
+										<div class="col-12 col-md-5 col-xl-4">
+											<span class="data-entry-label" aria-hidden="true">Years</span>
+											<div class="d-flex align-items-end">
+												<span class="flex-fill">
+													<label for="start_year" class="data-entry-label small90 mb-0">start</label>
+													<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
+												</span>
+												<span class="text-secondary px-1 pb-1">&ndash;</span>
+												<span class="flex-fill">
+													<label for="end_year" class="data-entry-label small90 d-inline w-auto mb-0">end</label>
+													<span class="text-secondary small90">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small90">)</span>
+													<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
+												</span>
+											</div>
 										</div>
 										<cfif oneOfUs EQ 1>
-											<div class="col-12 col-md-4 col-xl-3">
+											<div class="col-12 col-md-8 col-xl-9">
 												<label for="project_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" id="project_remarks" name="project_remarks" class="data-entry-input" value="#encodeForHtml(variables.project_remarks)#">
 											</div>
