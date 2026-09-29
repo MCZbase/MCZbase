@@ -500,13 +500,13 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 								<span id="exportSelectedOnlyContainer" style="display:none;">
 									<span class="d-inline-flex align-items-center mx-1">
 										<input type="checkbox" id="exportSelectedOnly" class="mr-1">
-										<label for="exportSelectedOnly" class="mb-0">Selected rows only</label>
+										<label for="exportSelectedOnly" class="mb-0 small">Selected rows only</label>
 									</span>
 								</span>
 								<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
 								<!--- No pb-1 here: a bottom padding its siblings don't have sat this
 								      group below the row's centre line. --->
-								<div class="d-inline-flex align-items-center flex-wrap mx-1">
+								<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
 									<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
 									<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
 										<option value="text">Text</option>
@@ -521,8 +521,12 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
-								<output id="selectionCount" class="mx-1 my-0 small text-muted"></output>
-								<output id="actionFeedback" class="mx-1 my-0 h5"></output>
+								<!--- text-nowrap on both: they are the last items in a wrapping flex
+								      row, so without it a two-word message breaks onto its own line.
+								      actionFeedback drops from h5 to small for the same reason -- at
+								      1.25rem it was the widest thing in the bar after the heading. --->
+								<output id="selectionCount" class="ml-1 my-0 small text-muted text-nowrap"></output>
+								<output id="actionFeedback" class="ml-1 my-0 small text-nowrap"></output>
 							</div>
 						</div>
 					</div>
