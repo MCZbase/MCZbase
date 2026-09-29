@@ -276,14 +276,15 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							<div class="col-12 px-2">
 								<!--- Three columns from xl up. Project needs half the width for its six fields,
 								      Agents' three pickers take a name fragment in a narrow one, and Related needs
-								      four units to fit the longest Nature of Contributions option. Full width below
-								      xl; the medium arrangement is still open. --->
+								      four units to fit the longest Nature of Contributions option. At md Project
+								      takes the full row with Agents and Related side by side beneath it; all three
+								      stack below that. --->
 								<div class="form-row">
 									<div class="col-12 col-xl-6">
 										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-xl-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Project</legend>
 											<div class="form-row">
-												<div class="col-12 col-md-4 col-xl-5">
+												<div class="col-12 col-md-5">
 													<label for="p_title" class="data-entry-label">Title</label>
 													<input type="text" id="p_title" name="p_title" class="data-entry-input" value="#encodeForHtml(variables.p_title)#">
 													<script>
@@ -292,12 +293,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-4 col-xl-#descrWidth#">
+												<div class="col-12 col-md-#descrWidth#">
 													<label for="project_description" class="data-entry-label">Description</label>
 													<input type="text" id="project_description" name="project_description" class="data-entry-input" value="#encodeForHtml(variables.project_description)#">
 												</div>
 												<cfif oneOfUs EQ 1>
-													<div class="col-12 col-md-2 col-xl-2">
+													<div class="col-12 col-md-2">
 														<label for="descr_len" class="data-entry-label">Min. Len.</label>
 														<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 													</div>
@@ -308,7 +309,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 												      the range subsumes it. Its BETWEEN was also broken -- see the year clauses in
 												      projects/component/search.cfc. The year argument is still accepted there, so
 												      saved searches carrying it keep working. --->
-												<div class="col-12 col-xl-12">
+												<div class="col-12">
 													<div class="d-flex align-items-end">
 														<span class="flex-fill">
 															<label for="start_year" class="data-entry-label mb-0">Start Year</label>
@@ -323,11 +324,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 													</div>
 												</div>
 												<cfif oneOfUs EQ 1>
-													<div class="col-12 col-md-8 col-xl-9">
+													<div class="col-12 col-md-9">
 														<label for="project_remarks" class="data-entry-label">Remarks</label>
 														<input type="text" id="project_remarks" name="project_remarks" class="data-entry-input" value="#encodeForHtml(variables.project_remarks)#">
 													</div>
-													<div class="col-12 col-md-3 col-xl-3">
+													<div class="col-12 col-md-3">
 														<label for="mask_project_fg" class="data-entry-label">Visibility</label>
 														<cfset selected = "">
 														<cfif variables.mask_project_fg EQ ""><cfset selected = "selected"></cfif>
@@ -345,11 +346,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-12 col-xl-2">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mx-xl-0">
+									<div class="col-12 col-md-6 col-xl-2">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-0 ml-xl-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Agents</legend>
 											<div class="form-row">
-												<div class="col-12 col-xl-12">
+												<div class="col-12">
 													<div class="form-row mx-0 my-0 py-0">
 														<label for="participant_agent_name" id="participant_agent_name_label" class="data-entry-label mb-0 pb-0">Participant
 															<span id="participant_agent_view" class="ml-2"></span>
@@ -358,7 +359,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="participant_agent_name" id="participant_agent_name" class="w-100 h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
+															<input type="text" name="participant_agent_name" id="participant_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
 															<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
 														</div>
 													</div>
@@ -368,7 +369,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-xl-12">
+												<div class="col-12">
 													<div class="form-row mx-0 my-0 py-0">
 														<label for="sponsor_agent_name" id="sponsor_agent_name_label" class="data-entry-label mb-0 pb-0">Sponsor
 															<span id="sponsor_agent_view" class="ml-2"></span>
@@ -377,7 +378,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="w-100 h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
+															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
 															<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
 														</div>
 													</div>
@@ -388,7 +389,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 													</script>
 												</div>
 												<cfif canManageTransactions>
-													<div class="col-12 col-xl-12">
+													<div class="col-12">
 														<div class="form-row mx-0 my-0 py-0">
 															<label for="transaction_agent_name" id="transaction_agent_name_label" class="data-entry-label mb-0 pb-0">Transaction Agent
 																<span id="transaction_agent_view" class="ml-2"></span>
@@ -397,7 +398,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 																<div class="input-group-prepend">
 																	<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 																</div>
-																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="w-100 h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
+																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
 																<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
 															</div>
 														</div>
@@ -411,8 +412,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-12 col-xl-4">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-xl-0">
+									<div class="col-12 col-md-6 col-xl-4">
+										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Related</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-#guidWidth#">
