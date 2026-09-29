@@ -193,25 +193,21 @@ links do) redisplays correctly.
 <link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
 <!---
 Deviation from the styleguide, deliberate and temporary: it puts concept styles in a
-stylesheet rather than inline in a .cfm. Both rules below are fixes to shared rules that
-every page uses, so they are piloted here, scoped to this one toolbar, rather than moving
-type on every page before we have decided whether this grid becomes the pattern for all
-the search pages.
+stylesheet rather than inline in a .cfm. These are layout rules for the results toolbar,
+kept here while the arrangement is still being settled on this pilot page. They are
+scoped to .mcz-results-toolbar, so any other search page adopting the pattern can opt in
+by putting that class on its own results bar.
 
-To promote: move this block into shared/css/bootstrap_override.css beside the rules it
-corrects, and drop the .mcz-results-toolbar scope from both selectors. Nothing else has
-to change -- any other search page adopting the pattern meanwhile can opt in by putting
-mcz-results-toolbar on its own results bar, so this scales either way.
+To promote: move this block into shared/css/tabulator_overrides.css and keep the scope --
+the class is what marks a results bar, so it stays. What must NOT happen is a second page
+growing its own copy of these rules in its own <style> block; that is the failure mode
+this arrangement exists to avoid.
+
+Control metrics (one height and text size for every input, select and .btn-xs) are NOT
+here: they live in shared/css/bootstrap_override.css behind .mcz-app-controls, which this
+page opts into on its overlaycontainer. See the comment there.
 --->
 <style>
-	/* .btn-xs in bootstrap_override.css sets padding .15rem top / .22rem bottom, which
-	   sits a button's label low in its box -- that rule carries a comment about chasing
-	   exactly this. Even padding centres the label. */
-	.mcz-results-toolbar .btn-xs {
-		padding-top: .18rem;
-		padding-bottom: .18rem;
-	}
-
 	/* Controls that belong together sit in a .mcz-toolbar-group, and a thin rule marks
 	   where one group ends and the next begins -- whitespace alone left "Selected rows
 	   only" reading as part of "Grid Select:". The first group needs no rule; the bar's
@@ -244,7 +240,7 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 	   Bootstrap 4 has no responsive width utility to do this with -- w-md-* and w-xl-*
 	   arrived in Bootstrap 5 -- which is why it is a media query here. The dividing rule
 	   goes with it: a left border reads as a separator between neighbours, not above a
-	   stacked row, where the my-1 on each group does that job instead. */
+	   stacked row, where the row-gap above does that job instead. */
 	@media (max-width: 1199.98px) {
 		.mcz-results-toolbar .mcz-toolbar-group {
 			flex: 0 0 100%;
@@ -256,18 +252,15 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 			border-left: 0;
 		}
 	}
-
-	/* select.data-entry-select sets no line-height, so it resolves to the browser's
-	   default and the select ends up a couple of pixels off the buttons beside it.
-	   .btn-xs uses 1.2rem; matching it lines the two up. */
-	.mcz-results-toolbar select.data-entry-select {
-		line-height: 1.2rem;
-	}
 </style>
 <script src="/lib/Tabulator/tabulator_ver6.5.2/js/tabulator.min.js"></script>
 <script src="/projects/js/projects.js"></script>
 
-<div id="overlaycontainer" style="position: relative;">
+<!--- mcz-app-controls opts this page into the corrected control metrics in
+      bootstrap_override.css: one height and one text size for every input, select and
+      .btn-xs inside, form and toolbar alike. Piloted per page because those classes have
+      ~2,350 uses across 120 files. --->
+<div id="overlaycontainer" class="mcz-app-controls" style="position: relative;">
 	<main id="content">
 		<section class="container-fluid" role="search">
 			<cftry>
@@ -570,11 +563,11 @@ mcz-results-toolbar on its own results bar, so this scales either way.
 									<span id="exportSelectedOnlyContainer" style="display:none;">
 										<span class="d-inline-flex align-items-center mx-1">
 											<input type="checkbox" id="exportSelectedOnly" class="mr-1">
-											<label for="exportSelectedOnly" class="mb-0 small">Selected rows only</label>
+											<label for="exportSelectedOnly" class="mb-0 small90">Selected rows only</label>
 										</span>
 									</span>
 									<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
-										<label for="selectionMode" class="mb-0 mr-1">Grid Select:</label>
+										<label for="selectionMode" class="mb-0 mr-1 small90">Grid Select:</label>
 										<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
 											<option value="text">Text</option>
 											<option value="cell">Cell(s)</option>

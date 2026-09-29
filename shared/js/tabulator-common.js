@@ -941,16 +941,35 @@ function mczHeaderFilterParams(filters, allowedFields, prefix) {
 }
 
 /**
- * mczHeaderFilterLabel returns headerFilterParams giving a column's header filter input
- * an accessible name ("Filter {title}"). Tabulator's header filter inputs otherwise
- * have only a placeholder, which the developer's guide doesn't accept as a label.
- * aria-label is the one naming mechanism used, since the input has no visible label.
+ * mczHeaderFilterLabel returns the standard headerFilterParams for a column's header
+ * filter input: an accessible name, and the app's own input styling.
+ *
+ * The accessible name ("Filter {title}") is needed because Tabulator's header filter
+ * inputs otherwise carry only a placeholder, which the developer's guide doesn't accept
+ * as a label; aria-label is the one naming mechanism used, since the input has no
+ * visible label.
+ *
+ * data-entry-input makes the filters match the search form's inputs rather than looking
+ * like a different widget. Note what it can and cannot reach: Tabulator's input editor
+ * writes padding, width and box-sizing as *inline styles* on the element it creates, and
+ * an inline style beats a class, so the class supplies the border, font, colour, radius
+ * and background but not the padding. If the remaining few pixels of horizontal padding
+ * matter, only an !important rule can override an inline style.
+ *
+ * (Tabulator also supports a "+" key prefix here to append to an existing attribute
+ * rather than replace it -- not used for class, since getAttribute returns null when the
+ * element has none and the append would produce "nulldata-entry-input".)
  *
  * @param columnTitle the column's title as shown in its header.
  * @return an object usable as a column's headerFilterParams.
  */
 function mczHeaderFilterLabel(columnTitle) {
-	return { elementAttributes: { "aria-label": "Filter " + columnTitle } };
+	return {
+		elementAttributes: {
+			"aria-label": "Filter " + columnTitle,
+			"class": "data-entry-input"
+		}
+	};
 }
 
 /**
