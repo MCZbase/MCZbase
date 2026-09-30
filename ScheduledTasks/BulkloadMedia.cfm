@@ -9,8 +9,10 @@
 		select username,user_agent_id from cf_temp_media group by username,user_agent_id
 	</cfquery>
 	<cfloop query="who">
+		<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this matches no
+			row: e comes back empty and the cfmail below is addressed to nobody. --->
 		<cfquery name="e" datasource="uam_god">
-			select address from electronic_address where address_type='e-mail' and agent_id=#user_agent_id#
+			select address from electronic_address where address_type='e-mail' and agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_agent_id#">
 		</cfquery>
 		<cfquery name="s" datasource="uam_god">
 			select status, count(*) c from cf_temp_media where username='#username#' group by status
