@@ -38,7 +38,7 @@
                inner join electronic_address  authAddrEmail ON (trans.auth_agent_id = authAddrEmail.agent_id)
         WHERE
                 loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
-                <!--- Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
+                <!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
                     matches no row.  electronic_address is INNER joined, so the whole query
                     returns nothing and the shipping label renders empty. --->
                 authAddrEmail.address_type ='e-mail'

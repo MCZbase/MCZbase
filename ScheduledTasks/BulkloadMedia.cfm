@@ -9,7 +9,7 @@
 		select username,user_agent_id from cf_temp_media group by username,user_agent_id
 	</cfquery>
 	<cfloop query="who">
-		<!--- Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this matches no
+		<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this matches no
 			row: e comes back empty and the cfmail below is addressed to nobody. --->
 		<cfquery name="e" datasource="uam_god">
 			select address from electronic_address where address_type='e-mail' and agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_agent_id#">

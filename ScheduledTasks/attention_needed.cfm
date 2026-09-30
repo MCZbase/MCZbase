@@ -28,7 +28,7 @@
 				CONTACT_ROLE='data quality' and
 				sysdate - insert_date  >30 and
 				related_collection_object_id is null and
-				<!--- Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
+				<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
 					matches no row.  ADDRESS is selected and grouped on, so no row survives
 					and this scheduled task mails nobody. --->
 				ADDRESS_TYPE='e-mail'

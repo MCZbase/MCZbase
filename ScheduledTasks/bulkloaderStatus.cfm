@@ -64,7 +64,7 @@
 					from
 						electronic_address,
 						agent_name
-					<!--- Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
+					<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
 						matches no row: addrs comes back empty and no status mail is sent.
 						agent_name also needs a cfqueryparam, but users is assembled as a list of
 						already quoted names, so binding it means rebuilding that list unquoted and
