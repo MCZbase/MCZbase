@@ -1491,6 +1491,16 @@ delete this block.
 	color: rgba(0, 0, 0, .8);
 }
 
+/* The icon prefix on an agent picker. Bootstrap's .375rem vertical padding makes the box
+   taller than the input beside it; .175rem plus the input's own height sits them flush.
+   The height matches what #searchForm's input rule sets, and should move to
+   --mcz-control-line once that rule goes. */
+.mcz-app-controls .input-group-text {
+	padding-top: .175rem;
+	padding-bottom: .175rem;
+	height: 22px;
+}
+
 data-entry-select:after {
 	position: absolute;
 	content: "";
