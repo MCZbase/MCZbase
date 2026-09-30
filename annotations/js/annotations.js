@@ -741,9 +741,17 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	var rootStateField = document.getElementById("edit_root_state" + dialogFieldQualifier);
 	var rootResolutionField = document.getElementById("edit_root_resolution" + dialogFieldQualifier);
 	var resultDivId = "editAnnotationResultDiv" + dialogFieldQualifier;
-	// trimmed, so that the client and updateAnnotationText agree on what counts as empty
-	if (!annField || !annField.value || annField.value.trim().length === 0) {
+	// The text field is readonly for everyone but the annotation's own author, and
+	// updateAnnotationText discards the text it posts back, so only require text of the
+	// author.  Trimmed, so that the two ends agree on what counts as empty.
+	var annIsEditable = annField && !annField.readOnly;
+	if (annIsEditable && annField.value.trim().length === 0) {
 		alert('You must enter annotation text to save.');
+		return false;
+	}
+	if (!annField) {
+		setFeedbackControlState(resultDivId, "error");
+		messageDialog("The annotation text field could not be found, so nothing was saved.","Edit Annotation");
 		return false;
 	}
 	setFeedbackControlState(resultDivId, "saving");

@@ -30,7 +30,7 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- State assigned to an annotation at creation.  An annotation still holding this state has
-	not been triaged.  addAnnotation and currentUserCanEditAnnotation MUST agree on this value:
+	not been triaged.  addAnnotation and currentUserCanEditAnnotationText MUST agree on this value:
 	if they drift, authors silently lose the ability to revise their own annotations. --->
 <cfset variables.INITIALANNOTATIONSTATE = "New">
 
@@ -50,11 +50,17 @@ limitations under the License.
 </cffunction>
 
 <!--- Determine whether the current session may revise the text of an existing annotation.
- manage_collection may always edit.  An annotator may revise their own annotation only until a
- curator acts on it: once it has been reviewed, given a state or a resolution, published, or
- otherwise changed by someone else, it belongs to the curatorial workflow.  annotation_history
- records each audited change with its actor, so a history row not attributable to the author
- ends the author's ability to edit.
+
+ The text of an annotation is the annotator's own words, so only its author may change them.
+ No role grants that: a curator may set motivation, visibility, state, resolution and the
+ review flag on anyone's annotation, but may not rewrite what someone else wrote.  A future
+ global_admin exception is intended, and is deliberately absent until text editing is proven
+ blocked for every non author.
+
+ An author may revise only until a curator acts: once the annotation has been reviewed, given
+ a state or a resolution, published, or otherwise changed by someone else, it belongs to the
+ curatorial workflow.  annotation_history records each audited change with its actor, so a
+ history row not attributable to the author ends the author's ability to edit.
 
  Attribution is tested on changed_by_agent_id first.  TR_ANNOTATIONS_HISTORY assigns that
  column directly from LAST_UPDATED_BY_AGENT_ID, whereas it derives changed_by_username by
@@ -65,14 +71,11 @@ limitations under the License.
  is correct whenever the acting agent does have a login name.
  @param annotation_id the annotation to test.
  @return boolean true when the current session may revise this annotation's text.
- @see userCanRespondToAnnotations, currentUserCanAnnotate
+ @see userCanRespondToAnnotations for the separate authority over the curatorial fields.
 --->
-<cffunction name="currentUserCanEditAnnotation" returntype="boolean" access="public">
+<cffunction name="currentUserCanEditAnnotationText" returntype="boolean" access="public">
 	<cfargument name="annotation_id" type="numeric" required="yes">
 	<cfset var authorEditable = "">
-	<cfif userCanRespondToAnnotations()>
-		<cfreturn true>
-	</cfif>
 	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
 		<cfreturn false>
 	</cfif>
@@ -2353,11 +2356,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var viewerCanManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset var viewerIsInternal = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
 	<!--- An author may revise their own annotation until a curator acts on it.  This repeats
-		currentUserCanEditAnnotation's column tests against values the caller already supplied,
+		currentUserCanEditAnnotationText's column tests against values the caller already supplied,
 		rather than querying once per rendered row; the dialog and updateAnnotationText apply
 		the authoritative test, which additionally reads annotation_history.  The two differ
 		only where a curator has published an annotation without otherwise triaging it, in
-		which case the button shows and the dialog then opens read only. --->
+		which case the button shows and the text then opens readonly. --->
 	<cfset var viewerIsAuthor = viewerLoggedIn AND arguments.cf_username EQ session.username>
 	<cfset var annotationIsUntriaged = val(arguments.reviewed_fg) EQ 0
 		AND arguments.state EQ variables.INITIALANNOTATIONSTATE
@@ -2647,10 +2650,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset canAnnotate = currentUserCanAnnotate()>
-				<!--- True for manage_collection, and for the author while no curator has acted.
-					An author gets the annotation text and nothing else: motivation, visibility and
-					the triage controls below stay behind canManage. --->
-				<cfset canEditThisAnnotation = currentUserCanEditAnnotation(arguments.annotation_id)>
+				<!--- Two separate authorities.  Only the author may change the annotation text, and
+					only while no curator has acted on it; a curator may change motivation, visibility
+					and the triage fields on anyone's annotation but not its text.  Either authority
+					opens the form; each control within it is gated on its own. --->
+				<cfset canEditAnnotationText = currentUserCanEditAnnotationText(arguments.annotation_id)>
+				<cfset canEditThisAnnotation = canManage OR canEditAnnotationText>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
@@ -2931,11 +2936,24 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								</div>
 								<div class="row col-12 mx-0 my-2 d-block">
 									<form name="editAnnotationForm_#dq#" onSubmit="return false;" class="form-row">
+										<!--- The text is the annotator's own words, so it is readonly rather than absent
+											for everyone but the author: a curator needs to read and copy it while setting
+											the fields beside it.  readonly, not disabled, keeps it selectable and keeps
+											its value posted; updateAnnotationText ignores the text from a non author. --->
+										<cfif canEditAnnotationText>
+											<cfset editAnnAttributes = "required">
+											<cfset editAnnClass = "autogrow reqdClr form-control data-entry-textarea">
+										<cfelse>
+											<!--- readonly is barred from constraint validation, so required would be
+												inert here, and the field is not the viewer's to complete. --->
+											<cfset editAnnAttributes = "readonly">
+											<cfset editAnnClass = "autogrow form-control data-entry-textarea bg-light">
+										</cfif>
 										<div class="col-12 pb-1">
-											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text (<span id="#editAnnLengthId#"></span>)</label>
+											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text<cfif canEditAnnotationText> (<span id="#editAnnLengthId#"></span>)<cfelse> <span class="small text-muted">(only the annotator may revise their own text)</span></cfif></label>
 											<textarea rows="2" id="#editAnnFieldId#"
-													onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"
-													class="autogrow reqdClr form-control data-entry-textarea" required>#encodeForHTML(annotationBodyText)#</textarea>
+													<cfif canEditAnnotationText>onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"</cfif>
+													class="#editAnnClass#" #editAnnAttributes#>#encodeForHTML(annotationBodyText)#</textarea>
 											<script>
 												$(document).ready(function() {
 													$("###editAnnFieldId#").keyup(autogrow);
@@ -3267,12 +3285,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param root_state optional; controlled vocabulary state value to set on root annotation.
  @param root_resolution optional; controlled vocabulary resolution value to set on root annotation, or __NULL__ to unset.
  @param root_mask_annotation_fg optional; 0 or 1 to set visibility on the root annotation.
- Requires manage_collection, except that an author may revise the body text of their own
- annotation until a curator acts on it; every other argument is ignored for an author.  The
- body text may not be emptied.
- @return json with status=updated, an http 400 if the body is empty, an http 403 if the
- caller may not edit this annotation, or an http 500 error if the update fails.
- @see currentUserCanEditAnnotation
+ Two separate authorities.  The annotation text may be revised only by its author, and only
+ until a curator acts on it; the annotation argument is discarded for anyone else, including
+ manage_collection.  Every other argument requires manage_collection and is discarded for
+ anyone else.  An author may not empty the text.
+ @return json with status=updated, an http 400 if an author empties the body, an http 403 if
+ the caller holds neither authority, or an http 500 error if the update fails.
+ @see currentUserCanEditAnnotationText
 --->
 <cffunction name="updateAnnotationText" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id"      type="string" required="yes">
@@ -3285,19 +3304,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="root_resolution"    type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
 
+	<!--- Two separate authorities, neither of which implies the other.  public.cfc exposes this
+		method by URL, so cf_rolecheck cannot be relied on for either, and every write below runs
+		on uam_god, so no grant limits what an unchecked argument would change. --->
 	<cfset var curatorEdit = userCanRespondToAnnotations()>
+	<cfset var textEdit = currentUserCanEditAnnotationText(arguments.annotation_id)>
 
-	<!--- public.cfc exposes this method by URL, so cf_rolecheck cannot be relied on.  An author
-		may revise their own annotation while no curator has acted on it, but may write only the
-		body text: every field below is a curator control, the writes all run on uam_god, and so
-		no grant limits what an unchecked argument would change. --->
-	<cfif NOT curatorEdit AND NOT currentUserCanEditAnnotation(arguments.annotation_id)>
+	<cfif NOT curatorEdit AND NOT textEdit>
 		<cfheader statusCode="403" statusText="You may only edit your own annotation, and only until it has been reviewed.">
 		<cfabort>
 	</cfif>
-	<cfif len(trim(urldecode(arguments.annotation))) EQ 0>
-		<cfheader statusCode="400" statusText="An annotation cannot be saved with no text.">
-		<cfabort>
+	<!--- The text is the annotator's own words: a curator may set the fields below on anyone's
+		annotation but may not rewrite it.  The dialog posts the text back readonly, so discard
+		it here rather than rejecting the request, which would block the curator's own fields. --->
+	<cfif NOT textEdit>
+		<cfset arguments.annotation = "">
 	</cfif>
 	<!--- An author supplies none of these, because the dialog does not render them for one.
 		Ignore rather than reject, so that a stale form cannot strand a legitimate text edit. --->
@@ -3309,22 +3330,32 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfset arguments.root_resolution = "">
 		<cfset arguments.root_mask_annotation_fg = "">
 	</cfif>
+	<!--- An author may not empty their annotation.  Tested only when the text will be written,
+		so that a curator's field edit is not refused over text they cannot change anyway. --->
+	<cfif textEdit AND len(trim(urldecode(arguments.annotation))) EQ 0>
+		<cfheader statusCode="400" statusText="An annotation cannot be saved with no text.">
+		<cfabort>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
-			<!--- Update annotation_textualbody body_value (first/earliest row) --->
-			<cfquery name="updBody" datasource="uam_god">
-				UPDATE annotation_textualbody
-				SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">,
-					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-					AND created_date = (
-						SELECT MIN(created_date) FROM annotation_textualbody
-						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-					)
-			</cfquery>
+			<!--- Update annotation_textualbody body_value (first/earliest row).  This is the only
+				statement in the application that revises an existing annotation's text, so it is
+				the one place that has to be closed to a non author. --->
+			<cfif textEdit>
+				<cfquery name="updBody" datasource="uam_god">
+					UPDATE annotation_textualbody
+					SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">,
+						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+						AND created_date = (
+							SELECT MIN(created_date) FROM annotation_textualbody
+							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+						)
+				</cfquery>
+			</cfif>
 			<!--- Update motivation if provided --->
 			<cfif len(trim(arguments.motivation)) GT 0>
 				<cfset cleanMotivation = rereplace(arguments.motivation, "[^a-zA-Z]", "", "all")>
