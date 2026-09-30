@@ -327,7 +327,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														<span class="text-secondary px-1 pb-1">&ndash;</span>
 														<span class="flex-fill">
 															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year</label>
-															<span class="text-secondary small90">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small90">)</span>
+															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
 															<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
 														</span>
 													</div>
@@ -427,10 +427,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											<div class="form-row">
 												<div class="col-12 col-md-#guidWidth#">
 													<label for="guid" class="data-entry-label d-inline w-auto">Cataloged Item</label>
-													<span class="text-secondary small">(</span>
-													<button type="button" class="rules" onclick="document.getElementById('guid').value='NULL';" aria-label="set cataloged item to NULL to find projects related to no cataloged item">None</button>,
-													<button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button>
-													<span class="text-secondary small">)</span>
+													<span class="text-secondary small">(</span><button type="button" class="rules" onclick="document.getElementById('guid').value='NULL';" aria-label="set cataloged item to NULL to find projects related to no cataloged item">None</button>, <button type="button" class="rules" onclick="document.getElementById('guid').value='NOT NULL';" aria-label="set cataloged item to NOT NULL to find projects related to any cataloged item">Any</button><span class="text-secondary small">)</span>
 													<input type="text" id="guid" name="guid" class="data-entry-input" placeholder="MCZ:Coll:nnnnn" value="#encodeForHtml(variables.guid)#" onchange="document.getElementById('collection_object_id').value='';">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(variables.collection_object_id)#">
 													<script>
@@ -442,7 +439,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 												<cfif oneOfUs EQ 1>
 													<div class="col-12 col-md-6">
 														<label for="accn_number" class="data-entry-label d-inline w-auto">Accession</label>
-														<span class="text-secondary small">(</span> <button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>, <button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button><span class="text-secondary small">)</span>
+														<span class="text-secondary small">(</span><button type="button" class="rules" onclick="document.getElementById('accn_number').value='NULL';" aria-label="set accession to NULL to find projects with no accession">None</button>, <button type="button" class="rules" onclick="document.getElementById('accn_number').value='NOT NULL';" aria-label="set accession to NOT NULL to find projects with any accession">Any</button><span class="text-secondary small">)</span>
 														<input type="text" id="accn_number" name="accn_number" class="data-entry-input" placeholder="99999999" value="#encodeForHtml(variables.accn_number)#" onchange="document.getElementById('accn_transaction_id').value='';">
 														<input type="hidden" id="accn_transaction_id" name="accn_transaction_id" value="#encodeForHtml(variables.accn_transaction_id)#">
 														<script>
@@ -484,7 +481,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 												<cfif oneOfUs EQ 1>
 													<div class="col-12">
 														<label for="loan_number" class="data-entry-label d-inline w-auto">Loan Number</label>
-														<span class="text-secondary small">(exact: </span><button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" aria-label="prefix with equals sign for an exact loan number match">=</button>, <span class="text-secondary small">exclude: </span><button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" aria-label="set loan number to NULL to find projects with no loan">None</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button><span class="text-secondary small">)</span> <input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
+														<span class="text-secondary small">(</span><button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='='+e.value;" title="Exact match: prefix the loan number with =" aria-label="prefix with equals sign for an exact loan number match">=</button>, <button type="button" class="rules" onclick="var e=document.getElementById('loan_number');e.value='!'+e.value;" title="Exclude: prefix the loan number with !" aria-label="prefix with exclamation point to exclude an exact loan number">!</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NULL';" title="Projects with no loan" aria-label="set loan number to NULL to find projects with no loan">None</button>, <button type="button" class="rules" onclick="document.getElementById('loan_number').value='NOT NULL';" title="Projects with any loan" aria-label="set loan number to NOT NULL to find projects with any loan">Any</button><span class="text-secondary small">)</span> <input type="text" id="loan_number" name="loan_number" class="data-entry-input" placeholder="yyyy-n-Coll" value="#encodeForHtml(variables.loan_number)#">
 														<script>
 															$(document).ready(function () {
 																makeLoanPickerSearch("loan_number");
