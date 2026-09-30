@@ -4334,7 +4334,7 @@
     				collection.collection_id = collection_contacts.collection_id AND
     				collection_contacts.contact_agent_id = electronic_address.agent_id AND
     				collection_contacts.CONTACT_ROLE = 'data quality' and
-    				electronic_address.ADDRESS_TYPE='e-mail' and
+    				electronic_address.ADDRESS_TYPE=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='email'> and
     				cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#idvalue#' >
     		</cfquery>
     		<cfset mailTo = valuelist(whoTo.address)>
