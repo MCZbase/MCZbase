@@ -2950,7 +2950,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<cfset editAnnClass = "autogrow form-control data-entry-textarea bg-light">
 										</cfif>
 										<div class="col-12 pb-1">
-											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text<cfif canEditAnnotationText> (<span id="#editAnnLengthId#"></span>)<cfelse> <span class="small text-muted">(only the annotator may revise their own text)</span></cfif></label>
+											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text<cfif canEditAnnotationText> (<span id="#editAnnLengthId#"></span>)<cfelse> <span class="small text-muted">(only the annotator may revise their own text, and only before the annotation has been acted upon)</span></cfif></label>
 											<textarea rows="2" id="#editAnnFieldId#"
 													<cfif canEditAnnotationText>onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"</cfif>
 													class="#editAnnClass#" #editAnnAttributes#>#encodeForHTML(annotationBodyText)#</textarea>
