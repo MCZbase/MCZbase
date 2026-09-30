@@ -709,16 +709,18 @@ function mczIsDataColumn(definition) {
 }
 
 /**
- * mczHideableColumns returns the columns a user can show or hide: every column with a
- * title, which is what the Select Columns chooser lists and therefore what a
- * "show hidden columns" control has to be able to bring back.
+ * mczHideableColumns returns the columns a user can show or hide: the data columns,
+ * which is what the Select Columns chooser lists and therefore what a "show hidden
+ * columns" control has to be able to bring back. Control columns are excluded -- the
+ * pinned Details and Edit columns carry a title and would otherwise be offered for
+ * hiding, and hiding a frozen column is not something the chooser should be able to do.
  *
  * @param table the Tabulator instance.
  * @return an array of ColumnComponents.
  */
 function mczHideableColumns(table) {
 	return table.getColumns().filter(function (column) {
-		return !!column.getDefinition().title;
+		return mczIsDataColumn(column.getDefinition());
 	});
 }
 

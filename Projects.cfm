@@ -99,6 +99,15 @@ Search-with-results page for Projects.
 	<cfset oneOfUsJs = "true">
 </cfif>
 
+<!--- cf_grid_properties.username is NOT NULL, and Oracle reads an empty string as NULL.
+      A session can hold coldfusion_user with an empty session.username, so the saved
+      column choices are gated on the username itself, as Specimens.cfm and Agents.cfm do,
+      not on oneOfUs. --->
+<cfset canSaveGridPropertiesJs = "false">
+<cfif isdefined("session.username") and len(session.username) GT 0>
+	<cfset canSaveGridPropertiesJs = "true">
+</cfif>
+
 <!--- Min. Len. and Accession are curator-only; the field to the left of each takes
       the vacated space so a public user gets no gap in the row. --->
 <cfset descrWidth = 5>
@@ -605,6 +614,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   unreliable. In memory only: a reload clears it. */
 	var projectsSelection = new Map();
 	var oneOfUs = #oneOfUsJs#;
+	var canSaveGridProperties = #canSaveGridPropertiesJs#;
 	var canManageProjects = #canManageProjectsJs#;
 	var pageFilePath = "#cgi.script_name#";
 	var savedColumnVisibility = {};
@@ -619,12 +629,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   size actually in effect: a search with fewer matches than this shows them all on
 	   one page, and a later, larger result (e.g. after clearing a column filter) goes
 	   back to this size -- see mczAdjustProjectsPageSizeOptions. */
-	var preferredPageSize = 50;
+	var preferredPageSize = 25;
 	/* Base page-size choices offered below the largest total seen so far -- a fixed
 	   choice larger than the actual result set is redundant with (and more confusing
 	   than) the "All" choice already covering that case. mczAdjustProjectsPageSizeOptions
 	   filters this list down per search once the real total is known. */
-	var PROJECTS_PAGE_SIZE_BASE_OPTIONS = [5, 50, 100];
+	var PROJECTS_PAGE_SIZE_BASE_OPTIONS = [5, 10, 25, 50, 100];
 	/* Fields search.cfc accepts a column header filter for, as filter_{field}. */
 	var projectsFilterFields = ["project_name", "participants", "sponsors", "start_date", "end_date"];
 	/* Shared ⋮ menu on each column header: sort, hide this column (saved like the
@@ -637,7 +647,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   coldfusion_user's persisted column choices should be in flight from page load, not
 	   only once the user's first search kicks off the fetch. Resolves immediately for
 	   everyone else, since there is nothing to fetch. */
-	var columnVisibilityPromise = oneOfUs
+	var columnVisibilityPromise = canSaveGridProperties
 		? mczFetchColumnVisibility(pageFilePath, "Default").then(function (settings) {
 			savedColumnVisibility = settings;
 		})
@@ -646,7 +656,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   the same cf_grid_properties.column_order field and [field, position] format that
 	   the jqxGrid pages use. Fetched up front alongside the visibility settings. */
 	var savedColumnOrder = {};
-	var columnOrderPromise = oneOfUs
+	var columnOrderPromise = canSaveGridProperties
 		? mczFetchColumnOrder(pageFilePath, "Default").then(function (order) {
 			savedColumnOrder = order;
 		})
@@ -898,7 +908,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			preferredPageSize = size;
 		});
 		projectsTable.on("columnMoved", function () {
-			if (oneOfUs) {
+			if (canSaveGridProperties) {
 				mczSaveTableColumnOrder(projectsTable, pageFilePath, "Default", "actionFeedback");
 			}
 		});
@@ -1041,7 +1051,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		var html = "";
 		projectsTable.getColumns().forEach(function (column) {
 			var def = column.getDefinition();
-			if (!def.title) { return; }
+			if (!mczIsDataColumn(def)) { return; }
 			html += "<div class='d-flex align-items-center mb-1'>" +
 				"<input type='checkbox' class='columnChooserCheckbox mr-2' id='colChoice_" + def.field + "' data-field='" + def.field + "'" +
 				(column.isVisible() ? " checked" : "") + ">" +
@@ -1193,7 +1203,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		var hidden = {};
 		projectsTable.getColumns().forEach(function (column) {
 			var def = column.getDefinition();
-			if (def.title && def.field) {
+			if (mczIsDataColumn(def)) {
 				hidden[def.field] = !column.isVisible();
 			}
 		});
@@ -1201,7 +1211,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		if (hiddenColumnsButtonId) {
 			mczRefreshShowHiddenColumnsButton(projectsTable, hiddenColumnsButtonId);
 		}
-		if (oneOfUs) {
+		if (canSaveGridProperties) {
 			saveColumnVisibilities(pageFilePath, hidden, "Default", feedbackDivId);
 		}
 	}
@@ -1298,12 +1308,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			width: "auto",
 			buttons: (function () {
 				var buttons = [];
-				if (oneOfUs) {
+				if (canSaveGridProperties) {
 					buttons.push({
 						text: "Defaults",
 						click: function () {
 							projectsTable.getColumns().forEach(function (column) {
-								if (column.getDefinition().title) { column.show(); }
+								if (mczIsDataColumn(column.getDefinition())) { column.show(); }
 							});
 							savedColumnVisibility = {};
 							saveColumnVisibilities(pageFilePath, {}, "Default", "actionFeedback");
