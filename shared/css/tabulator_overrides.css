@@ -247,3 +247,14 @@ tabulator_bootstrap4.min.css so these rules win.
 .mcz-group-chip-remove:focus {
 	color: #a8412b;
 }
+
+/* The bootstrap4 theme pads every header cell 5px all round and adds 2px above the
+   filter input. The header is chrome shown once, so tightening it buys rows; !important
+   and the extra class are both needed to outrank the theme's own !important rule. */
+.tabulator .tabulator-col-content {
+	padding: 3px !important;
+}
+
+.tabulator .tabulator-header-filter {
+	margin-top: 1px;
+}
