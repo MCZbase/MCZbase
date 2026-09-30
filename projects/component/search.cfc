@@ -37,7 +37,7 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 		<cfelse>
 			<cfset oneOfUs = 0>
 		</cfif>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
 				project_id, project_name, project_description,
@@ -60,7 +60,21 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.project_id#">
 			<cfset row["value"] = "#search.project_name#" >
-			<cfset row["meta"] = "#search.project_name# (#search.start_date# - #search.end_date#)" >
+			<!--- Dates formatted here rather than in SQL, and the empty cases named, to match
+			      how projects/showProject.cfm presents these same two columns. A raw Oracle
+			      DATE would otherwise carry its 00:00:00 into the picklist. (search() below
+			      formats with TO_CHAR instead, because its values reach the grid as strings
+			      and its header filters match on TO_CHAR(...) LIKE.) --->
+			<cfif len(search.start_date) EQ 0 AND len(search.end_date) EQ 0>
+				<cfset projectDates = "Unknown">
+			<cfelseif len(search.start_date) EQ 0>
+				<cfset projectDates = "Unknown - #dateformat(search.end_date,'yyyy-mm-dd')#">
+			<cfelseif len(search.end_date) EQ 0>
+				<cfset projectDates = "#dateformat(search.start_date,'yyyy-mm-dd')# - [ongoing]">
+			<cfelse>
+				<cfset projectDates = "#dateformat(search.start_date,'yyyy-mm-dd')# to #dateformat(search.end_date,'yyyy-mm-dd')#">
+			</cfif>
+			<cfset row["meta"] = "#search.project_name# (#projectDates#)">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -99,12 +113,13 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param project_type one of "loan" (uses specimens), "loan_no_pub" (uses specimens, no
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
-@param year restrict to projects active in this year, i.e. this year falls between the
-	project's start year and end year, inclusive.
-@param start_year restrict to projects whose start_date falls in this year.
-@param end_year restrict to projects whose end_date falls in this year; "NOT NULL" restricts
-	to projects with a defined end_date (i.e. not ongoing), "NULL" restricts to projects with
-	no end_date (ongoing).
+@param year retired from the search form; accepted so existing saved searches and links
+	still work, and mapped to a one-year range (start_year = end_year = year).
+@param start_year with end_year, a range of years the project must overlap: it must still
+	have been running in or after start_year.
+@param end_year with start_year, a range of years the project must overlap: it must have
+	started in or before end_year. "NOT NULL" instead restricts to projects with a defined
+	end_date (not ongoing), "NULL" to projects with no end_date (ongoing).
 @param descr_len minimum length, in characters, of project_description.
 @param project_description substring to match against project_description.
 @param project_remarks substring to match against project_remarks.
@@ -136,6 +151,15 @@ the caller. Returns one row per matching project, ordered by project_name.
 	collection_object_id.
 @param accn_number see accn_transaction_id.
 @param project_id restrict results to this specific project.
+@param filter_project_name column header filter from the results grid: case-insensitive
+	substring match on the project name (markup stripped, as for p_title).
+@param filter_participants column header filter: case-insensitive substring match against
+	any one participant as displayed in the grid, "agent name (role)".
+@param filter_sponsors column header filter: case-insensitive substring match against any
+	one sponsor's name.
+@param filter_start_date column header filter: prefix match on the start date as
+	displayed, 'YYYY-MM-DD', so "2013" matches a year and "2013-07" a month.
+@param filter_end_date column header filter: as filter_start_date, for the end date.
 @param page 1-based page number of results to return; ignored (treated as 1) if size
 	indicates "return every row" (see size below).
 @param size rows per page; any non-numeric value (Tabulator sends the literal string
@@ -173,6 +197,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="accn_transaction_id" type="string" required="no" default="">
 	<cfargument name="accn_number" type="string" required="no" default="">
 	<cfargument name="project_id" type="string" required="no" default="">
+	<cfargument name="filter_project_name" type="string" required="no" default="">
+	<cfargument name="filter_participants" type="string" required="no" default="">
+	<cfargument name="filter_sponsors" type="string" required="no" default="">
+	<cfargument name="filter_start_date" type="string" required="no" default="">
+	<cfargument name="filter_end_date" type="string" required="no" default="">
 	<cfargument name="page" type="string" required="no" default="1">
 	<cfargument name="size" type="string" required="no" default="50">
 	<cfargument name="sort_field" type="string" required="no" default="">
@@ -237,6 +266,17 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset arguments.accn_transaction_id = "NULL">
 		<cfelseif arguments.accn_number EQ "NOT NULL">
 			<cfset arguments.accn_transaction_id = "NOT NULL">
+		</cfif>
+
+		<!--- year is retired from the form; a saved search or link carrying it is treated as
+		      a one-year range. --->
+		<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
+			<cfif len(arguments.start_year) EQ 0>
+				<cfset arguments.start_year = arguments.year>
+			</cfif>
+			<cfif len(arguments.end_year) EQ 0>
+				<cfset arguments.end_year = arguments.year>
+			</cfif>
 		</cfif>
 
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
@@ -359,19 +399,24 @@ the caller. Returns one row per matching project, ordered by project_name.
 							SELECT project_publication.project_id FROM project_publication)
 					</cfif>
 				</cfif>
-				<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
-					AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
-						BETWEEN TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY'))
-				</cfif>
+				<!--- start_year and end_year are two ends of one range, and a project matches if
+				      it OVERLAPS that range rather than sitting inside it, so the comparisons are
+				      crossed: the range's start bounds the project's END, the range's end bounds
+				      the project's START. NVL covers the open cases -- no end_date means still
+				      running, so it counts as running through the end of any range; no start_date
+				      counts as always started. The BETWEEN this replaces evaluated to NULL when
+				      end_date was NULL, silently excluding every ongoing project. --->
 				<cfif len(arguments.start_year) GT 0 AND isnumeric(arguments.start_year)>
-					AND TO_NUMBER(TO_CHAR(project.start_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
+					AND NVL(TO_NUMBER(TO_CHAR(project.end_date,'YYYY')), 9999)
+						>= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
 				</cfif>
 				<cfif arguments.end_year EQ "NOT NULL">
 					AND project.end_date IS NOT NULL
 				<cfelseif arguments.end_year EQ "NULL">
 					AND project.end_date IS NULL
 				<cfelseif len(arguments.end_year) GT 0 AND isnumeric(arguments.end_year)>
-					AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY')) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
+					AND NVL(TO_NUMBER(TO_CHAR(project.start_date,'YYYY')), 0)
+						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
 				</cfif>
 				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
 					AND project.project_id IN (
@@ -496,6 +541,39 @@ the caller. Returns one row per matching project, ordered by project_name.
 				</cfif>
 				<cfif len(arguments.project_id) GT 0 AND isnumeric(arguments.project_id)>
 					AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.project_id#">
+				</cfif>
+				<!--- Column header filters from the results grid, applied on top of the search
+				      form's criteria. Each matches the value as the grid displays it. --->
+				<cfif len(trim(arguments.filter_project_name)) GT 0>
+					AND UPPER(REGEXP_REPLACE(project.project_name,'<[^>]*>')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_project_name))#%">
+				</cfif>
+				<cfif len(trim(arguments.filter_participants)) GT 0>
+					AND EXISTS (
+						SELECT 1
+						FROM
+							project_agent filter_pa
+							JOIN agent_name filter_pa_name ON filter_pa.agent_name_id = filter_pa_name.agent_name_id
+						WHERE
+							filter_pa.project_id = project.project_id AND
+							UPPER(filter_pa_name.agent_name || ' (' || filter_pa.project_agent_role || ')') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_participants))#%">
+					)
+				</cfif>
+				<cfif len(trim(arguments.filter_sponsors)) GT 0>
+					AND EXISTS (
+						SELECT 1
+						FROM
+							project_sponsor filter_ps
+							JOIN agent_name filter_ps_name ON filter_ps.agent_name_id = filter_ps_name.agent_name_id
+						WHERE
+							filter_ps.project_id = project.project_id AND
+							UPPER(filter_ps_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(arguments.filter_sponsors))#%">
+					)
+				</cfif>
+				<cfif len(trim(arguments.filter_start_date)) GT 0>
+					AND TO_CHAR(project.start_date,'YYYY-MM-DD') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.filter_start_date)#%">
+				</cfif>
+				<cfif len(trim(arguments.filter_end_date)) GT 0>
+					AND TO_CHAR(project.end_date,'YYYY-MM-DD') LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(arguments.filter_end_date)#%">
 				</cfif>
 			ORDER BY
 				<cfswitch expression="#arguments.sort_field#">

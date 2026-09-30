@@ -1461,6 +1461,60 @@ select.data-entry-select {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 }
+
+/*
+One height and text size for every input, select and .btn-xs inside a page that opts in
+with class="mcz-app-controls". The explicit height is what makes a <select> match an
+<input>; .form-control sets one for the same reason, and these three rules do not.
+
+Scoped per page because these classes have ~2,350 uses across 120 .cfm files. When every
+page carries the class, fold these declarations into the three base rules above and
+delete this block.
+*/
+.mcz-app-controls {
+	--mcz-control-line: 1.2rem;
+	--mcz-control-pad: .18rem;
+}
+
+.mcz-app-controls input.data-entry-input:not([type="checkbox"]):not([type="radio"]),
+.mcz-app-controls select.data-entry-select,
+.mcz-app-controls .btn-xs {
+	box-sizing: border-box;
+	line-height: var(--mcz-control-line);
+	padding-top: var(--mcz-control-pad);
+	padding-bottom: var(--mcz-control-pad);
+	height: calc(var(--mcz-control-line) + (2 * var(--mcz-control-pad)) + 2px);
+}
+
+/* The select's text was paler than the inputs. */
+.mcz-app-controls select.data-entry-select {
+	color: rgba(0, 0, 0, .8);
+}
+
+/* The icon prefix on an agent picker. Bootstrap's .375rem vertical padding and inherited
+   line-height make the box taller than the input beside it. Reducing both lets
+   .input-group's own align-items: stretch size the box to the input, whatever the input's
+   height turns out to be -- so this needs no revisiting when #searchForm's height rules go. */
+.mcz-app-controls .input-group-text {
+	padding-top: .175rem;
+	padding-bottom: .175rem;
+	line-height: 1;
+	height: auto;
+}
+
+/* A label carrying modifier links renders taller than a plain one, because the inline
+   buttons inflate its line box. That left the Agents fieldset, whose labels are plain
+   text, a few pixels shorter per row than Project and Related. Pinning the line box
+   keeps every label line the same height whether it carries links or not. */
+.mcz-app-controls .data-entry-label {
+	line-height: 1.2rem;
+}
+
+.mcz-app-controls button.rules {
+	line-height: inherit;
+	vertical-align: baseline;
+}
+
 data-entry-select:after {
 	position: absolute;
 	content: "";
@@ -1930,6 +1984,17 @@ The #searchFormDiv is on all search pages to control form fields, labels, select
 	line-height: 1.15rem;
 	border-radius: .2rem;
 	height: 22px;
+}
+
+/* The rule above carries an id, so its width outranks Bootstrap's
+   .input-group > .form-control and pushes the input below the prepended
+   icon instead of beside it. Restores the flex sizing inside input groups. */
+.tab-content .input-group > input[type="text"],
+#searchForm fieldset .input-group > input[type="text"],
+#annotationSearchForm fieldset .input-group > input[type="text"] {
+	flex: 1 1 auto;
+	width: 1%;
+	min-width: 0;
 }
 .tab-content input[type="button"] #searchForm fieldset input[type="button"], #annotationSearchForm  fieldset input[type="button"] {
 	border: none;
