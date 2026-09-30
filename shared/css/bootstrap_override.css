@@ -1502,6 +1502,19 @@ delete this block.
 	height: auto;
 }
 
+/* A label carrying modifier links renders taller than a plain one, because the inline
+   buttons inflate its line box. That left the Agents fieldset, whose labels are plain
+   text, a few pixels shorter per row than Project and Related. Pinning the line box
+   keeps every label line the same height whether it carries links or not. */
+.mcz-app-controls .data-entry-label {
+	line-height: 1.2rem;
+}
+
+.mcz-app-controls button.rules {
+	line-height: inherit;
+	vertical-align: baseline;
+}
+
 data-entry-select:after {
 	position: absolute;
 	content: "";
