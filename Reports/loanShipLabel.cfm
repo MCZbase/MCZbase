@@ -37,7 +37,10 @@
                inner join addr authAddr ON (trans.auth_agent_id = authAddr.agent_id)
                inner join electronic_address  authAddrEmail ON (trans.auth_agent_id = authAddrEmail.agent_id)
         WHERE
-                loan.transaction_id=#transaction_id# and
+                loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+                <!--- Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
+                    matches no row.  electronic_address is INNER joined, so the whole query
+                    returns nothing and the shipping label renders empty. --->
                 authAddrEmail.address_type ='e-mail'
 </cfquery>
 	<cfquery name="shipTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
