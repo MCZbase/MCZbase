@@ -289,8 +289,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								      takes the full row with Agents and Related side by side beneath it; all three
 								      stack below that. --->
 								<div class="form-row">
-									<div class="col-12 col-xl-6">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-xl-0">
+									<div class="col-12 col-xl-6 d-flex">
+										<fieldset class="bg-light border-default field-set rounded flex-fill px-2 pt-1 pb-2 mt-2 mx-2 mr-xl-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Project</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-5">
@@ -355,8 +355,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-12 col-md-6 col-xl-2">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 mr-md-0 ml-xl-0">
+									<div class="col-12 col-md-6 col-xl-2 d-flex">
+										<fieldset class="bg-light border-default field-set rounded flex-fill px-2 pt-1 pb-2 mt-2 mx-2 mr-md-0 ml-xl-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Agents</legend>
 											<div class="form-row">
 												<div class="col-12">
@@ -421,8 +421,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-12 col-md-6 col-xl-4">
-										<fieldset class="bg-light border-default field-set rounded px-2 pt-1 pb-2 mt-2 mx-2 ml-md-0">
+									<div class="col-12 col-md-6 col-xl-4 d-flex">
+										<fieldset class="bg-light border-default field-set rounded flex-fill px-2 pt-1 pb-2 mt-2 mx-2 ml-md-0">
 											<legend class="h6 mb-0 px-3 border-default field-set-legend py-0 w-auto bg-teal font-weight-lessbold">Related</legend>
 											<div class="form-row">
 												<div class="col-12 col-md-#guidWidth#">
