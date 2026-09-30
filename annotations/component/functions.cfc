@@ -29,6 +29,15 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- State assigned to an annotation at creation.  An annotation still holding this state has
+	not been triaged.  addAnnotation and currentUserCanEditAnnotationText MUST agree on this value:
+	if they drift, authors silently lose the ability to revise their own annotations. --->
+<cfset variables.INITIALANNOTATIONSTATE = "New">
+
+<!--- ctelectronic_addr_type value for an email address.  Note that several older pages query
+	electronic_address for the type 'e-mail', which this code table does not contain. --->
+<cfset variables.EMAILADDRESSTYPE = "email">
+
 <!--- Determine whether current user can perform review/response workflow actions.
  @return boolean true when session user has manage_collection role.
 --->
@@ -38,6 +47,69 @@ limitations under the License.
 		<cfset canRespond = true>
 	</cfif>
 	<cfreturn canRespond>
+</cffunction>
+
+<!--- Determine whether the current session may revise the text of an existing annotation.
+
+ The text of an annotation is the annotator's own words, so only its author may change them.
+ No role grants that: a curator may set motivation, visibility, state, resolution and the
+ review flag on anyone's annotation, but may not rewrite what someone else wrote.  A future
+ global_admin exception is intended, and is deliberately absent until text editing is proven
+ blocked for every non author.
+
+ An author may revise only until a curator acts: once the annotation has been reviewed, given
+ a state or a resolution, published, or otherwise changed by someone else, it belongs to the
+ curatorial workflow.  annotation_history records each audited change with its actor, so a
+ history row not attributable to the author ends the author's ability to edit.
+
+ Attribution is tested on changed_by_agent_id first.  TR_ANNOTATIONS_HISTORY assigns that
+ column directly from LAST_UPDATED_BY_AGENT_ID, whereas it derives changed_by_username by
+ looking up an agent_name of type login and, on an UPDATE, falls back to the Oracle session
+ user when no such name exists.  Every annotation write uses the uam_god datasource, so that
+ fallback is one shared account rather than the acting person, and matching on it alone would
+ let an author's own earlier edit lock them out.  A username match is still accepted, since it
+ is correct whenever the acting agent does have a login name.
+ @param annotation_id the annotation to test.
+ @return boolean true when the current session may revise this annotation's text.
+ @see userCanRespondToAnnotations for the separate authority over the curatorial fields.
+--->
+<cffunction name="currentUserCanEditAnnotationText" returntype="boolean" access="public">
+	<cfargument name="annotation_id" type="numeric" required="yes">
+	<cfset var authorEditable = "">
+	<cfif NOT isDefined("session.username") OR len(trim(session.username)) EQ 0>
+		<cfreturn false>
+	</cfif>
+	<!--- uam_god: only coldfusion_user is granted select on annotation_history, and an author
+		who is not staff holds no such grant. --->
+	<cfquery name="authorEditable" datasource="uam_god">
+		SELECT COUNT(*) AS editable
+		FROM annotations
+		WHERE
+			annotations.annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+			AND annotations.cf_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			AND annotations.reviewed_fg = 0
+			AND annotations.reviewer_agent_id IS NULL
+			AND annotations.resolution IS NULL
+			AND annotations.state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.INITIALANNOTATIONSTATE#">
+			AND NOT EXISTS (
+				SELECT 1
+				FROM annotation_history
+				WHERE
+					annotation_history.annotation_id = annotations.annotation_id
+					AND NOT (
+						(
+							annotation_history.changed_by_agent_id IS NOT NULL
+							AND annotations.annotator_agent_id IS NOT NULL
+							AND annotation_history.changed_by_agent_id = annotations.annotator_agent_id
+						)
+						OR (
+							annotation_history.changed_by_username IS NOT NULL
+							AND annotation_history.changed_by_username = annotations.cf_username
+						)
+					)
+			)
+	</cfquery>
+	<cfreturn val(authorEditable.editable) GT 0>
 </cffunction>
 
 <!--- Determine whether the current session may create annotations.  Single definition of the
@@ -86,8 +158,220 @@ limitations under the License.
 	<cfreturn resolvedAgentId>
 </cffunction>
 
+<!--- Resolve a login to an agent_id, finding an existing agent or creating one when none can
+ be found.  An annotator needs an agent record to be recorded as the author of their own
+ annotation and of any later revision to it, and a self registered account has none.
+
+ The cf user record is linked to the agent by an agent_name row of type login: there is no
+ agent_id column on cf_users or cf_user_data, so that row is the link, and it is what
+ getAgentIdForLoginName reads.  This function creates that row for a found agent as well as
+ for a new one.
+
+ An existing agent is reused only when both the user's full name and their email address match
+ exactly.  A looser match risks attributing annotations to the wrong person, whereas a
+ duplicate agent costs only a later merge.
+
+ @param login_name the login username to resolve to an agent_id.
+ @return numeric agent_id for the login, or 0 when none could be resolved or created.
+ @see getAgentIdForLoginName
+--->
+<cffunction name="getOrCreateAgentIdForLogin" returntype="numeric" access="public">
+	<cfargument name="login_name" type="string" required="yes">
+
+	<cfset var resolvedAgentId = getAgentIdForLoginName(arguments.login_name)>
+	<cfset var accountHolder = "">
+	<cfset var existingAgent = "">
+	<cfset var newAgentId = "">
+	<cfset var newAgentNameId = "">
+	<cfset var insAgent = "">
+	<cfset var insPerson = "">
+	<cfset var insPreferredName = "">
+	<cfset var insElectronicAddress = "">
+	<cfset var insLoginName = "">
+	<cfset var existingLoginName = "">
+	<cfset var loginNameId = "">
+	<cfset var fullName = "">
+	<cfset var agentRemarks = "">
+	<cfset var cleanLoginName = trim(arguments.login_name)>
+
+	<!--- already linked --->
+	<cfif resolvedAgentId GT 0>
+		<cfreturn resolvedAgentId>
+	</cfif>
+	<!--- CK_AGENT_NAME_NOT_ALL_DIGITS forbids an all digit agent_name, so an all digit login
+		cannot be stored as the linking name and no agent can be resolved for it. --->
+	<cfif len(cleanLoginName) EQ 0 OR REFind("^[0-9]+$", cleanLoginName) GT 0>
+		<cfreturn 0>
+	</cfif>
+
+	<cfquery name="accountHolder" datasource="uam_god">
+		SELECT
+			cf_user_data.first_name,
+			cf_user_data.middle_name,
+			cf_user_data.last_name,
+			cf_user_data.affiliation,
+			cf_user_data.email
+		FROM
+			cf_users
+			JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+		WHERE
+			cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">
+	</cfquery>
+	<cfif accountHolder.recordcount NEQ 1>
+		<cfreturn 0>
+	</cfif>
+
+	<!--- preferred name is composed as the agent editor composes it, first middle last --->
+	<cfset fullName = trim(accountHolder.first_name)>
+	<cfif len(trim(accountHolder.middle_name)) GT 0>
+		<cfset fullName = fullName & " " & trim(accountHolder.middle_name)>
+	</cfif>
+	<cfif len(trim(accountHolder.last_name)) GT 0>
+		<cfset fullName = fullName & " " & trim(accountHolder.last_name)>
+	</cfif>
+	<cfset fullName = trim(fullName)>
+	<cfif len(fullName) EQ 0 OR REFind("^[0-9]+$", fullName) GT 0>
+		<cfreturn 0>
+	</cfif>
+
+	<!--- reuse an agent only on an exact match of both name and email --->
+	<cfif len(trim(accountHolder.email)) GT 0>
+		<cfquery name="existingAgent" datasource="uam_god">
+			SELECT MIN(agent_name.agent_id) AS agent_id
+			FROM
+				agent_name
+				JOIN electronic_address ON agent_name.agent_id = electronic_address.agent_id
+			WHERE
+				agent_name.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fullName#">
+				AND electronic_address.address = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
+				AND electronic_address.address_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.EMAILADDRESSTYPE#">
+		</cfquery>
+		<cfif existingAgent.recordcount GT 0 AND val(existingAgent.agent_id) GT 0>
+			<cfset resolvedAgentId = val(existingAgent.agent_id)>
+		</cfif>
+	</cfif>
+
+	<cfif resolvedAgentId EQ 0>
+		<cfquery name="newAgentId" datasource="uam_god">
+			SELECT sq_agent_id.nextval AS nextAgentId FROM dual
+		</cfquery>
+		<cfquery name="newAgentNameId" datasource="uam_god">
+			SELECT sq_agent_name_id.nextval AS nextAgentNameId FROM dual
+		</cfquery>
+		<cfset resolvedAgentId = val(newAgentId.nextAgentId)>
+		<cfif len(trim(accountHolder.affiliation)) GT 0>
+			<cfset agentRemarks = "Affiliation on MCZbase account creation: " & trim(accountHolder.affiliation)>
+		</cfif>
+		<!--- edited = 0: created from account data without curatorial vetting --->
+		<cfquery name="insAgent" datasource="uam_god">
+			INSERT INTO agent (
+				agent_id,
+				agent_type,
+				preferred_agent_name_id,
+				edited
+				<cfif len(agentRemarks) GT 0>
+					,agent_remarks
+				</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="person">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(newAgentNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+				<cfif len(agentRemarks) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentRemarks#">
+				</cfif>
+			)
+		</cfquery>
+		<cfquery name="insPerson" datasource="uam_god">
+			INSERT INTO person (
+				person_id,
+				last_name
+				<cfif len(trim(accountHolder.first_name)) GT 0>
+					,first_name
+				</cfif>
+				<cfif len(trim(accountHolder.middle_name)) GT 0>
+					,middle_name
+				</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.last_name)#">
+				<cfif len(trim(accountHolder.first_name)) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.first_name)#">
+				</cfif>
+				<cfif len(trim(accountHolder.middle_name)) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.middle_name)#">
+				</cfif>
+			)
+		</cfquery>
+		<cfquery name="insPreferredName" datasource="uam_god">
+			INSERT INTO agent_name (
+				agent_name_id,
+				agent_id,
+				agent_name_type,
+				agent_name,
+				donor_card_present_fg
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(newAgentNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="preferred">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fullName#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+			)
+		</cfquery>
+		<cfif len(trim(accountHolder.email)) GT 0>
+			<cfquery name="insElectronicAddress" datasource="uam_god">
+				INSERT INTO electronic_address (
+					agent_id,
+					address_type,
+					address
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.EMAILADDRESSTYPE#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(accountHolder.email)#">
+				)
+			</cfquery>
+		</cfif>
+	</cfif>
+
+	<!--- link the cf user record to the agent, whether found or created.  The check and the
+		insert are separate statements because Oracle rejects sequence.nextval in an
+		INSERT ... SELECT qualified by a subquery. --->
+	<cfquery name="existingLoginName" datasource="uam_god">
+		SELECT COUNT(*) AS name_count
+		FROM agent_name
+		WHERE
+			agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">
+			AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">
+	</cfquery>
+	<cfif val(existingLoginName.name_count) EQ 0>
+		<cfquery name="loginNameId" datasource="uam_god">
+			SELECT sq_agent_name_id.nextval AS nextAgentNameId FROM dual
+		</cfquery>
+		<cfquery name="insLoginName" datasource="uam_god">
+			INSERT INTO agent_name (
+				agent_name_id,
+				agent_id,
+				agent_name_type,
+				agent_name,
+				donor_card_present_fg
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(loginNameId.nextAgentNameId)#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resolvedAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="login">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cleanLoginName#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="0">
+			)
+		</cfquery>
+	</cfif>
+
+	<cfreturn resolvedAgentId>
+</cffunction>
+
 <!--- Require current user login to resolve to an agent_id for annotation edit/update actions.
+ Creates the agent record when the login has none, so that an annotator who registered an
+ account without one can still be recorded as the author of their own edits.
  @return numeric non-zero agent_id for the current session user.
+ @see getOrCreateAgentIdForLogin
 --->
 <cffunction name="requireCurrentUserAnnotationEditorAgentId" returntype="numeric" access="public">
 	<cfset var editorAgentId = 0>
@@ -95,7 +379,7 @@ limitations under the License.
 		<cfheader statusCode="403" statusText="Editing annotations requires a logged-in user.">
 		<cfabort>
 	</cfif>
-	<cfset editorAgentId = getAgentIdForLoginName(session.username)>
+	<cfset editorAgentId = getOrCreateAgentIdForLogin(session.username)>
 	<cfif editorAgentId LTE 0>
 		<cfheader statusCode="403" statusText="Editing annotations requires your login name to be associated with an agent record.">
 		<cfabort>
@@ -755,7 +1039,7 @@ limitations under the License.
 						collection.collection_id = collection_contacts.collection_id AND
 						collection_contacts.contact_agent_id = electronic_address.agent_id AND
 						collection_contacts.CONTACT_ROLE = 'data quality' and
-						electronic_address.ADDRESS_TYPE='e-mail' and
+						electronic_address.ADDRESS_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.EMAILADDRESSTYPE#"> and
 						cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >
 				</cfquery>
 				<cfset mailTo = valuelist(whoTo.address)>
@@ -885,7 +1169,7 @@ limitations under the License.
 	<cfif annotatable>
 		<cftransaction>
 			<cftry>
-				<cfset annotatorAgentId = getAgentIdForLoginName(session.username)>
+				<cfset annotatorAgentId = getOrCreateAgentIdForLogin(session.username)>
 				<cfquery name="annotator" datasource="uam_god">
 					SELECT username, first_name, last_name, affiliation, email 
 					FROM cf_users u left join cf_user_data ud on u.user_id = ud.user_id
@@ -917,7 +1201,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.target_type#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
-						'New',
+						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#variables.INITIALANNOTATIONSTATE#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#annotatorAgentId#' null="#NOT (val(annotatorAgentId) GT 0)#">
@@ -2071,8 +2355,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset var viewerLoggedIn = isdefined("session.username") AND len(trim(session.username)) GT 0>
 	<cfset var viewerCanManage = isDefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 	<cfset var viewerIsInternal = isDefined("session.roles") AND listfindnocase(session.roles, "coldfusion_user")>
+	<!--- An author may revise their own annotation until a curator acts on it.  This repeats
+		currentUserCanEditAnnotationText's column tests against values the caller already supplied,
+		rather than querying once per rendered row; the dialog and updateAnnotationText apply
+		the authoritative test, which additionally reads annotation_history.  The two differ
+		only where a curator has published an annotation without otherwise triaging it, in
+		which case the button shows and the text then opens readonly. --->
+	<cfset var viewerIsAuthor = viewerLoggedIn AND arguments.cf_username EQ session.username>
+	<cfset var annotationIsUntriaged = val(arguments.reviewed_fg) EQ 0
+		AND arguments.state EQ variables.INITIALANNOTATIONSTATE
+		AND len(trim(arguments.resolution)) EQ 0
+		AND len(trim(arguments.reviewer)) EQ 0>
 	<cfset var showReplyBtn = viewerLoggedIn AND viewerCanManage AND arguments.show_reply_action>
-	<cfset var showEditBtn = viewerLoggedIn AND viewerCanManage AND (NOT arguments.highlight_as_editing)>
+	<cfset var showEditBtn = viewerLoggedIn
+		AND (viewerCanManage OR (viewerIsAuthor AND annotationIsUntriaged))
+		AND (NOT arguments.highlight_as_editing)>
 	<cfset var showHistoryBtn = viewerLoggedIn AND viewerIsInternal>
 	<cfset var showViewBtn = arguments.show_view_action AND (NOT arguments.is_response)
 		AND ( val(arguments.mask_annotation_fg) EQ 0 OR viewerCanManage )>
@@ -2227,14 +2524,11 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfif hasRowActions>
 				<div class="#actionColClass#">
 					<cfif viewerLoggedIn>
-						<cfif viewerCanManage>
-							<cfif showReplyBtn>
-								<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
-							</cfif>
-							<!--- TODO: Support users editing their own annotations even without manage_collection --->
-							<cfif showEditBtn>
-								<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
-							</cfif>
+						<cfif showReplyBtn>
+							<button type="button" class="btn btn-xs btn-primary mb-1 open-reply-annotation-dialog" data-target-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Reply</button>
+						</cfif>
+						<cfif showEditBtn>
+							<button type="button" class="btn btn-xs btn-secondary mb-1 open-edit-annotation-dialog" data-edit-annotation-id="#encodeForHTMLAttribute(arguments.annotation_id)#" data-root-annotation-id="#encodeForHTMLAttribute(rootAnnotationId)#">Edit</button>
 						</cfif>
 						<!--- History reads ANNOTATION_HISTORY, which COLDFUSION_USER holds SELECT on, and
 							getAnnotationHistoryDialogHtml enforces that same role.  Gating the button on
@@ -2356,6 +2650,12 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfset canManage = isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection")>
 				<cfset canRespond = userCanRespondToAnnotations()>
 				<cfset canAnnotate = currentUserCanAnnotate()>
+				<!--- Two separate authorities.  Only the author may change the annotation text, and
+					only while no curator has acted on it; a curator may change motivation, visibility
+					and the triage fields on anyone's annotation but not its text.  Either authority
+					opens the form; each control within it is gated on its own. --->
+				<cfset canEditAnnotationText = currentUserCanEditAnnotationText(arguments.annotation_id)>
+				<cfset canEditThisAnnotation = canManage OR canEditAnnotationText>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
@@ -2629,18 +2929,31 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									</cfif>
 								</cfif>
 							</h2>
-							<cfif canManage>
+							<cfif canEditThisAnnotation>
 							<div class="col-12 px-0 add-form">
 								<div class="add-form-header px-2 pb-1">
 									<h3 class="h4 my-0 px-1 py-1" tabindex="0">Edit Annotation</h3>
 								</div>
 								<div class="row col-12 mx-0 my-2 d-block">
 									<form name="editAnnotationForm_#dq#" onSubmit="return false;" class="form-row">
+										<!--- The text is the annotator's own words, so it is readonly rather than absent
+											for everyone but the author: a curator needs to read and copy it while setting
+											the fields beside it.  readonly, not disabled, keeps it selectable and keeps
+											its value posted; updateAnnotationText ignores the text from a non author. --->
+										<cfif canEditAnnotationText>
+											<cfset editAnnAttributes = "required">
+											<cfset editAnnClass = "autogrow reqdClr form-control data-entry-textarea">
+										<cfelse>
+											<!--- readonly is barred from constraint validation, so required would be
+												inert here, and the field is not the viewer's to complete. --->
+											<cfset editAnnAttributes = "readonly">
+											<cfset editAnnClass = "autogrow form-control data-entry-textarea bg-light">
+										</cfif>
 										<div class="col-12 pb-1">
-											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text (<span id="#editAnnLengthId#"></span>)</label>
+											<label for="#editAnnFieldId#" class="data-entry-label">Annotation Text<cfif canEditAnnotationText> (<span id="#editAnnLengthId#"></span>)<cfelse> <span class="small text-muted">(only the annotator may revise their own text, and only before the annotation has been acted upon)</span></cfif></label>
 											<textarea rows="2" id="#editAnnFieldId#"
-													onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"
-													class="autogrow reqdClr form-control data-entry-textarea" required>#encodeForHTML(annotationBodyText)#</textarea>
+													<cfif canEditAnnotationText>onkeyup="countCharsLeft('#editAnnFieldId#', 4000, '#editAnnLengthId#');"</cfif>
+													class="#editAnnClass#" #editAnnAttributes#>#encodeForHTML(annotationBodyText)#</textarea>
 											<script>
 												$(document).ready(function() {
 													$("###editAnnFieldId#").keyup(autogrow);
@@ -2648,32 +2961,34 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-2 pb-1">
-											<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
-											<select id="#editMotivationFieldId#" class="data-entry-select">
-												<cfloop query="ctmotivation">
-													<cfif motivation EQ editAnn.motivation><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2 pb-1">
-											<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
-											<select id="#editMaskFieldId#" class="data-entry-select"<cfif val(editAnn.reviewed_fg) EQ 0> aria-describedby="visibility_hint_#dq#"</cfif>>
-												<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="0"#selected#>Public</option>
-												<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="1"#selected#>Hidden</option>
-											</select>
-											<!--- Visibility and Reviewed? are independent by design, so nothing sets the review
-												flag for the curator.  Shown only while the annotation is unreviewed, which is the
-												only case where the wording would be misleading.  aria-describedby, not a second
-												label: the select already has one accessible name. --->
-											<cfif val(editAnn.reviewed_fg) EQ 0>
-												<span id="visibility_hint_#dq#" class="small text-muted d-block">Displays as "[Hidden - Pending review]" until Reviewed? is set to Yes.</span>
-											</cfif>
-										</div>
-										<cfif isResponseAnnotation>
+										<cfif canManage>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editMotivationFieldId#" class="data-entry-label">Motivation</label>
+												<select id="#editMotivationFieldId#" class="data-entry-select">
+													<cfloop query="ctmotivation">
+														<cfif motivation EQ editAnn.motivation><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+														<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 pb-1">
+												<label for="#editMaskFieldId#" class="data-entry-label">Visibility</label>
+												<select id="#editMaskFieldId#" class="data-entry-select"<cfif val(editAnn.reviewed_fg) EQ 0> aria-describedby="visibility_hint_#dq#"</cfif>>
+													<cfif val(editAnn.mask_annotation_fg) EQ 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="0"#selected#>Public</option>
+													<cfif val(editAnn.mask_annotation_fg) EQ 1><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="1"#selected#>Hidden</option>
+												</select>
+												<!--- Visibility and Reviewed? are independent by design, so nothing sets the review
+													flag for the curator.  Shown only while the annotation is unreviewed, which is the
+													only case where the wording would be misleading.  aria-describedby, not a second
+													label: the select already has one accessible name. --->
+												<cfif val(editAnn.reviewed_fg) EQ 0>
+													<span id="visibility_hint_#dq#" class="small text-muted d-block">Displays as "[Hidden - Pending review]" until Reviewed? is set to Yes.</span>
+												</cfif>
+											</div>
+										</cfif>
+										<cfif canManage AND isResponseAnnotation>
 											<div class="col-12 col-md-2 pb-1">
 												<cfset currentRootReviewedLabel = "No">
 												<cfif rootAnnQ.recordcount EQ 1 AND val(rootAnnQ.reviewed_fg) EQ 1>
@@ -2970,7 +3285,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
  @param root_state optional; controlled vocabulary state value to set on root annotation.
  @param root_resolution optional; controlled vocabulary resolution value to set on root annotation, or __NULL__ to unset.
  @param root_mask_annotation_fg optional; 0 or 1 to set visibility on the root annotation.
- @return json with status=updated or an http 500 error if the update fails.
+ Two separate authorities.  The annotation text may be revised only by its author, and only
+ until a curator acts on it; the annotation argument is discarded for anyone else, including
+ manage_collection.  Every other argument requires manage_collection and is discarded for
+ anyone else.  An author may not empty the text.
+ @return json with status=updated, an http 400 if an author empties the body, an http 403 if
+ the caller holds neither authority, or an http 500 error if the update fails.
+ @see currentUserCanEditAnnotationText
 --->
 <cffunction name="updateAnnotationText" returntype="any" access="remote" returnformat="json">
 	<cfargument name="annotation_id"      type="string" required="yes">
@@ -2983,8 +3304,36 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfargument name="root_resolution"    type="string" required="no" default="">
 	<cfargument name="root_mask_annotation_fg" type="string" required="no" default="">
 
-	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles, "manage_collection"))>
-		<cfheader statusCode="403" statusText="The manage_collection role is required to edit annotations.">
+	<!--- Two separate authorities, neither of which implies the other.  public.cfc exposes this
+		method by URL, so cf_rolecheck cannot be relied on for either, and every write below runs
+		on uam_god, so no grant limits what an unchecked argument would change. --->
+	<cfset var curatorEdit = userCanRespondToAnnotations()>
+	<cfset var textEdit = currentUserCanEditAnnotationText(arguments.annotation_id)>
+
+	<cfif NOT curatorEdit AND NOT textEdit>
+		<cfheader statusCode="403" statusText="You may only edit your own annotation, and only until it has been reviewed.">
+		<cfabort>
+	</cfif>
+	<!--- The text is the annotator's own words: a curator may set the fields below on anyone's
+		annotation but may not rewrite it.  The dialog posts the text back readonly, so discard
+		it here rather than rejecting the request, which would block the curator's own fields. --->
+	<cfif NOT textEdit>
+		<cfset arguments.annotation = "">
+	</cfif>
+	<!--- An author supplies none of these, because the dialog does not render them for one.
+		Ignore rather than reject, so that a stale form cannot strand a legitimate text edit. --->
+	<cfif NOT curatorEdit>
+		<cfset arguments.motivation = "">
+		<cfset arguments.mask_annotation_fg = "">
+		<cfset arguments.root_reviewed_fg = "">
+		<cfset arguments.root_state = "">
+		<cfset arguments.root_resolution = "">
+		<cfset arguments.root_mask_annotation_fg = "">
+	</cfif>
+	<!--- An author may not empty their annotation.  Tested only when the text will be written,
+		so that a curator's field edit is not refused over text they cannot change anyway. --->
+	<cfif textEdit AND len(trim(urldecode(arguments.annotation))) EQ 0>
+		<cfheader statusCode="400" statusText="An annotation cannot be saved with no text.">
 		<cfabort>
 	</cfif>
 
@@ -2992,17 +3341,21 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfset editorAgentId = requireCurrentUserAnnotationEditorAgentId()>
 	<cftransaction>
 		<cftry>
-			<!--- Update annotation_textualbody body_value (first/earliest row) --->
-			<cfquery name="updBody" datasource="uam_god">
-				UPDATE annotation_textualbody
-				SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">,
-					last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
-				WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-					AND created_date = (
-						SELECT MIN(created_date) FROM annotation_textualbody
-						WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
-					)
-			</cfquery>
+			<!--- Update annotation_textualbody body_value (first/earliest row).  This is the only
+				statement in the application that revises an existing annotation's text, so it is
+				the one place that has to be closed to a non author. --->
+			<cfif textEdit>
+				<cfquery name="updBody" datasource="uam_god">
+					UPDATE annotation_textualbody
+					SET body_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urldecode(arguments.annotation)#">,
+						last_updated_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editorAgentId#">
+					WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+						AND created_date = (
+							SELECT MIN(created_date) FROM annotation_textualbody
+							WHERE annotation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.annotation_id#">
+						)
+				</cfquery>
+			</cfif>
 			<!--- Update motivation if provided --->
 			<cfif len(trim(arguments.motivation)) GT 0>
 				<cfset cleanMotivation = rereplace(arguments.motivation, "[^a-zA-Z]", "", "all")>

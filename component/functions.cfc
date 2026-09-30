@@ -2383,7 +2383,6 @@
     <cfset result = result & "<h2>Create New Permissions &amp; Rights Document</h2>
     <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
        material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
-	<cfoutput>
 	<form id='newPermitForm' onsubmit='addnewpermit'>
    	    <input type='hidden' name='method' value='createNewPermitForTrans'>
     	<input type='hidden' name='returnformat' value='plain'>
@@ -4334,7 +4333,7 @@
     				collection.collection_id = collection_contacts.collection_id AND
     				collection_contacts.contact_agent_id = electronic_address.agent_id AND
     				collection_contacts.CONTACT_ROLE = 'data quality' and
-    				electronic_address.ADDRESS_TYPE='e-mail' and
+    				electronic_address.ADDRESS_TYPE=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='email'> and
     				cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#idvalue#' >
     		</cfquery>
     		<cfset mailTo = valuelist(whoTo.address)>
