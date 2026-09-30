@@ -843,6 +843,115 @@ function mczDetailsButtonColumn(dialogTitle) {
 }
 
 /**
+ * mczColumnTitle returns a column's title for a field, falling back to the field name.
+ *
+ * @param table the Tabulator instance.
+ * @param field a column field name.
+ * @return the column's title, or the field name.
+ */
+function mczColumnTitle(table, field) {
+	var title = field;
+	table.getColumns().forEach(function (column) {
+		if (column.getField() === field) {
+			title = column.getDefinition().title || field;
+		}
+	});
+	return title;
+}
+
+/**
+ * mczGroupHeaderElement builds a group header reading "Column: value (n)". Returns an
+ * element, not a string: Tabulator appends an element but assigns a string to
+ * innerHTML (confirmed against source), and the grouped value is row data.
+ *
+ * @param table the Tabulator instance.
+ * @param group the GroupComponent Tabulator passes to groupHeader.
+ * @param value the value the group collects.
+ * @param count rows in the group.
+ * @return a DocumentFragment holding the header content.
+ */
+function mczGroupHeaderElement(table, group, value, count) {
+	var fragment = document.createDocumentFragment();
+	var label = document.createElement("span");
+	label.className = "font-weight-lessbold";
+	label.textContent = mczColumnTitle(table, group.getField()) + ": ";
+	var shown = document.createElement("span");
+	shown.textContent = (value === null || value === undefined || value === "")
+		? "(no value)"
+		: String(value);
+	var tally = document.createElement("span");
+	tally.className = "text-muted ml-1";
+	tally.textContent = "(" + count + ")";
+	fragment.appendChild(label);
+	fragment.appendChild(shown);
+	fragment.appendChild(tally);
+	return fragment;
+}
+
+/**
+ * mczPopulateGroupByPicker fills a <select> with the table's data columns, plus a
+ * no-grouping choice.
+ *
+ * @param table the Tabulator instance.
+ * @param selectId id (no leading #) of the select element.
+ * @param currentField field currently grouped by, or a falsy value for none.
+ */
+function mczPopulateGroupByPicker(table, selectId, currentField) {
+	var select = document.getElementById(selectId);
+	if (!select) {
+		return;
+	}
+	select.innerHTML = "";
+	var none = document.createElement("option");
+	none.value = "";
+	none.textContent = "(none)";
+	select.appendChild(none);
+	mczHideableColumns(table).forEach(function (column) {
+		var definition = column.getDefinition();
+		var option = document.createElement("option");
+		option.value = definition.field;
+		option.textContent = definition.title;
+		select.appendChild(option);
+	});
+	select.value = currentField || "";
+}
+
+/**
+ * mczRenderGroupChip shows a removable chip naming the active grouping, or empties its
+ * container when nothing is grouped. Mirrors the groups bar of the jqxGrid this
+ * replaces, where the chip's x is how a user ends the grouping.
+ *
+ * @param containerId id (no leading #) of the element holding the chip.
+ * @param label column title to name in the chip, or a falsy value to clear it.
+ * @param onRemove click handler for the chip's remove button.
+ */
+function mczRenderGroupChip(containerId, label, onRemove) {
+	var container = document.getElementById(containerId);
+	if (!container) {
+		return;
+	}
+	container.innerHTML = "";
+	if (!label) {
+		container.style.display = "none";
+		return;
+	}
+	container.style.display = "";
+	var chip = document.createElement("span");
+	chip.className = "mcz-group-chip";
+	var text = document.createElement("span");
+	text.textContent = label;
+	var remove = document.createElement("button");
+	remove.type = "button";
+	remove.className = "mcz-group-chip-remove";
+	remove.setAttribute("aria-label", "Stop grouping by " + label);
+	remove.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+	remove.addEventListener("click", onRemove);
+	chip.appendChild(text);
+	chip.appendChild(remove);
+	container.appendChild(chip);
+}
+
+/**
  * mczStandardHeaderMenu returns a Tabulator `headerMenu` (a function, so the items
  * reflect the column's state each time the menu opens) offering: sort ascending,
  * sort descending, hide this column, and "Select Columns...".

@@ -219,3 +219,31 @@ tabulator_bootstrap4.min.css so these rules win.
 	border-radius: 3px;
 	padding: 2px 5px;
 }
+
+/* Group chip: names the column the grid is grouped by, with an x to end the grouping.
+   Styled to match the groups bar of the jqxGrid this replaces. */
+.mcz-group-chip {
+	display: inline-flex;
+	align-items: center;
+	background-color: #deebec;
+	border: 1px solid #adb5bd;
+	border-radius: .2rem;
+	padding: .1rem .25rem .1rem .5rem;
+	font-size: .875rem;
+	font-weight: 500;
+}
+
+.mcz-group-chip-remove {
+	background: none;
+	border: 0;
+	padding: 0 .25rem;
+	margin-left: .35rem;
+	color: #495057;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.mcz-group-chip-remove:hover,
+.mcz-group-chip-remove:focus {
+	color: #a8412b;
+}

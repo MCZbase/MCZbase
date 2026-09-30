@@ -562,6 +562,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 									      the other reset-style control here. --->
 									<button type="button" id="showHiddenColumnsButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="showAllProjectsColumns();">Show Hidden Columns</button>
 									<button type="button" id="clearHeaderFiltersButton" class="btn btn-xs btn-warning mx-1" style="display:none;" onclick="clearProjectsHeaderFilters();">Clear Column Filters</button>
+									<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
+										<label for="groupByColumn" class="mb-0 mr-1 small90">Group by:</label>
+										<select id="groupByColumn" class="data-entry-select d-inline w-auto" onchange="setProjectsGrouping(this.value);" aria-describedby="groupByColumnHelp"></select>
+										<span id="groupByColumnHelp" class="sr-only">Grouping loads every matching row, so the counts describe the whole result set rather than one page.</span>
+									</div>
 								</span>
 								<!--- Rows: selecting them, and getting them out. --->
 								<span class="mcz-toolbar-group">
@@ -593,6 +598,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							</div>
 						</div>
 					</div>
+					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
 					<div id="projectsGridDiv"></div>
 				</div>
 			</div>
@@ -635,6 +641,18 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   than) the "All" choice already covering that case. mczAdjustProjectsPageSizeOptions
 	   filters this list down per search once the real total is known. */
 	var PROJECTS_PAGE_SIZE_BASE_OPTIONS = [5, 10, 25, 50, 100];
+	/* Tabulator groups the rows it holds, and with remote paging that is one page. So
+	   grouping switches the page size to All and is refused above this many rows, rather
+	   than showing per-page counts that read as whole-result-set counts. */
+	var PROJECTS_GROUP_MAX_ROWS = 2000;
+	var projectsGroupField = null;
+	/* The size to return to when the grouping is removed. preferredPageSize cannot serve:
+	   switching to All fires pageSizeChanged, which would overwrite it with true. */
+	var projectsSizeBeforeGrouping = null;
+	var projectsTotalRows = 0;
+	/* Set around a programmatic setPageSize so pageSizeChanged does not read it as the
+	   user's own choice. */
+	var projectsIgnoreNextPageSizeChange = false;
 	/* Fields search.cfc accepts a column header filter for, as filter_{field}. */
 	var projectsFilterFields = ["project_name", "participants", "sponsors", "start_date", "end_date"];
 	/* Shared ⋮ menu on each column header: sort, hide this column (saved like the
@@ -824,12 +842,20 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			paginationMode: "remote",
 			sortMode: "remote",
 			pagination: true,
-			paginationSize: preferredPageSize,
+			/* Changing selection mode rebuilds the table. An active grouping has to come
+			   back on All, or its counts would describe one page of preferredPageSize. */
+			paginationSize: projectsGroupField ? true : preferredPageSize,
 			paginationSizeSelector: PROJECTS_PAGE_SIZE_BASE_OPTIONS.concat([true]),
 			/* Tabulator's own built-in "rows" counter preset ("Showing 1-50 of 173
 			   rows"), rather than a custom one -- this app has no existing convention of
 			   its own to match here. */
-			paginationCounter: "rows"
+			paginationCounter: "rows",
+			/* Groups start closed: the reason to group is to read the counts, and 2000
+			   rows expanded is not a view anyone wants first. */
+			groupStartOpen: false,
+			groupHeader: function (value, count, data, group) {
+				return mczGroupHeaderElement(projectsTable, group, value, count);
+			}
 		};
 
 		if (mode !== "text") {
@@ -899,19 +925,95 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		});
 		projectsTable.on("tableBuilt", populateColumnChooser);
 		projectsTable.on("tableBuilt", function () {
+			mczPopulateGroupByPicker(projectsTable, "groupByColumn", projectsGroupField);
+			/* Changing selection mode rebuilds the table, which drops groupBy with it. */
+			if (projectsGroupField) {
+				projectsTable.setGroupBy(projectsGroupField);
+			}
+		});
+		projectsTable.on("tableBuilt", function () {
 			mczRefreshShowHiddenColumnsButton(projectsTable, "showHiddenColumnsButton");
 		});
 		projectsTable.on("tableBuilt", function () {
 			mczMakeHeaderMenuButtonsAccessible(projectsTable);
 		});
 		projectsTable.on("pageSizeChanged", function (size) {
+			if (projectsIgnoreNextPageSizeChange) {
+				projectsIgnoreNextPageSizeChange = false;
+				return;
+			}
 			preferredPageSize = size;
+			/* Grouping outside All would count one page while presenting a whole-result-set
+			   total, so moving off All ends the grouping rather than quietly misreporting. */
+			if (projectsGroupField && size !== true) {
+				clearProjectsGrouping("Grouping removed: it needs every row loaded.");
+			}
 		});
 		projectsTable.on("columnMoved", function () {
 			if (canSaveGridProperties) {
 				mczSaveTableColumnOrder(projectsTable, pageFilePath, "Default", "actionFeedback");
 			}
 		});
+	}
+
+	/**
+	 * setProjectsGrouping groups the grid by a column, loading every matching row first
+	 * so the group counts describe the whole result set and not the current page.
+	 *
+	 * @param field column field to group by, or "" to remove the grouping.
+	 */
+	function setProjectsGrouping(field) {
+		if (!projectsTable) {
+			return;
+		}
+		if (!field) {
+			clearProjectsGrouping();
+			return;
+		}
+		if (projectsTotalRows > PROJECTS_GROUP_MAX_ROWS) {
+			$("##actionFeedback").html('<span class="text-danger">Too many rows to group (' +
+				projectsTotalRows + '); narrow the search first.</span>');
+			$("##groupByColumn").val(projectsGroupField || "");
+			return;
+		}
+		if (projectsGroupField === null) {
+			projectsSizeBeforeGrouping = projectsTable.getPageSize();
+		}
+		projectsGroupField = field;
+		if (projectsTable.getPageSize() !== true) {
+			projectsIgnoreNextPageSizeChange = true;
+			projectsTable.setPageSize(true);
+		}
+		projectsTable.setGroupBy(field);
+		mczRenderGroupChip("groupChipBar", mczColumnTitle(projectsTable, field), function () {
+			clearProjectsGrouping();
+		});
+		$("##groupByColumn").val(field);
+	}
+
+	/**
+	 * clearProjectsGrouping removes the grouping and returns the page size to whatever was
+	 * in effect before grouping started.
+	 *
+	 * @param message optional note for the feedback output, for a grouping this page
+	 *   removed on the user's behalf rather than at their request.
+	 */
+	function clearProjectsGrouping(message) {
+		projectsGroupField = null;
+		mczRenderGroupChip("groupChipBar", null, null);
+		$("##groupByColumn").val("");
+		if (!projectsTable) {
+			return;
+		}
+		projectsTable.setGroupBy(false);
+		if (projectsSizeBeforeGrouping !== null && projectsTable.getPageSize() !== projectsSizeBeforeGrouping) {
+			projectsIgnoreNextPageSizeChange = true;
+			projectsTable.setPageSize(projectsSizeBeforeGrouping);
+		}
+		projectsSizeBeforeGrouping = null;
+		if (message) {
+			$("##actionFeedback").html('<span class="text-muted">' + message + '</span>');
+		}
 	}
 
 	/**
@@ -996,6 +1098,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		$("##resultsMeta").show();
 		$("##resultsHeadingControls").show();
 		$("##resultsToolbarControls").show();
+		projectsTotalRows = totalRows;
+		if (projectsGroupField && totalRows > PROJECTS_GROUP_MAX_ROWS) {
+			clearProjectsGrouping("Grouping removed: " + totalRows + " rows is too many to group.");
+		}
 		mczAdjustProjectsPageSizeOptions(totalRows);
 	}
 
@@ -1027,7 +1133,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		visibleSizes.push(true);
 		if (pageModule.size !== true && pageModule.size > totalRows) {
 			pageModule.size = true;
-		} else if (pageModule.size === true && preferredPageSize !== true && totalRows > preferredPageSize) {
+		} else if (!projectsGroupField && pageModule.size === true && preferredPageSize !== true && totalRows > preferredPageSize) {
 			/* Showing "All" only because an earlier result was small: return to the
 			   user's chosen size. setPageSize() reloads, so defer it until Tabulator has
 			   finished handling the response now in progress. */
