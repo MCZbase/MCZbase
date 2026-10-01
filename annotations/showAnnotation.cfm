@@ -35,7 +35,7 @@ limitations under the License.
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
 		<main class="container py-3" id="content">
-			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div>
+			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif></div>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
@@ -64,7 +64,7 @@ limitations under the License.
 			<cfset pageTitle = "Annotation Not Found">
 			<cfinclude template="/shared/_header.cfm">
 			<main class="container py-3" id="content">
-				<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
+				<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif></div></cfoutput>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
 		<cfelse>
@@ -247,7 +247,7 @@ limitations under the License.
 				<cfoutput>
 					<div class="alert alert-warning">
 						<p>Root annotation not found for annotation #encodeForHTML(variables.annotation_id)#.</p>
-						<a href="/annotations/Annotations.cfm">List Annotations</a>
+						<cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif>
 					</div>
 				</cfoutput>
 			</main>
