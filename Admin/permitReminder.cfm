@@ -38,8 +38,8 @@
 							FROM
 								electronic_address
 							WHERE
-								AGENT_ID=#CONTACT_AGENT_ID# and
-								ADDRESS_TYPE='e-mail'
+								AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#"> and
+								ADDRESS_TYPE=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="email">
 						</cfquery>
 						<cfif  #email.recordcount# is 0>
 							<cfset thisMail = "#application.bugReportEmail#">

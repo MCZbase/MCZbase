@@ -812,6 +812,63 @@ function createRowDetailsDialogNoBlanks(gridId, rowDetailsTargetId, datarecord,r
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
 
+/** setFeedbackControlState is used to set the css classes and message of the feedback control
+ * @param control the id of the control to set without a leading # selector
+ * @param state the state to set, one of 'unsaved', 'saving', 'saved', 'error', 'info', 'success', 'removed'
+*/
+function setFeedbackControlState(control,state){
+	state = state.toLowerCase();
+	if (state == 'unsaved') {
+		message = "Unsaved changes."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'saving') {
+		message = "Saving..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'saved'){
+		message = "Saved"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleting'){
+		message = "Deleting..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleted'){
+		message = "Deleted."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'error'){
+		message = "Error"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'info'){
+		message = "Info"
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'success'){
+		message = "Success"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'removed'){
+		message = "Removed"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else {
+		message = ""
+	}
+	$('#' + control).html(message);
+};
+
 /** function countCharsLeft count the characters available for data entry in an input
  * (typically a text area) and report used and remaining characters as the content of
  * a specified control. Example use bound to onkeyup event of a textarea:

@@ -997,7 +997,6 @@ limitations under the License.
 		</div><!--- col-12 --->
 	</section>
 
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	<!--- Section 6: Annotations --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12 px-0">
@@ -1030,7 +1029,7 @@ limitations under the License.
 							<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##taxonAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="taxonAnnotationsCardBodyWrap">
 								Annotations (#countTaxonAnnotations.ct#)
 							</button>
-							<cfif isdefined("session.roles") AND listcontainsnocase(session.roles, "manage_taxonomy") AND countTaxonAnnotations.ct GT 0>
+							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND countTaxonAnnotations.ct GT 0>
 								<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('taxonAnnotationDialog','TAXONOMY',#tnid#,reloadTaxonomyAnnotationCardBody);">
 									Edit Annotations
 								</a>
@@ -1048,7 +1047,6 @@ limitations under the License.
 			</section>
 		</div><!--- col-12 --->
 	</section>
-	</cfif>
 
 	<!--- Reposition addimagezoom trackers when Bootstrap collapse panels open or close.
 		  Uses MutationObserver on each collapse element's class attribute so this works

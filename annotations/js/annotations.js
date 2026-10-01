@@ -35,7 +35,7 @@ function reloadAnnotationBlock(rootAnnotationId) {
  */
 function reloadAnnotationsDialogSection(dialogId, targetType, targetId) {
 	$.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getAnnotationDialogHtml",
@@ -213,7 +213,7 @@ function saveThisAnnotation(feedbackDiv,callback=null,idSuffix="") {
 		postData.root_resolution = $("#root_resolution" + suffix).val();
 	}
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "post",
 		data: postData,
 		success: function(data) {
@@ -281,7 +281,7 @@ function openAnnotationsDialog(dialogid, target_type, target_id, callback) {
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getAnnotationDialogHtml",
@@ -376,7 +376,7 @@ function openEditAnnotationDialog(annotationId, callback=null) {
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getEditAnnotationDialogHtml",
@@ -698,6 +698,17 @@ function updateAnnotationReview(annotation_id,reviewed_fg,reviewer_comment,mask_
 /** doAnnotationUpdate reads review form field values for a given annotation and
  * calls updateAnnotationReview() to save the review via ajax.
  *
+ * DEAD CODE - do not build on this without fixing it first.  Nothing calls this
+ * function, and the three controls it reads are not rendered anywhere in MCZbase:
+ * reviewed_fg_<id>, reviewer_comment_<id> and mask_annotation_fg_<id> are all absent.
+ * The last of those was rendered by renderAnnotationReviewRow until Sep 2026, when the
+ * inline visibility control there became a read-only display.  So calling this as
+ * written would post an empty reviewed_fg and blank out reviewer_comment.
+ *
+ * The working way to set reviewed_fg is the Reviewed? dropdown in
+ * getEditAnnotationDialogHtml, which posts root_reviewed_fg to updateAnnotationText.
+ * Either wire this function to controls that exist, or delete it.
+ *
  * @param annotation_id the numeric primary key of the annotation to update.
  */
 function doAnnotationUpdate(annotation_id) {
@@ -730,8 +741,17 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 	var rootStateField = document.getElementById("edit_root_state" + dialogFieldQualifier);
 	var rootResolutionField = document.getElementById("edit_root_resolution" + dialogFieldQualifier);
 	var resultDivId = "editAnnotationResultDiv" + dialogFieldQualifier;
-	if (!annField || !annField.value || annField.value.length === 0) {
+	// The text field is readonly for everyone but the annotation's own author, and
+	// updateAnnotationText discards the text it posts back, so only require text of the
+	// author.  Trimmed, so that the two ends agree on what counts as empty.
+	var annIsEditable = annField && !annField.readOnly;
+	if (annIsEditable && annField.value.trim().length === 0) {
 		alert('You must enter annotation text to save.');
+		return false;
+	}
+	if (!annField) {
+		setFeedbackControlState(resultDivId, "error");
+		messageDialog("The annotation text field could not be found, so nothing was saved.","Edit Annotation");
 		return false;
 	}
 	setFeedbackControlState(resultDivId, "saving");
@@ -766,7 +786,7 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 		}
 	}
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "post",
 		dataType: "json",
 		data: postData,

@@ -1044,7 +1044,7 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
-									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
+									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND hasAnnotations>
 										<a href="javascript:void(0)" role="button" 
 											aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" 
 											onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">

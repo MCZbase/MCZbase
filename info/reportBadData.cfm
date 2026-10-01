@@ -210,6 +210,9 @@
 		WHERE
 			electronic_address.agent_id = collection_contacts.contact_agent_id AND
 			collection_contacts.collection_id = cataloged_item.collection_id AND
+			<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this matches
+				no row: whatEmails is empty, the report reaches Application.DataProblemReportEmail
+				alone, and no collection contact is notified. --->
 			address_type='e-mail' AND
 			contact_role='data quality' AND
 			cataloged_item.collection_object_id IN (<cfqueryparam list="yes" separator="," value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">)

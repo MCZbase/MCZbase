@@ -21,8 +21,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif isDefined("url.annotation_id")><cfset variables.annotation_id = url.annotation_id><cfelse><cfset variables.annotation_id = ""></cfif>
-<cfif isDefined("url.format")><cfset variables.format = lcase(trim(url.format))><cfelse><cfset variables.format = "html"></cfif>
+<cfparam name="url.annotation_id" default="">
+<cfparam name="url.format" default="html">
+<cfset variables.annotation_id = url.annotation_id>
+<cfset variables.format = lcase(trim(url.format))>
 <cfif variables.format EQ "json" OR variables.format EQ "json-ld" OR variables.format EQ "application/ld+json"><cfset variables.format = "json-ld"></cfif>
 <cfif variables.format EQ "rdf" OR variables.format EQ "application/rdf+xml" OR variables.format EQ "rdf+xml"><cfset variables.format = "rdf"></cfif>
 <cfif variables.format EQ "turtle" OR variables.format EQ "text/turtle"><cfset variables.format = "turtle"></cfif>
@@ -32,8 +34,8 @@ limitations under the License.
 	<cfif variables.format EQ "html">
 		<cfset pageTitle = "Annotation Not Found">
 		<cfinclude template="/shared/_header.cfm">
-		<main class="container py-3">
-			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div>
+		<main class="container py-3" id="content">
+			<div class="alert alert-warning"><p>An annotation_id is required to view an annotation conversation.</p><cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif></div>
 		</main>
 		<cfinclude template="/shared/_footer.cfm">
 	<cfelse>
@@ -61,8 +63,8 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Found">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
-				<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><a href="/annotations/Annotations.cfm">List Annotations</a></div></cfoutput>
+			<main class="container py-3" id="content">
+				<cfoutput><div class="alert alert-warning"><p>Annotation #encodeForHTML(variables.annotation_id)# was not found.</p><cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif></div></cfoutput>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
 		<cfelse>
@@ -133,13 +135,38 @@ limitations under the License.
 		ORDER SIBLINGS BY annotations.annotate_date
 	</cfquery>
 	
-	<!--- Prepare creator identity and display name for RDF serialization without exposing username identifiers --->
+	<!--- Prepare creator identity and display name for RDF serialization without exposing username
+		identifiers.  Disclosure follows renderAnnotatorHtml: in full to internal staff and to the
+		annotator; by agent record alone to other identifiable viewers; otherwise a blank node.  The
+		HTML page's username fallback for an annotator with no agent has no counterpart here, since
+		usernames are not serialized. --->
+	<cfset variables.viewerLoggedIn = isDefined("session.username") AND len(trim(session.username)) GT 0>
+	<cfset variables.viewerIsInternal = isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+	<cfset variables.viewerIdentifiable = false>
+	<cfif variables.viewerLoggedIn AND NOT variables.viewerIsInternal>
+		<cfset variables.viewerIdentifiable = currentViewerIsIdentifiable()>
+	</cfif>
 	<cfset QueryAddColumn(conversationAnns, "creator_uri", ArrayNew(1))>
 	<cfset QueryAddColumn(conversationAnns, "creator_name", ArrayNew(1))>
+	<cfset QueryAddColumn(conversationAnns, "creator_masked", ArrayNew(1))>
+	<cfset QueryAddColumn(conversationAnns, "body_display", ArrayNew(1))>
 	<cfloop query="conversationAnns">
 		<cfset variables.creatorUri = "">
-		<cfset variables.creatorName = trim(conversationAnns.annotator_first_name & " " & conversationAnns.annotator_last_name)>
-		<cfif val(conversationAnns.annotator_agent_id) GT 0>
+		<cfset variables.creatorName = "">
+		<cfset variables.showAllCreator = variables.viewerIsInternal>
+		<cfif variables.viewerLoggedIn AND conversationAnns.cf_username EQ session.username>
+			<cfset variables.showAllCreator = true>
+		</cfif>
+		<cfset variables.creatorMasked = 0>
+		<cfif NOT variables.showAllCreator>
+			<cfif NOT variables.viewerIdentifiable OR val(conversationAnns.annotator_agent_id) EQ 0>
+				<cfset variables.creatorMasked = 1>
+			</cfif>
+		</cfif>
+		<cfif variables.showAllCreator>
+			<cfset variables.creatorName = trim(conversationAnns.annotator_first_name & " " & conversationAnns.annotator_last_name)>
+		</cfif>
+		<cfif variables.creatorMasked EQ 0 AND val(conversationAnns.annotator_agent_id) GT 0>
 			<cfif ucase(trim(conversationAnns.annotator_agentguid_guid_type)) EQ "ORCID" AND len(trim(conversationAnns.annotator_agentguid)) GT 0>
 				<cfset variables.orcidCandidate = trim(conversationAnns.annotator_agentguid)>
 				<cfif REFindNoCase("^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$", variables.orcidCandidate)>
@@ -156,11 +183,13 @@ limitations under the License.
 				<cfset variables.creatorName = trim(conversationAnns.annotator_agent_name)>
 			</cfif>
 		</cfif>
-		<cfif len(variables.creatorName) EQ 0>
+		<cfif variables.creatorMasked EQ 0 AND len(variables.creatorName) EQ 0>
 			<cfset variables.creatorName = "Unknown creator">
 		</cfif>
 		<cfset QuerySetCell(conversationAnns, "creator_uri", variables.creatorUri, conversationAnns.currentrow)>
 		<cfset QuerySetCell(conversationAnns, "creator_name", variables.creatorName, conversationAnns.currentrow)>
+		<cfset QuerySetCell(conversationAnns, "creator_masked", variables.creatorMasked, conversationAnns.currentrow)>
+		<cfset QuerySetCell(conversationAnns, "body_display", maskAnnotationPersonalInfo(conversationAnns.body_value), conversationAnns.currentrow)>
 	</cfloop>
 
 	<cfquery name="rootAnn" dbtype="query">
@@ -214,11 +243,11 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Found">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<cfoutput>
 					<div class="alert alert-warning">
 						<p>Root annotation not found for annotation #encodeForHTML(variables.annotation_id)#.</p>
-						<a href="/annotations/Annotations.cfm">List Annotations</a>
+						<cfif currentUserCanLoadPage("/annotations/Annotations.cfm")><a href="/annotations/Annotations.cfm">List Annotations</a></cfif>
 					</div>
 				</cfoutput>
 			</main>
@@ -321,7 +350,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Available">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<div class="alert alert-info">This annotation is not publicly available.</div>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
@@ -338,7 +367,7 @@ limitations under the License.
 		<cfif variables.format EQ "html">
 			<cfset pageTitle = "Annotation Not Available">
 			<cfinclude template="/shared/_header.cfm">
-			<main class="container py-3">
+			<main class="container py-3" id="content">
 				<div class="alert alert-info">This annotation is not publicly available.</div>
 			</main>
 			<cfinclude template="/shared/_footer.cfm">
@@ -375,12 +404,16 @@ limitations under the License.
 					"@context": "http://www.w3.org/ns/anno.jsonld",
 					"id": "#variables.rdfEscape.escapeForJson(variables.thisAnnotationIRI)#",
 					"type": "Annotation",
-					"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(requestedAnnRow.body_value)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
+					"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(requestedAnnRow.body_display)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
 					"created": "#dateformat(requestedAnnRow.annotate_date,'yyyy-mm-dd')#",
-					"creator": {
-						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_uri)#",</cfif>
-						"name": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_name)#"
-					},
+					<cfif val(requestedAnnRow.creator_masked) EQ 1>
+						"creator": {"type": "http://xmlns.com/foaf/0.1/Agent"},
+					<cfelse>
+						"creator": {
+							<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_uri)#",</cfif>
+							"name": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_name)#"
+						},
+					</cfif>
 					"reviewed": <cfif val(requestedAnnRow.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 					"visibility": "<cfif val(requestedAnnRow.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>",
 					<!--- This array carries every other annotation in the conversation, not only those
@@ -412,12 +445,16 @@ limitations under the License.
 									{
 										"id": "#variables.rdfEscape.escapeForJson(variables.annotationIRI)#",
 										"type": "Annotation",
-										"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
+										"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(includedConversationAnns.body_display)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
 										"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
-										"creator": {
-											<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_uri)#",</cfif>
-											"name": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_name)#"
-										},
+										<cfif val(includedConversationAnns.creator_masked) EQ 1>
+											"creator": {"type": "http://xmlns.com/foaf/0.1/Agent"},
+										<cfelse>
+											"creator": {
+												<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_uri)#",</cfif>
+												"name": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_name)#"
+											},
+										</cfif>
 										"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 										"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
 									}
@@ -454,16 +491,20 @@ limitations under the License.
 							<cfif len(variables.motivationIRI) GT 0><oa:motivatedBy rdf:resource="#XMLFormat(variables.motivationIRI)#"/></cfif>
 							<oa:hasBody>
 								<oa:TextualBody>
-									<rdf:value>#XMLFormat(includedConversationAnns.body_value)#</rdf:value>
+									<rdf:value>#XMLFormat(includedConversationAnns.body_display)#</rdf:value>
 									<dcterms:language>en</dcterms:language>
 								</oa:TextualBody>
 							</oa:hasBody>
 							<cfif len(variables.annotationTarget) GT 0><oa:hasTarget rdf:resource="#XMLFormat(variables.annotationTarget)#"/></cfif>
 							<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
 							<dcterms:creator>
-								<foaf:Agent<cfif len(includedConversationAnns.creator_uri) GT 0> rdf:about="#XMLFormat(includedConversationAnns.creator_uri)#"</cfif>>
-									<foaf:name>#XMLFormat(includedConversationAnns.creator_name)#</foaf:name>
-								</foaf:Agent>
+								<cfif val(includedConversationAnns.creator_masked) EQ 1>
+									<foaf:Agent/>
+								<cfelse>
+									<foaf:Agent<cfif len(includedConversationAnns.creator_uri) GT 0> rdf:about="#XMLFormat(includedConversationAnns.creator_uri)#"</cfif>>
+										<foaf:name>#XMLFormat(includedConversationAnns.creator_name)#</foaf:name>
+									</foaf:Agent>
+								</cfif>
 							</dcterms:creator>
 						</oa:Annotation>
 					</cfif>
@@ -497,12 +538,12 @@ limitations under the License.
     <cfif len(variables.motivationIRI) GT 0>oa:motivatedBy <#variables.rdfEscape.escapeForIri(variables.motivationIRI)#> ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
-        rdf:value "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.body_value)#" ;
+        rdf:value "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.body_display)#" ;
         dcterms:language "en"
     ] ;
     <cfif len(variables.annotationTarget) GT 0>oa:hasTarget <#variables.rdfEscape.escapeForIri(variables.annotationTarget)#> ;</cfif>
     dcterms:created "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-    dcterms:creator <cfif len(includedConversationAnns.creator_uri) GT 0><#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#><cfelse>[ a foaf:Agent ; foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" ]</cfif> .
+    dcterms:creator <cfif val(includedConversationAnns.creator_masked) EQ 1>[ a foaf:Agent ]<cfelseif len(includedConversationAnns.creator_uri) GT 0><#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#><cfelse>[ a foaf:Agent ; foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" ]</cfif> .
 <cfif len(includedConversationAnns.creator_uri) GT 0>
 <#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#> foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" .
 </cfif>
@@ -512,12 +553,12 @@ limitations under the License.
 		<cfdefaultcase>
 			<!--- HTML view: standard MCZbase page with full conversation --->
 			<cfset variables.rootBodyPreview = "">
-			<cfif len(rootAnn.body_value) GT 0>
-				<cfset variables.rootBodyPreview = left(rootAnn.body_value, 80)>
-				<cfif len(rootAnn.body_value) GT 80><cfset variables.rootBodyPreview = variables.rootBodyPreview & "..."></cfif>
+			<cfif len(rootAnn.body_display) GT 0>
+				<cfset variables.rootBodyPreview = left(rootAnn.body_display, 80)>
+				<cfif len(rootAnn.body_display) GT 80><cfset variables.rootBodyPreview = variables.rootBodyPreview & "..."></cfif>
 			</cfif>
 			<cfset pageTitle = "Annotation Conversation">
-			<cfif len(variables.rootBodyPreview) GT 0><cfset pageTitle = "Annotation: " & variables.rootBodyPreview></cfif>
+			<cfif len(variables.rootBodyPreview) GT 0><cfset pageTitle = "Annotation: " & encodeForHTML(variables.rootBodyPreview)></cfif>
 			<cfinclude template="/shared/_header.cfm">
 			<cfoutput>
 			<main class="container-fluid" id="content">
@@ -526,8 +567,12 @@ limitations under the License.
 						<div class="d-flex justify-content-between align-items-start mb-2">
 							<div>
 								<h1 class="h3 mb-0">Annotation Conversation</h1>
+								<!--- The target is what the whole page is about, so it is a heading rather than
+									a .small paragraph.  targetSummary already carries markup - the scientific name
+									in italics and the author in small caps - from get_scientific_name_auths, so it
+									is output unescaped as it was before. --->
 								<cfif len(variables.targetSummary) GT 0>
-									<p class="mb-1 text-muted small">
+									<h2 class="mb-1 h4 text-muted">
 										Target: 
 										<cfif len(variables.targetIRI) GT 0>
 											<a href="#variables.targetIRI#">
@@ -536,15 +581,15 @@ limitations under the License.
 										<cfelse>
 											#variables.targetSummary#
 										</cfif>
-									</p>
+									</h2>
 								</cfif>
 							</div>
 							<div class="text-right">
 								<div class="btn-group btn-group-sm" role="group" aria-label="Data formats">
 									<span class="btn btn-sm btn-secondary disabled">HTML</span>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
-									<a href="showAnnotation.cfm?annotation_id=#variables.annotation_id#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=json-ld" class="btn btn-sm btn-outline-secondary">JSON-LD</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=rdf" class="btn btn-sm btn-outline-secondary">RDF/XML</a>
+									<a href="showAnnotation.cfm?annotation_id=#encodeForUrl(variables.annotation_id)#&format=turtle" class="btn btn-sm btn-outline-secondary">Turtle</a>
 								</div>
 							</div>
 						</div>
@@ -554,7 +599,6 @@ limitations under the License.
 								<h2 class="h5 mb-0">
 									Root Annotation 
 									<span class="text-muted small">(#variables.rootAnnotationId#)</span>
-									on #targetSummary#
 								</h2>
 							</div>
 							<cfif len(rootAnn.body_value) GT 0>
@@ -562,6 +606,8 @@ limitations under the License.
 							<cfelse>
 								<cfset variables.rootDisplayText = rootAnn.annotation>
 							</cfif>
+							<!--- show_view_action=false: this page IS showAnnotation.cfm, so a View
+								button here would link to the page already being viewed. --->
 							<cfset rootRowHtml = renderAnnotationReviewRow(
 								annotation_id=rootAnn.annotation_id,
 								annotation_display=variables.rootDisplayText,
@@ -579,7 +625,8 @@ limitations under the License.
 								root_annotation_id=rootAnn.annotation_id,
 								show_reply_action=variables.canManage,
 								highlight_as_target=(val(rootAnn.annotation_id) EQ val(variables.annotation_id)),
-								highlight_label="Selected Annotation")>
+								highlight_label="Selected Annotation",
+								show_view_action=false)>
 							#rootRowHtml#
 							<cfset variables.fullConversation = getAnnotationConversationForRoot(rootAnnotationId=variables.rootAnnotationId)>
 							<cfset variables.conversationSectionHtml = renderAnnotationConversationReplies(
@@ -597,6 +644,15 @@ limitations under the License.
 					</div>
 				</div>
 			</main>
+			<script>
+				/** Reload the conversation when a reply or edit dialog closes.  The Reply and Edit
+				 * handlers in annotations.js fall back to this when the button is not inside a record's
+				 * annotation dialog or an annotation block, which is the case on this page.
+				 */
+				function annotationDialogCloseCallback() {
+					window.location.reload();
+				}
+			</script>
 			</cfoutput>
 			<cfinclude template="/shared/_footer.cfm">
 		</cfdefaultcase>
