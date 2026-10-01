@@ -313,7 +313,6 @@ limitations under the License.
 						<div class="border float-left p-3">
 							<h3 class="my-0">Personal Profile</h3>
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-verylightteal px-2 py-1">
-								<input type="hidden" name="user_id" value="#getUserData.user_id#">
 								<input type="hidden" name="action" value="saveProfile">
 								<div class="form-row mx-0">
 									<h4 class="h4 col-12 mt-2">
@@ -619,10 +618,23 @@ limitations under the License.
 	<cfif len(variables.email) GT 0 AND NOT isValid("email", variables.email)>
 		<cfthrow message="The email address you entered is not a validly formed address. Please use your browser's back button to try again.">
 	</cfif>
+	<!--- The profile saved is always the logged-in user's: user_id is looked up from the session,
+		never taken from the posted form, which a user could otherwise alter to overwrite another
+		account's name and email, and with the email, its password recovery. --->
+	<cfquery name="getUserID" datasource="cf_dbuser" result="getUserID_result">
+		SELECT cf_users.user_id
+		FROM cf_users
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif getUserID.recordcount NEQ 1>
+		<cfthrow message="Error: no unique user account found for the current login when trying to save the profile">
+	</cfif>
+	<cfset variables.user_id = getUserID.user_id>
 	<cfquery name="isUser" datasource="cf_dbuser">
-		SELECT * from cf_user_data 
-		WHERE 
-			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_DECIMAL">
+		SELECT * from cf_user_data
+		WHERE
+			user_id = <cfqueryparam value='#variables.user_id#' cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif isUser.recordcount is 1>
 		<!---- already have a user_data entry --->
@@ -642,7 +654,7 @@ limitations under the License.
 					,email = NULL
 				</cfif>
 			WHERE
-				user_id = <cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">
+				user_id = <cfqueryparam value="#variables.user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	<cfelseif #isUser.recordcount# EQ 0>
 		<cfquery name="newUser" datasource="cf_dbuser">
@@ -659,7 +671,7 @@ limitations under the License.
 				</cfif>
 				)
 			VALUES (
-				<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">,
+				<cfqueryparam value="#variables.user_id#" cfsqltype="CF_SQL_DECIMAL">,
 				<cfqueryparam value='#first_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#last_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#affiliation#' cfsqltype="CF_SQL_VARCHAR">
