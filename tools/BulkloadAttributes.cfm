@@ -739,15 +739,18 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
+						<!--- check if this created a duplicate attribute --->
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes1_result">
 							select attribute_type,attribute_value,collection_object_id from attributes 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+								and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.attribute#">
+								and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.attribute_value#">
 							group by attribute_type,attribute_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfif updateAttributes1_result.recordcount gt 0>
-							<cfthrow message = "Error: attempting to insert duplicated attribute.">
+							<cfthrow message = "Error: attempting to insert duplicated attribute, [#getTempData.attribute#]:[#gettemmpData.attributed_value#] is already present on this record.">
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq attributes_updates>
