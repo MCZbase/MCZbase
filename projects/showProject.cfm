@@ -642,7 +642,7 @@ follows, but a single term needs no grouping.
 							<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##projectAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="projectAnnotationsCardBodyWrap">
 								Annotations (#existingAnnotations.cnt#)
 							</button>
-							<cfif canManageProjects AND existingAnnotations.cnt GT 0>
+							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND existingAnnotations.cnt GT 0>
 								<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
 									Edit Annotations
 								</a>

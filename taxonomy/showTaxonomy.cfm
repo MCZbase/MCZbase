@@ -1029,7 +1029,7 @@ limitations under the License.
 							<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##taxonAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="taxonAnnotationsCardBodyWrap">
 								Annotations (#countTaxonAnnotations.ct#)
 							</button>
-							<cfif isdefined("session.roles") AND listcontainsnocase(session.roles, "manage_taxonomy") AND countTaxonAnnotations.ct GT 0>
+							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND countTaxonAnnotations.ct GT 0>
 								<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('taxonAnnotationDialog','TAXONOMY',#tnid#,reloadTaxonomyAnnotationCardBody);">
 									Edit Annotations
 								</a>
