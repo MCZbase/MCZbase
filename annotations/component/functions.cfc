@@ -49,6 +49,44 @@ limitations under the License.
 	<cfreturn canRespond>
 </cffunction>
 
+<!--- currentUserCanLoadPage test whether cf_rolecheck would let the current user load a page,
+ so that a link to it is offered only when following it will succeed.  Applies the same rules
+ as /CustomTags/rolecheck.cfm, against the same cf_form_permissions rows and cache period: no
+ rows denies, rows of only "public" allow, otherwise every listed role is required.
+
+ For display only: use it to decide whether to show a link or button, never as access control
+ for an action.  It reads a cached copy of the permissions and is not what admits a request;
+ cf_rolecheck and each method's own role check do that, and must still guard the action.
+
+ @param formPath the page path as cgi.script_name gives it, e.g. /annotations/Annotations.cfm.
+ @return true if the current user holds every role cf_form_permissions lists for the page.
+ @see /CustomTags/rolecheck.cfm
+--->
+<cffunction name="currentUserCanLoadPage" returntype="boolean" access="public">
+	<cfargument name="formPath" type="string" required="yes">
+	<cfset var pageRoles = "">
+	<cfquery name="pageRoles" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+		SELECT DISTINCT role_name
+		FROM cf_form_permissions
+		WHERE form_path = <cfqueryparam value="#arguments.formPath#" cfsqltype="CF_SQL_VARCHAR">
+	</cfquery>
+	<cfif pageRoles.recordcount EQ 0>
+		<cfreturn false>
+	</cfif>
+	<cfif pageRoles.recordcount EQ 1 AND pageRoles.role_name EQ "public">
+		<cfreturn true>
+	</cfif>
+	<cfif NOT isDefined("session.roles")>
+		<cfreturn false>
+	</cfif>
+	<cfloop query="pageRoles">
+		<cfif NOT listFindNoCase(session.roles, pageRoles.role_name)>
+			<cfreturn false>
+		</cfif>
+	</cfloop>
+	<cfreturn true>
+</cffunction>
+
 <!--- Determine whether the current session may revise the text of an existing annotation.
 
  The text of an annotation is the annotator's own words, so only its author may change them.
@@ -893,7 +931,7 @@ limitations under the License.
 								<cfif prevAnn.recordcount gt 0>
 									<div class="d-flex justify-content-between align-items-center mt-1 px-1">
 										<h2 class="h4 mb-0"><cfif variables.target_type EQ "ANNOTATIONS">Annotation in Context<cfelse>Annotations on this Record</cfif></h2>
-										<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+										<cfif len(manageIRI) GT 0 AND currentUserCanLoadPage("/annotations/Annotations.cfm")>
 											<a href="#encodeForHTMLAttribute(manageIRI)#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
 										</cfif>
 									</div>
@@ -1305,10 +1343,10 @@ limitations under the License.
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.  Motivation: #motivation#.
+An MCZbase User: #encodeForHTML(session.username)# (#encodeForHTML(annotator.first_name)# #encodeForHTML(annotator.last_name)# #encodeForHTML(annotator.affiliation)# #encodeForHTML(annotator.email)#) has submitted an annotation to report problematic data concerning #encodeForHTML(annotated.annorecord)#.  Motivation: #motivation#.
 
 			<blockquote>
-				#annotation#
+				#encodeForHTML(annotation)#
 			</blockquote>
 
 			View details at
@@ -1484,7 +1522,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
  - that is intended, because the Annotator field shows a name and no email, while this prefix does.
 
  @param annotation_display the text as selected for display.
- @return the text, with any leading identity prefix replaced by "[Masked] reported:".
+ @return the text, with any leading identity prefix replaced by "[Masked] reported:".  Plain text,
+	not safe for HTML: use renderAnnotationBodyHtml there, or this context's own encoder elsewhere.
+ @see renderAnnotationBodyHtml
 --->
 <cffunction name="maskAnnotationPersonalInfo" returntype="string" access="public">
 	<cfargument name="annotation_display" type="string" required="yes">
@@ -1492,6 +1532,23 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfreturn arguments.annotation_display>
 	</cfif>
 	<cfreturn rereplace(arguments.annotation_display, "^.* reported:", "[Masked] reported:")>
+</cffunction>
+
+
+<!--- renderAnnotationBodyHtml render an annotation's text for output into HTML.
+ Applies the personal-info redaction, then encodes, so the result is safe to output unescaped.
+ Annotation text is stored as the annotator typed it, so it is encoded here rather than on input;
+ the data serializations need the raw text to apply their own escaping.  Use this wherever
+ annotation text is written into HTML; for any other context take maskAnnotationPersonalInfo's
+ plain text and apply that context's own encoder.
+
+ @param annotation_display the annotation text as stored.
+ @return HTML-safe, redacted annotation text.
+ @see maskAnnotationPersonalInfo
+--->
+<cffunction name="renderAnnotationBodyHtml" returntype="string" access="public">
+	<cfargument name="annotation_display" type="string" required="yes">
+	<cfreturn encodeForHTML(maskAnnotationPersonalInfo(arguments.annotation_display))>
 </cffunction>
 
 
@@ -1527,6 +1584,37 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfreturn maskAnnotationPersonalInfo(arguments.annotation_summary)>
 </cffunction>
 
+
+<!--- currentViewerIsIdentifiable test whether the logged-in viewer is someone MCZbase can name,
+ which is the condition under which another annotator's identity is shown to a viewer who is
+ neither internal staff nor that annotator.  Shared by renderAnnotatorHtml and the data
+ serializations in showAnnotation.cfm so that the HTML and RDF disclose the same thing.
+
+ @return true if the viewer has a linked agent, or an email address and a name in their profile;
+	false otherwise, including when no one is logged in.
+ @see renderAnnotatorHtml
+--->
+<cffunction name="currentViewerIsIdentifiable" returntype="boolean" access="public">
+	<cfset var viewerProfile = "">
+	<cfif NOT (isDefined("session.username") AND len(trim(session.username)) GT 0)>
+		<cfreturn false>
+	</cfif>
+	<cfif isDefined("session.myAgentId") AND val(session.myAgentId) GT 0>
+		<cfreturn true>
+	</cfif>
+	<cfquery name="viewerProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT ud.email, ud.first_name, ud.last_name
+		FROM cf_users cu
+			LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
+		WHERE cu.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif viewerProfile.recordcount GT 0 AND len(trim(viewerProfile.email)) GT 0>
+		<cfif len(trim(viewerProfile.first_name)) GT 0 OR len(trim(viewerProfile.last_name)) GT 0>
+			<cfreturn true>
+		</cfif>
+	</cfif>
+	<cfreturn false>
+</cffunction>
 
 <!--- Render a short HTML block describing the annotator of a given annotation.
  Determines what information to show based on the current viewer's permissions:
@@ -1584,21 +1672,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<!--- If not oneOfUs and not self, check that viewer is identifiable --->
 	<cfif NOT showAll>
-		<!--- Viewer is identifiable if they have a linked agent or both email and name --->
-		<cfset var viewerIdentifiable = (isDefined("session.myAgentId") AND val(session.myAgentId) GT 0)>
-		<cfif NOT viewerIdentifiable>
-			<cfquery name="viewerProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-				SELECT ud.email, ud.first_name, ud.last_name
-				FROM cf_users cu
-					LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
-				WHERE cu.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif viewerProfile.recordcount GT 0 AND len(trim(viewerProfile.email)) GT 0
-					AND (len(trim(viewerProfile.first_name)) GT 0 OR len(trim(viewerProfile.last_name)) GT 0)>
-				<cfset viewerIdentifiable = true>
-			</cfif>
-		</cfif>
-		<cfif NOT viewerIdentifiable>
+		<cfif NOT currentViewerIsIdentifiable()>
 			<cfreturn "<span class=""d-inline font-italic"">[Masked]</span>">
 		</cfif>
 	</cfif>
@@ -2471,9 +2545,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
 							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
-						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
-							div, and no size class - it inherits .875rem from the card-body wrapper. --->
-						<div class="px-1">#maskAnnotationPersonalInfo(arguments.annotation_display)#</div>
+						<!--- annotation_display is untrusted text as the annotator typed it, from
+							annotation_textualbody.body_value or annotations.annotation.  No size class:
+							it inherits .875rem from the card-body wrapper. --->
+						<div class="px-1">#renderAnnotationBodyHtml(arguments.annotation_display)#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">
@@ -2598,6 +2673,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif rootAnno.recordcount EQ 0>
 			<cfreturn "">
 		</cfif>
+		<!--- Reachable by anyone through public.cfc, so hold a masked root to the rule
+			showAnnotation.cfm applies, rather than rendering its metadata and replies. --->
+		<cfif val(rootAnno.mask_annotation_fg) EQ 1
+				AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
+			<cfheader statusCode="403" statusText="Annotation not publicly available">
+			<cfreturn "">
+		</cfif>
 		<cfset var conversationAnnotations = getAnnotationConversationForRoot(arguments.root_annotation_id)>
 		<cfset var rowHTML = renderAnnotationReviewRow(
 			annotation_id=rootAnno.annotation_id,
@@ -2656,6 +2738,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					opens the form; each control within it is gated on its own. --->
 				<cfset canEditAnnotationText = currentUserCanEditAnnotationText(arguments.annotation_id)>
 				<cfset canEditThisAnnotation = canManage OR canEditAnnotationText>
+				<!--- Refused outright rather than rendered without the form: the heading and context
+					below show the root's text and ancestor summaries without regard to masking, and
+					this method is reachable by anyone through public.cfc. --->
+				<cfif NOT canEditThisAnnotation>
+					<cfheader statusCode="403" statusText="You may only edit your own annotation, and only until it has been reviewed.">
+					<cfabort>
+				</cfif>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>

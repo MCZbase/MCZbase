@@ -4040,8 +4040,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
-							<label for="email" class="data-entry-label">Email</td>
-							<input type="text" name="email" id="email" value="#getUserData.email#" class="data-entry-input">
+							<label for="email" class="data-entry-label">Email</label>
+							<input type="email" name="email" id="email" value="#getUserData.email#" class="data-entry-input" onchange="handleAgreeClick();">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="agree">I agree.</label>
@@ -4051,6 +4051,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									var valid = false;
 									if ($("##first_name").val()!="" && $("##last_name").val()!="" && $("##affiliation").val()!="" ) { 
 										valid = true;
+									}
+									// type="email" makes an empty field valid and a malformed one invalid.
+									if (!$("##email")[0].checkValidity()) {
+										valid = false;
 									}			
 									if(valid && $("##agree").prop('checked')==true) {
 										$("##specimencsvdownloadbutton").removeClass("disabled");
@@ -4173,7 +4177,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="download_purpose" type="string" required="no">
 	<cfargument name="agree" type="string" required="no">
-	<cfthread name="logDownloadThread">
+	<!--- The download is logged whatever the email, since the download itself proceeds from the
+		link regardless of this call; only a validly formed address is saved to the profile. --->
+	<cfset var emailToSave = "">
+	<cfif isDefined("arguments.email") AND isValid("email", trim(arguments.email))>
+		<cfset emailToSave = trim(arguments.email)>
+	</cfif>
+	<cfthread name="logDownloadThread" email_to_save="#emailToSave#">
 		<cftry>
 			<cfquery name="getUserID" datasource="cf_dbuser">
 				SELECT cf_users.user_id
@@ -4195,8 +4205,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 					WHERE
 						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
@@ -4212,7 +4222,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name
 						</cfif>
-						<cfif len(#email#) gt 0>
+						<cfif len(attributes.email_to_save) gt 0>
 							,email
 						</cfif>
 						)
@@ -4224,8 +4234,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 						)
 				</cfquery>

@@ -126,17 +126,16 @@ limitations under the License.
 					<cfif checkForVPDError_2.ct EQ 0>
 						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
 					</cfif>
+					<!--- The forward itself happens after the join: a thread has no servlet request, so
+						getPageContext().forward() fails inside one. --->
 					<cfif oneOfUs EQ 1>
 						<!--- if we got here the cataloged item exists but the internal user does not have permissions, return a 403 error --->
-						<cfscript>
-							getPageContext().forward("/errors/403.cfm");
-						</cfscript>
+						<cfset thread.forwardTo = "/errors/forbidden.cfm">
 					<cfelse>
 						<!--- if we got here the cataloged item exists but the user does not have permissions to see it redirect to 404 error--->
-						<cfscript>
-							getPageContext().forward("/errors/404.cfm");
-						</cfscript>
+						<cfset thread.forwardTo = "/errors/404.cfm">
 					</cfif>
+					<cfabort>
 				</cfif>
 				<!--- check for mixed collection --->
 				<cfset variables.isMixed = false>
@@ -382,6 +381,10 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getSummaryHeaderThread" />
+	<cfif structKeyExists(getSummaryHeaderThread, "forwardTo")>
+		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
+		<cfabort>
+	</cfif>
 	<cfreturn getSummaryHeaderThread.output>
 </cffunction>
 
@@ -4255,7 +4258,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#maskAnnotationPersonalInfo(annotation_display)#
+								#renderAnnotationBodyHtml(annotation_display)#
 								<!--- The metadata follows the annotation text in the same run and breaks only
 									when it runs out of room, rather than always taking a line of its own.  The li
 									is the block that separates one annotation from the next.

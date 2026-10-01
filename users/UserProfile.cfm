@@ -304,10 +304,15 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
+						<!--- Annotating requires an email address (currentUserCanAnnotate), and only external
+							users are pointed here to add one; internal users are not shown the note. --->
+						<cfset emailLabelNote = "">
+						<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user"))>
+							<cfset emailLabelNote = " (an email is required to create annotations)">
+						</cfif>
 						<div class="border float-left p-3">
 							<h3 class="my-0">Personal Profile</h3>
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-verylightteal px-2 py-1">
-								<input type="hidden" name="user_id" value="#getUserData.user_id#">
 								<input type="hidden" name="action" value="saveProfile">
 								<div class="form-row mx-0">
 									<h4 class="h4 col-12 mt-2">
@@ -330,8 +335,8 @@ limitations under the License.
 										<input type="text" name="affiliation" id="affiliation" class="data-entry-input reqdClr" value="#encodeForHtml(getUserData.affiliation)#" required>
 									</div>
 									<div class="col-12 col-md-6 mb-2">
-										<label class="data-entry-label" for="email">Email</label>
-										<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
+										<label class="data-entry-label" for="email">Email#emailLabelNote#</label>
+										<input type="email" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#">
 									</div>
 									<div class="col-12 mb-2">
 										<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
@@ -606,10 +611,30 @@ limitations under the License.
 	>
 			<cfthrow message="You haven't filled in all required values! Please use your browser's back button to try again.">
 	</cfif>
+	<!--- type="email" on the input is a convenience; the address is checked here as well, since it is
+		what annotation and password recovery rely on. --->
+	<cfparam name="form.email" default="">
+	<cfset variables.email = trim(form.email)>
+	<cfif len(variables.email) GT 0 AND NOT isValid("email", variables.email)>
+		<cfthrow message="The email address you entered is not a validly formed address. Please use your browser's back button to try again.">
+	</cfif>
+	<!--- The profile saved is always the logged-in user's: user_id is looked up from the session,
+		never taken from the posted form, which a user could otherwise alter to overwrite another
+		account's name and email, and with the email, its password recovery. --->
+	<cfquery name="getUserID" datasource="cf_dbuser" result="getUserID_result">
+		SELECT cf_users.user_id
+		FROM cf_users
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif getUserID.recordcount NEQ 1>
+		<cfthrow message="Error: no unique user account found for the current login when trying to save the profile">
+	</cfif>
+	<cfset variables.user_id = getUserID.user_id>
 	<cfquery name="isUser" datasource="cf_dbuser">
-		SELECT * from cf_user_data 
-		WHERE 
-			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_DECIMAL">
+		SELECT * from cf_user_data
+		WHERE
+			user_id = <cfqueryparam value='#variables.user_id#' cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif isUser.recordcount is 1>
 		<!---- already have a user_data entry --->
@@ -623,13 +648,13 @@ limitations under the License.
 				<cfelse>
 					,middle_name = NULL
 				</cfif>
-				<cfif len(#email#) gt 0>
-					,email = <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR">
+				<cfif len(variables.email) gt 0>
+					,email = <cfqueryparam value='#variables.email#' cfsqltype="CF_SQL_VARCHAR">
 				<cfelse>
 					,email = NULL
 				</cfif>
 			WHERE
-				user_id = <cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">
+				user_id = <cfqueryparam value="#variables.user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	<cfelseif #isUser.recordcount# EQ 0>
 		<cfquery name="newUser" datasource="cf_dbuser">
@@ -641,20 +666,20 @@ limitations under the License.
 				<cfif len(#middle_name#) gt 0>
 					,middle_name
 				</cfif>
-				<cfif len(#email#) gt 0>
+				<cfif len(variables.email) gt 0>
 					,email
 				</cfif>
 				)
 			VALUES (
-				<cfqueryparam value="#user_id#" cfsqltype="CF_SQL_DECIMAL">,
+				<cfqueryparam value="#variables.user_id#" cfsqltype="CF_SQL_DECIMAL">,
 				<cfqueryparam value='#first_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#last_name#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#affiliation#' cfsqltype="CF_SQL_VARCHAR">
 				<cfif len(#middle_name#) gt 0>
 					, <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				</cfif>
-				<cfif len(#email#) gt 0>
-					, <cfqueryparam value='#email#' cfsqltype="CF_SQL_VARCHAR">
+				<cfif len(variables.email) gt 0>
+					, <cfqueryparam value='#variables.email#' cfsqltype="CF_SQL_VARCHAR">
 				</cfif>
 				)
 		</cfquery>
