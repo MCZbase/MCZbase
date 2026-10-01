@@ -2615,6 +2615,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfif rootAnno.recordcount EQ 0>
 			<cfreturn "">
 		</cfif>
+		<!--- Reachable by anyone through public.cfc, so hold a masked root to the rule
+			showAnnotation.cfm applies, rather than rendering its metadata and replies. --->
+		<cfif val(rootAnno.mask_annotation_fg) EQ 1
+				AND NOT (isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection"))>
+			<cfheader statusCode="403" statusText="Annotation not publicly available">
+			<cfreturn "">
+		</cfif>
 		<cfset var conversationAnnotations = getAnnotationConversationForRoot(arguments.root_annotation_id)>
 		<cfset var rowHTML = renderAnnotationReviewRow(
 			annotation_id=rootAnno.annotation_id,
