@@ -49,6 +49,40 @@ limitations under the License.
 	<cfreturn canRespond>
 </cffunction>
 
+<!--- currentUserCanLoadPage test whether cf_rolecheck would let the current user load a page,
+ so that a link to it is offered only when following it will succeed.  Applies the same rules
+ as /CustomTags/rolecheck.cfm, against the same cf_form_permissions rows and cache period: no
+ rows denies, rows of only "public" allow, otherwise every listed role is required.
+
+ @param formPath the page path as cgi.script_name gives it, e.g. /annotations/Annotations.cfm.
+ @return true if the current user holds every role cf_form_permissions lists for the page.
+ @see /CustomTags/rolecheck.cfm
+--->
+<cffunction name="currentUserCanLoadPage" returntype="boolean" access="public">
+	<cfargument name="formPath" type="string" required="yes">
+	<cfset var pageRoles = "">
+	<cfquery name="pageRoles" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+		SELECT DISTINCT role_name
+		FROM cf_form_permissions
+		WHERE form_path = <cfqueryparam value="#arguments.formPath#" cfsqltype="CF_SQL_VARCHAR">
+	</cfquery>
+	<cfif pageRoles.recordcount EQ 0>
+		<cfreturn false>
+	</cfif>
+	<cfif pageRoles.recordcount EQ 1 AND pageRoles.role_name EQ "public">
+		<cfreturn true>
+	</cfif>
+	<cfif NOT isDefined("session.roles")>
+		<cfreturn false>
+	</cfif>
+	<cfloop query="pageRoles">
+		<cfif NOT listFindNoCase(session.roles, pageRoles.role_name)>
+			<cfreturn false>
+		</cfif>
+	</cfloop>
+	<cfreturn true>
+</cffunction>
+
 <!--- Determine whether the current session may revise the text of an existing annotation.
 
  The text of an annotation is the annotator's own words, so only its author may change them.
@@ -893,7 +927,7 @@ limitations under the License.
 								<cfif prevAnn.recordcount gt 0>
 									<div class="d-flex justify-content-between align-items-center mt-1 px-1">
 										<h2 class="h4 mb-0"><cfif variables.target_type EQ "ANNOTATIONS">Annotation in Context<cfelse>Annotations on this Record</cfif></h2>
-										<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+										<cfif len(manageIRI) GT 0 AND currentUserCanLoadPage("/annotations/Annotations.cfm")>
 											<a href="#encodeForHTMLAttribute(manageIRI)#" class="btn btn-xs btn-primary" target="_blank">Manage Annotations</a>
 										</cfif>
 									</div>
