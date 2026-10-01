@@ -376,7 +376,7 @@ function openEditAnnotationDialog(annotationId, callback=null) {
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "get",
 		data: {
 			method: "getEditAnnotationDialogHtml",
@@ -786,7 +786,7 @@ function saveAnnotationEdit(annotationId, rootAnnotationId, dialogFieldQualifier
 		}
 	}
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/annotations/component/public.cfc",
 		type: "post",
 		dataType: "json",
 		data: postData,

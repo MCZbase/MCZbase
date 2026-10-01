@@ -2673,6 +2673,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					opens the form; each control within it is gated on its own. --->
 				<cfset canEditAnnotationText = currentUserCanEditAnnotationText(arguments.annotation_id)>
 				<cfset canEditThisAnnotation = canManage OR canEditAnnotationText>
+				<!--- Refused outright rather than rendered without the form: the heading and context
+					below show the root's text and ancestor summaries without regard to masking, and
+					this method is reachable by anyone through public.cfc. --->
+				<cfif NOT canEditThisAnnotation>
+					<cfheader statusCode="403" statusText="You may only edit your own annotation, and only until it has been reviewed.">
+					<cfabort>
+				</cfif>
 				<cfset dq = rereplace(dialogId, "[^A-Za-z0-9_]", "", "all")>
 				<cfset editAnnFieldId       = "edit_annotation_"       & dq>
 				<cfset editAnnLengthId      = "length_edit_annotation_" & dq>
