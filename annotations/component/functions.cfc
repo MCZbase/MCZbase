@@ -54,6 +54,10 @@ limitations under the License.
  as /CustomTags/rolecheck.cfm, against the same cf_form_permissions rows and cache period: no
  rows denies, rows of only "public" allow, otherwise every listed role is required.
 
+ For display only: use it to decide whether to show a link or button, never as access control
+ for an action.  It reads a cached copy of the permissions and is not what admits a request;
+ cf_rolecheck and each method's own role check do that, and must still guard the action.
+
  @param formPath the page path as cgi.script_name gives it, e.g. /annotations/Annotations.cfm.
  @return true if the current user holds every role cf_form_permissions lists for the page.
  @see /CustomTags/rolecheck.cfm
