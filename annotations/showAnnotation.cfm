@@ -135,13 +135,38 @@ limitations under the License.
 		ORDER SIBLINGS BY annotations.annotate_date
 	</cfquery>
 	
-	<!--- Prepare creator identity and display name for RDF serialization without exposing username identifiers --->
+	<!--- Prepare creator identity and display name for RDF serialization without exposing username
+		identifiers.  Disclosure follows renderAnnotatorHtml: in full to internal staff and to the
+		annotator; by agent record alone to other identifiable viewers; otherwise a blank node.  The
+		HTML page's username fallback for an annotator with no agent has no counterpart here, since
+		usernames are not serialized. --->
+	<cfset variables.viewerLoggedIn = isDefined("session.username") AND len(trim(session.username)) GT 0>
+	<cfset variables.viewerIsInternal = isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+	<cfset variables.viewerIdentifiable = false>
+	<cfif variables.viewerLoggedIn AND NOT variables.viewerIsInternal>
+		<cfset variables.viewerIdentifiable = currentViewerIsIdentifiable()>
+	</cfif>
 	<cfset QueryAddColumn(conversationAnns, "creator_uri", ArrayNew(1))>
 	<cfset QueryAddColumn(conversationAnns, "creator_name", ArrayNew(1))>
+	<cfset QueryAddColumn(conversationAnns, "creator_masked", ArrayNew(1))>
+	<cfset QueryAddColumn(conversationAnns, "body_display", ArrayNew(1))>
 	<cfloop query="conversationAnns">
 		<cfset variables.creatorUri = "">
-		<cfset variables.creatorName = trim(conversationAnns.annotator_first_name & " " & conversationAnns.annotator_last_name)>
-		<cfif val(conversationAnns.annotator_agent_id) GT 0>
+		<cfset variables.creatorName = "">
+		<cfset variables.showAllCreator = variables.viewerIsInternal>
+		<cfif variables.viewerLoggedIn AND conversationAnns.cf_username EQ session.username>
+			<cfset variables.showAllCreator = true>
+		</cfif>
+		<cfset variables.creatorMasked = 0>
+		<cfif NOT variables.showAllCreator>
+			<cfif NOT variables.viewerIdentifiable OR val(conversationAnns.annotator_agent_id) EQ 0>
+				<cfset variables.creatorMasked = 1>
+			</cfif>
+		</cfif>
+		<cfif variables.showAllCreator>
+			<cfset variables.creatorName = trim(conversationAnns.annotator_first_name & " " & conversationAnns.annotator_last_name)>
+		</cfif>
+		<cfif variables.creatorMasked EQ 0 AND val(conversationAnns.annotator_agent_id) GT 0>
 			<cfif ucase(trim(conversationAnns.annotator_agentguid_guid_type)) EQ "ORCID" AND len(trim(conversationAnns.annotator_agentguid)) GT 0>
 				<cfset variables.orcidCandidate = trim(conversationAnns.annotator_agentguid)>
 				<cfif REFindNoCase("^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$", variables.orcidCandidate)>
@@ -158,11 +183,13 @@ limitations under the License.
 				<cfset variables.creatorName = trim(conversationAnns.annotator_agent_name)>
 			</cfif>
 		</cfif>
-		<cfif len(variables.creatorName) EQ 0>
+		<cfif variables.creatorMasked EQ 0 AND len(variables.creatorName) EQ 0>
 			<cfset variables.creatorName = "Unknown creator">
 		</cfif>
 		<cfset QuerySetCell(conversationAnns, "creator_uri", variables.creatorUri, conversationAnns.currentrow)>
 		<cfset QuerySetCell(conversationAnns, "creator_name", variables.creatorName, conversationAnns.currentrow)>
+		<cfset QuerySetCell(conversationAnns, "creator_masked", variables.creatorMasked, conversationAnns.currentrow)>
+		<cfset QuerySetCell(conversationAnns, "body_display", maskAnnotationPersonalInfo(conversationAnns.body_value), conversationAnns.currentrow)>
 	</cfloop>
 
 	<cfquery name="rootAnn" dbtype="query">
@@ -377,12 +404,16 @@ limitations under the License.
 					"@context": "http://www.w3.org/ns/anno.jsonld",
 					"id": "#variables.rdfEscape.escapeForJson(variables.thisAnnotationIRI)#",
 					"type": "Annotation",
-					"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(requestedAnnRow.body_value)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
+					"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(requestedAnnRow.body_display)#", "language": "en"}#variables.requestedTargetJson##variables.requestedMotivationJson#,
 					"created": "#dateformat(requestedAnnRow.annotate_date,'yyyy-mm-dd')#",
-					"creator": {
-						<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_uri)#",</cfif>
-						"name": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_name)#"
-					},
+					<cfif val(requestedAnnRow.creator_masked) EQ 1>
+						"creator": {"type": "http://xmlns.com/foaf/0.1/Agent"},
+					<cfelse>
+						"creator": {
+							<cfif len(requestedAnnRow.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_uri)#",</cfif>
+							"name": "#variables.rdfEscape.escapeForJson(requestedAnnRow.creator_name)#"
+						},
+					</cfif>
 					"reviewed": <cfif val(requestedAnnRow.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 					"visibility": "<cfif val(requestedAnnRow.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>",
 					<!--- This array carries every other annotation in the conversation, not only those
@@ -414,12 +445,16 @@ limitations under the License.
 									{
 										"id": "#variables.rdfEscape.escapeForJson(variables.annotationIRI)#",
 										"type": "Annotation",
-										"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(includedConversationAnns.body_value)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
+										"body": {"type": "TextualBody", "value": "#variables.rdfEscape.escapeForJson(includedConversationAnns.body_display)#", "language": "en"}#variables.annotationTargetJson##variables.annotationMotivationJson#,
 										"created": "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#",
-										"creator": {
-											<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_uri)#",</cfif>
-											"name": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_name)#"
-										},
+										<cfif val(includedConversationAnns.creator_masked) EQ 1>
+											"creator": {"type": "http://xmlns.com/foaf/0.1/Agent"},
+										<cfelse>
+											"creator": {
+												<cfif len(includedConversationAnns.creator_uri) GT 0>"id": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_uri)#",</cfif>
+												"name": "#variables.rdfEscape.escapeForJson(includedConversationAnns.creator_name)#"
+											},
+										</cfif>
 										"reviewed": <cfif val(includedConversationAnns.reviewed_fg) EQ 1>true<cfelse>false</cfif>,
 										"visibility": "<cfif val(includedConversationAnns.mask_annotation_fg) EQ 1>hidden<cfelse>public</cfif>"
 									}
@@ -456,16 +491,20 @@ limitations under the License.
 							<cfif len(variables.motivationIRI) GT 0><oa:motivatedBy rdf:resource="#XMLFormat(variables.motivationIRI)#"/></cfif>
 							<oa:hasBody>
 								<oa:TextualBody>
-									<rdf:value>#XMLFormat(includedConversationAnns.body_value)#</rdf:value>
+									<rdf:value>#XMLFormat(includedConversationAnns.body_display)#</rdf:value>
 									<dcterms:language>en</dcterms:language>
 								</oa:TextualBody>
 							</oa:hasBody>
 							<cfif len(variables.annotationTarget) GT 0><oa:hasTarget rdf:resource="#XMLFormat(variables.annotationTarget)#"/></cfif>
 							<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema##date">#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#</dcterms:created>
 							<dcterms:creator>
-								<foaf:Agent<cfif len(includedConversationAnns.creator_uri) GT 0> rdf:about="#XMLFormat(includedConversationAnns.creator_uri)#"</cfif>>
-									<foaf:name>#XMLFormat(includedConversationAnns.creator_name)#</foaf:name>
-								</foaf:Agent>
+								<cfif val(includedConversationAnns.creator_masked) EQ 1>
+									<foaf:Agent/>
+								<cfelse>
+									<foaf:Agent<cfif len(includedConversationAnns.creator_uri) GT 0> rdf:about="#XMLFormat(includedConversationAnns.creator_uri)#"</cfif>>
+										<foaf:name>#XMLFormat(includedConversationAnns.creator_name)#</foaf:name>
+									</foaf:Agent>
+								</cfif>
 							</dcterms:creator>
 						</oa:Annotation>
 					</cfif>
@@ -499,12 +538,12 @@ limitations under the License.
     <cfif len(variables.motivationIRI) GT 0>oa:motivatedBy <#variables.rdfEscape.escapeForIri(variables.motivationIRI)#> ;</cfif>
     oa:hasBody [
         a oa:TextualBody ;
-        rdf:value "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.body_value)#" ;
+        rdf:value "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.body_display)#" ;
         dcterms:language "en"
     ] ;
     <cfif len(variables.annotationTarget) GT 0>oa:hasTarget <#variables.rdfEscape.escapeForIri(variables.annotationTarget)#> ;</cfif>
     dcterms:created "#dateformat(includedConversationAnns.annotate_date,'yyyy-mm-dd')#"^^xsd:date ;
-    dcterms:creator <cfif len(includedConversationAnns.creator_uri) GT 0><#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#><cfelse>[ a foaf:Agent ; foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" ]</cfif> .
+    dcterms:creator <cfif val(includedConversationAnns.creator_masked) EQ 1>[ a foaf:Agent ]<cfelseif len(includedConversationAnns.creator_uri) GT 0><#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#><cfelse>[ a foaf:Agent ; foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" ]</cfif> .
 <cfif len(includedConversationAnns.creator_uri) GT 0>
 <#variables.rdfEscape.escapeForIri(includedConversationAnns.creator_uri)#> foaf:name "#variables.rdfEscape.escapeForTurtle(includedConversationAnns.creator_name)#" .
 </cfif>

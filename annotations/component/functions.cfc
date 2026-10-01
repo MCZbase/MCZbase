@@ -1528,6 +1528,37 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
+<!--- currentViewerIsIdentifiable test whether the logged-in viewer is someone MCZbase can name,
+ which is the condition under which another annotator's identity is shown to a viewer who is
+ neither internal staff nor that annotator.  Shared by renderAnnotatorHtml and the data
+ serializations in showAnnotation.cfm so that the HTML and RDF disclose the same thing.
+
+ @return true if the viewer has a linked agent, or an email address and a name in their profile;
+	false otherwise, including when no one is logged in.
+ @see renderAnnotatorHtml
+--->
+<cffunction name="currentViewerIsIdentifiable" returntype="boolean" access="public">
+	<cfset var viewerProfile = "">
+	<cfif NOT (isDefined("session.username") AND len(trim(session.username)) GT 0)>
+		<cfreturn false>
+	</cfif>
+	<cfif isDefined("session.myAgentId") AND val(session.myAgentId) GT 0>
+		<cfreturn true>
+	</cfif>
+	<cfquery name="viewerProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+		SELECT ud.email, ud.first_name, ud.last_name
+		FROM cf_users cu
+			LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
+		WHERE cu.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif viewerProfile.recordcount GT 0 AND len(trim(viewerProfile.email)) GT 0>
+		<cfif len(trim(viewerProfile.first_name)) GT 0 OR len(trim(viewerProfile.last_name)) GT 0>
+			<cfreturn true>
+		</cfif>
+	</cfif>
+	<cfreturn false>
+</cffunction>
+
 <!--- Render a short HTML block describing the annotator of a given annotation.
  Determines what information to show based on the current viewer's permissions:
  coldfusion_user role members and the annotator themselves see all available info;
@@ -1584,21 +1615,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 
 	<!--- If not oneOfUs and not self, check that viewer is identifiable --->
 	<cfif NOT showAll>
-		<!--- Viewer is identifiable if they have a linked agent or both email and name --->
-		<cfset var viewerIdentifiable = (isDefined("session.myAgentId") AND val(session.myAgentId) GT 0)>
-		<cfif NOT viewerIdentifiable>
-			<cfquery name="viewerProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-				SELECT ud.email, ud.first_name, ud.last_name
-				FROM cf_users cu
-					LEFT OUTER JOIN cf_user_data ud ON cu.user_id = ud.user_id
-				WHERE cu.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif viewerProfile.recordcount GT 0 AND len(trim(viewerProfile.email)) GT 0
-					AND (len(trim(viewerProfile.first_name)) GT 0 OR len(trim(viewerProfile.last_name)) GT 0)>
-				<cfset viewerIdentifiable = true>
-			</cfif>
-		</cfif>
-		<cfif NOT viewerIdentifiable>
+		<cfif NOT currentViewerIsIdentifiable()>
 			<cfreturn "<span class=""d-inline font-italic"">[Masked]</span>">
 		</cfif>
 	</cfif>
