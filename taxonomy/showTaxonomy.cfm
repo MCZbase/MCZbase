@@ -997,7 +997,6 @@ limitations under the License.
 		</div><!--- col-12 --->
 	</section>
 
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	<!--- Section 6: Annotations --->
 	<section class="row mx-0 mb-4">
 		<div class="col-12 px-0">
@@ -1048,7 +1047,6 @@ limitations under the License.
 			</section>
 		</div><!--- col-12 --->
 	</section>
-	</cfif>
 
 	<!--- Reposition addimagezoom trackers when Bootstrap collapse panels open or close.
 		  Uses MutationObserver on each collapse element's class attribute so this works

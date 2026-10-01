@@ -611,55 +611,53 @@ follows, but a single term needs no grouping.
 				</div>
 			</div>
 
-			<cfif len(session.username) GT 0>
-				<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="existingAnnotations_result">
-					SELECT
-						COUNT(*) AS cnt
-					FROM
-						annotations
-					WHERE
-						target_table = 'PROJECT'
-						AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
-						<cfif NOT canManageProjects>
-							AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
-						</cfif>
-				</cfquery>
-				<div id="projectAnnotationDialog"></div>
-				<script type="text/javascript">
-					function reloadProjectAnnotationCardBody() {
-						$.ajax({
-							url: '/annotations/component/public.cfc',
-							data: { method: 'getProjectAnnotationCardBodyHtml', project_id: #url.project_id# },
-							success: function(result) { $('##projectAnnotationsCardBodyWrap').html(result); },
-							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading project annotations'); },
-							dataType: 'html'
-						});
-					}
-				</script>
-				<section class="accordion" id="projectAnnotationsSection">
-					<div class="card mb-2 bg-light">
-						<div class="card-header" id="projectAnnotationsHeader">
-							<h2 class="h4 my-0">
-								<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##projectAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="projectAnnotationsCardBodyWrap">
-									Annotations (#existingAnnotations.cnt#)
-								</button>
-								<cfif canManageProjects AND existingAnnotations.cnt GT 0>
-									<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
-										Edit Annotations
-									</a>
-								<cfelse>
-									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
-										Annotate
-									</a>
-								</cfif>
-							</h2>
-						</div>
-						<div id="projectAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="projectAnnotationsHeader" data-parent="##projectAnnotationsSection">
-							#getProjectAnnotationCardBodyHtml(project_id=val(url.project_id))#
-						</div>
+			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="existingAnnotations_result">
+				SELECT
+					COUNT(*) AS cnt
+				FROM
+					annotations
+				WHERE
+					target_table = 'PROJECT'
+					AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
+					<cfif NOT canManageProjects>
+						AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+					</cfif>
+			</cfquery>
+			<div id="projectAnnotationDialog"></div>
+			<script type="text/javascript">
+				function reloadProjectAnnotationCardBody() {
+					$.ajax({
+						url: '/annotations/component/public.cfc',
+						data: { method: 'getProjectAnnotationCardBodyHtml', project_id: #url.project_id# },
+						success: function(result) { $('##projectAnnotationsCardBodyWrap').html(result); },
+						error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading project annotations'); },
+						dataType: 'html'
+					});
+				}
+			</script>
+			<section class="accordion" id="projectAnnotationsSection">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="projectAnnotationsHeader">
+						<h2 class="h4 my-0">
+							<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##projectAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="projectAnnotationsCardBodyWrap">
+								Annotations (#existingAnnotations.cnt#)
+							</button>
+							<cfif canManageProjects AND existingAnnotations.cnt GT 0>
+								<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
+									Edit Annotations
+								</a>
+							<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+								<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('projectAnnotationDialog','PROJECT',#url.project_id#,reloadProjectAnnotationCardBody);">
+									Annotate
+								</a>
+							</cfif>
+						</h2>
 					</div>
-				</section>
-			</cfif>
+					<div id="projectAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="projectAnnotationsHeader" data-parent="##projectAnnotationsSection">
+						#getProjectAnnotationCardBodyHtml(project_id=val(url.project_id))#
+					</div>
+				</div>
+			</section>
 		</div>
 
 		<div class="col-12 col-md-6 px-0 px-md-1">

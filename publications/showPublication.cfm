@@ -384,57 +384,55 @@ limitations under the License.
 		</div>
 	</section>
 
-	<cfif isdefined("session.username") and len(session.username) gt 0>
-		<!--- Annotations card: same accordion pattern as taxonomy/showTaxonomy.cfm and
-		      projects/showProject.cfm. --->
-		<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="existingAnnotations_result">
-			SELECT
-				COUNT(*) AS cnt
-			FROM
-				annotations
-			WHERE
-				target_table = 'PUBLICATION'
-				AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getDetails.publication_id#">
-				<cfif NOT canManagePublications>
-					AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
-				</cfif>
-		</cfquery>
-		<div id="publicationAnnotationDialog"></div>
-		<script type="text/javascript">
-			function reloadPublicationAnnotationCardBody() {
-				$.ajax({
-					url: '/annotations/component/public.cfc',
-					data: { method: 'getPublicationAnnotationCardBodyHtml', publication_id: #getDetails.publication_id# },
-					success: function(result) { $('##publicationAnnotationsCardBodyWrap').html(result); },
-					error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading publication annotations'); },
-					dataType: 'html'
-				});
-			}
-		</script>
-		<section class="accordion" id="publicationAnnotationsSection">
-			<div class="card mb-2 bg-light">
-				<div class="card-header" id="publicationAnnotationsHeader">
-					<h2 class="h4 my-0">
-						<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##publicationAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="publicationAnnotationsCardBodyWrap">
-							Annotations (#existingAnnotations.cnt#)
-						</button>
-						<cfif canManagePublications AND existingAnnotations.cnt GT 0>
-							<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('publicationAnnotationDialog','PUBLICATION',#getDetails.publication_id#,reloadPublicationAnnotationCardBody);">
-								Edit Annotations
-							</a>
-						<cfelse>
-							<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('publicationAnnotationDialog','PUBLICATION',#getDetails.publication_id#,reloadPublicationAnnotationCardBody);">
-								Annotate
-							</a>
-						</cfif>
-					</h2>
-				</div>
-				<div id="publicationAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="publicationAnnotationsHeader" data-parent="##publicationAnnotationsSection">
-					#getPublicationAnnotationCardBodyHtml(publication_id=val(getDetails.publication_id))#
-				</div>
+	<!--- Annotations card: same accordion pattern as taxonomy/showTaxonomy.cfm and
+	      projects/showProject.cfm. --->
+	<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="existingAnnotations_result">
+		SELECT
+			COUNT(*) AS cnt
+		FROM
+			annotations
+		WHERE
+			target_table = 'PUBLICATION'
+			AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getDetails.publication_id#">
+			<cfif NOT canManagePublications>
+				AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+			</cfif>
+	</cfquery>
+	<div id="publicationAnnotationDialog"></div>
+	<script type="text/javascript">
+		function reloadPublicationAnnotationCardBody() {
+			$.ajax({
+				url: '/annotations/component/public.cfc',
+				data: { method: 'getPublicationAnnotationCardBodyHtml', publication_id: #getDetails.publication_id# },
+				success: function(result) { $('##publicationAnnotationsCardBodyWrap').html(result); },
+				error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading publication annotations'); },
+				dataType: 'html'
+			});
+		}
+	</script>
+	<section class="accordion" id="publicationAnnotationsSection">
+		<div class="card mb-2 bg-light">
+			<div class="card-header" id="publicationAnnotationsHeader">
+				<h2 class="h4 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##publicationAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="publicationAnnotationsCardBodyWrap">
+						Annotations (#existingAnnotations.cnt#)
+					</button>
+					<cfif canManagePublications AND existingAnnotations.cnt GT 0>
+						<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('publicationAnnotationDialog','PUBLICATION',#getDetails.publication_id#,reloadPublicationAnnotationCardBody);">
+							Edit Annotations
+						</a>
+					<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+						<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('publicationAnnotationDialog','PUBLICATION',#getDetails.publication_id#,reloadPublicationAnnotationCardBody);">
+							Annotate
+						</a>
+					</cfif>
+				</h2>
 			</div>
-		</section>
-	</cfif>
+			<div id="publicationAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="publicationAnnotationsHeader" data-parent="##publicationAnnotationsSection">
+				#getPublicationAnnotationCardBodyHtml(publication_id=val(getDetails.publication_id))#
+			</div>
+		</div>
+	</section>
 
 	</cfoutput>
 </main><!--- class="container" --->
