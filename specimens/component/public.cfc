@@ -130,7 +130,7 @@ limitations under the License.
 						getPageContext().forward() fails inside one. --->
 					<cfif oneOfUs EQ 1>
 						<!--- if we got here the cataloged item exists but the internal user does not have permissions, return a 403 error --->
-						<cfset thread.forwardTo = "/errors/403.cfm">
+						<cfset thread.forwardTo = "/errors/forbidden.cfm">
 					<cfelse>
 						<!--- if we got here the cataloged item exists but the user does not have permissions to see it redirect to 404 error--->
 						<cfset thread.forwardTo = "/errors/404.cfm">
