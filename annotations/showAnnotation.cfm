@@ -553,12 +553,12 @@ limitations under the License.
 		<cfdefaultcase>
 			<!--- HTML view: standard MCZbase page with full conversation --->
 			<cfset variables.rootBodyPreview = "">
-			<cfif len(rootAnn.body_value) GT 0>
-				<cfset variables.rootBodyPreview = left(rootAnn.body_value, 80)>
-				<cfif len(rootAnn.body_value) GT 80><cfset variables.rootBodyPreview = variables.rootBodyPreview & "..."></cfif>
+			<cfif len(rootAnn.body_display) GT 0>
+				<cfset variables.rootBodyPreview = left(rootAnn.body_display, 80)>
+				<cfif len(rootAnn.body_display) GT 80><cfset variables.rootBodyPreview = variables.rootBodyPreview & "..."></cfif>
 			</cfif>
 			<cfset pageTitle = "Annotation Conversation">
-			<cfif len(variables.rootBodyPreview) GT 0><cfset pageTitle = "Annotation: " & variables.rootBodyPreview></cfif>
+			<cfif len(variables.rootBodyPreview) GT 0><cfset pageTitle = "Annotation: " & encodeForHTML(variables.rootBodyPreview)></cfif>
 			<cfinclude template="/shared/_header.cfm">
 			<cfoutput>
 			<main class="container-fluid" id="content">
