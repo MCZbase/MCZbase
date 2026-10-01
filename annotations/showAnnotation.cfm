@@ -644,6 +644,15 @@ limitations under the License.
 					</div>
 				</div>
 			</main>
+			<script>
+				/** Reload the conversation when a reply or edit dialog closes.  The Reply and Edit
+				 * handlers in annotations.js fall back to this when the button is not inside a record's
+				 * annotation dialog or an annotation block, which is the case on this page.
+				 */
+				function annotationDialogCloseCallback() {
+					window.location.reload();
+				}
+			</script>
 			</cfoutput>
 			<cfinclude template="/shared/_footer.cfm">
 		</cfdefaultcase>
