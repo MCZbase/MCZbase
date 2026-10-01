@@ -394,7 +394,7 @@ limitations under the License.
 		WHERE
 			target_table = 'PUBLICATION'
 			AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getDetails.publication_id#">
-			<cfif NOT canManagePublications>
+			<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
 				AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 			</cfif>
 	</cfquery>

@@ -619,7 +619,7 @@ follows, but a single term needs no grouping.
 				WHERE
 					target_table = 'PROJECT'
 					AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.project_id#">
-					<cfif NOT canManageProjects>
+					<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
 						AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
 					</cfif>
 			</cfquery>
