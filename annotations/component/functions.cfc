@@ -1305,10 +1305,10 @@ limitations under the License.
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.  Motivation: #motivation#.
+An MCZbase User: #encodeForHTML(session.username)# (#encodeForHTML(annotator.first_name)# #encodeForHTML(annotator.last_name)# #encodeForHTML(annotator.affiliation)# #encodeForHTML(annotator.email)#) has submitted an annotation to report problematic data concerning #encodeForHTML(annotated.annorecord)#.  Motivation: #motivation#.
 
 			<blockquote>
-				#annotation#
+				#encodeForHTML(annotation)#
 			</blockquote>
 
 			View details at
@@ -1484,7 +1484,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
  - that is intended, because the Annotator field shows a name and no email, while this prefix does.
 
  @param annotation_display the text as selected for display.
- @return the text, with any leading identity prefix replaced by "[Masked] reported:".
+ @return the text, with any leading identity prefix replaced by "[Masked] reported:".  Plain text,
+	not safe for HTML: use renderAnnotationBodyHtml there, or this context's own encoder elsewhere.
+ @see renderAnnotationBodyHtml
 --->
 <cffunction name="maskAnnotationPersonalInfo" returntype="string" access="public">
 	<cfargument name="annotation_display" type="string" required="yes">
@@ -1492,6 +1494,23 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfreturn arguments.annotation_display>
 	</cfif>
 	<cfreturn rereplace(arguments.annotation_display, "^.* reported:", "[Masked] reported:")>
+</cffunction>
+
+
+<!--- renderAnnotationBodyHtml render an annotation's text for output into HTML.
+ Applies the personal-info redaction, then encodes, so the result is safe to output unescaped.
+ Annotation text is stored as the annotator typed it, so it is encoded here rather than on input;
+ the data serializations need the raw text to apply their own escaping.  Use this wherever
+ annotation text is written into HTML; for any other context take maskAnnotationPersonalInfo's
+ plain text and apply that context's own encoder.
+
+ @param annotation_display the annotation text as stored.
+ @return HTML-safe, redacted annotation text.
+ @see maskAnnotationPersonalInfo
+--->
+<cffunction name="renderAnnotationBodyHtml" returntype="string" access="public">
+	<cfargument name="annotation_display" type="string" required="yes">
+	<cfreturn encodeForHTML(maskAnnotationPersonalInfo(arguments.annotation_display))>
 </cffunction>
 
 
@@ -2488,9 +2507,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						<cfif val(arguments.mask_annotation_fg) EQ 1>
 							<div class="px-1 font-italic"><cfif val(arguments.reviewed_fg) EQ 1>[Hidden]<cfelse>[Hidden - Pending review]</cfif></div>
 						</cfif>
-						<!--- annotation_display is trusted text from annotation_textualbody.body_value or annotations.annotation.
-							div, and no size class - it inherits .875rem from the card-body wrapper. --->
-						<div class="px-1">#maskAnnotationPersonalInfo(arguments.annotation_display)#</div>
+						<!--- annotation_display is untrusted text as the annotator typed it, from
+							annotation_textualbody.body_value or annotations.annotation.  No size class:
+							it inherits .875rem from the card-body wrapper. --->
+						<div class="px-1">#renderAnnotationBodyHtml(arguments.annotation_display)#</div>
 					</cfif>
 				</div>
 				<div class="#annotatorColClass#">

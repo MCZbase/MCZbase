@@ -4255,7 +4255,7 @@ limitations under the License.
 										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
 									</cfif>
 								</cfif>
-								#maskAnnotationPersonalInfo(annotation_display)#
+								#renderAnnotationBodyHtml(annotation_display)#
 								<!--- The metadata follows the annotation text in the same run and breaks only
 									when it runs out of room, rather than always taking a line of its own.  The li
 									is the block that separates one annotation from the next.
