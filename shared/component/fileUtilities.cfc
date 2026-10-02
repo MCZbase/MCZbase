@@ -98,6 +98,54 @@ limitations under the License.
 </cffunction>
 
 <!---
+	listColdFusionFiles list the .cfm and .cfc files beneath a directory, as paths relative to it.
+
+	@param directory the directory to scan, usually the webroot.
+	@param excludedDirectories comma separated list of directory names; files with any such
+		directory in their path are skipped, and top level directories so named are not scanned.
+	@return an array of paths starting with /, sorted case insensitively.
+--->
+<cffunction name="listColdFusionFiles" access="public" returntype="array" output="false">
+	<cfargument name="directory" type="string" required="yes">
+	<cfargument name="excludedDirectories" type="string" required="yes">
+
+	<cfset var root = REReplace(arguments.directory, "/+$", "")>
+	<cfset var result = arrayNew(1)>
+	<cfset var topLevel = "">
+	<cfset var subDirectory = "">
+	<cfset var relativePath = "">
+	<cfset var segments = "">
+	<cfset var excluded = false>
+	<cfset var i = 0>
+
+	<cfdirectory action="list" directory="#root#" name="topLevel" type="all">
+	<cfloop query="topLevel">
+		<cfif topLevel.type EQ "Dir">
+			<cfif listFind(arguments.excludedDirectories, topLevel.name) EQ 0>
+				<cfdirectory action="list" directory="#root#/#topLevel.name#" name="subDirectory" recurse="true" type="file" filter="*.cfm|*.cfc">
+				<cfloop query="subDirectory">
+					<cfset relativePath = mid(subDirectory.directory, len(root) + 1, len(subDirectory.directory)) & "/" & subDirectory.name>
+					<cfset segments = listToArray(relativePath, "/")>
+					<cfset excluded = false>
+					<cfloop from="1" to="#arrayLen(segments) - 1#" index="i">
+						<cfif listFind(arguments.excludedDirectories, segments[i]) GT 0>
+							<cfset excluded = true>
+						</cfif>
+					</cfloop>
+					<cfif NOT excluded>
+						<cfset arrayAppend(result, relativePath)>
+					</cfif>
+				</cfloop>
+			</cfif>
+		<cfelseif listFindNoCase("cfm,cfc", listLast(topLevel.name, ".")) GT 0>
+			<cfset arrayAppend(result, "/" & topLevel.name)>
+		</cfif>
+	</cfloop>
+	<cfset arraySort(result, "textnocase")>
+	<cfreturn result>
+</cffunction>
+
+<!---
 	attachmentDisposition build a Content-Disposition header value that makes the browser save a
 	file under the given name, with quotes and control characters replaced in the plain filename
 	and the full name, including any non-ASCII characters, in the RFC 5987 filename* parameter.

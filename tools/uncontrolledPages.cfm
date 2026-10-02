@@ -20,6 +20,7 @@ limitations under the License.
 <!--- Read-only audit of cf_form_permissions against the ColdFusion files under the webroot. --->
 <cfset pageTitle = "Form Permissions Audit">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
 <!--- The cf_form_permissions row for this page requires only coldfusion_user. --->
 <cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 	<cflocation url="/errors/forbidden.cfm" addtoken="false">
@@ -62,44 +63,12 @@ limitations under the License.
 	<cfreturn "">
 </cffunction>
 
-<!---
-	isInExcludedDirectory test whether any directory in a webroot relative path is one this audit
-	does not scan.
-
-	@param path the path, relative to the webroot, starting with /.
-	@return true if a directory segment of the path is in EXCLUDED_DIRECTORIES.
---->
-<cffunction name="isInExcludedDirectory" returntype="boolean" output="false">
-	<cfargument name="path" type="string" required="yes">
-	<cfset var segments = listToArray(arguments.path, "/")>
-	<cfset var i = 0>
-	<cfloop from="1" to="#arrayLen(segments) - 1#" index="i">
-		<cfif listFind(variables.EXCLUDED_DIRECTORIES, segments[i]) GT 0>
-			<cfreturn true>
-		</cfif>
-	</cfloop>
-	<cfreturn false>
-</cffunction>
-
 <cfset variables.webRoot = REReplace(application.webDirectory, "/+$", "")>
 
 <!--- ColdFusion files under the webroot, keyed by webroot relative path, with how each runs cf_rolecheck. --->
 <cfset variables.files = structNew()>
-<cfdirectory action="list" directory="#variables.webRoot#" name="topLevel" type="all">
-<cfloop query="topLevel">
-	<cfif topLevel.type EQ "Dir">
-		<cfif listFind(variables.EXCLUDED_DIRECTORIES, topLevel.name) EQ 0>
-			<cfdirectory action="list" directory="#variables.webRoot#/#topLevel.name#" name="subDirectory" recurse="true" type="file" filter="*.cfm|*.cfc">
-			<cfloop query="subDirectory">
-				<cfset variables.relativePath = mid(subDirectory.directory, len(variables.webRoot) + 1, len(subDirectory.directory)) & "/" & subDirectory.name>
-				<cfif NOT isInExcludedDirectory(variables.relativePath)>
-					<cfset variables.files[variables.relativePath] = permissionCheckFor(subDirectory.directory & "/" & subDirectory.name)>
-				</cfif>
-			</cfloop>
-		</cfif>
-	<cfelseif listFindNoCase("cfm,cfc", listLast(topLevel.name, ".")) GT 0>
-		<cfset variables.files["/" & topLevel.name] = permissionCheckFor(variables.webRoot & "/" & topLevel.name)>
-	</cfif>
+<cfloop array="#listColdFusionFiles(variables.webRoot, variables.EXCLUDED_DIRECTORIES)#" index="variables.relativePath">
+	<cfset variables.files[variables.relativePath] = permissionCheckFor(variables.webRoot & variables.relativePath)>
 </cfloop>
 
 <cfquery name="getPermissions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPermissions_result">
