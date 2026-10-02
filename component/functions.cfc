@@ -1003,6 +1003,7 @@
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="genMD5" access="remote">
 	<cfargument name="uri" type="string" required="yes">
+	<cfargument name="debug" type="string" required="no" default="false">
 	<cfset var localFile = "">
 	<cfset var myBinaryFile = "">
 	<cfset var md5 = "">
@@ -1023,6 +1024,10 @@
 		<cfset md5 = createObject("component","includes.cfc.hashBinary").hashBinary(myBinaryFile)>
 		<cfreturn md5>
 		<cfcatch>
+			<cfif compareNoCase(arguments.debug, "true") EQ 0>
+				<cfdump var="#cfcatch#">
+				<cfabort>
+			</cfif>
 			<cfreturn "">
 		</cfcatch>
 		</cftry>
@@ -1032,6 +1037,10 @@
 			<cfset md5 = createObject("component","includes.cfc.hashBinary").hashBinary(cfhttp.filecontent)>
 			<cfreturn md5>
 		<cfcatch>
+			<cfif compareNoCase(arguments.debug, "true") EQ 0>
+				<cfdump var="#cfcatch#">
+				<cfabort>
+			</cfif>
 			<cfreturn "">
 		</cfcatch>
 		</cftry>
