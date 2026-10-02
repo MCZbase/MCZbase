@@ -5,6 +5,14 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+<!--- Declared because the branches below read them unconditionally, so a link that omits one died
+	on an undefined variable.
+	TODO: These are declared without a scope, matching the unscoped reads throughout this file.
+	Giving every reference an explicit url or form scope, as the developer's guide requires, is a
+	separate job from this one. --->
+<cfparam name="enteredby" default="">
+<cfparam name="accn" default="">
+<cfparam name="colln" default="">
 <style>
 .blTabDiv {
 	width: 100%;
@@ -440,7 +448,7 @@ table##t th {
 					<cfinput type="hidden" name="colln" value="#colln#">
 					<cfgrid attributeCollection="#args#">
 						<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-						<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
+						<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&showAllUsers=true&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 							hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" autoExpand="yes">
 						<cfloop list="#ColNameList#" index="thisName">
 							<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
@@ -459,6 +467,15 @@ table##t th {
 <cfif action IS "nothing">
 	<cfoutput>
 		<cf_setDataEntryGroups>
+		<!--- adminForUsers is the data entry users in the collections this caller manages, so it is
+			non empty only for a manager, and it is what the pickers below are built from.  A data
+			entry user who manages no collection gets no pickers, and reaches their own records
+			through the link above them instead. --->
+		<cfset variables.mayBrowseOthers = false>
+		<cfif len(adminForUsers) GT 0>
+			<cfset variables.mayBrowseOthers = true>
+		</cfif>
+		<cfif variables.mayBrowseOthers>
 		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
 		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
@@ -496,12 +513,24 @@ table##t th {
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
+		</cfif>
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 col-xl-10 mx-auto">
-					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h2>
+					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h1>
+					<!--- Offered to everyone.  For a data entry user who manages no collection these are
+						the only routes to their own staged records: the pickers below, which reach the
+						same two views for a chosen set, are not drawn for them. --->
+					<p class="mt-2 mb-3">
+						<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=ajaxGrid&enteredby=#session.username#&accn=&colln=">Edit all my records in Grid</a>
+						<cfif NOT variables.mayBrowseOthers>
+							<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=sqlTab&enteredby=#session.username#&accn=&colln=">Edit my records in Bulk</a>
+						</cfif>
+					</p>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
-						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+						<cfif variables.mayBrowseOthers>
+							<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+						</cfif>
 							<ul>
 								<li>
 									<h2 class="h3">Edit in Bulk</h2>
@@ -521,6 +550,14 @@ table##t th {
 							</ul>
 					</div>
 					<div class="col-12 col-md-auto px-0 float-left">
+						<cfif NOT variables.mayBrowseOthers>
+							<p>
+								You can edit the records you entered yourself with the button above.
+								Choosing another person&apos;s records, or a whole accession or collection,
+								needs the manage collection role for that collection.
+							</p>
+						</cfif>
+						<cfif variables.mayBrowseOthers>
 						<form name="f" method="post" action="browseBulk.cfm">
 							<table class="">
 								<tr>
@@ -561,6 +598,7 @@ table##t th {
 								</tr>
 							</table>
 						</form>
+						</cfif>
 					</div>
 
 				</div>
@@ -680,12 +718,23 @@ table##t th {
 			</cfif>
 		</cfquery>
 		<cfset hasFilter = false>
-		<cfset sql = "select * from bulkloader where enteredby IN (#enteredby#)">
+		<!--- The statement below is assembled as text, so these three lists have to arrive in it
+			already quoted.  The pickers on this page send them that way, but the Edit my records in
+			Bulk button does not, and a bare value produced IN (mole) and ORA-00904.  Quoting is done
+			here from the cleaned values rather than relied on from the caller, so either form works;
+			the cleaned values have had their quotes stripped, so requoting cannot double them.
+			TODO: The rest of this statement, the column, operator and value triples below, is still
+			assembled as text. It is inside /Bulkloader/, which Application.cfc gates, so it is out of
+			scope for this issue; binding it is separate work. --->
+		<cfset enteredByQuoted = listqualify(enteredByCleaned,"'")>
+		<cfset accnQuoted = listqualify(accnCleaned,"'")>
+		<cfset collnQuoted = listqualify(collnCleaned,"'")>
+		<cfset sql = "select * from bulkloader where enteredby IN (#enteredByQuoted#)">
 		<cfif isdefined("accn") and len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
+			<cfset sql = "#sql# AND accn IN (#accnQuoted#)">
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
+			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#collnQuoted#)">
 		</cfif>
 		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
 			<cfset hasFilter = true>
@@ -1253,7 +1302,7 @@ table##t th {
 				<cfinput type="hidden" name="returnAction" value="viewTable">
 
 				<cfgrid query="data"  name="blGrid" selectmode="edit">
-					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
+					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&showAllUsers=true&pMode=edit" hrefkey="collection_object_id" target="_blank">
 					<cfloop list="#ColNameList#" index="thisName">
 						<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
 							<cfgridcolumn name="#thisName#" values=",c,p">

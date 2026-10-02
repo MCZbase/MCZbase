@@ -97,7 +97,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
-			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database. Edits can be entered using the catalog number or other ID to find the correct Specimen Record. Parts must also exist in the record, new parts will not be added with this tool. A message will appear when the part is found. Error messages will appear if the values need to match values in MCZbase and do not, and if required columns are missing. Additional columns will be ignored. The first line of the file must be the column headings, spelled exactly as below. Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD, COLL_OBJ_DISPOSITION, CONDITION, LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p><p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used. If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part. They do not edit existing part attributes, and cannot duplicate existing part attribute attribute_type: attribute_value pairs. A file of parts to be edited can be obtained from the <b>Parts Report/Download</b> option from the <b>Manage</b> page for a specimen search result. The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
+			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database. Edits can be entered using the catalog number or other ID to find the correct Specimen Record. Parts must also exist in the record, new parts will not be added with this tool. A message will appear when the part is found. Error messages will appear if the values need to match values in MCZbase and do not, and if required columns are missing. Additional columns will be ignored. The first line of the file must be the column headings, spelled exactly as below. Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME, PRESERVE_METHOD, CURRENT_REMARKS, LOT_COUNT and LOT_COUNT_MODIFIER to uniquely identify the part to be modified. Those five are the fields matched against the record's existing parts; COLL_OBJ_DISPOSITION and CONDITION are not used to identify the part.</p><p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used. If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part. They do not edit existing part attributes, and cannot duplicate existing part attribute attribute_type: attribute_value pairs. A file of parts to be edited can be obtained from the <b>Parts Report/Download</b> option from the <b>Manage</b> page for a specimen search result. The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -609,19 +609,38 @@ limitations under the License.
 				own "collection object" leaf, unless that leaf's immediate parent is a proxy-role
 				container (pin/slide/cryovial/envelope/glass vial), in which case the proxy is what
 				actually gets reparented. Mirrors tools/BulkloadPartContainer.cfm's Phase 1 pattern
-				exactly, driven by ctcontainer_type.role='proxy' rather than a hand-maintained list. --->
+				exactly, driven by ctcontainer_type.role='proxy' rather than a hand-maintained list.
+
+				Unlike BulkloadPartContainer.cfm (where every row is a container placement by
+				definition), this is a general part-editing bulkloader -- CONTAINER_UNIQUE_ID is one
+				optional field among many, and most rows in a typical batch won't set it at all.
+				Scoped to parent_container_id is not null (resolved from CONTAINER_UNIQUE_ID above)
+				so a row that isn't proposing any container move doesn't get a spurious "moving it
+				will move the [proxy]..." warning for a move nobody asked for. --->
 			<cfquery name="getTempTablePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, part_collection_object_id
 				FROM cf_temp_edit_parts
 				WHERE part_collection_object_id is not null
+					AND parent_container_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTablePart">
 				<cfset local.partContainer = resolvePartCurrentContainer(getTempTablePart.part_collection_object_id)>
+				<!--- resolvePartCurrentContainer only sets move_container_id/is_proxy/etc. once it
+					finds a current coll_obj_cont_hist row -- when found is false, those keys don't
+					exist on the returned struct at all. Resolve into a plain local variable first
+					rather than referencing local.partContainer.move_container_id directly inside
+					<cfqueryparam value="...">, since that attribute is evaluated regardless of the
+					null attribute's value and would throw "element MOVE_CONTAINER_ID is undefined"
+					for any part with no current container recorded at all. --->
+				<cfset local.resolvedPartContainerId = "">
+				<cfif local.partContainer.found>
+					<cfset local.resolvedPartContainerId = local.partContainer.move_container_id>
+				</cfif>
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts
 					SET
-						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.partContainer.move_container_id#" null="#NOT local.partContainer.found#">
+						part_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.resolvedPartContainerId#" null="#NOT local.partContainer.found#">
 						<cfif local.partContainer.found AND local.partContainer.is_proxy>
 							, placement_severity = 'warn'
 							, placement_message = concat(nvl2(placement_message, placement_message || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="This part is inside a #local.partContainer.move_type# (#local.partContainer.move_label#) -- moving it will move the #local.partContainer.move_type#, not just the collection object container specified.">)
@@ -869,7 +888,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part id' 
+						'ERROR: PART_COLLECTION_OBJECT_ID in your file does not match any part in MCZbase' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -889,7 +908,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: no matching part by part fields' 
+						'ERROR: No part on this record matches the PART_NAME, PRESERVE_METHOD, CURRENT_REMARKS, LOT_COUNT and LOT_COUNT_MODIFIER given' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -917,7 +936,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: Provided current_remarks do not match the part remarks for this record' 
+						'ERROR: CURRENT_REMARKS does not match this part' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -942,7 +961,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: provided lot_count and lot_count_modifier do not match the part values for this record' 
+						'ERROR: LOT_COUNT / LOT_COUNT_MODIFIER do not match this part' 
 					)
 				WHERE cf_temp_edit_parts.key NOT in 
 					(
@@ -969,7 +988,7 @@ limitations under the License.
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
 						nvl2(status, status || '; ', ''),
-						'ERROR: More that one matching part by part fields' 
+						'ERROR: More than one part on this record matches these values' 
 					)
 				WHERE cf_temp_edit_parts.key in 
 					(
@@ -1083,6 +1102,14 @@ limitations under the License.
 				SELECT * 
 				FROM cf_temp_edit_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				<!--- Ordered so the on-screen rows follow the uploaded file's row order, which is what
+					the ROW column below counts, and what the problem-report CSV (getProblemData) already
+					used. Without it Oracle may return these in any order, and the many UPDATEs the
+					validate step runs against this table can migrate rows and reorder them -- leaving a
+					user unable to match a flagged row to a line in their spreadsheet. Affects sequence
+					only: the same rows come back, so recordcount and the warnCount query-of-query below
+					are unaffected. --->
+				ORDER BY key
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
@@ -1102,16 +1129,29 @@ limitations under the License.
 				<cfset placementAlertClass = "alert-warning">
 			</cfif>
 			<div class="alert #placementAlertClass# py-2 px-3 small">
-				<strong>About Placement Warnings:</strong> the PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional.
+				<strong>About Placement Warnings:</strong> The PLACEMENT WARNING column flags a proposed placement that doesn't match the usual expectations for that container type -- for example, an unusual parent/child combination, a container type that's normally expected to hold only one specimen but already holds one, or an unusual nesting depth. It is not blocked, since an unusual placement is sometimes intentional.
 				<cfif warnCount.c gt 0>
 					#warnCount.c# of #getTempDataToShow.recordcount# row(s) have a placement warning. <strong>Check each flagged row carefully before loading</strong> -- if the container barcode is not actually the one you intended for that row, fix it and validate again.
 				<cfelse>
 					No rows in this batch currently have a placement warning.
 				</cfif>
 			</div>
+			<!--- Bold in the NEW_ columns has carried meaning since this table was written but was
+				never explained on the page, leaving users to infer it. The other conventions here (ROW,
+				a green Valid, the ERRORS list) read for themselves, so this covers only the bolding.
+				Styled to match the placement-warning box above. --->
+			<div class="alert alert-info py-2 px-3 small">
+				<strong>About Bolded Values:</strong> In the NEW_ columns, a <strong>bold</strong> value
+				differs from the record's current value and will replace it when you load; a NEW_ column
+				left blank is not changed. In NEW_LOT_COUNT_MODIFIER, a bold <strong>[empty]</strong> means
+				the part's existing modifier will be cleared -- setting NEW_LOT_COUNT always writes the
+				modifier alongside it. APPEND_TO_REMARKS is always shown in bold, since anything there is
+				added to the record.
+			</div>
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
+						<th>ROW</th>
 						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>PLACEMENT WARNING</th>
 						<th>INSTITUTION_ACRONYM</th>
@@ -1175,6 +1215,12 @@ limitations under the License.
 				<tbody>
 					<cfloop query="getTempDataToShow">
 						<tr>
+							<!--- Position in the uploaded file (the query above is ORDER BY key), so a flagged row
+								can be matched to a line in the user's spreadsheet -- PART_COLLECTION_OBJECT_ID is
+								deliberately not shown in this table. currentRow rather than key itself: key is a
+								database sequence value, not a 1-based line number. Unlike screen position, this
+								survives the user re-sorting this sortable table. --->
+							<td>#getTempDataToShow.currentRow#</td>
 							<td>
 								<cfif len(getTempDataToShow.collection_object_id) EQ 0>
 									<!--- fail gracefully if no collection_object_id --->
@@ -1193,17 +1239,66 @@ limitations under the License.
 									<cfset guid = "MCZ:#lookupGuid.collection_cde#:#lookupGuid.cat_num#">
 								</cfloop>
 								<cfif len(#collection_object_id#) gt 0 and (#status# is ' :Found Cataloged Item; Found Part')>
-									<!--- no need to display status --->
+									<!--- Row passed every validation check. This used to render an empty cell, which asked
+										the user to read "nothing wrong here" out of a blank -- hard to distinguish, on a wide
+										horizontally scrolling table, from a row whose checks had not run (which has its own
+										'BUG: Validation checks not run.' branch below). Stated positively instead. --->
+									<span class="text-success">Valid</span>
 								<cfelseif left(status,5) is 'VALID'>
 									<a href="/guid/#guid#"
 										target="_blank">#guid#</a> (#status#)
-								<cfelseif left(status,6) is 'ERROR:'>
-									<a href="/guid/#guid#"
-										target="_blank">#guid#</a> <strong>#status#</strong>
 								<cfelseif len(status) EQ 0>
 									<strong>BUG: Validation checks not run.</strong>
 								<cfelse>
-									<strong>ERROR: #status#</strong>
+									<!--- status is a single ';'-delimited string that mixes informational findings
+										('Found Cataloged Item', 'Found Part') with failures. This branch used to wrap a
+										blanket "ERROR: " around the whole string, which labelled the informational
+										segments as errors and produced doubled "ERROR: ... ERROR: ..." text -- e.g.
+										"ERROR: Found Cataloged Item; ERROR: no matching part by part id; ...".
+										Rendered segment by segment instead, so the checks that passed read as checks.
+
+										Segments are classified against an allowlist of the two informational literals
+										rather than by testing for an 'ERROR:' prefix, because not every failure carries
+										that prefix -- markPartsNotFound above appends a bare 'PART NOT FOUND', which a
+										prefix test would render as a passing check.
+
+										Display only: the stored status value is not touched, so the exact-string sentinel
+										' :Found Cataloged Item; Found Part' that getProblemData's decode, countFailures
+										and the load-action gate all compare against still matches as before. --->
+									<cfset local.statusSegments = listToArray(reReplace(status, '^[[:space:]]*:[[:space:]]*', ''), ';')>
+									<cfset local.statusChecks = ArrayNew(1)>
+									<cfset local.statusProblems = ArrayNew(1)>
+									<cfloop array="#local.statusSegments#" index="local.statusSegment">
+										<cfset local.statusSegment = trim(local.statusSegment)>
+										<cfif len(local.statusSegment) GT 0>
+											<cfif listFindNoCase("Found Cataloged Item,Found Part", local.statusSegment) GT 0>
+												<cfset ArrayAppend(local.statusChecks, local.statusSegment)>
+											<cfelse>
+												<cfset ArrayAppend(local.statusProblems, local.statusSegment)>
+											</cfif>
+										</cfif>
+									</cfloop>
+									<!--- guid is the literal "MCZ:error:error" placeholder when no cataloged item was
+										matched (see the lookupGuid fallback above), so only link it when there is a real
+										collection_object_id behind it. --->
+									<cfif len(collection_object_id) GT 0>
+										<a href="/guid/#guid#" target="_blank">#guid#</a>
+									</cfif>
+									<cfif ArrayLen(local.statusChecks) GT 0>
+										<div class="text-muted">Checked: #ArrayToList(local.statusChecks, '; ')#</div>
+									</cfif>
+									<cfif ArrayLen(local.statusProblems) GT 0>
+										<!--- One ERRORS heading for the row, then the problems as a bullet list, rather than
+											repeating "ERROR:" on every line. The stored messages mostly carry their own
+											'ERROR: ' prefix (PART NOT FOUND does not), so the prefix is stripped here -- the
+											heading says it once. Stripping is display-only; the stored status is unchanged. --->
+										<div><strong class="text-danger">ERROR<cfif ArrayLen(local.statusProblems) GT 1>S</cfif></strong></div>
+										<ul class="mb-0 pl-4 text-danger font-weight-bold">
+											<cfloop array="#local.statusProblems#" index="local.statusProblem">
+												<li>#reReplace(local.statusProblem, '^ERROR:[[:space:]]*', '')#</li>
+											</cfloop>
+										</ul>
+									</cfif>
 								</cfif>
 							</td>
 							<td><cfif getTempDataToShow.placement_severity EQ "warn"><span class="badge badge-warning mr-1">Warning</span>#getTempDataToShow.placement_message#</cfif></td>
@@ -1211,12 +1306,24 @@ limitations under the License.
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
 							<td>#OTHER_ID_NUMBER#</td>
-							<td> <cfif PART_NAME NEQ NEW_PART_NAME><strong>#NEW_PART_NAME#</strong><cfelse>#NEW_PART_NAME#</cfif> </td>
-							<td> <cfif PRESERVE_METHOD NEQ NEW_PRESERVE_METHOD><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
-							<td> <cfif COLL_OBJ_DISPOSITION NEQ NEW_COLL_OBJ_DISPOSITION><strong>#NEW_COLL_OBJ_DISPOSITION#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITION#</cfif> </td>
-							<td> <cfif LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
+							<!--- The five NEW_ columns below bold a value that differs from the row's current value,
+								i.e. one the load action will actually write. The len() guard matters: the load skips
+								each of these fields when its NEW_ value is blank (see the len(...) gt 0 gates in the
+								load loop), so a blank NEW_ value is "leave this alone", not "clear it". Without the
+								guard the NEQ alone was true for every blank NEW_ value and emitted <strong></strong>
+								-- an invisible bold on a change that never happens. NEW_LOT_COUNT_MODIFIER below is
+								deliberately different: it IS written unconditionally alongside lot_count, so a blank
+								there really does clear the existing modifier and is shown as a bold [empty].
+								The text fields compare with compare() rather than NEQ, which is case-insensitive in
+								CFML: a case-only edit ("Skin" -> "skin") is a real change the load writes, and NEQ
+								treated it as no change. NEW_LOT_COUNT deliberately keeps NEQ so it compares
+								numerically -- compare() is a string compare and would bold 8 against 8.0. --->
+							<td> <cfif len(NEW_PART_NAME) GT 0 AND compare(PART_NAME, NEW_PART_NAME) NEQ 0><strong>#NEW_PART_NAME#</strong><cfelse>#NEW_PART_NAME#</cfif> </td>
+							<td> <cfif len(NEW_PRESERVE_METHOD) GT 0 AND compare(PRESERVE_METHOD, NEW_PRESERVE_METHOD) NEQ 0><strong>#NEW_PRESERVE_METHOD#</strong><cfelse>#NEW_PRESERVE_METHOD#</cfif> </td>
+							<td> <cfif len(NEW_COLL_OBJ_DISPOSITION) GT 0 AND compare(COLL_OBJ_DISPOSITION, NEW_COLL_OBJ_DISPOSITION) NEQ 0><strong>#NEW_COLL_OBJ_DISPOSITION#</strong><cfelse>#NEW_COLL_OBJ_DISPOSITION#</cfif> </td>
+							<td> <cfif len(NEW_LOT_COUNT) GT 0 AND LOT_COUNT NEQ NEW_LOT_COUNT><strong>#NEW_LOT_COUNT#</strong><cfelse>#NEW_LOT_COUNT#</cfif> </td>
 							<td> 
-								<cfif LOT_COUNT_MODIFIER NEQ NEW_LOT_COUNT_MODIFIER>
+								<cfif compare(LOT_COUNT_MODIFIER, NEW_LOT_COUNT_MODIFIER) NEQ 0>
 									<cfif len(LOT_COUNT_MODIFIER) GT 0 AND len(new_lot_count) GT 0 AND len(NEW_LOT_COUNT_MODIFIER) EQ 0>
 										<strong>[empty]</strong>
 									<cfelse>
@@ -1226,7 +1333,7 @@ limitations under the License.
 									#NEW_LOT_COUNT_MODIFIER#
 								</cfif> 
 							</td>
-							<td> <cfif CONDITION NEQ NEW_CONDITION><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
+							<td> <cfif len(NEW_CONDITION) GT 0 AND compare(CONDITION, NEW_CONDITION) NEQ 0><strong>#NEW_CONDITION#</strong><cfelse>#NEW_CONDITION#</cfif> </td>
 							<td>#part_name#</td>
 							<td>#preserve_method#</td>
 							<td>#coll_obj_disposition#</td>
@@ -1285,9 +1392,14 @@ limitations under the License.
 			<h2 class="h4">Third Step: Load Data</h2>
 			<cfset problem_key = "">
 			<cftransaction>
+				<!--- 'LOADED' is never actually written to status anywhere in this file -- this
+					exclusion appears to be vestigial (perhaps intended for a re-entrant load after
+					a partial failure) rather than live behavior. Not changed here since it's
+					unrelated to this fix; the exact-string success check on getTempData.status just
+					below is what actually gates which rows this loop proceeds to update. --->
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
-					FROM cf_temp_edit_parts 
+					SELECT *
+					FROM cf_temp_edit_parts
 					WHERE status not in ('LOADED', 'PART NOT FOUND')
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -1310,11 +1422,17 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = #getTempData.key#>
 						<!--- the query above filters status NOT IN ('LOADED', 'PART NOT FOUND') --
-							any OTHER non-empty status (including a placement_blocked result set during
+							any OTHER problem status (including a placement_blocked result set during
 							validate) would still pass that filter, since it isn't literally either of
 							those two exact strings. Gate on it explicitly here too, the same real gap
-							Phase 1 found and fixed in tools/BulkloadPartContainer.cfm's load action. --->
-						<cfif len(trim(getTempData.status)) GT 0>
+							Phase 1 found and fixed in tools/BulkloadPartContainer.cfm's load action --
+							but unlike that file, a blank/null status is NOT this file's own success
+							marker: a fully validated row's status is always the exact literal string
+							' :Found Cataloged Item; Found Part' (see cleanoutValidFromInvalid above,
+							and the identical comparison countFailures already uses above), never
+							blank. Gate on that same comparison, not on "any non-empty status", which
+							rejected every row, including fully valid ones. --->
+						<cfif getTempData.status NEQ ' :Found Cataloged Item; Found Part' OR len(trim(getTempData.collection_object_id)) EQ 0>
 							<cfthrow message = "Row (key #getTempData.key#) has unresolved validation problems: #getTempData.status#">
 						</cfif>
 						<cfif len(#part_collection_object_id#) is 0>

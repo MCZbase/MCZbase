@@ -1911,7 +1911,7 @@ limitations under the License.
 	<cfset result = "">
 		<cftry>
 			<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
+				INSERT INTO permit_trans (permit_id, transaction_id) VALUES (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">)
 			</cfquery>
 		
 			<cfset result = "Added this permit (#permit_id#) to transaction #transaction_label#. ">

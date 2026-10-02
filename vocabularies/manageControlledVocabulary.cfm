@@ -199,6 +199,42 @@ What still requires file edits:
 <cfelseif isdefined("form.tbl")>
 	<cfset tbl = ucase(form.tbl)>
 </cfif>
+<!--- tbl names a table, and fld, pkExtraCols and extraCols name columns, in statements this page
+	assembles; an identifier cannot be bound, so each is checked against the data dictionary here
+	rather than trusted.  Checked once, at intake, so the branches below can go on interpolating
+	them.  The column lists in particular are derived from the dictionary when the edit form is
+	built and then written into hidden fields, so they arrive back as caller input.  Same approach
+	as setSrchVal in component/functions.cfc: compare against a known list, throw otherwise. --->
+<cfif len(tbl) GT 0>
+	<cfquery name="isCodeTable" datasource="uam_god">
+		SELECT table_name
+		FROM (
+			SELECT distinct(table_name) table_name
+			FROM sys.user_tables
+			WHERE table_name like 'CT%'
+			UNION
+			SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name FROM dual
+		)
+		WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tbl#">
+	</cfquery>
+	<cfif isCodeTable.recordCount EQ 0>
+		<cfthrow type="InvalidParameter" message="Not a controlled vocabulary table.">
+	</cfif>
+	<cfquery name="getLegalColumns" datasource="uam_god">
+		SELECT column_name
+		FROM sys.user_tab_columns
+		WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tbl#">
+	</cfquery>
+	<cfparam name="form.fld" default="">
+	<cfparam name="form.pkExtraCols" default="">
+	<cfparam name="form.extraCols" default="">
+	<cfset variables.legalColumns = valuelist(getLegalColumns.column_name)>
+	<cfloop list="#form.fld#,#form.pkExtraCols#,#form.extraCols#" index="variables.checkColumn">
+		<cfif listfindnocase(variables.legalColumns,variables.checkColumn) EQ 0>
+			<cfthrow type="InvalidParameter" message="Not a column of this controlled vocabulary table.">
+		</cfif>
+	</cfloop>
+</cfif>
 <cfif not isdefined("action")><cfset action="listTables"></cfif>
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->

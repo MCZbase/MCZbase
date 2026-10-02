@@ -1251,7 +1251,7 @@ limitations under the License.
 						insert into media_relations (
 							media_id,media_relationship,related_primary_key
 						) values (
-							#media_id#,'#thisRelationship#',#thisRelatedId#)
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">)
 					</cfquery>
 				<cfelse>
 						fail to make relationship

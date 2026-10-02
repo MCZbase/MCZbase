@@ -17,7 +17,8 @@ Parameters:
 	accn_number:
 		The accession number for the ledger.
 Based on:
-	loanShipLabel.cfm for its cfdocument usage
+	loanShipLabel.cfm for its cfdocument usage (that file has since been removed; its whole
+		body had been commented out since 2012 and nothing called it)
 	narrowLabels.cfm and wideLabels.cfm for its queries.
 --->
 

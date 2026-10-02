@@ -1236,22 +1236,35 @@ limitations under the License.
 									<!--- SPECIAL CASES - Cataloged_item and specimen_part--->
 									<cfif #getMediaRel.MEDIA_RELATED_TO# contains "MCZ:">
 										<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
-											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
-											<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
-											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												update cf_temp_media 
-												set MEDIA_RELATED_TO_#i# =
-													(
-														select collection_object_id
-														from cataloged_item 
-														where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
-															and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
-														)
-													WHERE MEDIA_RELATED_TO_#i# is not null AND
-													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-											</cfquery>
+											<!--- test if the MEDIA_RELATED_TO contains two colons, if so, split into three parts, otherwise mark as error --->
+											<cfif listLen(getMediaRel.MEDIA_RELATED_TO,":") NEQ 3>
+												<cfquery name="warningFailedCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													UPDATE
+														cf_temp_media
+													SET
+														status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i#  with GUID ['|| media_related_to_#i# ||'] does not have the expected format of MCZ:collection_code:catalog_number.')
+													WHERE
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											<cfelse>
+												<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
+												<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
+												<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
+												<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													update cf_temp_media 
+													set MEDIA_RELATED_TO_#i# =
+														(
+															select collection_object_id
+															from cataloged_item 
+															where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
+																and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
+															)
+														WHERE MEDIA_RELATED_TO_#i# is not null AND
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											</cfif>
 										<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
 											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
 											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>

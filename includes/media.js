@@ -47,7 +47,7 @@ function success_generateMD5(result){
 	var lvid='label_value__' + cc;
 	var nl=document.getElementById(lid);
 	var nlv=document.getElementById(lvid);
-	nl.value='MD5 checksum';
+	nl.value='md5hash';
 	nlv.value=result;
 }
 function closePreviewUpload(preview_uri) {

@@ -85,7 +85,6 @@ limitations under the License.
 	<cfset session.last_login="">
 	<cfset session.customOtherIdentifier="">
 	<cfset session.displayrows="20">
-	<cfset session.loan_request_coll_id="">
 	<cfset session.resultColumnList="">
 	<cfset session.schParam = "">
 	<cfset session.target=''>

@@ -3333,70 +3333,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 
 <!--- 
   ** given a result_id return the data set for that result_id from the current user's 
-  * user_search_table joined with session.flatTableName as a csv serialization.
-  * @param result_id the uuid that identifies the search to return as csv
-  * @return a csv serialization with a content type text/csv http header or a http error status.
-  *
-  * @deprecated 
-  * @see getSpecimensAsCSVProfile
-  ** --->
-<cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
-	<cfargument name="result_id" type="string" required="yes">
-
-	<cfset retval = "">
-	<cftry>
-		<cfset username = session.dbuser>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="attrFields_result">
-			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
-			FROM cf_spec_res_cols_r
-			WHERE access_role = 'PUBLIC'
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					OR access_role = 'COLDFUSION_USER'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					OR access_role = 'MANAGE_TRANSACTIONS'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-					OR access_role = 'MANAGE_SPECIMENS'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
-					OR access_role = 'DATA_ENTRY'
-				</cfif>
-			ORDER by category, disp_order
-		</cfquery>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
-			SELECT 
-				<cfset comma = "">
-				<cfloop query="getFieldMetadata">
-					<cfif len(sql_element) GT 0> 
-						#comma##replace(sql_element,"''","'","all")# #column_name#
-						<cfset comma = ",">
-					</cfif>
-				</cfloop>
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
-			WHERE
-				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				and rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DOWNLOAD_THRESHOLD#">
-		</cfquery>
-
-		<cfset retval = queryToCSV(search)>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-
-	<cfheader name="Content-Type" value="text/csv">
-<cfoutput>#retval#</cfoutput>
-</cffunction>
-
-
-<!--- 
-  ** given a result_id return the data set for that result_id from the current user's 
   * user_search_table joined with session.flatTableName as a csv serialization using the set
   * of fields specified in a download_profile.
   * @param result_id the uuid that identifies the search to return as csv
@@ -4104,8 +4040,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
-							<label for="email" class="data-entry-label">Email</td>
-							<input type="text" name="email" id="email" value="#getUserData.email#" class="data-entry-input">
+							<label for="email" class="data-entry-label">Email</label>
+							<input type="email" name="email" id="email" value="#getUserData.email#" class="data-entry-input" onchange="handleAgreeClick();">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="agree">I agree.</label>
@@ -4115,6 +4051,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									var valid = false;
 									if ($("##first_name").val()!="" && $("##last_name").val()!="" && $("##affiliation").val()!="" ) { 
 										valid = true;
+									}
+									// type="email" makes an empty field valid and a malformed one invalid.
+									if (!$("##email")[0].checkValidity()) {
+										valid = false;
 									}			
 									if(valid && $("##agree").prop('checked')==true) {
 										$("##specimencsvdownloadbutton").removeClass("disabled");
@@ -4237,7 +4177,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="download_purpose" type="string" required="no">
 	<cfargument name="agree" type="string" required="no">
-	<cfthread name="logDownloadThread">
+	<!--- The download is logged whatever the email, since the download itself proceeds from the
+		link regardless of this call; only a validly formed address is saved to the profile. --->
+	<cfset var emailToSave = "">
+	<cfif isDefined("arguments.email") AND isValid("email", trim(arguments.email))>
+		<cfset emailToSave = trim(arguments.email)>
+	</cfif>
+	<cfthread name="logDownloadThread" email_to_save="#emailToSave#">
 		<cftry>
 			<cfquery name="getUserID" datasource="cf_dbuser">
 				SELECT cf_users.user_id
@@ -4259,8 +4205,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 					WHERE
 						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
@@ -4276,7 +4222,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name
 						</cfif>
-						<cfif len(#email#) gt 0>
+						<cfif len(attributes.email_to_save) gt 0>
 							,email
 						</cfif>
 						)
@@ -4288,8 +4234,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 						)
 				</cfquery>

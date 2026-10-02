@@ -96,27 +96,26 @@
 					<cfdump var="#form#">
 					<cfabort>
 				</cfif>
-				<cfset s="update tag set
-					REMARK='#escapeQuotes(REMARK)#',
-					REFH=#REFH#,
-					REFTOP=#REFTOP#,
-					REFLEFT=#REFLEFT#,
-					REFW=#REFW#,
-					imgH=#imgH#,
-					imgW=#imgW#">
-				<cfif reftype is "collecting_event">
-					<cfset s=s & ",COLLECTION_OBJECT_ID=null
-					,COLLECTING_EVENT_ID=#refid#">
-				<cfelseif reftype is "cataloged_item">
-					<cfset s=s & ",COLLECTING_EVENT_ID=null
-					,COLLECTION_OBJECT_ID=#refid#">
-				<cfelse>
-					<cfset s=s & ",COLLECTION_OBJECT_ID=null
-					,COLLECTING_EVENT_ID=null">
-				</cfif>
-				<cfset s=s & " where tag_id=#tag_id#">
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					#preservesinglequotes(s)#
+					update tag set
+						REMARK=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#REMARK#">,
+						REFH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REFH#">,
+						REFTOP=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REFTOP#">,
+						REFLEFT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REFLEFT#">,
+						REFW=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REFW#">,
+						imgH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgH#">,
+						imgW=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgW#">
+						<cfif reftype is "collecting_event">
+							,COLLECTION_OBJECT_ID=null
+							,COLLECTING_EVENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
+						<cfelseif reftype is "cataloged_item">
+							,COLLECTING_EVENT_ID=null
+							,COLLECTION_OBJECT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#refid#">
+						<cfelse>
+							,COLLECTION_OBJECT_ID=null
+							,COLLECTING_EVENT_ID=null
+						</cfif>
+					where tag_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tag_id#">
 				</cfquery>
 			</cfloop>
 		</cftransaction>

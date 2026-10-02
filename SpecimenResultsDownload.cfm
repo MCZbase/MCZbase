@@ -83,7 +83,7 @@
 	</tr>
 	<tr>
 		<td align="right">Email</td>
-		<td><input type="text" name="email" value="#getUserData.email#"></td>
+		<td><input type="email" name="email" value="#getUserData.email#"></td>
 	</tr>
 	<tr>
 		<td align="right">File Format</td>
@@ -148,6 +148,14 @@ do not agree</font>.</a>
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
+	<!--- The address is checked here as well as by type="email" on the input, since annotation
+		and password recovery rely on it. --->
+	<cfparam name="form.email" default="">
+	<cfset variables.email = trim(form.email)>
+	<cfif len(variables.email) GT 0 AND NOT isValid("email", variables.email)>
+		The email address you entered is not a validly formed address. Please use your browser's back button to try again.
+		<cfabort>
+	</cfif>
 	<!--- lookup user_id from session.username --->
 	<cfquery name="getUserID" datasource="cf_dbuser">
 		SELECT cf_users.user_id
@@ -169,8 +177,8 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 				WHERE
 					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
@@ -186,7 +194,7 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name
 					</cfif>
-					<cfif len(#email#) gt 0>
+					<cfif len(variables.email) gt 0>
 						,email
 					</cfif>
 					)
@@ -198,8 +206,8 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 					)
 			</cfquery>

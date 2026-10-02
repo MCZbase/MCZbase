@@ -126,17 +126,16 @@ limitations under the License.
 					<cfif checkForVPDError_2.ct EQ 0>
 						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
 					</cfif>
+					<!--- The forward itself happens after the join: a thread has no servlet request, so
+						getPageContext().forward() fails inside one. --->
 					<cfif oneOfUs EQ 1>
 						<!--- if we got here the cataloged item exists but the internal user does not have permissions, return a 403 error --->
-						<cfscript>
-							getPageContext().forward("/errors/403.cfm");
-						</cfscript>
+						<cfset thread.forwardTo = "/errors/forbidden.cfm">
 					<cfelse>
 						<!--- if we got here the cataloged item exists but the user does not have permissions to see it redirect to 404 error--->
-						<cfscript>
-							getPageContext().forward("/errors/404.cfm");
-						</cfscript>
+						<cfset thread.forwardTo = "/errors/404.cfm">
 					</cfif>
+					<cfabort>
 				</cfif>
 				<!--- check for mixed collection --->
 				<cfset variables.isMixed = false>
@@ -349,7 +348,7 @@ limitations under the License.
 													<li class="h5 mb-0">
 											</cfif>
 											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
-											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
+											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
 												</li>
@@ -359,7 +358,7 @@ limitations under the License.
 													<li class="h5 mb-0" style="line-height: 0.5rem;">
 														occurrenceID: <a class="mb-0" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
-															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" width="21" alt="JSON-LD"></a>
 														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
@@ -382,6 +381,10 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getSummaryHeaderThread" />
+	<cfif structKeyExists(getSummaryHeaderThread, "forwardTo")>
+		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
+		<cfabort>
+	</cfif>
 	<cfreturn getSummaryHeaderThread.output>
 </cffunction>
 
@@ -1682,7 +1685,7 @@ limitations under the License.
 												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
 													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
-														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21">
 													</a>
 												</cfif>
 											</span>
@@ -1888,7 +1891,7 @@ limitations under the License.
 													<span class="font-italic">materialSampleID:</span> 
 													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 													<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
-														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21"></a>
 													</cfif>
 												</span>
 											</td>
@@ -4225,8 +4228,6 @@ limitations under the License.
 				<cfif annotations.recordcount GT 0>
 					<cfset conversationAnnotations = getAnnotationConversationsForRoots(valueList(annotations.annotation_id))>
 				</cfif>
-				<!--- Personal-info masking pattern applied to legacy annotation text when user lacks manage_specimens role --->
-				<cfset maskPattern = "^.* reported:">
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object annotations if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
@@ -4237,24 +4238,48 @@ limitations under the License.
 						</cfif>
 						<cfloop query="annotations">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">
+								<span class="font-weight-lessbold">
 									Annotation: 
 									<a href="/annotations/showAnnotation.cfm?annotation_id=#annotations.annotation_id#&format=turtle" target="_blank" >
-										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+										<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" width="21">
 									</a>
 								</span>
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(annotations.reviewed_fg) EQ 1>
+										<span class="font-weight-lessbold">[Hidden] </span>
+									<cfelse>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-									#annotation_display#
-								<cfelse>
-									#rereplace(annotation_display,maskPattern,"[Masked] reported:")#
-								</cfif>
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								#renderAnnotationBodyHtml(annotation_display)#
+								<!--- The metadata follows the annotation text in the same run and breaks only
+									when it runs out of room, rather than always taking a line of its own.  The li
+									is the block that separates one annotation from the next.
+									d-inline is load-bearing here, not decoration.  bootstrap_override.css has
+									".card-body li.list-group-item span:last-child { display: block }", a descendant
+									selector, so any span that is the last ELEMENT child of its parent inside this li
+									is forced to block.  Text nodes do not count for :last-child, so when
+									renderAnnotatorHtml returns bare text - which it does for an annotator with no
+									agent record, meaning most external users - the "Annotator:" label itself becomes
+									the last element child and drops the name onto its own line.  An annotator with an
+									agent record returns an <a>, so the same markup looked correct for them and wrong
+									for everyone else.  d-inline is display:inline !important, which outranks it.
+									The annotator is labelled rather than joined on with an m-dash.
+									renderAnnotatorHtml returns [Masked] for anonymous viewers, and with only a dash in
+									front of it that reads as a statement about the annotation rather than about the
+									person.  The dash also hung with nothing after it when the call returned an empty
+									string. --->
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 									<cfif reviewed_fg EQ "1">
-										<span class="d-block small mb-0 pb-0">Reviewed<cfif len(trim(reviewer)) GT 0> by #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+										<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed<cfif len(trim(reviewer)) GT 0> by</cfif>:</span><cfif len(trim(reviewer)) GT 0> #encodeForHTML(reviewer)#</cfif><cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 									</cfif>
 								</cfif>
 								<!--- Show full multi-level conversation replies for this root annotation (read-only, no action buttons) --->

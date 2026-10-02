@@ -81,14 +81,36 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
+										<span class="font-weight-lessbold">[Hidden] </span>
+									<cfelse>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
-								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+								#renderAnnotationBodyHtml(annotation_display)#
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- The reviewer is a named member of staff, so who reviewed an annotation is gated
+									the same way as on the specimen page (getAnnotationsHTML): manage_specimens, meaning
+									internal.  Without it these cards printed "Reviewed by <curator name>" to anyone,
+									including anonymous visitors, which the specimen page has never done. --->
+								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0
+									AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
@@ -104,7 +126,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getAgentAnnotationCardBodyHtml", note="agent_id=#arguments.agent_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -165,21 +187,43 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
+										<span class="font-weight-lessbold">[Hidden] </span>
+									<cfelse>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
-								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+								#renderAnnotationBodyHtml(annotation_display)#
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- The reviewer is a named member of staff, so who reviewed an annotation is gated
+									the same way as on the specimen page (getAnnotationsHTML): manage_specimens, meaning
+									internal.  Without it these cards printed "Reviewed by <curator name>" to anyone,
+									including anonymous visitors, which the specimen page has never done. --->
+								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0
+									AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this taxon record.</p>
+					<p class="my-2 text-muted">There are no annotations on this taxon record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -188,7 +232,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getTaxonomyAnnotationCardBodyHtml", note="taxon_name_id=#arguments.taxon_name_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -249,21 +293,43 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
+										<span class="font-weight-lessbold">[Hidden] </span>
+									<cfelse>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
-								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+								#renderAnnotationBodyHtml(annotation_display)#
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- The reviewer is a named member of staff, so who reviewed an annotation is gated
+									the same way as on the specimen page (getAnnotationsHTML): manage_specimens, meaning
+									internal.  Without it these cards printed "Reviewed by <curator name>" to anyone,
+									including anonymous visitors, which the specimen page has never done. --->
+								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0
+									AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this project record.</p>
+					<p class="my-2 text-muted">There are no annotations on this project record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -333,21 +399,43 @@ limitations under the License.
 					<ul class="list-group">
 						<cfloop query="annQuery">
 							<li class="list-group-item py-1">
-								<span class="small font-weight-bold">Annotation: </span>
+								<span class="font-weight-lessbold">Annotation: </span>
+								<!--- Nothing records WHY an annotation is masked, so reviewed_fg stands in for
+									it: not yet reviewed means no curator has assessed whether the annotation is
+									suitable to show publicly, which is where every external annotation starts
+									(addAnnotation masks them by default).  Reviewed and still masked means a
+									curator assessed it and chose to keep it hidden - some other reason.  state is
+									deliberately NOT used: its ctstate vocabulary describes workflow position, not
+									fitness for publication. --->
 								<cfif mask_annotation_fg EQ "1">
-									<span class="small font-weight-bold">[Hidden] </span>
+									<cfif val(annQuery.reviewed_fg) EQ 1>
+										<span class="font-weight-lessbold">[Hidden] </span>
+									<cfelse>
+										<span class="font-weight-lessbold">[Hidden - Pending review] </span>
+									</cfif>
 								</cfif>
-								#annotation_display#
-								<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) &mdash; #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
-								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0>
-									<span class="d-block small mb-0 pb-0">Reviewed by #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0>: #encodeForHTML(reviewer_comment)#</cfif></span>
+								#renderAnnotationBodyHtml(annotation_display)#
+								<!--- Inline so the metadata follows the annotation text and breaks only at the edge
+									of the block, rather than each value taking a row of its own.  d-inline is required,
+									not decoration: bootstrap_override.css sets ".card-body li.list-group-item
+									span:last-child { display: block }", which otherwise catches whichever span ends up
+									last - and renderAnnotatorHtml returns bare text for an annotator with no agent
+									record, which makes the label itself the last element. --->
+								<span class="d-inline"><span class="d-inline font-weight-lessbold">Motivation:</span> #motivation# (#annotate_date#) <span class="d-inline font-weight-lessbold">Annotator:</span> #renderAnnotatorHtml(annotation_id=val(annotation_id))#</span>
+								<!--- The reviewer is a named member of staff, so who reviewed an annotation is gated
+									the same way as on the specimen page (getAnnotationsHTML): manage_specimens, meaning
+									internal.  Without it these cards printed "Reviewed by <curator name>" to anyone,
+									including anonymous visitors, which the specimen page has never done. --->
+								<cfif reviewed_fg EQ "1" AND len(trim(reviewer)) GT 0
+									AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+									<span class="d-inline"><span class="d-inline font-weight-lessbold">Reviewed by:</span> #encodeForHTML(reviewer)#<cfif len(trim(reviewer_comment)) GT 0> (#encodeForHTML(reviewer_comment)#)</cfif></span>
 								</cfif>
 								#renderAnnotationConversationReplies(rootAnnotationId=val(annotation_id), conversationAnnotations=conversations, root_mask_annotation_fg=mask_annotation_fg, read_only=true)#
 							</li>
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p class="my-2 text-muted small">There are no annotations on this publication record.</p>
+					<p class="my-2 text-muted">There are no annotations on this publication record.</p>
 				</cfif>
 			</div>
 			</cfoutput>
@@ -356,7 +444,7 @@ limitations under the License.
 		<cfset cfcatchToErrorMessage(cfcatch)>
 		<cfset reportError(functionName="getPublicationAnnotationCardBodyHtml", note="publication_id=#arguments.publication_id#")>
 		<cfheader statuscode="500" statustext="Internal Server Error">
-		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger small">Error loading annotations.</p></div>'><!--- ' --->
+		<cfset cardBodyHtml = '<div class="card-body py-2"><p class="my-2 text-danger">Error loading annotations.</p></div>'><!--- ' --->
 		<cfabort>
 	</cfcatch>
 	</cftry>
