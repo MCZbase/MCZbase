@@ -1665,32 +1665,6 @@
 	</cfoutput>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="setUserFormAccess" access="remote">
-	<cfargument name="role" type="string" required="yes">
-	<cfargument name="form" type="string" required="yes">
-	<cfargument name="onoff" type="string" required="yes">
-	<cfif onoff is "true">
-		<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			INSERT INTO cf_form_permissions (
-				form_path,
-				role_name
-			) VALUES (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.form#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#">
-			)
-		</cfquery>
-	<cfelseif onoff is "false">
-		<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			DELETE FROM cf_form_permissions 
-			WHERE
-				form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.form#">
-				AND role_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#">
-		</cfquery>
-	<cfelse>
-		<cfreturn "Error:invalid state">
-	</cfif>
-	<cfreturn "Success:#form#:#role#:#onoff#">
-</cffunction>
 
 <!------------------------------------------------------------------>
 <cffunction name="changefancyCOID" access="remote">

@@ -689,13 +689,8 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">User Role Report</a>
 											</cfif>
 											<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
-											<!---
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
-											</cfif>
-											--->
+											<a class="dropdown-item" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
+											<a class="dropdown-item" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
 											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
