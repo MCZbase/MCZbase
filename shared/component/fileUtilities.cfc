@@ -1,6 +1,6 @@
 <!---
 shared/component/fileUtilities.cfc
-Functions for pages that serve files from a directory by a name taken from the request.
+Functions for code that reads files from a directory by a name or path taken from the request.
 
 Copyright 2026 President and Fellows of Harvard College
 
@@ -51,6 +51,33 @@ limitations under the License.
 		<cfreturn "">
 	</cfif>
 	<cfreturn requestedFile.getPath()>
+</cffunction>
+
+<!---
+	resolveFileUnderDirectory resolve a path taken from a request to an existing file anywhere beneath
+	a directory.  The path is normalized lexically, removing any . and .. segments without following
+	symbolic links, so files in symbolically linked storage beneath the directory still resolve.
+
+	@param directory the directory the file must be beneath.
+	@param relativePath the requested path, relative to the directory.
+	@return the normalized path of the file, or an empty string if the path leaves the directory,
+		contains a control character, or no such file exists.
+--->
+<cffunction name="resolveFileUnderDirectory" access="public" returntype="string" output="false">
+	<cfargument name="directory" type="string" required="yes">
+	<cfargument name="relativePath" type="string" required="yes">
+
+	<cfset var basePath = createObject("java","java.io.File").init(arguments.directory).toPath().toAbsolutePath().normalize()>
+	<cfset var requestedPath = "">
+
+	<cfif len(arguments.relativePath) EQ 0 OR REFind("[\x00-\x1F]", arguments.relativePath) GT 0>
+		<cfreturn "">
+	</cfif>
+	<cfset requestedPath = createObject("java","java.io.File").init(basePath.toFile(), arguments.relativePath).toPath().toAbsolutePath().normalize()>
+	<cfif requestedPath.equals(basePath) OR NOT requestedPath.startsWith(basePath) OR NOT requestedPath.toFile().isFile()>
+		<cfreturn "">
+	</cfif>
+	<cfreturn requestedPath.toString()>
 </cffunction>
 
 <!---
