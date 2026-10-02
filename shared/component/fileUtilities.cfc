@@ -1,5 +1,6 @@
 <!---
-shared/fileFunctions.cfm
+shared/component/fileUtilities.cfc
+Functions for pages that serve files from a directory by a name taken from the request.
 
 Copyright 2026 President and Fellows of Harvard College
 
@@ -16,6 +17,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<!--- No method here is access="remote", so none can be invoked over http and no cf_rolecheck is needed. --->
+<cfcomponent>
 <!---
 	resolveFileInDirectory resolve a file name taken from a request to a file directly inside one
 	directory, for pages that serve files by name.  File names can't be limited to a character set,
@@ -66,3 +69,4 @@ limitations under the License.
 
 	<cfreturn 'attachment; filename="#plainName#"; filename*=UTF-8''''#encodedName#'>
 </cffunction>
+</cfcomponent>

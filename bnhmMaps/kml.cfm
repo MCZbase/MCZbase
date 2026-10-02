@@ -1,5 +1,4 @@
 <cfinclude  template="/includes/_header.cfm"> 
-<cfinclude template="/shared/fileFunctions.cfm">
 <!--- Parameters this page reads from the request, put in the variables scope explicitly
 	rather than resolved implicitly across the url and form scopes, which is deprecated.
 	A name that was not supplied is omitted, so the defaults below still apply. --->
@@ -151,6 +150,7 @@
 <!------------------------------------------------------------------------------------------>
 <cfif isdefined("action") and #action# is "getFile">
 	<cfparam name="url.f" default="">
+	<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
 	<cfset variables.kmlFile = resolveFileInDirectory(internalPath, url.f, "kml")>
 	<cfif len(variables.kmlFile) EQ 0>
 		<cfheader statuscode="404" statustext="Not Found">

@@ -304,7 +304,7 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "download">
-	<cfinclude template="/shared/fileFunctions.cfm">
+	<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
 	<cfset variables.templateFile = "">
 	<cfif isDefined("url.report_template")>
 		<cfset variables.templateFile = resolveFileInDirectory("#Application.webDirectory#/Reports/templates", url.report_template, "cfr")>

@@ -19,7 +19,7 @@ limitations under the License.
 --->
 <!--- Sends a file another page has written to /download/ as an attachment, so the browser saves
 	it rather than displaying it.  Only a file directly in /download/ may be served. --->
-<cfinclude template="/shared/fileFunctions.cfm">
+<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
 <cfparam name="url.file" default="">
 <cfset DOWNLOAD_DIRECTORY = "#Application.webDirectory#/download">
 <cfset MIME_TYPES = { csv="text/csv", txt="text/plain", xml="application/xml", zip="application/zip" }>
