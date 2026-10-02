@@ -510,12 +510,6 @@ limitations under the License.
 			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
 		</cfif>
-		<!--- restrict access to the /Admin/ and the /ScheduledTasks/ directories to only those with the "global_admin" role --->
-		<cfif (currentPath contains "/Admin/" or currentPath contains "/ScheduledTasks/") and
-			(not isdefined("session.roles") or not listFindNoCase(session.roles,"global_admin"))>
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
-			<cfabort />
-		</cfif>
 		<cfreturn true />
 	</cffunction>
 
