@@ -30,8 +30,9 @@ limitations under the License.
 	@param form_path the webroot relative path of an existing .cfm or .cfc file, starting with /.
 	@param role_name a role in cf_ctuser_roles.
 	@param granted true to require the role for the path, false to remove the requirement.
-	@return a struct with status "saved" and the path's resulting roles, or status "error" and a
-		message when the request is not allowed or not valid.
+	@return a struct with status "saved", the path's resulting roles, the instance (host name) whose
+		database was changed, and sql, a statement making the same change on another instance's
+		database; or status "error" and a message when the request is not allowed or not valid.
 --->
 <cffunction name="setFormPermission" access="remote" returntype="any" returnformat="json">
 	<cfargument name="form_path" type="string" required="yes">
@@ -44,6 +45,8 @@ limitations under the License.
 	<cfset var addPermission = "">
 	<cfset var removePermission = "">
 	<cfset var getRoles = "">
+	<cfset var quotedPath = "">
+	<cfset var quotedRole = "">
 
 	<!--- Checked here as well as by cf_rolecheck, as this method writes the table every page check reads. --->
 	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
@@ -110,6 +113,15 @@ limitations under the License.
 		<cfset retval["form_path"] = arguments.form_path>
 		<cfset retval["role_name"] = getRole.role_name>
 		<cfset retval["roles"] = valueList(getRoles.role_name)>
+		<!--- The change applies only to this instance's database; the statement repeats it elsewhere, and is safe to run where the change is already present. --->
+		<cfset retval["instance"] = application.hostName>
+		<cfset quotedPath = "'" & replace(arguments.form_path, "'", "''", "all") & "'">
+		<cfset quotedRole = "'" & replace(getRole.role_name, "'", "''", "all") & "'">
+		<cfif compareNoCase(arguments.granted, "true") EQ 0>
+			<cfset retval["sql"] = "INSERT INTO cf_form_permissions (form_path, role_name) SELECT #quotedPath#, #quotedRole# FROM dual WHERE NOT EXISTS (SELECT 1 FROM cf_form_permissions WHERE form_path = #quotedPath# AND upper(role_name) = upper(#quotedRole#));">
+		<cfelse>
+			<cfset retval["sql"] = "DELETE FROM cf_form_permissions WHERE form_path = #quotedPath# AND upper(role_name) = upper(#quotedRole#);">
+		</cfif>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">

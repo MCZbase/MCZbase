@@ -134,13 +134,20 @@ limitations under the License.
 										<td class="text-center">
 											<input type="checkbox" #variables.checked#
 												aria-label="Require #encodeForHtmlAttribute(getRoles.role_name)# for #encodeForHtmlAttribute(variables.path)#"
-												onchange="setFormPermission(this, '#encodeForJavaScript(variables.path)#', '#encodeForJavaScript(getRoles.role_name)#', 'rolesFor_#variables.i#', 'saveFeedback');">
+												onchange="setFormPermission(this, '#encodeForJavaScript(variables.path)#', '#encodeForJavaScript(getRoles.role_name)#', 'rolesFor_#variables.i#', 'saveFeedback', 'sqlLog');">
 										</td>
 									</cfloop>
 								</tr>
 							</cfloop>
 						</tbody>
 					</table>
+					<h3 class="h4">SQL for other instances</h3>
+					<p class="small">
+						Each change is saved only to the database behind this instance (#encodeForHtml(application.hostName)#).
+						The statements for the changes made on this page are collected below, to repeat them on the databases of other instances (development, test, production); run them, then commit.
+						Each can safely be run where the change is already present.
+					</p>
+					<pre id="sqlLog" class="border rounded bg-light p-2 small">-- No changes yet.</pre>
 				</cfif>
 			</div>
 		</section>
@@ -156,8 +163,9 @@ limitations under the License.
 	 * @param roleName the role the checkbox represents.
 	 * @param rolesCellId the id of the cell listing the file's required roles, without the leading ##.
 	 * @param feedbackId the id of the output element for status messages, without the leading ##.
+	 * @param sqlLogId the id of the element collecting SQL to repeat each change on other instances, without the leading ##.
 	 */
-	function setFormPermission(checkbox, formPath, roleName, rolesCellId, feedbackId) {
+	function setFormPermission(checkbox, formPath, roleName, rolesCellId, feedbackId, sqlLogId) {
 		var granted = checkbox.checked;
 		checkbox.disabled = true;
 		$('##' + feedbackId).html('<img src="/shared/images/indicator.gif" alt=""> Saving...');
@@ -177,7 +185,15 @@ limitations under the License.
 				if (result.status == "saved") {
 					var roles = result.roles.length > 0 ? result.roles.toLowerCase().split(",").join(", ") : "none: refused for everyone";
 					$('##' + rolesCellId).text(roles).toggleClass("text-danger", result.roles.length == 0);
-					$('##' + feedbackId).text("Saved: " + formPath + " now requires " + roles + ".");
+					// Saved only on this instance's database; result.sql repeats the change elsewhere.
+					$('##' + feedbackId).empty()
+						.append(document.createTextNode("Saved on " + result.instance + ": " + formPath + " now requires " + roles + ". For other instances: "))
+						.append($('<code></code>').text(result.sql));
+					var sqlLog = $('##' + sqlLogId);
+					if (!sqlLog.data("hasChanges")) {
+						sqlLog.text("").data("hasChanges", true);
+					}
+					sqlLog.append(document.createTextNode(result.sql + "\n"));
 				} else {
 					checkbox.checked = !granted;
 					$('##' + feedbackId).text("Not saved: " + result.message);
