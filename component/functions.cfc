@@ -1,5 +1,6 @@
 <cfcomponent>
 <cfinclude template = "../includes/functionLib.cfm">
+<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
 <!--- Columns of cf_users that setSrchVal is allowed to toggle: the NUMBER(1,0) search criteria
 	flags.  Deliberately excludes KILLROW and APPROVED_TO_REQUEST_LOANS, which are not search
 	preferences and carry privilege, and SHOWOBSERVATIONS, FANCYCOID and BLOCK_SUGGEST, which have
@@ -1002,24 +1003,44 @@
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="genMD5" access="remote">
 	<cfargument name="uri" type="string" required="yes">
-	<cfif len(uri) is 0>
+	<cfargument name="debug" type="string" required="no" default="false">
+	<cfset var localFile = "">
+	<cfset var myBinaryFile = "">
+	<cfset var md5 = "">
+	<!--- This CFC has no cf_rolecheck; manage_media is what media.cfm, the only caller, requires.
+		Without it, the method would read server files and fetch arbitrary URLs for anyone. --->
+	<cfif NOT isdefined("session.roles") OR NOT listFindNoCase(session.roles,"manage_media")>
+		<cfreturn "">
+	</cfif>
+	<cfif len(arguments.uri) is 0>
 		<cfreturn ''>
-	<cfelseif uri contains application.serverRootUrl>
+	<cfelseif left(arguments.uri, len(application.serverRootUrl)) EQ application.serverRootUrl>
 		<cftry>
-		<cfset f=replace(uri,application.serverRootUrl,application.webDirectory)>
-		<cffile action="readbinary" file="#f#" variable="myBinaryFile">
+		<cfset localFile = resolveFileUnderDirectory(application.webDirectory, mid(arguments.uri, len(application.serverRootUrl) + 1, len(arguments.uri)))>
+		<cfif len(localFile) EQ 0>
+			<cfreturn "">
+		</cfif>
+		<cffile action="readbinary" file="#localFile#" variable="myBinaryFile">
 		<cfset md5 = createObject("component","includes.cfc.hashBinary").hashBinary(myBinaryFile)>
 		<cfreturn md5>
 		<cfcatch>
+			<cfif compareNoCase(arguments.debug, "true") EQ 0>
+				<cfdump var="#cfcatch#">
+				<cfabort>
+			</cfif>
 			<cfreturn "">
 		</cfcatch>
 		</cftry>
 	<cfelse>
 		<cftry>
-			<cfhttp url="#uri#" getAsbinary="yes" />
+			<cfhttp url="#arguments.uri#" getAsbinary="yes" />
 			<cfset md5 = createObject("component","includes.cfc.hashBinary").hashBinary(cfhttp.filecontent)>
 			<cfreturn md5>
 		<cfcatch>
+			<cfif compareNoCase(arguments.debug, "true") EQ 0>
+				<cfdump var="#cfcatch#">
+				<cfabort>
+			</cfif>
 			<cfreturn "">
 		</cfcatch>
 		</cftry>
