@@ -1,4 +1,5 @@
 <cfinclude  template="/includes/_header.cfm"> 
+<cfinclude template="/shared/fileFunctions.cfm">
 <!--- Parameters this page reads from the request, put in the variables scope explicitly
 	rather than resolved implicitly across the url and form scopes, which is deprecated.
 	A name that was not supplied is omitted, so the defaults below still apply. --->
@@ -22,6 +23,11 @@
 </cfif>
 <cfif not isdefined("userFileName")>
 	<cfset userFileName="kmlfile#cookie.cfid##cookie.cftoken#">
+</cfif>
+<!--- userFileName names the files written to internalPath, so it must not contain a path. --->
+<cfif REFind("[/\\\x00-\x1F]", userFileName) GT 0 OR find("..", userFileName) GT 0>
+	File names may not contain slashes, backslashes, control characters or "..".
+	<cfabort>
 </cfif>
 <cfif not isdefined("includeTimeSpan")>
 	<cfset includeTimeSpan=0>
@@ -144,10 +150,15 @@
 </cfif>
 <!------------------------------------------------------------------------------------------>
 <cfif isdefined("action") and #action# is "getFile">
-	<cfoutput>
-		<cfheader name="Content-Disposition" value="attachment; filename=#f#">
-		<cfcontent type="application/vnd.google-earth.kml+xml" file="#internalPath##f#">
-	</cfoutput>	
+	<cfparam name="url.f" default="">
+	<cfset variables.kmlFile = resolveFileInDirectory(internalPath, url.f, "kml")>
+	<cfif len(variables.kmlFile) EQ 0>
+		<cfheader statuscode="404" statustext="Not Found">
+		File not found.
+		<cfabort>
+	</cfif>
+	<cfheader name="Content-Disposition" value="#attachmentDisposition(url.f)#">
+	<cfcontent type="application/vnd.google-earth.kml+xml" file="#variables.kmlFile#">
 </cfif>
 <!------------------------------------------------------------->
 <cfif #action# is "nothing">
