@@ -6,6 +6,10 @@
 	<cfreturn q>
 </cffunction>
 <cfinclude template="/includes/_header.cfm">
+<!--- The cf_form_permissions row for this page requires only coldfusion_user. --->
+<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 	<script src="/lib/misc/sorttable.js"></script>
 
 <cfset dl=d('/',"root")>
@@ -22,7 +26,7 @@
 		<cfset thisPath=replace(directory,application.webDirectory,"","all")>
 		<cfset thisName="#thisPath#/#name#">
 		<cfquery name="current" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select ROLE_NAME, count(*) c from cf_form_permissions where form_path='#thisName#'
+			select ROLE_NAME, count(*) c from cf_form_permissions where form_path=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 			group by ROLE_NAME
 		</cfquery>
 		<cfset temp = queryaddrow(rslt,1)>
@@ -50,11 +54,6 @@
 		</tr>
 	</cfloop>
 </table>
-
-<!--- clean up any permissions for nonexistent forms --->
-<cfquery name="ghost" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	delete from cf_form_permissions where form_path not in (#ListQualify(valuelist(rslt.path),"'")#)
-</cfquery>
 
 
 <!----
