@@ -1,5 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
 <cfsetting requesttimeout="600">
+<cfparam name="url.action" default="nothing">
+<cfset variables.action = url.action>
 <cfif action is "nothing">
 
 <br /><a href="downloadData.cfm?action=codeTableZip">codeTableZip</a>
@@ -55,7 +57,7 @@
 	<cflocation url="/download.cfm?file=taxonomy.csv">
 <cfelseif action is  "agentnames">
 	<cfquery name="agentnames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select agent_name from agent_name<cfif isdefined("prefOnly")> where agent_name_type='preferred'</cfif>
+		select agent_name from agent_name<cfif isdefined("url.prefOnly")> where agent_name_type='preferred'</cfif>
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/download/agent_name.csv">
 	<cfset variables.encoding="US-ASCII">
@@ -350,9 +352,26 @@
 	</cfoutput>
 <cfelse>
 	<cfoutput>
-	<cfset tablename=action>
+	<!--- The table name can't be a bind parameter, so the query uses only a name the data dictionary
+		returns for the request.  Application tables (CF_, which include user accounts and portal
+		credentials) and working tables (X_) are in the MCZBASE schema and must never be exported. --->
+	<cfquery name="checkTable" datasource="cf_dbuser" result="checkTable_result">
+		SELECT table_name
+		FROM all_tables
+		WHERE
+			owner = 'MCZBASE'
+			AND table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.action)#">
+			AND table_name NOT LIKE 'X\_%' ESCAPE '\'
+			AND table_name NOT LIKE 'CF\_%' ESCAPE '\'
+	</cfquery>
+	<cfif checkTable.recordcount NEQ 1>
+		<p>That table is not available for download.</p>
+		<cfinclude template="/includes/_footer.cfm">
+		<cfabort>
+	</cfif>
+	<cfset tablename=checkTable.table_name>
 	<cfquery name="d" datasource="cf_dbuser">
-		select * from #tablename#
+		select * from MCZBASE.#tablename#
 	</cfquery>
 	<cfset f=d.columnlist>
 	<cfset stuffToDie="description,CTSPNID,IS_TISSUE,base_url">
