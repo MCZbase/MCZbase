@@ -312,33 +312,49 @@
 								<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
 								<cfset newPass=newPass & thisChar>
 							</cfloop>
-							<cftransaction>
-								<cfquery name="stopTrg" datasource="uam_god">
-									alter trigger CF_PW_CHANGE disable
-								</cfquery>
-								<cfquery name="setNewPass" datasource="uam_god">
-									UPDATE cf_users
-									SET
-										password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">,
-										pw_change_date=sysdate-91
-									where
-										user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
-								</cfquery>
-								<cftry>
-									<cfquery name="unlock" datasource="uam_god">
-                                                                                alter user #isGoodEmail.username# account unlock
-                                                                        </cfquery>
-									<cfquery name="db" datasource="uam_god">
-										alter user #isGoodEmail.username# identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
+							<!--- Oracle DDL cannot take bind variables, so it uses only the account name the data dictionary
+								returns, checked and quoted, never the username from the request or cf_users; accounts with
+								no Oracle user get no DDL.  newPass is generated above and contains no quotes. --->
+							<cfquery name="getOracleUser" datasource="uam_god" result="getOracleUser_result">
+								SELECT username
+								FROM dba_users
+								WHERE
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isGoodEmail.username)#">
+							</cfquery>
+							<cftry>
+								<cfif getOracleUser.recordcount EQ 1>
+									<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getOracleUser.username) EQ 0 OR REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0>
+										<cfthrow message="Unexpected characters in the database account name or generated password.">
+									</cfif>
+									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
+									<cfquery name="resetOracleUser" datasource="uam_god">
+										ALTER USER "#getOracleUser.username#" IDENTIFIED BY "#newPass#" ACCOUNT UNLOCK
 									</cfquery>
-								<cfcatch>
-									<!--- not a DB user - whatever --->
-								</cfcatch>
-								</cftry>
-								<cfquery name="stopTrg" datasource="uam_god">
-									alter trigger CF_PW_CHANGE enable
-								</cfquery>
-							</cftransaction>
+								</cfif>
+								<cftransaction>
+									<cfquery name="setNewPass" datasource="uam_god" result="setNewPass_result">
+										UPDATE cf_users
+										SET
+											password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">
+										WHERE
+											user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
+									</cfquery>
+									<!--- CF_PW_CHANGE stamps pw_change_date only when the password changes, so a second update
+										can backdate it without disabling the trigger for every session. --->
+									<cfquery name="backdatePass" datasource="uam_god" result="backdatePass_result">
+										UPDATE cf_users
+										SET
+											pw_change_date = sysdate - 91
+										WHERE
+											user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
+									</cfquery>
+								</cftransaction>
+							<cfcatch>
+								<cflog file="MCZbase" type="error" text="Password reset failed for user_id #isGoodEmail.user_id#: #cfcatch.message#">
+								<h1 class="h3 mt-3">Your password could not be reset. Please <a href="/contact.cfm">contact us</a>.</h1>
+								<cfabort>
+							</cfcatch>
+							</cftry>
 							<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
 								Your MCZbase username and password is
 
