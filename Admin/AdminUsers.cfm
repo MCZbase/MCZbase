@@ -1,5 +1,6 @@
 <cfset pageTitle="Administer Users">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 <script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("username")><cfset username=""></cfif>
@@ -700,52 +701,88 @@
 </cfif>
 <!---------------------------------------------------->
 <cfif #Action# is "runUpdate">
+	<!--- Posted by the edit form above.  Request values reach DDL only as the account name the data
+		dictionary returns and a password the checks in databaseAccounts.cfc accept; the other SQL binds them. --->
+	<cfparam name="form.orig_username" default="">
+	<cfparam name="form.username" default="">
+	<cfparam name="form.password" default="">
+	<cfparam name="form.approved_to_request_loans" default="">
+	<cfparam name="form.delete" default="">
 	<cfoutput>
-	<cfif isdefined("delete") AND #delete# is "delete">
-		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			DELETE FROM cf_users 
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+	<cfif cgi.request_method NEQ "POST" OR len(form.orig_username) EQ 0>
+		<cfthrow message="Updating a user requires a post from the edit form.">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.orig_username)>
+	<cfif form.delete EQ "delete">
+		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteUser_result">
+			DELETE FROM cf_users
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
 		</cfquery>
-		<cftry>
-			<cfquery name="killDB" datasource="uam_god">
-				drop user #username#
-			</cfquery>
-		<cfcatch>
-			There may have been a problem dropping this user.
-			<br>If the user had no Oracle account, everything is probable OK.
-			<br>If the user had an Oracle account, they are probably still connected. Contact your systems administrator.
-			<cfabort>
-		</cfcatch>
-		</cftry>
-		<cflocation url="/Admin/AdminUsers.cfm">
-	<cfelse>
-		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE cf_users SET
-				<cfif len(#username#) gt 0>
-					username = '#username#'
-				<cfelse>
-					username='#orig_username#'
-				</cfif>
-				<cfif len(#password#) gt 0>
-					,password = '#hash(password)#'
-				</cfif>
-				<cfif isdefined("approved_to_request_loans") and len(#approved_to_request_loans#) gt 0>
-					,approved_to_request_loans = '#approved_to_request_loans#'
-				</cfif>			
-				WHERE username = '#orig_username#'
-		</cfquery>
-        <cfif len(#password#) gt 0>
-            <cftry>
-	            <cfquery name="g" datasource="uam_god">
-					alter user #username# identified by "#password#" 
+		<cfif len(variables.databaseAccount) GT 0>
+			<cftry>
+				<cfquery name="killDB" datasource="uam_god">
+					DROP USER "#variables.databaseAccount#"
 				</cfquery>
-                <cfcatch>
-                    There may have been a problem updating this user's Oracle password.
-                    <cfabort>
-                </cfcatch>
-	        </cftry>
-        </cfif>
-		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#username#">
+			<cfcatch>
+				There may have been a problem dropping this user's database account.
+				<br>They are probably still connected. Contact your systems administrator.
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfif>
+		<cflocation url="/Admin/AdminUsers.cfm" addtoken="false">
+	<cfelse>
+		<cfset variables.newUsername = form.orig_username>
+		<cfif len(form.username) GT 0>
+			<cfset variables.newUsername = form.username>
+		</cfif>
+		<!--- Renaming cf_users would leave the user's database account under the old name. --->
+		<cfif len(variables.databaseAccount) GT 0 AND compare(variables.newUsername, form.orig_username) NEQ 0>
+			<p class="text-danger">This user has a database account, so the username cannot be changed here.
+				<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+			<cfabort>
+		</cfif>
+		<cfif len(form.password) GT 0 AND len(variables.databaseAccount) GT 0>
+			<cfset variables.passwordProblem = databasePasswordProblem(form.password)>
+			<cfif len(variables.passwordProblem) EQ 0>
+				<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, form.password)>
+			</cfif>
+			<cfif len(variables.passwordProblem) GT 0>
+				<p class="text-danger">#encodeForHtml(variables.passwordProblem)#
+					<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+				<cfabort>
+			</cfif>
+			<cftry>
+				<!--- DDL commits implicitly, so it runs before the cf_users update: if it fails, nothing has changed. --->
+				<cfquery name="setDatabasePassword" datasource="uam_god">
+					ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#form.password#"
+				</cfquery>
+			<cfcatch>
+				<cfif isPasswordComplexityError(cfcatch)>
+					<p class="text-danger">The password does not meet the database's password requirements.
+						<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+					<cfabort>
+				</cfif>
+				<cflog file="MCZbase" type="error" text="Setting the database password for #form.orig_username# failed: #cfcatch.message#">
+				There was a problem updating this user's database password; nothing was changed.
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfif>
+		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateUser_result">
+			UPDATE cf_users
+			SET
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.newUsername#">
+				<cfif len(form.password) GT 0>
+					,password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(form.password)#">
+				</cfif>
+				<cfif len(form.approved_to_request_loans) GT 0>
+					,approved_to_request_loans = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.approved_to_request_loans#">
+				</cfif>
+			WHERE
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
+		</cfquery>
+		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.newUsername)#" addtoken="false">
 	</cfif>
 	</cfoutput>
 </cfif>
