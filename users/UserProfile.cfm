@@ -19,6 +19,7 @@ limitations under the License.
 <cfset addheaderresource="feedreader" />
 <cfset pageTitle="MCZbase User Profile">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 
 <cfparam name="action" default="nothing">
 
@@ -314,6 +315,7 @@ limitations under the License.
 							<h3 class="my-0">Personal Profile</h3>
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-verylightteal px-2 py-1">
 								<input type="hidden" name="action" value="saveProfile">
+								#csrfTokenInput()#
 								<div class="form-row mx-0">
 									<h4 class="h4 col-12 mt-2">
 										A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
@@ -604,12 +606,17 @@ limitations under the License.
 		</cfoutput>
 </cfcase>
 <cfcase value="saveProfile">
-	<!--- get the values they filled in --->
-	<cfif not isDefined("first_name") OR len(first_name) is 0 OR
-			not isDefined("last_name") OR len(last_name) is 0 OR
-			not isDefined("affiliation") OR len(affiliation) is 0
-	>
-			<cfthrow message="You haven't filled in all required values! Please use your browser's back button to try again.">
+	<!--- The token stops another site saving its own email address into the profile, then taking
+		over the account through password recovery. --->
+	<cfif NOT isPostWithCsrfToken()>
+		<cfthrow message="Saving your profile requires a post from the profile form. Please reload your profile page and try again.">
+	</cfif>
+	<cfparam name="form.first_name" default="">
+	<cfparam name="form.middle_name" default="">
+	<cfparam name="form.last_name" default="">
+	<cfparam name="form.affiliation" default="">
+	<cfif len(form.first_name) is 0 OR len(form.last_name) is 0 OR len(form.affiliation) is 0>
+		<cfthrow message="You haven't filled in all required values! Please use your browser's back button to try again.">
 	</cfif>
 	<!--- type="email" on the input is a convenience; the address is checked here as well, since it is
 		what annotation and password recovery rely on. --->
@@ -640,11 +647,11 @@ limitations under the License.
 		<!---- already have a user_data entry --->
 		<cfquery name="upUser" datasource="cf_dbuser">
 			UPDATE cf_user_data SET
-				first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
-				last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
-				AFFILIATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
-				<cfif len(#middle_name#) gt 0>
-					,middle_name = <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
+				first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.first_name#">,
+				last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.last_name#">,
+				AFFILIATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.affiliation#">
+				<cfif len(form.middle_name) gt 0>
+					,middle_name = <cfqueryparam value='#form.middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				<cfelse>
 					,middle_name = NULL
 				</cfif>
@@ -663,7 +670,7 @@ limitations under the License.
 				first_name,
 				last_name,
 				affiliation
-				<cfif len(#middle_name#) gt 0>
+				<cfif len(form.middle_name) gt 0>
 					,middle_name
 				</cfif>
 				<cfif len(variables.email) gt 0>
@@ -672,11 +679,11 @@ limitations under the License.
 				)
 			VALUES (
 				<cfqueryparam value="#variables.user_id#" cfsqltype="CF_SQL_DECIMAL">,
-				<cfqueryparam value='#first_name#' cfsqltype="CF_SQL_VARCHAR">,
-				<cfqueryparam value='#last_name#' cfsqltype="CF_SQL_VARCHAR">,
-				<cfqueryparam value='#affiliation#' cfsqltype="CF_SQL_VARCHAR">
-				<cfif len(#middle_name#) gt 0>
-					, <cfqueryparam value='#middle_name#' cfsqltype="CF_SQL_VARCHAR">
+				<cfqueryparam value='#form.first_name#' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value='#form.last_name#' cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value='#form.affiliation#' cfsqltype="CF_SQL_VARCHAR">
+				<cfif len(form.middle_name) gt 0>
+					, <cfqueryparam value='#form.middle_name#' cfsqltype="CF_SQL_VARCHAR">
 				</cfif>
 				<cfif len(variables.email) gt 0>
 					, <cfqueryparam value='#variables.email#' cfsqltype="CF_SQL_VARCHAR">

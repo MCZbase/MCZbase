@@ -1,6 +1,7 @@
 <cfset pageTitle="Administer Users">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 <script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("username")><cfset username=""></cfif>
@@ -212,7 +213,7 @@
 	<cfparam name="form.username" default="">
 	<cfparam name="form.role_name" default="">
 	<cfoutput>
-	<cfif cgi.request_method NEQ "POST">
+	<cfif NOT isPostWithCsrfToken()>
 		<cfthrow message="Granting or revoking a role requires a post from the edit form.">
 	</cfif>
 	<cfset variables.databaseAccount = databaseAccountName(form.username)>
@@ -270,6 +271,7 @@
 	<cfoutput>
 	<form action="/Admin/AdminUsers.cfm" method="post">
 		<input type="hidden" name="Action" value="runUpdate">
+		#csrfTokenInput()#
 		<input type="hidden" name="orig_username" value="#getUsers.username#">
 <table>
 	<tr>
@@ -370,7 +372,13 @@
 						Invited, <span class="text-warning">Awaiting User Action</span>
 					<cfelse>
 						<cfif getAgent.recordcount GT 0 AND len(getUsers.EMAIL) GT 0>
-							<a href="/Admin/AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a> 
+							<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+								<input type="hidden" name="action" value="makeNewDbUser">
+								#csrfTokenInput()#
+								<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+								<input type="hidden" name="user_id" value="#encodeForHtmlAttribute(getUsers.user_id)#">
+								<input type="submit" value="Invite" class="btn btn-xs btn-secondary">
+							</form>
 						<cfelseif len(getUsers.EMAIL) EQ 0>
 							User must add an email to their profile to be invited.
 						<cfelse>
@@ -395,12 +403,14 @@
 							<cfif findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
 								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
 									<input type="hidden" name="action" value="unlockUser">
+									#csrfTokenInput()#
 									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
 									<button type="submit" class="btn btn-xs btn-secondary">Unlock Account</button>
 								</form>
 							<cfelse>
 								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
 									<input type="hidden" name="action" value="lockUser">
+									#csrfTokenInput()#
 									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
 									<button type="submit" class="btn btn-xs btn-warning">Lock Account</button>
 								</form>
@@ -467,6 +477,7 @@
 							<td>
 								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
 									<input type="hidden" name="action" value="remrole">
+									#csrfTokenInput()#
 									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
 									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
 									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
@@ -482,6 +493,7 @@
 					<tr class="newRec">
 						<td>
 							<input type="hidden" name="action" value="addRole" />
+							#csrfTokenInput()#
 							<input type="hidden" name="username" value="#getUsers.username#" />
 							<select name="role_name" size="1">
 								<cfloop query="ctRoleName">
@@ -562,6 +574,7 @@
 							<td>
 								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
 									<input type="hidden" name="action" value="remrole">
+									#csrfTokenInput()#
 									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
 									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
 									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
@@ -575,6 +588,7 @@
 					
 					<form name="ar" method="post" action="/Admin/AdminUsers.cfm">
 						<input type="hidden" name="action" value="addRole" />
+						#csrfTokenInput()#
 						<input type="hidden" name="username" value="#getUsers.username#" />
 						<tr>
 							<td>
@@ -608,7 +622,7 @@
 		account name the data dictionary returns, quoted. --->
 	<cfparam name="form.username" default="">
 	<cfoutput>
-	<cfif cgi.request_method NEQ "POST">
+	<cfif NOT isPostWithCsrfToken()>
 		<cfthrow message="Locking or unlocking an account requires a post from the edit form.">
 	</cfif>
 	<!--- Also checked at the top of the page; repeated here as only global_admin may lock or unlock accounts. --->
@@ -635,17 +649,28 @@
 </cfif>
 <!---------------------------------------------------->
 <cfif #Action# is "adminSet">
+	<cfparam name="form.user_id" default="">
+	<cfparam name="form.username" default="">
 	<cfoutput>
+		<cfif NOT isPostWithCsrfToken()>
+			<cfthrow message="Removing an invitation requires a post from the edit form.">
+		</cfif>
 		<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM temp_allow_cf_user 
-			WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+			WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">
 		</cfquery>
-		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#username#">
+		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
 <cfif #Action# is "makeNewDbUser">
+	<cfparam name="form.user_id" default="">
+	<cfparam name="form.username" default="">
 	<cfoutput>
+		<!--- An invitation lets the user create a database account, so it must not be forgeable from another site. --->
+		<cfif NOT isPostWithCsrfToken()>
+			<cfthrow message="Inviting a user requires a post from the edit form.">
+		</cfif>
 		<!--- see if they have all the right stuff to be a user --->
 		<cfquery name="getTheirEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
@@ -656,7 +681,7 @@
 				cf_user_data
 			where 
 				cf_users.user_id=cf_user_data.user_id and
-				cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+				cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">
 		</cfquery>
 		<cfif getTheirEmail.email is "">
 			<div class="text-danger">
@@ -689,7 +714,7 @@
 			where 
 				agent_name.agent_name_type='login' and
 				agent_name.agent_name=cf_users.username and
-				cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_id#">
+				cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.user_id#">
 		</cfquery>
 		<cfif getAgent.agent_id is "" or getAgent.recordcount is not 1>
 			<div class="text-danger">
@@ -700,7 +725,11 @@
 		<cfif len(getTheirEmail.EMAIL) gt 0 and len(getMyEmail.EMAIL) gt 0 and getAgent.recordcount is 1>
 			<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into temp_allow_cf_user (user_id,allow,invited_by_email) 
-				values (#user_id#,1,'#getMyEmail.EMAIL#')
+				values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">,
+					1,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMyEmail.EMAIL#">
+				)
 			</cfquery>
 			<!---cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
 				Hello, #getTheirEmail.username#.
@@ -716,9 +745,9 @@
 				Please email #getMyEmail.EMAIL# if you have any questions, or 
 				#Application.PageProblemEmail# if you believe you have received this message in error.
 			</cfmail0--->
-			An invitation has been sent. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
+			An invitation has been sent. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">continue</a>			
 		<cfelse>
-			<div>User not invited. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#username#">Return to edit user</a>.</div>	
+			<div>User not invited. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">Return to edit user</a>.</div>	
 		</cfif>
 	</cfoutput>
 </cfif>
@@ -773,7 +802,7 @@
 	<cfparam name="form.approved_to_request_loans" default="">
 	<cfparam name="form.delete" default="">
 	<cfoutput>
-	<cfif cgi.request_method NEQ "POST" OR len(form.orig_username) EQ 0>
+	<cfif NOT isPostWithCsrfToken() OR len(form.orig_username) EQ 0>
 		<cfthrow message="Updating a user requires a post from the edit form.">
 	</cfif>
 	<cfset variables.databaseAccount = databaseAccountName(form.orig_username)>
