@@ -295,23 +295,24 @@
 							<h1 class="h3 mt-3">Sorry, that email was not associated with your username.</h1>
 							<cfabort>
 						<cfelse>
-							<cfset charList = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,z,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0">
-							<cfset numList="1,2,3,4,5,6,7,8,9,0">
-							<cfset specList="!,$,%,_,*,?,-,(,),=,/,:,;,.">
-							<cfset newPass = "">
-							<cfset cList="#charList#,#numList#,#specList#">
-							<cfset c=0>
-							<cfset i=1>
-							<cfset thisChar = ListGetAt(charList,RandRange(1,listlen(charList)))>
-							<cfset newPass=newPass & thisChar>
-							<cfset thisChar = ListGetAt(numList,RandRange(1,listlen(numList)))>
-							<cfset newPass=newPass & thisChar>
-							<cfset thisChar = ListGetAt(specList,RandRange(1,listlen(specList)))>
-							<cfset newPass=newPass & thisChar>
-							<cfloop from="1" to="10" index="i">
-								<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
-								<cfset newPass=newPass & thisChar>
+							<!--- SHA1PRNG is cryptographically secure, unlike RandRange's default.  One letter, one digit and one
+								symbol are guaranteed, then shuffled out of fixed positions.  No quotes: the password is placed in
+								quoted DDL below. --->
+							<cfset variables.LETTERS = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z">
+							<cfset variables.DIGITS = "0,1,2,3,4,5,6,7,8,9">
+							<cfset variables.SYMBOLS = "!,$,%,_,*,?,-,(,),=,/,:,;,.">
+							<cfset variables.allCharacters = "#variables.LETTERS#,#variables.DIGITS#,#variables.SYMBOLS#">
+							<cfset variables.passwordCharacters = arrayNew(1)>
+							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.LETTERS, randRange(1, listLen(variables.LETTERS), "SHA1PRNG")))>
+							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.DIGITS, randRange(1, listLen(variables.DIGITS), "SHA1PRNG")))>
+							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.SYMBOLS, randRange(1, listLen(variables.SYMBOLS), "SHA1PRNG")))>
+							<cfloop from="1" to="10" index="variables.i">
+								<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.allCharacters, randRange(1, listLen(variables.allCharacters), "SHA1PRNG")))>
 							</cfloop>
+							<cfloop from="#arrayLen(variables.passwordCharacters)#" to="2" step="-1" index="variables.i">
+								<cfset arraySwap(variables.passwordCharacters, variables.i, randRange(1, variables.i, "SHA1PRNG"))>
+							</cfloop>
+							<cfset newPass = arrayToList(variables.passwordCharacters, "")>
 							<!--- Oracle DDL cannot take bind variables, so it uses only the account name the data dictionary
 								returns, checked and quoted, never the username from the request or cf_users; accounts with
 								no Oracle user get no DDL.  newPass is generated above and contains no quotes. --->
@@ -323,7 +324,9 @@
 							</cfquery>
 							<cftry>
 								<cfif getOracleUser.recordcount EQ 1>
-									<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getOracleUser.username) EQ 0 OR REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0>
+									<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getOracleUser.username) EQ 0
+											OR REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0
+											OR REFind("[\r\n]", getOracleUser.username & newPass) GT 0>
 										<cfthrow message="Unexpected characters in the database account name or generated password.">
 									</cfif>
 									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
