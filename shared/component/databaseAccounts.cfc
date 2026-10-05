@@ -73,6 +73,38 @@ limitations under the License.
 </cffunction>
 
 <!---
+	databasePasswordCheck check a new password for an Oracle account with the database function
+	MCZBASE.CHECK_DATABASE_PASSWORD, which takes both values as bind variables.  It checks the
+	account name and that the account exists, and the password's length and characters.
+
+	@param username the account name.
+	@param newPassword the proposed password.
+	@param oldPassword the current password, if known.
+	@return an empty string if the database accepts the password, otherwise its message.
+--->
+<cffunction name="databasePasswordCheck" access="public" returntype="string" output="false">
+	<cfargument name="username" type="string" required="yes">
+	<cfargument name="newPassword" type="string" required="yes">
+	<cfargument name="oldPassword" type="string" required="no" default="">
+
+	<cfset var checkPassword = "">
+	<cfset var checkPassword_result = "">
+
+	<cfquery name="checkPassword" datasource="uam_god" result="checkPassword_result">
+		SELECT mczbase.check_database_password(
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.username#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.newPassword#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.oldPassword#" null="#len(arguments.oldPassword) EQ 0#">
+		) AS result
+		FROM dual
+	</cfquery>
+	<cfif checkPassword.result EQ "OK">
+		<cfreturn "">
+	</cfif>
+	<cfreturn checkPassword.result>
+</cffunction>
+
+<!---
 	isPasswordComplexityError test whether a caught database error is the account profile's
 	password verify function rejecting a password.
 

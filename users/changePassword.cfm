@@ -198,6 +198,9 @@
 						<cfset variables.databaseAccount = databaseAccountName(session.username)>
 						<cfif len(variables.databaseAccount) GT 0>
 							<cfset variables.passwordProblem = databasePasswordProblem(newpassword)>
+							<cfif len(variables.passwordProblem) EQ 0>
+								<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, newpassword, oldpassword)>
+							</cfif>
 							<cfif len(variables.passwordProblem) GT 0>
 								<span class="font-weight-lessbold text-danger">
 									#encodeForHtml(variables.passwordProblem)# <a href="/users/changePassword.cfm">Go Back</a>
@@ -296,6 +299,10 @@
 								<cfif len(variables.databaseAccount) GT 0>
 									<cfif REFind("^[A-Za-z0-9!$%_*?=/:;()-]+$", newPass) EQ 0 OR len(databasePasswordProblem(newPass)) GT 0>
 										<cfthrow message="Unexpected characters in the generated password.">
+									</cfif>
+									<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, newPass)>
+									<cfif len(variables.passwordProblem) GT 0>
+										<cfthrow message="The database refused the generated password: #variables.passwordProblem#">
 									</cfif>
 									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
 									<cfquery name="resetOracleUser" datasource="uam_god">
