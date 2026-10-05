@@ -32,12 +32,25 @@ limitations under the License.
 <cfset variables.ADMINISTRATIVE_ROLES = "GLOBAL_ADMIN,DBA,MANAGE_COLLECTION">
 <!--- An account unused for this many days, that still holds roles, is listed for review. --->
 <cfset variables.STALE_DAYS = 365>
+<!--- Login history is meaningful only on production; elsewhere few people log in, so unused holders are not flagged in the roles table. --->
+<cfset variables.IS_PRODUCTION = isDefined("session.gitBranch") AND findNoCase("refs/heads/master", session.gitBranch) GT 0>
+<!--- Roles that work with collection data, which a holder can see only through a collection role. --->
+<cfset variables.DATA_ROLES = "MANAGE_SPECIMENS,DATA_ENTRY,MANAGE_TRANSACTIONS,MANAGE_CONTAINER,MANAGE_MEDIA">
+<!--- A role held by at least this share of a role's open holders is expected of the others; only for roles with enough holders. --->
+<cfset variables.COMPANION_SHARE = 0.8>
+<cfset variables.COMPANION_MIN_HOLDERS = 5>
 
 <cfquery name="getApplicationRoles" datasource="uam_god" result="getApplicationRoles_result">
 	SELECT upper(role_name) AS role_name, description
 	FROM cf_ctuser_roles
 	ORDER BY role_name
 </cfquery>
+<cfquery name="getCollectionRoles" datasource="uam_god" result="getCollectionRoles_result">
+	SELECT DISTINCT upper(portal_name) AS role_name
+	FROM cf_collection
+	WHERE portal_name IS NOT NULL
+</cfquery>
+<cfset variables.collectionRoles = valueList(getCollectionRoles.role_name)>
 <cfquery name="getGrants" datasource="uam_god" result="getGrants_result">
 	SELECT
 		rp.grantee,
@@ -137,6 +150,121 @@ limitations under the License.
 	</cfloop>
 </cfloop>
 
+<!---
+	isCollectionRole test whether a role gives access to a collection's data.
+
+	@param role the role name, in upper case.
+	@return true for roles named by cf_collection.portal_name, or starting MCZ_.
+--->
+<cffunction name="isCollectionRole" returntype="boolean" output="false">
+	<cfargument name="role" type="string" required="yes">
+	<cfreturn listFind(variables.collectionRoles, arguments.role) GT 0 OR left(arguments.role, 4) EQ "MCZ_">
+</cffunction>
+
+<!---
+	roleBadgeClass choose the badge colour for a role, so kinds of role can be told apart at a glance.
+
+	@param role the role name, in upper case.
+	@return Bootstrap badge classes.
+--->
+<cffunction name="roleBadgeClass" returntype="string" output="false">
+	<cfargument name="role" type="string" required="yes">
+	<cfif listFind("DBA,GLOBAL_ADMIN", arguments.role) GT 0>
+		<cfreturn "badge-danger">
+	<cfelseif left(arguments.role, 6) EQ "ADMIN_">
+		<cfreturn "badge-warning">
+	<cfelseif arguments.role EQ "MANAGE_COLLECTION">
+		<cfreturn "badge-info">
+	<cfelseif isCollectionRole(arguments.role)>
+		<cfreturn "badge-success">
+	<cfelseif arguments.role EQ "CONNECT">
+		<cfreturn "badge-dark">
+	</cfif>
+	<cfreturn "badge-light border">
+</cffunction>
+
+<!--- For each application role: its open and inactive holders, and the reasons an open holder looks out of place. --->
+<cfset variables.roleSummaries = structNew()>
+<cfloop query="getApplicationRoles">
+	<cfset variables.role = getApplicationRoles.role_name>
+	<cfset variables.openHolders = "">
+	<cfset variables.inactiveHolders = "">
+	<cfloop list="#variables.accountOrder#" index="variables.grantee">
+		<cfif structKeyExists(variables.accounts[variables.grantee].roles, variables.role)>
+			<cfif variables.accounts[variables.grantee].status EQ "OPEN">
+				<cfset variables.openHolders = listAppend(variables.openHolders, variables.grantee)>
+			<cfelse>
+				<cfset variables.inactiveHolders = listAppend(variables.inactiveHolders, variables.grantee)>
+			</cfif>
+		</cfif>
+	</cfloop>
+	<cfset variables.holderCount = listLen(variables.openHolders)>
+	<cfset variables.companions = structNew()>
+	<cfif variables.holderCount GTE variables.COMPANION_MIN_HOLDERS>
+		<cfloop list="#variables.applicationRoles#" index="variables.otherRole">
+			<cfif variables.otherRole NEQ variables.role AND variables.otherRole NEQ "COLDFUSION_USER">
+				<cfset variables.withOther = 0>
+				<cfloop list="#variables.openHolders#" index="variables.grantee">
+					<cfif structKeyExists(variables.accounts[variables.grantee].roles, variables.otherRole)>
+						<cfset variables.withOther = variables.withOther + 1>
+					</cfif>
+				</cfloop>
+				<cfif variables.withOther / variables.holderCount GTE variables.COMPANION_SHARE AND variables.withOther LT variables.holderCount>
+					<cfset variables.companions[variables.otherRole] = variables.withOther>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+	<cfset variables.reasons = structNew()>
+	<cfloop list="#variables.openHolders#" index="variables.grantee">
+		<cfset variables.account = variables.accounts[variables.grantee]>
+		<cfset variables.holderReasons = "">
+		<cfif variables.IS_PRODUCTION AND len(variables.account.daysSinceLogin) EQ 0>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "Never logged in to MCZbase", "|")>
+		<cfelseif variables.IS_PRODUCTION AND variables.account.daysSinceLogin GT variables.STALE_DAYS>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "No MCZbase login in #variables.account.daysSinceLogin# days", "|")>
+		</cfif>
+		<cfif NOT variables.account.roles[variables.role].isDefault>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "Granted but not a default role, so the database does not use it", "|")>
+		</cfif>
+		<cfif variables.account.roles[variables.role].withAdmin>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "Granted with admin option, so the account can grant it to others", "|")>
+		</cfif>
+		<cfif len(variables.account.mczbaseUsername) EQ 0>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "No MCZbase user for this database account", "|")>
+		</cfif>
+		<cfif variables.role NEQ "COLDFUSION_USER" AND NOT structKeyExists(variables.account.roles, "COLDFUSION_USER")>
+			<cfset variables.holderReasons = listAppend(variables.holderReasons, "Lacks coldfusion_user, so MCZbase treats the account as a public user", "|")>
+		</cfif>
+		<cfif listFind(variables.DATA_ROLES, variables.role) GT 0>
+			<cfset variables.hasCollection = false>
+			<cfloop collection="#variables.account.roles#" item="variables.heldRole">
+				<cfif isCollectionRole(variables.heldRole)>
+					<cfset variables.hasCollection = true>
+				</cfif>
+			</cfloop>
+			<cfif NOT variables.hasCollection>
+				<cfset variables.holderReasons = listAppend(variables.holderReasons, "Holds no collection role, so collection data is hidden from it", "|")>
+			</cfif>
+		</cfif>
+		<cfloop collection="#variables.companions#" item="variables.otherRole">
+			<cfif NOT structKeyExists(variables.account.roles, variables.otherRole)>
+				<cfset variables.holderReasons = listAppend(variables.holderReasons, "Lacks #lcase(variables.otherRole)#, held by #variables.companions[variables.otherRole]# of #variables.holderCount# open holders of this role", "|")>
+			</cfif>
+		</cfloop>
+		<cfif len(variables.holderReasons) GT 0>
+			<cfset variables.reasons[variables.grantee] = variables.holderReasons>
+		</cfif>
+	</cfloop>
+	<cfset variables.totalHolders = listLen(variables.openHolders) + listLen(variables.inactiveHolders)>
+	<cfset variables.roleSummaries[variables.role] = {
+		openHolders = variables.openHolders,
+		inactiveHolders = variables.inactiveHolders,
+		reasons = variables.reasons,
+		isRare = (variables.totalHolders GT 0 AND variables.totalHolders LTE 2)
+	}>
+</cfloop>
+
 <script src="/lib/misc/sorttable.js"></script>
 <cfoutput>
 <main class="container-fluid py-3" id="content">
@@ -218,30 +346,74 @@ limitations under the License.
 			</div>
 			<div id="byRoleBody" class="collapse show" aria-labelledby="byRoleHeader" data-parent="##byRole">
 				<div class="card-body bg-white">
-					<p class="small">Open accounts holding each application role. Locked and expired accounts are counted separately.</p>
+					<p class="small">
+						Holders of each application role. A holder marked <span class="badge badge-light border border-danger text-danger font-weight-normal"><span aria-hidden="true">&##9888;</span> account</span>
+						looks out of place; hover over it for the reasons, which are:
+					</p>
+					<ul class="small">
+						<cfif variables.IS_PRODUCTION>
+							<li>no MCZbase login in over #variables.STALE_DAYS# days, or never;</li>
+						</cfif>
+						<li>the role is granted but not as a default role, or with admin option;</li>
+						<li>a database account with no MCZbase user;</li>
+						<li>no <code>coldfusion_user</code>, so MCZbase treats the account as a public user;</li>
+						<li>for #encodeForHtml(lcase(replace(variables.DATA_ROLES, ",", ", ", "all")))#: no collection role, so collection data is hidden;</li>
+						<li>lacking a role that at least #int(variables.COMPANION_SHARE * 100)#% of the role's open holders have (for roles with #variables.COMPANION_MIN_HOLDERS# or more open holders).</li>
+					</ul>
+					<p class="small">
+						<span class="badge badge-light text-muted font-weight-normal"><s>account</s></span> is a locked or expired account still holding the role.
+						<cfif NOT variables.IS_PRODUCTION>Login history is not checked here, as this is not production.</cfif>
+					</p>
 					<table class="table table-responsive d-xl-table table-sm table-striped sortable">
 						<thead class="thead-light">
-							<tr><th scope="col">Role</th><th scope="col">Description</th><th scope="col">Open</th><th scope="col">Locked or expired</th><th scope="col">Held by (open accounts)</th></tr>
+							<tr><th scope="col">Role</th><th scope="col">Description</th><th scope="col">Open</th><th scope="col">Locked or expired</th><th scope="col">Oddities</th><th scope="col">Held by</th></tr>
 						</thead>
 						<tbody>
 							<cfloop query="getApplicationRoles">
-								<cfset variables.holders = "">
-								<cfset variables.inactiveCount = 0>
-								<cfloop list="#variables.accountOrder#" index="variables.grantee">
-									<cfif structKeyExists(variables.accounts[variables.grantee].roles, getApplicationRoles.role_name)>
-										<cfif variables.accounts[variables.grantee].status EQ "OPEN">
-											<cfset variables.holders = listAppend(variables.holders, variables.grantee)>
-										<cfelse>
-											<cfset variables.inactiveCount = variables.inactiveCount + 1>
-										</cfif>
-									</cfif>
-								</cfloop>
+								<cfset variables.summary = variables.roleSummaries[getApplicationRoles.role_name]>
 								<tr>
-									<th scope="row" class="font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</th>
+									<th scope="row" class="font-weight-normal">
+										<span class="badge #roleBadgeClass(getApplicationRoles.role_name)# font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</span>
+										<cfif variables.summary.isRare>
+											<br><span class="small text-secondary">rarely held</span>
+										</cfif>
+									</th>
 									<td class="small">#encodeForHtml(getApplicationRoles.description)#</td>
-									<td>#listLen(variables.holders)#</td>
-									<td>#variables.inactiveCount#</td>
-									<td class="small">#encodeForHtml(replace(variables.holders, ",", ", ", "all"))#</td>
+									<td>#listLen(variables.summary.openHolders)#</td>
+									<td>#listLen(variables.summary.inactiveHolders)#</td>
+									<td>#structCount(variables.summary.reasons)#</td>
+									<td>
+										<!--- Flagged holders first, then the other open holders, then locked or expired ones. --->
+										<cfloop list="flagged,open,inactive" index="variables.group">
+											<cfset variables.groupHolders = variables.summary.openHolders>
+											<cfif variables.group EQ "inactive">
+												<cfset variables.groupHolders = variables.summary.inactiveHolders>
+											</cfif>
+											<cfloop list="#variables.groupHolders#" index="variables.grantee">
+												<cfset variables.isFlagged = structKeyExists(variables.summary.reasons, variables.grantee)>
+												<cfif (variables.group EQ "flagged" AND variables.isFlagged) OR (variables.group EQ "open" AND NOT variables.isFlagged) OR variables.group EQ "inactive">
+													<cfset variables.account = variables.accounts[variables.grantee]>
+													<cfset variables.holderClass = "badge-light border">
+													<cfset variables.holderTitle = variables.account.name>
+													<cfset variables.holderLabel = encodeForHtml(variables.grantee)>
+													<cfif variables.group EQ "flagged">
+														<cfset variables.holderClass = "badge-light border border-danger text-danger">
+														<cfset variables.holderTitle = variables.account.name & ": " & replace(variables.summary.reasons[variables.grantee], "|", "; ", "all")>
+														<cfset variables.holderLabel = '<span aria-hidden="true">&##9888;</span> ' & variables.holderLabel>
+													<cfelseif variables.group EQ "inactive">
+														<cfset variables.holderClass = "badge-light text-muted">
+														<cfset variables.holderTitle = variables.account.name & ": account " & lcase(variables.account.status)>
+														<cfset variables.holderLabel = "<s>" & variables.holderLabel & "</s>">
+													</cfif>
+													<cfif len(variables.account.mczbaseUsername) GT 0>
+														<a class="badge #variables.holderClass# font-weight-normal mr-1" href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#" title="#encodeForHtmlAttribute(variables.holderTitle)#">#variables.holderLabel#<span class="sr-only">: #encodeForHtml(variables.holderTitle)#</span></a>
+													<cfelse>
+														<span class="badge #variables.holderClass# font-weight-normal mr-1" title="#encodeForHtmlAttribute(variables.holderTitle)#">#variables.holderLabel#<span class="sr-only">: #encodeForHtml(variables.holderTitle)#</span></span>
+													</cfif>
+												</cfif>
+											</cfloop>
+										</cfloop>
+									</td>
 								</tr>
 							</cfloop>
 						</tbody>
@@ -297,8 +469,14 @@ limitations under the License.
 			<div id="matrixBody" class="collapse show" aria-labelledby="matrixHeader" data-parent="##matrix">
 				<div class="card-body bg-white">
 					<p class="small">
-						One row per account, with its roles.  <span class="badge badge-warning">Administrative</span> roles are highlighted; a role
-						marked <span class="badge badge-light border">role*</span> is granted but not as a default role, so the database does not use it.
+						One row per account, with its roles:
+						<span class="badge badge-danger font-weight-normal">dba, global_admin</span>
+						<span class="badge badge-warning font-weight-normal">admin_ roles</span>
+						<span class="badge badge-info font-weight-normal">manage_collection</span>
+						<span class="badge badge-success font-weight-normal">collection roles</span>
+						<span class="badge badge-dark font-weight-normal">connect</span>
+						<span class="badge badge-light border font-weight-normal">other roles</span>.
+						A role marked <span class="badge badge-light border font-weight-normal">role*</span> is granted but not as a default role, so the database does not use it.
 						Roles outside <code>cf_ctuser_roles</code> are listed after the application roles.
 					</p>
 					<div class="form-row align-items-end mb-2">
@@ -366,10 +544,7 @@ limitations under the License.
 										</cfloop>
 										<cfset variables.roleOrder = listAppend(variables.roleOrder, variables.account.otherRoles)>
 										<cfloop list="#variables.roleOrder#" index="variables.role">
-											<cfset variables.badgeClass = "badge-light border">
-											<cfif listFind(variables.ADMINISTRATIVE_ROLES, variables.role) GT 0>
-												<cfset variables.badgeClass = "badge-warning">
-											</cfif>
+											<cfset variables.badgeClass = roleBadgeClass(variables.role)>
 											<cfset variables.roleLabel = lcase(variables.role)>
 											<cfset variables.roleNote = "">
 											<cfif NOT variables.account.roles[variables.role].isDefault>
