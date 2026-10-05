@@ -25,6 +25,9 @@ limitations under the License.
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
 	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
+	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
+		forgery); links from other sites and email still arrive logged in.  Secure is left to CF Admin. --->
+	<cfset This.sessioncookie = { httponly = true, samesite = "Lax" } />
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
