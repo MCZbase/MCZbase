@@ -366,7 +366,7 @@
 				<td>Not a Database User:</td>
 				<td>
 					<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select user_id,allow from temp_allow_cf_user where user_id=#getUsers.user_id#
+						select user_id,allow from temp_allow_cf_user where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUsers.user_id#">
 					</cfquery>
 					<cfif hasInvite.allow is 1>
 						Invited, <span class="text-warning">Awaiting User Action</span>
@@ -452,7 +452,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">Roles <a href="/Admin/AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
+					<td colspan="2">Roles <a href="/Admin/AdminUsers.cfm?username=#encodeForUrl(username)#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
 				</tr>
 				<cfquery name="roles" datasource="uam_god">
 					SELECT granted_role role_name
@@ -754,7 +754,7 @@
 <!---------------------------------------------------->
 <cfif action is "dbRole">
 	<cfoutput>
-	<a href="/Admin/AdminUsers.cfm?action=edit&username=#username#">back</a>
+	<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(username)#">back</a>
 	<br />
 		<cfquery name="rd" datasource="uam_god">
 			select
@@ -768,7 +768,7 @@
 				from 
 				  dba_users
 				where
-				  username like upper('#ucase(username)#')
+				  username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 			  /* THE ROLES TO ROLES RELATIONS */ 
 			  union
 				select 
