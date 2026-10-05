@@ -1,5 +1,6 @@
 <cfset pageTitle="Administer Users">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 <script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("username")><cfset username=""></cfif>
@@ -205,21 +206,32 @@
 </cfif>
 
 <!-------------------------------------------------->
-<cfif #Action# is "addRole">
+<cfif #Action# is "addRole" OR #Action# is "remrole">
+	<!--- Grant or revoke a role, posted by the forms on the edit view.  The DDL uses only the account and
+		role names the data dictionary returns, quoted; only roles the edit view offers can be granted. --->
+	<cfparam name="form.username" default="">
+	<cfparam name="form.role_name" default="">
 	<cfoutput>
-		<cfquery name="g" datasource="uam_god">
-			grant #role_name# to #username#
+	<cfif cgi.request_method NEQ "POST">
+		<cfthrow message="Granting or revoking a role requires a post from the edit form.">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.username)>
+	<cfset variables.databaseRole = databaseRoleName(form.role_name)>
+	<cfif len(variables.databaseAccount) EQ 0 OR len(variables.databaseRole) EQ 0>
+		<p class="text-danger">That user has no database account, or that role cannot be granted here.
+			<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#">Go back</a></p>
+		<cfabort>
+	</cfif>
+	<cfif Action is "addRole">
+		<cfquery name="grantRole" datasource="uam_god">
+			GRANT "#variables.databaseRole#" TO "#variables.databaseAccount#"
 		</cfquery>
-		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
-	</cfoutput>
-</cfif>
-<!-------------------------------------------------->
-<cfif #Action# is "remrole">
-	<cfoutput>
-		<cfquery name="t" datasource="uam_god">
-			revoke #role_name# from #username#
+	<cfelse>
+		<cfquery name="revokeRole" datasource="uam_god">
+			REVOKE "#variables.databaseRole#" FROM "#variables.databaseAccount#"
 		</cfquery>
-		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
+	</cfif>
+	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
@@ -371,8 +383,31 @@
 					<td>Database User Status:</td>
 					<td>
 						<cfif len(isDbUser.username) gt 0>
-							Is User
-							<a href="/Admin/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
+							<cfquery name="getAccountStatus" datasource="uam_god" result="getAccountStatus_result">
+								SELECT account_status, lock_date, expiry_date
+								FROM dba_users
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+							</cfquery>
+							Is User; account #encodeForHtml(lcase(getAccountStatus.account_status))#
+							<cfif isDate(getAccountStatus.lock_date)>
+								since #dateFormat(getAccountStatus.lock_date, "yyyy-mm-dd")#
+							</cfif>
+							<cfif findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="unlockUser">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-secondary">Unlock Account</button>
+								</form>
+							<cfelse>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="lockUser">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Lock Account</button>
+								</form>
+							</cfif>
+							<cfif findNoCase("EXPIRED", getAccountStatus.account_status) GT 0>
+								<br><span class="text-danger small">The database password has expired: set a new password in the user form, as unlocking does not renew it.</span>
+							</cfif>
 							<!---  check if user_search_table exists for this user --->
 							<cftry>
 								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -430,7 +465,12 @@
 								#role_name# 
 							</td>
 							<td>
-								<a class="btn btn-xs btn-warning" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="remrole">
+									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
+								</form>
 							</td>
 						</tr>
 					</cfloop>
@@ -520,7 +560,12 @@
 						<tr>
 							<td>#role_name#</td>
 							<td>
-								<a class="btn btn-warning btn-xs" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="remrole">
+									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
+								</form>
 							</td>
 						</tr>
 					</cfloop>					
@@ -558,14 +603,34 @@
 
 </cfif>
 <!---------------------------------------------------->
-<cfif #Action# is "lockUser">
+<cfif #Action# is "lockUser" OR #Action# is "unlockUser">
+	<!--- Posted by the Lock Account and Unlock Account forms on the edit view.  The DDL uses only the
+		account name the data dictionary returns, quoted. --->
+	<cfparam name="form.username" default="">
 	<cfoutput>
+	<cfif cgi.request_method NEQ "POST">
+		<cfthrow message="Locking or unlocking an account requires a post from the edit form.">
+	</cfif>
+	<!--- Also checked at the top of the page; repeated here as only global_admin may lock or unlock accounts. --->
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+		<cflocation url="/errors/forbidden.cfm" addtoken="false">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.username)>
+	<cfif len(variables.databaseAccount) EQ 0>
+		<p class="text-danger">That user has no database account.
+			<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#">Go back</a></p>
+		<cfabort>
+	</cfif>
+	<cfif Action is "lockUser">
 		<cfquery name="lock" datasource="uam_god">
-			alter user #username# account lock
+			ALTER USER "#variables.databaseAccount#" ACCOUNT LOCK
 		</cfquery>
-		
-		The account for #username# is now locked. Contact a DBA to unlock it.
-		<a href="/Admin/AdminUsers.cfm?username=#username#&action=edit">Continue</a>
+	<cfelse>
+		<cfquery name="unlock" datasource="uam_god">
+			ALTER USER "#variables.databaseAccount#" ACCOUNT UNLOCK
+		</cfquery>
+	</cfif>
+	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
@@ -700,52 +765,88 @@
 </cfif>
 <!---------------------------------------------------->
 <cfif #Action# is "runUpdate">
+	<!--- Posted by the edit form above.  Request values reach DDL only as the account name the data
+		dictionary returns and a password the checks in databaseAccounts.cfc accept; the other SQL binds them. --->
+	<cfparam name="form.orig_username" default="">
+	<cfparam name="form.username" default="">
+	<cfparam name="form.password" default="">
+	<cfparam name="form.approved_to_request_loans" default="">
+	<cfparam name="form.delete" default="">
 	<cfoutput>
-	<cfif isdefined("delete") AND #delete# is "delete">
-		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			DELETE FROM cf_users 
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+	<cfif cgi.request_method NEQ "POST" OR len(form.orig_username) EQ 0>
+		<cfthrow message="Updating a user requires a post from the edit form.">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.orig_username)>
+	<cfif form.delete EQ "delete">
+		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteUser_result">
+			DELETE FROM cf_users
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
 		</cfquery>
-		<cftry>
-			<cfquery name="killDB" datasource="uam_god">
-				drop user #username#
-			</cfquery>
-		<cfcatch>
-			There may have been a problem dropping this user.
-			<br>If the user had no Oracle account, everything is probable OK.
-			<br>If the user had an Oracle account, they are probably still connected. Contact your systems administrator.
-			<cfabort>
-		</cfcatch>
-		</cftry>
-		<cflocation url="/Admin/AdminUsers.cfm">
-	<cfelse>
-		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE cf_users SET
-				<cfif len(#username#) gt 0>
-					username = '#username#'
-				<cfelse>
-					username='#orig_username#'
-				</cfif>
-				<cfif len(#password#) gt 0>
-					,password = '#hash(password)#'
-				</cfif>
-				<cfif isdefined("approved_to_request_loans") and len(#approved_to_request_loans#) gt 0>
-					,approved_to_request_loans = '#approved_to_request_loans#'
-				</cfif>			
-				WHERE username = '#orig_username#'
-		</cfquery>
-        <cfif len(#password#) gt 0>
-            <cftry>
-	            <cfquery name="g" datasource="uam_god">
-					alter user #username# identified by "#password#" 
+		<cfif len(variables.databaseAccount) GT 0>
+			<cftry>
+				<cfquery name="killDB" datasource="uam_god">
+					DROP USER "#variables.databaseAccount#"
 				</cfquery>
-                <cfcatch>
-                    There may have been a problem updating this user's Oracle password.
-                    <cfabort>
-                </cfcatch>
-	        </cftry>
-        </cfif>
-		<cflocation url="/Admin/AdminUsers.cfm?Action=edit&username=#username#">
+			<cfcatch>
+				There may have been a problem dropping this user's database account.
+				<br>They are probably still connected. Contact your systems administrator.
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfif>
+		<cflocation url="/Admin/AdminUsers.cfm" addtoken="false">
+	<cfelse>
+		<cfset variables.newUsername = form.orig_username>
+		<cfif len(form.username) GT 0>
+			<cfset variables.newUsername = form.username>
+		</cfif>
+		<!--- Renaming cf_users would leave the user's database account under the old name. --->
+		<cfif len(variables.databaseAccount) GT 0 AND compare(variables.newUsername, form.orig_username) NEQ 0>
+			<p class="text-danger">This user has a database account, so the username cannot be changed here.
+				<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+			<cfabort>
+		</cfif>
+		<cfif len(form.password) GT 0 AND len(variables.databaseAccount) GT 0>
+			<cfset variables.passwordProblem = databasePasswordProblem(form.password)>
+			<cfif len(variables.passwordProblem) EQ 0>
+				<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, form.password)>
+			</cfif>
+			<cfif len(variables.passwordProblem) GT 0>
+				<p class="text-danger">#encodeForHtml(variables.passwordProblem)#
+					<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+				<cfabort>
+			</cfif>
+			<cftry>
+				<!--- DDL commits implicitly, so it runs before the cf_users update: if it fails, nothing has changed. --->
+				<cfquery name="setDatabasePassword" datasource="uam_god">
+					ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#form.password#"
+				</cfquery>
+			<cfcatch>
+				<cfif isPasswordComplexityError(cfcatch)>
+					<p class="text-danger">The password does not meet the database's password requirements.
+						<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+					<cfabort>
+				</cfif>
+				<cflog file="MCZbase" type="error" text="Setting the database password for #form.orig_username# failed: #cfcatch.message#">
+				There was a problem updating this user's database password; nothing was changed.
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfif>
+		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateUser_result">
+			UPDATE cf_users
+			SET
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.newUsername#">
+				<cfif len(form.password) GT 0>
+					,password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(form.password)#">
+				</cfif>
+				<cfif len(form.approved_to_request_loans) GT 0>
+					,approved_to_request_loans = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.approved_to_request_loans#">
+				</cfif>
+			WHERE
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
+		</cfquery>
+		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.newUsername)#" addtoken="false">
 	</cfif>
 	</cfoutput>
 </cfif>
