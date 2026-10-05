@@ -3,6 +3,7 @@
 <!---------------------------------------------------------------------------------->
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 <cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
+<cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 <script>
 	function pwc(p,u){
 		var r=orapwCheck(p,u);
@@ -191,75 +192,49 @@
 							</span>
 							<cfabort>
 						</cfif>
-						<!--- Passwords check out for public users, now see if they're a database user --->
-						<cftransaction>
-							<cfquery name="isDb" datasource="uam_god">
-								SELECT *
-								FROM all_users
-								WHERE
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-							</cfquery>
-							<cfif isDb.recordcount is 0>
-								<cfquery name="setPass" datasource="uam_god">
-									UPDATE cf_users
-									SET
-										password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
-										PW_CHANGE_DATE=sysdate
-									WHERE
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								</cfquery>
-								<cftransaction action="commit">
-							<cfelse>
-								<cftry>
-									<cfquery name="dbUser" datasource="uam_god">
-										alter user #session.username#
-										identified by "#newpassword#"
-									</cfquery>
-									<cfquery name="setPass" datasource="uam_god">
-										UPDATE cf_users
-										SET
-											password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
-											PW_CHANGE_DATE=sysdate
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									</cfquery>
-									<cftransaction action="commit">
-								<cfcatch>
-									<cftransaction action="rollback">
-									<cfsavecontent variable="errortext">
-										<h1 class="h3">Error in creating user.</h1>
-										<p>#cfcatch.Message#</p>
-										<p>#cfcatch.Detail#"</p>
-										<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
-											<CFSET ipaddress="#CGI.HTTP_X_Forwarded_For#">
-										<CFELSEif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
-											<CFSET ipaddress="#CGI.Remote_Addr#">
-										<cfelse>
-											<cfset ipaddress='unknown'>
-										</CFIF>
-										<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
-										<hr>
-										<p>Client Dump:</p>
-										<hr>
-										<cfdump var="#client#" label="client">
-										<hr>
-										<p>URL Dump:</p>
-										<hr>
-										<cfdump var="#url#" label="url">
-										<p>CGI Dump:</p>
-										<hr>
-										<cfdump var="#CGI#" label="CGI">
-									</cfsavecontent>
-									<cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
-										#errortext#
-									</cfmail>
-									<h3>Error in changing password user.</h3>
-									<p>#cfcatch.Message#</p>
-									<p>#cfcatch.Detail#</p>
-									<cfabort>
-								</cfcatch>
-								</cftry>
+						<!--- For a database account the password is also set in Oracle, by DDL that cannot take bind
+							variables: the account name comes from the data dictionary and the password is checked before both
+							are quoted into the statement.  Public accounts have no database account. --->
+						<cfset variables.databaseAccount = databaseAccountName(session.username)>
+						<cfif len(variables.databaseAccount) GT 0>
+							<cfset variables.passwordProblem = databasePasswordProblem(newpassword)>
+							<cfif len(variables.passwordProblem) GT 0>
+								<span class="font-weight-lessbold text-danger">
+									#encodeForHtml(variables.passwordProblem)# <a href="/users/changePassword.cfm">Go Back</a>
+								</span>
+								<cfabort>
 							</cfif>
-						</cftransaction>
+						</cfif>
+						<cftry>
+							<cfif len(variables.databaseAccount) GT 0>
+								<!--- DDL commits implicitly, so it runs before the cf_users update: if it fails, nothing has changed. --->
+								<cfquery name="dbUser" datasource="uam_god">
+									ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#newpassword#"
+								</cfquery>
+							</cfif>
+							<cfquery name="setPass" datasource="uam_god" result="setPass_result">
+								UPDATE cf_users
+								SET
+									password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+									PW_CHANGE_DATE=sysdate
+								WHERE
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+						<cfcatch>
+							<cfif isPasswordComplexityError(cfcatch)>
+								<span class="font-weight-lessbold text-danger">
+									Your new password does not meet the database's password requirements. <a href="/users/changePassword.cfm">Go Back</a>
+								</span>
+								<cfabort>
+							</cfif>
+							<cflog file="MCZbase" type="error" text="Password change failed for #session.username#: #cfcatch.message# #cfcatch.detail#">
+							<cfmail subject="Password change failed" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="text">
+								Changing the password for MCZbase user #session.username# failed: #cfcatch.message#
+							</cfmail>
+							<h1 class="h3">Your password could not be changed. Please <a href="/contact.cfm">contact us</a>.</h1>
+							<cfabort>
+						</cfcatch>
+						</cftry>
 						<cfset session.force_password_change = "">
 						<cfset initSession('#session.username#','#newpassword#')>
 						<h1 class="h3">Your password has successfully been changed.</h1>
@@ -316,22 +291,15 @@
 							<!--- Oracle DDL cannot take bind variables, so it uses only the account name the data dictionary
 								returns, checked and quoted, never the username from the request or cf_users; accounts with
 								no Oracle user get no DDL.  newPass is generated above and contains no quotes. --->
-							<cfquery name="getOracleUser" datasource="uam_god" result="getOracleUser_result">
-								SELECT username
-								FROM dba_users
-								WHERE
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isGoodEmail.username)#">
-							</cfquery>
 							<cftry>
-								<cfif getOracleUser.recordcount EQ 1>
-									<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getOracleUser.username) EQ 0
-											OR REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0
-											OR REFind("[\r\n]", getOracleUser.username & newPass) GT 0>
-										<cfthrow message="Unexpected characters in the database account name or generated password.">
+								<cfset variables.databaseAccount = databaseAccountName(isGoodEmail.username)>
+								<cfif len(variables.databaseAccount) GT 0>
+									<cfif REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0 OR len(databasePasswordProblem(newPass)) GT 0>
+										<cfthrow message="Unexpected characters in the generated password.">
 									</cfif>
 									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
 									<cfquery name="resetOracleUser" datasource="uam_god">
-										ALTER USER "#getOracleUser.username#" IDENTIFIED BY "#newPass#" ACCOUNT UNLOCK
+										ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#newPass#" ACCOUNT UNLOCK
 									</cfquery>
 								</cfif>
 								<cftransaction>
