@@ -158,178 +158,218 @@ limitations under the License.
 			</p>
 			<ul>
 				<li><a href="##attention">Needs attention</a>: #arrayLen(variables.attention)#</li>
-				<li><a href="##matrix">Users and roles</a></li>
 				<li><a href="##byRole">Roles</a></li>
 				<li><a href="##roleToRole">Roles granted to roles</a>: #getRoleToRole.recordcount#</li>
+				<li><a href="##matrix">Users and roles</a></li>
 			</ul>
 		</div>
 	</section>
 
-	<section class="row mx-0 my-2 border rounded" id="attention">
-		<div class="col-12 py-2">
-			<h2 class="h3">Needs attention</h2>
-			<cfif arrayLen(variables.attention) EQ 0>
-				<p class="font-italic">Nothing to review.</p>
-			<cfelse>
-				<table class="table table-responsive d-xl-table table-sm table-striped sortable">
-					<thead class="thead-light">
-						<tr><th scope="col">Account</th><th scope="col">Name</th><th scope="col">Issue</th><th scope="col">Suggested action</th></tr>
-					</thead>
-					<tbody>
-						<cfloop array="#variables.attention#" index="variables.item">
-							<cfset variables.account = variables.accounts[variables.item.grantee]>
-							<tr>
-								<td>
-									<cfif len(variables.account.mczbaseUsername) GT 0>
-										<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#">#encodeForHtml(variables.item.grantee)#</a>
-									<cfelse>
-										#encodeForHtml(variables.item.grantee)#
-									</cfif>
-								</td>
-								<td>#encodeForHtml(variables.account.name)#</td>
-								<td>#encodeForHtml(variables.item.issue)#</td>
-								<td class="small">#encodeForHtml(variables.item.action)#</td>
-							</tr>
-						</cfloop>
-					</tbody>
-				</table>
-			</cfif>
-		</div>
-	</section>
-
-	<section class="row mx-0 my-2 border rounded" id="matrix">
-		<div class="col-12 py-2">
-			<h2 class="h3">Users and roles</h2>
-			<p class="small">
-				<span aria-hidden="true">&##10003;</span> the account holds the role;
-				<span aria-hidden="true">&##10003;*</span> it holds it, but not as a default role.
-				Roles outside <code>cf_ctuser_roles</code> are listed under Other roles.
-			</p>
-			<div class="form-row align-items-end mb-2">
-				<div class="col-12 col-md-4 col-xl-3">
-					<label for="roleFilter" class="data-entry-label">Show accounts holding</label>
-					<select id="roleFilter" class="data-entry-select" onchange="filterAccessMatrix('accessMatrix', 'roleFilter', 'activeOnly');">
-						<option value="">any role</option>
-						<cfloop query="getApplicationRoles">
-							<option value="#encodeForHtmlAttribute(getApplicationRoles.role_name)#">#encodeForHtml(getApplicationRoles.role_name)#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-auto">
-					<input type="checkbox" id="activeOnly" checked onchange="filterAccessMatrix('accessMatrix', 'roleFilter', 'activeOnly');">
-					<label for="activeOnly" class="data-entry-label d-inline">Open accounts only</label>
+	<section class="accordion mx-0 my-2" id="attention">
+		<div class="card mb-2 bg-light">
+			<div class="card-header" id="attentionHeader">
+				<h2 class="h3 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##attentionBody" aria-expanded="true" aria-controls="attentionBody">
+						Needs attention (#arrayLen(variables.attention)#)
+					</button>
+				</h2>
+			</div>
+			<div id="attentionBody" class="collapse show" aria-labelledby="attentionHeader" data-parent="##attention">
+				<div class="card-body bg-white">
+					<cfif arrayLen(variables.attention) EQ 0>
+						<p class="font-italic">Nothing to review.</p>
+					<cfelse>
+						<table class="table table-responsive d-xl-table table-sm table-striped sortable">
+							<thead class="thead-light">
+								<tr><th scope="col">Account</th><th scope="col">Name</th><th scope="col">Issue</th><th scope="col">Suggested action</th></tr>
+							</thead>
+							<tbody>
+								<cfloop array="#variables.attention#" index="variables.item">
+									<cfset variables.account = variables.accounts[variables.item.grantee]>
+									<tr>
+										<td>
+											<cfif len(variables.account.mczbaseUsername) GT 0>
+												<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#">#encodeForHtml(variables.item.grantee)#</a>
+											<cfelse>
+												#encodeForHtml(variables.item.grantee)#
+											</cfif>
+										</td>
+										<td>#encodeForHtml(variables.account.name)#</td>
+										<td>#encodeForHtml(variables.item.issue)#</td>
+										<td class="small">#encodeForHtml(variables.item.action)#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
 				</div>
 			</div>
-			<!--- No d-xl-table: with a column per role the matrix needs its horizontal scroll at every width. --->
-			<table class="table table-responsive table-sm table-striped sortable" id="accessMatrix">
-				<thead class="thead-light">
-					<tr>
-						<th scope="col">Account</th>
-						<th scope="col">Name</th>
-						<th scope="col">Status</th>
-						<th scope="col">Last MCZbase login</th>
-						<cfloop query="getApplicationRoles">
-							<th scope="col" class="small" title="#encodeForHtmlAttribute(getApplicationRoles.description)#">#encodeForHtml(lcase(replace(getApplicationRoles.role_name, "_", "_ ", "all")))#</th>
-						</cfloop>
-						<th scope="col">Other roles</th>
-					</tr>
-				</thead>
-				<tbody>
-					<cfloop list="#variables.accountOrder#" index="variables.grantee">
-						<cfset variables.account = variables.accounts[variables.grantee]>
-						<cfset variables.rowHidden = "">
-						<cfif variables.account.status NEQ "OPEN">
-							<cfset variables.rowHidden = "d-none">
-						</cfif>
-						<cfset variables.lastLoginText = "never">
-						<cfif isDate(variables.account.lastLogin)>
-							<cfset variables.lastLoginText = dateFormat(variables.account.lastLogin, "yyyy-mm-dd")>
-						</cfif>
-						<tr class="#variables.rowHidden#" data-roles=" #encodeForHtmlAttribute(structKeyList(variables.account.roles, ' '))# " data-open="#(variables.account.status EQ 'OPEN') ? 'yes' : 'no'#">
-							<th scope="row" class="font-weight-normal">
-								<cfif len(variables.account.mczbaseUsername) GT 0>
-									<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#">#encodeForHtml(variables.grantee)#</a>
-								<cfelse>
-									#encodeForHtml(variables.grantee)#
-								</cfif>
-							</th>
-							<td>#encodeForHtml(variables.account.name)#</td>
-							<td class="small">#encodeForHtml(lcase(variables.account.status))#</td>
-							<td class="small" sorttable_customkey="#encodeForHtmlAttribute(variables.lastLoginText)#">#encodeForHtml(variables.lastLoginText)#</td>
+		</div>
+	</section>
+
+	<section class="accordion mx-0 my-2" id="byRole">
+		<div class="card mb-2 bg-light">
+			<div class="card-header" id="byRoleHeader">
+				<h2 class="h3 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##byRoleBody" aria-expanded="true" aria-controls="byRoleBody">
+						Roles (#listLen(variables.applicationRoles)#)
+					</button>
+				</h2>
+			</div>
+			<div id="byRoleBody" class="collapse show" aria-labelledby="byRoleHeader" data-parent="##byRole">
+				<div class="card-body bg-white">
+					<p class="small">Open accounts holding each application role. Locked and expired accounts are counted separately.</p>
+					<table class="table table-responsive d-xl-table table-sm table-striped sortable">
+						<thead class="thead-light">
+							<tr><th scope="col">Role</th><th scope="col">Description</th><th scope="col">Open</th><th scope="col">Locked or expired</th><th scope="col">Held by (open accounts)</th></tr>
+						</thead>
+						<tbody>
 							<cfloop query="getApplicationRoles">
-								<td class="text-center">
-									<cfif structKeyExists(variables.account.roles, getApplicationRoles.role_name)>
-										<cfif variables.account.roles[getApplicationRoles.role_name].isDefault>
-											<span aria-hidden="true">&##10003;</span><span class="sr-only">has #encodeForHtml(getApplicationRoles.role_name)#</span>
+								<cfset variables.holders = "">
+								<cfset variables.inactiveCount = 0>
+								<cfloop list="#variables.accountOrder#" index="variables.grantee">
+									<cfif structKeyExists(variables.accounts[variables.grantee].roles, getApplicationRoles.role_name)>
+										<cfif variables.accounts[variables.grantee].status EQ "OPEN">
+											<cfset variables.holders = listAppend(variables.holders, variables.grantee)>
 										<cfelse>
-											<span aria-hidden="true">&##10003;*</span><span class="sr-only">has #encodeForHtml(getApplicationRoles.role_name)#, not as a default role</span>
+											<cfset variables.inactiveCount = variables.inactiveCount + 1>
 										</cfif>
 									</cfif>
-								</td>
+								</cfloop>
+								<tr>
+									<th scope="row" class="font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</th>
+									<td class="small">#encodeForHtml(getApplicationRoles.description)#</td>
+									<td>#listLen(variables.holders)#</td>
+									<td>#variables.inactiveCount#</td>
+									<td class="small">#encodeForHtml(replace(variables.holders, ",", ", ", "all"))#</td>
+								</tr>
 							</cfloop>
-							<td class="small">#encodeForHtml(replace(variables.account.otherRoles, ",", ", ", "all"))#</td>
-						</tr>
-					</cfloop>
-				</tbody>
-			</table>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<section class="row mx-0 my-2 border rounded" id="byRole">
-		<div class="col-12 py-2">
-			<h2 class="h3">Roles</h2>
-			<p class="small">Open accounts holding each application role. Locked and expired accounts are counted separately.</p>
-			<table class="table table-responsive d-xl-table table-sm table-striped sortable">
-				<thead class="thead-light">
-					<tr><th scope="col">Role</th><th scope="col">Description</th><th scope="col">Open</th><th scope="col">Locked or expired</th><th scope="col">Held by (open accounts)</th></tr>
-				</thead>
-				<tbody>
-					<cfloop query="getApplicationRoles">
-						<cfset variables.holders = "">
-						<cfset variables.inactiveCount = 0>
-						<cfloop list="#variables.accountOrder#" index="variables.grantee">
-							<cfif structKeyExists(variables.accounts[variables.grantee].roles, getApplicationRoles.role_name)>
-								<cfif variables.accounts[variables.grantee].status EQ "OPEN">
-									<cfset variables.holders = listAppend(variables.holders, variables.grantee)>
-								<cfelse>
-									<cfset variables.inactiveCount = variables.inactiveCount + 1>
-								</cfif>
-							</cfif>
-						</cfloop>
-						<tr>
-							<th scope="row" class="font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</th>
-							<td class="small">#encodeForHtml(getApplicationRoles.description)#</td>
-							<td>#listLen(variables.holders)#</td>
-							<td>#variables.inactiveCount#</td>
-							<td class="small">#encodeForHtml(replace(variables.holders, ",", ", ", "all"))#</td>
-						</tr>
-					</cfloop>
-				</tbody>
-			</table>
+	<section class="accordion mx-0 my-2" id="roleToRole">
+		<div class="card mb-2 bg-light">
+			<div class="card-header" id="roleToRoleHeader">
+				<h2 class="h3 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##roleToRoleBody" aria-expanded="true" aria-controls="roleToRoleBody">
+						Roles granted to roles (#getRoleToRole.recordcount#)
+					</button>
+				</h2>
+			</div>
+			<div id="roleToRoleBody" class="collapse show" aria-labelledby="roleToRoleHeader" data-parent="##roleToRole">
+				<div class="card-body bg-white">
+					<p class="small">An account holding the grantee role also gets the granted role, without it appearing in the matrix above.</p>
+					<cfif getRoleToRole.recordcount EQ 0>
+						<p class="font-italic">None.</p>
+					<cfelse>
+						<table class="table table-responsive d-xl-table table-sm table-striped sortable">
+							<thead class="thead-light">
+								<tr><th scope="col">Role</th><th scope="col">Also grants</th></tr>
+							</thead>
+							<tbody>
+								<cfloop query="getRoleToRole">
+									<tr>
+										<td>#encodeForHtml(getRoleToRole.grantee)#</td>
+										<td>#encodeForHtml(getRoleToRole.granted_role)#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<section class="row mx-0 my-2 mb-4 border rounded" id="roleToRole">
-		<div class="col-12 py-2">
-			<h2 class="h3">Roles granted to roles</h2>
-			<p class="small">An account holding the grantee role also gets the granted role, without it appearing in the matrix above.</p>
-			<cfif getRoleToRole.recordcount EQ 0>
-				<p class="font-italic">None.</p>
-			<cfelse>
-				<table class="table table-responsive d-xl-table table-sm table-striped sortable">
-					<thead class="thead-light">
-						<tr><th scope="col">Role</th><th scope="col">Also grants</th></tr>
-					</thead>
-					<tbody>
-						<cfloop query="getRoleToRole">
+	<section class="accordion mx-0 my-2" id="matrix">
+		<div class="card mb-4 bg-light">
+			<div class="card-header" id="matrixHeader">
+				<h2 class="h3 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##matrixBody" aria-expanded="true" aria-controls="matrixBody">
+						Users and roles (#structCount(variables.accounts)# accounts)
+					</button>
+				</h2>
+			</div>
+			<div id="matrixBody" class="collapse show" aria-labelledby="matrixHeader" data-parent="##matrix">
+				<div class="card-body bg-white">
+					<p class="small">
+						<span aria-hidden="true">&##10003;</span> the account holds the role;
+						<span aria-hidden="true">&##10003;*</span> it holds it, but not as a default role.
+						Roles outside <code>cf_ctuser_roles</code> are listed under Other roles.
+					</p>
+					<div class="form-row align-items-end mb-2">
+						<div class="col-12 col-md-4 col-xl-3">
+							<label for="roleFilter" class="data-entry-label">Show accounts holding</label>
+							<select id="roleFilter" class="data-entry-select" onchange="filterAccessMatrix('accessMatrix', 'roleFilter', 'activeOnly');">
+								<option value="">any role</option>
+								<cfloop query="getApplicationRoles">
+									<option value="#encodeForHtmlAttribute(getApplicationRoles.role_name)#">#encodeForHtml(getApplicationRoles.role_name)#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-auto">
+							<input type="checkbox" id="activeOnly" checked onchange="filterAccessMatrix('accessMatrix', 'roleFilter', 'activeOnly');">
+							<label for="activeOnly" class="data-entry-label d-inline">Open accounts only</label>
+						</div>
+					</div>
+					<!--- No d-xl-table: with a column per role the matrix needs its horizontal scroll at every width. --->
+					<table class="table table-responsive table-sm table-striped sortable" id="accessMatrix">
+						<thead class="thead-light">
 							<tr>
-								<td>#encodeForHtml(getRoleToRole.grantee)#</td>
-								<td>#encodeForHtml(getRoleToRole.granted_role)#</td>
+								<th scope="col">Account</th>
+								<th scope="col">Name</th>
+								<th scope="col">Status</th>
+								<th scope="col">Last MCZbase login</th>
+								<cfloop query="getApplicationRoles">
+									<th scope="col" class="small" title="#encodeForHtmlAttribute(getApplicationRoles.description)#">#encodeForHtml(lcase(replace(getApplicationRoles.role_name, "_", "_ ", "all")))#</th>
+								</cfloop>
+								<th scope="col">Other roles</th>
 							</tr>
-						</cfloop>
-					</tbody>
-				</table>
-			</cfif>
+						</thead>
+						<tbody>
+							<cfloop list="#variables.accountOrder#" index="variables.grantee">
+								<cfset variables.account = variables.accounts[variables.grantee]>
+								<cfset variables.rowHidden = "">
+								<cfif variables.account.status NEQ "OPEN">
+									<cfset variables.rowHidden = "d-none">
+								</cfif>
+								<cfset variables.lastLoginText = "never">
+								<cfif isDate(variables.account.lastLogin)>
+									<cfset variables.lastLoginText = dateFormat(variables.account.lastLogin, "yyyy-mm-dd")>
+								</cfif>
+								<tr class="#variables.rowHidden#" data-roles=" #encodeForHtmlAttribute(structKeyList(variables.account.roles, ' '))# " data-open="#(variables.account.status EQ 'OPEN') ? 'yes' : 'no'#">
+									<th scope="row" class="font-weight-normal">
+										<cfif len(variables.account.mczbaseUsername) GT 0>
+											<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#">#encodeForHtml(variables.grantee)#</a>
+										<cfelse>
+											#encodeForHtml(variables.grantee)#
+										</cfif>
+									</th>
+									<td>#encodeForHtml(variables.account.name)#</td>
+									<td class="small">#encodeForHtml(lcase(variables.account.status))#</td>
+									<td class="small" sorttable_customkey="#encodeForHtmlAttribute(variables.lastLoginText)#">#encodeForHtml(variables.lastLoginText)#</td>
+									<cfloop query="getApplicationRoles">
+										<td class="text-center">
+											<cfif structKeyExists(variables.account.roles, getApplicationRoles.role_name)>
+												<cfif variables.account.roles[getApplicationRoles.role_name].isDefault>
+													<span aria-hidden="true">&##10003;</span><span class="sr-only">has #encodeForHtml(getApplicationRoles.role_name)#</span>
+												<cfelse>
+													<span aria-hidden="true">&##10003;*</span><span class="sr-only">has #encodeForHtml(getApplicationRoles.role_name)#, not as a default role</span>
+												</cfif>
+											</cfif>
+										</td>
+									</cfloop>
+									<td class="small">#encodeForHtml(replace(variables.account.otherRoles, ",", ", ", "all"))#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</section>
 </main>
