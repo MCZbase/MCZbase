@@ -206,21 +206,32 @@
 </cfif>
 
 <!-------------------------------------------------->
-<cfif #Action# is "addRole">
+<cfif #Action# is "addRole" OR #Action# is "remrole">
+	<!--- Grant or revoke a role, posted by the forms on the edit view.  The DDL uses only the account and
+		role names the data dictionary returns, quoted; only roles the edit view offers can be granted. --->
+	<cfparam name="form.username" default="">
+	<cfparam name="form.role_name" default="">
 	<cfoutput>
-		<cfquery name="g" datasource="uam_god">
-			grant #role_name# to #username#
+	<cfif cgi.request_method NEQ "POST">
+		<cfthrow message="Granting or revoking a role requires a post from the edit form.">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.username)>
+	<cfset variables.databaseRole = databaseRoleName(form.role_name)>
+	<cfif len(variables.databaseAccount) EQ 0 OR len(variables.databaseRole) EQ 0>
+		<p class="text-danger">That user has no database account, or that role cannot be granted here.
+			<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#">Go back</a></p>
+		<cfabort>
+	</cfif>
+	<cfif Action is "addRole">
+		<cfquery name="grantRole" datasource="uam_god">
+			GRANT "#variables.databaseRole#" TO "#variables.databaseAccount#"
 		</cfquery>
-		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
-	</cfoutput>
-</cfif>
-<!-------------------------------------------------->
-<cfif #Action# is "remrole">
-	<cfoutput>
-		<cfquery name="t" datasource="uam_god">
-			revoke #role_name# from #username#
+	<cfelse>
+		<cfquery name="revokeRole" datasource="uam_god">
+			REVOKE "#variables.databaseRole#" FROM "#variables.databaseAccount#"
 		</cfquery>
-		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
+	</cfif>
+	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
@@ -373,7 +384,11 @@
 					<td>
 						<cfif len(isDbUser.username) gt 0>
 							Is User
-							<a href="/Admin/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
+							<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+								<input type="hidden" name="action" value="lockUser">
+								<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+								<button type="submit" class="btn btn-xs btn-warning">Lock Account</button>
+							</form>
 							<!---  check if user_search_table exists for this user --->
 							<cftry>
 								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -431,7 +446,12 @@
 								#role_name# 
 							</td>
 							<td>
-								<a class="btn btn-xs btn-warning" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="remrole">
+									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
+								</form>
 							</td>
 						</tr>
 					</cfloop>
@@ -521,7 +541,12 @@
 						<tr>
 							<td>#role_name#</td>
 							<td>
-								<a class="btn btn-warning btn-xs" href="/Admin/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="remrole">
+									<input type="hidden" name="role_name" value="#encodeForHtmlAttribute(role_name)#">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Revoke</button>
+								</form>
 							</td>
 						</tr>
 					</cfloop>					
@@ -560,13 +585,24 @@
 </cfif>
 <!---------------------------------------------------->
 <cfif #Action# is "lockUser">
+	<!--- Posted by the Lock Account form on the edit view.  The DDL uses only the account name the data
+		dictionary returns, quoted. --->
+	<cfparam name="form.username" default="">
 	<cfoutput>
-		<cfquery name="lock" datasource="uam_god">
-			alter user #username# account lock
-		</cfquery>
-		
-		The account for #username# is now locked. Contact a DBA to unlock it.
-		<a href="/Admin/AdminUsers.cfm?username=#username#&action=edit">Continue</a>
+	<cfif cgi.request_method NEQ "POST">
+		<cfthrow message="Locking an account requires a post from the edit form.">
+	</cfif>
+	<cfset variables.databaseAccount = databaseAccountName(form.username)>
+	<cfif len(variables.databaseAccount) EQ 0>
+		<p class="text-danger">That user has no database account.
+			<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#">Go back</a></p>
+		<cfabort>
+	</cfif>
+	<cfquery name="lock" datasource="uam_god">
+		ALTER USER "#variables.databaseAccount#" ACCOUNT LOCK
+	</cfquery>
+	The account for #encodeForHtml(form.username)# is now locked. Contact a DBA to unlock it.
+	<a href="/Admin/AdminUsers.cfm?username=#encodeForUrl(form.username)#&action=edit">Continue</a>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->

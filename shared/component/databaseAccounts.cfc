@@ -52,6 +52,40 @@ limitations under the License.
 </cffunction>
 
 <!---
+	databaseRoleName find a role MCZbase administrators may grant: an application role in
+	cf_ctuser_roles or a collection role named by cf_collection.portal_name, that exists in the
+	database.  Other roles, such as DBA, are never returned.
+
+	@param roleName the requested role.
+	@return the role name as the data dictionary holds it, or an empty string.  Throws if the
+		dictionary name is not a plain identifier.
+--->
+<cffunction name="databaseRoleName" access="public" returntype="string" output="false">
+	<cfargument name="roleName" type="string" required="yes">
+
+	<cfset var getRole = "">
+	<cfset var getRole_result = "">
+
+	<cfquery name="getRole" datasource="uam_god" result="getRole_result">
+		SELECT role
+		FROM dba_roles
+		WHERE
+			role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.roleName)#">
+			AND (
+				role IN (SELECT upper(role_name) FROM cf_ctuser_roles)
+				OR role IN (SELECT upper(portal_name) FROM cf_collection WHERE portal_name IS NOT NULL)
+			)
+	</cfquery>
+	<cfif getRole.recordcount NEQ 1>
+		<cfreturn "">
+	</cfif>
+	<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getRole.role) EQ 0 OR REFind("[\r\n]", getRole.role) GT 0>
+		<cfthrow message="The database role name has unexpected characters.">
+	</cfif>
+	<cfreturn getRole.role>
+</cffunction>
+
+<!---
 	databasePasswordProblem check that a password can be placed in quoted DDL.  Complexity rules
 	are left to the account's Oracle profile, which ALTER USER and CREATE USER apply; see
 	isPasswordComplexityError.
