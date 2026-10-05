@@ -91,12 +91,15 @@ limitations under the License.
 									<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
 								</div>
 								<div class="col-12 col-xl-8">
-									<cfif isdefined("badPW") and badPW is true>
+									<cfif isdefined("url.locked") and url.locked is true>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">This account is locked. Please contact an MCZbase administrator.</div>
+									<cfelseif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
 										</cfif>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
-										<div class="data-entry-input bg-danger py-1 text-white mt-3">#err#</div>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">#encodeForHtml(err)#</div>
 										<script>
 											$(document).ready(function() { 
 												$('##username').css('backgroundColor','red');

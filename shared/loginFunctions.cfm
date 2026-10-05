@@ -156,6 +156,18 @@ limitations under the License.
 			<cfset session.epw = "">
 			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)#">
 		</cfif>
+		<!--- The password is checked against cf_users, not the database, so a locked database account must be
+			refused here, or its user could still log in and use the pages that do not query as the user. --->
+		<cfquery name="getAccountStatus" datasource="uam_god">
+			SELECT account_status
+			FROM dba_users
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(getPrefs.username)#">
+		</cfquery>
+		<cfif getAccountStatus.recordcount EQ 1 AND findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
+			<cfset session.username = "">
+			<cfset session.epw = "">
+			<cflocation url="/login.cfm?locked=true&username=#encodeForURL(username)#">
+		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
 			select upper(granted_role) role_name
