@@ -304,6 +304,16 @@
 									<cfif len(variables.passwordProblem) GT 0>
 										<cfthrow message="The database refused the generated password: #variables.passwordProblem#">
 									</cfif>
+									<!--- A reset may clear a lock from failed logins, LOCKED(TIMED), but not one an administrator set,
+										which only global_admin may lift, from AdminUsers.cfm. --->
+									<cfquery name="getAccountStatus" datasource="uam_god" result="getAccountStatus_result">
+										SELECT account_status
+										FROM dba_users
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.databaseAccount#">
+									</cfquery>
+									<cfif findNoCase("LOCKED", replaceNoCase(getAccountStatus.account_status, "LOCKED(TIMED)", "", "all")) GT 0>
+										<cfthrow message="Password reset refused for an account locked by an administrator.">
+									</cfif>
 									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
 									<cfquery name="resetOracleUser" datasource="uam_god">
 										ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#newPass#" ACCOUNT UNLOCK

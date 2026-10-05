@@ -611,6 +611,10 @@
 	<cfif cgi.request_method NEQ "POST">
 		<cfthrow message="Locking or unlocking an account requires a post from the edit form.">
 	</cfif>
+	<!--- Also checked at the top of the page; repeated here as only global_admin may lock or unlock accounts. --->
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+		<cflocation url="/errors/forbidden.cfm" addtoken="false">
+	</cfif>
 	<cfset variables.databaseAccount = databaseAccountName(form.username)>
 	<cfif len(variables.databaseAccount) EQ 0>
 		<p class="text-danger">That user has no database account.
