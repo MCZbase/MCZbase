@@ -383,12 +383,31 @@
 					<td>Database User Status:</td>
 					<td>
 						<cfif len(isDbUser.username) gt 0>
-							Is User
-							<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
-								<input type="hidden" name="action" value="lockUser">
-								<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
-								<button type="submit" class="btn btn-xs btn-warning">Lock Account</button>
-							</form>
+							<cfquery name="getAccountStatus" datasource="uam_god" result="getAccountStatus_result">
+								SELECT account_status, lock_date, expiry_date
+								FROM dba_users
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+							</cfquery>
+							Is User; account #encodeForHtml(lcase(getAccountStatus.account_status))#
+							<cfif isDate(getAccountStatus.lock_date)>
+								since #dateFormat(getAccountStatus.lock_date, "yyyy-mm-dd")#
+							</cfif>
+							<cfif findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="unlockUser">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-secondary">Unlock Account</button>
+								</form>
+							<cfelse>
+								<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="lockUser">
+									<input type="hidden" name="username" value="#encodeForHtmlAttribute(username)#">
+									<button type="submit" class="btn btn-xs btn-warning">Lock Account</button>
+								</form>
+							</cfif>
+							<cfif findNoCase("EXPIRED", getAccountStatus.account_status) GT 0>
+								<br><span class="text-danger small">The database password has expired: set a new password in the user form, as unlocking does not renew it.</span>
+							</cfif>
 							<!---  check if user_search_table exists for this user --->
 							<cftry>
 								<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -584,13 +603,13 @@
 
 </cfif>
 <!---------------------------------------------------->
-<cfif #Action# is "lockUser">
-	<!--- Posted by the Lock Account form on the edit view.  The DDL uses only the account name the data
-		dictionary returns, quoted. --->
+<cfif #Action# is "lockUser" OR #Action# is "unlockUser">
+	<!--- Posted by the Lock Account and Unlock Account forms on the edit view.  The DDL uses only the
+		account name the data dictionary returns, quoted. --->
 	<cfparam name="form.username" default="">
 	<cfoutput>
 	<cfif cgi.request_method NEQ "POST">
-		<cfthrow message="Locking an account requires a post from the edit form.">
+		<cfthrow message="Locking or unlocking an account requires a post from the edit form.">
 	</cfif>
 	<cfset variables.databaseAccount = databaseAccountName(form.username)>
 	<cfif len(variables.databaseAccount) EQ 0>
@@ -598,11 +617,16 @@
 			<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#">Go back</a></p>
 		<cfabort>
 	</cfif>
-	<cfquery name="lock" datasource="uam_god">
-		ALTER USER "#variables.databaseAccount#" ACCOUNT LOCK
-	</cfquery>
-	The account for #encodeForHtml(form.username)# is now locked. Contact a DBA to unlock it.
-	<a href="/Admin/AdminUsers.cfm?username=#encodeForUrl(form.username)#&action=edit">Continue</a>
+	<cfif Action is "lockUser">
+		<cfquery name="lock" datasource="uam_god">
+			ALTER USER "#variables.databaseAccount#" ACCOUNT LOCK
+		</cfquery>
+	<cfelse>
+		<cfquery name="unlock" datasource="uam_god">
+			ALTER USER "#variables.databaseAccount#" ACCOUNT UNLOCK
+		</cfquery>
+	</cfif>
+	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
