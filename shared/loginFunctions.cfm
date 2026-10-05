@@ -256,6 +256,11 @@ limitations under the License.
 			<cfset session.force_password_change = "yes">
 			<cflocation url="/users/changePassword.cfm">
 		</cfif>
+		<!--- An expired database password stops the user's database pages working; setting a new password
+			on changePassword.cfm clears the expiry, and cf_rolecheck sends the user there until they do. --->
+		<cfif findNoCase("EXPIRED", getAccountStatus.account_status) GT 0>
+			<cfset session.force_password_change = "yes">
+		</cfif>
 		</cfif>
 	</cfif>
 	<cfif isdefined("getPrefs.exclusive_collection_id") and len(getPrefs.exclusive_collection_id) gt 0>
