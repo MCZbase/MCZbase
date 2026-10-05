@@ -271,11 +271,11 @@
 							<cfabort>
 						<cfelse>
 							<!--- SHA1PRNG is cryptographically secure, unlike RandRange's default.  One letter, one digit and one
-								symbol are guaranteed, then shuffled out of fixed positions.  No quotes: the password is placed in
-								quoted DDL below. --->
+								symbol are guaranteed, then shuffled out of fixed positions.  The symbols are ones the database's
+								verify function counts as punctuation, and include no quotes, as the password is placed in quoted DDL. --->
 							<cfset variables.LETTERS = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z">
 							<cfset variables.DIGITS = "0,1,2,3,4,5,6,7,8,9">
-							<cfset variables.SYMBOLS = "!,$,%,_,*,?,-,(,),=,/,:,;,.">
+							<cfset variables.SYMBOLS = "!,$,%,_,*,?,-,(,),=,/,:,;">
 							<cfset variables.allCharacters = "#variables.LETTERS#,#variables.DIGITS#,#variables.SYMBOLS#">
 							<cfset variables.passwordCharacters = arrayNew(1)>
 							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.LETTERS, randRange(1, listLen(variables.LETTERS), "SHA1PRNG")))>
@@ -294,7 +294,7 @@
 							<cftry>
 								<cfset variables.databaseAccount = databaseAccountName(isGoodEmail.username)>
 								<cfif len(variables.databaseAccount) GT 0>
-									<cfif REFind("^[A-Za-z0-9!$%_*?=/:;.()-]+$", newPass) EQ 0 OR len(databasePasswordProblem(newPass)) GT 0>
+									<cfif REFind("^[A-Za-z0-9!$%_*?=/:;()-]+$", newPass) EQ 0 OR len(databasePasswordProblem(newPass)) GT 0>
 										<cfthrow message="Unexpected characters in the generated password.">
 									</cfif>
 									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
