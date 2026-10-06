@@ -3982,6 +3982,14 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<!--- Values already in the profile are shown read only; they are changed on the profile page. --->
+				<cfset readonlyFields = structNew()>
+				<cfloop list="first_name,middle_name,last_name,affiliation,email" index="fieldName">
+					<cfset readonlyFields[fieldName] = "">
+					<cfif getUserData.recordcount EQ 1 AND len(getUserData[fieldName][1]) GT 0>
+						<cfset readonlyFields[fieldName] = "readonly">
+					</cfif>
+				</cfloop>
 				<h3>Download Agreement</h3>
 				<form name="downloadForm" id="downloadForm">
 					<input type="hidden" name="user_id" value="#getUserData.user_id#">
@@ -3989,26 +3997,27 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="form-row">
 						<div class="col-12 p-1">
 							You must fill out this form before you may download data. Fields with a <input type="text" size="6" class="reqdClr" value="yellow" disabled aria-label="yellow"> background color are required.
+							Fields filled in from your profile can be changed on your <a href="/users/UserProfile.cfm" target="_blank">profile page</a>.
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-4">
 							<label for="first_name" class="data-entry-label">First Name</label>
-							<input type="text" name="first_name" id="first_name" value="#getUserData.first_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="first_name" id="first_name" value="#encodeForHtmlAttribute(getUserData.first_name)#" class="data-entry-input reqdClr" required #readonlyFields.first_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="middle_name" class="data-entry-label">Middle Name</label>
-							<input type="text" name="middle_name" id="middle_name" value="#getUserData.middle_name#" class="data-entry-input">
+							<input type="text" name="middle_name" id="middle_name" value="#encodeForHtmlAttribute(getUserData.middle_name)#" class="data-entry-input" #readonlyFields.middle_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="last_name" class="data-entry-label">Last Name</label>
-							<input type="text" name="last_name" id="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="last_name" id="last_name" value="#encodeForHtmlAttribute(getUserData.last_name)#" class="data-entry-input reqdClr" required #readonlyFields.last_name#>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
 							<label for="affiliation" class="data-entry-label">Affiliation</label>
-							<input type="text" name="affiliation" id="affiliation" value="#getUserData.affiliation#" class="data-entry-input reqdClr" required>
+							<input type="text" name="affiliation" id="affiliation" value="#encodeForHtmlAttribute(getUserData.affiliation)#" class="data-entry-input reqdClr" required #readonlyFields.affiliation#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="download_purpose" class="data-entry-label">Purpose of Download</td>
@@ -4042,11 +4051,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="form-row">
 						<div class="col-12 col-md-8">
 							<label for="email" class="data-entry-label">Email</label>
-							<input type="email" name="email" id="email" value="#getUserData.email#" class="data-entry-input" onchange="handleAgreeClick();">
+							<input type="email" name="email" id="email" value="#encodeForHtmlAttribute(getUserData.email)#" class="data-entry-input" onchange="handleAgreeClick();" #readonlyFields.email#>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="agree">I agree.</label>
-							<input type="checkbox" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" >
+							<div class="form-check reqdClr px-4 py-1 mt-md-3">
+								<input type="checkbox" class="form-check-input" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" required>
+								<label for="agree" class="form-check-label">I agree to these terms.</label>
+							</div>
 							<script>
 								function handleAgreeClick() {
 									var valid = false;
@@ -4079,7 +4090,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											affiliation : $("##affiliation").val(),
 											download_purpose : $("##download_purpose").val(),
 											email : $("##email").val(),
-											agree : $("##agree").val()
+											agree : $("##agree").prop("checked") ? "yes" : "no"
 										},
 										error: function (jqXHR, status, message) {
 											console.log("Error logging download [#result_id#]: " + status + " " + jqXHR.responseText);
