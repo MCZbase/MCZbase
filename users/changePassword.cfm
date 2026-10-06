@@ -343,8 +343,8 @@
 								<cfabort>
 							</cfcatch>
 							</cftry>
-							<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
-								Your MCZbase username and password is
+							<cfmail to="#email#" subject="#Application.application_name# password" from="LostFound@#Application.fromEmail#" type="text">
+								Your #Application.application_name# username and password is
 
 								username: #username# 
 								temporary password: #newPass#

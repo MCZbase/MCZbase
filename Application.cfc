@@ -249,6 +249,7 @@ limitations under the License.
 		<cfset Application.max_pw_age = 365 />
 		<cfset Application.fromEmail = "#serverName#" />
 		<!--- Default header/style apperance --->
+		<cfset Application.application_name = "MCZbase" />
 		<cfset Application.header_image = "/images/genericHeaderIcon.gif" />
 		<cfset Application.old_header_image = "/images/genericHeaderIcon.gif" /><!--- NOTE: old_ variables are intended for use on old includes/_header.cfm --->
 		<cfset Application.header_image_alt = "logo with link to website" />
@@ -284,6 +285,7 @@ limitations under the License.
 			<!--- TODO: Choice of HUH or MCZ or biodiversity portal values here --->
 			<cfif serverName contains "mczbase">
 				<!--- MCZbase values --->
+				<cfset Application.application_name = "MCZbase" />
 				<!--- TODO: Set default user to limit to MCZ VPDs. --->
 				<cfset Application.meta_description = "MCZbase, the database of the natural science collections of the Museum of Comparative Zoology, Harvard University." />
 				<cfset Application.header_image_alt = "MCZ Kronosaurus logo with link to website" />
@@ -332,6 +334,7 @@ limitations under the License.
 					 <cfset Application.old_header_image = "/images/mcz_krono_logo.png" />
 				</cfif>
 			<cfelseif serverName contains "huh">
+				<cfset Application.application_name = "HUHbase" />
 				<!--- TODO: Set default user to limit to HUH VPDs. --->
 				<cfset Application.meta_description = "HUHbase, the database of the natural science collections of the Harvard University Hebaria." />
 				<cfset Application.header_image_alt = "logo with link to website" />
