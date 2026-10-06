@@ -97,7 +97,7 @@ limitations under the License.
  @see getFormatSelectHTML for formats that must be supported.
  @see getCharsetSelectHTML for character sets that must be supported.
 --->
-<cffunction name="loadCsvFile" returntype="string" access="remote" returnformat="plain">
+<cffunction name="loadCsvFile" returntype="string" access="public" returnformat="plain">
 	<cfargument name="FileToUpload" type="string" required="yes">
 	<cfargument name="format" type="string" required="yes">
 	<cfargument name="characterSet" type="string" required="yes">
@@ -230,7 +230,7 @@ limitations under the License.
  @see getFormatSelectHTML for formats that must be supported.
  @see getCharsetSelectHTML for character sets that must be supported.
 --->
-<cffunction name="loadCsvFileSilent" returntype="string" access="remote" returnformat="plain">
+<cffunction name="loadCsvFileSilent" returntype="string" access="public" returnformat="plain">
 	<cfargument name="FileToUpload" type="string" required="yes">
 	<cfargument name="format" type="string" required="yes">
 	<cfargument name="characterSet" type="string" required="yes">
