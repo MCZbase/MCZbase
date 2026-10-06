@@ -4053,10 +4053,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<label for="email" class="data-entry-label">Email</label>
 							<input type="email" name="email" id="email" value="#encodeForHtmlAttribute(getUserData.email)#" class="data-entry-input" onchange="handleAgreeClick();" #readonlyFields.email#>
 						</div>
-						<div class="col-12 col-md-4">
-							<div class="form-check reqdClr px-4 py-1 mt-md-3">
-								<input type="checkbox" class="form-check-input" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" required>
-								<label for="agree" class="form-check-label">I agree to these terms.</label>
+						<div class="col-12 col-md-4 d-flex align-items-end pt-2 pt-md-0">
+							<div class="reqdClr d-inline-flex align-items-center px-2 py-1">
+								<input type="checkbox" class="m-0 mr-2" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" required>
+								<label for="agree" class="mb-0">I agree to these terms.</label>
 							</div>
 							<script>
 								function handleAgreeClick() {
