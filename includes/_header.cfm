@@ -453,6 +453,7 @@
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/Admin/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
+										<a class="dropdown-item" target="_top" href="/Admin/download.cfm">User Download Statistics</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
 										<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
 										<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
