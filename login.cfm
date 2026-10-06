@@ -176,7 +176,13 @@ limitations under the License.
 		</cfif>
 		<cfset variables.username = form.username>
 		<cfset variables.password = form.password>
-		<cfset err = usernameProblem(variables.username)>
+		<!--- One message for every username problem, so that registering does not confirm which
+			usernames exist. --->
+		<cfif len(usernameProblem(variables.username)) GT 0>
+			<cfset err = "That username cannot be used.  Choose another: your email address, or a name that starts with a letter and contains only letters, digits and underscores, at most 30 characters.">
+		<cfelse>
+			<cfset err = "">
+		</cfif>
 		<cfif len(err) EQ 0>
 			<cfset err = passwordRuleProblem(variables.username, variables.password)>
 		</cfif>
@@ -209,7 +215,8 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<cfset err="User Creation Failed. #cfcatch.message#">
+					<cflog file="MCZbase" type="error" text="Creating MCZbase user #variables.username# failed: #cfcatch.message#">
+					<cfset err="Your account could not be created.  Please try again, or choose another username.">
 					<cflocation url="/login.cfm?username=#encodeForURL(variables.username)#&badPW=true&err=#encodeForURL(err)#&mode=register" addtoken="false">
 				</cfcatch>
 				</cftry>
