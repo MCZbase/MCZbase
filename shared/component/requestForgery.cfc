@@ -34,13 +34,26 @@ limitations under the License.
 <!---
 	isPostWithCsrfToken test whether the current request is a post carrying the session's token.
 
-	@return true if the request is a post with a form.csrfToken that matches the session's token.
+	@param token the token sent with the request; a remote CFC method passes its argument.  When
+		omitted, form.csrfToken is used.
+	@return true if the request is a post with a token that matches the session's token.
 --->
 <cffunction name="isPostWithCsrfToken" access="public" returntype="boolean" output="false">
-	<cfif cgi.request_method NEQ "POST" OR NOT structKeyExists(form, "csrfToken")>
+	<cfargument name="token" type="string" required="no">
+
+	<cfset var sentToken = "">
+	<cfif cgi.request_method NEQ "POST">
 		<cfreturn false>
 	</cfif>
-	<cfreturn CSRFVerifyToken(form.csrfToken)>
+	<cfif structKeyExists(arguments, "token")>
+		<cfset sentToken = arguments.token>
+	<cfelseif structKeyExists(form, "csrfToken")>
+		<cfset sentToken = form.csrfToken>
+	</cfif>
+	<cfif len(sentToken) EQ 0>
+		<cfreturn false>
+	</cfif>
+	<cfreturn CSRFVerifyToken(sentToken)>
 </cffunction>
 
 </cfcomponent>

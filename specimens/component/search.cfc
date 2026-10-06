@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 
 <cfset DOWNLOAD_THRESHOLD = 1001>
 
@@ -3965,7 +3966,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cffunction name="getDownloadAgreeDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="filename" type="string" required="yes">
-	<cfthread name="getDownloadAgreeDialogThread">
+	<cfthread name="getDownloadAgreeDialogThread" csrf_token="#CSRFGenerateToken()#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getUserData" datasource="cf_dbuser">
@@ -4066,9 +4067,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									$("##downloadFeedback").html("Download requested...");
 									jQuery.ajax({
 										dataType: "json",
+										type: "POST",
 										url: "/specimens/component/search.cfc",
 										data: { 
 											method : "logExternalDownload",
+											csrfToken : "#encodeForJavaScript(attributes.csrf_token)#",
 											result_id :  "#result_id#",
 											first_name :  $("##first_name").val(),
 											middle_name : $("##middle_name").val(),
@@ -4177,6 +4180,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="download_purpose" type="string" required="no">
 	<cfargument name="agree" type="string" required="no">
+	<cfargument name="csrfToken" type="string" required="no" default="">
+	<!--- This saves the caller's email into their profile, which a forged request could point at
+		another address and then take over the account through password recovery. --->
+	<cfif NOT isPostWithCsrfToken(arguments.csrfToken)>
+		<cfheader statuscode="403" statustext="Forbidden">
+		<cfreturn "This request must come from the MCZbase download dialog.">
+	</cfif>
 	<!--- The download is logged whatever the email, since the download itself proceeds from the
 		link regardless of this call; only a validly formed address is saved to the profile. --->
 	<cfset var emailToSave = "">
