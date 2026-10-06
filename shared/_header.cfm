@@ -683,6 +683,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Audit SQL</a>
 											</cfif>
 											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
+											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
 											<cfelse>

@@ -41,6 +41,12 @@ input.reqdClr, select.reqdClr, textarea.reqdClr {
 	outline: none;
 	border-radius: .2rem;
 }
+/** A box marking a control as required where the control's own background can't, such as a checkbox. **/
+div.reqdClr {
+	background-color: #E4E476;
+	border: 1px solid #bac5c6;
+	border-radius: .2rem;
+}
 input.badPick, select.badPick, textarea.badPick {
 	background-color: #FF3366 !important;
 }
