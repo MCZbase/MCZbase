@@ -8,6 +8,10 @@
 <cfif not isDefined("action")><cfset action=""></cfif>
 <cfif not isDefined("state")><cfset state=""></cfif>
 <cfif not isDefined("findlastname")><cfset findlastname=""></cfif>
+<!--- Creating a database account through an invitation and makeUser on the user's profile page
+	does not work (Redmine #837), so the Invite action shows instructions for creating the account
+	by hand instead.  Set to true to record invitations again. --->
+<cfset INVITATIONS_ENABLED = false>
 
 <cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 	<!--- this should be handled by rolecheck but add another layer here to make sure of access control --->
@@ -671,83 +675,98 @@
 		<cfif NOT isPostWithCsrfToken()>
 			<cfthrow message="Inviting a user requires a post from the edit form.">
 		</cfif>
-		<!--- see if they have all the right stuff to be a user --->
-		<cfquery name="getTheirEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				EMAIL,
-				username
-			FROM 
-				cf_users,
-				cf_user_data
-			where 
-				cf_users.user_id=cf_user_data.user_id and
-				cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">
-		</cfquery>
-		<cfif getTheirEmail.email is "">
+		<cfif NOT INVITATIONS_ENABLED>
 			<div class="text-danger">
-				Error: Unable to invite. The user needs a valid email address in their profile before you can continue.
+				<p>Error: Unable to invite.  Database accounts cannot currently be created through an
+					invitation (Redmine ##837).  Create the account by hand, following
+					<a href="https://code.mcz.harvard.edu/redmine/projects/mczbase-application-and-database/wiki/MCZbase_User_Creation" target="_blank">MCZbase User Creation</a>.</p>
+				<cfif len(form.username) GT 0 AND len(newDatabaseAccountName(form.username)) EQ 0>
+					<p>The username #encodeForHtml(form.username)# cannot be used as a database account name: it is
+						already a database account or role, or it is not a plain identifier (a letter, then
+						letters, digits and underscores).  An email address must first be changed to such a
+						username on this page.</p>
+				</cfif>
 			</div>
-			<cfabort>
-		</cfif>
-		<cfquery name="getMyEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				EMAIL
-			FROM 
-				cf_users,
-				cf_user_data
-			where 
-				cf_users.user_id=cf_user_data.user_id and
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfif getMyEmail.email is "">
-			<div class="text-danger">
-				Error: Unable to invite. You need a valid email address in your profile before you can continue.
-			</div>
-			<cfabort>
-		</cfif>
-		<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				agent_id
-			FROM 
-				agent_name,
-				cf_users
-			where 
-				agent_name.agent_name_type='login' and
-				agent_name.agent_name=cf_users.username and
-				cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.user_id#">
-		</cfquery>
-		<cfif getAgent.agent_id is "" or getAgent.recordcount is not 1>
-			<div class="text-danger">
-				Error: Unable to invite.  The user needs a unique agent name of type login (found #getAgent.recordcount# matches).
-			</div>
-			<cfabort>
-		</cfif>
-		<cfif len(getTheirEmail.EMAIL) gt 0 and len(getMyEmail.EMAIL) gt 0 and getAgent.recordcount is 1>
-			<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into temp_allow_cf_user (user_id,allow,invited_by_email) 
-				values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">,
-					1,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMyEmail.EMAIL#">
-				)
-			</cfquery>
-			<!---cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
-				Hello, #getTheirEmail.username#.
-				<br>
-				You have been invited to become an MCZbase Operator by #session.username#.
-				<br>The next time you log in, your Profile page (#application.serverRootUrl#/users/UserProfile.cfm)
-				will contain an authentication form.
-				<br>You must complete this form. If your password does not meet our rules you may be required
-				to create a new password by following the link from your Profile page. 
-				You will then be required to fill out the authentication form again.
-				The form will be replaced with a message when you have successfully authenticated.
-				<br>
-				Please email #getMyEmail.EMAIL# if you have any questions, or 
-				#Application.PageProblemEmail# if you believe you have received this message in error.
-			</cfmail0--->
-			An invitation has been sent. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">continue</a>			
+			<a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">Return to edit user</a>.
 		<cfelse>
-			<div>User not invited. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">Return to edit user</a>.</div>	
+			<!--- see if they have all the right stuff to be a user --->
+			<cfquery name="getTheirEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					EMAIL,
+					username
+				FROM 
+					cf_users,
+					cf_user_data
+				where 
+					cf_users.user_id=cf_user_data.user_id and
+					cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">
+			</cfquery>
+			<cfif getTheirEmail.email is "">
+				<div class="text-danger">
+					Error: Unable to invite. The user needs a valid email address in their profile before you can continue.
+				</div>
+				<cfabort>
+			</cfif>
+			<cfquery name="getMyEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					EMAIL
+				FROM 
+					cf_users,
+					cf_user_data
+				where 
+					cf_users.user_id=cf_user_data.user_id and
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfif getMyEmail.email is "">
+				<div class="text-danger">
+					Error: Unable to invite. You need a valid email address in your profile before you can continue.
+				</div>
+				<cfabort>
+			</cfif>
+			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					agent_id
+				FROM 
+					agent_name,
+					cf_users
+				where 
+					agent_name.agent_name_type='login' and
+					agent_name.agent_name=cf_users.username and
+					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.user_id#">
+			</cfquery>
+			<cfif getAgent.agent_id is "" or getAgent.recordcount is not 1>
+				<div class="text-danger">
+					Error: Unable to invite.  The user needs a unique agent name of type login (found #getAgent.recordcount# matches).
+				</div>
+				<cfabort>
+			</cfif>
+			<cfif len(getTheirEmail.EMAIL) gt 0 and len(getMyEmail.EMAIL) gt 0 and getAgent.recordcount is 1>
+				<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					insert into temp_allow_cf_user (user_id,allow,invited_by_email) 
+					values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.user_id#">,
+						1,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMyEmail.EMAIL#">
+					)
+				</cfquery>
+				<!---cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
+					Hello, #getTheirEmail.username#.
+					<br>
+					You have been invited to become an MCZbase Operator by #session.username#.
+					<br>The next time you log in, your Profile page (#application.serverRootUrl#/users/UserProfile.cfm)
+					will contain an authentication form.
+					<br>You must complete this form. If your password does not meet our rules you may be required
+					to create a new password by following the link from your Profile page. 
+					You will then be required to fill out the authentication form again.
+					The form will be replaced with a message when you have successfully authenticated.
+					<br>
+					Please email #getMyEmail.EMAIL# if you have any questions, or 
+					#Application.PageProblemEmail# if you believe you have received this message in error.
+				</cfmail0--->
+				An invitation has been sent. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">continue</a>			
+			<cfelse>
+				<div>User not invited. <a href="/Admin/AdminUsers.cfm?Action=edit&username=#encodeForUrl(form.username)#">Return to edit user</a>.</div>	
+			</cfif>
 		</cfif>
 	</cfoutput>
 </cfif>
