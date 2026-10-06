@@ -18,13 +18,52 @@
 	}
 </script>
 
-<cfif not isDefined("action") OR len(action) EQ 0>
-	<cfset action="default">
-<cfelseif isDefined("action") AND action EQ "nothing">
-	<cfset action="default">
+<!--- A reset link works once, for this long. --->
+<cfset RESET_TOKEN_MINUTES = 60>
+<!--- At most this many reset links are sent for one user in an hour. --->
+<cfset RESET_REQUESTS_PER_HOUR = 3>
+
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+<cfset variables.action = url.action>
+<cfif len(form.action) GT 0>
+	<cfset variables.action = form.action>
+</cfif>
+<cfif len(variables.action) EQ 0 OR variables.action EQ "nothing">
+	<cfset variables.action = "default">
 </cfif>
 
-<cfswitch expression="#action#">
+<!---
+	resetTokenUser find the user a password reset token is for.
+
+	@param token the token from the emailed link.
+	@return a query of user_id and username, with one row if the token is current and unused, otherwise none.
+--->
+<cffunction name="resetTokenUser" returntype="query" output="false">
+	<cfargument name="token" type="string" required="yes">
+
+	<cfset var getResetUser = "">
+	<cfset var getResetUser_result = "">
+	<cfset var tokenHash = "">
+
+	<cfif REFind("^[0-9a-f]{64}$", arguments.token) EQ 0>
+		<cfset tokenHash = "">
+	<cfelse>
+		<cfset tokenHash = lcase(hash(arguments.token, "SHA-256"))>
+	</cfif>
+	<cfquery name="getResetUser" datasource="uam_god" result="getResetUser_result">
+		SELECT cf_users.user_id, cf_users.username
+		FROM cf_password_reset
+			JOIN cf_users ON cf_password_reset.user_id = cf_users.user_id
+		WHERE
+			cf_password_reset.token_hash = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tokenHash#">
+			AND cf_password_reset.used_date IS NULL
+			AND cf_password_reset.expires_date > sysdate
+	</cfquery>
+	<cfreturn getResetUser>
+</cffunction>
+
+<cfswitch expression="#variables.action#">
 <cfcase value="default">
 	<cfif len(session.username) is 0>
 		<cflocation url="/users/changePassword.cfm?action=lostPass" addtoken="false">
@@ -127,7 +166,7 @@
 						</cfquery>
 						<cfif len(isGoodEmail.email) gt 0>
 							<p>If you can't remember your old password, we can
-								<a href="/users/changePassword.cfm?action=lostPass">email a new temporary password</a>.
+								<a href="/users/changePassword.cfm?action=lostPass">email you a link to reset it</a>.
 							</p>
 						</cfif>
 					</div>
@@ -138,33 +177,38 @@
 </cfcase>
 <cfcase value="lostPass">
 	<!----------------------------------------------------------->
-	<main class="container py-3">
-		<section class="row my-3 mx-0">
-			<div class="col-12 px-4 pt-4 pb-2 border rounded">
-				<div class="changePW"></div>
-				<h1 class="h2">Lost your password?</h1>
-				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
-				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
-				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
-				<form class="row" name="pw" method="post" action="/users/changePassword.cfm">
-					<div class="col-12 col-sm-4 col-xl-3">
-						<input type="hidden" name="action" value="findPass">
-						<label for="username" class="data-entry-label">Username</label>
-						<input type="text" name="username" id="username" class="data-entry-input">
-					</div>
-					<div class="col-12 col-sm-4 col-xl-3">
-						<label for="email" class="data-entry-label">Email Address</label>
-						<input type="text" name="email" id="email" class="data-entry-input">
-					</div>
-					<div class="col-12 my-3">
-						<input type="submit" value="Request Password" class="btn btn-xs btn-primary">
-					</div>
-				</form>
-			</div>
-		</section>
-	</main>
+	<cfoutput>
+		<main class="container py-3" id="content">
+			<section class="row my-3 mx-0">
+				<div class="col-12 px-4 pt-4 pb-2 border rounded">
+					<div class="changePW"></div>
+					<h1 class="h2">Lost your password?</h1>
+					<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
+					<p>If you have saved your email address in your profile, enter it with your username, and we will email you a link to set a new password.  The link works once, for #RESET_TOKEN_MINUTES# minutes.</p>
+					<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
+					<form class="row" name="pw" method="post" action="/users/changePassword.cfm">
+						<div class="col-12 col-sm-4 col-xl-3">
+							<input type="hidden" name="action" value="findPass">
+							<label for="username" class="data-entry-label">Username</label>
+							<input type="text" name="username" id="username" class="data-entry-input">
+						</div>
+						<div class="col-12 col-sm-4 col-xl-3">
+							<label for="email" class="data-entry-label">Email Address</label>
+							<input type="text" name="email" id="email" class="data-entry-input">
+						</div>
+						<div class="col-12 my-3">
+							<input type="submit" value="Email Me a Reset Link" class="btn btn-xs btn-primary">
+						</div>
+					</form>
+				</div>
+			</section>
+		</main>
+	</cfoutput>
 </cfcase>
 <cfcase value="update">
+	<cfparam name="form.oldpassword" default="">
+	<cfparam name="form.newpassword" default="">
+	<cfparam name="form.newpassword2" default="">
 	<!-------------------------------------------------------------------->
 	<div class="changePW">
 		<cfoutput>
@@ -176,17 +220,17 @@
 							from cf_users
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfif hash(oldpassword) is not getpass.password>
+						<cfif hash(form.oldpassword) is not getpass.password>
 							<span class="font-weight-lessbold text-danger">
 								Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
-						<cfelseif getpass.password is hash(newpassword)>
+						<cfelseif getpass.password is hash(form.newpassword)>
 							<span class="font-weight-lessbold text-danger">
 								You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
-						<cfelseif newpassword neq newpassword2>
+						<cfelseif form.newpassword neq form.newpassword2>
 							<span class="font-weight-lessbold text-danger">
 								New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
@@ -197,9 +241,9 @@
 							are quoted into the statement.  Public accounts have no database account. --->
 						<cfset variables.databaseAccount = databaseAccountName(session.username)>
 						<cfif len(variables.databaseAccount) GT 0>
-							<cfset variables.passwordProblem = databasePasswordProblem(newpassword)>
+							<cfset variables.passwordProblem = databasePasswordProblem(form.newpassword)>
 							<cfif len(variables.passwordProblem) EQ 0>
-								<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, newpassword, oldpassword)>
+								<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, form.newpassword, form.oldpassword)>
 							</cfif>
 							<cfif len(variables.passwordProblem) GT 0>
 								<span class="font-weight-lessbold text-danger">
@@ -212,13 +256,13 @@
 							<cfif len(variables.databaseAccount) GT 0>
 								<!--- DDL commits implicitly, so it runs before the cf_users update: if it fails, nothing has changed. --->
 								<cfquery name="dbUser" datasource="uam_god">
-									ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#newpassword#"
+									ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#form.newpassword#"
 								</cfquery>
 							</cfif>
 							<cfquery name="setPass" datasource="uam_god" result="setPass_result">
 								UPDATE cf_users
 								SET
-									password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+									password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(form.newpassword)#">,
 									PW_CHANGE_DATE=sysdate
 								WHERE
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -239,7 +283,7 @@
 						</cfcatch>
 						</cftry>
 						<cfset session.force_password_change = "">
-						<cfset initSession('#session.username#','#newpassword#')>
+						<cfset initSession('#session.username#','#form.newpassword#')>
 						<h1 class="h3">Your password has successfully been changed.</h1>
 						<p>You will be redirected soon, or you may use the menu above now.</p>
 						<script>
@@ -256,114 +300,241 @@
 </cfcase>
 <cfcase value="findPass">
 	<!---------------------------------------------------------------------->
-   <div class="changePW">
-		<cfoutput>
-			<main class="container py-3">
-				<section class="row my-3 mx-0">
-					<div class="col-12 px-4 pt-4 pb-2 border rounded">
-						<cfquery name="isGoodEmail" datasource="cf_dbuser">
-							SELECT cf_user_data.user_id, email, username
-							FROM cf_user_data
-								join cf_users on cf_user_data.user_id = cf_users.user_id
-							WHERE
-								email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
-							and username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-						</cfquery>
-						<cfif isGoodEmail.recordcount neq 1>
-							<h1 class="h3 mt-3">Sorry, that email was not associated with your username.</h1>
-							<cfabort>
+	<!--- Emails a single use, time limited link; nothing about the account changes until the link is
+		used, so knowing a username and email address is no longer enough to change a password.  The
+		response is the same whether or not they match an account. --->
+	<cfparam name="form.username" default="">
+	<cfparam name="form.email" default="">
+	<cfif cgi.request_method NEQ "POST">
+		<cflocation url="/users/changePassword.cfm?action=lostPass" addtoken="false">
+	</cfif>
+	<cfquery name="isGoodEmail" datasource="cf_dbuser">
+		SELECT cf_user_data.user_id, email, username
+		FROM cf_user_data
+			join cf_users on cf_user_data.user_id = cf_users.user_id
+		WHERE
+			email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.email)#">
+			and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(form.username)#">
+	</cfquery>
+	<cfif isGoodEmail.recordcount EQ 1>
+		<cfquery name="recentRequests" datasource="uam_god" result="recentRequests_result">
+			SELECT count(*) AS ct
+			FROM cf_password_reset
+			WHERE
+				user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
+				AND created_date > sysdate - 1/24
+		</cfquery>
+		<cfif recentRequests.ct LT RESET_REQUESTS_PER_HOUR>
+			<!--- generateSecretKey draws 256 bits from a secure random source; only the token's hash is stored. --->
+			<cfset variables.resetToken = lcase(binaryEncode(binaryDecode(generateSecretKey("AES", 256), "base64"), "hex"))>
+			<cftransaction>
+				<!--- Only the newest link works. --->
+				<cfquery name="supersedeTokens" datasource="uam_god" result="supersedeTokens_result">
+					UPDATE cf_password_reset
+					SET used_date = sysdate
+					WHERE
+						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
+						AND used_date IS NULL
+				</cfquery>
+				<cfquery name="addToken" datasource="uam_god" result="addToken_result">
+					INSERT INTO cf_password_reset (
+						token_hash,
+						user_id,
+						expires_date,
+						requested_from
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(hash(variables.resetToken, "SHA-256"))#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">,
+						sysdate + <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RESET_TOKEN_MINUTES#"> / 1440,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#left(cgi.remote_addr, 255)#">
+					)
+				</cfquery>
+			</cftransaction>
+			<cfmail to="#isGoodEmail.email#" subject="#Application.application_name# password reset" from="LostFound@#Application.fromEmail#" type="text">
+				Someone, probably you, asked to reset the password for your #Application.application_name# account, username #isGoodEmail.username#.
+
+				To set a new password, open this link within #RESET_TOKEN_MINUTES# minutes.  It works once.
+
+				#Application.ServerRootUrl#/users/changePassword.cfm?action=resetForm&token=#variables.resetToken#
+
+				If you did not ask for this, you can ignore this email: your password has not changed.
+				Questions: #Application.technicalEmail#
+			</cfmail>
+		<cfelse>
+			<cflog file="MCZbase" type="warning" text="Password reset link not sent for user_id #isGoodEmail.user_id#: #recentRequests.ct# requests in the last hour.">
+		</cfif>
+	</cfif>
+	<cfoutput>
+		<main class="container py-3" id="content">
+			<section class="row my-3 mx-0">
+				<div class="col-12 px-4 pt-4 pb-2 border rounded">
+					<h1 class="h3">Check your email</h1>
+					<p>If that username and email address match an account, we have sent a link to set a new password to that address.
+						It may take a few minutes to arrive, and works once, for #RESET_TOKEN_MINUTES# minutes.</p>
+					<p>If no email arrives, check the username and the address saved in your profile, or <a href="/contact.cfm">contact us</a>.</p>
+				</div>
+			</section>
+		</main>
+	</cfoutput>
+</cfcase>
+<cfcase value="resetForm">
+	<!---------------------------------------------------------------------->
+	<!--- Opened from the emailed link.  Showing the form does not use the token, as mail scanners may
+		open links; resetPass does. --->
+	<cfparam name="url.token" default="">
+	<!--- Keep the token out of the Referer header sent to any other site the page loads from. --->
+	<cfheader name="Referrer-Policy" value="no-referrer">
+	<cfset variables.resetUser = resetTokenUser(url.token)>
+	<cfoutput>
+		<main class="container py-3" id="content">
+			<section class="row my-3 mx-0">
+				<div class="col-12 px-4 pt-4 pb-2 border rounded">
+					<cfif variables.resetUser.recordcount NEQ 1>
+						<h1 class="h3">This link has expired or has already been used</h1>
+						<p><a href="/users/changePassword.cfm?action=lostPass">Request a new link</a>.</p>
+					<cfelse>
+						<h1 class="h3">Set a new password for #encodeForHtml(variables.resetUser.username)#</h1>
+						<h2 class="h4 w-100">Password rules:</h2>
+						<ul class="list-style-disc px-4">
+							<li class="pb-1">Eight to thirty characters</li>
+							<li class="pb-1">May not contain your username</li>
+							<li class="pb-1">Must contain at least one letter, one number, and one of ! ## $ % &amp; ( ) ` * + , - / : ; &lt; = &gt; ? _</li>
+							<li class="pb-1">May contain letters, digits and punctuation, but not spaces, double quotes or accented characters</li>
+						</ul>
+						<form class="row" action="/users/changePassword.cfm" method="post">
+							<input type="hidden" name="action" value="resetPass">
+							<input type="hidden" name="token" value="#encodeForHtmlAttribute(url.token)#">
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+								<label for="newpassword" class="data-entry-label">New password</label>
+								<input name="newpassword" class="data-entry-input" id="newpassword" type="password" autocomplete="new-password"
+									onkeyup="pwc(this.value,'#encodeForJavaScript(variables.resetUser.username)#')">
+								<span id="pwstatus"></span>
+							</div>
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+								<label for="newpassword2" class="data-entry-label">Retype new password</label>
+								<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password" autocomplete="new-password">
+							</div>
+							<div class="col-12 my-3">
+								<input type="submit" value="Set Password" class="btn btn-xs btn-primary">
+							</div>
+						</form>
+					</cfif>
+				</div>
+			</section>
+		</main>
+	</cfoutput>
+</cfcase>
+<cfcase value="resetPass">
+	<!---------------------------------------------------------------------->
+	<cfparam name="form.token" default="">
+	<cfparam name="form.newpassword" default="">
+	<cfparam name="form.newpassword2" default="">
+	<cfif cgi.request_method NEQ "POST">
+		<cflocation url="/users/changePassword.cfm?action=lostPass" addtoken="false">
+	</cfif>
+	<cfset variables.resetUser = resetTokenUser(form.token)>
+	<cfset variables.problem = "">
+	<cfset variables.databaseAccount = "">
+	<cfif variables.resetUser.recordcount NEQ 1>
+		<cfset variables.problem = "This link has expired or has already been used.">
+	<cfelseif compare(form.newpassword, form.newpassword2) NEQ 0>
+		<cfset variables.problem = "The two passwords you typed do not match.">
+	<cfelse>
+		<cfset variables.problem = passwordRuleProblem(variables.resetUser.username, form.newpassword)>
+		<cfif len(variables.problem) EQ 0>
+			<cfset variables.databaseAccount = databaseAccountName(variables.resetUser.username)>
+			<cfif len(variables.databaseAccount) GT 0>
+				<cfset variables.problem = databasePasswordCheck(variables.databaseAccount, form.newpassword)>
+				<!--- A reset may clear a lock from failed logins, LOCKED(TIMED), but not one an administrator set,
+					which only global_admin may lift, from AdminUsers.cfm. --->
+				<cfquery name="getAccountStatus" datasource="uam_god" result="getAccountStatus_result">
+					SELECT account_status
+					FROM dba_users
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.databaseAccount#">
+				</cfquery>
+				<cfif len(variables.problem) EQ 0 AND findNoCase("LOCKED", replaceNoCase(getAccountStatus.account_status, "LOCKED(TIMED)", "", "all")) GT 0>
+					<cfset variables.problem = "Your account has been locked by an administrator, so its password cannot be reset here.  Please contact us.">
+				</cfif>
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfif len(variables.problem) EQ 0>
+		<!--- Claim the token before changing anything, so two posts of one link cannot both succeed. --->
+		<cfquery name="claimToken" datasource="uam_god" result="claimToken_result">
+			UPDATE cf_password_reset
+			SET used_date = sysdate
+			WHERE
+				token_hash = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(hash(form.token, "SHA-256"))#">
+				AND used_date IS NULL
+				AND expires_date > sysdate
+		</cfquery>
+		<cfif claimToken_result.recordcount NEQ 1>
+			<cfset variables.problem = "This link has expired or has already been used.">
+		<cfelse>
+			<cftry>
+				<cfif len(variables.databaseAccount) GT 0>
+					<!--- DDL commits implicitly, so it runs before the cf_users update: if it fails, nothing has changed. --->
+					<cfquery name="resetOracleUser" datasource="uam_god">
+						ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#form.newpassword#" ACCOUNT UNLOCK
+					</cfquery>
+				</cfif>
+				<cfquery name="setNewPass" datasource="uam_god" result="setNewPass_result">
+					UPDATE cf_users
+					SET
+						password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(form.newpassword)#">
+					WHERE
+						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.resetUser.user_id#">
+				</cfquery>
+			<cfcatch>
+				<!--- Nothing changed, so let the same link be used again. --->
+				<cfquery name="releaseToken" datasource="uam_god" result="releaseToken_result">
+					UPDATE cf_password_reset
+					SET used_date = NULL
+					WHERE token_hash = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(hash(form.token, "SHA-256"))#">
+				</cfquery>
+				<cfif isPasswordComplexityError(cfcatch)>
+					<cfset variables.problem = "The database did not accept that password.  Please choose another.">
+				<cfelse>
+					<cflog file="MCZbase" type="error" text="Password reset failed for user_id #variables.resetUser.user_id#: #cfcatch.message#">
+					<cfset variables.problem = "Your password could not be reset.">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfif>
+	</cfif>
+	<cfoutput>
+		<main class="container py-3" id="content">
+			<section class="row my-3 mx-0">
+				<div class="col-12 px-4 pt-4 pb-2 border rounded">
+					<cfif len(variables.problem) GT 0>
+						<h1 class="h3">Your password was not changed</h1>
+						<p class="text-danger">#encodeForHtml(variables.problem)#</p>
+						<cfif variables.resetUser.recordcount EQ 1>
+							<p><a href="/users/changePassword.cfm?action=resetForm&token=#encodeForUrl(form.token)#">Try again</a>.</p>
 						<cfelse>
-							<!--- SHA1PRNG is cryptographically secure, unlike RandRange's default.  One letter, one digit and one
-								symbol are guaranteed, then shuffled out of fixed positions.  The symbols are ones the database's
-								verify function counts as punctuation, and include no quotes, as the password is placed in quoted DDL. --->
-							<cfset variables.LETTERS = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z">
-							<cfset variables.DIGITS = "0,1,2,3,4,5,6,7,8,9">
-							<cfset variables.SYMBOLS = "!,$,%,_,*,?,-,(,),=,/,:,;">
-							<cfset variables.allCharacters = "#variables.LETTERS#,#variables.DIGITS#,#variables.SYMBOLS#">
-							<cfset variables.passwordCharacters = arrayNew(1)>
-							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.LETTERS, randRange(1, listLen(variables.LETTERS), "SHA1PRNG")))>
-							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.DIGITS, randRange(1, listLen(variables.DIGITS), "SHA1PRNG")))>
-							<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.SYMBOLS, randRange(1, listLen(variables.SYMBOLS), "SHA1PRNG")))>
-							<cfloop from="1" to="10" index="variables.i">
-								<cfset arrayAppend(variables.passwordCharacters, listGetAt(variables.allCharacters, randRange(1, listLen(variables.allCharacters), "SHA1PRNG")))>
-							</cfloop>
-							<cfloop from="#arrayLen(variables.passwordCharacters)#" to="2" step="-1" index="variables.i">
-								<cfset arraySwap(variables.passwordCharacters, variables.i, randRange(1, variables.i, "SHA1PRNG"))>
-							</cfloop>
-							<cfset newPass = arrayToList(variables.passwordCharacters, "")>
-							<!--- Oracle DDL cannot take bind variables, so it uses only the account name the data dictionary
-								returns, checked and quoted, never the username from the request or cf_users; accounts with
-								no Oracle user get no DDL.  newPass is generated above and contains no quotes. --->
-							<cftry>
-								<cfset variables.databaseAccount = databaseAccountName(isGoodEmail.username)>
-								<cfif len(variables.databaseAccount) GT 0>
-									<cfif REFind("^[A-Za-z0-9!$%_*?=/:;()-]+$", newPass) EQ 0 OR len(databasePasswordProblem(newPass)) GT 0>
-										<cfthrow message="Unexpected characters in the generated password.">
-									</cfif>
-									<cfset variables.passwordProblem = databasePasswordCheck(variables.databaseAccount, newPass)>
-									<cfif len(variables.passwordProblem) GT 0>
-										<cfthrow message="The database refused the generated password: #variables.passwordProblem#">
-									</cfif>
-									<!--- A reset may clear a lock from failed logins, LOCKED(TIMED), but not one an administrator set,
-										which only global_admin may lift, from AdminUsers.cfm. --->
-									<cfquery name="getAccountStatus" datasource="uam_god" result="getAccountStatus_result">
-										SELECT account_status
-										FROM dba_users
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.databaseAccount#">
-									</cfquery>
-									<cfif findNoCase("LOCKED", replaceNoCase(getAccountStatus.account_status, "LOCKED(TIMED)", "", "all")) GT 0>
-										<cfthrow message="Password reset refused for an account locked by an administrator.">
-									</cfif>
-									<!--- DDL commits implicitly, so it runs before the cf_users updates: if it fails, nothing has changed. --->
-									<cfquery name="resetOracleUser" datasource="uam_god">
-										ALTER USER "#variables.databaseAccount#" IDENTIFIED BY "#newPass#" ACCOUNT UNLOCK
-									</cfquery>
-								</cfif>
-								<cftransaction>
-									<cfquery name="setNewPass" datasource="uam_god" result="setNewPass_result">
-										UPDATE cf_users
-										SET
-											password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">
-										WHERE
-											user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
-									</cfquery>
-									<!--- CF_PW_CHANGE stamps pw_change_date only when the password changes, so a second update
-										can backdate it without disabling the trigger for every session. --->
-									<cfquery name="backdatePass" datasource="uam_god" result="backdatePass_result">
-										UPDATE cf_users
-										SET
-											pw_change_date = sysdate - 91
-										WHERE
-											user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
-									</cfquery>
-								</cftransaction>
-							<cfcatch>
-								<cflog file="MCZbase" type="error" text="Password reset failed for user_id #isGoodEmail.user_id#: #cfcatch.message#">
-								<h1 class="h3 mt-3">Your password could not be reset. Please <a href="/contact.cfm">contact us</a>.</h1>
-								<cfabort>
-							</cfcatch>
-							</cftry>
-							<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
-								Your MCZbase username and password is
-
-								username: #username# 
-								temporary password: #newPass#
-
-								You will be required to change your password
-								after logging in.
-
-								#Application.ServerRootUrl#/login.cfm
-
-								If you did not request this change, please reply to #Application.technicalEmail#.
-							</cfmail>
-							<div>An email containing your new password has been sent to the email address on file. It may take a few minutes to arrive.</div>
-							<cfset initSession()>
+							<p><a href="/users/changePassword.cfm?action=lostPass">Request a new link</a>, or <a href="/contact.cfm">contact us</a>.</p>
 						</cfif>
-					</div>
-				</section>
-			</main>
-		</cfoutput>
-	</div>
+					<cfelse>
+						<cfquery name="getResetEmail" datasource="cf_dbuser">
+							SELECT email
+							FROM cf_user_data
+							WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.resetUser.user_id#">
+						</cfquery>
+						<cfif len(getResetEmail.email) GT 0>
+							<cfmail to="#getResetEmail.email#" subject="#Application.application_name# password changed" from="LostFound@#Application.fromEmail#" type="text">
+								The password for your #Application.application_name# account, username #variables.resetUser.username#, was changed using a reset link.
+
+								If you did not do this, reply to #Application.technicalEmail# at once.
+							</cfmail>
+						</cfif>
+						<cfset initSession()>
+						<h1 class="h3">Your password has been changed</h1>
+						<p><a href="/login.cfm?username=#encodeForUrl(variables.resetUser.username)#">Log in to #encodeForHtml(Application.application_name)#</a> with your new password.</p>
+					</cfif>
+				</div>
+			</section>
+		</main>
+	</cfoutput>
 </cfcase>
 </cfswitch>
 <!---------------------------------------------------------------------->

@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 <cfset title="Download Agreement">
 <!--- make sure they have an account --->
 <cfif not isdefined("cnt") OR len(#cnt#) is 0>
@@ -34,6 +35,7 @@
 	<input type="hidden" name="downloadFile" value="#downloadFile#">
 	
 	<input type="hidden" name="action" value="continue">
+	#csrfTokenInput()#
 	<input type="hidden" name="cnt" value="#cnt#">
 	<tr>
 		<td colspan="2"><span style="font-weight: bold; font-style: italic;">
@@ -122,6 +124,11 @@ do not agree</font>.</a>
 </cfif>
 
 <cfif #action# is "continue">
+	<!--- The token stops another site saving its own email address into the profile. --->
+	<cfif NOT isPostWithCsrfToken()>
+		This form must be submitted from the download agreement page. Please return to your search results and try again.
+		<cfabort>
+	</cfif>
 	<!--- get the values they filled in --->
 	<cfif len(#first_name#) is 0 OR
 		len(#last_name#) is 0 OR
