@@ -276,7 +276,7 @@
 	<form action="/Admin/AdminUsers.cfm" method="post">
 		<input type="hidden" name="Action" value="runUpdate">
 		#csrfTokenInput()#
-		<input type="hidden" name="orig_username" value="#getUsers.username#">
+		<input type="hidden" name="orig_username" value="#encodeForHtmlAttribute(getUsers.username)#">
 <table>
 	<tr>
 		<td valign="top">
@@ -285,7 +285,7 @@
   <tr>
     <td>Username</td>
 	<td>
-		<input type="text" name="username" value="#getUsers.username#">
+		<input type="text" name="username" value="#encodeForHtmlAttribute(getUsers.username)#">
 				
 	</td>
   </tr>
@@ -314,7 +314,7 @@
   <tr>
   	<td>Info</td>
 	<td>
-		#getUsers.FIRST_NAME# #getUsers.MIDDLE_NAME# #getUsers.LAST_NAME# #getUsers.AFFILIATION# #getUsers.EMAIL#
+		#encodeForHtml(getUsers.FIRST_NAME)# #encodeForHtml(getUsers.MIDDLE_NAME)# #encodeForHtml(getUsers.LAST_NAME)# #encodeForHtml(getUsers.AFFILIATION)# #encodeForHtml(getUsers.EMAIL)#
 	</td>
   </tr>
   <tr>
@@ -498,7 +498,7 @@
 						<td>
 							<input type="hidden" name="action" value="addRole" />
 							#csrfTokenInput()#
-							<input type="hidden" name="username" value="#getUsers.username#" />
+							<input type="hidden" name="username" value="#encodeForHtmlAttribute(getUsers.username)#" />
 							<select name="role_name" size="1">
 								<cfloop query="ctRoleName">
 									<option value="#role_name#">#role_name#</option>
@@ -593,7 +593,7 @@
 					<form name="ar" method="post" action="/Admin/AdminUsers.cfm">
 						<input type="hidden" name="action" value="addRole" />
 						#csrfTokenInput()#
-						<input type="hidden" name="username" value="#getUsers.username#" />
+						<input type="hidden" name="username" value="#encodeForHtmlAttribute(getUsers.username)#" />
 						<tr>
 							<td>
 								<select name="role_name" size="1">
