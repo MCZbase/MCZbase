@@ -954,6 +954,14 @@ limitations under the License.
 	</cfif>
 	<cfset variables.databaseAccount = databaseAccountName(form.orig_username)>
 	<cfif form.delete EQ "delete">
+		<!--- cf_password_reset has no foreign key to cf_users; a user_id can be reused by the next new user. --->
+		<cfquery name="deleteResetTokens" datasource="uam_god" result="deleteResetTokens_result">
+			DELETE FROM cf_password_reset
+			WHERE user_id IN (
+				SELECT user_id FROM cf_users
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
+			)
+		</cfquery>
 		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteUser_result">
 			DELETE FROM cf_users
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.orig_username#">
