@@ -1,7 +1,7 @@
 <!---
 /users/UserProfile.cfm
 
-Copyright 2020-2022 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ limitations under the License.
 <cfset pageTitle="MCZbase User Profile">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
+<cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 
 <cfparam name="action" default="nothing">
 
@@ -47,13 +48,20 @@ limitations under the License.
 <cfswitch expression="#action#">
 <cfcase value="makeUser">
 	<!------------------------------------------------------------------->
+	<!--- Creates the invited user's Oracle account.  Oracle DDL cannot take bind variables, so the
+		statements use only an account name checked by newDatabaseAccountName and a password checked
+		by passwordRuleProblem, each in double quotes. --->
+	<cfparam name="form.pw" default="">
 	<cfoutput>
+		<cfif NOT isPostWithCsrfToken()>
+			<cfthrow message="Accepting an invitation requires a post from your profile page. Please reload your profile page and try again.">
+		</cfif>
 		<cfquery name="exPw" datasource="uam_god">
 			SELECT count(*) as passwordMatchCount
-			FROM cf_users 
+			FROM cf_users
 			WHERE
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
+				AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(form.pw)#">
 		</cfquery>
 		<cfif exPw.passwordMatchCount NEQ 1 >
 			<div class="error">
@@ -61,92 +69,89 @@ limitations under the License.
 			</div>
 			<cfabort>
 		</cfif>
-		<cfquery name="checkDBUserExists" datasource="uam_god">
-			SELECT count(*) ct
-			FROM dba_users 
-			WHERE upper(username) = <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR">
+		<cfquery name="usrInfo" datasource="uam_god">
+			SELECT cf_users.user_id, temp_allow_cf_user.invited_by_email
+			FROM temp_allow_cf_user
+				JOIN cf_users ON temp_allow_cf_user.user_id = cf_users.user_id
+			WHERE
+				cf_users.username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">
+				AND temp_allow_cf_user.allow = 1
 		</cfquery>
-		<cfif checkDBUserExists.ct is not 0>
-			<cfthrow
-				type = "user_already_exists"
-				message = "user_already_exists"
-				detail = "Someone tried to create user #session.username#. That user already exists."
-				errorCode = "-123">
+		<cfif usrInfo.recordcount NEQ 1>
+			<div class="error">
+				You have not been invited to become an operator.
+			</div>
 			<cfabort>
 		</cfif>
+		<cfset variables.accountName = newDatabaseAccountName(session.username)>
+		<cfif len(variables.accountName) EQ 0>
+			<div class="error">
+				Your username cannot be used as a database account name, or a database account by that name
+				already exists.  A database account name must start with a letter and contain only letters,
+				digits and underscores, so a username that is an email address must first be changed by an
+				administrator.  Please contact <a href="mailto:#encodeForHtmlAttribute(usrInfo.invited_by_email)#">the person who invited you</a>.
+			</div>
+			<cfabort>
+		</cfif>
+		<cfset variables.passwordProblem = passwordRuleProblem(session.username, form.pw)>
+		<cfif len(variables.passwordProblem) GT 0>
+			<div class="error">
+				#encodeForHtml(variables.passwordProblem)#
+				Please <a href="/users/changePassword.cfm">change your password</a>, then accept the invitation again.
+			</div>
+			<cfabort>
+		</cfif>
+		<!--- DDL commits as it runs, so a failure part way through drops the account it created. --->
+		<cfset variables.accountCreated = false>
 		<cftry>
-			<cftransaction>
-				<cfquery name="makeUser" datasource="uam_god">
-					create user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-						identified by <cfqueryparam value="#pw#" cfsqltype="CF_SQL_VARCHAR">
-						profile "ARCTOS_USER" default TABLESPACE users QUOTA 1G on users
-				</cfquery>
-				<cfquery name="grantConn" datasource="uam_god">
-					grant create session to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-				</cfquery>
-				<cfquery name="grantTab" datasource="uam_god">
-					grant create table to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-				</cfquery>
-				<cfquery name="grantVPD" datasource="uam_god">
-					grant execute on app_security_context to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-				</cfquery>
-				<cfquery name="usrInfo" datasource="uam_god">
-					select * from temp_allow_cf_user,cf_users where temp_allow_cf_user.user_id=cf_users.user_id and
-					cf_users.username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-				</cfquery>
-				<cfquery name="makeUserCleanup" datasource="uam_god">
-					delete from temp_allow_cf_user 
-					where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-				<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
-					MCZbase user #encodeForHtml(session.username)# has successfully created an Oracle account.
-					<br>
-					You now need to assign them roles and collection access.
-					<br>Contact the DBA immediately if you did not invite this user to become an operator.
-				</cfmail>
-			</cftransaction>
-			<cfcatch>
+			<cfquery name="makeUser" datasource="uam_god">
+				CREATE USER "#variables.accountName#" IDENTIFIED BY "#form.pw#"
+					PROFILE "ARCTOS_USER" DEFAULT TABLESPACE users QUOTA 1G ON users
+			</cfquery>
+			<cfset variables.accountCreated = true>
+			<cfquery name="grantConn" datasource="uam_god">
+				GRANT CREATE SESSION TO "#variables.accountName#"
+			</cfquery>
+			<cfquery name="grantTab" datasource="uam_god">
+				GRANT CREATE TABLE TO "#variables.accountName#"
+			</cfquery>
+			<cfquery name="grantVPD" datasource="uam_god">
+				GRANT EXECUTE ON app_security_context TO "#variables.accountName#"
+			</cfquery>
+		<cfcatch>
+			<cfif variables.accountCreated>
 				<cftry>
 					<cfquery name="makeUserCleanup" datasource="uam_god">
-						drop user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+						DROP USER "#variables.accountName#"
 					</cfquery>
 				<cfcatch>
-					<!--- no action, insert may have failed, so may be no user to drop --->
+					<cflog file="MCZbase" type="error" text="Dropping the partly created database account #variables.accountName# failed: #cfcatch.message#">
 				</cfcatch>
 				</cftry>
-				<!--- create email message text --->
-				<cfsavecontent variable="errortext">
-					<h3>Error in creating user.</h3>
-					<p>#cfcatch.Message#</p>
-					<p>#cfcatch.Detail#</p>
-					<hr>
-					<cfif isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
-						<cfset ipaddress="#CGI.HTTP_X_Forwarded_For#">
-					<cfelseif isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
-						<cfset ipaddress="#CGI.Remote_Addr#">
-					<cfelse>
-						<cfset ipaddress='unknown'>
-					</cfif>
-					<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
-					<p>Client Dump:</p>
-					<hr>
-					<cfdump var="#client#" label="client">
-					<hr>
-					<p>URL Dump:</p>
-					<hr>
-					<cfdump var="#url#" label="url">
-					<p>CGI Dump:</p>
-					<hr>
-					<cfdump var="#CGI#" label="CGI">
-				</cfsavecontent>
-				<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
-					#errortext#
-				</cfmail>
-				<h2 class="h3 text-warning">Error in creating user.</h2>
-				<p>#cfcatch.Message#</p>
+			</cfif>
+			<cfif isPasswordComplexityError(cfcatch)>
+				<div class="error">
+					The database did not accept your password.
+					Please <a href="/users/changePassword.cfm">change your password</a>, then accept the invitation again.
+				</div>
 				<cfabort>
-			</cfcatch>
+			</cfif>
+			<cflog file="MCZbase" type="error" text="Creating the database account for #session.username# failed: #cfcatch.message#">
+			<h2 class="h3 text-warning">Error in creating your database account.</h2>
+			<p>Please contact <a href="mailto:#encodeForHtmlAttribute(usrInfo.invited_by_email)#">the person who invited you</a>.</p>
+			<cfabort>
+		</cfcatch>
 		</cftry>
+		<cfquery name="makeUserCleanup" datasource="uam_god">
+			DELETE FROM temp_allow_cf_user
+			WHERE user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
+			MCZbase user #encodeForHtml(session.username)# has successfully created an Oracle account.
+			<br>
+			You now need to assign them roles and collection access.
+			<br>Contact the DBA immediately if you did not invite this user to become an operator.
+		</cfmail>
 		<cflocation url="/users/UserProfile.cfm" addtoken="false">
 	</cfoutput>
 </cfcase>
@@ -275,6 +280,7 @@ limitations under the License.
 								but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.</p>
 								<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
 									<input type="hidden" name="action" value="makeUser">
+									#csrfTokenInput()#
 									<div class="form-row pl-0">
 										<div class="col-12 col-md-6 mb-1 mt-2">
 											<label for="pw" class="data-entry-label">Enter your password:</label>
