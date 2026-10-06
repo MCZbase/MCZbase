@@ -617,6 +617,77 @@
 		</cfif>
 	</tr>
 </table>
+	<cfquery name="getDownloadsByPurpose" datasource="cf_dbuser" result="getDownloadsByPurpose_result">
+		SELECT
+			download_purpose,
+			count(*) AS downloads,
+			sum(num_records) AS records,
+			to_char(max(download_date), 'yyyy-mm-dd') AS latest
+		FROM cf_download
+		WHERE
+			user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUsers.user_id#" null="#len(getUsers.user_id) EQ 0#">
+		GROUP BY download_purpose
+		ORDER BY count(*) DESC
+	</cfquery>
+	<cfquery name="getDownloadTotals" dbtype="query">
+		SELECT sum(downloads) AS downloads, sum(records) AS records, max(latest) AS latest
+		FROM getDownloadsByPurpose
+	</cfquery>
+	<cfquery name="getFileRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFileRequests_result">
+		SELECT
+			status,
+			count(*) AS requests,
+			to_char(max(time_created), 'yyyy-mm-dd') AS latest
+		FROM cf_download_file
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.username#">
+		GROUP BY status
+		ORDER BY count(*) DESC
+	</cfquery>
+	<section class="mt-3">
+		<h2 class="h3">Downloads</h2>
+		<cfif getDownloadsByPurpose.recordcount EQ 0>
+			<p>No downloads logged for this user.</p>
+		<cfelse>
+			<p>
+				#getDownloadTotals.downloads# downloads of #numberFormat(getDownloadTotals.records)# records in total;
+				most recent #getDownloadTotals.latest#.
+				<a href="/Admin/download.cfm?username=#encodeForUrl(getUsers.username)#&execute=true">List these downloads</a>.
+			</p>
+			<table class="table table-responsive d-xl-table table-sm">
+				<thead class="thead-light">
+					<tr><th scope="col">Purpose</th><th scope="col">Downloads</th><th scope="col">Records</th><th scope="col">Most recent</th></tr>
+				</thead>
+				<tbody>
+					<cfloop query="getDownloadsByPurpose">
+						<tr>
+							<td>#encodeForHtml(getDownloadsByPurpose.download_purpose)#</td>
+							<td>#getDownloadsByPurpose.downloads#</td>
+							<td>#numberFormat(getDownloadsByPurpose.records)#</td>
+							<td>#getDownloadsByPurpose.latest#</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfif>
+		<cfif getFileRequests.recordcount GT 0>
+			<h3 class="h4">Specimen CSV file requests</h3>
+			<table class="table table-responsive d-xl-table table-sm">
+				<thead class="thead-light">
+					<tr><th scope="col">Status</th><th scope="col">Requests</th><th scope="col">Most recent</th></tr>
+				</thead>
+				<tbody>
+					<cfloop query="getFileRequests">
+						<tr>
+							<td>#encodeForHtml(getFileRequests.status)#</td>
+							<td>#getFileRequests.requests#</td>
+							<td>#getFileRequests.latest#</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfif>
+	</section>
 	</cfoutput>
 
 </cfif>
