@@ -52,6 +52,113 @@ limitations under the License.
 </cffunction>
 
 <!---
+	usernameProblem check a username proposed at registration: either a plain Oracle identifier, or
+	an email address.  A user with an email address as their username must be renamed before they
+	can be given a database account (see newDatabaseAccountName).
+
+	@param username the proposed username.
+	@param currentUsername when renaming a user, their current username, so that their own row is
+		not counted as a clash.
+	@return an empty string if the username can be used, otherwise a message for the user.
+--->
+<cffunction name="usernameProblem" access="public" returntype="string" output="false">
+	<cfargument name="username" type="string" required="yes">
+	<cfargument name="currentUsername" type="string" required="no" default="">
+
+	<cfset var checkUsed = "">
+	<cfset var checkUsed_result = "">
+
+	<cfset var isIdentifier = REFind("^[A-Za-z][A-Za-z0-9_]*$", arguments.username) GT 0>
+	<!--- Email addresses are limited to characters that are safe in file names, URLs and HTML. --->
+	<cfset var isEmail = isValid("email", arguments.username) AND REFind("^[A-Za-z0-9._@+-]+$", arguments.username) GT 0>
+
+	<cfif len(arguments.username) GT 30>
+		<cfreturn "A username must be at most 30 characters long.">
+	</cfif>
+	<cfif NOT isIdentifier AND NOT isEmail>
+		<cfreturn "A username must be an email address, or start with a letter and contain only letters, digits and underscores.">
+	</cfif>
+	<!--- Database accounts ignore case, so names differing only in case would share one. --->
+	<cfquery name="checkUsed" datasource="uam_god" result="checkUsed_result">
+		SELECT
+			(SELECT count(*) FROM cf_users
+				WHERE upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">
+					<cfif len(arguments.currentUsername) GT 0>
+						AND username <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.currentUsername#">
+					</cfif>
+			)
+			+ (SELECT count(*) FROM dba_users WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">)
+			+ (SELECT count(*) FROM dba_roles WHERE role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">)
+			AS ct
+		FROM dual
+	</cfquery>
+	<cfif checkUsed.ct GT 0>
+		<cfreturn "That username is already in use.">
+	</cfif>
+	<cfreturn "">
+</cffunction>
+
+<!---
+	newDatabaseAccountName the name to give a new Oracle account for an MCZbase username.
+
+	@param username the MCZbase username.
+	@return the account name, in upper case, or an empty string when the username is not a plain
+		identifier or the name is already an account or a role.
+--->
+<cffunction name="newDatabaseAccountName" access="public" returntype="string" output="false">
+	<cfargument name="username" type="string" required="yes">
+
+	<cfset var checkUsed = "">
+	<cfset var checkUsed_result = "">
+	<cfset var accountName = ucase(arguments.username)>
+
+	<cfif REFind("^[A-Z][A-Z0-9_]{0,29}$", accountName) EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfquery name="checkUsed" datasource="uam_god" result="checkUsed_result">
+		SELECT
+			(SELECT count(*) FROM dba_users WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accountName#">)
+			+ (SELECT count(*) FROM dba_roles WHERE role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accountName#">)
+			AS ct
+		FROM dual
+	</cfquery>
+	<cfif checkUsed.ct GT 0>
+		<cfreturn "">
+	</cfif>
+	<cfreturn accountName>
+</cffunction>
+
+<!---
+	passwordRuleProblem check a password against the rules of the database's password verify
+	function (SYS.VERIFY_FUNCTION_MCZ), as orapwCheck in /shared/js/login_scripts.js does in the
+	browser, and that it can be placed in quoted DDL.
+
+	@param username the username, which the password may not contain.
+	@param password the proposed password.
+	@return an empty string if the password is acceptable, otherwise a message for the user.
+--->
+<cffunction name="passwordRuleProblem" access="public" returntype="string" output="false">
+	<cfargument name="username" type="string" required="yes">
+	<cfargument name="password" type="string" required="yes">
+
+	<cfset var problem = databasePasswordProblem(arguments.password)>
+	<cfif len(problem) GT 0>
+		<cfreturn problem>
+	</cfif>
+	<cfif len(arguments.username) GT 0 AND findNoCase(arguments.username, arguments.password) GT 0>
+		<cfreturn "Your password may not contain your username.">
+	</cfif>
+	<cfif REFind("[A-Za-z]", arguments.password) EQ 0 OR REFind("[0-9]", arguments.password) EQ 0>
+		<cfreturn "Your password must contain at least one letter and one number.">
+	</cfif>
+	<!--- The punctuation the verify function counts, less the double quote. --->
+	<cfif REFind("[!##$%&()`*+,/:;<=>?_-]", arguments.password) EQ 0>
+		<cfreturn "Your password must contain at least one of: ! ## $ % & ( ) ` * + , - / : ; < = > ? _">
+	</cfif>
+	<cfreturn "">
+</cffunction>
+
+<!---
 	databaseRoleName find a role MCZbase administrators may grant: an application role in
 	cf_ctuser_roles or a collection role named by cf_collection.portal_name, that exists in the
 	database.  Other roles, such as DBA, are never returned.

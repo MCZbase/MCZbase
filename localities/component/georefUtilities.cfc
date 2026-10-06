@@ -22,6 +22,36 @@ Utility methods to support display of spatial information on maps.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
+<!--- isLocalityMasked test whether the coordinates of a locality must be hidden from the current
+  user, as on the specimen details pages: the user is not a coldfusion_user, and a cataloged item
+  collected at the locality has a mask locality encumbrance.
+  @param locality_id the primary key value for the locality.
+  @return true if georeferences for the locality must not be returned.
+--->
+<cffunction name="isLocalityMasked" returntype="boolean" access="private" output="false">
+	<cfargument name="locality_id" type="numeric" required="yes">
+
+	<cfset var checkForMask = "">
+	<cfset var checkForMask_result = "">
+
+	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user") GT 0>
+		<cfreturn false>
+	</cfif>
+	<!--- uam_god, as encumbrances are not visible to public users. --->
+	<cfquery name="checkForMask" datasource="uam_god" result="checkForMask_result">
+		SELECT count(*) AS ct
+		FROM
+			collecting_event
+			JOIN cataloged_item ON collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+			JOIN coll_object_encumbrance ON cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+			JOIN encumbrance ON coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+		WHERE
+			collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+			AND encumbrance.encumbrance_action LIKE '%mask locality%'
+	</cfquery>
+	<cfreturn checkForMask.ct GT 0>
+</cffunction>
+
 <!--- getGeogWKT given a locality_id return the error polygon if there is one, or if not the 
   polygon for the containing higher geography, can obtain the wkt from either
   geog_auth_rec.wkt_polygon/lat_long.error_polygon directly, or if these contain
@@ -39,7 +69,7 @@ Utility methods to support display of spatial information on maps.
 			and accepted_lat_long_fg=1 
 			and error_polygon is not null
 	</cfquery>
-	<cfif chkLatLong.RecordCount EQ 1>
+	<cfif chkLatLong.RecordCount EQ 1 AND NOT isLocalityMasked(arguments.locality_id)>
 		<cfquery name="d" datasource="uam_god">
 			select
 				/*'POLYGON ((' || regexp_replace(regexp_replace(error_polygon,'([^,]*),([^,]*)[,]{0,1}','\2 \1,'), ',$', '') || '))' WKT_POLYGON*/
@@ -82,6 +112,9 @@ Utility methods to support display of spatial information on maps.
 --->
 <cffunction name="getGeoreferenceErrorWKT" returnType="string" access="remote">
 	<cfargument name="locality_id" type="numeric" required="yes">
+	<cfif isLocalityMasked(arguments.locality_id)>
+		<cfreturn "">
+	</cfif>
 	<cfquery name="lookupPolygon" datasource="uam_god">
 		SELECT
 			error_polygon 
@@ -193,6 +226,9 @@ Utility methods to support display of spatial information on maps.
 	<cfargument name="locality_id" type="numeric" required="yes">
 	<cfargument name="debug" type="numeric" required="no">
 
+	<cfif isLocalityMasked(arguments.locality_id)>
+		<cfreturn '{ "type": "FeatureCollection", "features": [ ] }'>
+	</cfif>
 	<cfset retval = '{ "type": "FeatureCollection", "features": ['>
 	<cftry>
 		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
@@ -267,8 +303,29 @@ Utility methods to support display of spatial information on maps.
 				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 				and dec_lat is not null and dec_long is not null
 		</cfquery>
+		<cfset maskedLocalities = structNew()>
+		<cfif NOT (isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user") GT 0)>
+			<cfquery name="getMaskedLocalities" datasource="uam_god" result="getMaskedLocalities_result">
+				SELECT DISTINCT collecting_event.locality_id
+				FROM
+					locality
+					JOIN collecting_event ON locality.locality_id = collecting_event.locality_id
+					JOIN cataloged_item ON collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+					JOIN coll_object_encumbrance ON cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+					JOIN encumbrance ON coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+				WHERE
+					locality.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					AND encumbrance.encumbrance_action LIKE '%mask locality%'
+			</cfquery>
+			<cfloop query="getMaskedLocalities">
+				<cfset maskedLocalities[getMaskedLocalities.locality_id] = true>
+			</cfloop>
+		</cfif>
 		<cfset separator = " ">
 		<cfloop query="lookupGeorefs">
+			<cfif structKeyExists(maskedLocalities, lookupGeorefs.locality_id)>
+				<cfcontinue>
+			</cfif>
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
 			<cfset loc = rereplace(replace(spec_locality,'"','','All'),'[^A-Za-z0-9 .]','','all')><!--- remove quotes to embed in json --->
     		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
@@ -304,6 +361,9 @@ Utility methods to support display of spatial information on maps.
 	<cfargument name="locality_id" type="numeric" required="yes">
 	<cfargument name="debug" type="numeric" required="no">
 
+	<cfif isLocalityMasked(arguments.locality_id)>
+		<cfreturn "{ }">
+	</cfif>
 	<cfset retval = '{'>
 	<cftry>
 		<cfquery name="lookupGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">

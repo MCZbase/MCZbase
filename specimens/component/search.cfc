@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 
 <cfset DOWNLOAD_THRESHOLD = 1001>
 
@@ -3965,7 +3966,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cffunction name="getDownloadAgreeDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="filename" type="string" required="yes">
-	<cfthread name="getDownloadAgreeDialogThread">
+	<cfthread name="getDownloadAgreeDialogThread" csrf_token="#CSRFGenerateToken()#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getUserData" datasource="cf_dbuser">
@@ -3981,6 +3982,14 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<!--- Values already in the profile are shown read only; they are changed on the profile page. --->
+				<cfset readonlyFields = structNew()>
+				<cfloop list="first_name,middle_name,last_name,affiliation,email" index="fieldName">
+					<cfset readonlyFields[fieldName] = "">
+					<cfif getUserData.recordcount EQ 1 AND len(getUserData[fieldName][1]) GT 0>
+						<cfset readonlyFields[fieldName] = "readonly">
+					</cfif>
+				</cfloop>
 				<h3>Download Agreement</h3>
 				<form name="downloadForm" id="downloadForm">
 					<input type="hidden" name="user_id" value="#getUserData.user_id#">
@@ -3988,26 +3997,27 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="form-row">
 						<div class="col-12 p-1">
 							You must fill out this form before you may download data. Fields with a <input type="text" size="6" class="reqdClr" value="yellow" disabled aria-label="yellow"> background color are required.
+							Fields filled in from your profile can be changed on your <a href="/users/UserProfile.cfm" target="_blank">profile page</a>.
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-4">
 							<label for="first_name" class="data-entry-label">First Name</label>
-							<input type="text" name="first_name" id="first_name" value="#getUserData.first_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="first_name" id="first_name" value="#encodeForHtmlAttribute(getUserData.first_name)#" class="data-entry-input reqdClr" required #readonlyFields.first_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="middle_name" class="data-entry-label">Middle Name</label>
-							<input type="text" name="middle_name" id="middle_name" value="#getUserData.middle_name#" class="data-entry-input">
+							<input type="text" name="middle_name" id="middle_name" value="#encodeForHtmlAttribute(getUserData.middle_name)#" class="data-entry-input" #readonlyFields.middle_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="last_name" class="data-entry-label">Last Name</label>
-							<input type="text" name="last_name" id="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="last_name" id="last_name" value="#encodeForHtmlAttribute(getUserData.last_name)#" class="data-entry-input reqdClr" required #readonlyFields.last_name#>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
 							<label for="affiliation" class="data-entry-label">Affiliation</label>
-							<input type="text" name="affiliation" id="affiliation" value="#getUserData.affiliation#" class="data-entry-input reqdClr" required>
+							<input type="text" name="affiliation" id="affiliation" value="#encodeForHtmlAttribute(getUserData.affiliation)#" class="data-entry-input reqdClr" required #readonlyFields.affiliation#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="download_purpose" class="data-entry-label">Purpose of Download</td>
@@ -4041,11 +4051,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="form-row">
 						<div class="col-12 col-md-8">
 							<label for="email" class="data-entry-label">Email</label>
-							<input type="email" name="email" id="email" value="#getUserData.email#" class="data-entry-input" onchange="handleAgreeClick();">
+							<input type="email" name="email" id="email" value="#encodeForHtmlAttribute(getUserData.email)#" class="data-entry-input" onchange="handleAgreeClick();" #readonlyFields.email#>
 						</div>
-						<div class="col-12 col-md-4">
-							<label for="agree">I agree.</label>
-							<input type="checkbox" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" >
+						<div class="col-12 col-md-4 d-flex align-items-end pt-2 pt-md-0">
+							<div class="reqdClr d-inline-flex align-items-center px-2 py-1">
+								<input type="checkbox" class="m-0 mr-2" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" required>
+								<label for="agree" class="mb-0">I agree to these terms.</label>
+							</div>
 							<script>
 								function handleAgreeClick() {
 									var valid = false;
@@ -4066,9 +4078,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									$("##downloadFeedback").html("Download requested...");
 									jQuery.ajax({
 										dataType: "json",
+										type: "POST",
 										url: "/specimens/component/search.cfc",
 										data: { 
 											method : "logExternalDownload",
+											csrfToken : "#encodeForJavaScript(attributes.csrf_token)#",
 											result_id :  "#result_id#",
 											first_name :  $("##first_name").val(),
 											middle_name : $("##middle_name").val(),
@@ -4076,7 +4090,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											affiliation : $("##affiliation").val(),
 											download_purpose : $("##download_purpose").val(),
 											email : $("##email").val(),
-											agree : $("##agree").val()
+											agree : $("##agree").prop("checked") ? "yes" : "no"
 										},
 										error: function (jqXHR, status, message) {
 											console.log("Error logging download [#result_id#]: " + status + " " + jqXHR.responseText);
@@ -4177,6 +4191,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="download_purpose" type="string" required="no">
 	<cfargument name="agree" type="string" required="no">
+	<cfargument name="csrfToken" type="string" required="no" default="">
+	<!--- This saves the caller's email into their profile, which a forged request could point at
+		another address and then take over the account through password recovery. --->
+	<cfif NOT isPostWithCsrfToken(arguments.csrfToken)>
+		<cfheader statuscode="403" statustext="Forbidden">
+		<cfreturn "This request must come from the MCZbase download dialog.">
+	</cfif>
 	<!--- The download is logged whatever the email, since the download itself proceeds from the
 		link regardless of this call; only a validly formed address is saved to the profile. --->
 	<cfset var emailToSave = "">
