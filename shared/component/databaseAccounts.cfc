@@ -57,10 +57,13 @@ limitations under the License.
 	can be given a database account (see newDatabaseAccountName).
 
 	@param username the proposed username.
-	@return an empty string if the username can be registered, otherwise a message for the user.
+	@param currentUsername when renaming a user, their current username, so that their own row is
+		not counted as a clash.
+	@return an empty string if the username can be used, otherwise a message for the user.
 --->
 <cffunction name="usernameProblem" access="public" returntype="string" output="false">
 	<cfargument name="username" type="string" required="yes">
+	<cfargument name="currentUsername" type="string" required="no" default="">
 
 	<cfset var checkUsed = "">
 	<cfset var checkUsed_result = "">
@@ -70,15 +73,20 @@ limitations under the License.
 	<cfset var isEmail = isValid("email", arguments.username) AND REFind("^[A-Za-z0-9._@+-]+$", arguments.username) GT 0>
 
 	<cfif len(arguments.username) GT 30>
-		<cfreturn "Your username must be at most 30 characters long.">
+		<cfreturn "A username must be at most 30 characters long.">
 	</cfif>
 	<cfif NOT isIdentifier AND NOT isEmail>
-		<cfreturn "Your username must be either your email address, or start with a letter and contain only letters, digits and underscores.">
+		<cfreturn "A username must be an email address, or start with a letter and contain only letters, digits and underscores.">
 	</cfif>
 	<!--- Database accounts ignore case, so names differing only in case would share one. --->
 	<cfquery name="checkUsed" datasource="uam_god" result="checkUsed_result">
 		SELECT
-			(SELECT count(*) FROM cf_users WHERE upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">)
+			(SELECT count(*) FROM cf_users
+				WHERE upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">
+					<cfif len(arguments.currentUsername) GT 0>
+						AND username <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.currentUsername#">
+					</cfif>
+			)
 			+ (SELECT count(*) FROM dba_users WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">)
 			+ (SELECT count(*) FROM dba_roles WHERE role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.username)#">)
 			AS ct

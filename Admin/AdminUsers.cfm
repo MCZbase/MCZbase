@@ -835,6 +835,15 @@
 				<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
 			<cfabort>
 		</cfif>
+		<!--- A new username follows the registration rules, so the user can later be given a database account. --->
+		<cfif compare(variables.newUsername, form.orig_username) NEQ 0>
+			<cfset variables.usernameProblem = usernameProblem(variables.newUsername, form.orig_username)>
+			<cfif len(variables.usernameProblem) GT 0>
+				<p class="text-danger">#encodeForHtml(variables.usernameProblem)#
+					<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.orig_username)#">Go back</a></p>
+				<cfabort>
+			</cfif>
+		</cfif>
 		<cfif len(form.password) GT 0 AND len(variables.databaseAccount) GT 0>
 			<cfset variables.passwordProblem = databasePasswordProblem(form.password)>
 			<cfif len(variables.passwordProblem) EQ 0>
