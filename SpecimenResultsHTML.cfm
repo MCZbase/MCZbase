@@ -296,7 +296,6 @@
 		password = decrypt(session.epw,cookie.cfid),
 		cachedwithin = createtimespan(0,0,60,0)
 	})>
-	<cfset userSql = #preserveSingleQuotes(SqlString)#>
 
 	<cfif getData.recordcount is 0>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
