@@ -123,7 +123,8 @@ limitations under the License.
 	from any SQL.
 
 	@param exception the exception or cfcatch structure.
-	@return a structure of the type, message, detail, SQL and the templates and lines involved.
+	@return a structure of the type, message, detail, SQL, location (the template and line where it
+		happened, when known) and the templates and lines involved.
 --->
 <cffunction name="exceptionSummary" access="public" returntype="struct" output="false">
 	<cfargument name="exception" type="any" required="yes">
@@ -132,6 +133,8 @@ limitations under the License.
 	<cfset var frames = "">
 	<cfset var i = 0>
 	<cfset var source = arguments.exception>
+	<cfset var contextSource = "">
+	<cfset var contextHolder = "">
 
 	<!--- onError wraps the original exception in rootCause. --->
 	<cfif isStruct(source) AND structKeyExists(source, "rootCause") AND isStruct(source.rootCause)>
@@ -146,16 +149,27 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfloop>
-	<cftry>
-		<cfif structKeyExists(source, "tagContext") AND isArray(source.tagContext)>
-			<cfloop from="1" to="#min(arrayLen(source.tagContext), 10)#" index="i">
-				<cfset frames = listAppend(frames, "#source.tagContext[i].template#:#source.tagContext[i].line#", chr(10))>
-			</cfloop>
-			<cfset summary["tagContext"] = frames>
-		</cfif>
-	<cfcatch>
-	</cfcatch>
-	</cftry>
+	<!--- The root cause may have no tag context, as when a remote method is called without a
+		required argument, so take the first of the root cause, the exception and its cause that has one. --->
+	<cfloop list="rootCause,self,cause" index="contextSource">
+		<cftry>
+			<cfset contextHolder = arguments.exception>
+			<cfif contextSource NEQ "self">
+				<cfset contextHolder = arguments.exception[contextSource]>
+			</cfif>
+			<cfif len(frames) EQ 0 AND isStruct(contextHolder) AND structKeyExists(contextHolder, "tagContext") AND isArray(contextHolder.tagContext)>
+				<cfloop from="1" to="#min(arrayLen(contextHolder.tagContext), 10)#" index="i">
+					<cfset frames = listAppend(frames, "#replace(contextHolder.tagContext[i].template, expandPath('/'), '/')#:#contextHolder.tagContext[i].line#", chr(10))>
+				</cfloop>
+			</cfif>
+		<cfcatch>
+		</cfcatch>
+		</cftry>
+	</cfloop>
+	<cfif len(frames) GT 0>
+		<cfset summary["location"] = listFirst(frames, chr(10))>
+		<cfset summary["tagContext"] = frames>
+	</cfif>
 	<cfreturn summary>
 </cffunction>
 

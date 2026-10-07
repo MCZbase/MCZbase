@@ -55,7 +55,11 @@ limitations under the License.
 		<cfset local.errorReference = dateFormat(now(), "yyyymmdd") & "-" & left(replace(createUUID(), "-", "", "all"), 8)>
 		<cfset local.requestFacts = requestSummary()>
 		<cfset local.problem = exceptionSummary(arguments.exception)>
-		<cflog file="MCZbase" type="error" text="Error #local.errorReference# on #local.requestFacts.page# for user [#local.requestFacts.username#] from #local.requestFacts['remote address']#: #serializeJSON(local.problem)#">
+		<cfset local.location = "unknown line">
+		<cfif structKeyExists(local.problem, "location")>
+			<cfset local.location = local.problem.location>
+		</cfif>
+		<cflog file="MCZbase" type="error" text="Error #local.errorReference# on #local.requestFacts.page# at #local.location# for user [#local.requestFacts.username#] from #local.requestFacts['remote address']#: #serializeJSON(local.problem)#">
 		<cfset local.showDetail = false>
 		<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin") GT 0>
 			<cfset local.showDetail = true>
@@ -79,10 +83,14 @@ limitations under the License.
 							</i>
 						</cfif>
 						<p>
+							<cfset local.bugMessage = "">
+							<cfif structKeyExists(local.problem, "message")>
+								<cfset local.bugMessage = local.problem.message>
+							</cfif>
 							This error has been logged with the reference <strong>#encodeForHtml(local.errorReference)#</strong>.
-							Please select
-							<a href="/info/bugs.cfm">“Feedback/Report Errors”</a>
-							below to submit a bug report, and include the reference, the error message above and any other info that might help us to resolve this problem.
+							Please
+							<a href="/info/bugs.cfm?error_reference=#encodeForUrl(local.errorReference)#&error_message=#encodeForUrl(left(local.bugMessage, 1000))#">submit a bug report</a>,
+							which will start with the reference and the error message above, and add anything else that might help us to resolve this problem.
 						</p>
 					</cfoutput>
 				</td>
