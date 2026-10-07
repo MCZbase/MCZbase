@@ -19,7 +19,7 @@ limitations under the License.
 --->
 <cfset pageTitle="Add Deacc. Items by Barcode">
 <cfinclude template="/shared/_header.cfm">
-<!--- Unfinished redesign, to be completed under Redmine 1017: the form posts to a loanByBarcode.cfm that does not exist under
+<!--- TODO: Unfinished redesign, to be completed under Redmine 1017: the form posts to a loanByBarcode.cfm that does not exist under
 	/transactions/, so the page cannot save deaccession items.  Not available on production until it is finished. --->
 <cfif findNoCase('master',Session.gitBranch) GT 0>
 	<cfthrow message="Adding deaccession items by barcode is not yet available.">
