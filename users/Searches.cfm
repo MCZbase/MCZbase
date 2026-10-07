@@ -95,8 +95,8 @@
 							<tr id="tr#canned_id#">
 								<td>#encodeForHtml(target)#</td>
 								<td><a href="/saved/#encodeForURL(search_name)#">#encodeForHtml(search_name)#</a></td>
-								<!--- text-break lets long URLs wrap, so the table keeps within its container. --->
-								<td class="text-break"><a class="wrapurl" href="#encodeForHtmlAttribute(useUrl)#" target="_blank">#encodeForHtml(useUrl)#</a></td>
+								<!--- wrapurl lets long URLs wrap, so the table keeps within its container. --->
+								<td><a class="wrapurl" href="#encodeForHtmlAttribute(useUrl)#" target="_blank">#encodeForHtml(useUrl)#</a></td>
 								<td>#execute_text#</td>
 								<td><button type="button" class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#encodeForJavaScript(canned_id)#');">Delete</button></td>
 							</tr>
