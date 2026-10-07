@@ -35,7 +35,7 @@
 					SELECT SEARCH_NAME, URL, canned_id, execute
 					FROM 
 						cf_users
-						left join cf_canned_search on cf_users.user_id=cf_canned_search.user_id
+						join cf_canned_search on cf_users.user_id=cf_canned_search.user_id
 					WHERE
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					ORDER BY search_name
@@ -59,6 +59,7 @@
 						<tbody>
 						<cfloop query="getSavedSearches">
 							<cfset target = "">
+							<cfset page = "">
 							<cfset matches="#reMatch('/[A-Za-z/]+\.cfm',getSavedSearches.URL)#">
 							<cfif ArrayLen(matches) EQ 1>
 								<cfset page="#matches[1]#">
@@ -92,11 +93,12 @@
 								<cfset useUrl = replace(useUrl,"?execute=true","")>
 							</cfif>
 							<tr id="tr#canned_id#">
-								<td>#target#</td>
-								<td><a href="/saved/#encodeForURL(search_name)#">#search_name#</a></td>
-								<td><a class="wrapurl" href="#useUrl#" target="_blank">#useUrl#</a></td>
+								<td>#encodeForHtml(target)#</td>
+								<td><a href="/saved/#encodeForURL(search_name)#">#encodeForHtml(search_name)#</a></td>
+								<!--- text-break lets long URLs wrap, so the table keeps within its container. --->
+								<td class="text-break"><a class="wrapurl" href="#encodeForHtmlAttribute(useUrl)#" target="_blank">#encodeForHtml(useUrl)#</a></td>
 								<td>#execute_text#</td>
-								<td><button class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#canned_id#');">Delete</button></td>
+								<td><button type="button" class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#encodeForJavaScript(canned_id)#');">Delete</button></td>
 							</tr>
 						</cfloop>
 						</tbody>
