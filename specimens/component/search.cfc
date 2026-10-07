@@ -970,6 +970,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					SELECT * FROM (
 				</cfif>
 					SELECT distinct 
+						<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+							specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+							the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 						<cfset comma = "">
 						<cfloop query="getFieldMetadata">
 							<cfif len(sql_element) GT 0> 
@@ -1381,6 +1384,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT * FROM (
 			</cfif>
 			SELECT distinct
+				<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+					specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+					the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
@@ -2540,6 +2546,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT * FROM (
 			</cfif>
 			SELECT distinct
+				<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+					specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+					the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
@@ -3434,6 +3443,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cflog text="Query for stream. paging=#paging# count.ct=#count.ct#" file="MCZbase">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 					SELECT 
+						<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+							specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+							the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 						<cfset comma = "">
 						<cfloop array="#valid_columns#" index="idx">
 							<cfif len(idx.sql_element) GT 0> 
@@ -3484,6 +3496,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 							SELECT 
 								rownum as foundrownum,
+								<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+									specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+									the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 								<cfset comma = "">
 								<cfloop array="#valid_columns#" index="idx">
 									<cfif len(idx.sql_element) GT 0> 
@@ -3508,6 +3523,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 										SELECT 
 											rownum as foundrownum,
+											<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+												specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+												the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 											<cfset comma = "">
 											<cfloop array="#valid_columns#" index="idx">
 												<cfif len(idx.sql_element) GT 0> 
@@ -3520,6 +3538,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 											and
+											<!--- pagenumber is a loop counter and pagesize the constant 10000, both set in this method. --->
 											pagesort > = ((#pagenumber#-1) * #pagesize# + 1)
 											and
 											pagesort < ((#pagenumber# * #pagesize#) + 1)

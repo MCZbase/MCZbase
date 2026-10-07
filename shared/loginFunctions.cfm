@@ -104,6 +104,9 @@ limitations under the License.
 	<cfset reencodedToken = replace(reencodedToken,"##","_","All")>
 	<!--- truncate to max available characters --->
 	<cfset temp=cookie.cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+	<!--- These names are interpolated into SQL, including DDL, and cookie.cfid arrives from the browser:
+		keep only the characters a server issued CFID contains, so the names are plain identifiers. --->
+	<cfset temp = REReplace(temp, "[^A-Za-z0-9_]", "", "all")>
 	<cfset session.reencodedToken = reencodedToken>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
 	<cfset session.MediaSrchTab="MediaSrch" & temp>

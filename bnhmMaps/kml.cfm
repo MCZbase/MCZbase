@@ -323,7 +323,7 @@
 			from
 				data
 			where
-				scientific_name='#scientific_name#'
+				scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species.scientific_name#">
 			group by
 				dec_lat,
 				dec_long,
@@ -532,7 +532,7 @@
 			from
 				data
 			where
-				collection='#collection#'
+				collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln.collection#">
 			group by
 				dec_lat,
 				dec_long,

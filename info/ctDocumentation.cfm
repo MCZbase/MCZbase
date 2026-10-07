@@ -1,6 +1,8 @@
 <cfoutput>
 <cfinclude template="/includes/_frameHeader.cfm">
-<cfif not isdefined("table")>
+<cfparam name="url.table" default="">
+<cfparam name="url.field" default="">
+<cfif len(url.table) EQ 0>
    <h2>MCZbase controlled vocabulary tables</h2>
    <cfquery name="getCTName" datasource="uam_god">
       select
@@ -19,19 +21,32 @@
 	</ul>
 	<cfabort>
 </cfif>
-<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
+<!--- A table name cannot be a bind parameter, so the name used is the one the data dictionary
+	returns for a code table matching the request, never the request value itself. --->
+<cfset table = "">
+<cfif refind('^CT[A-Z_]+$',ucase(url.table)) GT 0>
+	<cfquery name="getCodeTable" datasource="uam_god" result="getCodeTable_result">
+		SELECT table_name
+		FROM sys.user_tables
+		WHERE
+			table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(url.table)#">
+			AND table_name LIKE 'CT%'
+	</cfquery>
+	<cfif getCodeTable.recordcount EQ 1>
+		<cfset table = getCodeTable.table_name>
+	</cfif>
+</cfif>
+<cfif len(table) EQ 0>
    <h2>This page can only be used for viewing the controled vocabularies in code tables</h2>
 	<cfabort>
 </cfif>
 
 <cfset tableName = right(table,len(table)-2)>
-<cfif not isdefined("field")>
-	<!--- this is the field value for the ct{name}.{name} field to put first --->
-	<cfset field="">
-</cfif>
+<!--- this is the field value for the ct{name}.{name} field to put first --->
+<cfset field = url.field>
 
 <div style="margin: 1em;">
-	<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+	<h3>Documentation for code table <strong>#encodeForHtml(tableName)#</strong>:</h3>
 	<cfif table is 'ctspecimen_part_name'>
 		<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
 	</cfif>
@@ -147,7 +162,7 @@
 				<cfif #docs.columnList# contains "collection_cde">
 					<cfloop query="chosenOne">
 						<tr style="background-color: ##339999; ">
-							<td nowrap>#field#</td>
+							<td nowrap>#encodeForHtml(field)#</td>
 							<td>#collection_cde#</td>
 							<td>
 								<cfif chosenOne.recordCount EQ 0>
@@ -162,7 +177,7 @@
 					</cfloop>
 				<cfelse>
 						<tr style="">
-							<td nowrap>#field#</td>
+							<td nowrap>#encodeForHtml(field)#</td>
 							<td>All</td>
 							<td>
 								<cfif isdefined("chosenOne.description")>
@@ -173,7 +188,7 @@
 				</cfif>
 			</cfif>
 		<cfquery name="theRest" dbtype="query">
-			select * from docs where #theColumnName# <> '#field#'
+			select * from docs where #theColumnName# <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
 				order by #theColumnName#
 			<cfif #docs.columnlist# contains "collection_cde">
 				 ,collection_cde
