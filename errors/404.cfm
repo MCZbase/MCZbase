@@ -72,11 +72,6 @@
 			<h1 class="h2">
 				404! The page you tried to access does not exist.
 			</h1>
-			<script type="text/javascript">
-				var GOOG_FIXURL_LANG = 'en';
-				var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
-			</script>
-			<script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
 			<script type="text/javascript" language="javascript">
 				function changeCollection () {
 					jQuery.getJSON("/component/functions.cfc",
