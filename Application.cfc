@@ -29,6 +29,8 @@ limitations under the License.
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
 		host to be served over https, as a browser will not return the cookie over http. --->
 	<cfset This.sessioncookie = { httponly = true, secure = true, samesite = "Lax" } />
+	<!--- requestSummary, exceptionSummary and redactedScope, for onError. --->
+	<cfinclude template="/shared/component/diagnostics.cfc" runOnce="true">
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
@@ -44,126 +46,56 @@ limitations under the License.
 	<cffunction name="onError">
 		<cfargument name="exception" required="true" />
 		<cfargument name="EventName" type="String" required="true" />
-		<cfset showErr=1 />
 		<cfif isdefined("exception.type") and exception.type eq "coldfusion.runtime.AbortException">
-                         <cfif  Application.serverRootUrl contains "-test">
-                                <cfset showErr=1 />
-                        <cfelse>
-                                <cfset showErr=0 />
-                        </cfif>
-
 			<cfreturn />
 		</cfif>
-		<cfif showErr is 1>
-			<cfsavecontent variable="errortext">
-				<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
-					<CFSET ipaddress=CGI.HTTP_X_Forwarded_For />
-				<CFELSEif  isdefined("CGI.Remote_Addr") and len(CGI.Remote_Addr) gt 0>
-					<CFSET ipaddress=CGI.Remote_Addr />
-				<cfelse>
-					<cfset ipaddress='unknown' />
-				</CFIF>
-				<cfoutput>
-					<p>
-						ipaddress:
-						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
-					</p>
-					(
-					<a href="https://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">add to blocklist</a>
-					)
-					<cfif isdefined("session.username")>
-						<br>
-						Username: #session.username#
-					</cfif>
-					<cfif isdefined("exception.Sql")>
-						<p>Sql: #exception.Sql#</p>
-					</cfif>
-				</cfoutput>
-				<hr>
-				Exceptions:
-				<hr>
-				<cfdump var="#exception#" label="exception" />
-				<hr>
-				<cfif isdefined("session")>
-					Session Dump:
-					<hr>
-					<cfdump var="#session#" label="session" />
-				</cfif>
-				Client Dump:
-				<hr>
-				<cfdump var="#client#" label="client" />
-				<hr>
-				Form Dump:
-				<hr>
-				<cfdump var="#form#" label="form" />
-				<hr>
-				URL Dump:
-				<hr>
-				<cfdump var="#url#" label="url" />
-				CGI Dump:
-				<hr>
-				<cfdump var="#CGI#" label="CGI" />
-			</cfsavecontent>
-
-			<cfif NOT isDefined("Application.serverRootUrl") OR Application.serverRootUrl contains "harvard.edu">
-				<cfif isdefined("session.username") and
-				(
-				#session.username# is "mkennedy" or
-				#session.username# is "mole" or
-				#session.username# is "heliumcell"
-				)>
-				<cfoutput>#errortext#</cfoutput>
-				</cfif>
-				<cfif NOT isDefined("Application.serverRootUrl")>
-					<cfoutput>#errortext#</cfoutput>
-				</cfif>
-			</cfif>
-			<!---cfoutput>#errortext#</cfoutput--->
-			<cfif isdefined("exception.errorCode") and exception.errorCode is "403">
-				<cfset subject="locked form" />
-			<cfelse>
-				<cfif isdefined("exception.detail")>
-					<cfif exception.detail contains "[Macromedia][Oracle JDBC Driver][Oracle]ORA-00600">
-						<cfset subject="[Macromedia][Oracle JDBC Driver][Oracle]ORA-00600" />
-					<cfelse>
-						<cfset subject="#exception.detail#" />
-					</cfif>
-				<cfelse>
-					<cfset subject="Unknown Error" />
-				</cfif>
-			</cfif>
-			<!---cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
-				#subject# #errortext#
-			</cfmail--->
-			<table cellpadding="10">
-				<tr>
-					<td valign="top"><img src="/images/blowup.gif"></td>
-					<td>
-						<font color="##FF0000" size="+1">
-							<strong>An error occurred while processing this page!</strong>
-						</font>
-						<cfif isdefined("exception.message")>
+		<!--- The error is logged under a reference shown to the user.  Diagnostics never include the
+			session scope or cookies: session.epw and the CFID cookie together give away the user's
+			database password (see diagnostics.cfc). --->
+		<cfset local.errorReference = dateFormat(now(), "yyyymmdd") & "-" & left(replace(createUUID(), "-", "", "all"), 8)>
+		<cfset local.requestFacts = requestSummary()>
+		<cfset local.problem = exceptionSummary(arguments.exception)>
+		<cflog file="MCZbase" type="error" text="Error #local.errorReference# on #local.requestFacts.page# for user [#local.requestFacts.username#] from #local.requestFacts['remote address']#: #serializeJSON(local.problem)#">
+		<cfset local.showDetail = false>
+		<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin") GT 0>
+			<cfset local.showDetail = true>
+		</cfif>
+		<table cellpadding="10">
+			<tr>
+				<td valign="top"><img src="/images/blowup.gif"></td>
+				<td>
+					<font color="##FF0000" size="+1">
+						<strong>An error occurred while processing this page!</strong>
+					</font>
+					<cfoutput>
+						<cfif structKeyExists(local.problem, "message")>
 							<br>
 							<i>
-								<cfoutput>
-									#exception.message#
-									<cfif isdefined("exception.detail")>
-										<br>
-										#exception.detail#
-									</cfif>
-								</cfoutput>
+								#encodeForHtml(local.problem.message)#
+								<cfif structKeyExists(local.problem, "detail")>
+									<br>
+									#encodeForHtml(local.problem.detail)#
+								</cfif>
 							</i>
 						</cfif>
 						<p>
-							This message has been logged. Please select
+							This error has been logged with the reference <strong>#encodeForHtml(local.errorReference)#</strong>.
+							Please select
 							<a href="/info/bugs.cfm">“Feedback/Report Errors”</a>
-							below to submit a bug report and include the error message above and any other info that might help us to resolve this problem.
+							below to submit a bug report, and include the reference, the error message above and any other info that might help us to resolve this problem.
 						</p>
-					</td>
-				</tr>
-			</table>
-			<cfinclude template="/includes/_footer.cfm">
+					</cfoutput>
+				</td>
+			</tr>
+		</table>
+		<cfif local.showDetail>
+			<!--- For administrators: the request and exception, with secrets removed. --->
+			<cfdump var="#local.requestFacts#" label="request">
+			<cfdump var="#local.problem#" label="exception">
+			<cfdump var="#redactedScope(form)#" label="form (redacted)">
+			<cfdump var="#redactedScope(url)#" label="url (redacted)">
 		</cfif>
+		<cfinclude template="/includes/_footer.cfm">
 		<cfreturn />
 	</cffunction>
 
