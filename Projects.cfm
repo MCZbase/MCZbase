@@ -595,8 +595,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							</div>
 						</div>
 					</div>
+					<!--- A 25-row page is ~100 tab stops. sr-only-focusable, not sr-only: a skip link
+					      that stays invisible when focused gives a sighted keyboard user nothing to see. --->
+					<a href="#afterResultsGrid" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Skip past results</a>
 					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
-					<div id="projectsGridDiv"></div>
+					<div id="projectsGridDiv" class="blueFocus"></div>
+					<div id="afterResultsGrid" tabindex="-1"></div>
 				</div>
 			</div>
 		</section>
@@ -943,7 +947,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			/* Grouping outside All would count one page while presenting a whole-result-set
 			   total, so moving off All ends the grouping rather than quietly misreporting. */
 			if (projectsGroupField && size !== true) {
-				clearProjectsGrouping("Grouping removed: it needs every row loaded.");
+				clearProjectsGrouping("Grouping removed: it needs every row loaded.", true);
 			}
 		});
 		projectsTable.on("columnMoved", function () {
@@ -995,7 +999,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * @param message optional note for the feedback output, for a grouping this page
 	 *   removed on the user's behalf rather than at their request.
 	 */
-	function clearProjectsGrouping(message) {
+	function clearProjectsGrouping(message, keepPageSize) {
 		projectsGroupField = null;
 		mczRenderGroupChip("groupChipBar", null, null);
 		$("##groupByColumn").val("");
@@ -1003,7 +1007,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			return;
 		}
 		projectsTable.setGroupBy(false);
-		if (projectsSizeBeforeGrouping !== null && projectsTable.getPageSize() !== projectsSizeBeforeGrouping) {
+		/* keepPageSize: the user reached here by picking a size themselves, so restoring the
+		   pre-grouping one would discard the choice that triggered this. */
+		if (!keepPageSize && projectsSizeBeforeGrouping !== null && projectsTable.getPageSize() !== projectsSizeBeforeGrouping) {
 			projectsIgnoreNextPageSizeChange = true;
 			projectsTable.setPageSize(projectsSizeBeforeGrouping);
 		}
@@ -1050,7 +1056,6 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function mczProjectsAjaxRequest(url, config, params) {
 		$("##overlay").show();
-		$("##actionFeedback").html("");
 		var sorter = (params.sort && params.sort[0]) || {};
 		var requestData = $.extend({}, params, {
 			sort_field: sorter.field || "",
@@ -1382,6 +1387,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function searchProjects() {
 		var tableAlreadyExisted = !!projectsTable;
+		/* Cleared here rather than per request: Tabulator reloads on its own for paging,
+		   sizing and sorting, and those wiped messages written moments earlier. */
+		$("##actionFeedback").html("");
 		/* New results, so any held selection described the old ones. */
 		mczClearSelectionStore(projectsTable, projectsSelection, function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");

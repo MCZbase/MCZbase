@@ -85,8 +85,11 @@ input.goodPick, select.goodPick, textarea.goodPick {
 table#t {
 	cursor: pointer;
 }
+/* Opt-in focus ring for links inside a container -- links otherwise fall through to
+   a:focus, which is only a colour change and a dotted underline. 40% matches the ring
+   buttons and inputs already get, so a grid holding both looks consistent. */
 .blueFocus a:focus {
-	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
+	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 40%);
 }
 /** Styling of external links out, shared with production **/
 .external:after {
