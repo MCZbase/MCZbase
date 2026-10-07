@@ -874,7 +874,7 @@
 			<cfset l=1>
 			<cfloop list="#rauths#" index="a" delimiters="|">
 				<cfif l lte 5>
-					<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+					<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select * from (
 							select
 								preferred_agent_name.agent_name,
@@ -903,7 +903,7 @@
 							<cfset thisLastName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[l].LastName.xmltext>
 						</cfif>
 
-						<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+						<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from (
 								select
 									preferred_agent_name.agent_name,
