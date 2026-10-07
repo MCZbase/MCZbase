@@ -321,7 +321,7 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
-	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
+	<cfset cfidAndToken = REReplace("#cookie.cfid##session.reencodedToken#", "[^A-Za-z0-9_]", "", "all")><!--- names in-memory queries; cookie.cfid comes from the browser --->
 
 	<!---- clear old queries from cache and cache flatquery ---->
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -349,7 +349,7 @@
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
 
-	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
+	<cfset cfidAndToken = REReplace("#cookie.cfid##session.reencodedToken#", "[^A-Za-z0-9_]", "", "all")><!--- names in-memory queries; cookie.cfid comes from the browser --->
 
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from SpecRes#cfidAndToken#
@@ -359,7 +359,7 @@
 	</cfquery>
 </cfif>
 <cfif NOT isDefined("cfidAndToken")>
-	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
+	<cfset cfidAndToken = REReplace("#cookie.cfid##session.reencodedToken#", "[^A-Za-z0-9_]", "", "all")><!--- names in-memory queries; cookie.cfid comes from the browser --->
 </cfif>
 <cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 	select * from SpecRes#cfidAndToken#

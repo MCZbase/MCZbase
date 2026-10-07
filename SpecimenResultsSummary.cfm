@@ -338,7 +338,7 @@
 	<cfset order_order = "asc">
 </cfif>
 
-<cfset cfidAndToken = "#cookie.cfid##session.reencodedToken#">
+<cfset cfidAndToken = REReplace("#cookie.cfid##session.reencodedToken#", "[^A-Za-z0-9_]", "", "all")><!--- names in-memory queries; cookie.cfid comes from the browser --->
 <cfif isdefined("newSearch") and #newSearch# is 1>
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData
