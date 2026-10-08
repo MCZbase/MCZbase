@@ -1,234 +1,323 @@
-<cfinclude template="/includes/_header.cfm">
+<!---
+Reports/SpecUsageReport.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+<!--- Builds a table in the user's own schema summarising specimen use by a list of projects and
+	publications.
+	TODO: Nothing links to this page; evaluate whether it is still needed, and remove it (and the
+	unused projectReportTable substitution in report_printer.cfm) if it is not. --->
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
+
+<!--- The table name can't be bound, so it is built only from the session's random hex key. --->
+<cfset TABLE_NAME_PREFIX = "projTable">
+<cfset ID_LIST_PATTERN = "^[0-9]+(,[0-9]+)*$">
+
+<cfparam name="url.project_id" default="">
+<cfparam name="url.publication_id" default="">
+<cfparam name="form.action" default="">
+<cfparam name="form.project_id" default="">
+<cfparam name="form.publication_id" default="">
+<cfparam name="form.report_title" default="">
+
+<cfset variables.action = "entryPoint">
+<cfset variables.project_id = url.project_id>
+<cfset variables.publication_id = url.publication_id>
+<cfset variables.report_title = "">
+<cfif form.action EQ "buildIt">
+	<cfset variables.action = "buildIt">
+	<cfset variables.project_id = form.project_id>
+	<cfset variables.publication_id = form.publication_id>
+	<cfset variables.report_title = trim(form.report_title)>
+</cfif>
+<cfset variables.project_id = REReplace(variables.project_id, "\s", "", "all")>
+<cfset variables.publication_id = REReplace(variables.publication_id, "\s", "", "all")>
+
+<!---
+	joinNames make a list of names into text: "a", "a and b", or "a, b, and c".
+
+	@param names the names, delimited by |, as names may contain commas.
+	@return the names as text.
+--->
+<cffunction name="joinNames" returntype="string" output="false">
+	<cfargument name="names" type="string" required="yes">
+	<cfset var nameCount = listLen(arguments.names, "|")>
+	<cfset var lastName = "">
+	<cfif nameCount LTE 1>
+		<cfreturn arguments.names>
+	</cfif>
+	<cfif nameCount EQ 2>
+		<cfreturn listChangeDelims(arguments.names, " and ", "|")>
+	</cfif>
+	<cfset lastName = listLast(arguments.names, "|")>
+	<cfreturn listChangeDelims(listDeleteAt(arguments.names, nameCount, "|"), ", ", "|") & ", and " & lastName>
+</cffunction>
+
+<cfset pageTitle = "Specimen Usage Report Data">
+<cfinclude template="/shared/_header.cfm">
 <cfoutput>
-	<cfif action is "nothing">
-		Enter a report title in the form below to get started.
-		</p>
-		<form name="a" method="post" action="SpecUsageReport.cfm">
-			<input type="hidden" name="action" value="buildIt">
-			<input type="hidden" name="project_id" value="#project_id#">
-			<input type="hidden" name="publication_id" value="#publication_id#">
-			<label for="reportTitle">Report Title</label>
-			<input type="text" size="60" name="report_title" id="report_title">
-			<br><input type="submit" value="Build Report Data" class="lnkBtn">
-		</form>
-	</cfif>
-	<cfif action is "buildIt">
-		<cfset session.projectReportTable="projTable#cookie.cfid##cookie.cftoken#">
-		<cftry>
-			<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				drop table #session.projectReportTable#
-			</cfquery>
-		<cfcatch><!--- not there, so what? ---></cfcatch>
-		</cftry>
-		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			create table #session.projectReportTable# (
-				report_title varchar2(4000),
-				project_id number,
-				project_name varchar2(4000),
-				project_dates varchar2(4000),
-				project_agents varchar2(4000),
-				project_sponsors varchar2(4000),
-				numberProjectAccnSpecimens number,
-				numberProjectLoanSpecimens number,
-				publication_id number,
-				formatted_publication varchar2(4000),
-				numberOfCitations number
-			)
-		</cfquery>
-		<cfif len(project_id) gt 0>
-			<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					project.project_id,
-					project.project_name,
-					to_char(project.start_date,'yyyy-mm-dd') start_date,
-					to_char(project.end_date,'yyyy-mm-dd') end_date
-				from
-					project
-				where
-					project_id in (#project_id#)
-			</cfquery>
-			<cfloop query="p">
-				<cfquery name="pa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 
-						agent_name
-					from
-						project_agent,
-						agent_name
-					where
-						project_agent.agent_name_id=agent_name.agent_name_id and
-						project_id=#p.project_id#
-					order by
-						AGENT_POSITION
+	<main class="container py-3" id="content">
+		<section class="row border rounded my-2 mb-4">
+			<div class="col-12">
+				<h1 class="h2 mt-2">Specimen Usage Report Data</h1>
+				<p>
+					Builds a table of specimen counts for a list of projects (specimens accessioned and loaned
+					through each project's transactions) and of citation counts for a list of publications,
+					for use in reports.
+				</p>
+				<form name="buildReport" id="buildReport" method="post" action="/Reports/SpecUsageReport.cfm">
+					#csrfTokenInput()#
+					<input type="hidden" name="action" value="buildIt">
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-4">
+							<label for="report_title" class="data-entry-label">Report Title</label>
+							<input type="text" name="report_title" id="report_title" class="data-entry-input" value="#encodeForHtmlAttribute(variables.report_title)#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="project_id" class="data-entry-label">Project IDs (comma separated)</label>
+							<input type="text" name="project_id" id="project_id" class="data-entry-input" value="#encodeForHtmlAttribute(variables.project_id)#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="publication_id" class="data-entry-label">Publication IDs (comma separated)</label>
+							<input type="text" name="publication_id" id="publication_id" class="data-entry-input" value="#encodeForHtmlAttribute(variables.publication_id)#">
+						</div>
+					</div>
+					<input type="submit" value="Build Report Data" class="btn btn-xs btn-primary mb-2">
+				</form>
+			</div>
+		</section>
+		<cfif variables.action EQ "buildIt">
+			<cfset variables.problems = "">
+			<cfif NOT isPostWithCsrfToken()>
+				<cfset variables.problems = listAppend(variables.problems, "The form had expired; please submit it again.", "|")>
+			</cfif>
+			<cfif len(variables.project_id) GT 0 AND REFind(ID_LIST_PATTERN, variables.project_id) EQ 0>
+				<cfset variables.problems = listAppend(variables.problems, "Project IDs must be numbers separated by commas.", "|")>
+			</cfif>
+			<cfif len(variables.publication_id) GT 0 AND REFind(ID_LIST_PATTERN, variables.publication_id) EQ 0>
+				<cfset variables.problems = listAppend(variables.problems, "Publication IDs must be numbers separated by commas.", "|")>
+			</cfif>
+			<cfif len(variables.project_id) EQ 0 AND len(variables.publication_id) EQ 0>
+				<cfset variables.problems = listAppend(variables.problems, "Enter at least one project or publication ID.", "|")>
+			</cfif>
+			<cfif NOT isDefined("session.DownloadFileID") OR REFind("^[0-9a-f]{32}$", session.DownloadFileID) EQ 0>
+				<cfset variables.problems = listAppend(variables.problems, "Your session is too old to build the table; please log out and in again.", "|")>
+			</cfif>
+			<cfif len(variables.problems) GT 0>
+				<section class="row">
+					<div class="col-12 alert alert-warning">
+						<ul class="mb-0">
+							<cfloop list="#variables.problems#" index="problem" delimiters="|">
+								<li>#encodeForHtml(problem)#</li>
+							</cfloop>
+						</ul>
+					</div>
+				</section>
+			<cfelse>
+				<cfset variables.tableName = TABLE_NAME_PREFIX & left(session.DownloadFileID, 21)>
+				<cfquery name="tableExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="tableExists_result">
+					SELECT count(*) AS ct
+					FROM user_tables
+					WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.tableName)#">
 				</cfquery>
-				<cfquery name="ps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 
-						agent_name,
-						ACKNOWLEDGEMENT
-					from
-						project_sponsor,
-						agent_name
-					where
-						project_sponsor.agent_name_id=agent_name.agent_name_id and
-						project_id=#p.project_id#
-				</cfquery>
-				<cfquery name="pan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 
-						count(distinct(cataloged_item.collection_object_id)) numSpec
-					from
-						project_trans,
-						accn,
-						cataloged_item
-					where
-						project_trans.TRANSACTION_ID=accn.TRANSACTION_ID and
-						accn.TRANSACTION_ID=cataloged_item.accn_id and
-						project_id=#p.project_id#
-				</cfquery>
-				<cfquery name="plo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select 
-						count(distinct(specimen_part.derived_from_cat_item)) numSpec
-					from
-						project_trans,
-						loan,
-						loan_item,
-						specimen_part
-					where
-						project_trans.TRANSACTION_ID=loan.TRANSACTION_ID and
-						loan.TRANSACTION_ID=loan_item.TRANSACTION_ID and
-						loan_item.collection_object_id=specimen_part.collection_object_id and
-						project_id=#p.project_id#
-				</cfquery>
-				<cfif pa.recordcount is 1>
-					<cfset project_agents=pa.agent_name>
-				<cfelseif pa.recordcount is 2>
-					<cfset project_agents=valuelist(pa.agent_name," and ")>
-				<cfelseif pa.recordcount gt 2>
-					<cfset project_agents=valuelist(pa.agent_name,",")>
-					<cfset lval = "and " & trim(ListLast(project_agents))>
-					<cfset project_agents=listdeleteat(project_agents,listlen(project_agents))>
-					<cfset project_agents=listappend(project_agents,lval)>
-					<cfset project_agents=listchangedelims(project_agents,", ")>
-				<cfelse>
-					<cfset project_agents="">
+				<cfif tableExists.ct GT 0>
+					<cfquery name="dropTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="dropTable_result">
+						DROP TABLE #variables.tableName#
+					</cfquery>
 				</cfif>
-				<cfif ps.recordcount is 1>
-					<cfset project_sponsors=ps.agent_name>
-				<cfelseif ps.recordcount is 2>
-					<cfset project_sponsors=valuelist(ps.agent_name," and ")>
-				<cfelseif ps.recordcount gt 2>
-					<cfset project_sponsors=valuelist(ps.agent_name,",")>
-					<cfset lval = "and " & trim(ListLast(project_sponsors))>
-					<cfset project_sponsors=listdeleteat(project_sponsors,listlen(project_sponsors))>
-					<cfset project_sponsors=listappend(project_sponsors,lval)>
-					<cfset project_sponsors=listchangedelims(project_sponsors,", ")>
-				<cfelse>
-					<cfset project_sponsors="">
-				</cfif>
-				<cfif p.start_date is p.end_date>
-					<cfset project_dates=p.start_date>
-				<cfelseif len(p.start_date) gt 0 and len(p.end_date) gt 0>
-					<cfset project_dates=p.start_date & '-' & p.end_date>
-				<cfelseif len(p.start_date) gt 0>
-					<cfset project_dates=p.start_date>
-				<cfelseif len(p.end_date) gt 0>
-					<cfset project_dates=p.end_date>			
-				</cfif>
-				<cfquery name="insProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into #session.projectReportTable# (
-						report_title,
-						project_id,
-						project_name,
-						project_dates,
-						project_agents,
-						project_sponsors,
-						numberProjectAccnSpecimens,
-						numberProjectLoanSpecimens
-					) values (
-						'#report_title#',
-						#p.project_id#,
-						'#p.project_name#',
-						'#project_dates#',
-						'#project_agents#',
-						'#project_sponsors#',
-						#pan.numSpec#,
-						#plo.numSpec#
+				<cfquery name="createTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="createTable_result">
+					CREATE TABLE #variables.tableName# (
+						report_title VARCHAR2(4000),
+						project_id NUMBER,
+						project_name VARCHAR2(4000),
+						project_dates VARCHAR2(4000),
+						project_agents VARCHAR2(4000),
+						project_sponsors VARCHAR2(4000),
+						numberProjectAccnSpecimens NUMBER,
+						numberProjectLoanSpecimens NUMBER,
+						publication_id NUMBER,
+						formatted_publication VARCHAR2(4000),
+						numberOfCitations NUMBER
 					)
 				</cfquery>
-			</cfloop>
-		</cfif>
-		<cfif len(publication_id) gt 0>
-			<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					formatted_publication.publication_id,
-					formatted_publication,
-					count(distinct(citation.collection_object_id)) numCits
-				from
-					formatted_publication,
-					citation
-				where
-					formatted_publication.publication_id = citation.publication_id (+) and
-					formatted_publication.format_style = 'long' and
-					formatted_publication.publication_id in (#publication_id#)
-				group by
-					formatted_publication.publication_id,
-					formatted_publication
-			</cfquery>
-			<cfloop query="p">
-				<cfquery name="insPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into #session.projectReportTable# (
-						report_title,
-						publication_id,
-						formatted_publication,
-						numberOfCitations
-					) values (
-						'#report_title#',
-						#publication_id#,
-						'#formatted_publication#',
-						#numCits#
-					)
+				<cftransaction>
+					<cfif len(variables.project_id) GT 0>
+						<cfquery name="getProjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProjects_result">
+							SELECT
+								project.project_id,
+								project.project_name,
+								to_char(project.start_date, 'yyyy-mm-dd') AS start_date,
+								to_char(project.end_date, 'yyyy-mm-dd') AS end_date
+							FROM project
+							WHERE
+								project.project_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.project_id#" list="yes">)
+						</cfquery>
+						<cfloop query="getProjects">
+							<cfquery name="getProjectAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProjectAgents_result">
+								SELECT agent_name.agent_name
+								FROM project_agent
+									JOIN agent_name ON project_agent.agent_name_id = agent_name.agent_name_id
+								WHERE
+									project_agent.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getProjects.project_id#">
+								ORDER BY project_agent.agent_position
+							</cfquery>
+							<cfquery name="getProjectSponsors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getProjectSponsors_result">
+								SELECT agent_name.agent_name
+								FROM project_sponsor
+									JOIN agent_name ON project_sponsor.agent_name_id = agent_name.agent_name_id
+								WHERE
+									project_sponsor.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getProjects.project_id#">
+							</cfquery>
+							<cfquery name="getAccnCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccnCount_result">
+								SELECT count(DISTINCT cataloged_item.collection_object_id) AS numSpec
+								FROM project_trans
+									JOIN accn ON project_trans.transaction_id = accn.transaction_id
+									JOIN cataloged_item ON accn.transaction_id = cataloged_item.accn_id
+								WHERE
+									project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getProjects.project_id#">
+							</cfquery>
+							<cfquery name="getLoanCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoanCount_result">
+								SELECT count(DISTINCT specimen_part.derived_from_cat_item) AS numSpec
+								FROM project_trans
+									JOIN loan ON project_trans.transaction_id = loan.transaction_id
+									JOIN loan_item ON loan.transaction_id = loan_item.transaction_id
+									JOIN specimen_part ON loan_item.collection_object_id = specimen_part.collection_object_id
+								WHERE
+									project_trans.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getProjects.project_id#">
+							</cfquery>
+							<cfset variables.projectDates = "">
+							<cfif getProjects.start_date EQ getProjects.end_date>
+								<cfset variables.projectDates = getProjects.start_date>
+							<cfelseif len(getProjects.start_date) GT 0 AND len(getProjects.end_date) GT 0>
+								<cfset variables.projectDates = getProjects.start_date & "-" & getProjects.end_date>
+							<cfelse>
+								<cfset variables.projectDates = getProjects.start_date & getProjects.end_date>
+							</cfif>
+							<cfquery name="insertProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertProject_result">
+								INSERT INTO #variables.tableName# (
+									report_title,
+									project_id,
+									project_name,
+									project_dates,
+									project_agents,
+									project_sponsors,
+									numberProjectAccnSpecimens,
+									numberProjectLoanSpecimens
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.report_title#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getProjects.project_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getProjects.project_name#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.projectDates#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#joinNames(valueList(getProjectAgents.agent_name, '|'))#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#joinNames(valueList(getProjectSponsors.agent_name, '|'))#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAccnCount.numSpec#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoanCount.numSpec#">
+								)
+							</cfquery>
+						</cfloop>
+					</cfif>
+					<cfif len(variables.publication_id) GT 0>
+						<cfquery name="getPublications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPublications_result">
+							SELECT
+								formatted_publication.publication_id,
+								formatted_publication.formatted_publication,
+								count(DISTINCT citation.collection_object_id) AS numCits
+							FROM formatted_publication
+								LEFT JOIN citation ON formatted_publication.publication_id = citation.publication_id
+							WHERE
+								formatted_publication.format_style = 'long'
+								AND formatted_publication.publication_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#" list="yes">)
+							GROUP BY
+								formatted_publication.publication_id,
+								formatted_publication.formatted_publication
+						</cfquery>
+						<cfloop query="getPublications">
+							<cfquery name="insertPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertPublication_result">
+								INSERT INTO #variables.tableName# (
+									report_title,
+									publication_id,
+									formatted_publication,
+									numberOfCitations
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.report_title#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPublications.publication_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPublications.formatted_publication#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPublications.numCits#">
+								)
+							</cfquery>
+						</cfloop>
+					</cfif>
+				</cftransaction>
+				<cfquery name="getReportRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getReportRows_result">
+					SELECT
+						project_id, project_name, project_dates, project_agents, project_sponsors,
+						numberProjectAccnSpecimens, numberProjectLoanSpecimens,
+						publication_id, formatted_publication, numberOfCitations
+					FROM #variables.tableName#
+					ORDER BY project_id, publication_id
 				</cfquery>
-			</cfloop>		
+				<section class="row mb-4">
+					<div class="col-12">
+						<h2 class="h3">Table #encodeForHtml(variables.tableName)#</h2>
+						<p>
+							The table is in your own schema and is replaced each time you build it. Each row holds either
+							a project or a publication. You can query it with
+							<a href="/tools/userSQL.cfm?sql=#encodeForUrl('SELECT * FROM ' & variables.tableName)#">Write SQL</a>,
+							which can download the result as CSV.
+						</p>
+						<cfif getReportRows.recordcount EQ 0>
+							<p>No matching projects or publications were found.</p>
+						<cfelse>
+							<table class="table table-responsive d-xl-table table-striped">
+								<thead>
+									<tr>
+										<th>Project or Publication</th>
+										<th>Dates</th>
+										<th>Agents</th>
+										<th>Sponsors</th>
+										<th>Accessioned Specimens</th>
+										<th>Loaned Specimens</th>
+										<th>Citations</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getReportRows">
+										<tr>
+											<cfif len(getReportRows.project_id) GT 0>
+												<td><a href="/project/#encodeForUrl(getReportRows.project_id)#">#encodeForHtml(getReportRows.project_name)#</a></td>
+												<td>#encodeForHtml(getReportRows.project_dates)#</td>
+												<td>#encodeForHtml(getReportRows.project_agents)#</td>
+												<td>#encodeForHtml(getReportRows.project_sponsors)#</td>
+												<td>#encodeForHtml(getReportRows.numberProjectAccnSpecimens)#</td>
+												<td>#encodeForHtml(getReportRows.numberProjectLoanSpecimens)#</td>
+												<td></td>
+											<cfelse>
+												<td colspan="6"><a href="/publication/#encodeForUrl(getReportRows.publication_id)#">#encodeForHtml(getReportRows.formatted_publication)#</a></td>
+												<td>#encodeForHtml(getReportRows.numberOfCitations)#</td>
+											</cfif>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
+					</div>
+				</section>
+			</cfif>
 		</cfif>
-		
-		You just created a table named #session.projectReportTable#.
-	
-	<p>
-		Table structure is:
-		<ul>
-			<li>report_title</li>
-			<li>project_id</li>
-			<li>project_name</li>
-			<li>project_dates</li>
-			<li>project_agents</li>
-			<li>project_sponsors</li>
-			<li>numberProjectAccnSpecimens</li>
-			<li>numberProjectLoanSpecimens</li>
-			<li>publication_id</li>
-			<li>formatted_publication</li>
-			<li>numberOfCitations</li>
-		</ul>
-		Each row will contain either report or project data, never both.
-	</p>
-	<p>
-		You may access this table in Reports as
-		##session.projectReportTable##, or query #session.projectReportTable# in 
-		<a href="/tools/userSQL.cfm?action=run&sql=select * from #session.projectReportTable#">Write SQL</a>, 
-		which allows CSV downloads		.
-	</p>
-	<p>
-	
-		See Reports and handlers for
-		<a href="/Reports/report_printer.cfm?report=ProjectTemplate">ProjectTemplate</a>
-		 and 
-		<a href="/Reports/report_printer.cfm?report=PublicationTemplate">PublicationTemplate</a>
-		in the 
-		<a href="/Reports/reporter.cfm">Reporter</a> and
-		<a href="/Reports/report_printer.cfm">Report Printer</a>
-		for example usage.
-	</p>
-	<p>
-		#session.projectReportTable# is a temporary table attached to your session. It is only available to you, 
-		and will need rebuilt after you log out or in approximately 2 hours.
-	</p>
-	</cfif>
+	</main>
 </cfoutput>
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

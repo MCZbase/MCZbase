@@ -692,7 +692,7 @@ limitations under the License.
 						<p class="mb-1">
 							#getDownloadTotals.downloads# downloads of #numberFormat(getDownloadTotals.records)# records in total;
 							most recent #getDownloadTotals.latest#.
-							<a href="/Admin/download.cfm?username=#encodeForUrl(getUsers.username)#&execute=true">List these downloads</a>.
+							<a href="/Admin/download.cfm?username=#encodeForUrl("=" & getUsers.username)#&execute=true">List these downloads</a>.
 						</p>
 						<table class="table table-responsive d-xl-table table-sm">
 							<thead class="thead-light">

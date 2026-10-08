@@ -39,6 +39,9 @@ limitations under the License.
 <cfparam name="url.execute" default="">
 
 <cfset variables.username = trim(url.username)>
+<!--- A leading = asks for an exact match, ignoring case; otherwise the username matches anywhere. --->
+<cfset variables.usernameExact = left(variables.username, 1) EQ "=">
+<cfset variables.usernameValue = REReplace(variables.username, "^=", "")>
 <cfset variables.download_purpose = trim(url.download_purpose)>
 <cfset variables.affiliation = trim(url.affiliation)>
 <cfset variables.begin_date = trim(url.begin_date)>
@@ -48,7 +51,8 @@ limitations under the License.
 	<cfset variables.execute = true>
 </cfif>
 <!--- With no parameters at all, open on the last year's downloads. --->
-<cfif structIsEmpty(url)>
+<!--- Not structIsEmpty(url): the cfparams above have filled the url scope. --->
+<cfif len(cgi.query_string) EQ 0>
 	<cfset variables.begin_date = dateFormat(dateAdd("yyyy", -1, now()), "yyyy-mm-dd")>
 	<cfset variables.execute = true>
 </cfif>
@@ -83,7 +87,7 @@ limitations under the License.
 						<input type="hidden" name="execute" value="true">
 						<div class="form-row">
 							<div class="col-12 col-md-3">
-								<label for="username" class="data-entry-label">Username (exact, any case)</label>
+								<label for="username" class="data-entry-label">Username (= for exact)</label>
 								<input type="text" name="username" id="username" class="data-entry-input" value="#encodeForHtmlAttribute(variables.username)#">
 							</div>
 							<div class="col-12 col-md-3">
@@ -120,6 +124,11 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
+					<script>
+						$(document).ready(function() {
+							makeAdminExactMatchAutocomplete("username", "getDownloadUserAutocomplete");
+						});
+					</script>
 				</div>
 			</div>
 		</section>
@@ -145,8 +154,12 @@ limitations under the License.
 					LEFT JOIN cf_user_data ON cf_download.user_id = cf_user_data.user_id
 				WHERE
 					1 = 1
-					<cfif len(variables.username) GT 0>
-						AND upper(cf_users.username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.username)#">
+					<cfif len(variables.usernameValue) GT 0>
+						<cfif variables.usernameExact>
+							AND upper(cf_users.username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.usernameValue)#">
+						<cfelse>
+							AND upper(cf_users.username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.usernameValue)#%">
+						</cfif>
 					</cfif>
 					<cfif len(variables.affiliation) GT 0>
 						AND upper(cf_user_data.affiliation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.affiliation)#%">
@@ -195,8 +208,12 @@ limitations under the License.
 				FROM cf_download_file
 				WHERE
 					1 = 1
-					<cfif len(variables.username) GT 0>
-						AND upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.username)#">
+					<cfif len(variables.usernameValue) GT 0>
+						<cfif variables.usernameExact>
+							AND upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.usernameValue)#">
+						<cfelse>
+							AND upper(username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.usernameValue)#%">
+						</cfif>
 					</cfif>
 					<cfif len(variables.begin_date) GT 0>
 						AND time_created >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#">

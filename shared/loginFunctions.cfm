@@ -72,8 +72,10 @@ limitations under the License.
 	<!------------------------ logout ------------------------------------>
 	<cfset StructClear(Session)>
 	<cflogout>
-	<cfset session.DownloadFileName = "MCZbaseData_#cookie.cfid##cookie.cftoken#.txt">
-	<cfset session.DownloadFileID = "#cookie.cfid##cookie.cftoken#">
+	<!--- Names the session's download and report files, which are served as static files without
+		a session check: random, so the names can't be guessed and don't reveal the session cookies. --->
+	<cfset session.DownloadFileID = lcase(left(hash(generateSecretKey("AES", 256), "SHA-256"), 32))>
+	<cfset session.DownloadFileName = "MCZbaseData_#session.DownloadFileID#.txt">
 	<cfset session.roles="public">
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">
@@ -104,6 +106,9 @@ limitations under the License.
 	<cfset reencodedToken = replace(reencodedToken,"##","_","All")>
 	<!--- truncate to max available characters --->
 	<cfset temp=cookie.cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+	<!--- These names are interpolated into SQL, including DDL, and cookie.cfid arrives from the browser:
+		keep only the characters a server issued CFID contains, so the names are plain identifiers. --->
+	<cfset temp = REReplace(temp, "[^A-Za-z0-9_]", "", "all")>
 	<cfset session.reencodedToken = reencodedToken>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
 	<cfset session.MediaSrchTab="MediaSrch" & temp>

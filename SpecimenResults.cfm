@@ -258,8 +258,10 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
-<cfif isdefined("debug") and debug is true>
-	#preserveSingleQuotes(SqlString)#
+<!--- Shows the assembled statement, its values as bind tokens; administrators only, as it names the
+	session's results table and the shape of the search. --->
+<cfif isdefined("url.debug") and url.debug is true and isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+	#encodeForHtml(SqlString)#
 </cfif>
 <!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
 <!--- The results table is built in two statements rather than one CREATE TABLE ... AS SELECT.
