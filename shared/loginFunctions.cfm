@@ -31,7 +31,8 @@ limitations under the License.
 			where cf_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#portal_id#">
 		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
-		<cfset session.epw = encrypt(portalInfo.dbpwd,cookie.cfid)>
+		<!--- session.cfid, not cookie.cfid: after a login rotates the session they differ until the next request --->
+		<cfset session.epw = encrypt(portalInfo.dbpwd,session.cfid)>
 		<cfset session.flatTableName = "filtered_flat">
 	<cfelse>
 		<cfset session.flatTableName = "flat">
@@ -215,6 +216,11 @@ limitations under the License.
 			<cfset session.epw = "">
 			<cflocation url="/login.cfm?locked=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
+		<!--- A new session id once the password is accepted, so an id planted in the browser before login
+			(session fixation, CWE-384) is useless afterwards.  The session's data moves to the new id.
+			Anything encrypted with the id below uses session.cfid, which is already the new one;
+			cookie.cfid still holds the old one until the browser's next request. --->
+		<cfset sessionRotate()>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
 			select upper(granted_role) role_name
@@ -275,7 +281,7 @@ limitations under the License.
 		</cfquery>
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
 			<cfset session.dbuser = "#getPrefs.username#">
-			<cfset session.epw = encrypt(pwd,cookie.cfid)>
+			<cfset session.epw = encrypt(pwd,session.cfid)>
 			<cftry>
 				<cfquery name="ckUserName" datasource="uam_god">
 					select agent_id 
