@@ -986,36 +986,6 @@
 	</cftry>
 	<cfreturn "nocontrol">
 </cffunction>
-<!------------------------------------------------------->
-<cffunction name="kill_canned_search" access="remote">
-	<cfargument name="canned_id" type="numeric" required="yes">
-	<!--- Only the caller's own saved search.  This component has no cf_rolecheck and anonymous
-		visitors run as a portal account with DELETE on cf_canned_search, so without the owner test
-		anyone could delete anyone's saved search by id. --->
-	<cftry>
-		<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT user_id
-			FROM cf_users
-			WHERE
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfquery name="res" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="res_result">
-			DELETE FROM cf_canned_search
-			WHERE
-				canned_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.canned_id#">
-				AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#" null="#getUserID.recordcount NEQ 1#">
-		</cfquery>
-		<cfif res_result.recordcount EQ 1>
-			<cfset result="#arguments.canned_id#">
-		<cfelse>
-			<cfset result = "failure: you have no saved search with that id.">
-		</cfif>
-	<cfcatch>
-		<cfset result = "failure: #cfcatch.Message# #cfcatch.Detail#">
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="genMD5" access="remote">
 	<cfargument name="uri" type="string" required="yes">
