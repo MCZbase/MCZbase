@@ -25,12 +25,23 @@ limitations under the License.
 <cfcomponent>
 
 <!---
-	recaptchaWidget the reCAPTCHA checkbox, with Google's script, to place inside a form.
+	recaptchaWidget the reCAPTCHA checkbox, with Google's script, to place inside a form, and a warning
+	shown when the script can't run: blocked by the browser or an extension, failed to load, or
+	scripts turned off.  Without the warning the form shows nothing where the checkbox should be,
+	and its submission is refused.
 
 	@return the HTML for the widget; the form posts its answer as g-recaptcha-response.
 --->
 <cffunction name="recaptchaWidget" access="public" returntype="string" output="false">
-	<cfreturn '<script src="https://www.google.com/recaptcha/api.js" async defer></script>'
+	<cfset var warningText = "The ""I'm not a robot"" check could not be shown, so this form can't be sent.  It needs scripts from www.google.com and www.gstatic.com: allow them in your browser or privacy extension, then reload this page.">
+	<!--- Plain DOM rather than jQuery, as errors/gtfo.cfm is shown without the page header and its libraries. --->
+	<cfreturn '<div id="recaptchaBlockedWarning" class="alert alert-warning" role="alert" style="display: none;">#encodeForHtml(warningText)#</div>'
+		& '<noscript><div class="alert alert-warning" role="alert">#encodeForHtml(warningText)#</div></noscript>'
+		& '<script>'
+		& 'function showRecaptchaBlockedWarning() { var w = document.getElementById("recaptchaBlockedWarning"); if (w) { w.style.display = "block"; } }'
+		& 'window.addEventListener("load", function() { setTimeout(function() { if (typeof grecaptcha === "undefined" || !document.querySelector(".g-recaptcha iframe")) { showRecaptchaBlockedWarning(); } }, 5000); });'
+		& '</script>'
+		& '<script src="https://www.google.com/recaptcha/api.js" async defer onerror="showRecaptchaBlockedWarning();"></script>'
 		& '<div class="g-recaptcha" data-sitekey="#encodeForHtmlAttribute(Application.g_sitekey)#"></div>'>
 </cffunction>
 
