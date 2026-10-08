@@ -24,7 +24,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
-<cfif NOT isDefined("loginLocks")>
+<cfif NOT isDefined("lockedLogins")>
 	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
 </cfif>
 
@@ -88,7 +88,6 @@ limitations under the License.
 							<div class="col-12">
 								<input type="submit" value="Find" class="btn btn-xs btn-primary">
 								<a href="/Admin/AdminUsers.cfm" class="btn btn-xs btn-warning">New Search</a>
-								<a href="/Admin/AdminUsers.cfm?action=loginLocks" class="btn btn-xs btn-info">Login Locks</a>
 							</div>
 						</div>
 					</form>
@@ -99,10 +98,7 @@ limitations under the License.
 
 <cfif variables.action EQ "list">
 	<!--- usernames whose MCZbase logins are locked after repeated failures (loginThrottle.cfc) --->
-	<cfset loginLocked = loginLocks()>
-	<cfquery name="lockedUsernames" dbtype="query">
-		SELECT lock_key, locked_until FROM loginLocked WHERE kind = 'username' AND is_locked = 1
-	</cfquery>
+	<cfset lockedUsernames = lockedLogins("username")>
 	<cfset variables.loginLockedUntil = structNew()>
 	<cfloop query="lockedUsernames">
 		<cfset variables.loginLockedUntil[lockedUsernames.lock_key] = lockedUsernames.locked_until>
@@ -148,9 +144,9 @@ limitations under the License.
 				<!--- locked in Oracle, or locked out of MCZbase logins after repeated failures --->
 				and (
 					DBA_USERS.lock_date IS NOT NULL
-					<cfif lockedUsernames.recordcount GT 0>
-						OR lower(cf_users.username) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valueList(lockedUsernames.lock_key)#" list="yes">)
-					</cfif>
+					OR lower(cf_users.username) IN (
+						SELECT lock_key FROM cf_login_failure WHERE lock_kind = 'username' AND locked_until > sysdate
+					)
 				)
 			</cfif>
 		ORDER BY
@@ -261,6 +257,42 @@ limitations under the License.
 						</cfloop>
 					</tbody>
 				</table>
+				<cfif variables.state EQ "locked">
+					<!--- addresses aren't users, so their login locks are listed separately --->
+					<cfset lockedAddresses = lockedLogins("address")>
+					<h2 class="h3">#lockedAddresses.recordcount# client addresses with locked logins.</h2>
+					<cfif lockedAddresses.recordcount GT 0>
+						<table class="table table-responsive d-xl-table table-sm table-striped">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">Address</th>
+									<th scope="col">Failures</th>
+									<th scope="col">Locked Until</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="lockedAddresses">
+									<tr>
+										<td>#encodeForHtml(lockedAddresses.lock_key)#</td>
+										<td>#encodeForHtml(lockedAddresses.failures)#</td>
+										<td>#dateTimeFormat(lockedAddresses.locked_until, "yyyy-mm-dd HH:nn")#</td>
+										<td>
+											<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
+												<input type="hidden" name="action" value="clearLoginLock">
+												#csrfTokenInput()#
+												<input type="hidden" name="kind" value="address">
+												<input type="hidden" name="key" value="#encodeForHtmlAttribute(lockedAddresses.lock_key)#">
+												<input type="hidden" name="returnTo" value="locked">
+												<button type="submit" class="btn btn-xs btn-warning">Clear Login Lock</button>
+											</form>
+										</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+				</cfif>
 			</div>
 		</section>
 	</cfoutput>
@@ -799,79 +831,11 @@ limitations under the License.
 	</cfif>
 </cfif>
 <!---------------------------------------------------->
-<cfif variables.action EQ "loginLocks">
-	<!--- MCZbase login locks and recent failures (loginThrottle.cfc), held in memory until they expire
-		or the server restarts.  Oracle account locks are shown and cleared on each user's edit view. --->
-	<cfset variables.locks = loginLocks()>
-	<cfset variables.throttleSettings = loginThrottleSettings()>
-	<cfoutput>
-		<section class="row mx-0 mb-4">
-			<div class="col-12">
-				<h2 class="h3">Login Locks</h2>
-				<p>
-					A username is locked for #variables.throttleSettings.lockMinutes# minutes after
-					#variables.throttleSettings.usernameLimit# failed logins within #variables.throttleSettings.windowMinutes# minutes,
-					and a client address after #variables.throttleSettings.addressLimit#. Usernames that don't exist are counted too.
-					These are held in memory and are cleared by a restart. Oracle account locks are shown on each user's edit page,
-					and found by the Locked Account search.
-				</p>
-				<cfif variables.locks.recordcount EQ 0>
-					<p>No locks or recent failures.</p>
-				<cfelse>
-					<table class="table table-responsive d-xl-table table-sm table-striped">
-						<thead class="thead-light">
-							<tr>
-								<th scope="col">Kind</th>
-								<th scope="col">Username or Address</th>
-								<th scope="col">Failures</th>
-								<th scope="col">Since</th>
-								<th scope="col">Locked Until</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="variables.locks">
-								<tr>
-									<td>#encodeForHtml(variables.locks.kind)#</td>
-									<td>
-										<cfif variables.locks.kind EQ "username">
-											<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.locks.lock_key)#">#encodeForHtml(variables.locks.lock_key)#</a>
-										<cfelse>
-											#encodeForHtml(variables.locks.lock_key)#
-										</cfif>
-									</td>
-									<td>#encodeForHtml(variables.locks.failures)#</td>
-									<td>#dateTimeFormat(variables.locks.window_start, "yyyy-mm-dd HH:nn")#</td>
-									<td>
-										<cfif variables.locks.is_locked EQ 1>
-											<span class="badge badge-danger">locked</span> #encodeForHtml(variables.locks.locked_until)#
-										</cfif>
-									</td>
-									<td>
-										<form method="post" action="/Admin/AdminUsers.cfm" class="d-inline m-0">
-											<input type="hidden" name="action" value="clearLoginLock">
-											#csrfTokenInput()#
-											<input type="hidden" name="kind" value="#encodeForHtmlAttribute(variables.locks.kind)#">
-											<input type="hidden" name="key" value="#encodeForHtmlAttribute(variables.locks.lock_key)#">
-											<input type="hidden" name="returnTo" value="loginLocks">
-											<button type="submit" class="btn btn-xs btn-warning">Clear</button>
-										</form>
-									</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
-				</cfif>
-			</div>
-		</section>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------->
 <cfif variables.action EQ "clearLoginLock">
-	<!--- Posted by the Clear buttons on the edit view and the Login Locks view. --->
+	<!--- Posted by the Clear Login Lock buttons on the edit view and the Locked Account search. --->
 	<cfparam name="form.kind" default="">
 	<cfparam name="form.key" default="">
-	<cfparam name="form.returnTo" default="loginLocks">
+	<cfparam name="form.returnTo" default="locked">
 	<cfif NOT isPostWithCsrfToken()>
 		<cfthrow message="Clearing a login lock requires a post from this page.">
 	</cfif>
@@ -883,7 +847,7 @@ limitations under the License.
 	<cfif form.returnTo EQ "edit">
 		<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.key)#" addtoken="false">
 	<cfelse>
-		<cflocation url="/Admin/AdminUsers.cfm?action=loginLocks" addtoken="false">
+		<cflocation url="/Admin/AdminUsers.cfm?action=list&state=locked" addtoken="false">
 	</cfif>
 </cfif>
 <!---------------------------------------------------->
