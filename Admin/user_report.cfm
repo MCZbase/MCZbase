@@ -25,8 +25,12 @@ limitations under the License.
 
 <cfset local.canEditUsers = isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin")>
 
+<cfif NOT isDefined("usernameLoginLockedUntil")>
+	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
+</cfif>
+
 <cfquery name="addDbUsers" datasource="uam_god">
-	SELECT username
+	SELECT username, account_status
 	FROM dba_users
 	ORDER BY username
 </cfquery>
@@ -83,6 +87,12 @@ limitations under the License.
 								<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(addDbUsers.username)#">#encodeForHtml(addDbUsers.username)#</a>
 							<cfelse>
 								#encodeForHtml(addDbUsers.username)#
+							</cfif>
+							<cfif findNoCase("LOCKED", addDbUsers.account_status) GT 0>
+								<span class="badge badge-danger" title="Oracle account #encodeForHtmlAttribute(lcase(addDbUsers.account_status))#">oracle locked</span>
+							</cfif>
+							<cfif len(usernameLoginLockedUntil(addDbUsers.username)) GT 0>
+								<span class="badge badge-danger" title="MCZbase logins locked after repeated failures">login locked</span>
 							</cfif>
 						</td>
 						<td>#encodeForHtml(trim(cfUser.FIRST_NAME & " " & cfUser.MIDDLE_NAME & " " & cfUser.LAST_NAME))#</td>

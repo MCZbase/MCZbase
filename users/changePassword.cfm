@@ -527,6 +527,11 @@ The password for your #Application.application_name# account, username #variable
 If you did not do this, reply to #Application.technicalEmail# at once.
 							</cfmail>
 						</cfif>
+						<!--- a reset proves control of the account's email, so it also ends a lock from failed logins --->
+						<cfif NOT isDefined("clearLoginLock")>
+							<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
+						</cfif>
+						<cfset clearLoginLock("username", variables.resetUser.username)>
 						<cfset initSession()>
 						<h1 class="h3">Your password has been changed</h1>
 						<p><a href="/login.cfm?username=#encodeForUrl(variables.resetUser.username)#">Log in to #encodeForHtml(Application.application_name)#</a> with your new password.</p>

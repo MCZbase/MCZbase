@@ -782,7 +782,9 @@ limitations under the License.
 				<cfelseif cgi.script_name EQ "/guid/handler.cfm" AND isDefined("url.catalog") AND len(trim(url.catalog)) GT 0 AND REFind("^[A-Z]+:[A-Za-z]+:[A-Za-z0-9-]+$", trim(url.catalog)) GT 0>
 					<!--- initial request was for /guid/{guid} but user is not logged in, so send to login page and then back to the guid page after successful login --->
 					<cfset gtp = "/guid/#trim(url.catalog)#">
-				<cfelseif isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(trim(cgi.REDIRECT_URL), 1) EQ "/" AND left(trim(cgi.REDIRECT_URL), 2) NEQ "//">
+				<cfelseif cgi.script_name EQ "/errors/missing.cfm" AND isDefined("cgi.REDIRECT_URL") AND len(trim(cgi.REDIRECT_URL)) GT 0 AND left(trim(cgi.REDIRECT_URL), 1) EQ "/" AND left(trim(cgi.REDIRECT_URL), 2) NEQ "//">
+					<!--- a path such as /name/... answered by the 404 handler; for any other page REDIRECT_URL
+						lacks the query string, so the page and its query string below are used instead --->
 					<cfset gtp = trim(cgi.REDIRECT_URL)>
 				<cfelseif isDefined("requestData.headers.referer") AND len(trim(requestData.headers.referer)) GT 0 AND left(trim(requestData.headers.referer), len(application.serverRootUrl)) EQ application.serverRootUrl>
 					<cfset gtp = replace(trim(requestData.headers.referer), application.serverRootUrl, "")>
@@ -805,7 +807,7 @@ limitations under the License.
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="mode" value="">
-					<input type="hidden" name="gotopage" value="#gtp#">
+					<input type="hidden" name="gotopage" value="#encodeForHtmlAttribute(gtp)#">
 					<div class="login-form" id="header_login_form_div">
 						<label for="username" class="sr-only"> Username:</label>
 						<input type="text" name="username" id="username" placeholder="username" class="loginfields d-inline loginButtons loginfld1">
