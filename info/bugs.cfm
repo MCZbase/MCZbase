@@ -27,6 +27,13 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="bugReportForm">
+		<!--- The error page links here with its reference and message, to start the report. --->
+		<cfparam name="url.error_reference" default="">
+		<cfparam name="url.error_message" default="">
+		<cfset variables.complaintText = "">
+		<cfif REFind("^[0-9]{8}-[0-9A-F]{8}$", url.error_reference) GT 0>
+			<cfset variables.complaintText = "Error reference: #url.error_reference#" & chr(10) & "Error message: #left(url.error_message, 1000)#" & chr(10) & chr(10)>
+		</cfif>
 		<cfoutput>
 			<cfset reportedName ="">
 			<cfset email = "">
@@ -187,7 +194,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
-											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
+											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required>#encodeForHtml(variables.complaintText)#</textarea>
 										</div>
 										<script>
 											// Make textarea with autogrow class be bound to the autogrow function on key up

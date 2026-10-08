@@ -197,7 +197,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 				<cfthrow message="Not a code table: #encodeForHtml(isValCt.value_code_table)#" type="error">
 			</cfif>
 			<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isValCt.value_code_table#
+				select * from #ucase(isValCt.value_code_table)#
 			</cfquery>
 			<!----------------------->
 				<cfset collCode = "">
@@ -261,7 +261,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 			</cfif>
 			<!---- get the data --->
 			<cfquery name="unitCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from #isUnitCt.units_code_table#
+				select * from #ucase(isUnitCt.units_code_table)#
 			</cfquery>
 				<cfset collCode = "">
 				<cfset columnName = "">

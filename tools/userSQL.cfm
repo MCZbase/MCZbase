@@ -81,7 +81,7 @@ limitations under the License.
 					<h1 class="h2">SQL</h1>
 					<p class="">#guidanceText#</p>
 					<label for="sql" class="data_entry_label d-none">SQL</label>
-					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
+					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#encodeForHtml(sql)#</textarea>
 					<h2 class="h3">Result Output Format: &nbsp; &nbsp;
 					Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 					CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
@@ -123,7 +123,7 @@ limitations under the License.
 							<cfif format is "csv">
 								<cfset ac = user_sql.columnlist>
 								<cfset fileDir = "#Application.webDirectory#/download/">
-								<cfset fileName = "MCZbaseUserSql_#cookie.cfid#_#cookie.cftoken#.csv">
+								<cfset fileName = "MCZbaseUserSql_#session.DownloadFileID#.csv">
 								<cfset header=#trim(ac)#>
 								<cffile action="write" file="#fileDir##fileName#" addnewline="yes" output="#header#">
 								<cfloop query="user_sql">
@@ -145,9 +145,9 @@ limitations under the License.
 							</cfif>
 						<cfcatch>
 							<div class="error">
-								#cfcatch.message#
+								#encodeForHtml(cfcatch.message)#
 								<br>
-								#cfcatch.detail#
+								#encodeForHtml(cfcatch.detail)#
 							</div>
 						</cfcatch>
 						</cftry>

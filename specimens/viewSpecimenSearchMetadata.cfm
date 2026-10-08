@@ -97,6 +97,11 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="getFlatCols">
+										<!--- getExample interpolates column_name, from the data dictionary (getFlatCols), and samplePct,
+											a number computed below from table statistics; only plain identifiers are used. --->
+										<cfif REFind("^[A-Z][A-Z0-9_$##]*$", getFlatCols.column_name) EQ 0>
+											<cfcontinue>
+										</cfif>
 										<!--- Calculate optimal sample percentage from Oracle statistics --->
 										<cfset samplePct = 20><!--- default if stats unavailable --->
 										<cfset statsAvailable = ( NOT isNull(getFlatCols.num_rows) AND NOT isNull(getFlatCols.num_nulls) AND getFlatCols.num_rows GT 0)>

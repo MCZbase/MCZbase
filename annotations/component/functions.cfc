@@ -1383,21 +1383,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 </cffunction>
 
 
-<!--- Deliver html for a dialog to review and manage annotations on a cataloged item.
- Delegates to getAnnotationDialogHtml for a unified annotation dialog.
- @param collection_object_id the surrogate numeric primary key value for the cataloged_item.
- @return html for a dialog to review and manage annotations on a cataloged item.
---->
-<cffunction name="getReviewCIAnnotationHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfset var generatedDialogId = "reviewAnnotationsDialog_" & val(arguments.collection_object_id)>
-	<cfreturn getAnnotationDialogHtml(
-		target_type = "COLL_OBJECT",
-		target_id = val(arguments.collection_object_id),
-		dialogId = generatedDialogId
-	)>
-</cffunction>
-
 <!--- Update the review status and optional comment for an annotation.  Requires manage_collection.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
  @param reviewed_fg 1 if the annotation has been reviewed, 0 if not.

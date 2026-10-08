@@ -3,8 +3,11 @@
 <cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 	<cflocation url="/errors/forbidden.cfm" addtoken="false">
 </cfif>
+<!--- Redacted, so that a screenshot of this page can't give away the viewer's database password
+	(session.epw with the CFID in the Cookie header) or the application's credentials. --->
+<cfinclude template="/shared/component/diagnostics.cfc" runOnce="true">
 <cfdump var="#variables#" label="variables">
-<cfdump var=#client# label="client">
-<cfdump var=#session# label="session">
-<cfdump var=#application# label="application">
-<cfdump var=#cgi# label="cgi">
+<cfdump var="#redactedScope(client)#" label="client (redacted)">
+<cfdump var="#redactedScope(session)#" label="session (redacted)">
+<cfdump var="#redactedScope(application)#" label="application (redacted)">
+<cfdump var="#redactedScope(cgi)#" label="cgi (redacted)">

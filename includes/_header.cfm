@@ -450,16 +450,19 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 									<div style="float:left;width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Users/Privileges</div>
-										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/Admin/AdminUsers.cfm">MCZbase Users</a>
-										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
-										<a class="dropdown-item" target="_top" href="/Admin/download.cfm">User Download Statistics</a>
-										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
-										<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
-										<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
-										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
+										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Manage Blocklist</a>
+										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
+										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
+										<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
+										<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
+									</div>
+									<div style="float:left;width: 92%;">
+										<div class="h5 dropdown-header px-2 text-danger">User Activity</div>
+										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
+										<a class="dropdown-item" target="_top" href="/Admin/download.cfm">User Download Statistics</a>
 									</div>
 									<div style="float:left;width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Application</div>
