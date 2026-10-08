@@ -18,10 +18,9 @@ limitations under the License.
 
 --->
 <!--- Builds a table in the user's own schema summarising specimen use by a list of projects and
-	publications, for report templates in Reports/report_printer.cfm, which refer to it as
-	#session.projectReportTable#.
+	publications.
 	TODO: Nothing links to this page; evaluate whether it is still needed, and remove it (and the
-	projectReportTable substitution in report_printer.cfm) if it is not. --->
+	unused projectReportTable substitution in report_printer.cfm) if it is not. --->
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 
 <!--- The table name can't be bound, so it is built only from the session's random hex key. --->
@@ -129,8 +128,7 @@ limitations under the License.
 					</div>
 				</section>
 			<cfelse>
-				<cfset session.projectReportTable = TABLE_NAME_PREFIX & left(session.DownloadFileID, 21)>
-				<cfset variables.tableName = session.projectReportTable>
+				<cfset variables.tableName = TABLE_NAME_PREFIX & left(session.DownloadFileID, 21)>
 				<cfquery name="tableExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="tableExists_result">
 					SELECT count(*) AS ct
 					FROM user_tables
@@ -277,10 +275,7 @@ limitations under the License.
 						<h2 class="h3">Table #encodeForHtml(variables.tableName)#</h2>
 						<p>
 							The table is in your own schema and is replaced each time you build it. Each row holds either
-							a project or a publication. Report templates in the
-							<a href="/Reports/reporter.cfm">Reporter</a> refer to it as
-							<code>##session.projectReportTable##</code> (see the ProjectTemplate and PublicationTemplate
-							reports). You can also query it with
+							a project or a publication. You can query it with
 							<a href="/tools/userSQL.cfm?sql=#encodeForUrl('SELECT * FROM ' & variables.tableName)#">Write SQL</a>,
 							which can download the result as CSV.
 						</p>
