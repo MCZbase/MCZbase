@@ -17,6 +17,19 @@ limitations under the License.
 
 --->
 <!----------------------------------------------------------->
+<!---
+	currentCfid the CFID of the current session, which keys the encryption of session.epw.
+
+	@return session.cfid, which after sessionRotate at login is already the new id while cookie.cfid
+		still holds the old one until the next request; cookie.cfid if the session has no cfid.
+--->
+<cffunction name="currentCfid" output="false" returntype="string">
+	<cfif structKeyExists(session, "cfid") AND len(session.cfid) GT 0>
+		<cfreturn session.cfid>
+	</cfif>
+	<cfreturn cookie.cfid>
+</cffunction>
+<!----------------------------------------------------------->
 <cffunction name="setDbUser" output="true" returntype="boolean">
 	<cfargument name="portal_id" type="string" required="false">
 	<!--- portal id may be provided from cf_users.exclusive_collection_id, obtained in initSession in getPrefs query --->
@@ -31,8 +44,7 @@ limitations under the License.
 			where cf_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#portal_id#">
 		</cfquery>
 		<cfset session.dbuser=portalInfo.dbusername>
-		<!--- session.cfid, not cookie.cfid: after a login rotates the session they differ until the next request --->
-		<cfset session.epw = encrypt(portalInfo.dbpwd,session.cfid)>
+		<cfset session.epw = encrypt(portalInfo.dbpwd,currentCfid())>
 		<cfset session.flatTableName = "filtered_flat">
 	<cfelse>
 		<cfset session.flatTableName = "flat">
@@ -111,9 +123,15 @@ limitations under the License.
 	<cfif len(arguments.gotopage) GT 0>
 		<cfset returnParam = "&gotopage=#encodeForURL(arguments.gotopage)#">
 	</cfif>
+	<cfset var sessionKey = "">
 	<cfoutput>
 	<!------------------------ logout ------------------------------------>
-	<cfset StructClear(Session)>
+	<!--- keep ColdFusion's own keys (cfid, cftoken, sessionid, urltoken), which identify the session --->
+	<cfloop list="#structKeyList(session)#" index="sessionKey">
+		<cfif NOT listFindNoCase("cfid,cftoken,sessionid,urltoken", sessionKey)>
+			<cfset structDelete(session, sessionKey)>
+		</cfif>
+	</cfloop>
 	<cflogout>
 	<!--- Names the session's download and report files, which are served as static files without
 		a session check: random, so the names can't be guessed and don't reveal the session cookies. --->
@@ -218,8 +236,8 @@ limitations under the License.
 		</cfif>
 		<!--- A new session id once the password is accepted, so an id planted in the browser before login
 			(session fixation, CWE-384) is useless afterwards.  The session's data moves to the new id.
-			Anything encrypted with the id below uses session.cfid, which is already the new one;
-			cookie.cfid still holds the old one until the browser's next request. --->
+			Anything encrypted with the id below uses currentCfid(), the new one; cookie.cfid still holds
+			the old one until the browser's next request. --->
 		<cfset sessionRotate()>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
@@ -281,7 +299,7 @@ limitations under the License.
 		</cfquery>
 		<cfif listcontainsnocase(session.roles,"coldfusion_user")>
 			<cfset session.dbuser = "#getPrefs.username#">
-			<cfset session.epw = encrypt(pwd,session.cfid)>
+			<cfset session.epw = encrypt(pwd,currentCfid())>
 			<cftry>
 				<cfquery name="ckUserName" datasource="uam_god">
 					select agent_id 
