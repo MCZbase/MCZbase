@@ -211,7 +211,7 @@
 	</p>
 	<p>
 		You may access this table in Reports as
-		##session.projectReportTable##, or query #session.projectReportTable# in 
+		#session.projectReportTable#, or query #session.projectReportTable# in 
 		<a href="/tools/userSQL.cfm?action=run&sql=select * from #session.projectReportTable#">Write SQL</a>, 
 		which allows CSV downloads		.
 	</p>
