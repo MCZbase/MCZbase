@@ -111,6 +111,8 @@ limitations under the License.
 				<cfset result = listAppend(result, hostAddress)>
 			</cfloop>
 		</cfloop>
+		<!--- kept until the application restarts, as onRequestStart asks on every request --->
+		<cfset Application.localAddresses = result>
 	<cfcatch>
 		<cflog file="MCZbase" text="clientAddress.cfc: could not list this server's addresses: #cfcatch.message#">
 	</cfcatch>
