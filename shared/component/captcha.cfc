@@ -1,6 +1,6 @@
 <!---
 shared/component/captcha.cfc
-A CAPTCHA whose answer stays on the server.
+Google reCAPTCHA v2 ("I'm not a robot") for forms that anonymous visitors can submit.
 
 Copyright 2026 President and Fellows of Harvard College
 
@@ -17,56 +17,83 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- The answer is kept in the session, not sent to the browser as a hash, which a client could
-	replace with the hash of its own answer.  Each answer can be checked once, and expires.  The image
-	is embedded in the page, so it shows even where every other request is answered with another page
-	(errors/gtfo.cfm for blocked addresses).  No method is remote. --->
+<!--- The one CAPTCHA used in MCZbase.  The site key is Application.g_sitekey (from
+	cf_global_settings.google_site_key).  Answers are checked on the server by the Java class
+	edu.harvard.mcz.recaptchavalidate.RecaptchaValidate, which is installed on the ColdFusion server
+	and is not in this repository; recaptchaStatus reports whether it can be loaded.  A check that
+	fails for any reason refuses the submission.  No method is remote. --->
 <cfcomponent>
 
 <!---
-	captchaImageTag create a new CAPTCHA for a form, replacing any earlier one in this session.
+	recaptchaWidget the reCAPTCHA checkbox, with Google's script, to place inside a form.
 
-	@param formName names the form, so CAPTCHAs on different forms in one session don't interfere.
-	@param altText the image's alternative text.
-	@return an img tag with the CAPTCHA embedded as a data URI.
+	@return the HTML for the widget; the form posts its answer as g-recaptcha-response.
 --->
-<cffunction name="captchaImageTag" access="public" returntype="string" output="false">
-	<cfargument name="formName" type="string" required="yes">
-	<cfargument name="altText" type="string" required="no" default="Text to enter in the field below">
-	<cfset var CAPTCHA_CHARACTERS = "23456789ABCDEFGHJKMNPQRS">
-	<cfset var answer = "">
-	<cfset var i = 0>
-	<cfset var imageFile = getTempDirectory() & "captcha_" & createUUID() & ".png">
-	<cfset var imageData = "">
-	<cfloop from="1" to="#randRange(5, 7, 'SHA1PRNG')#" index="i">
-		<cfset answer = answer & mid(CAPTCHA_CHARACTERS, randRange(1, len(CAPTCHA_CHARACTERS), "SHA1PRNG"), 1)>
-	</cfloop>
-	<cfset session["captcha_" & arguments.formName] = { answer = answer, issued = now() }>
-	<cfimage action="captcha" width="300" height="50" text="#answer#" difficulty="low" destination="#imageFile#">
-	<cfset imageData = toBase64(fileReadBinary(imageFile))>
-	<cfset fileDelete(imageFile)>
-	<cfreturn '<img src="data:image/png;base64,#imageData#" width="300" height="50" alt="#encodeForHtmlAttribute(arguments.altText)#">'>
+<cffunction name="recaptchaWidget" access="public" returntype="string" output="false">
+	<cfreturn '<script src="https://www.google.com/recaptcha/api.js" async defer></script>'
+		& '<div class="g-recaptcha" data-sitekey="#encodeForHtmlAttribute(Application.g_sitekey)#"></div>'>
 </cffunction>
 
 <!---
-	isCaptchaCorrect check the answer to the CAPTCHA last shown for a form in this session.  The
-	answer is removed whether or not it matches, so it can't be tried again or reused.
+	isRecaptchaCorrect check the reCAPTCHA answer posted with the current form.
 
-	@param formName the name given to captchaImageTag.
-	@param response the text the user entered; case doesn't matter.
-	@return true if the response matches an answer issued in the last 30 minutes.
+	@param caller names the page, for the log when the check can't be made.
+	@return true only if Google confirms the answer; false if it is missing or wrong, or the
+		check fails.
 --->
-<cffunction name="isCaptchaCorrect" access="public" returntype="boolean" output="false">
-	<cfargument name="formName" type="string" required="yes">
-	<cfargument name="response" type="string" required="yes">
-	<cfset var key = "captcha_" & arguments.formName>
-	<cfset var issued = "">
-	<cfif NOT structKeyExists(session, key)>
+<cffunction name="isRecaptchaCorrect" access="public" returntype="boolean" output="false">
+	<cfargument name="caller" type="string" required="yes">
+	<cfset var validator = "">
+	<cfset var address = cgi.remote_addr>
+	<cfif NOT structKeyExists(form, "g-recaptcha-response") OR len(form["g-recaptcha-response"]) EQ 0>
 		<cfreturn false>
 	</cfif>
-	<cfset issued = session[key]>
-	<cfset structDelete(session, key)>
-	<cfreturn dateDiff("n", issued.issued, now()) LE 30 AND compare(ucase(trim(arguments.response)), issued.answer) EQ 0>
+	<cfif isDefined("clientAddress")>
+		<cfset address = clientAddress()>
+	</cfif>
+	<cftry>
+		<cfset validator = createObject("java", "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate")>
+		<cfreturn validator.validate(form["g-recaptcha-response"], address)>
+	<cfcatch>
+		<cflog file="MCZbase" text="#arguments.caller#: reCAPTCHA validation failed: #cfcatch.message#">
+		<cfreturn false>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+	recaptchaStatus whether reCAPTCHA can work on this server, for administrators.
+
+	@return a structure: siteKeySet (boolean), classLoaded (boolean), classLocation (the jar or
+		directory the class was loaded from), validatorResponds (boolean: a check of a dummy answer
+		returned without an error, which needs the class and access to Google), and message.
+--->
+<cffunction name="recaptchaStatus" access="public" returntype="struct" output="false">
+	<cfset var status = { siteKeySet = false, classLoaded = false, classLocation = "", validatorResponds = false, message = "" }>
+	<cfset var validator = "">
+	<cfset var codeSource = "">
+	<cfset status.siteKeySet = isDefined("Application.g_sitekey") AND len(Application.g_sitekey) GT 0>
+	<cftry>
+		<cfset validator = createObject("java", "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate")>
+		<cfset status.classLoaded = true>
+		<cfset codeSource = validator.getClass().getProtectionDomain().getCodeSource()>
+		<cfif NOT isNull(codeSource)>
+			<cfset status.classLocation = codeSource.getLocation().toString()>
+		</cfif>
+	<cfcatch>
+		<cfset status.message = "Class not loaded: #cfcatch.message# #cfcatch.detail#">
+		<cfreturn status>
+	</cfcatch>
+	</cftry>
+	<cftry>
+		<!--- a dummy answer: Google rejects it, which shows the validator can reach Google --->
+		<cfset validator.validate("mczbase-status-check", "127.0.0.1")>
+		<cfset status.validatorResponds = true>
+	<cfcatch>
+		<cfset status.message = "Validator error: #cfcatch.message# #cfcatch.detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn status>
 </cffunction>
 
 </cfcomponent>

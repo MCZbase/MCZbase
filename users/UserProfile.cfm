@@ -237,7 +237,27 @@ limitations under the License.
 										</cfloop>
 									<ul>
 								</div>
-							</div>		
+								<cfif NOT isDefined("recaptchaStatus")>
+									<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+								</cfif>
+								<cfset variables.recaptcha = recaptchaStatus()>
+								<div class="col-12 col-md-6">
+									<h2 class="h3">reCAPTCHA</h2>
+									<ul>
+										<li>Site key (cf_global_settings.google_site_key): <cfif variables.recaptcha.siteKeySet>set<cfelse><strong>not set</strong></cfif></li>
+										<li>Validator class edu.harvard.mcz.recaptchavalidate.RecaptchaValidate:
+											<cfif variables.recaptcha.classLoaded>loaded from #encodeForHtml(variables.recaptcha.classLocation)#<cfelse><strong>not available</strong></cfif>
+										</li>
+										<li>Validator check of a dummy answer: <cfif variables.recaptcha.validatorResponds>completed<cfelse><strong>failed</strong></cfif></li>
+										<cfif len(variables.recaptcha.message) GT 0>
+											<li>#encodeForHtml(variables.recaptcha.message)#</li>
+										</cfif>
+										<cfif NOT (variables.recaptcha.siteKeySet AND variables.recaptcha.validatorResponds)>
+											<li><strong>Visitors who aren't logged in can't submit the contact, bug report, bad data report or blocklist forms.</strong></li>
+										</cfif>
+									</ul>
+								</div>
+							</div>
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
 						<h3 class="h4">

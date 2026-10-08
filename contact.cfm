@@ -1,12 +1,14 @@
 <cfinclude template="/includes/_header.cfm">
-<cfif NOT isDefined("captchaImageTag")>
+<cfif NOT isDefined("recaptchaWidget")>
 	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 </cfif>
 <cfparam name="form.action" default="">
 <cfparam name="form.name" default="">
 <cfparam name="form.email" default="">
 <cfparam name="form.msg" default="">
-<cfparam name="form.captcha" default="">
 <!--- Logged in users aren't asked for the CAPTCHA. --->
 <cfset variables.needsCaptcha = NOT (isDefined("session.username") AND len(session.username) GT 0)>
 
@@ -35,19 +37,15 @@
 		<label for="msg">Your Message for us (20 characters minimum)</label>
 		<cftextarea name="msg" id="msg" rows="10" cols="50" required="true" class="reqdClr"></cftextarea>
 		<cfif variables.needsCaptcha>
-			<p>Can't read the text? Just reload to get a new CAPTCHA.</p>
-			#captchaImageTag("contact")#
-			<br>
-			<label for="captcha">Enter the text above. Case doesn't matter. (required)</label>
-			<cfinput type="text" name="captcha" id="captcha" class="reqdClr" size="60">
+			#recaptchaWidget()#
 		</cfif>
 	    <br><cfinput name="s" type="submit" value="Send Message" class="savBtn">
 	</cfform>
 </cfoutput>
 <cfelse>
 	<cfoutput>
-		<cfif variables.needsCaptcha AND NOT isCaptchaCorrect("contact", form.captcha)>
-			You did not enter the right text. Please go back and reload the page for a new image.
+		<cfif variables.needsCaptcha AND NOT isRecaptchaCorrect("contact.cfm")>
+			The "I'm not a robot" check was not completed. Please go back, reload the page, and try again.
 			<cfabort>
 		</cfif>
 		<cfif len(form.msg) lt 20>

@@ -3,10 +3,12 @@
 	<cfabort>
 </cfif>
 <cfinclude template="/includes/_header.cfm">
-<cfif NOT isDefined("captchaImageTag")>
+<cfif NOT isDefined("recaptchaWidget")>
 	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
 </cfif>
-<cfparam name="form.captcha" default="">
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
 <!--- Reports email curators and file Bugzilla bugs, so visitors who aren't logged in answer a CAPTCHA. --->
 <cfset variables.needsCaptcha = NOT (isDefined("session.username") AND len(session.username) GT 0)>
 <cfif #Action# is "nothing">
@@ -76,10 +78,7 @@
 		<cfif variables.needsCaptcha>
 			<tr>
 				<td>
-					#captchaImageTag("reportBadData")#
-					<br>
-					<label for="captcha">Enter the text above. Case doesn't matter. (required)</label>
-					<input type="text" name="captcha" id="captcha" class="reqdClr" size="20">
+					#recaptchaWidget()#
 				</td>
 			</tr>
 		</cfif>
@@ -128,8 +127,8 @@
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "save">
-	<cfif variables.needsCaptcha AND NOT isCaptchaCorrect("reportBadData", form.captcha)>
-		You did not enter the right text. Please go back and reload the page for a new image.
+	<cfif variables.needsCaptcha AND NOT isRecaptchaCorrect("info/reportBadData.cfm")>
+		The "I'm not a robot" check was not completed. Please go back, reload the page, and try again.
 		<cfabort>
 	</cfif>
     <cfif isdefined("counter") and counter gt 0>
