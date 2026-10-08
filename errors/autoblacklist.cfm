@@ -7,8 +7,13 @@
 	Application.trustedProxies), in which case it is the rightmost X-Forwarded-For entry not added by
 	a trusted proxy.  Proxies in the server's own subnets are trusted automatically.  Trusted proxies
 	and Application.blockExemptAddresses are never stored, as blocking a proxy would block every
-	user, and nothing is stored when X-Forwarded-For arrives from an address that is not a trusted
-	proxy, as that address may be an unconfigured proxy; that case is emailed instead.
+	user.  A request carrying X-Forwarded-For from an address that is not a trusted proxy is blocked
+	by that address, so that a client can't avoid blocking by adding the header, and the email says
+	so, as it is also what an unconfigured proxy looks like.
+
+	Emails go through allowAlertMail (/shared/component/mailThrottle.cfc): at most one per address
+	and a limited number per hour, as a bot spread over many addresses would otherwise flood the
+	mailbox.
 
 	TODO: When production moves to EC2 behind an AWS load balancer, cgi.remote_addr becomes the load
 	balancer's private address, which changes as AWS replaces load balancer nodes.  Before that
@@ -16,7 +21,8 @@
 	1. In Application.cfc onApplicationStart, set Application.trustedProxies to the subnets of the
 		load balancer (the VPC CIDR, or the subnets the load balancer is placed in), e.g.
 		"10.0.0.0/16".  IPv4 ranges and single addresses are accepted.  Without this every request
-		appears to come from the load balancer, which is never stored, so nothing is blocked.
+		appears to come from the load balancer, and the first probe would block the load balancer,
+		and with it every user.
 	2. Confirm that the load balancer appends the client to X-Forwarded-For (the AWS Application Load
 		Balancer default, routing.http.xff_header_processing.mode = append), and that the instance
 		accepts web traffic only from the load balancer's security group, so that no request can
@@ -38,15 +44,15 @@
 <cfif NOT isDefined("clientAddress")>
 	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 </cfif>
+<cfif NOT isDefined("allowAlertMail")>
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+</cfif>
 <cfset ipaddress = clientAddress()>
 	<cftry>
 		<cfset inserted = false>
 		<cfset notInsertedReason = "">
 		<cfif NOT isIpAddress(ipaddress)>
 			<cfset notInsertedReason = "not a single IP address">
-		<cfelseif isForwardedByUntrustedProxy()>
-			<!--- fail safe: the address may be an unconfigured proxy, and blocking it would block everyone --->
-			<cfset notInsertedReason = "the request carried X-Forwarded-For from #ipaddress#, which is not a trusted proxy; if a proxy or load balancer is at that address, add it to Application.trustedProxies">
 		<cfelseif isBlockExempt(ipaddress)>
 			<!--- blocking a proxy or this server would block every user --->
 			<cfset notInsertedReason = "exempt (this server, a trusted proxy, or an exempt address)">
@@ -60,6 +66,7 @@
 			<cfset inserted = true>
 			<cfset application.blacklist=listappend(application.blacklist,ipaddress)>
 		</cfif>
+		<cfif allowAlertMail("autoblacklist", ipaddress)>
 		<cfmail subject="Autoblacklist Success" to="#Application.PageProblemEmail#" from="blacklisted@#application.fromEmail#" type="html">
 			MCZbase automatically blacklisted IP
 			<cfif inserted>
@@ -69,6 +76,11 @@
 				Not added to blacklist table: #encodeForHtml(ipaddress)#, #encodeForHtml(notInsertedReason)#
 			</cfif>
 			<br>Remote address: #encodeForHtml(cgi.remote_addr)#, forwarded for: #encodeForHtml(cgi.http_x_forwarded_for)#
+			<cfif isForwardedByUntrustedProxy()>
+				<br>The request carried X-Forwarded-For from an address that is not a trusted proxy. If a proxy or
+				load balancer is at #encodeForHtml(cgi.remote_addr)#, add it to Application.trustedProxies and remove
+				it from the blocklist.
+			</cfif>
 			<p></p>
 			<!--- No cgi, url, form or session dumps: the Cookie header carries the CFID, which decrypts
 				session.epw, and forms may carry passwords. --->
@@ -80,30 +92,34 @@
 				<br>Username: #encodeForHtml(session.username)#
 			</cfif>
 		</cfmail>
+		</cfif>
 		<cfinclude template="/errors/gtfo.cfm">
 		<script>
 			try{document.getElementById('loading').style.display='none';}catch(e){}
 		</script>
 		<cfabort>
 		<cfcatch>
+			<cfif allowAlertMail("autoblacklistFailure", ipaddress)>
 			<cfmail subject="Autoblacklist Fail" to="#Application.PageProblemEmail#" from="blfail@#application.fromEmail#" type="html">
 				Auto-blacklisting failed.
 				<br>
-				A user found a dead link! The referring site was #cgi.HTTP_REFERER#.
+				A user found a dead link! The referring site was #encodeForHtml(cgi.HTTP_REFERER)#.
 				<cfif isdefined("CGI.script_name")>
-					<br>The missing page is #Replace(CGI.script_name, "/", "")#
+					<br>The missing page is #encodeForHtml(Replace(CGI.script_name, "/", ""))#
 				</cfif>
 				<cfif isdefined("cgi.REDIRECT_URL")>
-					<br>cgi.REDIRECT_URL: #cgi.REDIRECT_URL#
+					<br>cgi.REDIRECT_URL: #encodeForHtml(cgi.REDIRECT_URL)#
 				</cfif>
 				<cfif isdefined("session.username")>
-					<br>The username is #session.username#
+					<br>The username is #encodeForHtml(session.username)#
 				</cfif>
 				<br>The IP requesting the dead link was <a href="http://network-tools.com/default.asp?prog=network&host=#encodeForUrl(ipaddress)#">#encodeForHtml(ipaddress)#</a>
 				 - <a href="#application.serverRootUrl#/Admin/blacklist.cfm">blocklist</a>
 				<br>This message was generated by #cgi.CF_TEMPLATE_PATH#.
 				<br>Query string: #encodeForHtml(REReplaceNoCase(cgi.query_string, "((pass|pwd|password|token|cfid|cftoken|jsessionid)[a-z_]*=)[^&]*", "\1[redacted]", "all"))#
 				<br>User agent: #encodeForHtml(cgi.http_user_agent)#
+				<br>Error: #encodeForHtml(cfcatch.message)#
 			</cfmail>
+			</cfif>
 		</cfcatch>
 	</cftry>

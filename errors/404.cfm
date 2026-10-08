@@ -7,6 +7,9 @@
 	<cfif NOT isDefined("clientAddress")>
 		<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 	</cfif>
+	<cfif NOT isDefined("allowAlertMail")>
+		<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+	</cfif>
 	<cfset ipaddress = clientAddress()>
 	<cfset cTemp="">
 	<cfif len(cgi.redirect_url) gt 0>
@@ -129,17 +132,17 @@
 				<cfset frm="dead.guid">
 			</cfif>
 			<cftry>
-			<cfif frm NEQ "dead.link">
+			<cfif frm NEQ "dead.link" AND allowAlertMail("missingGuid", ipaddress)>
 			<cfmail subject="#sub#" to="#Application.PageProblemEmail#" from="#frm#@#application.fromEmail#" type="html">
-				A user found a dead link! The referring site was #cgi.HTTP_REFERER#.
+				A user found a dead link! The referring site was #encodeForHtml(cgi.HTTP_REFERER)#.
 				<cfif isdefined("CGI.script_name")>
-					<br>The missing page is #Replace(CGI.script_name, "/", "")#
+					<br>The missing page is #encodeForHtml(Replace(CGI.script_name, "/", ""))#
 				</cfif>
 				<cfif isdefined("cgi.REDIRECT_URL")>
-					<br>cgi.REDIRECT_URL: #cgi.REDIRECT_URL#
+					<br>cgi.REDIRECT_URL: #encodeForHtml(cgi.REDIRECT_URL)#
 				</cfif>
 				<cfif isdefined("session.username")>
-					<br>The username is #session.username#
+					<br>The username is #encodeForHtml(session.username)#
 				</cfif>
 				<br>The IP requesting the dead link was <a href="http://network-tools.com/default.asp?prog=network&host=#encodeForUrl(ipaddress)#">#encodeForHtml(ipaddress)#</a>
 				 - <a href="#Application.serverRootUrl#/Admin/blacklist.cfm">blocklist</a>

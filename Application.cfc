@@ -32,6 +32,7 @@ limitations under the License.
 	<!--- requestSummary, exceptionSummary and redactedScope, for onError. --->
 	<cfinclude template="/shared/component/diagnostics.cfc" runOnce="true">
 	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />

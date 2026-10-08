@@ -61,6 +61,14 @@
 		<cfif NOT isDefined("clientAddress")>
 			<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 		</cfif>
+		<cfif NOT isDefined("allowAlertMail")>
+			<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+		</cfif>
+		<cfif NOT allowAlertMail("blocklistObjection", clientAddress())>
+			A message from your address has already been sent in the past hour, or too many have been
+			sent; please try again later, or use the contact information on the museum's web site.
+			<cfabort>
+		</cfif>
 		<cfmail subject="BlackList Objection" to="#Application.PageProblemEmail#" from="blacklist@#application.fromEmail#" type="html">
 			IP #encodeForHtml(clientAddress())# (#encodeForHtml(email)#) had this to say:
 			<p>
