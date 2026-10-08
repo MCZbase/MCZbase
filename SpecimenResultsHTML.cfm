@@ -416,11 +416,14 @@
 	<script>
 		document.getElementById('suggestOtherForm').innerHTML='We recommend <a href="/SpecimenResults.cfm?mapurl=#mapurl#">SpecimenResults</a> for JavaScript-capable browsers.';
 	</script>
-	<span style="float:right; clear:left;">
-		<span class="infoLink" onclick="document.location='/info/reportBadData.cfm?collection_object_id=#collectionObjectIdList#';">
-			Report Bad Data
+	<!--- logged in users only, as on SpecimenResults.cfm --->
+	<cfif isDefined("session.username") AND len(session.username) gt 0>
+		<span style="float:right; clear:left;">
+			<span class="infoLink" onclick="document.location='/info/reportBadData.cfm?collection_object_id=#collectionObjectIdList#';">
+				Report Bad Data
+			</span>
 		</span>
-	</span>
+	</cfif>
 	</cfoutput>
 </cfif>
 <CFOUTPUT>
