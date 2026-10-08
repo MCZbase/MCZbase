@@ -124,7 +124,8 @@ limitations under the License.
 											<cfset err="Your username or password was not recognized. Please try again.">
 										</cfif>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
-										<div class="data-entry-input bg-danger py-1 text-white mt-3">#encodeForHtml(err)#</div>
+										<!--- warning, as the user can try again; the lock messages above are danger --->
+										<div class="data-entry-input bg-warning py-1 text-dark mt-3">#encodeForHtml(err)#</div>
 										<script>
 											$(document).ready(function() { 
 												$('##username').css('backgroundColor','red');
