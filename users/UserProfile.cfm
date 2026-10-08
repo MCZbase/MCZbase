@@ -201,7 +201,13 @@ limitations under the License.
 							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
 							<div class="form-row">
 								<div class="col-12 col-md-6">
-									<h2 class="h3">Server Settings</h2>
+									<h2 class="h3">Server Settings
+										<cfif Application.protocol EQ "https">
+											<span class="badge badge-success">OK</span>
+										<cfelse>
+											<span class="badge badge-danger">Not https</span>
+										</cfif>
+									</h2>
 									<ul>
 										<li>Application.protocol: #Application.protocol#</li>
 										<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
@@ -228,7 +234,11 @@ limitations under the License.
 									GROUP BY stale_flag
 								</cfquery>
 								<div class="col-12 col-md-6">
-									<h2 class="h3">FLAT Table</h2>
+									<h2 class="h3">FLAT Table
+										<cfif flatstatus.recordcount EQ 1 AND flatstatus.stale_flag EQ 0>
+											<span class="badge badge-success">OK</span>
+										</cfif>
+									</h2>
 									<ul>
 										<cfloop query="flatstatus">
 											<cfset flattext = "">
@@ -242,7 +252,13 @@ limitations under the License.
 								</cfif>
 								<cfset variables.recaptcha = recaptchaStatus()>
 								<div class="col-12 col-md-6">
-									<h2 class="h3">reCAPTCHA</h2>
+									<h2 class="h3">reCAPTCHA
+										<cfif variables.recaptcha.siteKeySet AND variables.recaptcha.classLoaded AND variables.recaptcha.validatorResponds>
+											<span class="badge badge-success">OK</span>
+										<cfelse>
+											<span class="badge badge-danger">Failing</span>
+										</cfif>
+									</h2>
 									<ul>
 										<li>Site key (cf_global_settings.google_site_key): <cfif variables.recaptcha.siteKeySet>set<cfelse><strong>not set</strong></cfif></li>
 										<li>Validator class edu.harvard.mcz.recaptchavalidate.RecaptchaValidate:
