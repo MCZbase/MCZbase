@@ -276,7 +276,7 @@
 							</cfif>
 							<cflog file="MCZbase" type="error" text="Password change failed for #session.username#: #cfcatch.message# #cfcatch.detail#">
 							<cfmail subject="Password change failed" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="text">
-								Changing the password for MCZbase user #session.username# failed: #cfcatch.message#
+Changing the password for MCZbase user #session.username# failed: #cfcatch.message#
 							</cfmail>
 							<h1 class="h3">Your password could not be changed. Please <a href="/contact.cfm">contact us</a>.</h1>
 							<cfabort>
@@ -351,14 +351,14 @@
 				</cfquery>
 			</cftransaction>
 			<cfmail to="#isGoodEmail.email#" subject="#Application.application_name# password reset" from="LostFound@#Application.fromEmail#" type="text">
-				Someone, probably you, asked to reset the password for your #Application.application_name# account, username #isGoodEmail.username#.
+Someone, probably you, asked to reset the password for your #Application.application_name# account, username #isGoodEmail.username#.
 
-				To set a new password, open this link within #RESET_TOKEN_MINUTES# minutes.  It works once.
+To set a new password, open this link within #RESET_TOKEN_MINUTES# minutes.  It works once.
 
-				#Application.ServerRootUrl#/users/changePassword.cfm?action=resetForm&token=#variables.resetToken#
+#Application.ServerRootUrl#/users/changePassword.cfm?action=resetForm&token=#variables.resetToken#
 
-				If you did not ask for this, you can ignore this email: your password has not changed.
-				Questions: #Application.technicalEmail#
+If you did not ask for this, you can ignore this email: your password has not changed.
+Questions: #Application.technicalEmail#
 			</cfmail>
 		<cfelse>
 			<cflog file="MCZbase" type="warning" text="Password reset link not sent for user_id #isGoodEmail.user_id#: #recentRequests.ct# requests in the last hour.">
@@ -522,9 +522,9 @@
 						</cfquery>
 						<cfif len(getResetEmail.email) GT 0>
 							<cfmail to="#getResetEmail.email#" subject="#Application.application_name# password changed" from="LostFound@#Application.fromEmail#" type="text">
-								The password for your #Application.application_name# account, username #variables.resetUser.username#, was changed using a reset link.
+The password for your #Application.application_name# account, username #variables.resetUser.username#, was changed using a reset link.
 
-								If you did not do this, reply to #Application.technicalEmail# at once.
+If you did not do this, reply to #Application.technicalEmail# at once.
 							</cfmail>
 						</cfif>
 						<cfset initSession()>

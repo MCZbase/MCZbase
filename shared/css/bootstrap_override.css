@@ -1291,6 +1291,11 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
+/* A long URL in a link, allowed to break anywhere.  overflow-wrap: anywhere, unlike Bootstrap's
+	text-break, also narrows the width a table column needs, so the URL wraps rather than widening the table. */
+a.wrapurl {
+	overflow-wrap: anywhere;
+}
 /* Sortable class for tables, used with /lib/misc/sorttable.js */
 .sortable {
 	margin: 2px;
