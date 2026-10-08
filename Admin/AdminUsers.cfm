@@ -312,12 +312,27 @@ limitations under the License.
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
 		WHERE
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.username#">
+			<!--- links built from the data dictionary carry the username in upper case: match regardless of
+				case when there is no exact match --->
+			OR (
+				upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.username)#">
+				AND NOT EXISTS (
+					SELECT 1 FROM cf_users exact_user
+					WHERE exact_user.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.username#">
+				)
+			)
 	</cfquery>
-	<cfif getUsers.recordcount NEQ 1>
+	<cfif getUsers.recordcount GT 1>
+		<cfoutput>
+			<div class="alert alert-warning">More than one user has the username #encodeForHtml(variables.username)# in some mix of case:
+				<a href="/Admin/AdminUsers.cfm?action=list&username=#encodeForUrl(variables.username)#">list them</a>.</div>
+		</cfoutput>
+	<cfelseif getUsers.recordcount NEQ 1>
 		<cfoutput>
 			<div class="alert alert-warning">No user found with the username #encodeForHtml(variables.username)#.</div>
 		</cfoutput>
 	<cfelse>
+	<cfset variables.username = getUsers.username>
 	<cfquery name="ctRoleName" datasource="uam_god">
 		SELECT role_name
 		FROM cf_ctuser_roles
