@@ -39,6 +39,11 @@ limitations under the License.
 
 <cfset variables.db_user = trim(url.db_user)>
 <cfset variables.object_name = trim(url.object_name)>
+<!--- A leading = asks for an exact match, ignoring case; otherwise the value matches anywhere. --->
+<cfset variables.dbUserExact = left(variables.db_user, 1) EQ "=">
+<cfset variables.dbUserValue = REReplace(variables.db_user, "^=", "")>
+<cfset variables.objectExact = left(variables.object_name, 1) EQ "=">
+<cfset variables.objectValue = REReplace(variables.object_name, "^=", "")>
 <cfset variables.statement_type = "">
 <cfif listFindNoCase(STATEMENT_TYPES, url.statement_type) GT 0>
 	<cfset variables.statement_type = ucase(url.statement_type)>
@@ -105,11 +110,11 @@ limitations under the License.
 						<input type="hidden" name="execute" value="true">
 						<div class="form-row">
 							<div class="col-12 col-md-4 col-xl-2">
-								<label for="db_user" class="data-entry-label">Database user (contains)</label>
+								<label for="db_user" class="data-entry-label">Database user (= for exact)</label>
 								<input type="text" name="db_user" id="db_user" class="data-entry-input" value="#encodeForHtmlAttribute(variables.db_user)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-2">
-								<label for="object_name" class="data-entry-label">Table (contains)</label>
+								<label for="object_name" class="data-entry-label">Table (= for exact)</label>
 								<input type="text" name="object_name" id="object_name" class="data-entry-input" value="#encodeForHtmlAttribute(variables.object_name)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-2">
@@ -149,6 +154,15 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
+					<!--- The lookups are in Admin/component/functions.cfc, open to global_admin only. --->
+					<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin") GT 0>
+						<script>
+							$(document).ready(function() {
+								makeAdminExactMatchAutocomplete("db_user", "getAuditUserAutocomplete");
+								makeAdminExactMatchAutocomplete("object_name", "getAuditTableAutocomplete");
+							});
+						</script>
+					</cfif>
 				</div>
 			</div>
 		</section>
@@ -162,8 +176,8 @@ limitations under the License.
 					to_char(min(timestamp), 'yyyy-mm-dd HH24:MI') AS first_time, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
-					<cfif len(variables.db_user) GT 0>AND upper(db_user) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.db_user)#%"></cfif>
-					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
+					<cfif len(variables.dbUserValue) GT 0>AND upper(db_user) <cfif variables.dbUserExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.dbUserValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.dbUserValue)#%"></cfif></cfif>
+					<cfif len(variables.objectValue) GT 0>AND upper(object_name) <cfif variables.objectExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.objectValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.objectValue)#%"></cfif></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
 					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
@@ -174,8 +188,8 @@ limitations under the License.
 				SELECT db_user, count(*) AS statements, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
-					<cfif len(variables.db_user) GT 0>AND upper(db_user) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.db_user)#%"></cfif>
-					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
+					<cfif len(variables.dbUserValue) GT 0>AND upper(db_user) <cfif variables.dbUserExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.dbUserValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.dbUserValue)#%"></cfif></cfif>
+					<cfif len(variables.objectValue) GT 0>AND upper(object_name) <cfif variables.objectExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.objectValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.objectValue)#%"></cfif></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
 					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
@@ -188,8 +202,8 @@ limitations under the License.
 				SELECT object_name, count(*) AS statements, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
-					<cfif len(variables.db_user) GT 0>AND upper(db_user) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.db_user)#%"></cfif>
-					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
+					<cfif len(variables.dbUserValue) GT 0>AND upper(db_user) <cfif variables.dbUserExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.dbUserValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.dbUserValue)#%"></cfif></cfif>
+					<cfif len(variables.objectValue) GT 0>AND upper(object_name) <cfif variables.objectExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.objectValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.objectValue)#%"></cfif></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
 					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
@@ -202,8 +216,8 @@ limitations under the License.
 				SELECT to_char(trunc(timestamp), 'yyyy-mm-dd') AS audit_day, count(*) AS statements, count(distinct db_user) AS users
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
-					<cfif len(variables.db_user) GT 0>AND upper(db_user) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.db_user)#%"></cfif>
-					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
+					<cfif len(variables.dbUserValue) GT 0>AND upper(db_user) <cfif variables.dbUserExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.dbUserValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.dbUserValue)#%"></cfif></cfif>
+					<cfif len(variables.objectValue) GT 0>AND upper(object_name) <cfif variables.objectExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.objectValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.objectValue)#%"></cfif></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
 					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
@@ -217,8 +231,8 @@ limitations under the License.
 					SELECT to_char(timestamp, 'yyyy-mm-dd HH24:MI:SS') AS audit_time, db_user, object_name, sql_text, sql_bind
 					FROM mczbase.arctos_audit
 					WHERE 1 = 1
-						<cfif len(variables.db_user) GT 0>AND upper(db_user) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.db_user)#%"></cfif>
-						<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
+						<cfif len(variables.dbUserValue) GT 0>AND upper(db_user) <cfif variables.dbUserExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.dbUserValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.dbUserValue)#%"></cfif></cfif>
+						<cfif len(variables.objectValue) GT 0>AND upper(object_name) <cfif variables.objectExact>= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.objectValue)#"><cfelse>LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.objectValue)#%"></cfif></cfif>
 						<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 						<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
 						<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
@@ -250,7 +264,7 @@ limitations under the License.
 										<cfloop query="getByUser">
 											<tr>
 												<td>
-													<a href="#filterLink('db_user', getByUser.db_user)#">#encodeForHtml(getByUser.db_user)#</a>
+													<a href="#filterLink('db_user', '=' & getByUser.db_user)#">#encodeForHtml(getByUser.db_user)#</a>
 													<cfif variables.isGlobalAdmin>
 														<a href="/Admin/AdminUsers.cfm?action=list&username=#encodeForUrl(getByUser.db_user)#" class="small ml-1">user</a>
 													</cfif>
@@ -271,7 +285,7 @@ limitations under the License.
 									<tbody>
 										<cfloop query="getByTable">
 											<tr>
-												<td><a href="#filterLink('object_name', getByTable.object_name)#">#encodeForHtml(getByTable.object_name)#</a></td>
+												<td><a href="#filterLink('object_name', '=' & getByTable.object_name)#">#encodeForHtml(getByTable.object_name)#</a></td>
 												<td>#numberFormat(getByTable.statements)#</td>
 												<td>#getByTable.last_time#</td>
 											</tr>
@@ -316,8 +330,8 @@ limitations under the License.
 								<cfloop query="getStatements">
 									<tr>
 										<td class="text-nowrap">#getStatements.audit_time#</td>
-										<td><a href="#filterLink('db_user', getStatements.db_user)#">#encodeForHtml(getStatements.db_user)#</a></td>
-										<td><a href="#filterLink('object_name', getStatements.object_name)#">#encodeForHtml(getStatements.object_name)#</a></td>
+										<td><a href="#filterLink('db_user', '=' & getStatements.db_user)#">#encodeForHtml(getStatements.db_user)#</a></td>
+										<td><a href="#filterLink('object_name', '=' & getStatements.object_name)#">#encodeForHtml(getStatements.object_name)#</a></td>
 										<td>
 											<code class="text-dark">#encodeForHtml(getStatements.sql_text)#</code>
 											<cfif len(getStatements.sql_bind) GT 0>
