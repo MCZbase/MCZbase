@@ -68,6 +68,10 @@
 				<cfif NOT isIpAddress(variables.ip)>
 					<cfthrow message="#encodeForHtml(variables.ip)# is not a single IPv4 or IPv6 address.">
 				</cfif>
+				<!--- as for the automatic blocklist: blocking a proxy or this server would block every user --->
+				<cfif isBlockExempt(variables.ip)>
+					<cfthrow message="#encodeForHtml(variables.ip)# is this server, a trusted proxy, or an exempt address, and can't be blocked.">
+				</cfif>
 				<cftry>
 				   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		   		   insert into blacklist 
