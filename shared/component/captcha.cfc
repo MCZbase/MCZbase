@@ -34,7 +34,8 @@ limitations under the License.
 --->
 <cffunction name="recaptchaWidget" access="public" returntype="string" output="false">
 	<cfset var warningText = "The ""I'm not a robot"" check could not be shown, so this form can't be sent.  It needs scripts from www.google.com and www.gstatic.com: allow them in your browser or privacy extension, then reload this page.">
-	<!--- Plain DOM rather than jQuery, as errors/gtfo.cfm is shown without the page header and its libraries. --->
+	<!--- Plain DOM rather than jQuery, and an inline display style rather than Bootstrap's d-none, as
+		errors/gtfo.cfm is shown without the page header, its libraries or its stylesheets. --->
 	<cfreturn '<div id="recaptchaBlockedWarning" class="alert alert-warning" role="alert" style="display: none;">#encodeForHtml(warningText)#</div>'
 		& '<noscript><div class="alert alert-warning" role="alert">#encodeForHtml(warningText)#</div></noscript>'
 		& '<script>'
