@@ -90,29 +90,36 @@ limitations under the License.
 </cffunction>
 
 <!---
-	localAddresses the addresses of this server's network interfaces.
+	localAddresses this server's own addresses, and the IPv4 subnets of its network interfaces.  A
+	proxy or load balancer in the same subnet as the server is trusted.
 
-	@return comma separated addresses, without IPv6 zone suffixes.
+	@return comma separated IPv4 subnets (such as 10.0.0.5/24) and IPv6 addresses, without zone
+		suffixes.
 --->
 <cffunction name="localAddresses" access="public" returntype="string" output="false">
 	<cfset var result = "">
 	<cfset var interfaces = "">
-	<cfset var addresses = "">
+	<cfset var interfaceAddresses = "">
+	<cfset var interfaceAddress = "">
 	<cfset var hostAddress = "">
-	<cfif isDefined("Application.localAddresses")>
-		<cfreturn Application.localAddresses>
+	<cfif isDefined("Application.localNetworks")>
+		<cfreturn Application.localNetworks>
 	</cfif>
 	<cftry>
 		<cfset interfaces = createObject("java", "java.net.NetworkInterface").getNetworkInterfaces()>
 		<cfloop condition="interfaces.hasMoreElements()">
-			<cfset addresses = interfaces.nextElement().getInetAddresses()>
-			<cfloop condition="addresses.hasMoreElements()">
-				<cfset hostAddress = listFirst(addresses.nextElement().getHostAddress(), "%")>
+			<cfset interfaceAddresses = interfaces.nextElement().getInterfaceAddresses().iterator()>
+			<cfloop condition="interfaceAddresses.hasNext()">
+				<cfset interfaceAddress = interfaceAddresses.next()>
+				<cfset hostAddress = listFirst(interfaceAddress.getAddress().getHostAddress(), "%")>
+				<cfif find(":", hostAddress) EQ 0>
+					<cfset hostAddress = hostAddress & "/" & interfaceAddress.getNetworkPrefixLength()>
+				</cfif>
 				<cfset result = listAppend(result, hostAddress)>
 			</cfloop>
 		</cfloop>
 		<!--- kept until the application restarts, as onRequestStart asks on every request --->
-		<cfset Application.localAddresses = result>
+		<cfset Application.localNetworks = result>
 	<cfcatch>
 		<cflog file="MCZbase" text="clientAddress.cfc: could not list this server's addresses: #cfcatch.message#">
 	</cfcatch>
@@ -124,7 +131,7 @@ limitations under the License.
 	isTrustedProxy test whether an address is a proxy whose X-Forwarded-For entries can be believed.
 
 	@param address the address to test.
-	@return true for loopback, this server's own addresses, and Application.trustedProxies.
+	@return true for loopback, addresses in this server's own subnets, and Application.trustedProxies.
 --->
 <cffunction name="isTrustedProxy" access="public" returntype="boolean" output="false">
 	<cfargument name="address" type="string" required="yes">
@@ -162,6 +169,18 @@ limitations under the License.
 		</cfif>
 	</cfloop>
 	<cfreturn remoteAddress>
+</cffunction>
+
+<!---
+	isForwardedByUntrustedProxy test whether the current request carries X-Forwarded-For but did not come
+	from a trusted proxy.  Either the client forged the header, or a proxy that is not configured
+	as trusted sits in front of the server, in which case cgi.remote_addr is that proxy and blocking
+	it would block every user.
+
+	@return true if X-Forwarded-For is present and cgi.remote_addr is not a trusted proxy.
+--->
+<cffunction name="isForwardedByUntrustedProxy" access="public" returntype="boolean" output="false">
+	<cfreturn len(trim(cgi.http_x_forwarded_for)) GT 0 AND NOT isTrustedProxy(trim(cgi.remote_addr))>
 </cffunction>
 
 <!---

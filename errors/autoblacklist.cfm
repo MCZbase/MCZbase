@@ -5,8 +5,10 @@
 	also what Application.cfc onRequestStart compares with the blocklist.  It is cgi.remote_addr,
 	unless that address is a trusted proxy (loopback, this server's own addresses, or
 	Application.trustedProxies), in which case it is the rightmost X-Forwarded-For entry not added by
-	a trusted proxy.  Trusted proxies and Application.blockExemptAddresses are never stored, as
-	blocking a proxy would block every user.
+	a trusted proxy.  Proxies in the server's own subnets are trusted automatically.  Trusted proxies
+	and Application.blockExemptAddresses are never stored, as blocking a proxy would block every
+	user, and nothing is stored when X-Forwarded-For arrives from an address that is not a trusted
+	proxy, as that address may be an unconfigured proxy; that case is emailed instead.
 
 	TODO: When production moves to EC2 behind an AWS load balancer, cgi.remote_addr becomes the load
 	balancer's private address, which changes as AWS replaces load balancer nodes.  Before that
@@ -42,6 +44,9 @@
 		<cfset notInsertedReason = "">
 		<cfif NOT isIpAddress(ipaddress)>
 			<cfset notInsertedReason = "not a single IP address">
+		<cfelseif isForwardedByUntrustedProxy()>
+			<!--- fail safe: the address may be an unconfigured proxy, and blocking it would block everyone --->
+			<cfset notInsertedReason = "the request carried X-Forwarded-For from #ipaddress#, which is not a trusted proxy; if a proxy or load balancer is at that address, add it to Application.trustedProxies">
 		<cfelseif isBlockExempt(ipaddress)>
 			<!--- blocking a proxy or this server would block every user --->
 			<cfset notInsertedReason = "exempt (this server, a trusted proxy, or an exempt address)">

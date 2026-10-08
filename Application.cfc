@@ -121,7 +121,8 @@ limitations under the License.
 		<cfset Application.trustedProxies = "" />
 		<!--- Addresses or IPv4 ranges never added to the blocklist automatically, e.g. staff networks. --->
 		<cfset Application.blockExemptAddresses = "" />
-		<cfset Application.localAddresses = localAddresses() />
+		<!--- this server's addresses and subnets, cached in Application.localNetworks --->
+		<cfset localAddresses() />
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
@@ -226,8 +227,10 @@ limitations under the License.
 		<cfif serverName contains "harvard.edu">
 			<cfif serverName contains "-test">
 				 <cfset Application.serverrole ="test">
+				 <cfset Application.trustedProxies = "10.37.197.0/24">
 		    <cfelseif serverName contains "-dev">
 				 <cfset Application.serverrole ="development">
+				 <cfset Application.trustedProxies = "10.37.197.0/24">
 			 <cfelse>
 				 <cfset Application.serverrole ="production">
 			</cfif>
