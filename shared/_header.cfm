@@ -676,11 +676,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Audit SQL</a>
-											</cfif>
+											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
 											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
 											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
 											<cfif targetMenu EQ "production">

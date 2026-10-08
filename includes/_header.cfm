@@ -450,7 +450,7 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 									<div style="float:left;width: 92%;">
 										<div class="h5 dropdown-header px-2 text-danger">Users/Privileges</div>
-										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
+										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
 										<a class="dropdown-item" target="_top" href="/Admin/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
 										<a class="dropdown-item" target="_top" href="/Admin/download.cfm">User Download Statistics</a>
