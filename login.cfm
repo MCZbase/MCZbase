@@ -19,6 +19,22 @@ limitations under the License.
 <cfset pageTitle = "Login">
 <cfset minimal = "true"><!--- load fewer js library files --->
 <cfinclude template = "/shared/_header.cfm">
+<cfif NOT isDefined("localReturnPath")>
+	<cfinclude template="/shared/loginFunctions.cfm">
+</cfif>
+<!--- counts failed logins, and locks a username or address after repeated failures --->
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("allowAlertMail")>
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("loginLockStatus")>
+	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
+</cfif>
+<!--- The page to return to after logging in: passed by GET to the login form, and posted from the login forms. --->
+<cfparam name="url.gotopage" default="">
+<cfparam name="form.gotopage" default="">
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and (NOT isDefined("action") OR #action# neq "signOut")>
 	<!--- user is logged in already, redirect to user profile page --->
 	<cflocation url="/users/UserProfile.cfm" addtoken="false">
@@ -62,8 +78,10 @@ limitations under the License.
 		</script>
 		<cfoutput>
 			<cfif NOT isDefined("username") or len(username) EQ 0 ><cfset username=""></cfif>
-			<cfif not isdefined("gotopage")>
-				<cfset gotopage=''>
+			<!--- a page passed in, or else the MCZbase page that linked here --->
+			<cfset variables.gotopage = localReturnPath(url.gotopage)>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = localReturnPath(cgi.http_referer)>
 			</cfif>
 			<main class="container py-3" id="content" >
 				<section class="row mx-0 my-3">
@@ -78,7 +96,7 @@ limitations under the License.
 
 						<form name="loginform" id="loginform" method="post" action="/login.cfm">
 							<input name="action" id="formAction" value="signIn" type="hidden">
-							<input name="gotopage" value="#gotopage#" type="hidden">
+							<input name="gotopage" value="#encodeForHtmlAttribute(variables.gotopage)#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
 							<div class="form-row mx-0">
 								<h1 class="h2 px-2">#headingText#</h1>
@@ -98,12 +116,16 @@ limitations under the License.
 									<cfif isdefined("url.locked") and url.locked is true>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
 										<div class="data-entry-input bg-danger py-1 text-white mt-3">This account is locked. Please contact an MCZbase administrator.</div>
+									<cfelseif isdefined("url.throttled") and url.throttled is true>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">Too many failed attempts. Please try again in #loginThrottleSettings().lockMinutes# minutes, or <a class="text-white" href="/users/changePassword.cfm"><u>reset your password</u></a>.</div>
 									<cfelseif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
 										</cfif>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
-										<div class="data-entry-input bg-danger py-1 text-white mt-3">#encodeForHtml(err)#</div>
+										<!--- warning, as the user can try again; the lock messages above are danger --->
+										<div class="data-entry-input bg-warning py-1 text-dark mt-3">#encodeForHtml(err)#</div>
 										<script>
 											$(document).ready(function() { 
 												$('##username').css('backgroundColor','red');
@@ -235,40 +257,30 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="signIn">
-		<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 		<cfoutput>
-			<cfset initSession('#username#','#password#')>
-			<cfif len(session.username) is 0>
-				<cfset u="/login.cfm?badPW=true&username=#encodeForUrl(username)#">
-				<cfif isdefined("gotopage")>
-					<cfset u=u & '&gotopage=#encodeForUrl(gotopage)#'>
+			<!--- only a page on this site: the posted page, or else the page the login was posted from --->
+			<cfset variables.gotopage = localReturnPath(form.gotopage)>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = localReturnPath(cgi.http_referer)>
+			</cfif>
+			<!--- while a username or address is locked, the password isn't checked, so guesses learn nothing --->
+			<cfif loginLockStatus(username, clientAddress()).locked>
+				<cfset u="/login.cfm?throttled=true&username=#encodeForUrl(username)#">
+				<cfif len(variables.gotopage) GT 0>
+					<cfset u=u & '&gotopage=#encodeForUrl(variables.gotopage)#'>
 				</cfif>
 				<cflocation url="#u#" addtoken="false">
 			</cfif>
-	
-			<cfif not isdefined("gotopage") or len(gotopage) is 0>
-				<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
-					<cfset gotopage=replace(cgi.HTTP_REFERER,application.serverRootUrl,'')>
-					<cfset junk="CFID,CFTOKEN">
-					<cfloop list="#gotopage#" index="e" delimiters="?&">
-						<cfloop list="#junk#" index="j">
-							<cfif left(e,len(j)) is j>
-								<cfset rurl=replace(gotopage,e,'','all')>
-							</cfif>
-						</cfloop>
-					</cfloop>
-					<cfset t=1>
-					<cfset rurl=replace(gotopage,"?&","?","all")>
-					<cfset rurl=replace(gotopage,"&&","&","all")>
-					<cfset nogo="login.cfm,errors/">
-					<cfloop list="#nogo#" index="n">
-						<cfif gotopage contains n>
-							<cfset gotopage = "/Specimens.cfm">
-						</cfif>
-					</cfloop>
-				<cfelse>
-					<cfset gotopage = "/Specimens.cfm">
+			<cfset initSession('#username#','#password#',variables.gotopage)>
+			<cfif len(session.username) is 0>
+				<cfset u="/login.cfm?badPW=true&username=#encodeForUrl(username)#">
+				<cfif len(variables.gotopage) GT 0>
+					<cfset u=u & '&gotopage=#encodeForUrl(variables.gotopage)#'>
 				</cfif>
+				<cflocation url="#u#" addtoken="false">
+			</cfif>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = "/Specimens.cfm">
 			</cfif>
 			<cfif session.roles contains "coldfusion_user">
 				<cfquery name="getUserData" datasource="cf_dbuser">
@@ -294,15 +306,15 @@ limitations under the License.
 						Your password expires in #pwage# days
 						<br>You may <a href="/users/changePassword.cfm">change it now</a>
 					</div>
-					<a href="#gotopage#">Continue to #encodeForHtml(gotopage)#</a>
+					<a href="#encodeForHtmlAttribute(variables.gotopage)#">Continue to #encodeForHtml(variables.gotopage)#</a>
 				<cfelse>
-					<cflocation url="#gotopage#" addtoken="no">
+					<cflocation url="#variables.gotopage#" addtoken="no">
 				</cfif>
 				<cfif len(getUserData.email) is 0>
 					<cfset session.needEmailAddr=1>
 				</cfif>
 			<cfelse>
-				<cflocation url="#gotopage#" addtoken="no">
+				<cflocation url="#variables.gotopage#" addtoken="no">
 			</cfif>
 		</cfoutput>
 	</cfcase>

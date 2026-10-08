@@ -18,6 +18,12 @@ limitations under the License.
 --->
 <cfset pageTitle="Report Bug">
 <cfinclude template="/shared/_header.cfm">
+<cfif NOT isDefined("recaptchaWidget")>
+	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
 
 <cfset FEEDBACK_INSTRUCTIONS="Include DETAILS of the problem plus the text of any error you received, the catalog number of the record causing the issue, or the URL of the non-functioning page.">
 
@@ -62,11 +68,6 @@ limitations under the License.
 						<cfset email = "#getUserInfo.emails#">
 					</cfloop>
 				</cfif>
-			</cfif>
-			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-				<!--- captcha not needed --->
-			<cfelse>
-				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
 			<main class="container py-3" id="content">
 				<section class="container-fluid">
@@ -216,7 +217,7 @@ limitations under the License.
 											<!--- captcha not needed --->
 										<cfelse>
 											<div class="col-12">
-												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
+												#recaptchaWidget()#
 											</div>
 										</cfif>
 										<div class="col-12 mt-1">
@@ -271,25 +272,11 @@ limitations under the License.
 			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
 				<!--- capcha not needed ---->
 			<cfelse>
-				<cftry>
-					<cfobject action = "create" 
-						type = "java" 
-						class = "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate" 
-						name = "Validator"> 
-					<cfif structKeyExists(FORM,"g-recaptcha-response") >
-						<cfset response = FORM['g-recaptcha-response'] >
-						<cfset valid = Validator.validate("#response#","#CGI.REMOTE_ADDR#") >
-					<cfelse>
-						<cfset valid = FALSE >
-					</cfif>
-					<cfif not valid >
-						Captcha not validated.
-						<cfabort>
-					</cfif>
-				<cfcatch>
-					#cfcatch.message#
-				</cfcatch>
-				</cftry>
+				<cfif NOT isRecaptchaCorrect("info/bugs.cfm")>
+					The "I'm not a robot" check was not completed or could not be checked, so the report was not
+					submitted. Please go back and try again.
+					<cfabort>
+				</cfif>
 			</cfif>
 	
 			<cfif #complaint# eq #FEEDBACK_INSTRUCTIONS#>
