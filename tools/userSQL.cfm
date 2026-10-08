@@ -123,7 +123,7 @@ limitations under the License.
 							<cfif format is "csv">
 								<cfset ac = user_sql.columnlist>
 								<cfset fileDir = "#Application.webDirectory#/download/">
-								<cfset fileName = "MCZbaseUserSql_#cookie.cfid#_#cookie.cftoken#.csv">
+								<cfset fileName = "MCZbaseUserSql_#session.DownloadFileID#.csv">
 								<cfset header=#trim(ac)#>
 								<cffile action="write" file="#fileDir##fileName#" addnewline="yes" output="#header#">
 								<cfloop query="user_sql">

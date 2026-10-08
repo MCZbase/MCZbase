@@ -72,8 +72,10 @@ limitations under the License.
 	<!------------------------ logout ------------------------------------>
 	<cfset StructClear(Session)>
 	<cflogout>
-	<cfset session.DownloadFileName = "MCZbaseData_#cookie.cfid##cookie.cftoken#.txt">
-	<cfset session.DownloadFileID = "#cookie.cfid##cookie.cftoken#">
+	<!--- Names the session's download and report files, which are served as static files without
+		a session check: random, so the names can't be guessed and don't reveal the session cookies. --->
+	<cfset session.DownloadFileID = lcase(left(hash(generateSecretKey("AES", 256), "SHA-256"), 32))>
+	<cfset session.DownloadFileName = "MCZbaseData_#session.DownloadFileID#.txt">
 	<cfset session.roles="public">
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">

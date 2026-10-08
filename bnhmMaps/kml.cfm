@@ -21,7 +21,7 @@
 	<cfset showUnaccepted=0>
 </cfif>
 <cfif not isdefined("userFileName")>
-	<cfset userFileName="kmlfile#cookie.cfid##cookie.cftoken#">
+	<cfset userFileName="kmlfile#session.DownloadFileID#">
 </cfif>
 <!--- userFileName names the files written to internalPath, so it must not contain a path. --->
 <cfif REFind("[/\\\x00-\x1F]", userFileName) GT 0 OR find("..", userFileName) GT 0>

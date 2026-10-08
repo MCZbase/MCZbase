@@ -13,7 +13,8 @@
 		</form>
 	</cfif>
 	<cfif action is "buildIt">
-		<cfset session.projectReportTable="projTable#cookie.cfid##cookie.cftoken#">
+		<!--- The name goes into DDL and a link: built from the random hex session key, not the session cookies. --->
+		<cfset session.projectReportTable="projTable#left(session.DownloadFileID, 21)#">
 		<cftry>
 			<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				drop table #session.projectReportTable#
