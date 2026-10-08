@@ -18,9 +18,10 @@ limitations under the License.
 
 --->
 <!--- X-Forwarded-For is sent by the client, so it can name any address.  It is used only when the
-	request came from a proxy we trust: this server itself (a reverse proxy on the host, as on
-	test), loopback, or an address in Application.trustedProxies (e.g. the load balancer's subnet),
-	and then only the entries added by trusted proxies, read from the right.  No method is remote. --->
+	request came from a proxy we trust: loopback, this server's own subnets, on EC2 its VPC (found
+	at application start from the instance metadata), or Application.trustedProxies, and then only
+	the entries added by trusted proxies, read from the right.  Which proxies to trust can't be
+	learned from requests, as a forged header looks the same as a real one.  No method is remote. --->
 <cfcomponent>
 
 <!---
@@ -128,10 +129,80 @@ limitations under the License.
 </cffunction>
 
 <!---
+	isEc2Instance test, without a network request, whether this server is an EC2 instance, so the
+	instance metadata service is only asked where it exists (elsewhere requests to it time out).
+
+	@return true if the DMI system vendor is Amazon EC2, or the Xen hypervisor id starts with ec2.
+--->
+<cffunction name="isEc2Instance" access="public" returntype="boolean" output="false">
+	<cftry>
+		<cfif fileExists("/sys/devices/virtual/dmi/id/sys_vendor") AND findNoCase("Amazon EC2", fileRead("/sys/devices/virtual/dmi/id/sys_vendor")) GT 0>
+			<cfreturn true>
+		</cfif>
+		<cfif fileExists("/sys/hypervisor/uuid") AND left(lcase(trim(fileRead("/sys/hypervisor/uuid"))), 3) EQ "ec2">
+			<cfreturn true>
+		</cfif>
+	<cfcatch>
+		<cfreturn false>
+	</cfcatch>
+	</cftry>
+	<cfreturn false>
+</cffunction>
+
+<!---
+	cloudNetworks the IPv4 address ranges of this server's VPC, from the EC2 instance metadata
+	service (IMDSv2), so that a load balancer or proxies in the VPC are trusted without configuring
+	their addresses.  Only hosts inside the VPC can connect from those ranges.
+
+	@return comma separated IPv4 ranges, or an empty string when not on EC2 or the lookup fails.
+--->
+<cffunction name="cloudNetworks" access="public" returntype="string" output="false">
+	<cfset var result = "">
+	<cfset var metadataUrl = "http://169.254.169.254/latest">
+	<cfset var tokenResponse = "">
+	<cfset var macResponse = "">
+	<cfset var rangesResponse = "">
+	<cfset var token = "">
+	<cfset var range = "">
+	<cfif isDefined("Application.cloudNetworks")>
+		<cfreturn Application.cloudNetworks>
+	</cfif>
+	<cfif isEc2Instance()>
+		<cftry>
+			<cfhttp url="#metadataUrl#/api/token" method="put" timeout="2" result="tokenResponse">
+				<cfhttpparam type="header" name="X-aws-ec2-metadata-token-ttl-seconds" value="60">
+			</cfhttp>
+			<cfset token = trim(tokenResponse.fileContent)>
+			<cfhttp url="#metadataUrl#/meta-data/mac" method="get" timeout="2" result="macResponse">
+				<cfhttpparam type="header" name="X-aws-ec2-metadata-token" value="#token#">
+			</cfhttp>
+			<cfhttp url="#metadataUrl#/meta-data/network/interfaces/macs/#trim(macResponse.fileContent)#/vpc-ipv4-cidr-blocks" method="get" timeout="2" result="rangesResponse">
+				<cfhttpparam type="header" name="X-aws-ec2-metadata-token" value="#token#">
+			</cfhttp>
+			<cfif left(rangesResponse.statusCode, 3) EQ "200">
+				<cfloop list="#rangesResponse.fileContent#" index="range" delimiters="#chr(10)##chr(13)#, ">
+					<cfif find("/", range) GT 0 AND isIpAddress(listFirst(range, "/")) AND isValid("integer", listLast(range, "/"))>
+						<cfset result = listAppend(result, range)>
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cflog file="MCZbase" text="clientAddress.cfc: EC2 VPC ranges trusted as proxies: [#result#]">
+		<cfcatch>
+			<cflog file="MCZbase" text="clientAddress.cfc: EC2 instance metadata lookup failed: #cfcatch.message#">
+		</cfcatch>
+		</cftry>
+	</cfif>
+	<!--- kept until the application restarts, as onRequestStart asks on every request --->
+	<cfset Application.cloudNetworks = result>
+	<cfreturn result>
+</cffunction>
+
+<!---
 	isTrustedProxy test whether an address is a proxy whose X-Forwarded-For entries can be believed.
 
 	@param address the address to test.
-	@return true for loopback, addresses in this server's own subnets, and Application.trustedProxies.
+	@return true for loopback, addresses in this server's own subnets, on EC2 its VPC, and
+		Application.trustedProxies.
 --->
 <cffunction name="isTrustedProxy" access="public" returntype="boolean" output="false">
 	<cfargument name="address" type="string" required="yes">
@@ -140,7 +211,7 @@ limitations under the License.
 	<cfif isDefined("Application.trustedProxies")>
 		<cfset configured = Application.trustedProxies>
 	</cfif>
-	<cfreturn addressInList(arguments.address, listAppend(listAppend(LOOPBACK_ADDRESSES, localAddresses()), configured))>
+	<cfreturn addressInList(arguments.address, listAppend(listAppend(listAppend(LOOPBACK_ADDRESSES, localAddresses()), cloudNetworks()), configured))>
 </cffunction>
 
 <!---

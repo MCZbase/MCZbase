@@ -115,15 +115,16 @@ limitations under the License.
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
 		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
-		<!--- Proxies whose X-Forwarded-For can be believed, beyond this server and loopback, which are
-			always trusted (shared/component/clientAddress.cfc): addresses or IPv4 ranges such as the
-			load balancer's subnet. Behind a load balancer this must be set, or every request appears
-			to come from the load balancer. --->
+		<!--- Proxies whose X-Forwarded-For can be believed, beyond loopback, this server's subnets and,
+			on EC2, its VPC, which are trusted automatically (shared/component/clientAddress.cfc):
+			addresses or IPv4 ranges, needed only for a proxy outside those. --->
 		<cfset Application.trustedProxies = "" />
 		<!--- Addresses or IPv4 ranges never added to the blocklist automatically, e.g. staff networks. --->
 		<cfset Application.blockExemptAddresses = "" />
-		<!--- this server's addresses and subnets, cached in Application.localNetworks --->
+		<!--- this server's addresses and subnets, and on EC2 its VPC, cached in Application.localNetworks
+			and Application.cloudNetworks --->
 		<cfset localAddresses() />
+		<cfset cloudNetworks() />
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
@@ -228,10 +229,8 @@ limitations under the License.
 		<cfif serverName contains "harvard.edu">
 			<cfif serverName contains "-test">
 				 <cfset Application.serverrole ="test">
-				 <cfset Application.trustedProxies = "10.37.197.0/24">
 		    <cfelseif serverName contains "-dev">
 				 <cfset Application.serverrole ="development">
-				 <cfset Application.trustedProxies = "10.37.197.0/24">
 			 <cfelse>
 				 <cfset Application.serverrole ="production">
 			</cfif>

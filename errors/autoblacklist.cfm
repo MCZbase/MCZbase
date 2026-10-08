@@ -3,9 +3,9 @@
 
 	The client's address comes from clientAddress() in /shared/component/clientAddress.cfc, which is
 	also what Application.cfc onRequestStart compares with the blocklist.  It is cgi.remote_addr,
-	unless that address is a trusted proxy (loopback, this server's own addresses, or
+	unless that address is a trusted proxy (loopback, this server's own subnets, on EC2 the VPC, or
 	Application.trustedProxies), in which case it is the rightmost X-Forwarded-For entry not added by
-	a trusted proxy.  Proxies in the server's own subnets are trusted automatically.  Trusted proxies
+	a trusted proxy.  Trusted proxies
 	and Application.blockExemptAddresses are never stored, as blocking a proxy would block every
 	user.  A request carrying X-Forwarded-For from an address that is not a trusted proxy is blocked
 	by that address, so that a client can't avoid blocking by adding the header, and the email says
@@ -16,21 +16,20 @@
 	mailbox.
 
 	TODO: When production moves to EC2 behind an AWS load balancer, cgi.remote_addr becomes the load
-	balancer's private address, which changes as AWS replaces load balancer nodes.  Before that
-	deployment:
-	1. In Application.cfc onApplicationStart, set Application.trustedProxies to the subnets of the
-		load balancer (the VPC CIDR, or the subnets the load balancer is placed in), e.g.
-		"10.0.0.0/16".  IPv4 ranges and single addresses are accepted.  Without this every request
-		appears to come from the load balancer, and the first probe would block the load balancer,
-		and with it every user.
+	balancer's private address, which changes as AWS replaces load balancer nodes.  At application
+	start, clientAddress.cfc reads the VPC's address ranges from the EC2 instance metadata service
+	and trusts them, so a load balancer inside the VPC needs no configuration.  For that deployment:
+	1. Check the MCZbase log after start for "EC2 VPC ranges trusted as proxies", and that it lists
+		the VPC range.  If it reports a failed lookup, the instance metadata service (IMDSv2) must be
+		reachable from the instance (hop limit 1 is enough).  If the load balancer is outside the
+		VPC, set Application.trustedProxies in Application.cfc to its address ranges instead.
 	2. Confirm that the load balancer appends the client to X-Forwarded-For (the AWS Application Load
 		Balancer default, routing.http.xff_header_processing.mode = append), and that the instance
 		accepts web traffic only from the load balancer's security group, so that no request can
 		reach Apache directly with a forged header.
 	3. If Apache's mod_remoteip is configured instead (RemoteIPHeader X-Forwarded-For with
-		RemoteIPTrustedProxy for the load balancer's subnets), cgi.remote_addr is already the client
-		and Application.trustedProxies can stay empty; check that mod_jk passes the rewritten
-		address.
+		RemoteIPTrustedProxy for the load balancer's subnets), cgi.remote_addr is already the client;
+		check that mod_jk passes the rewritten address.
 	4. After deployment, trigger a block from a known address (see the test steps for Redmine 1037)
 		and check that the address recorded in the blocklist and in the email is the client's, not
 		the load balancer's.
