@@ -52,7 +52,8 @@ limitations under the License.
 	<cfset variables.execute = true>
 </cfif>
 <!--- With no parameters at all, open on the last week, as the trail goes back to 2009. --->
-<cfif structIsEmpty(url)>
+<!--- Not structIsEmpty(url): the cfparams above have filled the url scope. --->
+<cfif len(cgi.query_string) EQ 0>
 	<cfset variables.begin_date = dateFormat(dateAdd("d", -7, now()), "yyyy-mm-dd")>
 	<cfset variables.execute = true>
 </cfif>
