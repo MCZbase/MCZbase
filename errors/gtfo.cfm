@@ -51,10 +51,13 @@
 			<cfabort>
 		</cfif>
 		<cftry>
+		<cfif NOT isDefined("clientAddress")>
+			<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+		</cfif>
 		<cfmail subject="BlackList Objection" to="#Application.PageProblemEmail#" from="blacklist@#application.fromEmail#" type="html">
-			IP #cgi.REMOTE_ADDR# (#email#) had this to say:
+			IP #encodeForHtml(clientAddress())# (#encodeForHtml(email)#) had this to say:
 			<p>
-				#c#
+				#encodeForHtml(c)#
 			</p>
 		</cfmail>
 		Your message has been delivered.

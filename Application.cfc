@@ -31,6 +31,7 @@ limitations under the License.
 	<cfset This.sessioncookie = { httponly = true, secure = true, samesite = "Lax" } />
 	<!--- requestSummary, exceptionSummary and redactedScope, for onError. --->
 	<cfinclude template="/shared/component/diagnostics.cfc" runOnce="true">
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
@@ -113,6 +114,14 @@ limitations under the License.
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
 		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
+		<!--- Proxies whose X-Forwarded-For can be believed, beyond this server and loopback, which are
+			always trusted (shared/component/clientAddress.cfc): addresses or IPv4 ranges such as the
+			load balancer's subnet. Behind a load balancer this must be set, or every request appears
+			to come from the load balancer. --->
+		<cfset Application.trustedProxies = "" />
+		<!--- Addresses or IPv4 ranges never added to the blocklist automatically, e.g. staff networks. --->
+		<cfset Application.blockExemptAddresses = "" />
+		<cfset Application.localAddresses = localAddresses() />
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
@@ -407,7 +416,7 @@ limitations under the License.
 		<cfif not isdefined("application.blacklist")>
 			<cfset application.blacklist="" />
 		</cfif>
-		<cfif listfindnocase(application.blacklist,cgi.REMOTE_ADDR)>
+		<cfif listfindnocase(application.blacklist,clientAddress())>
 			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
 			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
 				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
