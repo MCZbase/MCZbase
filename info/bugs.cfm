@@ -287,7 +287,10 @@ limitations under the License.
 						<cfabort>
 					</cfif>
 				<cfcatch>
-					#cfcatch.message#
+					<!--- refuse rather than carry on: a failed check must not let the report through --->
+					<cflog file="MCZbase" text="info/bugs.cfm: reCAPTCHA validation failed: #cfcatch.message#">
+					The CAPTCHA could not be checked, so the report was not submitted. Please try again later.
+					<cfabort>
 				</cfcatch>
 				</cftry>
 			</cfif>

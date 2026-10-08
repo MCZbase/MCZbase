@@ -1,29 +1,18 @@
-<cffunction name="makeRandomString" returnType="string" output="false">
-    <cfscript>
-		var chars = "23456789ABCDEFGHJKMNPQRS";
-		var length = randRange(4,7);
-		var result = "";
-	    for(i=1; i <= length; i++) {
-	        char = mid(chars, randRange(1, len(chars)),1);
-	        result&=char;
-	    }
-	    return result;
-    </cfscript>
-</cffunction>
-<cfif not isdefined("action") or action is not "p">
+<!--- Shown for every request from a blocked address (Application.cfc onRequestStart), so the CAPTCHA
+	image is embedded in the page and the form is a plain form: requests for an image file or
+	cfform's scripts would be answered with this page too. --->
+<cfif NOT isDefined("captchaImageTag")>
+	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+</cfif>
+<cfparam name="form.action" default="">
+<cfparam name="form.c" default="">
+<cfparam name="form.email" default="">
+<cfparam name="form.captcha" default="">
+<cfif form.action NEQ "p">
 	It looks like your IP address is in our blocklist. This is the result of a request originating from your current IP address
 	that appeared to be an attempt to hack this site. Occasionally this happens entirely by accident due to a malformed URL. Our apologies if this is in error.
 	<p>Use the form below to request removal from the blocklist.</p>
 	<p>Please reload if you cannot read the text.</p>
-	<cfset captcha = makeRandomString()>
-	<cfset captchaHash = hash(captcha)>
-	<!--- The blocklist check in Application.cfc answers every request from a blocked address with this
-		page, including the request for a CAPTCHA image file and cfform's scripts, so the image is
-		embedded in the page and the form is a plain form. --->
-	<cfset captchaFile = getTempDirectory() & "gtfo_" & createUUID() & ".png">
-	<cfimage action="captcha" width="300" height="50" text="#captcha#" destination="#captchaFile#">
-	<cfset captchaImage = toBase64(fileReadBinary(captchaFile))>
-	<cfset fileDelete(captchaFile)>
 	<form name="g" method="post" action="/errors/gtfo.cfm">
 		<input type="hidden" name="action" value="p">
 		<label for="c">Your request (min 20 characters)</label><br>
@@ -32,28 +21,23 @@
 		<label for="email">Your email</label><br>
 		<input type="text" name="email" id="email" class="reqdClr">
 		<br>
-		<cfoutput><img src="data:image/png;base64,#captchaImage#" width="300" height="50" alt="Text to enter in the field below"></cfoutput>
+		<cfoutput>#captchaImageTag("blocklistObjection")#</cfoutput>
 	   	<br>
 	    <label for="captcha">Enter the text above</label>
 	    <input type="text" name="captcha" id="captcha" class="reqdClr">
-	    <cfoutput>
-	    <input type="hidden" name="captchaHash" value="#captchaHash#">
-	    </cfoutput>
 		<br><input type="submit" value="go">
 	</form>
-</cfif>
-
-<cfif isdefined("action") and action is "p">
+<cfelse>
 	<cfoutput>
-		<cfif hash(ucase(form.captcha)) neq form.captchaHash>
-			You did not enter the right text.
+		<cfif NOT isCaptchaCorrect("blocklistObjection", form.captcha)>
+			You did not enter the right text. Please go back and reload the page for a new image.
 			<cfabort>
 		</cfif>
-		<cfif len(c) lt 20>
+		<cfif len(form.c) lt 20>
 			You need to explain how you got here.
 			<cfabort>
 		</cfif>
-		<cfif len(email) is 0>
+		<cfif len(form.email) is 0>
 			Email is required.
 			<cfabort>
 		</cfif>
@@ -70,9 +54,9 @@
 			<cfabort>
 		</cfif>
 		<cfmail subject="BlackList Objection" to="#Application.PageProblemEmail#" from="blacklist@#application.fromEmail#" type="html">
-			IP #encodeForHtml(clientAddress())# (#encodeForHtml(email)#) had this to say:
+			IP #encodeForHtml(clientAddress())# (#encodeForHtml(form.email)#) had this to say:
 			<p>
-				#encodeForHtml(c)#
+				#encodeForHtml(form.c)#
 			</p>
 		</cfmail>
 		Your message has been delivered.
