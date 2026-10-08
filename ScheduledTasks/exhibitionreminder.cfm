@@ -202,7 +202,7 @@
 			from
 				loan_relations, loan
 			where
-				loan_relations.transaction_id = #transaction_id# and
+				loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 				loan_relations.RELATED_TRANSACTION_ID = loan.transaction_id
 		</cfquery>
 			<!--- the "contact if" section of the form we'll send to notification agents --->
@@ -366,7 +366,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#subLoans.transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subLoans.transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by

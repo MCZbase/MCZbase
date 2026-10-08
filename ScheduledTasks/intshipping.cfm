@@ -87,7 +87,7 @@
 
 				<cfquery name="upLogTable" datasource="uam_god">
 					insert into intshipping_log(address, date_sent)
-					values('#address#', SYSDATE)
+					values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#address#">, SYSDATE)
 				</cfquery>
 
 </cfloop>

@@ -343,7 +343,7 @@
 					(select * from collection_contacts where contact_role='data quality') collection_contacts
 				where
 					collection_contacts.CONTACT_AGENT_ID=electronic_address.AGENT_ID and
-					collection_contacts.collection_id=#collection_id#
+					collection_contacts.collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfquery name="data" dbtype="query">
 				select

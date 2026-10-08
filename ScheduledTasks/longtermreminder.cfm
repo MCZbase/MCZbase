@@ -67,7 +67,7 @@
 		<!--- loop once for each agent --->
 	<cfloop query="agent" startrow=1>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2025-01-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#"> and reminder_type = 'L' and date_sent > to_date('2025-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -345,7 +345,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by
@@ -383,7 +383,7 @@
 
 				<cfquery name="upLogTable" datasource="uam_god">
 					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', <cfif specialmail NEQ "noemails">'#toaddresses#'<cfelse>'noemails'</cfif>)
+					values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">, 'L', <cfif specialmail NEQ "noemails"><cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toaddresses#"><cfelse>'noemails'</cfif>)
 				</cfquery>
 
 				</cfloop>
@@ -500,7 +500,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by
@@ -538,7 +538,7 @@
 
 				<cfquery name="upLogTable" datasource="uam_god">
 					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', 'under-review')
+					values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">, 'L', 'under-review')
 				</cfquery>
 
 				</cfloop>

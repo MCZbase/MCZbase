@@ -543,7 +543,7 @@
 							</cfquery>
 							<!---- get column names --->
 								<cfquery name="getCols" datasource="uam_god">
-									select column_name from sys.user_tab_columns where table_name='#ucase(isValCt.value_code_table)#'
+									select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isValCt.value_code_table)#">
 									and column_name <> 'DESCRIPTION'
 								</cfquery>
 
@@ -597,7 +597,7 @@
 							</cfquery>
 							<!---- get column names --->
 							<cfquery name="getCols" datasource="uam_god">
-								select column_name from sys.user_tab_columns where table_name='#ucase(isUnitCt.units_code_table)#'
+								select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isUnitCt.units_code_table)#">
 								AND COLUMN_NAME <> 'DESCRIPTION'
 							</cfquery>
 							<cfset collCode = "">

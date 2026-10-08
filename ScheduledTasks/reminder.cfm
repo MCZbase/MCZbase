@@ -193,7 +193,7 @@
 				from
 					loan, loan_item, coll_object
 				where
-					loan.transaction_id=#transaction_id# and
+					loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					loan.transaction_id = loan_item.transaction_id and
 					loan_item.collection_object_id = coll_object.collection_object_id
 				group by
@@ -422,7 +422,7 @@
 					<!---changed reminder type to I for social distancing period, for "internal"--->
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'R', '#toaddresses#')
+						values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#receivedBy.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">, 'R', <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toaddresses#">)
 					</cfquery>
 			</cfif>
 		</cfloop>
@@ -501,7 +501,7 @@
 					(select * from collection_contacts where contact_role='data quality') collection_contacts
 				where
 					collection_contacts.CONTACT_AGENT_ID=electronic_address.AGENT_ID and
-					collection_contacts.collection_id=#collection_id#
+					collection_contacts.collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfquery name="data" dbtype="query">
 				select
