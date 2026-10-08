@@ -31,6 +31,8 @@ limitations under the License.
 	<cfset This.sessioncookie = { httponly = true, secure = true, samesite = "Lax" } />
 	<!--- requestSummary, exceptionSummary and redactedScope, for onError. --->
 	<cfinclude template="/shared/component/diagnostics.cfc" runOnce="true">
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
@@ -113,6 +115,16 @@ limitations under the License.
 			serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
 		</cfscript>
 		<cfset Application.serverName=serverName /><!--- Store the server name returned away for debugging --->
+		<!--- Proxies whose X-Forwarded-For can be believed, beyond loopback, this server's subnets and,
+			on EC2, its VPC, which are trusted automatically (shared/component/clientAddress.cfc):
+			addresses or IPv4 ranges, needed only for a proxy outside those. --->
+		<cfset Application.trustedProxies = "" />
+		<!--- Addresses or IPv4 ranges never added to the blocklist automatically, e.g. staff networks. --->
+		<cfset Application.blockExemptAddresses = "" />
+		<!--- this server's addresses and subnets, and on EC2 its VPC, cached in Application.localNetworks
+			and Application.cloudNetworks --->
+		<cfset localAddresses() />
+		<cfset cloudNetworks() />
 		<cfif serverName is "web.arctos.database.museum">
 			<cfset serverName="arctos.database.museum" />
 		</cfif>
@@ -407,7 +419,7 @@ limitations under the License.
 		<cfif not isdefined("application.blacklist")>
 			<cfset application.blacklist="" />
 		</cfif>
-		<cfif listfindnocase(application.blacklist,cgi.REMOTE_ADDR)>
+		<cfif listfindnocase(application.blacklist,clientAddress())>
 			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
 			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
 				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>

@@ -3,6 +3,14 @@
 	<cfabort>
 </cfif>
 <cfinclude template="/includes/_header.cfm">
+<cfif NOT isDefined("recaptchaWidget")>
+	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
+<!--- Reports email curators and file Bugzilla bugs, so visitors who aren't logged in answer a CAPTCHA. --->
+<cfset variables.needsCaptcha = NOT (isDefined("session.username") AND len(session.username) GT 0)>
 <cfif #Action# is "nothing">
 <cfset title="Report Data Problems">
 <h2>Report Data Errors</h2>
@@ -67,6 +75,13 @@
 				<strong>Remarks:</strong><br>
 				<textarea name="user_remarks" rows="6" cols="100"></textarea></td>
 		</tr>
+		<cfif variables.needsCaptcha>
+			<tr>
+				<td>
+					#recaptchaWidget()#
+				</td>
+			</tr>
+		</cfif>
 		<tr>
 			
 			<td align="center">
@@ -112,6 +127,10 @@
 </cfif>
 <!------------------------------------------------------------>
 <cfif action is "save">
+	<cfif variables.needsCaptcha AND NOT isRecaptchaCorrect("info/reportBadData.cfm")>
+		The "I'm not a robot" check was not completed. Please go back, reload the page, and try again.
+		<cfabort>
+	</cfif>
     <cfif isdefined("counter") and counter gt 0>
          <cfset collection_object_id = "">
          <cfset separator = "">

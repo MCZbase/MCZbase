@@ -201,7 +201,13 @@ limitations under the License.
 							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
 							<div class="form-row">
 								<div class="col-12 col-md-6">
-									<h2 class="h3">Server Settings</h2>
+									<h2 class="h3">Server Settings
+										<cfif Application.protocol EQ "https">
+											<span class="badge badge-success">OK</span>
+										<cfelse>
+											<span class="badge badge-danger">Not https</span>
+										</cfif>
+									</h2>
 									<ul>
 										<li>Application.protocol: #Application.protocol#</li>
 										<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
@@ -228,7 +234,11 @@ limitations under the License.
 									GROUP BY stale_flag
 								</cfquery>
 								<div class="col-12 col-md-6">
-									<h2 class="h3">FLAT Table</h2>
+									<h2 class="h3">FLAT Table
+										<cfif flatstatus.recordcount EQ 1 AND flatstatus.stale_flag EQ 0>
+											<span class="badge badge-success">OK</span>
+										</cfif>
+									</h2>
 									<ul>
 										<cfloop query="flatstatus">
 											<cfset flattext = "">
@@ -237,7 +247,33 @@ limitations under the License.
 										</cfloop>
 									<ul>
 								</div>
-							</div>		
+								<cfif NOT isDefined("recaptchaStatus")>
+									<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+								</cfif>
+								<cfset variables.recaptcha = recaptchaStatus()>
+								<div class="col-12 col-md-6">
+									<h2 class="h3">reCAPTCHA
+										<cfif variables.recaptcha.siteKeySet AND variables.recaptcha.classLoaded AND variables.recaptcha.validatorResponds>
+											<span class="badge badge-success">OK</span>
+										<cfelse>
+											<span class="badge badge-danger">Failing</span>
+										</cfif>
+									</h2>
+									<ul>
+										<li>Site key (cf_global_settings.google_site_key): <cfif variables.recaptcha.siteKeySet>set<cfelse><strong>not set</strong></cfif></li>
+										<li>Validator class edu.harvard.mcz.recaptchavalidate.RecaptchaValidate:
+											<cfif variables.recaptcha.classLoaded>loaded from #encodeForHtml(variables.recaptcha.classLocation)#<cfelse><strong>not available</strong></cfif>
+										</li>
+										<li>Validator check of a dummy answer: <cfif variables.recaptcha.validatorResponds>completed<cfelse><strong>failed</strong></cfif></li>
+										<cfif len(variables.recaptcha.message) GT 0>
+											<li>#encodeForHtml(variables.recaptcha.message)#</li>
+										</cfif>
+										<cfif NOT (variables.recaptcha.siteKeySet AND variables.recaptcha.validatorResponds)>
+											<li><strong>Visitors who aren't logged in can't submit the contact, bug report, bad data report or blocklist forms.</strong></li>
+										</cfif>
+									</ul>
+								</div>
+							</div>
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
 						<h3 class="h4">
