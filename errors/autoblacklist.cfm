@@ -1,5 +1,33 @@
 <!--- Blocks the client making the current request.  Only for inclusion by pages that detect a
-	probe; a direct request is answered as not found. --->
+	probe; a direct request is answered as not found.
+
+	The client's address comes from clientAddress() in /shared/component/clientAddress.cfc, which is
+	also what Application.cfc onRequestStart compares with the blocklist.  It is cgi.remote_addr,
+	unless that address is a trusted proxy (loopback, this server's own addresses, or
+	Application.trustedProxies), in which case it is the rightmost X-Forwarded-For entry not added by
+	a trusted proxy.  Trusted proxies and Application.blockExemptAddresses are never stored, as
+	blocking a proxy would block every user.
+
+	TODO: When production moves to EC2 behind an AWS load balancer, cgi.remote_addr becomes the load
+	balancer's private address, which changes as AWS replaces load balancer nodes.  Before that
+	deployment:
+	1. In Application.cfc onApplicationStart, set Application.trustedProxies to the subnets of the
+		load balancer (the VPC CIDR, or the subnets the load balancer is placed in), e.g.
+		"10.0.0.0/16".  IPv4 ranges and single addresses are accepted.  Without this every request
+		appears to come from the load balancer, which is never stored, so nothing is blocked.
+	2. Confirm that the load balancer appends the client to X-Forwarded-For (the AWS Application Load
+		Balancer default, routing.http.xff_header_processing.mode = append), and that the instance
+		accepts web traffic only from the load balancer's security group, so that no request can
+		reach Apache directly with a forged header.
+	3. If Apache's mod_remoteip is configured instead (RemoteIPHeader X-Forwarded-For with
+		RemoteIPTrustedProxy for the load balancer's subnets), cgi.remote_addr is already the client
+		and Application.trustedProxies can stay empty; check that mod_jk passes the rewritten
+		address.
+	4. After deployment, trigger a block from a known address (see the test steps for Redmine 1037)
+		and check that the address recorded in the blocklist and in the email is the client's, not
+		the load balancer's.
+	5. Consider moving blocking to an AWS WAF IP set on the load balancer, fed from the blacklist
+		table, so blocked requests never reach the instance. --->
 <cfif getFileFromPath(getBaseTemplatePath()) EQ "autoblacklist.cfm">
 	<cfheader statuscode="404" statustext="Not Found">
 	<cfabort>
