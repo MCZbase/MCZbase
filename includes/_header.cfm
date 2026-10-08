@@ -542,15 +542,24 @@
 					</cfif>
 				</ul>
 			<cfelse>
-				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and refind('^#application.protocol#://#application.hostName#/.*',cgi.REDIRECT_URL)>
-					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+				<cfif cgi.script_name EQ "/errors/missing.cfm" and isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0 and left(cgi.REDIRECT_URL, 1) EQ "/">
+					<!--- REDIRECT_URL is a path, never a full URL, so the old test against the host never matched --->
+					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/", "all")>
 				<cfelse>
-					<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+					<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/", "all")>
+					<!--- keep the query string, so a search page can be returned to after logging in --->
+					<cfif len(trim(cgi.query_string)) GT 0>
+						<cfset cleanedQueryString = REReplaceNoCase(trim(cgi.query_string), "(^|&)(CFID|CFTOKEN)=[^&]*", "", "all")>
+						<cfset cleanedQueryString = REReplace(REReplace(cleanedQueryString, "&{2,}", "&", "all"), "^&+|&+$", "", "all")>
+						<cfif len(cleanedQueryString) GT 0>
+							<cfset gtp = "#gtp#?#cleanedQueryString#">
+						</cfif>
+					</cfif>
 				</cfif>
 				<form name="logIn" method="post" action="/login.cfm">
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="mode" value="">
-					<input type="hidden" name="gotopage" value="#gtp#">
+					<input type="hidden" name="gotopage" value="#encodeForHtmlAttribute(gtp)#">
 					<ul>
 						<li><span>Username:</span></li>
 						<li>

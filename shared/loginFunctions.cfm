@@ -65,9 +65,51 @@ limitations under the License.
 	<cfreturn true>
 </cffunction>
 <!----------------------------------------------------------->
+<!---
+	localReturnPath check a page to return to after logging in, so the login can only send the user
+	to a page on this site (CWE-601).
+
+	@param target a path, or a URL starting with Application.serverRootUrl.
+	@return the site relative path and query string, without CFID and CFTOKEN, or an empty string if
+		the target is not a page on this site, or is the login page or an error page.
+--->
+<cffunction name="localReturnPath" output="false" returntype="string">
+	<cfargument name="target" type="string" required="yes">
+	<cfset var path = trim(arguments.target)>
+	<cfset var basePath = "">
+	<cfset var queryString = "">
+	<cfif len(path) GT len(Application.serverRootUrl) AND left(path, len(Application.serverRootUrl)) EQ Application.serverRootUrl>
+		<cfset path = mid(path, len(Application.serverRootUrl) + 1, len(path))>
+	</cfif>
+	<!--- // and /\ are read by browsers as a link to another host --->
+	<cfif left(path, 1) NEQ "/" OR left(path, 2) EQ "//" OR find("\", path) GT 0 OR REFind("[[:cntrl:]]", path) GT 0>
+		<cfreturn "">
+	</cfif>
+	<cfif REFindNoCase("^/(login\.cfm|errors/)", path) GT 0>
+		<cfreturn "">
+	</cfif>
+	<cfif find("?", path) GT 0>
+		<cfset basePath = left(path, find("?", path) - 1)>
+		<cfset queryString = mid(path, find("?", path) + 1, len(path))>
+		<cfset queryString = REReplaceNoCase(queryString, "(^|&)(CFID|CFTOKEN)=[^&]*", "", "all")>
+		<cfset queryString = REReplace(REReplace(queryString, "&{2,}", "&", "all"), "^&+|&+$", "", "all")>
+		<cfset path = basePath>
+		<cfif len(queryString) GT 0>
+			<cfset path = "#basePath#?#queryString#">
+		</cfif>
+	</cfif>
+	<cfreturn path>
+</cffunction>
+<!----------------------------------------------------------->
 <cffunction name="initSession" output="true" returntype="boolean">
 	<cfargument name="username" type="string" required="false">
 	<cfargument name="pwd" type="string" required="false">
+	<cfargument name="gotopage" type="string" required="false" default="">
+	<!--- carried through a failed login, so the retry still returns to the page --->
+	<cfset var returnParam = "">
+	<cfif len(arguments.gotopage) GT 0>
+		<cfset returnParam = "&gotopage=#encodeForURL(arguments.gotopage)#">
+	</cfif>
 	<cfoutput>
 	<!------------------------ logout ------------------------------------>
 	<cfset StructClear(Session)>
@@ -147,7 +189,7 @@ limitations under the License.
 		<cfif checkUser.ct NEQ 1>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)#">
+			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			select * 
@@ -159,7 +201,7 @@ limitations under the License.
 		<cfif getPrefs.recordcount is 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)#">
+			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<!--- The password is checked against cf_users, not the database, so a locked database account must be
 			refused here, or its user could still log in and use the pages that do not query as the user. --->
@@ -171,7 +213,7 @@ limitations under the License.
 		<cfif getAccountStatus.recordcount EQ 1 AND findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="/login.cfm?locked=true&username=#encodeForURL(username)#">
+			<cflocation url="/login.cfm?locked=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
