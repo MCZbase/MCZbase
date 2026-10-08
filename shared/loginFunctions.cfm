@@ -114,6 +114,19 @@ limitations under the License.
 	<cfreturn path>
 </cffunction>
 <!----------------------------------------------------------->
+<!---
+	noteLoginFailure count a failed login with the login throttle, where the calling page includes it
+	(/shared/component/loginThrottle.cfc, with /shared/component/clientAddress.cfc).
+
+	@param username the username typed.
+--->
+<cffunction name="noteLoginFailure" output="false" returntype="void">
+	<cfargument name="username" type="string" required="yes">
+	<cfif isDefined("recordLoginFailure") AND isDefined("clientAddress")>
+		<cfset recordLoginFailure(arguments.username, clientAddress())>
+	</cfif>
+</cffunction>
+<!----------------------------------------------------------->
 <cffunction name="initSession" output="true" returntype="boolean">
 	<cfargument name="username" type="string" required="false">
 	<cfargument name="pwd" type="string" required="false">
@@ -208,6 +221,7 @@ limitations under the License.
 		<cfif checkUser.ct NEQ 1>
 			<cfset session.username = "">
 			<cfset session.epw = "">
+			<cfset noteLoginFailure(username)>
 			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
@@ -220,6 +234,7 @@ limitations under the License.
 		<cfif getPrefs.recordcount is 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
+			<cfset noteLoginFailure(username)>
 			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<!--- The password is checked against cf_users, not the database, so a locked database account must be
@@ -232,6 +247,7 @@ limitations under the License.
 		<cfif getAccountStatus.recordcount EQ 1 AND findNoCase("LOCKED", getAccountStatus.account_status) GT 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
+			<cfset noteLoginFailure(username)>
 			<cflocation url="/login.cfm?locked=true&username=#encodeForURL(username)##returnParam#">
 		</cfif>
 		<!--- A new session id once the password is accepted, so an id planted in the browser before login
@@ -239,6 +255,9 @@ limitations under the License.
 			Anything encrypted with the id below uses currentCfid(), the new one; cookie.cfid still holds
 			the old one until the browser's next request. --->
 		<cfset sessionRotate()>
+		<cfif isDefined("recordLoginSuccess")>
+			<cfset recordLoginSuccess(username)>
+		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
 			select upper(granted_role) role_name

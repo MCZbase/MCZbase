@@ -22,6 +22,16 @@ limitations under the License.
 <cfif NOT isDefined("localReturnPath")>
 	<cfinclude template="/shared/loginFunctions.cfm">
 </cfif>
+<!--- counts failed logins, and locks a username or address after repeated failures --->
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("allowAlertMail")>
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("loginLockStatus")>
+	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
+</cfif>
 <!--- The page to return to after logging in: passed by GET to the login form, and posted from the login forms. --->
 <cfparam name="url.gotopage" default="">
 <cfparam name="form.gotopage" default="">
@@ -106,6 +116,9 @@ limitations under the License.
 									<cfif isdefined("url.locked") and url.locked is true>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
 										<div class="data-entry-input bg-danger py-1 text-white mt-3">This account is locked. Please contact an MCZbase administrator.</div>
+									<cfelseif isdefined("url.throttled") and url.throttled is true>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">Too many failed attempts. Please try again in #loginThrottleSettings().lockMinutes# minutes, or <a class="text-white" href="/users/changePassword.cfm"><u>reset your password</u></a>.</div>
 									<cfelseif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
@@ -248,6 +261,14 @@ limitations under the License.
 			<cfset variables.gotopage = localReturnPath(form.gotopage)>
 			<cfif len(variables.gotopage) EQ 0>
 				<cfset variables.gotopage = localReturnPath(cgi.http_referer)>
+			</cfif>
+			<!--- while a username or address is locked, the password isn't checked, so guesses learn nothing --->
+			<cfif loginLockStatus(username, clientAddress()).locked>
+				<cfset u="/login.cfm?throttled=true&username=#encodeForUrl(username)#">
+				<cfif len(variables.gotopage) GT 0>
+					<cfset u=u & '&gotopage=#encodeForUrl(variables.gotopage)#'>
+				</cfif>
+				<cflocation url="#u#" addtoken="false">
 			</cfif>
 			<cfset initSession('#username#','#password#',variables.gotopage)>
 			<cfif len(session.username) is 0>
