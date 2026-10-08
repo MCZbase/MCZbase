@@ -32,6 +32,7 @@ limitations under the License.
 <cfparam name="url.object_name" default="">
 <cfparam name="url.statement_type" default="">
 <cfparam name="url.sql_text" default="">
+<cfparam name="url.sql_bind" default="">
 <cfparam name="url.begin_date" default="">
 <cfparam name="url.end_date" default="">
 <cfparam name="url.execute" default="">
@@ -43,6 +44,7 @@ limitations under the License.
 	<cfset variables.statement_type = ucase(url.statement_type)>
 </cfif>
 <cfset variables.sql_text = trim(url.sql_text)>
+<cfset variables.sql_bind = trim(url.sql_bind)>
 <cfset variables.begin_date = trim(url.begin_date)>
 <cfset variables.end_date = trim(url.end_date)>
 <cfset variables.execute = false>
@@ -74,14 +76,14 @@ limitations under the License.
 	<cfargument name="field2" type="string" required="no" default="">
 	<cfargument name="value2" type="string" required="no" default="">
 	<cfset var parameters = { db_user = variables.db_user, object_name = variables.object_name, statement_type = variables.statement_type,
-		sql_text = variables.sql_text, begin_date = variables.begin_date, end_date = variables.end_date }>
+		sql_text = variables.sql_text, sql_bind = variables.sql_bind, begin_date = variables.begin_date, end_date = variables.end_date }>
 	<cfset var link = "/Admin/ActivityLog.cfm?execute=true">
 	<cfset var key = "">
 	<cfset parameters[arguments.field] = arguments.value>
 	<cfif len(arguments.field2) GT 0>
 		<cfset parameters[arguments.field2] = arguments.value2>
 	</cfif>
-	<cfloop list="db_user,object_name,statement_type,sql_text,begin_date,end_date" index="key">
+	<cfloop list="db_user,object_name,statement_type,sql_text,sql_bind,begin_date,end_date" index="key">
 		<cfif len(parameters[key]) GT 0>
 			<cfset link = link & "&#key#=#encodeForUrl(parameters[key])#">
 		</cfif>
@@ -101,15 +103,15 @@ limitations under the License.
 					<form name="auditSearch" id="auditSearch" method="get" action="/Admin/ActivityLog.cfm">
 						<input type="hidden" name="execute" value="true">
 						<div class="form-row">
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label for="db_user" class="data-entry-label">Database user (contains)</label>
 								<input type="text" name="db_user" id="db_user" class="data-entry-input" value="#encodeForHtmlAttribute(variables.db_user)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label for="object_name" class="data-entry-label">Table (contains)</label>
 								<input type="text" name="object_name" id="object_name" class="data-entry-input" value="#encodeForHtmlAttribute(variables.object_name)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label for="statement_type" class="data-entry-label">Statement</label>
 								<select name="statement_type" id="statement_type" class="data-entry-select">
 									<option value="">Any</option>
@@ -122,15 +124,19 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label for="sql_text" class="data-entry-label">SQL contains</label>
 								<input type="text" name="sql_text" id="sql_text" class="data-entry-input" value="#encodeForHtmlAttribute(variables.sql_text)#">
 							</div>
-							<div class="col-6 col-md-2">
+							<div class="col-12 col-md-4 col-xl-2">
+								<label for="sql_bind" class="data-entry-label">Parameters contain</label>
+								<input type="text" name="sql_bind" id="sql_bind" class="data-entry-input" value="#encodeForHtmlAttribute(variables.sql_bind)#">
+							</div>
+							<div class="col-6 col-md-2 col-xl-1">
 								<label for="begin_date" class="data-entry-label">From</label>
 								<input type="date" name="begin_date" id="begin_date" class="data-entry-input" value="#encodeForHtmlAttribute(variables.begin_date)#">
 							</div>
-							<div class="col-6 col-md-2">
+							<div class="col-6 col-md-2 col-xl-1">
 								<label for="end_date" class="data-entry-label">To (inclusive)</label>
 								<input type="date" name="end_date" id="end_date" class="data-entry-input" value="#encodeForHtmlAttribute(variables.end_date)#">
 							</div>
@@ -159,6 +165,7 @@ limitations under the License.
 					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
+					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
 					<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 					<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 			</cfquery>
@@ -170,6 +177,7 @@ limitations under the License.
 					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
+					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
 					<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 					<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 				GROUP BY db_user
@@ -183,6 +191,7 @@ limitations under the License.
 					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
+					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
 					<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 					<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 				GROUP BY object_name
@@ -196,6 +205,7 @@ limitations under the License.
 					<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
 					<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 					<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
+					<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
 					<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 					<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 				GROUP BY trunc(timestamp)
@@ -210,6 +220,7 @@ limitations under the License.
 						<cfif len(variables.object_name) GT 0>AND upper(object_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.object_name)#%"></cfif>
 						<cfif len(variables.statement_type) GT 0>AND upper(ltrim(sql_text)) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.statement_type#%"></cfif>
 						<cfif len(variables.sql_text) GT 0>AND upper(sql_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_text)#%"></cfif>
+						<cfif len(variables.sql_bind) GT 0>AND upper(sql_bind) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.sql_bind)#%"></cfif>
 						<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 						<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 					ORDER BY timestamp DESC
