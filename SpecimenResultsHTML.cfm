@@ -416,6 +416,7 @@
 	<script>
 		document.getElementById('suggestOtherForm').innerHTML='We recommend <a href="/SpecimenResults.cfm?mapurl=#mapurl#">SpecimenResults</a> for JavaScript-capable browsers.';
 	</script>
+	<!--- TODO: info/reportBadData.cfm can no longer file bugs, as Bugzilla no longer accepts bugs by email; replace this link with /info/bugs.cfm and remove that page. --->
 	<!--- logged in users only, as on SpecimenResults.cfm --->
 	<cfif isDefined("session.username") AND len(session.username) gt 0>
 		<span style="float:right; clear:left;">

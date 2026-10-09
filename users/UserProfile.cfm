@@ -245,32 +245,6 @@ limitations under the License.
 											<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
 											<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
 										</cfloop>
-									<ul>
-								</div>
-								<cfif NOT isDefined("recaptchaStatus")>
-									<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
-								</cfif>
-								<cfset variables.recaptcha = recaptchaStatus()>
-								<div class="col-12 col-md-6">
-									<h2 class="h3">reCAPTCHA
-										<cfif variables.recaptcha.siteKeySet AND variables.recaptcha.classLoaded AND variables.recaptcha.validatorResponds>
-											<span class="badge badge-success">OK</span>
-										<cfelse>
-											<span class="badge badge-danger">Failing</span>
-										</cfif>
-									</h2>
-									<ul>
-										<li>Site key (cf_global_settings.google_site_key): <cfif variables.recaptcha.siteKeySet>set<cfelse><strong>not set</strong></cfif></li>
-										<li>Validator class edu.harvard.mcz.recaptchavalidate.RecaptchaValidate:
-											<cfif variables.recaptcha.classLoaded>loaded from #encodeForHtml(variables.recaptcha.classLocation)#<cfelse><strong>not available</strong></cfif>
-										</li>
-										<li>Validator check of a dummy answer: <cfif variables.recaptcha.validatorResponds>completed<cfelse><strong>failed</strong></cfif></li>
-										<cfif len(variables.recaptcha.message) GT 0>
-											<li>#encodeForHtml(variables.recaptcha.message)#</li>
-										</cfif>
-										<cfif NOT (variables.recaptcha.siteKeySet AND variables.recaptcha.validatorResponds)>
-											<li><strong>Visitors who aren't logged in can't submit the contact, bug report, bad data report or blocklist forms.</strong></li>
-										</cfif>
 									</ul>
 								</div>
 							</div>
@@ -600,6 +574,23 @@ limitations under the License.
 												},
 												)
 											};
+										</script>
+									</div>
+									<div class="form-row">
+										<div class="col-12 mb-2">
+											<div class="bg-light rounded border p-2">
+												<h3 class="h3">Your bug reports</h3>
+												<div id="myBugReportsDiv">
+													<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+												</div>
+												<button type="button" class="btn btn-xs btn-secondary" id="recheckBugReportsBtn" onClick="loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');" aria-describedby="recheckBugReportsHelp">Recheck Status</button>
+												<small id="recheckBugReportsHelp" class="text-muted">Can be rechecked once a minute.</small>
+											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');
+											});
 										</script>
 									</div>
 								</cfif>

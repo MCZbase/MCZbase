@@ -1,3 +1,22 @@
+/*
+users/js/profile.js
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+*/
 /** Scripts specific to editing user profile information **/
 
 function changeSpecimenDefaultProfile(profile) {
@@ -222,4 +241,45 @@ function changeexclusive_collection_id (tgt) {
 			}
 		}
 	);
+}
+
+// Matches BUG_REPORTS_RECHECK_SECONDS in users/component/functions.cfc, which caches the results that long.
+var BUG_REPORTS_RECHECK_MILLISECONDS = 60000;
+
+/** Load the list of bugs the current user has reported into the User Profile's bug reports widget.
+ *
+ * @param targetDivId the id of the element to load the list into, without a leading #.
+ * @param showAll true to list every bug, false for only the most recent.
+ * @param recheckButtonId optional id of the button that reloads the list, without a leading #,
+ *   disabled from the start of the load until BUG_REPORTS_RECHECK_MILLISECONDS after it finishes.
+ */
+function loadMyBugReports(targetDivId, showAll, recheckButtonId) {
+	if (recheckButtonId) {
+		$('#' + recheckButtonId).prop('disabled', true);
+	}
+	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>');
+	jQuery.ajax({
+		dataType: "html",
+		url: "/users/component/functions.cfc",
+		data: {
+			method : "getMyBugReportsHtml",
+			targetDivId : targetDivId,
+			showAll : showAll,
+			returnformat : "plain"
+		},
+		error: function (jqXHR, textStatus, message) {
+			$('#' + targetDivId).html('');
+			handleFail(jqXHR,textStatus,message,"looking up your bug reports");
+		},
+		success: function (result) {
+			$('#' + targetDivId).html(result);
+		},
+		complete: function () {
+			if (recheckButtonId) {
+				setTimeout(function () {
+					$('#' + recheckButtonId).prop('disabled', false);
+				}, BUG_REPORTS_RECHECK_MILLISECONDS);
+			}
+		}
+	});
 }

@@ -225,7 +225,7 @@
 							agent_name
 						where
 							agent.agent_id=agent_name.agent_id and				
-							agent.agent_id=#id1#
+							agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 						group by
 							agent_name,
 							agent_name_type,
@@ -257,7 +257,7 @@
 						from 
 							project_agent
 						where
-							project_agent.agent_name_id IN (#valuelist(one.agent_name_id)#)
+							project_agent.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(one.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif project_agent.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! project agent</div>
@@ -268,7 +268,7 @@
 						from
 							publication_author_name
 						where
-							publication_author_name.agent_name_id IN (#valuelist(one.agent_name_id)#)
+							publication_author_name.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(one.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif publication_author_name.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! publication agent</div>
@@ -279,19 +279,19 @@
 						from 
 							project_sponsor
 						where
-							 project_sponsor.agent_name_id IN (#valuelist(one.agent_name_id)#)
+							 project_sponsor.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(one.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif project_sponsor.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">proj sponsor agent</div>
 					</cfif>
 					<cfquery name="electronic_address" datasource="uam_god">
-						select count(*) c from electronic_address where agent_id=#id1#
+						select count(*) c from electronic_address where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 					</cfquery>
 					<cfif electronic_address.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! electronic address</div>
 					</cfif>
 					<cfquery name="addr" datasource="uam_god">
-						select count(*) c from addr where agent_id=#id1#
+						select count(*) c from addr where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 					</cfquery>
 					<cfif addr.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! address</div>
@@ -302,7 +302,7 @@
 						from
 							shipment
 						where
-							PACKED_BY_AGENT_ID=#id1#		
+							PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">		
 					</cfquery>
 					<cfif shipment.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! shipment</div>
@@ -315,7 +315,7 @@
 							addr
 						where
 							shipment.SHIPPED_TO_ADDR_ID=addr.addr_id and
-							addr.agent_id=#id1#
+							addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 					</cfquery>
 					<cfif ship_to.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! ship to</div>
@@ -328,7 +328,7 @@
 							addr
 						where
 							shipment.SHIPPED_FROM_ADDR_ID=addr.addr_id and
-							addr.agent_id=#id1#
+							addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 					</cfquery>
 					<cfif ship_from.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! ship_from</div>
@@ -338,8 +338,8 @@
 						from agent_relations
 						where 	
 						( 
-							agent_relations.agent_id=#id1# or 
-							RELATED_AGENT_ID=#id1#
+							agent_relations.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#"> or 
+							RELATED_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 						) and
 						agent_relationship != 'bad duplicate of'
 					</cfquery>
@@ -356,7 +356,7 @@
 						where
 							collection.collection_id=cataloged_item.collection_id and
 							cataloged_item.collection_object_id=collector.collection_object_id and
-							collector.agent_id=#id1#
+							collector.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 						group by collection
 					</cfquery>
 					<cfif coll.recordcount gt 0>
@@ -371,7 +371,7 @@
 							where	
 								collecting_event.collecting_event_id=cataloged_item.collecting_event_id and
 								cataloged_item.collection_object_id=collector.collection_object_id and
-								collector.agent_id=#id1#
+								collector.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 						</cfquery>
 						<div style="font-size:smaller;">
                             <p style="padding-left:1.5em;padding-bottom: .12em;margin-bottom:0;"><span style="font-style:italic;">Collection(s):</span> #valuelist(coll.collection)#</p>
@@ -401,7 +401,7 @@
 							agent_name
 						where
 							agent.agent_id=agent_name.agent_id and				
-							agent.agent_id=#id2#
+							agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 						group by
 							agent_name,
 							agent_name_type,
@@ -435,7 +435,7 @@
 						from 
 							project_agent
 						where
-							project_agent.agent_name_id IN (#valuelist(two.agent_name_id)#)
+							project_agent.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(two.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif project_agent.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! project agent</div>
@@ -446,7 +446,7 @@
 						from
 							publication_author_name
 						where
-							publication_author_name.agent_name_id IN (#valuelist(two.agent_name_id)#)
+							publication_author_name.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(two.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif publication_author_name.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! publication agent</div>
@@ -457,19 +457,19 @@
 						from 
 							project_sponsor
 						where
-							 project_sponsor.agent_name_id IN (#valuelist(two.agent_name_id)#)
+							 project_sponsor.agent_name_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(two.agent_name_id)#" list="yes">)
 					</cfquery>
 					<cfif project_sponsor.c gt 0>
 						<div style="color:red;padding-left:1.5em;">Attn! proj sponsor agent</div>
 					</cfif>
 					<cfquery name="electronic_address" datasource="uam_god">
-						select count(*) c from electronic_address where agent_id=#id2#
+						select count(*) c from electronic_address where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 					</cfquery>
 					<cfif electronic_address.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! electronic address</div>
 					</cfif>
 					<cfquery name="addr" datasource="uam_god">
-						select count(*) c from addr where agent_id=#id2#
+						select count(*) c from addr where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 					</cfquery>
 					<cfif addr.c gt 0>
                         <div style="color:red;padding-left: 1.5em;">Attn! address</div>
@@ -480,7 +480,7 @@
 						from
 							shipment
 						where
-							PACKED_BY_AGENT_ID=#id2#		
+							PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">		
 					</cfquery>
 					<cfif shipment.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! shipment</div>
@@ -493,7 +493,7 @@
 							addr
 						where
 							shipment.SHIPPED_TO_ADDR_ID=addr.addr_id and
-							addr.agent_id=#id2#
+							addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 					</cfquery>
 					<cfif ship_to.c gt 0>
 						<div style="color:red;padding-left: 1.5em;">Attn! ship to</div>
@@ -506,7 +506,7 @@
 							addr
 						where
 							shipment.SHIPPED_FROM_ADDR_ID=addr.addr_id and
-							addr.agent_id=#id2#
+							addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 					</cfquery>
 					<cfif ship_from.c gt 0>
 						<div style="color:red;">! ship from</div>
@@ -516,8 +516,8 @@
 						from agent_relations
 						where 	
 						( 
-							agent_relations.agent_id=#id2# or 
-							RELATED_AGENT_ID=#id2#
+							agent_relations.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#"> or 
+							RELATED_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 						) and
 						agent_relationship != 'bad duplicate of'
                         
@@ -535,7 +535,7 @@
 						where
 							collection.collection_id=cataloged_item.collection_id and
 							cataloged_item.collection_object_id=collector.collection_object_id and
-							collector.agent_id=#id2#
+							collector.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 						group by collection
 					</cfquery>
 					<cfif coll.recordcount gt 0>
@@ -550,7 +550,7 @@
 							where	
 								collecting_event.collecting_event_id=cataloged_item.collecting_event_id and
 								cataloged_item.collection_object_id=collector.collection_object_id and
-								collector.agent_id=#id2#
+								collector.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 						</cfquery>
 						<div style="font-size:smaller;">
                             <p style="padding-left:1.5em;padding-bottom: .12em;margin-bottom:0;"><span style="font-style:italic;">Collection(s):</span> #valuelist(coll.collection)# </p>
