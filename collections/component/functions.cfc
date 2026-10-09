@@ -16,16 +16,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- Backing methods for the Collection Panel, /collections/CollectionPanel.cfm, role curatorial_associate. --->
+<!--- Backing methods for the Collection Panel, /collections/CollectionPanel.cfm, for the
+	curatorial_associate and global_admin roles.  cf_rolecheck requires every role listed for a path,
+	so this component's row is coldfusion_user and each method checks for either role. --->
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
-	requireCuratorialAssociate stop a widget method for anyone without the curatorial_associate role.
+	requirePanelViewer stop a widget method for anyone without the curatorial_associate or global_admin role.
 --->
-<cffunction name="requireCuratorialAssociate" access="private" returntype="void" output="false">
-	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"curatorial_associate") ) >
+<cffunction name="requirePanelViewer" access="private" returntype="void" output="false">
+	<cfif NOT isdefined("session.roles")>
+		<cfthrow message="Not authorized">
+	</cfif>
+	<cfif NOT ( listfindnocase(session.roles,"curatorial_associate") OR listfindnocase(session.roles,"global_admin") )>
 		<cfthrow message="Not authorized">
 	</cfif>
 </cffunction>
@@ -84,7 +89,7 @@ limitations under the License.
 	<cfset var dueSoon = arrayNew(1)>
 	<cfset var notOverdue = arrayNew(1)>
 	<cfset var noReminder = arrayNew(1)>
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="openLoans" datasource="uam_god" result="openLoans_result">
 		SELECT
@@ -156,7 +161,7 @@ limitations under the License.
 	<cfset var overdue = arrayNew(1)>
 	<cfset var dueSoon = arrayNew(1)>
 	<cfset var notOverdue = arrayNew(1)>
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="borrows" datasource="uam_god" result="borrows_result">
 		SELECT
@@ -215,7 +220,7 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var encumbrances = "">
 	<cfset var encumbrances_result = "">
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="encumbrances" datasource="uam_god" result="encumbrances_result">
 		SELECT
 			encumbrance.encumbrance_id, encumbrance.encumbrance, encumbrance.encumbrance_action,
@@ -266,7 +271,7 @@ limitations under the License.
 	<cfset var byUser_result = "">
 	<cfset var failures = "">
 	<cfset var failures_result = "">
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="collection" datasource="uam_god" result="collection_result">
 		SELECT institution_acronym, collection_cde
 		FROM collection
@@ -358,7 +363,7 @@ limitations under the License.
 	<cfset var loaded = "">
 	<cfset var loaded_result = "">
 	<cfset var total = 0>
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="loaded" datasource="uam_god" result="loaded_result">
 		SELECT
 			trunc(bulkloader_attempts.tstamp) AS load_date,
@@ -422,7 +427,7 @@ limitations under the License.
 	<cfset var deaccessions_result = "">
 	<cfset var misplaced = "">
 	<cfset var misplaced_result = "">
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="deaccessions" datasource="uam_god" result="deaccessions_result">
 		SELECT
 			trans.transaction_id, trans.trans_date, deaccession.deacc_number, deaccession.deacc_type, deaccession.deacc_status
@@ -501,7 +506,7 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var permits = "">
 	<cfset var permits_result = "">
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="permits" datasource="uam_god" result="permits_result">
 		SELECT
 			permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type, permit.exp_date,
@@ -548,7 +553,7 @@ limitations under the License.
 	<cfset var edits = "">
 	<cfset var edits_result = "">
 	<cfset var SHOWN = 20>
-	<cfset requireCuratorialAssociate()>
+	<cfset requirePanelViewer()>
 	<cfquery name="edits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="edits_result">
 		SELECT guid, scientific_name, last_edit_date
 		FROM flat
