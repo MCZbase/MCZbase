@@ -173,6 +173,8 @@ limitations under the License.
 		<cfreturn "badge-danger">
 	<cfelseif left(arguments.role, 6) EQ "ADMIN_">
 		<cfreturn "badge-warning">
+	<cfelseif ucase(arguments.role) EQ "CURATORIAL_ASSOCIATE">
+		<cfreturn "badge-primary">
 	<cfelseif arguments.role EQ "MANAGE_COLLECTION">
 		<cfreturn "badge-info">
 	<cfelseif isCollectionRole(arguments.role)>
@@ -472,6 +474,7 @@ limitations under the License.
 						One row per account, with its roles:
 						<span class="badge badge-danger font-weight-normal">dba, global_admin</span>
 						<span class="badge badge-warning font-weight-normal">admin_ roles</span>
+						<span class="badge badge-primary font-weight-normal">curatorial_associate</span>
 						<span class="badge badge-info font-weight-normal">manage_collection</span>
 						<span class="badge badge-success font-weight-normal">collection roles</span>
 						<span class="badge badge-dark font-weight-normal">connect</span>
