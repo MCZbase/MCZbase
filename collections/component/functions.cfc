@@ -66,7 +66,7 @@ limitations under the License.
 	getLoansHtml the Collection Panel widget listing a collection's open loans that are overdue by more
 	than a year, overdue, or due within 30 days, using the criteria of the loan reminder emails
 	(ScheduledTasks/reminder.cfm and longtermreminder.cfm): open returnable or consumable loans, with
-	open historical loans left out of those overdue by more than a year.
+	open historical loans left out of those overdue by more than a year; and all open loans not overdue.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -76,23 +76,14 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var openLoans = "">
 	<cfset var openLoans_result = "">
-	<cfset var dueLoans = "">
-	<cfset var dueLoans_result = "">
 	<cfset var item = "">
 	<cfset var longOverdue = arrayNew(1)>
 	<cfset var overdue = arrayNew(1)>
 	<cfset var dueSoon = arrayNew(1)>
+	<cfset var notOverdue = arrayNew(1)>
 	<cfset requireCuratorialAssociate()>
-	<cfquery name="openLoans" datasource="uam_god" result="openLoans_result">
-		SELECT count(*) AS ct
-		FROM loan
-			JOIN trans ON loan.transaction_id = trans.transaction_id
-		WHERE
-			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
-			AND loan.loan_status LIKE 'open%'
-	</cfquery>
 	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
-	<cfquery name="dueLoans" datasource="uam_god" result="dueLoans_result">
+	<cfquery name="openLoans" datasource="uam_god" result="openLoans_result">
 		SELECT
 			trans.transaction_id, loan.loan_number, loan.loan_type, loan.loan_status, loan.return_due_date,
 			round(loan.return_due_date - sysdate) + 1 AS days_left
@@ -101,35 +92,39 @@ limitations under the License.
 		WHERE
 			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
 			AND loan.loan_status LIKE 'open%'
-			AND loan.loan_type IN ('returnable', 'consumable')
-			AND round(loan.return_due_date - sysdate) + 1 <= 30
 		ORDER BY loan.return_due_date
 	</cfquery>
-	<cfloop query="dueLoans">
+	<cfloop query="openLoans">
 		<cfset item = {
-			href = "/transactions/Loan.cfm?action=editLoan&transaction_id=#dueLoans.transaction_id#",
-			label = dueLoans.loan_number,
-			detail = "#dueLoans.loan_type#, #dueLoans.loan_status#, due #dateFormat(dueLoans.return_due_date, 'yyyy-mm-dd')#"
+			href = "/transactions/Loan.cfm?action=editLoan&transaction_id=#openLoans.transaction_id#",
+			label = openLoans.loan_number,
+			detail = "#openLoans.loan_type#, #openLoans.loan_status#, due #dateFormat(openLoans.return_due_date, 'yyyy-mm-dd')#"
 		}>
-		<cfif dueLoans.days_left LT -365>
-			<cfif dueLoans.loan_status NEQ "open historical">
-				<cfset arrayAppend(longOverdue, item)>
+		<cfif len(openLoans.days_left) EQ 0 OR openLoans.days_left GE 0>
+			<cfset arrayAppend(notOverdue, item)>
+		</cfif>
+		<cfif listFind("returnable,consumable", openLoans.loan_type) AND len(openLoans.days_left) GT 0>
+			<cfif openLoans.days_left LT -365>
+				<cfif openLoans.loan_status NEQ "open historical">
+					<cfset arrayAppend(longOverdue, item)>
+				</cfif>
+			<cfelseif openLoans.days_left LT 0>
+				<cfset arrayAppend(overdue, item)>
+			<cfelseif openLoans.days_left LE 30>
+				<cfset arrayAppend(dueSoon, item)>
 			</cfif>
-		<cfelseif dueLoans.days_left LT 0>
-			<cfset arrayAppend(overdue, item)>
-		<cfelse>
-			<cfset arrayAppend(dueSoon, item)>
 		</cfif>
 	</cfloop>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<p class="mb-2">
-				#val(openLoans.ct)# open loans.
+				#openLoans.recordcount# open loans.
 				<cfif arrayLen(longOverdue) + arrayLen(overdue) EQ 0><span class="badge badge-success">None overdue</span></cfif>
 			</p>
 			#dueItemsHtml("Overdue more than a year", longOverdue, "badge-danger")#
 			#dueItemsHtml("Overdue", overdue, "badge-warning")#
 			#dueItemsHtml("Due within 30 days", dueSoon, "badge-secondary")#
+			#dueItemsHtml("Open, not overdue", notOverdue, "badge-secondary")#
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>
@@ -138,7 +133,7 @@ limitations under the License.
 <!---
 	getBorrowsHtml the Collection Panel widget listing a collection's borrows not yet returned that are
 	overdue by more than a year, overdue, or due within 30 days, using the criteria of the borrow
-	reminder emails (ScheduledTasks/borrowreminder.cfm).
+	reminder emails (ScheduledTasks/borrowreminder.cfm); and all such borrows not overdue.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -152,6 +147,7 @@ limitations under the License.
 	<cfset var longOverdue = arrayNew(1)>
 	<cfset var overdue = arrayNew(1)>
 	<cfset var dueSoon = arrayNew(1)>
+	<cfset var notOverdue = arrayNew(1)>
 	<cfset requireCuratorialAssociate()>
 	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="borrows" datasource="uam_god" result="borrows_result">
@@ -166,17 +162,20 @@ limitations under the License.
 		ORDER BY borrow.due_date
 	</cfquery>
 	<cfloop query="borrows">
-		<cfif len(borrows.days_left) GT 0 AND borrows.days_left LE 30>
-			<cfset item = {
-				href = "/transactions/Borrow.cfm?action=edit&transaction_id=#borrows.transaction_id#",
-				label = borrows.borrow_number,
-				detail = "#borrows.borrow_status#, due #dateFormat(borrows.due_date, 'yyyy-mm-dd')#"
-			}>
+		<cfset item = {
+			href = "/transactions/Borrow.cfm?action=edit&transaction_id=#borrows.transaction_id#",
+			label = borrows.borrow_number,
+			detail = "#borrows.borrow_status#, due #dateFormat(borrows.due_date, 'yyyy-mm-dd')#"
+		}>
+		<cfif len(borrows.days_left) EQ 0 OR borrows.days_left GE 0>
+			<cfset arrayAppend(notOverdue, item)>
+		</cfif>
+		<cfif len(borrows.days_left) GT 0>
 			<cfif borrows.days_left LT -365>
 				<cfset arrayAppend(longOverdue, item)>
 			<cfelseif borrows.days_left LT 0>
 				<cfset arrayAppend(overdue, item)>
-			<cfelse>
+			<cfelseif borrows.days_left LE 30>
 				<cfset arrayAppend(dueSoon, item)>
 			</cfif>
 		</cfif>
@@ -190,6 +189,7 @@ limitations under the License.
 			#dueItemsHtml("Overdue more than a year", longOverdue, "badge-danger")#
 			#dueItemsHtml("Overdue", overdue, "badge-warning")#
 			#dueItemsHtml("Due within 30 days", dueSoon, "badge-secondary")#
+			#dueItemsHtml("Open, not overdue", notOverdue, "badge-secondary")#
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>
