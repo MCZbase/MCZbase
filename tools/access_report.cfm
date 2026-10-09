@@ -29,7 +29,7 @@ limitations under the License.
 <cfparam name="url.action" default="">
 
 <!--- Roles that grant administrative control over MCZbase or the database. --->
-<cfset variables.ADMINISTRATIVE_ROLES = "GLOBAL_ADMIN,DBA,MANAGE_COLLECTION">
+<cfset variables.ADMINISTRATIVE_ROLES = "GLOBAL_ADMIN,DBA,MANAGE_COLLECTION,CURATORIAL_ASSOCIATE">
 <!--- An account unused for this many days, that still holds roles, is listed for review. --->
 <cfset variables.STALE_DAYS = 365>
 <!--- Login history is meaningful only on production; elsewhere few people log in, so unused holders are not flagged in the roles table. --->
