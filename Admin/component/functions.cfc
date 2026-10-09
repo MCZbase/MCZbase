@@ -868,8 +868,7 @@ limitations under the License.
 
 <!---
 	getDataHealthHtml the Admin Panel widget summarising data waiting for attention: FLAT rows by
-	stale flag, legacy bulkloader rows by status, rows in the bulkloader staging tables, and pending
-	specimen relationships.
+	stale flag and pending specimen relationships.
 
 	@return HTML for the widget body.
 --->
@@ -877,15 +876,8 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var flatStatus = "">
 	<cfset var flatStatus_result = "">
-	<cfset var bulkloader = "">
-	<cfset var bulkloader_result = "">
-	<cfset var stagingTables = "">
-	<cfset var stagingTables_result = "">
-	<cfset var stagingCount = "">
 	<cfset var pending = "">
 	<cfset var pending_result = "">
-	<cfset var stagingRows = arrayNew(1)>
-	<cfset var row = "">
 	<cfset requireGlobalAdmin()>
 	<cfquery name="flatStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatStatus_result">
 		SELECT stale_flag, count(*) AS ct
@@ -893,30 +885,6 @@ limitations under the License.
 		GROUP BY stale_flag
 		ORDER BY stale_flag
 	</cfquery>
-	<cfquery name="bulkloader" datasource="uam_god" result="bulkloader_result">
-		SELECT nvl(loaded, '(not loaded)') AS status, count(*) AS ct
-		FROM bulkloader
-		GROUP BY nvl(loaded, '(not loaded)')
-		ORDER BY 2 DESC
-	</cfquery>
-	<cfquery name="stagingTables" datasource="uam_god" result="stagingTables_result">
-		SELECT table_name
-		FROM user_tables
-		WHERE table_name LIKE 'CF\_TEMP\_%' ESCAPE '\'
-		ORDER BY table_name
-	</cfquery>
-	<cfloop query="stagingTables">
-		<!--- table names come from the data dictionary, as they can't be bound --->
-		<cftry>
-			<cfquery name="stagingCount" datasource="uam_god">
-				SELECT count(*) AS ct FROM "#stagingTables.table_name#"
-			</cfquery>
-			<cfif stagingCount.ct GT 0>
-				<cfset arrayAppend(stagingRows, { table_name = stagingTables.table_name, ct = stagingCount.ct })>
-			</cfif>
-		<cfcatch></cfcatch>
-		</cftry>
-	</cfloop>
 	<cfquery name="pending" datasource="uam_god" result="pending_result">
 		SELECT count(*) AS ct
 		FROM cf_temp_relations
@@ -928,21 +896,110 @@ limitations under the License.
 				<li>FLAT:
 					<cfif flatStatus.recordcount EQ 1 AND flatStatus.stale_flag EQ 0><span class="badge badge-success">OK</span></cfif>
 					<cfloop query="flatStatus">stale_flag #flatStatus.stale_flag#: #flatStatus.ct# rows<cfif flatStatus.stale_flag GT 1> (manually excluded)</cfif><cfif flatStatus.currentRow LT flatStatus.recordcount>; </cfif></cfloop></li>
-				<li>Legacy bulkloader:
-					<cfif bulkloader.recordcount EQ 0>empty<cfelse><cfloop query="bulkloader">#encodeForHtml(bulkloader.status)#: #bulkloader.ct#<cfif bulkloader.currentRow LT bulkloader.recordcount>; </cfif></cfloop></cfif></li>
-				<li>Bulkloader staging tables with rows: #arrayLen(stagingRows)#</li>
 				<li>Pending specimen relationships: #pending.ct#</li>
 			</ul>
-			<cfif arrayLen(stagingRows) GT 0>
-				<details>
-					<summary><strong>Staging tables</strong> (#arrayLen(stagingRows)#)</summary>
-					<ul class="small mb-1">
-						<cfloop array="#stagingRows#" index="row">
-							<li>#encodeForHtml(row.table_name)#: #row.ct#</li>
-						</cfloop>
-					</ul>
-				</details>
-			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getJavaLibrariesHtml the Admin Panel widget checking that the Java classes MCZbase calls can be
+	loaded, with the jar each library was loaded from and its version where the jar declares one.  Add
+	a class here when new code calls one from a library added to the ColdFusion server.
+
+	@return HTML for the widget body.
+--->
+<cffunction name="getJavaLibrariesHtml" access="remote" returntype="string" returnformat="plain">
+	<cfset var html = "">
+	<cfset var libraries = [
+		{ name = "reCAPTCHA validator", usedBy = "contact, bug and bad data reports, blocklist form (shared/component/captcha.cfc)",
+			classes = [ "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate" ] },
+		{ name = "eDec builder", usedBy = "USFWS eDec for loans (edecView.cfm)",
+			classes = [ "edu.harvard.mcz.edec.mczbase.EDecBuilder" ] },
+		{ name = "QR code utility", usedBy = "exhibit labels (Reports/handlers/exhibit.cfm)",
+			classes = [ "edu.harvard.mcz.qrCodeUtility.QRCodeUtility" ] },
+		{ name = "Name tools", usedBy = "taxonomy and name checks (dataquality/, taxonomy/component/functions.cfc)",
+			classes = [ "edu.harvard.mcz.nametools.NameUsage", "edu.harvard.mcz.nametools.ICZNAuthorNameComparator" ] },
+		{ name = "Scientific name QC", usedBy = "taxonomy and name checks (dataquality/, taxonomy/component/functions.cfc)",
+			classes = [ "org.filteredpush.qc.sciname.DwCSciNameDQ", "org.filteredpush.qc.sciname.SciNameSourceAuthority", "org.filteredpush.qc.sciname.Taxon",
+				"org.filteredpush.qc.sciname.services.Validator", "org.filteredpush.qc.sciname.services.WoRMSService",
+				"org.filteredpush.qc.sciname.services.GBIFService", "org.filteredpush.qc.sciname.services.IRMNGService" ] },
+		{ name = "Event date QC", usedBy = "date checks (dataquality/), collecting event and georeference bulkloaders",
+			classes = [ "org.filteredpush.qc.date.DwCEventDQ", "org.filteredpush.qc.date.DwCEventDQDefaults", "org.filteredpush.qc.date.DwCOtherDateDQ",
+				"org.filteredpush.qc.date.DwCOtherDateDQDefaults", "org.filteredpush.qc.date.EventResult", "org.filteredpush.qc.date.util.DateUtils" ] },
+		{ name = "Event date QC, older package", usedBy = "date collected on the specimen page (specimens/component/public.cfc)",
+			classes = [ "org.filteredpush.qc.date.DateUtils" ] },
+		{ name = "Georeference QC", usedBy = "georeference checks (dataquality/)",
+			classes = [ "org.filteredpush.qc.georeference.DwCGeoRefDQ" ] },
+		{ name = "FFDQ annotations", usedBy = "data quality test descriptions (dataquality/)",
+			classes = [ "org.datakurator.ffdq.annotations.Mechanism", "org.datakurator.ffdq.annotations.Provides",
+				"org.datakurator.ffdq.annotations.Validation", "org.datakurator.ffdq.annotations.Amendment" ] },
+		{ name = "Barbecue barcodes", usedBy = "barcode images (CustomTags/makeBarcode.cfm)",
+			classes = [ "net.sourceforge.barbecue.Barcode", "net.sourceforge.barbecue.BarcodeImageHandler", "net.sourceforge.barbecue.linear.code39.Code39Barcode" ] },
+		{ name = "Apache Commons CSV", usedBy = "CSV uploads to the bulkloaders (tools/component/csv.cfc)",
+			classes = [ "org.apache.commons.csv.CSVFormat", "org.apache.commons.csv.CSVParser", "org.apache.commons.csv.CSVRecord" ] }
+	]>
+	<cfset var library = "">
+	<cfset var className = "">
+	<cfset var javaClass = "">
+	<cfset var codeSource = "">
+	<cfset var classPackage = "">
+	<cfset var missing = "">
+	<cfset var location = "">
+	<cfset var version = "">
+	<cfset var failingCount = 0>
+	<cfset requireGlobalAdmin()>
+	<cfloop array="#libraries#" index="library">
+		<cfset missing = arrayNew(1)>
+		<cfset location = "">
+		<cfset version = "">
+		<cfloop array="#library.classes#" index="className">
+			<cftry>
+				<cfset javaClass = createObject("java", className).getClass()>
+				<cfif len(location) EQ 0>
+					<cftry>
+						<cfset codeSource = javaClass.getProtectionDomain().getCodeSource()>
+						<cfif NOT isNull(codeSource)>
+							<cfset location = codeSource.getLocation().toString()>
+						</cfif>
+						<cfset classPackage = javaClass.getPackage()>
+						<cfif NOT isNull(classPackage) AND NOT isNull(classPackage.getImplementationVersion())>
+							<cfset version = classPackage.getImplementationVersion()>
+						</cfif>
+					<cfcatch></cfcatch>
+					</cftry>
+				</cfif>
+			<cfcatch>
+				<cfset arrayAppend(missing, className)>
+			</cfcatch>
+			</cftry>
+		</cfloop>
+		<cfset library.missing = missing>
+		<cfset library.location = location>
+		<cfset library.version = version>
+		<cfif arrayLen(missing) GT 0>
+			<cfset failingCount = failingCount + 1>
+		</cfif>
+	</cfloop>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">
+				<cfif failingCount EQ 0><span class="badge badge-success">OK</span> All classes load.<cfelse><span class="badge badge-danger">#failingCount# failing</span> Pages using a failing library will not work.</cfif>
+			</p>
+			<ul class="mb-2">
+				<cfloop array="#libraries#" index="library">
+					<li>#encodeForHtml(library.name)#
+						<cfif arrayLen(library.missing) EQ 0><span class="badge badge-success">OK</span><cfelseif arrayLen(library.missing) EQ arrayLen(library.classes)><span class="badge badge-danger">Not found</span><cfelse><span class="badge badge-danger">Incomplete</span></cfif>
+						<cfif len(library.version) GT 0>version #encodeForHtml(library.version)#</cfif>
+						<div class="small">Used by: #encodeForHtml(library.usedBy)#</div>
+						<cfif len(library.location) GT 0><div class="small text-break">#encodeForHtml(library.location)#</div></cfif>
+						<cfif arrayLen(library.missing) GT 0>
+							<div class="small">Can't load: #encodeForHtml(arrayToList(library.missing, ", "))#</div>
+						</cfif>
+					</li>
+				</cfloop>
+			</ul>
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>
