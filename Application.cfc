@@ -448,16 +448,22 @@ limitations under the License.
 			<cfset r=replace(currentPath,application.webDirectory,"") />
 			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
 		</cfif>
+		<!--- Scheduled tasks run only for the ColdFusion scheduler, which calls them from this server, or for a
+			global_admin running one by hand: they send email and change data. --->
+		<cfif currentPath contains "/ScheduledTasks/" AND NOT isRequestFromThisServer()
+				AND NOT (isdefined("session.roles") AND listFindNoCase(session.roles, "global_admin"))>
+			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
+			<cfabort />
+		</cfif>
 		<!--- protect "us" directories --->
-		<cfif (CGI.Remote_Addr is not "10.242.110.169") and
+		<cfif NOT isRequestFromThisServer() and
 			(not isdefined("session.roles") or session.roles is "public" or len(session.roles) is 0) and
 			(currentPath contains "/Admin/" or
 			currentPath contains "/ALA_Imaging/" or
 			currentPath contains "/Bulkloader/" or
 			currentPath contains "/fix/" or
 			currentPath contains "/picks/" or
-			currentPath contains "/tools/" or
-			currentPath contains "/ScheduledTasks/")>
+			currentPath contains "/tools/")>
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
 			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
