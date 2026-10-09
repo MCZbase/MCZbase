@@ -901,7 +901,7 @@ limitations under the License.
 
 <!---
 	bugzillaGet make a GET request to the Bugzilla REST API as the MCZbase bug reporting account.
-	The api key goes in a header rather than the url, keeping it out of the web server's logs.
+	The api key is sent as the api_key parameter, as this Bugzilla doesn't accept the X-BUGZILLA-API-KEY header.
 
 	@param resource the REST resource below /rest/, e.g. bug.
 	@param params a structure of url parameters to send.
@@ -915,7 +915,7 @@ limitations under the License.
 	<cfset var parsed = "">
 	<cfset var paramName = "">
 	<cfhttp method="GET" url="https://#Application.bugzilla_api_url##BUGZILLA_PATH#/rest/#arguments.resource#" result="bugzillaResult" timeout="10" throwOnError="no">
-		<cfhttpparam type="header" name="X-BUGZILLA-API-KEY" value="#Application.bugzilla_api_key#">
+		<cfhttpparam type="url" name="api_key" value="#Application.bugzilla_api_key#">
 		<cfhttpparam type="header" name="Accept" value="application/json">
 		<cfloop collection="#arguments.params#" item="paramName">
 			<cfhttpparam type="url" name="#paramName#" value="#arguments.params[paramName]#">
