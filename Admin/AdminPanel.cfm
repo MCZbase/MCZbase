@@ -30,6 +30,72 @@ limitations under the License.
 		<div class="col-12 col-xl-6 mb-3">
 			<div class="card h-100">
 				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Server Checks</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('serverChecksWidget', 'getServerChecksHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="serverChecksWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Scheduled Tasks</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('scheduledTasksWidget', 'getScheduledTasksHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="scheduledTasksWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Errors</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('recentErrorsWidget', 'getRecentErrorsHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="recentErrorsWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Mail</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('mailWidget', 'getMailHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="mailWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Security Events</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('securityEventsWidget', 'getSecurityEventsHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="securityEventsWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Active Users</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('activeUsersWidget', 'getActiveUsersHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="activeUsersWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
 					<h2 class="h4 mb-0 mr-auto">Code Table Changes</h2>
 					<label for="codeTableDays" class="sr-only">Period</label>
 					<select id="codeTableDays" class="data-entry-select w-auto mr-2" onchange="loadAdminWidget('codeTableChangesWidget', 'getCodeTableChangesHtml', { days: this.value });">
@@ -47,10 +113,21 @@ limitations under the License.
 		<div class="col-12 col-xl-6 mb-3">
 			<div class="card h-100">
 				<div class="card-header d-flex align-items-center">
-					<h2 class="h4 mb-0 mr-auto">Active Users</h2>
-					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('activeUsersWidget', 'getActiveUsersHtml');">Refresh</button>
+					<h2 class="h4 mb-0 mr-auto">Accounts Needing Attention</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('accountsWidget', 'getAccountsHtml');">Refresh</button>
 				</div>
-				<div class="card-body" id="activeUsersWidget">
+				<div class="card-body" id="accountsWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Data Health</h2>
+					<button type="button" class="btn btn-xs btn-secondary" onclick="loadAdminWidget('dataHealthWidget', 'getDataHealthHtml');">Refresh</button>
+				</div>
+				<div class="card-body" id="dataHealthWidget">
 					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
 				</div>
 			</div>
@@ -59,8 +136,15 @@ limitations under the License.
 </main>
 <script>
 	$(document).ready(function() {
-		loadAdminWidget('codeTableChangesWidget', 'getCodeTableChangesHtml', { days: 7 });
+		loadAdminWidget('serverChecksWidget', 'getServerChecksHtml');
+		loadAdminWidget('scheduledTasksWidget', 'getScheduledTasksHtml');
+		loadAdminWidget('recentErrorsWidget', 'getRecentErrorsHtml');
+		loadAdminWidget('mailWidget', 'getMailHtml');
+		loadAdminWidget('securityEventsWidget', 'getSecurityEventsHtml');
 		loadAdminWidget('activeUsersWidget', 'getActiveUsersHtml');
+		loadAdminWidget('accountsWidget', 'getAccountsHtml');
+		loadAdminWidget('dataHealthWidget', 'getDataHealthHtml');
+		loadAdminWidget('codeTableChangesWidget', 'getCodeTableChangesHtml', { days: 7 });
 	});
 </script>
 <cfinclude template="/shared/_footer.cfm">
