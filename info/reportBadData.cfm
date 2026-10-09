@@ -9,6 +9,7 @@
 <cfif NOT isDefined("clientAddress")>
 	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
 </cfif>
+<!--- TODO: Bugzilla no longer accepts bugs by email, so this page no longer files a bug.  Replace its links from SpecimenResults.cfm and SpecimenResultsHTML.cfm with /info/bugs.cfm and remove this page; SpecimenResults.cfm is linked from the loan reminder emails, assess that use first. --->
 <!--- Reports email curators and file Bugzilla bugs, so visitors who aren't logged in answer a CAPTCHA. --->
 <cfset variables.needsCaptcha = NOT (isDefined("session.username") AND len(session.username) GT 0)>
 <cfif #Action# is "nothing">

@@ -1,7 +1,7 @@
 <!---
 users/component/functions.cfc
 
-Copyright 2022 President and Fellows of Harvard College
+Copyright 2022-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,16 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+
+<!--- Bugzilla product that info/bugs.cfm files bug reports under. --->
+<cfset variables.BUGZILLA_PRODUCT = "MCZbase">
+<cfset variables.BUGZILLA_PATH = "/bugzilla">
+<!--- Bug reports listed before the remainder is loaded on request. --->
+<cfset variables.BUG_REPORTS_SHOWN = 25>
+<!--- Seconds a user's bug reports are kept in the session before Bugzilla is asked again. --->
+<cfset variables.BUG_REPORTS_RECHECK_SECONDS = 60>
+<!--- Bugzilla status of a bug a developer has taken on. --->
+<cfset variables.BUGZILLA_ASSIGNED_STATUS = "ASSIGNED">
 
 <!--- getDownloadProfilesHtml get a block of html listing download profiles visible to the current user
   takes no parameters.
@@ -891,6 +901,240 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+	bugzillaCall call a method of the Bugzilla JSON-RPC API as the MCZbase bug reporting account,
+	posting the api key in the JSON body, as info/bugs.cfm does when filing bugs, to keep it out of urls.
+
+	@param method the Bugzilla API method, e.g. Bug.search.
+	@param params a structure of the method's parameters.
+	@return a structure with ok (boolean), data (the method's result when ok) and message (when not ok).
+--->
+<cffunction name="bugzillaCall" access="private" returntype="struct" output="false">
+	<cfargument name="method" type="string" required="yes">
+	<cfargument name="params" type="struct" required="yes">
+	<cfset var response = {ok = false, data = "", message = ""}>
+	<cfset var callParams = duplicate(arguments.params)>
+	<cfset var jsonPayload = "">
+	<cfset var bugzillaResult = "">
+	<cfset var parsed = "">
+	<cfset callParams["api_key"] = Application.bugzilla_api_key>
+	<cfset jsonPayload = serializeJSON({
+		"method": arguments.method,
+		"params": [ callParams ],
+		"id": 1
+	})>
+	<cfhttp method="POST" url="https://#Application.bugzilla_api_url##variables.BUGZILLA_PATH#/jsonrpc.cgi" result="bugzillaResult" timeout="10" throwOnError="no">
+		<cfhttpparam type="header" name="Content-Type" value="application/json">
+		<cfhttpparam type="header" name="Accept" value="application/json">
+		<cfhttpparam type="body" value="#jsonPayload#">
+	</cfhttp>
+	<cfif isJSON(bugzillaResult.fileContent)>
+		<cfset parsed = deserializeJSON(bugzillaResult.fileContent)>
+	</cfif>
+	<!--- JSON-RPC reports a failed call in the error member, often with an HTTP 200 --->
+	<cfif isStruct(parsed) AND structKeyExists(parsed, "error") AND isStruct(parsed.error)>
+		<cfif structKeyExists(parsed.error, "message")>
+			<cfset response.message = parsed.error.message>
+		<cfelse>
+			<cfset response.message = "error from bug tracker">
+		</cfif>
+	<cfelseif left(bugzillaResult.statusCode, 3) EQ "200" AND isStruct(parsed) AND structKeyExists(parsed, "result") AND isStruct(parsed.result)>
+		<cfset response.ok = true>
+		<cfset response.data = parsed.result>
+	<cfelse>
+		<cfset response.message = bugzillaResult.statusCode>
+	</cfif>
+	<cfreturn response>
+</cffunction>
+
+<!---
+	getMyBugReportsData the current user's bug reports and the default assignee of each component,
+	fetched from Bugzilla at most once every BUG_REPORTS_RECHECK_SECONDS and otherwise taken from the
+	session, so repeated loads of the widget don't each query Bugzilla.
+
+	@return a structure with ok, message (when not ok), bugs (an array of bug structures) and
+		defaultAssignees (component name to default assignee login).
+--->
+<cffunction name="getMyBugReportsData" access="private" returntype="struct" output="false">
+	<cfset var data = {ok = false, message = "", bugs = arrayNew(1), defaultAssignees = structNew()}>
+	<cfset var search = "">
+	<cfset var productLookup = "">
+	<cfset var product = "">
+	<cfset var productComponent = "">
+	<cfif structKeyExists(session, "myBugReports") AND session.myBugReports.username EQ session.username
+		AND dateDiff("s", session.myBugReports.checkedAt, now()) LT variables.BUG_REPORTS_RECHECK_SECONDS>
+		<cfreturn session.myBugReports.data>
+	</cfif>
+	<cfset search = bugzillaCall("Bug.search", {
+		"product": variables.BUGZILLA_PRODUCT,
+		"f1": "longdesc",
+		"o1": "substring",
+		"v1": "(Username: #session.username#)",
+		"include_fields": [ "id", "summary", "component", "status", "resolution", "assigned_to", "assigned_to_detail", "creation_time", "last_change_time" ]
+	})>
+	<cfif NOT search.ok>
+		<cfset data.message = search.message>
+		<cfreturn data>
+	</cfif>
+	<cfset data.bugs = search.data.bugs>
+	<!--- without the default assignees, only the ASSIGNED status marks a bug as assigned --->
+	<cfset productLookup = bugzillaCall("Product.get", {
+		"names": [ variables.BUGZILLA_PRODUCT ],
+		"include_fields": [ "components" ]
+	})>
+	<cfif productLookup.ok AND structKeyExists(productLookup.data, "products")>
+		<cfloop array="#productLookup.data.products#" index="product">
+			<cfloop array="#product.components#" index="productComponent">
+				<cfset data.defaultAssignees[productComponent.name] = productComponent.default_assigned_to>
+			</cfloop>
+		</cfloop>
+	</cfif>
+	<cfset data.ok = true>
+	<cfset session.myBugReports = {username = session.username, checkedAt = now(), data = data}>
+	<cfreturn data>
+</cffunction>
+
+<!---
+	getMyBugReportsHtml the User Profile widget listing the bugs the current user has reported.
+	Bugs are filed by the MCZbase bug reporting account, so they are found by the
+	(Username: {username}) line info/bugs.cfm writes into each report's description.
+	A bug counts as assigned when its status is ASSIGNED or its assignee is no longer
+	its component's default assignee.
+
+	@param targetDivId the id of the element the widget is loaded into, for its load remainder button.
+	@param showAll true to list every bug, otherwise only the most recent BUG_REPORTS_SHOWN.
+	@return HTML for the widget body.
+--->
+<cffunction name="getMyBugReportsHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="targetDivId" type="string" required="yes">
+	<cfargument name="showAll" type="boolean" required="no" default="false">
+	<cfset var html = "">
+	<cfset var reports = "">
+	<cfset var bugsById = structNew()>
+	<cfset var bugIds = "">
+	<cfset var bug = "">
+	<cfset var bugId = "">
+	<cfset var rows = arrayNew(1)>
+	<cfset var row = "">
+	<cfset var openCount = 0>
+	<cfset var assignedCount = 0>
+	<cfset var closedCount = 0>
+	<cfset var shownCount = 0>
+	<cfset var isAdmin = false>
+	<cfset var i = 0>
+	<!--- the other methods here serve every logged in user, so the role is checked here --->
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) OR len(session.username) EQ 0>
+		<cfthrow message="Not authorized">
+	</cfif>
+	<cfif NOT reFind("^[A-Za-z][A-Za-z0-9_]*$", arguments.targetDivId)>
+		<cfthrow message="Invalid targetDivId">
+	</cfif>
+	<cfif listfindnocase(session.roles,"global_admin")>
+		<cfset isAdmin = true>
+	</cfif>
+	<cfif len(Application.bugzilla_api_key) EQ 0 OR len(Application.bugzilla_api_url) EQ 0>
+		<cfreturn "<p class='mb-1'>Bug tracker integration is not configured.</p>">
+	</cfif>
+	<cfset reports = getMyBugReportsData()>
+	<cfif NOT reports.ok>
+		<cfreturn "<p class='mb-1'>Unable to reach the bug tracker (#encodeForHtml(reports.message)#), please try again later.</p>">
+	</cfif>
+	<cfloop array="#reports.bugs#" index="bug">
+		<cfset bugsById[bug.id] = bug>
+	</cfloop>
+	<!--- bug ids increase with filing, so descending id is most recently filed first --->
+	<cfset bugIds = structKeyArray(bugsById)>
+	<cfset arraySort(bugIds, "numeric", "desc")>
+	<cfloop array="#bugIds#" index="bugId">
+		<cfset bug = bugsById[bugId]>
+		<cfset row = {
+			id = bug.id,
+			summary = bug.summary,
+			component = bug.component,
+			status = bug.status,
+			resolution = bug.resolution,
+			assignee = bug.assigned_to,
+			assigned = false,
+			filed = left(bug.creation_time, 10),
+			changed = left(bug.last_change_time, 10)
+		}>
+		<cfif structKeyExists(bug, "assigned_to_detail") AND len(bug.assigned_to_detail.real_name) GT 0>
+			<cfset row.assignee = bug.assigned_to_detail.real_name>
+		</cfif>
+		<cfif bug.status EQ variables.BUGZILLA_ASSIGNED_STATUS>
+			<cfset row.assigned = true>
+		<cfelseif structKeyExists(reports.defaultAssignees, bug.component) AND bug.assigned_to NEQ reports.defaultAssignees[bug.component]>
+			<cfset row.assigned = true>
+		</cfif>
+		<!--- resolution is empty while a bug is open --->
+		<cfif len(bug.resolution) EQ 0>
+			<cfset openCount = openCount + 1>
+			<cfif row.assigned>
+				<cfset assignedCount = assignedCount + 1>
+			</cfif>
+		<cfelse>
+			<cfset closedCount = closedCount + 1>
+		</cfif>
+		<cfset arrayAppend(rows, row)>
+	</cfloop>
+	<cfset shownCount = arrayLen(rows)>
+	<cfif NOT arguments.showAll AND shownCount GT variables.BUG_REPORTS_SHOWN>
+		<cfset shownCount = variables.BUG_REPORTS_SHOWN>
+	</cfif>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-1">
+				You have reported #arrayLen(rows)# bugs: #openCount# open (#assignedCount# assigned), #closedCount# closed.
+			</p>
+			<cfif arrayLen(rows) GT 0>
+				<table class="table table-responsive d-xl-table table-sm small mb-1">
+					<thead>
+						<tr>
+							<th scope="col">Bug</th>
+							<th scope="col">Summary</th>
+							<th scope="col">Component</th>
+							<th scope="col">Status</th>
+							<th scope="col">Assigned to</th>
+							<th scope="col">Filed</th>
+							<th scope="col">Last changed</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfloop from="1" to="#shownCount#" index="i">
+							<cfset row = rows[i]>
+							<tr>
+								<td>
+									<cfif isAdmin>
+										<a href="https://#encodeForHtmlAttribute(Application.bugzilla_api_url)##variables.BUGZILLA_PATH#/show_bug.cgi?id=#encodeForUrl(row.id)#" target="_blank">#encodeForHtml(row.id)#</a>
+									<cfelse>
+										#encodeForHtml(row.id)#
+									</cfif>
+								</td>
+								<td>#encodeForHtml(row.summary)#</td>
+								<td>#encodeForHtml(row.component)#</td>
+								<td>#encodeForHtml(row.status)#<cfif len(row.resolution) GT 0> #encodeForHtml(row.resolution)#</cfif></td>
+								<td>
+									<cfif row.assigned>
+										#encodeForHtml(row.assignee)#
+									<cfelse>
+										<span class="text-muted">Not yet assigned</span>
+									</cfif>
+								</td>
+								<td>#encodeForHtml(row.filed)#</td>
+								<td>#encodeForHtml(row.changed)#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+				<cfif shownCount LT arrayLen(rows)>
+					<button type="button" class="btn btn-xs btn-secondary" onClick="loadMyBugReports('#arguments.targetDivId#', true);">Show all #arrayLen(rows)# bugs</button>
+				</cfif>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
 </cffunction>
 
 </cfcomponent>

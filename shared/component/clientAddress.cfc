@@ -243,6 +243,30 @@ limitations under the License.
 </cffunction>
 
 <!---
+	isRequestFromThisServer whether the current request was made by this server itself, as the ColdFusion
+	scheduler's requests are: from loopback or one of the server's own addresses, directly, or through a
+	trusted proxy that reports one of them as the client.
+
+	@return true if the request came from this server.
+--->
+<cffunction name="isRequestFromThisServer" access="public" returntype="boolean" output="false">
+	<cfset var LOOPBACK_ADDRESSES = "127.0.0.1,::1,0:0:0:0:0:0:0:1">
+	<cfset var ownAddresses = LOOPBACK_ADDRESSES>
+	<cfset var entry = "">
+	<cfset var remoteAddress = trim(cgi.remote_addr)>
+	<cfset var forwardedFor = trim(cgi.http_x_forwarded_for)>
+	<!--- the server's own addresses, without the subnet lengths localAddresses() adds --->
+	<cfloop list="#localAddresses()#" index="entry">
+		<cfset ownAddresses = listAppend(ownAddresses, listFirst(entry, "/"))>
+	</cfloop>
+	<cfif len(forwardedFor) EQ 0>
+		<cfreturn addressInList(remoteAddress, ownAddresses)>
+	</cfif>
+	<!--- through a proxy: the last entry is the one the proxy added, the address that connected to it --->
+	<cfreturn isTrustedProxy(remoteAddress) AND addressInList(trim(listLast(forwardedFor)), ownAddresses)>
+</cffunction>
+
+<!---
 	isForwardedByUntrustedProxy test whether the current request carries X-Forwarded-For but did not come
 	from a trusted proxy.  Either the client forged the header, or a proxy that is not configured
 	as trusted sits in front of the server, in which case cgi.remote_addr is that proxy and blocking

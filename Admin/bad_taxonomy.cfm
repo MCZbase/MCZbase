@@ -127,21 +127,13 @@ alter table bad_taxonomy add family varchar2(255);
 
 <cfif action contains "findBad">
 <cfoutput>
-	<cfif replace(action,"findBad","") is "Genus">
-		<cfset probcode="badgenus">
-		<cfset sql="not (
-					regexp_like(genus,'^[A-Z][a-z-]*[a-z]+$') or 
-                	(substr(genus,1,1) = CHR (215 USING NCHAR_CS) and regexp_like(genus,'^.[A-Z][a-z-]*[a-z]+$')))">
-	<cfelseif replace(action,"findBad","") is "Subspecies">
-		<cfset probcode="badsubspecies">
-		<cfset sql="not(regexp_like(replace(subspecies,CHR (215 USING NCHAR_CS)),'^[a-z][a-z-]*[a-z]$'))">
-	<cfelseif replace(action,"findBad","") is "Species">
-		<cfset probcode="badspecies">
-		<cfset sql="not(regexp_like(replace(SPECIES,CHR (215 USING NCHAR_CS)),'^[a-z][a-z-]*[a-z]$'))">				
-	<cfelseif replace(action,"findBad","") is "Family">
-		<cfset probcode="badfamily">
-		<cfset sql="not (regexp_like(family,'^[A-Z][a-z]*$'))">
+	<cfset variables.rank = replace(action,"findBad","")>
+	<cfif NOT listFind("Genus,Subspecies,Species,Family", variables.rank)>
+		Unknown check.
+		<cfabort>
 	</cfif>
+	<cfset probcode = "bad" & lcase(variables.rank)>
+	<!--- the test for each rank is fixed SQL, chosen here rather than built as a string --->
 	<cfquery name="i" datasource="uam_god">
 		insert into bad_taxonomy (
 			taxon_name_id,
@@ -159,8 +151,20 @@ alter table bad_taxonomy add family varchar2(255);
 				genus,
 				species,
 				subspecies,
-				'#probcode#'
-			from taxonomy where #preservesinglequotes(sql)#				
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#probcode#">
+			from taxonomy
+			where
+				<cfif variables.rank EQ "Genus">
+					not (
+						regexp_like(genus,'^[A-Z][a-z-]*[a-z]+$') or
+						(substr(genus,1,1) = CHR (215 USING NCHAR_CS) and regexp_like(genus,'^.[A-Z][a-z-]*[a-z]+$')))
+				<cfelseif variables.rank EQ "Subspecies">
+					not(regexp_like(replace(subspecies,CHR (215 USING NCHAR_CS)),'^[a-z][a-z-]*[a-z]$'))
+				<cfelseif variables.rank EQ "Species">
+					not(regexp_like(replace(SPECIES,CHR (215 USING NCHAR_CS)),'^[a-z][a-z-]*[a-z]$'))
+				<cfelse>
+					not (regexp_like(family,'^[A-Z][a-z]*$'))
+				</cfif>
 		)
 	</cfquery>
 	spiffy. Use your back button

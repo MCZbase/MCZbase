@@ -22,9 +22,9 @@
 			ctspecimen_part_name,
 	    	ctspecimen_part_list_order
 		where 
-			ctspecimen_part_name.collection_cde=trim('#collCde#') and
+			ctspecimen_part_name.collection_cde=trim(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collCde#">) and
 	  		ctspecimen_part_name.part_name =  ctspecimen_part_list_order.partname (+) and
-	  		upper(part_name) like '%#ucase(part_name)#%'		  		
+	  		upper(part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(part_name)#%">		  		
 		order by partname, part_name
 	</cfquery>
 	<cfif gp.recordcount is 0>Nothing Found</cfif>

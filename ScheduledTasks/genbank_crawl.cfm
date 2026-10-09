@@ -50,7 +50,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='wild2:institution'
 		</cfquery>
 		<cfloop query="inst">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "specimen voucher " & institution_acronym & "*">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -67,9 +67,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#institution_acronym#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'wild2:institution'
 				)
 			</cfquery>
@@ -80,7 +80,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='wild1:institution'
 		</cfquery>
 		<cfloop query="inst">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "specimen voucher " & institution_acronym & " *">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -97,9 +97,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#institution_acronym#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'wild1:institution'
 				)
 			</cfquery>
@@ -110,7 +110,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='specimen_voucher:institution'
 		</cfquery>
 		<cfloop query="inst">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "collection%20" & institution_acronym>
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -127,9 +127,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#institution_acronym#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'specimen_voucher:institution'
 				)
 			</cfquery>
@@ -140,7 +140,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='specimen_voucher:collection'
 		</cfquery>
 		<cfloop query="c">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "collection%20" & institution_acronym & '%3A' & collection_cde>
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -157,9 +157,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#collection#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'specimen_voucher:collection'
 				)
 			</cfquery>
@@ -170,7 +170,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='wild1:collection'
 		</cfquery>
 		<cfloop query="c">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "*">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -187,9 +187,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#collection#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'wild1:collection'
 				)
 			</cfquery>
@@ -200,7 +200,7 @@ sho err
 			delete from cf_genbank_crawl where query_type='wild2:collection'
 		</cfquery>
 		<cfloop query="c">
-			<cfset u="http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
+			<cfset u="https://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=">
 			<cfset u=u & "specimen voucher " & institution_acronym & ' ' & collection_cde & "* ">
 			<cfhttp url="#u#" method="get" />
 			<cfset xmlDoc=xmlParse(cfhttp.filecontent)>
@@ -217,9 +217,9 @@ sho err
 					found_count,
 					query_type
 				) values (
-					'#collection#',
-					'#u#',
-					#ncbi_resultcount#,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#u#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#val(ncbi_resultcount)#">,
 					'wild2:collection'
 				)
 			</cfquery>
