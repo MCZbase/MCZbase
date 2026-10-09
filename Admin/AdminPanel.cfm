@@ -80,6 +80,18 @@ limitations under the License.
 				<div class="card-body" id="recentErrorsWidget">
 					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
 				</div>
+				<div class="card-footer">
+					<form class="form-row align-items-end" onsubmit="loadAdminWidget('errorDetail', 'getErrorDetailHtml', { error_reference: $('#errorReference').val() }); return false;">
+						<div class="col-8 col-md-6">
+							<label for="errorReference" class="data-entry-label">Look up error reference</label>
+							<input type="text" id="errorReference" class="data-entry-input" placeholder="20261009-1A2B3C4D">
+						</div>
+						<div class="col-4">
+							<button type="submit" class="btn btn-xs btn-primary">Look up</button>
+						</div>
+					</form>
+					<output id="errorDetail" class="d-block mt-2"></output>
+				</div>
 			</div>
 		</div>
 		<div class="col-12 col-xl-6 mb-3">

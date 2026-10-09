@@ -505,6 +505,85 @@ limitations under the License.
 </cffunction>
 
 <!---
+	getErrorDetailHtml the Admin Panel's lookup of one error by the reference onError shows the user
+	(yyyymmdd-xxxxxxxx), searching the whole MCZbase log and its rotated copies.
+
+	@param error_reference the reference to look up.
+	@return HTML describing the logged error, or saying it wasn't found.
+--->
+<cffunction name="getErrorDetailHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="error_reference" type="string" required="yes">
+	<cfset var html = "">
+	<cfset var reference = ucase(trim(arguments.error_reference))>
+	<cfset var logDirectory = server.coldfusion.rootdir & "/logs/">
+	<cfset var logFiles = "">
+	<cfset var logFile = "">
+	<cfset var line = "">
+	<cfset var found = "">
+	<cfset var foundIn = "">
+	<cfset var header = "">
+	<cfset var detail = "">
+	<cfset var jsonStart = 0>
+	<cfset var key = "">
+	<cfset requireGlobalAdmin()>
+	<cfif NOT REFind("^[0-9]{8}-[0-9A-F]{8}$", reference)>
+		<cfreturn '<p class="text-danger mb-0">An error reference looks like 20261009-1A2B3C4D.</p>'>
+	</cfif>
+	<cftry>
+		<cfset logFiles = directoryList(logDirectory, false, "name", "MCZbase*.log", "name asc")>
+		<cfloop array="#logFiles#" index="logFile">
+			<cfif REFind("^MCZbase(\.[0-9]+)?\.log$", logFile)>
+				<cfloop file="#logDirectory##logFile#" index="line">
+					<cfif find("Error #reference# ", line) GT 0>
+						<cfset found = line>
+						<cfset foundIn = logFile>
+						<cfbreak>
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cfif len(found) GT 0><cfbreak></cfif>
+		</cfloop>
+	<cfcatch>
+		<cfreturn '<p class="text-danger mb-0">The log could not be read: #encodeForHtml(cfcatch.message)#</p>'>
+	</cfcatch>
+	</cftry>
+	<cfif len(found) EQ 0>
+		<cfreturn '<p class="mb-0">#encodeForHtml(reference)# was not found in the MCZbase log; it may have been rotated out, or been logged on another server.</p>'>
+	</cfif>
+	<!--- the message is "Error ref on page at location for user [name] from address: {json}", in a quoted CSV field --->
+	<cfset found = REReplace(found, '"$', '')>
+	<cfset jsonStart = find(": {", found)>
+	<cfif jsonStart GT 0>
+		<cfset header = left(found, jsonStart - 1)>
+		<cftry>
+			<cfset detail = deserializeJSON(replace(mid(found, jsonStart + 2, len(found)), '""', '"', "all"))>
+		<cfcatch>
+			<cfset detail = "">
+		</cfcatch>
+		</cftry>
+	<cfelse>
+		<cfset header = found>
+	</cfif>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-1 small">From #encodeForHtml(foundIn)#:</p>
+			<p class="mb-1 small text-break">#encodeForHtml(header)#</p>
+			<cfif isStruct(detail)>
+				<dl class="small mb-0">
+					<cfloop collection="#detail#" item="key">
+						<dt>#encodeForHtml(key)#</dt>
+						<dd class="text-break"><cfif isSimpleValue(detail[key])>#encodeForHtml(detail[key])#<cfelse><pre class="mb-0">#encodeForHtml(serializeJSON(detail[key]))#</pre></cfif></dd>
+					</cfloop>
+				</dl>
+			<cfelseif jsonStart GT 0>
+				<pre class="small mb-0">#encodeForHtml(mid(found, jsonStart + 2, len(found)))#</pre>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
 	getServerChecksHtml the Admin Panel widget checking this server's configuration: protocol, root
 	URL, role, checked out branch, ColdFusion version, reCAPTCHA, and the size of the download folders.
 
@@ -606,7 +685,11 @@ limitations under the License.
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<cfif len(listError) GT 0>
-				<p class="text-danger">The scheduled tasks could not be listed: #encodeForHtml(listError)#</p>
+				<cfif Application.serverrole EQ "production">
+					<p class="text-danger">The scheduled tasks could not be listed: #encodeForHtml(listError)#</p>
+				<cfelse>
+					<p class="mb-2">The scheduled tasks could not be listed, as expected on a #encodeForHtml(Application.serverrole)# server: #encodeForHtml(listError)#</p>
+				</cfif>
 			<cfelse>
 				<p class="mb-2">#arrayLen(taskList)# scheduled tasks on this server. The latest scheduler log entry for each is from the last week.</p>
 				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
