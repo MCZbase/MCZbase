@@ -659,13 +659,9 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">
 									<cfif adminMenuCuratorial or adminMenuGlobalAdmin>
 										<div>
-											<cfif adminMenuCuratorial>
-												<div class="h5 dropdown-header px-4 text-danger">Collection</div>
-												<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
-												<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
-											<cfelse>
-												<div class="h5 dropdown-header px-4 text-danger">User Activity</div>
-											</cfif>
+											<div class="h5 dropdown-header px-4 text-danger">Collection</div>
+											<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
+											<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
 											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
 											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
 										</div>
@@ -706,11 +702,7 @@ limitations under the License.
 											<div class="h5 dropdown-header px-4 text-danger">Users &amp; Access</div>
 											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
 											<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Role Report</a>
-											</cfif>
+											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
 											<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
 											<a class="dropdown-item" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
 											<a class="dropdown-item" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>

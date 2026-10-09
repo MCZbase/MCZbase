@@ -22,6 +22,9 @@
 		<cfset bad=true>
 	<cfelseif isValid.recordcount is 1 AND valuelist(isValid.role_name) is "public">
 		<!--- only entry or entries for the requested page are public, don't check against session.roles --->
+	<cfelseif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+		<!--- global_admin may open any page that has rows, whatever roles they list, so a page meant for
+			another role and global_admin needs only that role's row.  Pages still check roles for their actions. --->
 	<cfelseif valuelist(isValid.role_name) is not "public">
 		<!--- check that the current user's session.roles contains all of the roles specified for the current page --->
 		<!--- The assumption of cf_form_permissions and rolecheck is that a user must have all of the permissions 
