@@ -223,3 +223,29 @@ function changeexclusive_collection_id (tgt) {
 		}
 	);
 }
+
+/** Load the list of bugs the current user has reported into the User Profile's bug reports widget.
+ *
+ * @param targetDivId the id of the element to load the list into, without a leading #.
+ * @param showAll true to list every bug, false for only the most recent.
+ */
+function loadMyBugReports(targetDivId, showAll) {
+	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>');
+	jQuery.ajax({
+		dataType: "html",
+		url: "/users/component/functions.cfc",
+		data: {
+			method : "getMyBugReportsHtml",
+			targetDivId : targetDivId,
+			showAll : showAll,
+			returnformat : "plain"
+		},
+		error: function (jqXHR, textStatus, message) {
+			$('#' + targetDivId).html('');
+			handleFail(jqXHR,textStatus,message,"looking up your bug reports");
+		},
+		success: function (result) {
+			$('#' + targetDivId).html(result);
+		}
+	});
+}

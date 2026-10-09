@@ -576,6 +576,22 @@ limitations under the License.
 											};
 										</script>
 									</div>
+									<div class="form-row">
+										<div class="col-12 mb-2">
+											<div class="bg-light rounded border p-2">
+												<h3 class="h3">Your bug reports</h3>
+												<div id="myBugReportsDiv">
+													<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+												</div>
+												<button class="btn btn-xs btn-secondary" id="recheckBugReportsBtn" onClick="loadMyBugReports('myBugReportsDiv', false);">Recheck Status</button>
+											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												loadMyBugReports('myBugReportsDiv', false);
+											});
+										</script>
+									</div>
 								</cfif>
 						</div>
 					</div>				
