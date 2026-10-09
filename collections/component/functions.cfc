@@ -66,7 +66,9 @@ limitations under the License.
 	getLoansHtml the Collection Panel widget listing a collection's open loans that are overdue by more
 	than a year, overdue, or due within 30 days, using the criteria of the loan reminder emails
 	(ScheduledTasks/reminder.cfm and longtermreminder.cfm): open returnable or consumable loans, with
-	open historical loans left out of those overdue by more than a year; and all open loans not overdue.
+	open historical loans left out of those overdue by more than a year; overdue loans the emails leave
+	out (other loan types, and open historical loans overdue by more than a year); and all open loans
+	not overdue.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -81,6 +83,7 @@ limitations under the License.
 	<cfset var overdue = arrayNew(1)>
 	<cfset var dueSoon = arrayNew(1)>
 	<cfset var notOverdue = arrayNew(1)>
+	<cfset var noReminder = arrayNew(1)>
 	<cfset requireCuratorialAssociate()>
 	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="openLoans" datasource="uam_god" result="openLoans_result">
@@ -107,22 +110,27 @@ limitations under the License.
 			<cfif openLoans.days_left LT -365>
 				<cfif openLoans.loan_status NEQ "open historical">
 					<cfset arrayAppend(longOverdue, item)>
+				<cfelse>
+					<cfset arrayAppend(noReminder, item)>
 				</cfif>
 			<cfelseif openLoans.days_left LT 0>
 				<cfset arrayAppend(overdue, item)>
 			<cfelseif openLoans.days_left LE 30>
 				<cfset arrayAppend(dueSoon, item)>
 			</cfif>
+		<cfelseif len(openLoans.days_left) GT 0 AND openLoans.days_left LT 0>
+			<cfset arrayAppend(noReminder, item)>
 		</cfif>
 	</cfloop>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<p class="mb-2">
 				#openLoans.recordcount# open loans.
-				<cfif arrayLen(longOverdue) + arrayLen(overdue) EQ 0><span class="badge badge-success">None overdue</span></cfif>
+				<cfif arrayLen(longOverdue) + arrayLen(overdue) + arrayLen(noReminder) EQ 0><span class="badge badge-success">None overdue</span></cfif>
 			</p>
 			#dueItemsHtml("Overdue more than a year", longOverdue, "badge-danger")#
 			#dueItemsHtml("Overdue", overdue, "badge-warning")#
+			#dueItemsHtml("Overdue, no reminder sent", noReminder, "badge-warning")#
 			#dueItemsHtml("Due within 30 days", dueSoon, "badge-secondary")#
 			#dueItemsHtml("Open, not overdue", notOverdue, "badge-secondary")#
 		</cfoutput>
