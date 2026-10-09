@@ -583,7 +583,7 @@ limitations under the License.
 												<div id="myBugReportsDiv">
 													<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
 												</div>
-												<button class="btn btn-xs btn-secondary" id="recheckBugReportsBtn" onClick="loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');" aria-describedby="recheckBugReportsHelp">Recheck Status</button>
+												<button type="button" class="btn btn-xs btn-secondary" id="recheckBugReportsBtn" onClick="loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');" aria-describedby="recheckBugReportsHelp">Recheck Status</button>
 												<small id="recheckBugReportsHelp" class="text-muted">Can be rechecked once a minute.</small>
 											</div>
 										</div>

@@ -1,7 +1,7 @@
 <!---
 users/component/functions.cfc
 
-Copyright 2022 President and Fellows of Harvard College
+Copyright 2022-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,12 +21,14 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- Bugzilla product that info/bugs.cfm files bug reports under. --->
-<cfset BUGZILLA_PRODUCT = "MCZbase">
-<cfset BUGZILLA_PATH = "/bugzilla">
+<cfset variables.BUGZILLA_PRODUCT = "MCZbase">
+<cfset variables.BUGZILLA_PATH = "/bugzilla">
 <!--- Bug reports listed before the remainder is loaded on request. --->
-<cfset BUG_REPORTS_SHOWN = 25>
+<cfset variables.BUG_REPORTS_SHOWN = 25>
 <!--- Seconds a user's bug reports are kept in the session before Bugzilla is asked again. --->
-<cfset BUG_REPORTS_RECHECK_SECONDS = 60>
+<cfset variables.BUG_REPORTS_RECHECK_SECONDS = 60>
+<!--- Bugzilla status of a bug a developer has taken on. --->
+<cfset variables.BUGZILLA_ASSIGNED_STATUS = "ASSIGNED">
 
 <!--- getDownloadProfilesHtml get a block of html listing download profiles visible to the current user
   takes no parameters.
@@ -923,7 +925,7 @@ limitations under the License.
 		"params": [ callParams ],
 		"id": 1
 	})>
-	<cfhttp method="POST" url="https://#Application.bugzilla_api_url##BUGZILLA_PATH#/jsonrpc.cgi" result="bugzillaResult" timeout="10" throwOnError="no">
+	<cfhttp method="POST" url="https://#Application.bugzilla_api_url##variables.BUGZILLA_PATH#/jsonrpc.cgi" result="bugzillaResult" timeout="10" throwOnError="no">
 		<cfhttpparam type="header" name="Content-Type" value="application/json">
 		<cfhttpparam type="header" name="Accept" value="application/json">
 		<cfhttpparam type="body" value="#jsonPayload#">
@@ -962,11 +964,11 @@ limitations under the License.
 	<cfset var product = "">
 	<cfset var productComponent = "">
 	<cfif structKeyExists(session, "myBugReports") AND session.myBugReports.username EQ session.username
-		AND dateDiff("s", session.myBugReports.checkedAt, now()) LT BUG_REPORTS_RECHECK_SECONDS>
+		AND dateDiff("s", session.myBugReports.checkedAt, now()) LT variables.BUG_REPORTS_RECHECK_SECONDS>
 		<cfreturn session.myBugReports.data>
 	</cfif>
 	<cfset search = bugzillaCall("Bug.search", {
-		"product": BUGZILLA_PRODUCT,
+		"product": variables.BUGZILLA_PRODUCT,
 		"f1": "longdesc",
 		"o1": "substring",
 		"v1": "(Username: #session.username#)",
@@ -979,7 +981,7 @@ limitations under the License.
 	<cfset data.bugs = search.data.bugs>
 	<!--- without the default assignees, only the ASSIGNED status marks a bug as assigned --->
 	<cfset productLookup = bugzillaCall("Product.get", {
-		"names": [ BUGZILLA_PRODUCT ],
+		"names": [ variables.BUGZILLA_PRODUCT ],
 		"include_fields": [ "components" ]
 	})>
 	<cfif productLookup.ok AND structKeyExists(productLookup.data, "products")>
@@ -1061,7 +1063,7 @@ limitations under the License.
 		<cfif structKeyExists(bug, "assigned_to_detail") AND len(bug.assigned_to_detail.real_name) GT 0>
 			<cfset row.assignee = bug.assigned_to_detail.real_name>
 		</cfif>
-		<cfif bug.status EQ "ASSIGNED">
+		<cfif bug.status EQ variables.BUGZILLA_ASSIGNED_STATUS>
 			<cfset row.assigned = true>
 		<cfelseif structKeyExists(reports.defaultAssignees, bug.component) AND bug.assigned_to NEQ reports.defaultAssignees[bug.component]>
 			<cfset row.assigned = true>
@@ -1078,8 +1080,8 @@ limitations under the License.
 		<cfset arrayAppend(rows, row)>
 	</cfloop>
 	<cfset shownCount = arrayLen(rows)>
-	<cfif NOT arguments.showAll AND shownCount GT BUG_REPORTS_SHOWN>
-		<cfset shownCount = BUG_REPORTS_SHOWN>
+	<cfif NOT arguments.showAll AND shownCount GT variables.BUG_REPORTS_SHOWN>
+		<cfset shownCount = variables.BUG_REPORTS_SHOWN>
 	</cfif>
 	<cfsavecontent variable="html">
 		<cfoutput>
@@ -1105,7 +1107,7 @@ limitations under the License.
 							<tr>
 								<td>
 									<cfif isAdmin>
-										<a href="https://#encodeForHtmlAttribute(Application.bugzilla_api_url)##BUGZILLA_PATH#/show_bug.cgi?id=#encodeForUrl(row.id)#" target="_blank">#encodeForHtml(row.id)#</a>
+										<a href="https://#encodeForHtmlAttribute(Application.bugzilla_api_url)##variables.BUGZILLA_PATH#/show_bug.cgi?id=#encodeForUrl(row.id)#" target="_blank">#encodeForHtml(row.id)#</a>
 									<cfelse>
 										#encodeForHtml(row.id)#
 									</cfif>
