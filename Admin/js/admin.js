@@ -1,6 +1,6 @@
 /** Scripts for the administrative pages in /Admin/. **/
 
-/** Make a search field into an autocomplete backed by a method of /Admin/component/functions.cfc.
+/** Make a search field into an autocomplete backed by a method of /Admin/component/activity.cfc.
  *  The search matches anywhere in the value unless it starts with =, so choosing an item from the
  *  list puts = in front of it for an exact match, as on other MCZbase searches.
  *  @param valueControl the id of the text input, without a leading # selector.
@@ -10,7 +10,7 @@ function makeAdminExactMatchAutocomplete(valueControl, method) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) {
 			$.ajax({
-				url: "/Admin/component/functions.cfc",
+				url: "/Admin/component/activity.cfc",
 				data: { term: request.term, method: method },
 				dataType: 'json',
 				success : function (data) { response(data); },
