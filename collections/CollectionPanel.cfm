@@ -17,7 +17,8 @@ limitations under the License.
 
 --->
 <!--- Status widgets about one collection for curatorial associates.  Which collection a curatorial
-	associate manages isn't recorded, so they choose it; the choice is remembered in their browser.
+	associate manages isn't recorded, so the page starts with no collection unless one is given in the
+	url or was chosen before in this browser.
 	Each widget is a card whose body is loaded by loadCollectionWidget (collections/js/collections.js)
 	from a get...Html method of collections/component/functions.cfc; add a widget by adding a card, a
 	method, and a line in loadCollectionPanel. --->
@@ -43,6 +44,7 @@ limitations under the License.
 			<div>
 				<label for="collection_id" class="data-entry-label">Collection</label>
 				<select id="collection_id" class="data-entry-select w-auto" data-from-url="#variables.fromUrl#" onchange="loadCollectionPanel(this.value, true);">
+					<option value="">Choose a collection</option>
 					<cfloop query="collections">
 						<cfset selected = "">
 						<cfif variables.fromUrl AND collections.collection_id EQ url.collection_id>
@@ -54,7 +56,7 @@ limitations under the License.
 			</div>
 		</div>
 	</cfoutput>
-	<section class="row mb-4">
+	<section class="row mb-4 d-none" id="collectionWidgets">
 		<div class="col-12 col-xl-6 mb-3">
 			<div class="card h-100">
 				<div class="card-header">
@@ -78,9 +80,39 @@ limitations under the License.
 		<div class="col-12 col-xl-6 mb-3">
 			<div class="card h-100">
 				<div class="card-header">
-					<h2 class="h4 mb-0">Bulkloads in Progress</h2>
+					<h2 class="h4 mb-0">Specimen Bulkloader</h2>
 				</div>
-				<div class="card-body" id="bulkloadsWidget">
+				<div class="card-body" id="specimenBulkloaderWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header">
+					<h2 class="h4 mb-0">Recently Bulkloaded</h2>
+				</div>
+				<div class="card-body" id="recentlyBulkloadedWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header">
+					<h2 class="h4 mb-0">Open Deaccessions</h2>
+				</div>
+				<div class="card-body" id="deaccessionsWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header">
+					<h2 class="h4 mb-0">Permits Expiring</h2>
+				</div>
+				<div class="card-body" id="permitsWidget">
 					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
 				</div>
 			</div>
@@ -109,16 +141,24 @@ limitations under the License.
 </main>
 <script>
 	/** Load every widget for a collection.
-	 *  @param collectionId the collection_id to report on.
+	 *  @param collectionId the collection_id to report on; none hides the widgets.
 	 *  @param remember true to remember the choice in this browser for the next visit.
 	 */
 	function loadCollectionPanel(collectionId, remember) {
+		if (!collectionId) {
+			$('#collectionWidgets').addClass('d-none');
+			return;
+		}
+		$('#collectionWidgets').removeClass('d-none');
 		if (remember) {
 			try { localStorage.setItem("collectionPanelCollectionId", collectionId); } catch (e) { }
 		}
 		loadCollectionWidget('loansWidget', 'getLoansHtml', collectionId);
 		loadCollectionWidget('borrowsWidget', 'getBorrowsHtml', collectionId);
-		loadCollectionWidget('bulkloadsWidget', 'getBulkloadsHtml', collectionId);
+		loadCollectionWidget('specimenBulkloaderWidget', 'getSpecimenBulkloaderHtml', collectionId);
+		loadCollectionWidget('recentlyBulkloadedWidget', 'getRecentlyBulkloadedHtml', collectionId);
+		loadCollectionWidget('deaccessionsWidget', 'getDeaccessionsHtml', collectionId);
+		loadCollectionWidget('permitsWidget', 'getPermitsHtml', collectionId);
 		loadCollectionWidget('encumbrancesWidget', 'getEncumbrancesHtml', collectionId);
 		loadCollectionWidget('recentEditsWidget', 'getRecentEditsHtml', collectionId);
 	}

@@ -184,35 +184,23 @@ limitations under the License.
 </cffunction>
 
 <!---
-	getBulkloadsHtml the Collection Panel widget summarising rows waiting in the bulkloaders for a
-	collection, by bulkloader and user.  Only staging tables recording the collection, the user and a
-	status are included; a status on a row is a problem found when the bulkloader checked it.
+	getSpecimenBulkloaderHtml the Collection Panel widget summarising a collection's rows in the specimen
+	bulkloader by who entered them and their state.  A row's loaded value is its state: empty rows are
+	loaded by the BULKLOAD job, anything other than the states the application sets is the reason
+	the row failed to load.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
 --->
-<cffunction name="getBulkloadsHtml" access="remote" returntype="string" returnformat="plain">
+<cffunction name="getSpecimenBulkloaderHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfset var html = "">
 	<cfset var collection = "">
 	<cfset var collection_result = "">
-	<cfset var stagingTables = "">
-	<cfset var stagingTables_result = "">
-	<cfset var waiting = "">
-	<cfset var rows = arrayNew(1)>
-	<cfset var row = "">
-	<cfset var bulkloaderName = "">
-	<cfset var BULKLOADERS = {
-		CF_TEMP_ATTRIBUTES = { name = "Attributes", page = "/tools/BulkloadAttributes.cfm" },
-		CF_TEMP_BARCODE_PARTS = { name = "Parts to Containers", page = "/tools/BulkloadPartContainer.cfm" },
-		CF_TEMP_BL_RELATIONS = { name = "Relationships", page = "/tools/BulkloadRelations.cfm" },
-		CF_TEMP_CITATION = { name = "Citations", page = "/tools/BulkloadCitations.cfm" },
-		CF_TEMP_EDIT_PARTS = { name = "Edited Parts", page = "/tools/BulkloadEditedParts.cfm" },
-		CF_TEMP_ID = { name = "Identifications", page = "/tools/BulkloadIdentification.cfm" },
-		CF_TEMP_LOAN_ITEM = { name = "Loan Items", page = "/tools/BulkloadLoanItems.cfm" },
-		CF_TEMP_OIDS = { name = "Other IDs", page = "/tools/BulkloadOtherId.cfm" },
-		CF_TEMP_PARTS = { name = "New Parts", page = "/tools/BulkloadNewParts.cfm" }
-	}>
+	<cfset var byUser = "">
+	<cfset var byUser_result = "">
+	<cfset var failures = "">
+	<cfset var failures_result = "">
 	<cfset requireCuratorialAssociate()>
 	<cfquery name="collection" datasource="uam_god" result="collection_result">
 		SELECT institution_acronym, collection_cde
@@ -222,61 +210,216 @@ limitations under the License.
 	<cfif collection.recordcount EQ 0>
 		<cfreturn '<p class="text-danger mb-0">Unknown collection.</p>'>
 	</cfif>
-	<cfquery name="stagingTables" datasource="uam_god" result="stagingTables_result">
-		SELECT table_name
-		FROM user_tab_columns
+	<cfquery name="byUser" datasource="uam_god" result="byUser_result">
+		SELECT
+			enteredby,
+			sum(CASE WHEN loaded IS NULL THEN 1 ELSE 0 END) AS ready,
+			sum(CASE WHEN lower(loaded) = 'waiting approval' THEN 1 ELSE 0 END) AS waiting,
+			sum(CASE WHEN upper(loaded) = 'BULKLOADED RECORD' THEN 1 ELSE 0 END) AS staged,
+			sum(CASE WHEN upper(loaded) = 'MARK FOR DELETION' THEN 1 ELSE 0 END) AS marked,
+			sum(CASE WHEN loaded IS NOT NULL AND lower(loaded) <> 'waiting approval' AND upper(loaded) NOT IN ('BULKLOADED RECORD', 'MARK FOR DELETION') THEN 1 ELSE 0 END) AS failed,
+			count(*) AS ct
+		FROM bulkloader
 		WHERE
-			table_name LIKE 'CF\_TEMP\_%' ESCAPE '\'
-			AND column_name IN ('INSTITUTION_ACRONYM', 'COLLECTION_CDE', 'USERNAME', 'STATUS')
-		GROUP BY table_name
-		HAVING count(*) = 4
-		ORDER BY table_name
+			upper(institution_acronym) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection.institution_acronym)#">
+			AND upper(collection_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection.collection_cde)#">
+		GROUP BY enteredby
+		ORDER BY enteredby
 	</cfquery>
-	<cfloop query="stagingTables">
-		<!--- table names come from the data dictionary, as they can't be bound --->
-		<cftry>
-			<cfquery name="waiting" datasource="uam_god">
-				SELECT username, count(*) AS ct, count(status) AS problems
-				FROM "#stagingTables.table_name#"
-				WHERE
-					upper(institution_acronym) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection.institution_acronym#">)
-					AND upper(collection_cde) = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection.collection_cde#">)
-				GROUP BY username
-				ORDER BY username
-			</cfquery>
-			<cfloop query="waiting">
-				<cfset arrayAppend(rows, { table_name = stagingTables.table_name, username = waiting.username, ct = waiting.ct, problems = waiting.problems })>
-			</cfloop>
-		<cfcatch></cfcatch>
-		</cftry>
-	</cfloop>
+	<cfquery name="failures" datasource="uam_god" result="failures_result">
+		SELECT loaded, count(*) AS ct
+		FROM bulkloader
+		WHERE
+			upper(institution_acronym) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection.institution_acronym)#">
+			AND upper(collection_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection.collection_cde)#">
+			AND loaded IS NOT NULL
+			AND lower(loaded) <> 'waiting approval'
+			AND upper(loaded) NOT IN ('BULKLOADED RECORD', 'MARK FOR DELETION')
+		GROUP BY loaded
+		ORDER BY 2 DESC
+	</cfquery>
 	<cfsavecontent variable="html">
 		<cfoutput>
-			<cfif arrayLen(rows) EQ 0>
-				<p class="mb-0">No rows for #encodeForHtml(collection.institution_acronym)#:#encodeForHtml(collection.collection_cde)# are waiting in the bulkloaders.</p>
+			<cfif byUser.recordcount EQ 0>
+				<p class="mb-0">No #encodeForHtml(collection.institution_acronym)#:#encodeForHtml(collection.collection_cde)# rows are in the specimen bulkloader.</p>
 			<cfelse>
-				<p class="mb-2">Rows for #encodeForHtml(collection.institution_acronym)#:#encodeForHtml(collection.collection_cde)# waiting in the bulkloaders. Rows with problems failed the bulkloader's checks.</p>
+				<p class="mb-2">#encodeForHtml(collection.institution_acronym)#:#encodeForHtml(collection.collection_cde)# rows in the specimen bulkloader. Ready rows are loaded by the next bulkload run; staged rows have been checked and need to be released; failed rows need correcting.</p>
 				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
 					<thead class="thead-light">
-						<tr><th>Bulkloader</th><th>User</th><th>Rows</th><th>With problems</th></tr>
+						<tr><th>Entered by</th><th>Ready</th><th>Waiting approval</th><th>Staged</th><th>Marked for deletion</th><th>Failed</th><th>Total</th></tr>
 					</thead>
 					<tbody>
-						<cfloop array="#rows#" index="row">
+						<cfloop query="byUser">
 							<tr>
-								<td>
-									<cfif structKeyExists(BULKLOADERS, row.table_name)>
-										<a href="#BULKLOADERS[row.table_name].page#">#BULKLOADERS[row.table_name].name#</a>
-									<cfelse>
-										#encodeForHtml(row.table_name)#
-									</cfif>
-								</td>
-								<td>#encodeForHtml(row.username)#<cfif compareNoCase(row.username, session.username) EQ 0> (you)</cfif></td>
-								<td>#row.ct#</td>
-								<td><cfif row.problems GT 0><span class="badge badge-danger">#row.problems#</span><cfelse>0</cfif></td>
+								<td>#encodeForHtml(byUser.enteredby)#</td>
+								<td>#byUser.ready#</td>
+								<td>#byUser.waiting#</td>
+								<td>#byUser.staged#</td>
+								<td>#byUser.marked#</td>
+								<td><cfif byUser.failed GT 0><span class="badge badge-danger">#byUser.failed#</span><cfelse>0</cfif></td>
+								<td>#byUser.ct#</td>
 							</tr>
 						</cfloop>
 					</tbody>
 				</table>
+				<cfif failures.recordcount GT 0>
+					<details class="mb-1">
+						<summary><strong>Reasons for failures</strong> (#failures.recordcount#)</summary>
+						<ul class="small mb-1">
+							<cfloop query="failures">
+								<li>#failures.ct#: #encodeForHtml(failures.loaded)#</li>
+							</cfloop>
+						</ul>
+					</details>
+				</cfif>
+				<a href="/Bulkloader/bulkloader_status.cfm" class="small">Specimen Bulkloader Status</a>
+				<a href="/Bulkloader/browseBulk.cfm" class="small ml-3">Browse and Edit Specimen Bulkloads</a>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getRecentlyBulkloadedHtml the Collection Panel widget showing cataloged items the specimen bulkloader
+	added to a collection in the last 30 days, by day, who entered them, and accession.
+
+	@param collection_id the collection to report on.
+	@return HTML for the widget body.
+--->
+<cffunction name="getRecentlyBulkloadedHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfset var html = "">
+	<cfset var loaded = "">
+	<cfset var loaded_result = "">
+	<cfset var total = 0>
+	<cfset requireCuratorialAssociate()>
+	<cfquery name="loaded" datasource="uam_god" result="loaded_result">
+		SELECT
+			trunc(bulkloader_attempts.tstamp) AS load_date,
+			entered_name.agent_name AS entered_by,
+			accn.transaction_id AS accn_transaction_id,
+			accn.accn_number,
+			count(*) AS ct
+		FROM bulkloader_attempts
+			JOIN cataloged_item ON bulkloader_attempts.collection_object_id = cataloged_item.collection_object_id
+			JOIN coll_object ON cataloged_item.collection_object_id = coll_object.collection_object_id
+			LEFT JOIN accn ON cataloged_item.accn_id = accn.transaction_id
+			LEFT JOIN agent_name entered_name ON coll_object.entered_person_id = entered_name.agent_id
+				AND entered_name.agent_name_type = 'preferred'
+		WHERE
+			cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+			AND bulkloader_attempts.tstamp >= trunc(sysdate) - 30
+		GROUP BY
+			trunc(bulkloader_attempts.tstamp), entered_name.agent_name, accn.transaction_id, accn.accn_number
+		ORDER BY 1 DESC, 2, 4
+	</cfquery>
+	<cfloop query="loaded">
+		<cfset total = total + loaded.ct>
+	</cfloop>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">#total# cataloged items bulkloaded in the last 30 days.</p>
+			<cfif loaded.recordcount GT 0>
+				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+					<thead class="thead-light">
+						<tr><th>Loaded</th><th>Entered by</th><th>Accession</th><th>Items</th></tr>
+					</thead>
+					<tbody>
+						<cfloop query="loaded">
+							<tr>
+								<td>#dateFormat(loaded.load_date, "yyyy-mm-dd")#</td>
+								<td>#encodeForHtml(loaded.entered_by)#</td>
+								<td><cfif len(loaded.accn_transaction_id) GT 0><a href="/transactions/Accession.cfm?action=edit&transaction_id=#loaded.accn_transaction_id#">#encodeForHtml(loaded.accn_number)#</a></cfif></td>
+								<td>#loaded.ct#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getDeaccessionsHtml the Collection Panel widget listing a collection's deaccessions that aren't closed.
+
+	@param collection_id the collection to report on.
+	@return HTML for the widget body.
+--->
+<cffunction name="getDeaccessionsHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfset var html = "">
+	<cfset var deaccessions = "">
+	<cfset var deaccessions_result = "">
+	<cfset requireCuratorialAssociate()>
+	<cfquery name="deaccessions" datasource="uam_god" result="deaccessions_result">
+		SELECT
+			trans.transaction_id, trans.trans_date, deaccession.deacc_number, deaccession.deacc_type, deaccession.deacc_status
+		FROM deaccession
+			JOIN trans ON deaccession.transaction_id = trans.transaction_id
+		WHERE
+			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+			AND lower(deaccession.deacc_status) NOT LIKE 'closed%'
+		ORDER BY trans.trans_date
+	</cfquery>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">#deaccessions.recordcount# deaccessions not closed.</p>
+			<cfif deaccessions.recordcount GT 0>
+				<ul class="small mb-1">
+					<cfloop query="deaccessions">
+						<li><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessions.transaction_id#">#encodeForHtml(deaccessions.deacc_number)#</a>
+							#encodeForHtml(deaccessions.deacc_type)#, #encodeForHtml(deaccessions.deacc_status)#, started #dateFormat(deaccessions.trans_date, "yyyy-mm-dd")#</li>
+					</cfloop>
+				</ul>
+			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getPermitsHtml the Collection Panel widget listing permits on a collection's transactions that
+	expire within 90 days or expired in the last 30.
+
+	@param collection_id the collection to report on.
+	@return HTML for the widget body.
+--->
+<cffunction name="getPermitsHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfset var html = "">
+	<cfset var permits = "">
+	<cfset var permits_result = "">
+	<cfset requireCuratorialAssociate()>
+	<cfquery name="permits" datasource="uam_god" result="permits_result">
+		SELECT
+			permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type, permit.exp_date,
+			count(DISTINCT trans.transaction_id) AS transactions
+		FROM permit
+			JOIN permit_trans ON permit.permit_id = permit_trans.permit_id
+			JOIN trans ON permit_trans.transaction_id = trans.transaction_id
+		WHERE
+			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+			AND permit.exp_date >= trunc(sysdate) - 30
+			AND permit.exp_date < trunc(sysdate) + 90
+		GROUP BY
+			permit.permit_id, permit.permit_num, permit.permit_title, permit.specific_type, permit.exp_date
+		ORDER BY permit.exp_date
+	</cfquery>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">#permits.recordcount# permits on this collection's transactions expire within 90 days or expired in the last 30.</p>
+			<cfif permits.recordcount GT 0>
+				<ul class="small mb-1">
+					<cfloop query="permits">
+						<li><a href="/transactions/Permit.cfm?action=edit&permit_id=#permits.permit_id#"><cfif len(permits.permit_num) GT 0>#encodeForHtml(permits.permit_num)#<cfelse>#encodeForHtml(permits.permit_title)#</cfif></a>
+							#encodeForHtml(permits.specific_type)#,
+							<cfif permits.exp_date LT now()>expired<cfelse>expires</cfif> #dateFormat(permits.exp_date, "yyyy-mm-dd")#,
+							#permits.transactions# transactions</li>
+					</cfloop>
+				</ul>
 			</cfif>
 		</cfoutput>
 	</cfsavecontent>
