@@ -224,12 +224,20 @@ function changeexclusive_collection_id (tgt) {
 	);
 }
 
+// Matches BUG_REPORTS_RECHECK_SECONDS in users/component/functions.cfc, which caches the results that long.
+var BUG_REPORTS_RECHECK_MILLISECONDS = 60000;
+
 /** Load the list of bugs the current user has reported into the User Profile's bug reports widget.
  *
  * @param targetDivId the id of the element to load the list into, without a leading #.
  * @param showAll true to list every bug, false for only the most recent.
+ * @param recheckButtonId optional id of the button that reloads the list, without a leading #,
+ *   disabled from the start of the load until BUG_REPORTS_RECHECK_MILLISECONDS after it finishes.
  */
-function loadMyBugReports(targetDivId, showAll) {
+function loadMyBugReports(targetDivId, showAll, recheckButtonId) {
+	if (recheckButtonId) {
+		$('#' + recheckButtonId).prop('disabled', true);
+	}
 	$('#' + targetDivId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>');
 	jQuery.ajax({
 		dataType: "html",
@@ -246,6 +254,13 @@ function loadMyBugReports(targetDivId, showAll) {
 		},
 		success: function (result) {
 			$('#' + targetDivId).html(result);
+		},
+		complete: function () {
+			if (recheckButtonId) {
+				setTimeout(function () {
+					$('#' + recheckButtonId).prop('disabled', false);
+				}, BUG_REPORTS_RECHECK_MILLISECONDS);
+			}
 		}
 	});
 }
