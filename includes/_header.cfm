@@ -411,6 +411,9 @@
 									<a class="dropdown-item" target="_top" href="/metrics/Dashboard.cfm">Reporting Metrics</a>
 									<a class="dropdown-item" href="/metrics/AgentRoles.cfm">Visualize Data</a>
 								</cfif>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"curatorial_associate")>
+									<a class="dropdown-item" target="_top" href="/collections/CollectionPanel.cfm">Collection Panel</a>
+								</cfif>
 							</div>
 							<div style="float:left;width: 92%;">
 								<div class="h5 dropdown-header px-2 text-danger">Aggregators</div>

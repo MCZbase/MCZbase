@@ -240,6 +240,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/Admin/">
 	<script type="text/javascript" src="/Admin/js/admin.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/collections/">
+	<script type="text/javascript" src="/collections/js/collections.js"></script>
+</cfif>
 <cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
 	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
 </cfif>
@@ -628,6 +631,9 @@ limitations under the License.
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 											<a class="dropdown-item" href="/metrics/Dashboard.cfm">Reporting Metrics</a>
 											<a class="dropdown-item" href="/metrics/AgentRoles.cfm">Visualize Data</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"curatorial_associate")>
+											<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
 										</cfif>
 									</div>
 									<div>
