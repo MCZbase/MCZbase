@@ -1,4 +1,3 @@
-<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Permit Pick">
 <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">

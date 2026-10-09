@@ -236,19 +236,9 @@
 		select count(*) n from tag where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cpg.media_id#">
 	</cfquery>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-		<script language="JavaScript" src="/includes/jquery/jquery.imgareaselect.pack.js" type="text/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="/includes/jquery/css/imgareaselect-default.css">
-		<link rel="stylesheet" type="text/css" href="/includes/jquery/css/ui-lightness/jquery-ui-1.7.2.custom.css">
-		<script language="JavaScript" src="/includes/jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
-		<script language="JavaScript" src="/includes/jquery/scrollTo.js" type="text/javascript"></script>
 		<script language="JavaScript" src="/includes/TAG.js" type="text/javascript"></script>
 	<cfelse><!--- public user --->
 		<cfif tag.n gt 0>
-			<script language="JavaScript" src="/includes/jquery/jquery.imgareaselect.pack.js" type="text/javascript"></script>
-			<link rel="stylesheet" type="text/css" href="/includes/jquery/css/imgareaselect-default.css">
-			<link rel="stylesheet" type="text/css" href="/includes/jquery/css/ui-lightness/jquery-ui-1.7.2.custom.css">
-			<script language="JavaScript" src="/includes/jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
-			<script language="JavaScript" src="/includes/jquery/scrollTo.js" type="text/javascript"></script>
 			<script language="JavaScript" src="/includes/showTAG.js" type="text/javascript"></script>
 		</cfif>
 	</cfif>

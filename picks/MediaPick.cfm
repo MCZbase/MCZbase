@@ -1,4 +1,3 @@
-<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfset title = "Media Pick">
 

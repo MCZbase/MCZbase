@@ -21,7 +21,7 @@
 <script type="text/javascript" language="javascript">
 jQuery( function($) {
 
-	$("##customizeButton").live('click', function(e){
+	$(document).on('click', "##customizeButton", function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
 		bgDiv.className = 'bgDiv';
@@ -41,7 +41,7 @@ jQuery( function($) {
 		});
 	});
 
-	$(".browseLink").live('click', function(e){
+	$(document).on('click', ".browseLink", function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
 		bgDiv.className = 'bgDiv';
@@ -63,7 +63,7 @@ jQuery( function($) {
 		viewport.init("##browseDiv");
 		viewport.init("##bgDiv");
 	});
-	$("##sPrefs").live('click',function(e){
+	$(document).on('click', "##sPrefs",function(e){
 		var id=this.id;
 		var theDiv = document.createElement('div');
 		theDiv.id = 'helpDiv';

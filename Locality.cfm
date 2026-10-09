@@ -1,4 +1,3 @@
-<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfoutput>
 <script language="javascript" type="text/javascript">
@@ -10,7 +9,7 @@
 			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
-        $("input[id='wktFile'").change(function(){
+        $("input[id='wktFile']").change(function(){
 	    	if ($("##wktPolygon").val().length > 1)
 	    		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
 	    	else

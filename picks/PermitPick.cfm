@@ -1,4 +1,3 @@
-<cfset jquery11=true>
 <cfinclude template="../includes/_pickHeader.cfm">
 <script type='text/javascript' src='/includes/transAjax.js'></script>
 <cfset title = "Permit Pick">

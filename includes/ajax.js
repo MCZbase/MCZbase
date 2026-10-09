@@ -401,8 +401,62 @@ function changedisplayRows (tgt) {
 		}
 	);
 }
+/** Animate a scroll so that an element comes into view, in a scrolling container or the page.
+ *  Replaces the old scrollTo plugin used by the TAG pages.
+ *  @param containerId the id of the scrolling element, without a leading # selector, or null to
+ *    scroll the page.
+ *  @param targetId the id of the element to bring into view, without a leading # selector.
+ *  @param duration the length of the animation in milliseconds.
+ */
+function scrollToElement(containerId, targetId, duration) {
+	var target = jQuery('#'+targetId);
+	if (target.length == 0) { return; }
+	if (containerId == null) {
+		jQuery('html, body').animate({ scrollTop: target.offset().top, scrollLeft: target.offset().left }, duration);
+	} else {
+		var container = jQuery('#'+containerId);
+		container.animate({
+			scrollTop: container.scrollTop() + target.offset().top - container.offset().top,
+			scrollLeft: container.scrollLeft() + target.offset().left - container.offset().left
+		}, duration);
+	}
+}
+/** Make a text input into a jQuery UI autocomplete backed by a page that returns one suggestion
+ *  per line for the parameter q, such as the pages in /ajax/.  Replaces the old jquery.autocomplete
+ *  plugin, which these pages were written for.
+ *  @param fieldId the id of the text input, without a leading # selector.
+ *  @param url the page returning suggestions.
+ *  @param params optional object of further parameters for the page.
+ *  @param maxItems optional maximum number of suggestions to show, default 50.
+ */
+function makeLineListAutocomplete(fieldId, url, params, maxItems) {
+	var limit = maxItems || 50;
+	jQuery('#'+fieldId).autocomplete({
+		minLength: 1,
+		source: function(request, response) {
+			jQuery.ajax({
+				url: url,
+				data: jQuery.extend({ q: request.term }, params || {}),
+				dataType: "text",
+				success: function(data) {
+					var items = [];
+					jQuery.each(data.split("\n"), function(i, line) {
+						var value = line.trim();
+						if (value.length > 0 && items.length < limit) {
+							items.push(value);
+						}
+					});
+					response(items);
+				},
+				error: function() {
+					response([]);
+				}
+			});
+		}
+	});
+}
 jQuery(document).ready(function() {
-	jQuery(".helpLink").live('click', function(e){
+	jQuery(document).on('click', '.helpLink', function(e){
 		var id=this.id;
 		removeHelpDiv();
 		var bgDiv = document.createElement('div');
@@ -1008,7 +1062,7 @@ if (self != top) {
 			
 		}).each(function() {
 			var menuClasses = [c.menuClass];
-			if (sf.op.dropShadows  && !($.browser.msie && $.browser.version < 7)) menuClasses.push(c.shadowClass);
+			if (sf.op.dropShadows) menuClasses.push(c.shadowClass);
 			$(this).addClass(menuClasses.join(' '));
 		});
 	};
@@ -1016,11 +1070,8 @@ if (self != top) {
 	var sf = $.fn.superfish;
 	sf.o = [];
 	sf.op = {};
-	sf.IE7fix = function(){
-		var o = sf.op;
-		if ($.browser.msie && $.browser.version > 6 && o.dropShadows && o.animation.opacity!=undefined)
-			this.toggleClass(sf.c.shadowClass+'-off');
-		};
+	// Was a fix for Internet Explorer 7, which depended on $.browser (removed from jQuery).
+	sf.IE7fix = function(){};
 	sf.c = {
 		bcClass     : 'sf-breadcrumb',
 		menuClass   : 'sf-js-enabled',

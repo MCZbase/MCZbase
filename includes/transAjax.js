@@ -399,7 +399,7 @@ function loadShipment(shipmentId,form) {
                    $("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
                    $("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
                    var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
-		           $(target).attr("selected",true);
+		           $(target).prop("selected",true);
                    if (result.DATA.FOREIGN_SHIPMENT_FG[i] == 0) { 
                           $("#foreign_shipment_fg option[value='1']").prop('selected',false);
                           $("#foreign_shipment_fg option[value='0']").prop('selected',true); 

@@ -1,4 +1,3 @@
-<cfset jquery11=true>
 <cfinclude template="/includes/_pickHeader.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif listcontainsnocase(session.roles,"manage_agent_ranking")>

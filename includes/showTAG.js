@@ -65,24 +65,24 @@ function loadInitial(){
 }
 
 jQuery(document).ready(function () { 
-		jQuery("div .refDiv").live('mouseover', function(e){
+		jQuery(document).on('mouseover', "div .refDiv", function(e){
 			var tagID=this.id.replace('refDiv_','');
 			modArea(tagID);
 		});
-		jQuery("div .refDiv, .highlight").live('click', function(e){
+		jQuery(document).on('click', "div .refDiv, .highlight", function(e){
 			var tagID='refPane_' + this.id.replace('refDiv_','');
-			$('#navDiv').scrollTo( $('#' + tagID), 800 );
+			scrollToElement('navDiv', tagID, 800);
 		});
 		
 			
-		jQuery("div[class^='refPane_']").live('mouseover', function(e){
+		jQuery(document).on('mouseover', "div[class^='refPane_']", function(e){
 			var tagID=this.id.replace('refPane_','');
 			modArea(tagID);
 		});
 		
-		jQuery("div[class^='refPane_']").live('click', function(e){
+		jQuery(document).on('click', "div[class^='refPane_']", function(e){
 			var tagID='refDiv_' + this.id.replace('refPane_','');
-			$(document).scrollTo( $('#' + tagID), 800 );
+			scrollToElement(null, tagID, 800);
 		});
 	});
 

@@ -280,7 +280,7 @@ function addLendersObject (transaction_id,catalog_number,sci_name,no_of_spec,spe
 	);
 }
 
-jQuery("#uploadMedia").live('click', function(e){
+jQuery(document).on('click', "#uploadMedia", function(e){
 	addBGDiv('removeUpload()');
 	var theDiv = document.createElement('iFrame');
 	theDiv.id = 'uploadDiv';
