@@ -22,8 +22,8 @@ limitations under the License.
 <cfset pageTitle = "Download Statistics">
 <cfinclude template="/shared/_header.cfm">
 
-<!--- cf_rolecheck requires every role listed for a page, so this page's row is coldfusion_user and
-	access is checked here: global_admin or curatorial_associate. --->
+<!--- This page's row is curatorial_associate, which cf_rolecheck also lets global_admin through;
+	the same is checked here. --->
 <cfset variables.mayView = false>
 <cfif isdefined("session.roles")>
 	<cfif listfindnocase(session.roles,"global_admin") OR listfindnocase(session.roles,"curatorial_associate")>

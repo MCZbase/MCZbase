@@ -660,13 +660,9 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">
 									<cfif adminMenuCuratorial or adminMenuGlobalAdmin>
 										<div>
-											<cfif adminMenuCuratorial>
-												<div class="h5 dropdown-header px-4 text-danger">Collection</div>
-												<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
-												<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
-											<cfelse>
-												<div class="h5 dropdown-header px-4 text-danger">User Activity</div>
-											</cfif>
+											<div class="h5 dropdown-header px-4 text-danger">Collection</div>
+											<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
+											<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
 											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
 											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
 										</div>
