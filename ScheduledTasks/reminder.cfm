@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
@@ -251,7 +255,7 @@
 					sends email and something somewhere is probably misspelled or something
 				 --->
 				<cfloop query="notificationAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+					<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
 						Dear #agent_name#,
 						<p>
@@ -260,12 +264,12 @@
 						</p>
 						#contacts#<!--- from cfsavecontent above ---->
 						#common#<!--- from cfsavecontent above ---->
-					</cfmail>
+					</cf_reminderMail>
 				</cfloop>
 			</cfif>
 			<!--- and an email for each in-house contact --->
 			<cfloop query="inhouseAgents">
-				<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+				<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 					subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
 					Dear #agent_name#,
 					<p>
@@ -279,12 +283,12 @@
 						</a>
 					</p>
 					#common#
-				</cfmail>
+				</cf_reminderMail>
 			</cfloop>
 			<cfif expires_in_days lte 0>
 				<!--- the loan expires on or BEFORE today; also email the collection's loan request agent, if there is one --->
 				<cfloop query="collectionAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+					<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">Dear #agent_name#,
 						<p>
 							You are receiving this message because you are listed as a #loan.collection# loan request collection contact.
@@ -297,7 +301,7 @@
 							</a>
 						</p>
 						#common#
-					</cfmail>
+					</cf_reminderMail>
 				</cfloop>
 			</cfif--->
 			<cfset specialmail="">
@@ -316,7 +320,7 @@
 
 			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
-			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
+			<cf_reminderMail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
@@ -417,8 +421,9 @@
 				</cfif>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
-			<cfif specialmail EQ "">
+			</cf_reminderMail>
+			<!--- the log records reminders sent, so nothing is logged when nothing is sent --->
+			<cfif specialmail EQ "" AND isLiveEmailServer()>
 					<!---changed reminder type to I for social distancing period, for "internal"--->
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
@@ -458,14 +463,14 @@
 				<cfquery name="permitExpOneYearIndiv" dbtype="query">
 					select * from permitExpOneYear where CONTACT_AGENT_ID=#CONTACT_AGENT_ID# order by expires_in_days
 				</cfquery>
-				<cfmail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
+				<cf_reminderMail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.
 					<p>
 						<cfloop query="permitExpOneYearIndiv">
 							<a href="#Application.ServerRootUrl#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
 						</cfloop>
 					</p>
-				</cfmail>
+				</cf_reminderMail>
 			</cfloop>
 		</cfloop>
 		<!---- year=old accessions with no specimens ---->
@@ -518,7 +523,7 @@
 					accn_number,
 					received_date
 			</cfquery>
-			<cfmail to="#valuelist(contact.ADDRESS)#" bcc="bhaley@oeb.harvard.edu" subject="Bare Accession" from="bare_accession@#Application.fromEmail#" type="html">
+			<cf_reminderMail to="#valuelist(contact.ADDRESS)#" bcc="bhaley@oeb.harvard.edu" subject="Bare Accession" from="bare_accession@#Application.fromEmail#" type="html">
 				You are receiving this message because you are the data quality contact for collection #collection#.
 				<p>
 					The following accessions are one or more years old and have no specimens attached.
@@ -531,7 +536,7 @@
 						<br>
 					</cfloop>
 				</p>
-			</cfmail>
+			</cf_reminderMail>
 
 
 		</cfloop--->

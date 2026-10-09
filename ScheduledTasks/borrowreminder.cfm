@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
@@ -197,7 +201,7 @@
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
 
-			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
+			<cf_reminderMail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
@@ -266,7 +270,7 @@
 				Thank you.<br>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 		</cfloop>
 		<!--- end of loan code --->
 		<!----------- permit ------------
@@ -300,14 +304,14 @@
 				<cfquery name="permitExpOneYearIndiv" dbtype="query">
 					select * from permitExpOneYear where CONTACT_AGENT_ID=#CONTACT_AGENT_ID# order by expires_in_days
 				</cfquery>
-				<cfmail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
+				<cf_reminderMail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.
 					<p>
 						<cfloop query="permitExpOneYearIndiv">
 							<a href="#Application.ServerRootUrl#/transactions/Permit.cfm?action=search&execute=true&permit_id=#permit_id#">Permit##: #PERMIT_NUM#</a> expires on #dateformat(exp_date,'yyyy-mm-dd')# (#expires_in_days# days)<br>
 						</cfloop>
 					</p>
-				</cfmail>
+				</cf_reminderMail>
 			</cfloop>
 		</cfloop>
 		<!---- year=old accessions with no specimens ---->
@@ -360,7 +364,7 @@
 					accn_number,
 					received_date
 			</cfquery>
-			<cfmail to="#valuelist(contact.ADDRESS)#" bcc="bhaley@oeb.harvard.edu" subject="Bare Accession" from="bare_accession@#Application.fromEmail#" type="html">
+			<cf_reminderMail to="#valuelist(contact.ADDRESS)#" bcc="bhaley@oeb.harvard.edu" subject="Bare Accession" from="bare_accession@#Application.fromEmail#" type="html">
 				You are receiving this message because you are the data quality contact for collection #collection#.
 				<p>
 					The following accessions are one or more years old and have no specimens attached.
@@ -373,7 +377,7 @@
 						<br>
 					</cfloop>
 				</p>
-			</cfmail>
+			</cf_reminderMail>
 
 
 		</cfloop--->
