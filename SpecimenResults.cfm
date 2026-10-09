@@ -455,6 +455,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
 			<a href="SpecimenResultsHTML.cfm?#encodeForHtml(mapurl)#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<!--- TODO: info/reportBadData.cfm can no longer file bugs, as Bugzilla no longer accepts bugs by email; replace this link with /info/bugs.cfm and remove that page. This page is linked from the loan reminder emails (ScheduledTasks/reminder.cfm, exhibitionreminder.cfm, tools/manualreminder.cfm), assess that use before changing it. --->
          <cfif isDefined("session.username") AND len(session.username) gt 0>
 				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
 			</cfif>
