@@ -17,8 +17,8 @@ limitations under the License.
 
 --->
 <!--- Backing methods for the Collection Panel, /collections/CollectionPanel.cfm, for the
-	curatorial_associate and global_admin roles.  cf_rolecheck requires every role listed for a path,
-	so this component's row is coldfusion_user and each method checks for either role. --->
+	curatorial_associate and global_admin roles.  The component's row is curatorial_associate, which
+	cf_rolecheck also lets global_admin through, and each method checks for either role. --->
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">

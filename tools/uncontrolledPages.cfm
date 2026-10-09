@@ -158,7 +158,7 @@ limitations under the License.
 			</p>
 			<h2 class="h3">How page permissions work</h2>
 			<ul>
-				<li><code>cf_rolecheck</code> looks up the requested path (<code>cgi.script_name</code>) in <code>cf_form_permissions</code>. The user must hold <strong>every</strong> role listed for that path. A path with no rows is refused for everyone.</li>
+				<li><code>cf_rolecheck</code> looks up the requested path (<code>cgi.script_name</code>) in <code>cf_form_permissions</code>. The user must hold <strong>every</strong> role listed for that path, except that <code>global_admin</code> may open any path that has rows. A path with no rows is refused for everyone.</li>
 				<li>It runs only when a page includes <code>/shared/_header.cfm</code>, <code>/includes/_header.cfm</code>, <code>/includes/_pickHeader.cfm</code> or <code>/includes/_frameHeader.cfm</code>, or when a file calls <code>&lt;cf_rolecheck&gt;</code> itself, as a component must. For any other file its rows have no effect, and access control must be in the code.</li>
 				<li>Code that runs before the header include is not checked.</li>
 				<li>When a component includes another component, the included file's remote methods are checked against the outer component's path. <strong>Including /topic/component/functions.cfc in /topic/component/public.cfc will provide access to the methods in functions.cfc with the access control on public.cfc, meaning that methods inside functions.cfc will need their own individual permissions checks.</strong></li>

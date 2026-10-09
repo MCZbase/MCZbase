@@ -25,8 +25,8 @@ limitations under the License.
 <cfparam name="url.collection_id" default="">
 <cfset pageTitle = "Collection Panel">
 <cfinclude template="/shared/_header.cfm">
-<!--- cf_rolecheck requires every role listed for a page, so this page's row is coldfusion_user and
-	access is checked here: curatorial_associate or global_admin. --->
+<!--- This page's row is curatorial_associate, which cf_rolecheck also lets global_admin through;
+	the same is checked here. --->
 <cfset variables.mayView = false>
 <cfif isdefined("session.roles")>
 	<cfif listfindnocase(session.roles,"curatorial_associate") OR listfindnocase(session.roles,"global_admin")>
