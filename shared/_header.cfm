@@ -703,6 +703,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
+											<a class="dropdown-item" href="/Admin/AdminPanel.cfm">Admin Panel</a>
 											<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collections</a>
 											<a class="dropdown-item" href="/Admin/manageRedirects.cfm">Redirects</a>
 											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>

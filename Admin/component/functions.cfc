@@ -236,4 +236,202 @@ limitations under the License.
 	<cfreturn autocompleteJson(lookup)>
 </cffunction>
 
+<!---
+	getCodeTableChangesHtml the Admin Panel widget summarising recent changes to code tables (CT*)
+	from the audit trail, each table expanding into its statements.
+
+	@param days how many days back to look: 1, 7 or 30.
+	@return HTML for the widget body.
+--->
+<cffunction name="getCodeTableChangesHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="days" type="string" required="no" default="7">
+	<cfset var lookbackDays = 7>
+	<cfset var getChanges = "">
+	<cfset var getChanges_result = "">
+	<cfset var getTables = "">
+	<cfset var tableChanges = "">
+	<cfset var tableUsers = "">
+	<cfset var beginDate = "">
+	<cfset var html = "">
+	<cfset var DETAIL_LIMIT = 200>
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+		<cfthrow message="Not authorized">
+	</cfif>
+	<cfif listFind("1,7,30", arguments.days)>
+		<cfset lookbackDays = arguments.days>
+	</cfif>
+	<cfset beginDate = dateFormat(dateAdd("d", -lookbackDays, now()), "yyyy-mm-dd")>
+	<cfquery name="getChanges" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getChanges_result">
+		SELECT object_name, db_user, timestamp, sql_text, sql_bind
+		FROM mczbase.arctos_audit
+		WHERE
+			upper(object_name) LIKE 'CT%'
+			AND timestamp > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookbackDays#">
+		ORDER BY object_name, timestamp DESC
+	</cfquery>
+	<cfquery name="getTables" dbtype="query">
+		SELECT object_name, count(*) AS statements, max(timestamp) AS last_change
+		FROM getChanges
+		GROUP BY object_name
+		ORDER BY object_name
+	</cfquery>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">
+				#getChanges.recordcount# statements on #getTables.recordcount# code tables in the last #lookbackDays# day<cfif lookbackDays GT 1>s</cfif>.
+			</p>
+			<cfloop query="getTables">
+				<cfquery name="tableChanges" dbtype="query" maxrows="#DETAIL_LIMIT#">
+					SELECT db_user, timestamp, sql_text, sql_bind
+					FROM getChanges
+					WHERE object_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTables.object_name#">
+					ORDER BY timestamp DESC
+				</cfquery>
+				<cfquery name="tableUsers" dbtype="query">
+					SELECT DISTINCT db_user
+					FROM getChanges
+					WHERE object_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTables.object_name#">
+					ORDER BY db_user
+				</cfquery>
+				<details class="mb-1">
+					<summary>
+						<strong>#encodeForHtml(getTables.object_name)#</strong>:
+						#getTables.statements# statement<cfif getTables.statements GT 1>s</cfif>,
+						last #dateTimeFormat(getTables.last_change, "yyyy-mm-dd HH:nn")#
+						by #encodeForHtml(valueList(tableUsers.db_user, ", "))#
+					</summary>
+					<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+						<thead class="thead-light">
+							<tr><th scope="col">When</th><th scope="col">Who</th><th scope="col">Statement</th><th scope="col">Values</th></tr>
+						</thead>
+						<tbody>
+							<cfloop query="tableChanges">
+								<tr>
+									<td class="text-nowrap">#dateTimeFormat(tableChanges.timestamp, "yyyy-mm-dd HH:nn:ss")#</td>
+									<td>#encodeForHtml(tableChanges.db_user)#</td>
+									<td><code>#encodeForHtml(tableChanges.sql_text)#</code></td>
+									<td><code>#encodeForHtml(tableChanges.sql_bind)#</code></td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+					<cfif getTables.statements GT DETAIL_LIMIT>
+						<p class="small mb-1">Showing the latest #DETAIL_LIMIT#.</p>
+					</cfif>
+					<a class="small" href="/Admin/ActivityLog.cfm?object_name=#encodeForUrl('=' & getTables.object_name)#&begin_date=#encodeForUrl(beginDate)#&execute=true">All changes to #encodeForHtml(getTables.object_name)# in the Audit SQL Log</a>
+				</details>
+			</cfloop>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getActiveUsersHtml the Admin Panel widget summarising who is using MCZbase now: recent logins,
+	Oracle sessions, ColdFusion sessions and login locks.
+
+	@return HTML for the widget body.
+--->
+<cffunction name="getActiveUsersHtml" access="remote" returntype="string" returnformat="plain">
+	<cfset var getLogins = "">
+	<cfset var getLogins_result = "">
+	<cfset var getSessions = "">
+	<cfset var getSessions_result = "">
+	<cfset var getLocks = "">
+	<cfset var getLocks_result = "">
+	<cfset var sessionCount = "">
+	<cfset var html = "">
+	<!--- ColdFusion sessions last three hours (Application.cfc sessionTimeout) --->
+	<cfset var SESSION_HOURS = 3>
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+		<cfthrow message="Not authorized">
+	</cfif>
+	<cfquery name="getLogins" datasource="uam_god" result="getLogins_result">
+		SELECT cf_users.username, cf_users.last_login, dba_users.account_status
+		FROM cf_users
+			LEFT JOIN dba_users ON upper(cf_users.username) = dba_users.username
+		WHERE cf_users.last_login > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SESSION_HOURS#"> / 24
+		ORDER BY cf_users.last_login DESC
+	</cfquery>
+	<cfquery name="getSessions" datasource="uam_god" result="getSessions_result">
+		SELECT
+			username,
+			count(*) AS connections,
+			sum(CASE WHEN status = 'ACTIVE' THEN 1 ELSE 0 END) AS active,
+			min(last_call_et) AS idle_seconds,
+			min(logon_time) AS first_logon
+		FROM gv$session
+		WHERE type = 'USER' AND username IS NOT NULL
+		GROUP BY username
+		ORDER BY username
+	</cfquery>
+	<cfquery name="getLocks" datasource="uam_god" result="getLocks_result">
+		SELECT lock_kind, count(*) AS locked
+		FROM cf_login_failure
+		WHERE locked_until > sysdate
+		GROUP BY lock_kind
+	</cfquery>
+	<!--- ColdFusion's own session count; an internal class, so shown only where it can be used --->
+	<cftry>
+		<cfset sessionCount = createObject("java", "coldfusion.runtime.SessionTracker").getSessionCount()>
+	<cfcatch>
+		<cfset sessionCount = "">
+	</cfcatch>
+	</cftry>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<ul class="mb-2">
+				<li>MCZbase logins in the last #SESSION_HOURS# hours: #getLogins.recordcount#
+					(#listLen(valueList(getLogins.account_status))# with an Oracle account).</li>
+				<li>ColdFusion sessions on this server:
+					<cfif len(sessionCount) GT 0>#sessionCount#<cfelse>not available</cfif>.</li>
+				<li>Login locks:
+					<cfif getLocks.recordcount EQ 0>none<cfelse><cfloop query="getLocks">#getLocks.locked# #encodeForHtml(getLocks.lock_kind)#<cfif getLocks.currentRow LT getLocks.recordcount>, </cfif></cfloop></cfif>
+					(<a href="/Admin/AdminUsers.cfm?action=list&state=locked">Locked Account search</a>).</li>
+			</ul>
+			<details class="mb-2">
+				<summary><strong>Recent logins</strong> (#getLogins.recordcount#)</summary>
+				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+					<thead class="thead-light">
+						<tr><th scope="col">Username</th><th scope="col">Logged in</th><th scope="col">Oracle account</th></tr>
+					</thead>
+					<tbody>
+						<cfloop query="getLogins">
+							<tr>
+								<td><a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(getLogins.username)#">#encodeForHtml(getLogins.username)#</a></td>
+								<td class="text-nowrap">#dateTimeFormat(getLogins.last_login, "yyyy-mm-dd HH:nn")#</td>
+								<td><cfif len(getLogins.account_status) GT 0>#encodeForHtml(lcase(getLogins.account_status))#<cfelse>none (public account)</cfif></td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</details>
+			<details>
+				<summary><strong>Oracle sessions</strong> by account (#getSessions.recordcount#)</summary>
+				<p class="small mb-1">
+					ColdFusion keeps database connections open in a pool, so these are connections, not people logged in.
+					Idle time is since the last call on the account's most recent connection.
+				</p>
+				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+					<thead class="thead-light">
+						<tr><th scope="col">Account</th><th scope="col">Connections</th><th scope="col">Active</th><th scope="col">Idle</th><th scope="col">Oldest connection</th></tr>
+					</thead>
+					<tbody>
+						<cfloop query="getSessions">
+							<tr>
+								<td>#encodeForHtml(getSessions.username)#</td>
+								<td>#getSessions.connections#</td>
+								<td>#getSessions.active#</td>
+								<td class="text-nowrap"><cfif getSessions.idle_seconds LT 3600>#int(getSessions.idle_seconds / 60)# min<cfelse>#int(getSessions.idle_seconds / 3600)# h</cfif></td>
+								<td class="text-nowrap">#dateTimeFormat(getSessions.first_logon, "yyyy-mm-dd HH:nn")#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</details>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
 </cfcomponent>
