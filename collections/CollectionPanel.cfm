@@ -25,7 +25,15 @@ limitations under the License.
 <cfparam name="url.collection_id" default="">
 <cfset pageTitle = "Collection Panel">
 <cfinclude template="/shared/_header.cfm">
-<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"curatorial_associate") ) >
+<!--- This page's row is curatorial_associate, which cf_rolecheck also lets global_admin through;
+	the same is checked here. --->
+<cfset variables.mayView = false>
+<cfif isdefined("session.roles")>
+	<cfif listfindnocase(session.roles,"curatorial_associate") OR listfindnocase(session.roles,"global_admin")>
+		<cfset variables.mayView = true>
+	</cfif>
+</cfif>
+<cfif NOT variables.mayView>
 	<cflocation url="/errors/forbidden.cfm" addtoken="false">
 </cfif>
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collections_result">
