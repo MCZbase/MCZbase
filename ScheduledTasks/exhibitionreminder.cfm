@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
@@ -202,7 +206,7 @@
 			from
 				loan_relations, loan
 			where
-				loan_relations.transaction_id = #transaction_id# and
+				loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 				loan_relations.RELATED_TRANSACTION_ID = loan.transaction_id
 		</cfquery>
 			<!--- the "contact if" section of the form we'll send to notification agents --->
@@ -257,7 +261,7 @@
 					sends email and something somewhere is probably misspelled or something
 				 --->
 				<cfloop query="notificationAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+					<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
 						Dear #agent_name#,
 						<p>
@@ -266,12 +270,12 @@
 						</p>
 						#contacts#<!--- from cfsavecontent above ---->
 						#common#<!--- from cfsavecontent above ---->
-					</cfmail>
+					</cf_reminderMail>
 				</cfloop>
 			</cfif>
 			<!--- and an email for each in-house contact --->
 			<cfloop query="inhouseAgents">
-				<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+				<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 					subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">
 					Dear #agent_name#,
 					<p>
@@ -285,12 +289,12 @@
 						</a>
 					</p>
 					#common#
-				</cfmail>
+				</cf_reminderMail>
 			</cfloop>
 			<cfif expires_in_days lte 0>
 				<!--- the loan expires on or BEFORE today; also email the collection's loan request agent, if there is one --->
 				<cfloop query="collectionAgents">
-					<cfmail to="#address#" bcc="bhaley@oeb.harvard.edu"
+					<cf_reminderMail to="#address#" bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Loan Notification" from="loan_notification@#Application.fromEmail#" type="html">Dear #agent_name#,
 						<p>
 							You are receiving this message because you are listed as a #loan.collection# loan request collection contact.
@@ -303,7 +307,7 @@
 							</a>
 						</p>
 						#common#
-					</cfmail>
+					</cf_reminderMail>
 				</cfloop>
 			</cfif--->
 			<cfset specialmail="">
@@ -320,7 +324,7 @@
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
 
-			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
+			<cf_reminderMail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
@@ -366,7 +370,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#subLoans.transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subLoans.transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by
@@ -407,7 +411,7 @@
 				contact MCZ Collections Operations (#ValueList(inhouse.address)#). Your attention to this matter will be greatly appreciated. Thank you.
 				<BR>
 				---------------------------------------------------------------------</P>
-			</cfmail>
+			</cf_reminderMail>
 
 			<!---cfif specialmail EQ "">
 					<cfquery name="upLogTable" datasource="uam_god">

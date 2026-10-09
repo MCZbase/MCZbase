@@ -241,6 +241,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/Admin/">
 	<script type="text/javascript" src="/Admin/js/admin.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/collections/">
+	<script type="text/javascript" src="/collections/js/collections.js"></script>
+</cfif>
 <cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
 	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
 </cfif>
@@ -639,55 +642,71 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
-					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
+					<!--- Admin menu roles, checked with listfindnocase so a role name never matches part of another. --->
+					<cfset adminMenuGlobalAdmin = false>
+					<cfset adminMenuCodeTables = false>
+					<cfset adminMenuCollops = false>
+					<cfset adminMenuCuratorial = false>
+					<cfif isdefined("session.roles")>
+						<cfif listfindnocase(session.roles,"global_admin")><cfset adminMenuGlobalAdmin = true></cfif>
+						<cfif listfindnocase(session.roles,"manage_codetables")><cfset adminMenuCodeTables = true></cfif>
+						<cfif listfindnocase(session.roles,"collops")><cfset adminMenuCollops = true></cfif>
+						<cfif listfindnocase(session.roles,"curatorial_associate")><cfset adminMenuCuratorial = true></cfif>
+					</cfif>
+					<cfif adminMenuGlobalAdmin or adminMenuCodeTables or adminMenuCollops or adminMenuCuratorial>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
-								<li class="d-md-flex align-items-start justify-content-start">		
-									<!--- TODO: Review administrative functions --->
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+								<li class="d-md-flex align-items-start justify-content-start">
+									<cfif adminMenuCuratorial or adminMenuGlobalAdmin>
 										<div>
-											<div class="h5 dropdown-header px-4 text-danger">Data</div>
-											<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Controlled Vocabulary Editor</a>
-											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
-	
-											<!--- TODO: Need another role for report management --->
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
+											<cfif adminMenuCuratorial>
+												<div class="h5 dropdown-header px-4 text-danger">Collection</div>
+												<a class="dropdown-item" href="/collections/CollectionPanel.cfm">Collection Panel</a>
+												<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
+												<div class="h5 dropdown-header px-4 text-danger">User Activity</div>
 											</cfif>
-										
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Download Tables</a>
+											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
+											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
+										</div>
+									</cfif>
+									<cfif adminMenuCodeTables or adminMenuGlobalAdmin or adminMenuCollops>
+										<div>
+											<cfif adminMenuCodeTables or adminMenuGlobalAdmin>
+												<div class="h5 dropdown-header px-4 text-danger">Data</div>
+												<cfif adminMenuCodeTables>
+													<a class="dropdown-item" href="/vocabularies/manageControlledVocabulary.cfm">Controlled Vocabulary Editor</a>
+													<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
+												</cfif>
+												<cfif adminMenuGlobalAdmin>
+													<cfif targetMenu EQ "production">
+														<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
+													<cfelse>
+														<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
+													</cfif>
+													<cfif targetMenu EQ "production">
+														<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
+													<cfelse>
+														<a class="dropdown-item bg-warning" href="">Download Tables</a>
+													</cfif>
+													<div class="h5 dropdown-header px-4 mt-2 text-danger">Specimen Search</div>
+													<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+													<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
+												</cfif>
 											</cfif>
-									
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-												<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
-												<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
-												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
-												<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-												<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
-											</cfif>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+											<cfif adminMenuCollops>
+												<div class="h5 dropdown-header px-4 mt-2 text-danger">Diagnostics</div>
 												<a class="dropdown-item" href="/containers/containerDiagnostics.cfm">Container Diagnostics</a>
 												<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
 											</cfif>
 										</div>
 									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+									<cfif adminMenuGlobalAdmin>
 										<div>
-											<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+											<div class="h5 dropdown-header px-4 text-danger">Users &amp; Access</div>
 											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
 											<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
-											</cfif>
-											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
 											<cfelse>
@@ -696,17 +715,22 @@ limitations under the License.
 											<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
 											<a class="dropdown-item" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
 											<a class="dropdown-item" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
-											<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
-											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
-											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
+											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
+											</cfif>
 										</div>
-									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
+											<a class="dropdown-item" href="/Admin/AdminPanel.cfm">Admin Panel</a>
+											<a class="dropdown-item" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collections</a>
 											<a class="dropdown-item" href="/Admin/manageRedirects.cfm">Redirects</a>
-											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
+											<a class="dropdown-item" href="/tools/listImages.cfm">Image List</a>
+											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump ColdFusion Vars</a>
+											<a class="dropdown-item" href="/CFIDE/administrator/">Manage ColdFusion</a>
 										</div>
 									</cfif>
 								</li>

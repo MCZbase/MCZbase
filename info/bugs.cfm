@@ -396,6 +396,8 @@ limitations under the License.
 					<cfset bugzilla_path = "/bugzilla">
 
 					<!--- Sanitize the inputs to handle quotes --->
+					<!--- Keep "(Username: {username})" in the description: bugs are filed as the bug reporting account, so
+						getMyBugReportsHtml in users/component/functions.cfc finds a user's bugs by querying Bugzilla for that text. --->
 					<cfset sanitizedSummary = Replace(summary, '"', '\"', 'all')>
 					<cfset sanitizedDescription = Replace("Bug report by: #reported_name# (Username: #session.username#) Email: #user_email# IP Address: #ipaddress# #newline#Complaint: #complaint##newline##newline##human_importance#", '"', '\"', 'all')>
         

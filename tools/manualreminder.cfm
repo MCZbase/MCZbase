@@ -1,4 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
+<cfparam name="form.loannumbers" default="">
+<!--- loan numbers as a plain comma separated list, bound as a list in the queries --->
+<cfset variables.loanNumbers = REReplace(form.loannumbers, "\s", "", "all")>
 <cfif action is "nothing">
 	<form name="getLoanNums" method="post" action="manualreminder.cfm">
 				<label for="loannumbers">Loan Numbers to Send Reminders</label>
@@ -8,8 +11,7 @@
 	</form>
 </cfif>
 <cfif action is "verify">
-		<cfset loannumbers="'" & replace(replace(loannumbers," ", "","all"),",","','","all")&"'">
-		<cfoutput>#loannumbers#</cfoutput>
+		<cfoutput>#encodeForHtml(variables.loanNumbers)#</cfoutput>
 		<cfquery name="expLoan" datasource="uam_god">
 			select
 				loan.transaction_id,
@@ -54,14 +56,14 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
-				loan_number in (#preservesinglequotes(loannumbers)#) and
+				loan_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.loanNumbers#" list="yes">) and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id
 		</cfquery>
 		<cfdump var=#expLoan#>
 	<form name="getLoanNums" method="post" action="manualreminder.cfm">
 				<input type="hidden" name="action" value="send">
-				<input type="hidden" name="loannumbers" value=<cfoutput>"#loannumbers#"</cfoutput>>
+				<input type="hidden" name="loannumbers" value=<cfoutput>"#encodeForHtmlAttribute(variables.loanNumbers)#"</cfoutput>>
 				<input type="submit" value="send emails" class="lnkBtn">
 	</form>
 </cfif>
@@ -119,7 +121,7 @@
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
 				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
-				loan_number in (#preservesinglequotes(loannumbers)#) and
+				loan_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.loanNumbers#" list="yes">) and
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id
 		</cfquery>
@@ -163,7 +165,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact', 'additional in-house contact') and
 					address is not null
 				group by
@@ -177,7 +179,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact') and
 					address is not null
 				group by
@@ -191,7 +193,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('additional outside contact', 'for use by', 'received by') and
 					address is not null
 				group by
@@ -205,7 +207,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					collection_email is not null
 				group by
 					collection_agent_name,
@@ -219,7 +221,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'received by'
 				group by
 					last_name,
@@ -234,7 +236,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'for use by'
 				group by
 					last_name,
@@ -247,7 +249,7 @@
 				from
 					loan, loan_item, coll_object
 				where
-					loan.transaction_id=#transaction_id# and
+					loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					loan.transaction_id = loan_item.transaction_id and
 					loan_item.collection_object_id = coll_object.collection_object_id
 				group by
@@ -452,7 +454,7 @@
 				WHERE
 					permit.CONTACT_AGENT_ID = electronic_address.agent_id AND
 					ADDRESS_TYPE='email' AND
-					round(EXP_DATE - sysdate) = #inDays#
+					round(EXP_DATE - sysdate) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inDays#">
 			</cfquery>
 			<cfquery name="expYearID" dbtype="query">
 				select CONTACT_AGENT_ID from permitExpOneYear group by CONTACT_AGENT_ID
@@ -508,7 +510,7 @@
 					(select * from collection_contacts where contact_role='data quality') collection_contacts
 				where
 					collection_contacts.CONTACT_AGENT_ID=electronic_address.AGENT_ID and
-					collection_contacts.collection_id=#collection_id#
+					collection_contacts.collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfquery name="data" dbtype="query">
 				select
@@ -518,7 +520,7 @@
 					received_date
 				from
 					yearOldAccn
-				where collection_id=#collection_id#
+				where collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				group by
 					transaction_id,
 					collection,

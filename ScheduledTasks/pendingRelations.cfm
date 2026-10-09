@@ -12,7 +12,7 @@
 				FROM 
 					flat
 				where 
-					guid = '#related_to_number#'
+					guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#">
 			</cfquery>
 			<cfcatch>
 				<cfquery name="nope" datasource="uam_god">
@@ -20,10 +20,10 @@
 						lasttrydate=sysdate,
 						fail_reason='Catalog Number does not exist or is not in UAM Mamm 1234 format'
 					WHERE
-						collection_object_id=#collection_object_id# and
-						related_to_number = '#related_to_number#' and
-						related_to_num_type = '#related_to_num_type#' and
-						relationship = '#relationship#'
+						collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+						related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+						related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+						relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 				</cfquery>
 				<cfset isOne = queryNew("collection_object_id")>
 			</cfcatch>
@@ -31,7 +31,7 @@
 		<cfelse>
 			<cfquery name="isOne" datasource="uam_god">
 				select collection_object_id FROM coll_obj_other_id_num
-				where other_id_type = '#related_to_num_type#' and display_value = '#related_to_number#'
+				where other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#">
 			</cfquery>			
 		</cfif>		
 		<cfif #isOne.recordcount# is 0>
@@ -40,10 +40,10 @@
 					lasttrydate=sysdate,
 					fail_reason='Related cataloged item does not exist.'
 				WHERE
-					collection_object_id=#collection_object_id# and
-					related_to_number = '#related_to_number#' and
-					related_to_num_type = '#related_to_num_type#' and
-					relationship = '#relationship#'
+					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+					related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+					related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+					relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 			</cfquery>
 		<cfelseif #isOne.recordcount# gt 1>
 			<cfquery name="toomany" datasource="uam_god">
@@ -51,10 +51,10 @@
 					lasttrydate=sysdate,
 					fail_reason='More than one cataloged item matched.'
 				WHERE
-					collection_object_id=#collection_object_id# and
-					related_to_number = '#related_to_number#' and
-					related_to_num_type = '#related_to_num_type#' and
-					relationship = '#relationship#'
+					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+					related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+					related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+					relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 			</cfquery>
 		<cfelseif #isOne.recordcount# is 1>
 			<cftry>
@@ -65,28 +65,28 @@
 					 	RELATED_COLL_OBJECT_ID,
 					 	BIOL_INDIV_RELATIONSHIP )
 					 VALUES (
-					 	#collection_object_id#,
-					 	#isOne.collection_object_id#,
-					 	'#relationship#' )
+					 	<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
+					 	<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isOne.collection_object_id#">,
+					 	<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#"> )
 			</cfquery>
 			<cfquery name="justRight" datasource="uam_god">
 				DELETE FROM cf_temp_relations 
 				WHERE
-					collection_object_id=#collection_object_id# and
-					related_to_number = '#related_to_number#' and
-					related_to_num_type = '#related_to_num_type#' and
-					relationship = '#relationship#'
+					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+					related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+					related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+					relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 			</cfquery>
 			<cfcatch>
 				<cfquery name="fail" datasource="uam_god">
 					update cf_temp_relations set 
 						lasttrydate=sysdate,
-						fail_reason='DB Error. #cfcatch.detail#'
+						fail_reason=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DB Error. #cfcatch.detail#">
 					WHERE
-						collection_object_id=#collection_object_id# and
-						related_to_number = '#related_to_number#' and
-						related_to_num_type = '#related_to_num_type#' and
-						relationship = '#relationship#'
+						collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+						related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+						related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+						relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 				</cfquery>
 			</cfcatch>
 			</cftry>
@@ -97,10 +97,10 @@
 					lasttrydate=sysdate,
 					fail_reason='unknown failure!'
 				WHERE
-					collection_object_id=#collection_object_id# and
-					related_to_number = '#related_to_number#' and
-					related_to_num_type = '#related_to_num_type#' and
-					relationship = '#relationship#'
+					collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+					related_to_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_number#"> and
+					related_to_num_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_to_num_type#"> and
+					relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 			</cfquery>
 		</cfif>
 	</cfloop>

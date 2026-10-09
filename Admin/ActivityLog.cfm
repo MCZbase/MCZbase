@@ -18,11 +18,20 @@ limitations under the License.
 
 --->
 <!--- Report on the data changes recorded by Oracle fine grained auditing, through the
-	mczbase.arctos_audit view of dba_fga_audit_trail.  Access is by this page's cf_form_permissions
-	row; as the audit trail shows every user's changes with their values, it would suit a role of
-	its own. --->
+	mczbase.arctos_audit view of dba_fga_audit_trail, read as the owner after the check below. --->
 <cfset pageTitle = "Audit SQL">
 <cfinclude template="/shared/_header.cfm">
+<!--- cf_rolecheck requires every role listed for a page, so this page's row is coldfusion_user and
+	access is checked here: global_admin or curatorial_associate. --->
+<cfset variables.mayView = false>
+<cfif isdefined("session.roles")>
+	<cfif listfindnocase(session.roles,"global_admin") OR listfindnocase(session.roles,"curatorial_associate")>
+		<cfset variables.mayView = true>
+	</cfif>
+</cfif>
+<cfif NOT variables.mayView>
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 
 <!--- Statements listed individually; the summaries cover every matching statement. --->
 <cfset DETAIL_ROW_LIMIT = 500>
@@ -154,15 +163,12 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<!--- The lookups are in Admin/component/functions.cfc, open to global_admin only. --->
-					<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin") GT 0>
-						<script>
-							$(document).ready(function() {
-								makeAdminExactMatchAutocomplete("db_user", "getAuditUserAutocomplete");
-								makeAdminExactMatchAutocomplete("object_name", "getAuditTableAutocomplete");
-							});
-						</script>
-					</cfif>
+					<script>
+						$(document).ready(function() {
+							makeAdminExactMatchAutocomplete("db_user", "getAuditUserAutocomplete");
+							makeAdminExactMatchAutocomplete("object_name", "getAuditTableAutocomplete");
+						});
+					</script>
 				</div>
 			</div>
 		</section>
@@ -171,7 +177,7 @@ limitations under the License.
 		</cfif>
 		<cfif variables.execute>
 			<!--- Each query repeats the same filters, every value bound; the statement type is one of a fixed list. --->
-			<cfquery name="getTotals" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTotals_result">
+			<cfquery name="getTotals" datasource="uam_god" result="getTotals_result">
 				SELECT count(*) AS statements, count(distinct db_user) AS users, count(distinct object_name) AS tables,
 					to_char(min(timestamp), 'yyyy-mm-dd HH24:MI') AS first_time, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
@@ -184,7 +190,7 @@ limitations under the License.
 					<cfif len(variables.begin_date) GT 0>AND timestamp >= <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.begin_date#"></cfif>
 					<cfif len(variables.end_date) GT 0>AND timestamp < <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', 1, variables.end_date)#"></cfif>
 			</cfquery>
-			<cfquery name="getByUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getByUser_result">
+			<cfquery name="getByUser" datasource="uam_god" result="getByUser_result">
 				SELECT db_user, count(*) AS statements, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
@@ -198,7 +204,7 @@ limitations under the License.
 				GROUP BY db_user
 				ORDER BY count(*) DESC
 			</cfquery>
-			<cfquery name="getByTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getByTable_result">
+			<cfquery name="getByTable" datasource="uam_god" result="getByTable_result">
 				SELECT object_name, count(*) AS statements, to_char(max(timestamp), 'yyyy-mm-dd HH24:MI') AS last_time
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
@@ -212,7 +218,7 @@ limitations under the License.
 				GROUP BY object_name
 				ORDER BY count(*) DESC
 			</cfquery>
-			<cfquery name="getByDay" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getByDay_result">
+			<cfquery name="getByDay" datasource="uam_god" result="getByDay_result">
 				SELECT to_char(trunc(timestamp), 'yyyy-mm-dd') AS audit_day, count(*) AS statements, count(distinct db_user) AS users
 				FROM mczbase.arctos_audit
 				WHERE 1 = 1
@@ -226,7 +232,7 @@ limitations under the License.
 				GROUP BY trunc(timestamp)
 				ORDER BY trunc(timestamp) DESC
 			</cfquery>
-			<cfquery name="getStatements" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getStatements_result">
+			<cfquery name="getStatements" datasource="uam_god" result="getStatements_result">
 				SELECT * FROM (
 					SELECT to_char(timestamp, 'yyyy-mm-dd HH24:MI:SS') AS audit_time, db_user, object_name, sql_text, sql_bind
 					FROM mczbase.arctos_audit

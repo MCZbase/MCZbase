@@ -24,7 +24,7 @@ decode(DATA_TYPE,
         '('||DATA_LENGTH||')' )
 		length
          from user_tab_cols
-                        where table_name='#table_name#'
+                        where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table_name#">
                         order by INTERNAL_COLUMN_ID
 		</cfquery>
 		<blockquote>

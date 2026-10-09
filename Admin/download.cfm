@@ -22,8 +22,15 @@ limitations under the License.
 <cfset pageTitle = "Download Statistics">
 <cfinclude template="/shared/_header.cfm">
 
-<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
-	<!--- this should be handled by rolecheck but add another layer here to make sure of access control --->
+<!--- cf_rolecheck requires every role listed for a page, so this page's row is coldfusion_user and
+	access is checked here: global_admin or curatorial_associate. --->
+<cfset variables.mayView = false>
+<cfif isdefined("session.roles")>
+	<cfif listfindnocase(session.roles,"global_admin") OR listfindnocase(session.roles,"curatorial_associate")>
+		<cfset variables.mayView = true>
+	</cfif>
+</cfif>
+<cfif NOT variables.mayView>
 	<cflocation url="/errors/forbidden.cfm" addtoken="false">
 </cfif>
 
@@ -200,7 +207,7 @@ limitations under the License.
 				GROUP BY username, first_name, last_name, affiliation
 				ORDER BY downloads DESC
 			</cfquery>
-			<cfquery name="getFileRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFileRequests_result">
+			<cfquery name="getFileRequests" datasource="uam_god" result="getFileRequests_result">
 				SELECT
 					status,
 					count(*) AS requests,
