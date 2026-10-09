@@ -178,7 +178,6 @@ limitations under the License.
 </cfif>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
-		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	</cfif>
 </cfif>
