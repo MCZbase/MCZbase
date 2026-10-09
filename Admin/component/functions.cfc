@@ -25,7 +25,8 @@ limitations under the License.
 <!---
 	setFormPermission grant or remove one role's requirement for a page or component in
 	cf_form_permissions, for /Admin/form_roles.cfm.  cf_rolecheck requires a user to hold every
-	role listed for a path, and refuses a path with no rows.
+	role listed for a path, except that global_admin may open any path with rows, and refuses a path
+	with no rows.
 
 	@param form_path the webroot relative path of an existing .cfm or .cfc file, starting with /.
 	@param role_name a role in cf_ctuser_roles.
