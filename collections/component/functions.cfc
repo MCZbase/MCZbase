@@ -31,8 +31,42 @@ limitations under the License.
 </cffunction>
 
 <!---
-	getLoansHtml the Collection Panel widget listing a collection's open loans that are overdue or due
-	within 30 days.
+	dueItemsHtml a section of the Loans or Borrows widget listing transactions in one due date group.
+
+	@param title the group's name.
+	@param items an array of structures with href, label and detail for each transaction.
+	@param badgeClass the Bootstrap badge class for the group's count.
+	@return HTML for the section, empty when the group has no transactions.
+--->
+<cffunction name="dueItemsHtml" access="private" returntype="string" output="false">
+	<cfargument name="title" type="string" required="yes">
+	<cfargument name="items" type="array" required="yes">
+	<cfargument name="badgeClass" type="string" required="yes">
+	<cfset var html = "">
+	<cfset var item = "">
+	<cfif arrayLen(arguments.items) EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<details class="mb-1">
+				<summary><strong>#encodeForHtml(arguments.title)#</strong> <span class="badge #arguments.badgeClass#">#arrayLen(arguments.items)#</span></summary>
+				<ul class="small mb-1">
+					<cfloop array="#arguments.items#" index="item">
+						<li><a href="#item.href#">#encodeForHtml(item.label)#</a> #encodeForHtml(item.detail)#</li>
+					</cfloop>
+				</ul>
+			</details>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getLoansHtml the Collection Panel widget listing a collection's open loans that are overdue by more
+	than a year, overdue, or due within 30 days, using the criteria of the loan reminder emails
+	(ScheduledTasks/reminder.cfm and longtermreminder.cfm): open returnable or consumable loans, with
+	open historical loans left out of those overdue by more than a year.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -44,45 +78,58 @@ limitations under the License.
 	<cfset var openLoans_result = "">
 	<cfset var dueLoans = "">
 	<cfset var dueLoans_result = "">
+	<cfset var item = "">
+	<cfset var longOverdue = arrayNew(1)>
+	<cfset var overdue = arrayNew(1)>
+	<cfset var dueSoon = arrayNew(1)>
 	<cfset requireCuratorialAssociate()>
 	<cfquery name="openLoans" datasource="uam_god" result="openLoans_result">
-		SELECT
-			count(*) AS ct,
-			sum(CASE WHEN loan.return_due_date < trunc(sysdate) THEN 1 ELSE 0 END) AS overdue
+		SELECT count(*) AS ct
 		FROM loan
 			JOIN trans ON loan.transaction_id = trans.transaction_id
 		WHERE
 			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
 			AND loan.loan_status LIKE 'open%'
 	</cfquery>
+	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="dueLoans" datasource="uam_god" result="dueLoans_result">
 		SELECT
-			trans.transaction_id, loan.loan_number, loan.loan_type, loan.loan_status, loan.return_due_date
+			trans.transaction_id, loan.loan_number, loan.loan_type, loan.loan_status, loan.return_due_date,
+			round(loan.return_due_date - sysdate) + 1 AS days_left
 		FROM loan
 			JOIN trans ON loan.transaction_id = trans.transaction_id
 		WHERE
 			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
 			AND loan.loan_status LIKE 'open%'
-			AND loan.return_due_date < trunc(sysdate) + 30
+			AND loan.loan_type IN ('returnable', 'consumable')
+			AND round(loan.return_due_date - sysdate) + 1 <= 30
 		ORDER BY loan.return_due_date
 	</cfquery>
+	<cfloop query="dueLoans">
+		<cfset item = {
+			href = "/transactions/Loan.cfm?action=editLoan&transaction_id=#dueLoans.transaction_id#",
+			label = dueLoans.loan_number,
+			detail = "#dueLoans.loan_type#, #dueLoans.loan_status#, due #dateFormat(dueLoans.return_due_date, 'yyyy-mm-dd')#"
+		}>
+		<cfif dueLoans.days_left LT -365>
+			<cfif dueLoans.loan_status NEQ "open historical">
+				<cfset arrayAppend(longOverdue, item)>
+			</cfif>
+		<cfelseif dueLoans.days_left LT 0>
+			<cfset arrayAppend(overdue, item)>
+		<cfelse>
+			<cfset arrayAppend(dueSoon, item)>
+		</cfif>
+	</cfloop>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<p class="mb-2">
-				#val(openLoans.ct)# open loans, #val(openLoans.overdue)# overdue
-				<cfif val(openLoans.overdue) EQ 0><span class="badge badge-success">OK</span><cfelse><span class="badge badge-danger">Overdue</span></cfif>
+				#val(openLoans.ct)# open loans.
+				<cfif arrayLen(longOverdue) + arrayLen(overdue) EQ 0><span class="badge badge-success">None overdue</span></cfif>
 			</p>
-			<cfif dueLoans.recordcount GT 0>
-				<details>
-					<summary><strong>Overdue or due within 30 days</strong> (#dueLoans.recordcount#)</summary>
-					<ul class="small mb-1">
-						<cfloop query="dueLoans">
-							<li><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#dueLoans.transaction_id#">#encodeForHtml(dueLoans.loan_number)#</a>
-								#encodeForHtml(dueLoans.loan_type)#, #encodeForHtml(dueLoans.loan_status)#, due #dateFormat(dueLoans.return_due_date, "yyyy-mm-dd")#</li>
-						</cfloop>
-					</ul>
-				</details>
-			</cfif>
+			#dueItemsHtml("Overdue more than a year", longOverdue, "badge-danger")#
+			#dueItemsHtml("Overdue", overdue, "badge-warning")#
+			#dueItemsHtml("Due within 30 days", dueSoon, "badge-secondary")#
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>
@@ -90,7 +137,8 @@ limitations under the License.
 
 <!---
 	getBorrowsHtml the Collection Panel widget listing a collection's borrows not yet returned that are
-	overdue or due within 30 days.
+	overdue by more than a year, overdue, or due within 30 days, using the criteria of the borrow
+	reminder emails (ScheduledTasks/borrowreminder.cfm).
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -100,11 +148,16 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var borrows = "">
 	<cfset var borrows_result = "">
-	<cfset var dueCount = 0>
+	<cfset var item = "">
+	<cfset var longOverdue = arrayNew(1)>
+	<cfset var overdue = arrayNew(1)>
+	<cfset var dueSoon = arrayNew(1)>
 	<cfset requireCuratorialAssociate()>
+	<!--- days_left is the reminder emails' measure: 0 is due today, negative is overdue --->
 	<cfquery name="borrows" datasource="uam_god" result="borrows_result">
 		SELECT
-			trans.transaction_id, borrow.borrow_number, borrow.borrow_status, borrow.due_date
+			trans.transaction_id, borrow.borrow_number, borrow.borrow_status, borrow.due_date,
+			round(borrow.due_date - sysdate) + 1 AS days_left
 		FROM borrow
 			JOIN trans ON borrow.transaction_id = trans.transaction_id
 		WHERE
@@ -113,26 +166,30 @@ limitations under the License.
 		ORDER BY borrow.due_date
 	</cfquery>
 	<cfloop query="borrows">
-		<cfif isDate(borrows.due_date) AND borrows.due_date LT dateAdd("d", 30, now())>
-			<cfset dueCount = dueCount + 1>
+		<cfif len(borrows.days_left) GT 0 AND borrows.days_left LE 30>
+			<cfset item = {
+				href = "/transactions/Borrow.cfm?action=edit&transaction_id=#borrows.transaction_id#",
+				label = borrows.borrow_number,
+				detail = "#borrows.borrow_status#, due #dateFormat(borrows.due_date, 'yyyy-mm-dd')#"
+			}>
+			<cfif borrows.days_left LT -365>
+				<cfset arrayAppend(longOverdue, item)>
+			<cfelseif borrows.days_left LT 0>
+				<cfset arrayAppend(overdue, item)>
+			<cfelse>
+				<cfset arrayAppend(dueSoon, item)>
+			</cfif>
 		</cfif>
 	</cfloop>
 	<cfsavecontent variable="html">
 		<cfoutput>
-			<p class="mb-2">#borrows.recordcount# borrows not returned, #dueCount# overdue or due within 30 days.</p>
-			<cfif dueCount GT 0>
-				<details>
-					<summary><strong>Overdue or due within 30 days</strong> (#dueCount#)</summary>
-					<ul class="small mb-1">
-						<cfloop query="borrows">
-							<cfif isDate(borrows.due_date) AND borrows.due_date LT dateAdd("d", 30, now())>
-								<li><a href="/transactions/Borrow.cfm?action=edit&transaction_id=#borrows.transaction_id#">#encodeForHtml(borrows.borrow_number)#</a>
-									#encodeForHtml(borrows.borrow_status)#, due #dateFormat(borrows.due_date, "yyyy-mm-dd")#</li>
-							</cfif>
-						</cfloop>
-					</ul>
-				</details>
-			</cfif>
+			<p class="mb-2">
+				#borrows.recordcount# borrows not returned.
+				<cfif arrayLen(longOverdue) + arrayLen(overdue) EQ 0><span class="badge badge-success">None overdue</span></cfif>
+			</p>
+			#dueItemsHtml("Overdue more than a year", longOverdue, "badge-danger")#
+			#dueItemsHtml("Overdue", overdue, "badge-warning")#
+			#dueItemsHtml("Due within 30 days", dueSoon, "badge-secondary")#
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>
@@ -343,7 +400,9 @@ limitations under the License.
 </cffunction>
 
 <!---
-	getDeaccessionsHtml the Collection Panel widget listing a collection's deaccessions that aren't closed.
+	getDeaccessionsHtml the Collection Panel widget listing a collection's open and in process
+	deaccessions, and closed deaccessions with items whose current container isn't within an external
+	container (such as Deaccessioned), where deaccessioned material is expected to be placed.
 
 	@param collection_id the collection to report on.
 	@return HTML for the widget body.
@@ -353,6 +412,8 @@ limitations under the License.
 	<cfset var html = "">
 	<cfset var deaccessions = "">
 	<cfset var deaccessions_result = "">
+	<cfset var misplaced = "">
+	<cfset var misplaced_result = "">
 	<cfset requireCuratorialAssociate()>
 	<cfquery name="deaccessions" datasource="uam_god" result="deaccessions_result">
 		SELECT
@@ -361,19 +422,59 @@ limitations under the License.
 			JOIN trans ON deaccession.transaction_id = trans.transaction_id
 		WHERE
 			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
-			AND lower(deaccession.deacc_status) NOT LIKE 'closed%'
+			AND deaccession.deacc_status <> 'closed'
 		ORDER BY trans.trans_date
+	</cfquery>
+	<cfquery name="misplaced" datasource="uam_god" result="misplaced_result">
+		WITH deaccessioned_containers AS (
+			SELECT container_id
+			FROM container
+			START WITH container_type = 'external'
+			CONNECT BY PRIOR container_id = parent_container_id
+		)
+		SELECT
+			trans.transaction_id, deaccession.deacc_number, deaccession.deacc_type,
+			count(*) AS items,
+			sum(CASE WHEN deaccessioned_containers.container_id IS NULL THEN 1 ELSE 0 END) AS not_placed
+		FROM deaccession
+			JOIN trans ON deaccession.transaction_id = trans.transaction_id
+			JOIN deacc_item ON deaccession.transaction_id = deacc_item.transaction_id
+			LEFT JOIN coll_obj_cont_hist ON deacc_item.collection_object_id = coll_obj_cont_hist.collection_object_id
+				AND coll_obj_cont_hist.current_container_fg = 1
+			LEFT JOIN deaccessioned_containers ON coll_obj_cont_hist.container_id = deaccessioned_containers.container_id
+		WHERE
+			trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+			AND deaccession.deacc_status = 'closed'
+		GROUP BY trans.transaction_id, deaccession.deacc_number, deaccession.deacc_type
+		HAVING sum(CASE WHEN deaccessioned_containers.container_id IS NULL THEN 1 ELSE 0 END) > 0
+		ORDER BY deaccession.deacc_number
 	</cfquery>
 	<cfsavecontent variable="html">
 		<cfoutput>
-			<p class="mb-2">#deaccessions.recordcount# deaccessions not closed.</p>
+			<p class="mb-2">#deaccessions.recordcount# deaccessions open or in process.</p>
 			<cfif deaccessions.recordcount GT 0>
-				<ul class="small mb-1">
-					<cfloop query="deaccessions">
-						<li><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessions.transaction_id#">#encodeForHtml(deaccessions.deacc_number)#</a>
-							#encodeForHtml(deaccessions.deacc_type)#, #encodeForHtml(deaccessions.deacc_status)#, started #dateFormat(deaccessions.trans_date, "yyyy-mm-dd")#</li>
-					</cfloop>
-				</ul>
+				<details class="mb-1">
+					<summary><strong>Open or in process</strong> <span class="badge badge-secondary">#deaccessions.recordcount#</span></summary>
+					<ul class="small mb-1">
+						<cfloop query="deaccessions">
+							<li><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessions.transaction_id#">#encodeForHtml(deaccessions.deacc_number)#</a>
+								#encodeForHtml(deaccessions.deacc_type)#, #encodeForHtml(deaccessions.deacc_status)#, started #dateFormat(deaccessions.trans_date, "yyyy-mm-dd")#</li>
+						</cfloop>
+					</ul>
+				</details>
+			</cfif>
+			<cfif misplaced.recordcount EQ 0>
+				<p class="mb-0 small"><span class="badge badge-success">OK</span> All items of closed deaccessions are in a deaccessioned container.</p>
+			<cfelse>
+				<details class="mb-1">
+					<summary><strong>Closed, with items not in a deaccessioned container</strong> <span class="badge badge-warning">#misplaced.recordcount#</span></summary>
+					<ul class="small mb-1">
+						<cfloop query="misplaced">
+							<li><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#misplaced.transaction_id#">#encodeForHtml(misplaced.deacc_number)#</a>
+								#encodeForHtml(misplaced.deacc_type)#, #misplaced.not_placed# of #misplaced.items# items not in a deaccessioned container</li>
+						</cfloop>
+					</ul>
+				</details>
 			</cfif>
 		</cfoutput>
 	</cfsavecontent>

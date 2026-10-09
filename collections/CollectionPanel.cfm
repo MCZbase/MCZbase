@@ -100,7 +100,7 @@ limitations under the License.
 		<div class="col-12 col-xl-6 mb-3">
 			<div class="card h-100">
 				<div class="card-header">
-					<h2 class="h4 mb-0">Open Deaccessions</h2>
+					<h2 class="h4 mb-0">Deaccessions</h2>
 				</div>
 				<div class="card-body" id="deaccessionsWidget">
 					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
