@@ -509,19 +509,6 @@ function addLabel (n) {
 	var cc=document.getElementById('number_of_labels');
 	cc.value=parseInt(cc.value)+1;
 }
-function tog_AgentRankDetail(toState){
-	if(toState==1){
-		document.getElementById('agentRankDetails').style.display='block';
-		jQuery('#t_agentRankDetails').text('Hide Details').removeAttr('onclick').bind("click", function() {
-			tog_AgentRankDetail(0);
-		});
-	} else {
-		document.getElementById('agentRankDetails').style.display='none';
-		jQuery('#t_agentRankDetails').text('Show Details').removeAttr('onclick').bind("click", function() {
-			tog_AgentRankDetail(1);
-		});
-	}
-}
 function loadAgentRankSummary(targetId,agentId) {
    jQuery.getJSON("/component/functions.cfc",
       {
@@ -546,28 +533,6 @@ function loadAgentRankSummary(targetId,agentId) {
          }
       }
    );
-}
-function saveAgentRank(){
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "saveAgentRank",
-			agent_id : $('#agent_id').val(),
-			agent_rank : $('#agent_rank').val(),
-			remark : $('#remark').val(),
-			transaction_type : $('#transaction_type').val(),
-			returnformat : 'json',
-			queryformat : 'column'
-		},
-		function (data) {
-			if(data.length>0 && data.substring(0,4)=='fail'){
-				alert(data);
-				$('#saveAgentRankFeedback').append(d);
-			} else {
-				var ih = 'Thank you for adding an agent rank.';
-				$('#saveAgentRankFeedback').append(ih);
-			}
-		}
-	);
 }
 function pickThis (fld,idfld,display,aid) {
 	document.getElementById(fld).value=display;
