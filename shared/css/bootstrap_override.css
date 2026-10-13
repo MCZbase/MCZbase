@@ -25,6 +25,28 @@ a:focus {
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
 }
+/* Site-wide keyboard focus ring: same look on every control and in every browser.
+   Browsers each draw their own default, and older rules here suppress it (outline: 0) and
+   substitute a pale 25-40% blue box-shadow that fails 3:1 (WCAG 1.4.11). !important is
+   deliberate: it lets this one rule override the ~30 competing :focus rules in our CSS
+   and Bootstrap's .btn:focus / .form-control:focus without editing each one.
+   #3e6f7d: 5.6:1 on white, 4.7:1 on even Tabulator rows, 3.5:1 on row hover. */
+:focus-visible {
+	outline: 2px solid #3e6f7d !important;
+	outline-offset: 2px !important;
+	box-shadow: none !important;
+}
+/* Dark header bands: #3e6f7d is 1.3:1 on Harvard crimson, so use white there. */
+.harvard_banner :focus-visible,
+nav.navbar-harvard :focus-visible,
+.branding-container :focus-visible,
+.bg-black :focus-visible {
+	outline-color: #fff !important;
+}
+/* The Tabulator scroll body clips anything drawn outside it, so draw its ring inside. */
+.tabulator-tableholder:focus-visible {
+	outline-offset: -2px !important;
+}
 a:active {
 	color: #0460c1;
 }

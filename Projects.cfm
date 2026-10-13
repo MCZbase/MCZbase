@@ -225,6 +225,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		display: inline-flex;
 		align-items: center;
 		flex-wrap: wrap;
+		margin-top: .25rem;
+		margin-bottom: .25rem;
 	}
 
 	/* row-gap applies between wrapped flex lines and nowhere else, so controls that fall
@@ -238,6 +240,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		margin-left: .5rem;
 		padding-left: .75rem;
 		border-left: 1px solid rgba(0, 0, 0, .18);
+	}
+
+	/* Slightly under .h4's 1rem, so the heading and the grid controls share one line at
+	   100% zoom on a ~1600px window. Outranks .h4 by the added scope. */
+	.mcz-results-toolbar h1 {
+		font-size: .95rem;
 	}
 
 	/* Below xl (Bootstrap's 1200px), give each group its own full-width line, so the row
@@ -567,8 +575,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								</span>
 								<!--- Rows: selecting them, and getting them out. --->
 								<span class="mcz-toolbar-group">
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export CSV</button>
+									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export Excel</button>
 									<!--- Outer span carries the show/hide; the flex class sits on the inner one
 									      (d-inline-flex is !important and would beat display:none). --->
 									<span id="exportSelectedOnlyContainer" style="display:none;">
