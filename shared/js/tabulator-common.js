@@ -1092,9 +1092,48 @@ function mczUseTableRoles(table) {
  * operable from the keyboard, and gives it an accessible name. Call on "tableBuilt",
  * and again after anything that rebuilds a column header (e.g. updateDefinition).
  *
+ * The menu the ⋮ opens is finished by mczSetUpOpenMenu: it opens below the ⋮, focus
+ * moves into it, it works from the keyboard, and focus returns to the ⋮ when it closes.
+ *
  * @param table the Tabulator instance.
  */
 function mczMakeHeaderMenuButtonsAccessible(table) {
+	/* Once per table: this function runs again whenever headers are rebuilt. */
+	if (!table.mczMenuEventsBound) {
+		table.mczMenuEventsBound = true;
+		table.on("menuOpened", function () {
+			if (table.mczMenuOpener && document.body.contains(table.mczMenuOpener)) {
+				mczSetUpOpenMenu(table.mczMenuOpener);
+			}
+		});
+		table.on("menuClosed", function () {
+			var opener = table.mczMenuOpener;
+			table.mczMenuOpener = null;
+			if (!opener) {
+				return;
+			}
+			/* After the chosen action has run: leave focus alone if the action moved it
+			   (e.g. opened the Select Columns dialog); otherwise it was on a menu item that
+			   is now gone, so return it to the ⋮ -- or to the grid, if the action hid that
+			   column and took its ⋮ with it. */
+			setTimeout(function () {
+				var active = document.activeElement;
+				if (active && active !== document.body && document.body.contains(active)) {
+					return;
+				}
+				/* getClientRects is empty once hidden: a hidden column keeps its ⋮ in the
+				   page, but it can no longer take focus. */
+				if (document.body.contains(opener) && opener.getClientRects().length) {
+					opener.focus();
+				} else {
+					var holder = table.element.querySelector(".tabulator-tableholder");
+					if (holder) {
+						holder.focus();
+					}
+				}
+			}, 0);
+		});
+	}
 	table.getColumns().forEach(function (column) {
 		var title = column.getDefinition().title;
 		var button = column.getElement().querySelector(".tabulator-header-popup-button");
@@ -1113,5 +1152,94 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 				button.click();
 			}
 		});
+		/* Remember which ⋮ opened the menu, for menuOpened/menuClosed above. Capture
+		   phase, at the header, because Tabulator's own click listener on the ⋮ stops the
+		   click going any further. Nothing is changed about the click itself. */
+		column.getElement().addEventListener("click", function (e) {
+			if (button.contains(e.target)) {
+				table.mczMenuOpener = button;
+			}
+		}, true);
 	});
+}
+
+/**
+ * mczSetUpOpenMenu finishes the Tabulator menu a ⋮ has just opened.
+ *
+ * Position: Tabulator places the menu at the click's coordinates. A click from the
+ * keyboard, or from a screen reader, has none, so the menu opened at the page's top left.
+ * It is moved to just below the ⋮ whatever opened it, which for a mouse click is where it
+ * already was.
+ *
+ * Keyboard (WAI-ARIA APG menu pattern): Tabulator renders the menu as plain divs that
+ * cannot take focus, and its own Escape check compares e.key to 27, so never matches.
+ * Focus starts on the first item; Up/Down (wrapping) and Home/End move; Enter or Space
+ * chooses; Escape or Tab closes, and focus goes back to the ⋮.
+ *
+ * @param button the ⋮ that opened the menu.
+ */
+function mczSetUpOpenMenu(button) {
+	var menus = document.querySelectorAll(".tabulator-menu");
+	var menu = menus[menus.length - 1];
+	if (!menu || menu.getAttribute("role")) {
+		return;
+	}
+	var parent = menu.offsetParent || document.body;
+	var buttonRect = button.getBoundingClientRect();
+	var parentRect = parent.getBoundingClientRect();
+	var scrollTop = parent === document.body ? 0 : parent.scrollTop;
+	var scrollLeft = parent === document.body ? 0 : parent.scrollLeft;
+	menu.style.top = (buttonRect.bottom - parentRect.top + scrollTop) + "px";
+	menu.style.left = (buttonRect.left - parentRect.left + scrollLeft) + "px";
+
+	menu.setAttribute("role", "menu");
+	menu.querySelectorAll(".tabulator-menu-separator").forEach(function (separator) {
+		separator.setAttribute("role", "separator");
+	});
+	var items = Array.prototype.slice.call(menu.querySelectorAll(".tabulator-menu-item"));
+	items.forEach(function (item) {
+		item.setAttribute("role", "menuitem");
+		item.setAttribute("tabindex", "-1");
+		if (item.classList.contains("tabulator-menu-item-disabled")) {
+			item.setAttribute("aria-disabled", "true");
+		}
+	});
+	var enabled = items.filter(function (item) {
+		return !item.classList.contains("tabulator-menu-item-disabled");
+	});
+	if (!enabled.length) {
+		return;
+	}
+	menu.addEventListener("keydown", function (e) {
+		var index = enabled.indexOf(document.activeElement);
+		var next = null;
+		switch (e.key) {
+			case "ArrowDown": next = enabled[(index + 1) % enabled.length]; break;
+			case "ArrowUp": next = enabled[(index - 1 + enabled.length) % enabled.length]; break;
+			case "Home": next = enabled[0]; break;
+			case "End": next = enabled[enabled.length - 1]; break;
+			case "Enter":
+			case " ":
+				e.preventDefault();
+				e.stopPropagation();
+				if (index >= 0) {
+					enabled[index].click();
+				}
+				return;
+			case "Escape":
+			case "Tab":
+				e.preventDefault();
+				e.stopPropagation();
+				/* Tabulator closes the menu on a click on the menu itself -- at once, unlike
+				   its outside-click close, which only starts listening 100ms after opening. */
+				menu.click();
+				return;
+			default:
+				return;
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		next.focus();
+	});
+	enabled[0].focus();
 }
