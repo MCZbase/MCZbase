@@ -258,6 +258,8 @@ limitations under the License.
 			Anything encrypted with the id below uses currentCfid(), the new one; cookie.cfid still holds
 			the old one until the browser's next request. --->
 		<cfset sessionRotate()>
+		<!--- onRequestStart gave the full lifetime to the session replaced here, not to the new one --->
+		<cfset session.setMaxInactiveInterval(javaCast("long", round(getApplicationSettings().sessionTimeout * 86400)))>
 		<cfif isDefined("recordLoginSuccess")>
 			<cfset recordLoginSuccess(username)>
 		</cfif>

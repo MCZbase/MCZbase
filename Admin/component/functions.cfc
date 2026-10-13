@@ -243,7 +243,7 @@ limitations under the License.
 	<cfset var sessionsReturned = "">
 	<cfset var sessionLifetime = "">
 	<cfset var html = "">
-	<!--- ColdFusion sessions last three hours (Application.cfc sessionTimeout) --->
+	<!--- a session that is used again, as every logged in one is, lasts three hours (Application.cfc sessionTimeout) --->
 	<cfset var SESSION_HOURS = 3>
 	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 		<cfthrow message="Not authorized">

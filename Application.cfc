@@ -25,6 +25,10 @@ limitations under the License.
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
 	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
+	<!--- A new session lasts five minutes, until the client comes back with it (onRequestStart), so a
+		crawler that keeps no cookies leaves only a short lived session behind. --->
+	<cfset variables.NEW_SESSION_SECONDS = 300>
+	<cfset variables.SESSION_SECONDS = round(This.sessionTimeout * 86400)>
 	<!--- Pages that only forward to another page.  The forwarded request can't find a session these
 		start, as its cookie hasn't reached the browser, and starts a second one; so these start none. --->
 	<cfset variables.FORWARD_ONLY_PAGES = "/index.cfm,/agents/index.cfm,/dataquality/index.cfm,/localities/index.cfm,/media/index.cfm,/metrics/index.cfm,/metrics/datafiles/index.cfm,/shared/images/index.cfm,/specimens/index.cfm,/transactions/index.cfm,/users/index.cfm,/vocabularies/index.cfm">
@@ -206,7 +210,6 @@ limitations under the License.
 		</cfloop>
 
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
-		<cfset Application.session_timeout=90 /><!--- in minutes --->
 		<cfset Application.ajax_timeout=60 /><!--- in seconds, for ajax calls for search/browse --->
 		<cfset Application.query_timeout=55 /><!--- in seconds, for cfquery for search/browse --->
 		<cfset Application.short_timeout=5 /><!--- in seconds, for cfquery that should complete rapidly --->
@@ -442,6 +445,7 @@ limitations under the License.
 		<cfset initSession() />
 		<!--- onSessionStart runs ahead of onRequestStart in the same request --->
 		<cfset request.sessionIsNew = true>
+		<cfset session.setMaxInactiveInterval(javaCast("long", variables.NEW_SESSION_SECONDS))>
 		<cfset sessionStats().started.incrementAndGet()>
 		<!--- TEMPORARY: what starts sessions, to be removed before merging.  No session ids are logged. --->
 		<cfset local.forwardedFrom = getPageContext().getRequest().getAttribute("jakarta.servlet.forward.request_uri")>
@@ -512,14 +516,18 @@ limitations under the License.
 			<cfset initSession() />
 		</cfif>
 		<!--- A client that never sends the session back, such as a crawler that keeps no cookies, never
-			reaches this.  Locked as a page's AJAX requests come back together. --->
-		<cfif NOT structKeyExists(request, "sessionIsNew") AND NOT structKeyExists(session, "sessionReturned")>
-			<cflock scope="Session" type="exclusive" timeout="5">
-				<cfif NOT structKeyExists(session, "sessionReturned")>
-					<cfset session.sessionReturned = true>
-					<cfset sessionStats().returned.incrementAndGet()>
-				</cfif>
-			</cflock>
+			reaches this, and its session ends after NEW_SESSION_SECONDS. --->
+		<cfif NOT structKeyExists(request, "sessionIsNew")>
+			<cfset session.setMaxInactiveInterval(javaCast("long", variables.SESSION_SECONDS))>
+			<!--- locked as a page's AJAX requests come back together --->
+			<cfif NOT structKeyExists(session, "sessionReturned")>
+				<cflock scope="Session" type="exclusive" timeout="5">
+					<cfif NOT structKeyExists(session, "sessionReturned")>
+						<cfset session.sessionReturned = true>
+						<cfset sessionStats().returned.incrementAndGet()>
+					</cfif>
+				</cflock>
+			</cfif>
 		</cfif>
 		<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 		<cfif currentPath contains "/CustomTags/" OR
