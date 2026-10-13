@@ -1057,18 +1057,31 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			if (e.key === "Enter" || e.key === " ") {
 				e.preventDefault();
 				e.stopPropagation();
-				/* Not button.click(): Tabulator places the menu at the click's coordinates,
-				   and a scripted click has none, so the menu opened at the page's top left.
-				   A click carrying the button's own position opens it below the button. */
-				var rect = button.getBoundingClientRect();
-				button.dispatchEvent(new MouseEvent("click", {
-					bubbles: true,
-					cancelable: true,
-					view: window,
-					clientX: rect.left,
-					clientY: rect.bottom
-				}));
+				button.click();
 			}
 		});
+		/* Tabulator places the menu at the click's page coordinates. A click that did not
+		   come from a mouse -- button.click() above, or a screen reader activating the
+		   button (NVDA's Enter in browse mode never reaches the keydown handler) -- has
+		   none, so the menu opened at the page's top left. Caught on the way down, at the
+		   column header, before Tabulator's own listener on the button sees it, and sent
+		   on again with the button's own position so the menu opens below it. detail is 0
+		   for a non-mouse click and 1 for the replacement, which this lets through. */
+		column.getElement().addEventListener("click", function (e) {
+			if (e.detail !== 0 || !button.contains(e.target)) {
+				return;
+			}
+			e.stopPropagation();
+			e.preventDefault();
+			var rect = button.getBoundingClientRect();
+			button.dispatchEvent(new MouseEvent("click", {
+				bubbles: true,
+				cancelable: true,
+				view: window,
+				detail: 1,
+				clientX: rect.left,
+				clientY: rect.bottom
+			}));
+		}, true);
 	});
 }
