@@ -159,6 +159,19 @@ limitations under the License.
 	<cfset variables.isMixed = true>
 </cfif>
 
+<!--- Include the templates that contains functions used to load portions of this page --->
+<cfinclude template="/specimens/component/public.cfc">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
+<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
+<!--- Ahead of the header, so a record the user may not see shows its error page in this request: a forward
+	to it would start a second session for a client without a session cookie. --->
+<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#", pageShowsRefusal = true)>
+<cfif structKeyExists(request, "specimenRefusalPage")>
+	<cfinclude template="#request.specimenRefusalPage#">
+	<cfabort>
+</cfif>
+
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle plus page metadata and call the header to reflect this ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #header.collection# collection; #header.scientific_name#; #header.higher_geog#; #header.spec_locality#; #header.typestatusplain#">
@@ -183,13 +196,7 @@ limitations under the License.
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
 
-<!--- (4) Display the summary/type bar for the record --->
-<!--- Include the templates that contains functions used to load portions of this page --->
-<cfinclude template="/specimens/component/public.cfc">
-<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
-<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
-<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
-<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
+<!--- (4) Display the summary/type bar for the record, obtained above --->
 <cfoutput>
 <div id="specimenDetailsPageContent">
 <div id="specimenSummaryHeaderDiv">

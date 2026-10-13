@@ -37,6 +37,9 @@ limitations under the License.
 
 <cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<!--- true from a page that shows the error page itself, named in request.specimenRefusalPage, rather
+		than have this forward to it --->
+	<cfargument name="pageShowsRefusal" type="boolean" required="no" default="false">
 	
 	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#">
 		<cfoutput>
@@ -382,6 +385,10 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getSummaryHeaderThread" />
 	<cfif structKeyExists(getSummaryHeaderThread, "forwardTo")>
+		<cfif arguments.pageShowsRefusal>
+			<cfset request.specimenRefusalPage = getSummaryHeaderThread.forwardTo>
+			<cfreturn "">
+		</cfif>
 		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
 		<cfabort>
 	</cfif>
