@@ -1022,8 +1022,9 @@ function mczHeaderFilterLabel(columnTitle) {
  *   change that). The ⋮ and the filter box are moved out, in the accessibility tree only,
  *   with aria-owns, to a group just before the grid. On screen and in the Tab order
  *   nothing moves.
- * - The header is its own Tab stop, so it is read and shows a focus ring separately from
- *   the ⋮; on a sortable column, Enter or Space sorts, as a click does.
+ * - The header itself is not made a Tab stop: in a role="grid", focus on a header puts
+ *   NVDA into focus mode, which turns off its table commands (Ctrl+Alt+arrows). From
+ *   the keyboard, sort from the ⋮ menu.
  * - The ⋮ (Tabulator renders it as a plain <span>) becomes a named, focusable button
  *   that Enter or Space opens.
  *
@@ -1076,16 +1077,6 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			return;
 		}
 		header.setAttribute("data-mcz-accessible", "true");
-		header.setAttribute("tabindex", "0");
-		if (header.classList.contains("tabulator-sortable")) {
-			header.addEventListener("keydown", function (e) {
-				/* Only the header itself: Enter in its filter box or on its ⋮ bubbles here. */
-				if (e.target === header && (e.key === "Enter" || e.key === " ")) {
-					e.preventDefault();
-					header.click();
-				}
-			});
-		}
 		var button = header.querySelector(".tabulator-header-popup-button");
 		if (!button) {
 			return;
