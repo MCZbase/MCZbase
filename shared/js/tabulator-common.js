@@ -1034,6 +1034,59 @@ function mczHeaderFilterLabel(columnTitle) {
 }
 
 /**
+ * mczUseTableRoles marks a read-only results grid up as a data table for screen readers:
+ * role="table" instead of Tabulator's role="grid", and role="cell" instead of
+ * "gridcell" (gridcell is not valid inside a table). Rows and column headers keep their
+ * roles. Call on "tableBuilt".
+ *
+ * Why (NVDA 2026 + Chrome, Projects.cfm, Oct 2026): with role="grid", NVDA's T found no
+ * table at all, table navigation (Ctrl+Alt+arrows) would not start from the header row
+ * ("not in a table cell"), and focus on a header control switched NVDA to focus mode.
+ * role="grid" promises an application-style widget with arrow-key cell navigation, which
+ * Tabulator does not provide for a read-only grid.
+ *
+ * Tabulator creates cells, with role="gridcell", each time it renders rows -- paging,
+ * sorting, filtering, scrolling -- so a MutationObserver relabels them as they appear.
+ * One observer per element: a page that rebuilds its table in the same element reuses it.
+ *
+ * @param table the Tabulator instance.
+ */
+function mczUseTableRoles(table) {
+	var element = table.element;
+	function relabel(node) {
+		if (node.nodeType !== 1) {
+			return;
+		}
+		var role = node.getAttribute("role");
+		if (role === "grid") {
+			node.setAttribute("role", "table");
+		} else if (role === "gridcell") {
+			node.setAttribute("role", "cell");
+		}
+		node.querySelectorAll('[role="grid"], [role="gridcell"]').forEach(relabel);
+	}
+	relabel(element);
+	if (element.mczTableRoleObserver) {
+		return;
+	}
+	element.mczTableRoleObserver = new MutationObserver(function (mutations) {
+		mutations.forEach(function (mutation) {
+			if (mutation.type === "attributes") {
+				relabel(mutation.target);
+			} else {
+				mutation.addedNodes.forEach(relabel);
+			}
+		});
+	});
+	element.mczTableRoleObserver.observe(element, {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeFilter: ["role"]
+	});
+}
+
+/**
  * mczMakeHeaderMenuButtonsAccessible makes each column's header menu button (the ⋮
  * that headerMenu adds, which Tabulator renders as a plain <span>) reachable and
  * operable from the keyboard, and gives it an accessible name. Call on "tableBuilt",
