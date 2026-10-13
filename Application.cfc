@@ -31,6 +31,13 @@ limitations under the License.
 	<cfif listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
 		<cfset This.SessionManagement="False" />
 	</cfif>
+	<!--- The load balancer's health check never returns a session, so it gets none, and onRequestStart
+		answers it without running the page.  Anything else sending this user agent gets only that answer. --->
+	<cfset variables.isHealthCheck = false>
+	<cfif left(cgi.http_user_agent, 17) EQ "ELB-HealthChecker">
+		<cfset variables.isHealthCheck = true>
+		<cfset This.SessionManagement="False" />
+	</cfif>
 	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
 		host to be served over https, as a browser will not return the cookie over http. --->
@@ -448,6 +455,22 @@ limitations under the License.
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onRequestStart" returnType="boolean" output="true">
+		<cfset var healthCheck = "">
+		<cfset var healthCheck_result = "">
+		<!--- healthy when ColdFusion answers and the database responds, as when the check loaded / --->
+		<cfif variables.isHealthCheck>
+			<cftry>
+				<cfquery name="healthCheck" datasource="cf_dbuser" result="healthCheck_result" timeout="5">
+					SELECT 1 FROM dual
+				</cfquery>
+				<cfcontent type="text/plain" reset="true">OK
+			<cfcatch>
+				<cfheader statuscode="503" statustext="Service Unavailable">
+				<cfcontent type="text/plain" reset="true">Database not responding
+			</cfcatch>
+			</cftry>
+			<cfreturn false />
+		</cfif>
 		<!--- uncomment for a break from googlebot ---->
 		<!----
 			<cfif cgi.HTTP_USER_AGENT contains "bot" or cgi.HTTP_USER_AGENT contains "slurp" or cgi.HTTP_USER_AGENT contains "spider">
