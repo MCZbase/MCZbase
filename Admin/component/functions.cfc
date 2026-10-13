@@ -304,7 +304,7 @@ limitations under the License.
 					<cfif len(sessionsStarted) GT 0>
 						since #dateTimeFormat(sessionsSince, "yyyy-mm-dd HH:nn")#: #sessionsStarted#,
 						of which #sessionsReturned# were used again after their first request
-						(each browser is one session, however many pages it visits or times it logs in).
+						(each browser is counted once, however many pages it visits or times it logs in).
 					<cfelse>
 						not yet counted.
 					</cfif>
