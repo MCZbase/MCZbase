@@ -37,30 +37,10 @@ function mczRegisterTabulatorInstance(table) {
  * hijacking the browser's native selection (window.getSelection()) for its own cell-
  * focus tracking, on one specific table instance.
  *
- * The module's initializeFocus(cell) method (confirmed against source) does two
+ * The module's initializeFocus(cell) method does two
  * things: calls restoreFocus() (just table.rowManager.element.focus(), needed for
  * keyboard arrow-key navigation between cells) and, separately, wraps a cell's DOM
- * element in a native Range and adds it via window.getSelection().addRange(). Manual
- * testing traced a real bug to that second part: once a table has done this even once
- * (including just auto-focusing the first cell with no click at all), a later,
- * separately-built Tabulator instance on the same page -- even one with no selection
- * module enabled -- can no longer support native drag-to-select-text, and this
- * persists until a full page reload. Neither an explicit
- * window.getSelection().removeAllRanges() nor a capture-phase event interceptor
- * (both tried first) fixed it, and no matching issue turned up in Tabulator's own
- * issue tracker, so rather than clean up after the fact, this replaces
- * initializeFocus on the instance (shadowing the class's prototype method for this
- * table only, standard JS prototype-shadowing -- every rebuilt table needs this
- * called again, same as any other per-instance setup here) with a version that keeps
- * the restoreFocus() call but skips the native-selection manipulation entirely, since
- * this app has its own CSS-based selection highlighting and doesn't rely on that
- * native selection for anything.
- *
- * Safe to call on any table regardless of whether SelectRange is actually active --
- * every module is always instantiated, just not necessarily initialized, so
- * table.modules.selectRange exists either way.
- *
- * @param table the Tabulator instance to patch.
+ * element in a native Range and adds it via window.getSelection().addRange(). 
  */
 function mczPreventSelectRangeNativeSelection(table) {
 	if (table && table.modules && table.modules.selectRange) {
@@ -74,8 +54,7 @@ function mczPreventSelectRangeNativeSelection(table) {
  * mczClearStaleRangeSelectionClass removes the "tabulator-ranges" CSS class from a
  * table's container element.
  *
- * Root cause of a real bug (confirmed against source, not a guess): Tabulator's
- * SelectRange module adds "tabulator-ranges" to the container element the first time
+ * Tabulator's SelectRange module adds "tabulator-ranges" to the container element the first time
  * cell/range selection initializes (`classList.add("tabulator-ranges")`), and nothing
  * in the library ever removes it again -- not on destroy(), not on tableDestroyed().
  * The bundled theme CSS has `.tabulator.tabulator-ranges .tabulator-cell:not(.tabulator-
@@ -84,10 +63,8 @@ function mczPreventSelectRangeNativeSelection(table) {
  * tabulator_overrides.css). So once a container has ever hosted a range-selection-mode
  * table, native text selection stays impossible for every table rebuilt into that same
  * container afterward, including plain "text" mode ones, until a full page reload
- * clears the DOM. Call this right after destroy()ing the old instance and before
+ * clears the DOM. Call this right after destroying the old instance and before
  * constructing the next one on the same container.
- *
- * @param container a DOM element, or a jQuery/CSS selector string for one.
  */
 function mczClearStaleRangeSelectionClass(container) {
 	jQuery(container).removeClass("tabulator-ranges");
@@ -1039,9 +1016,12 @@ function mczHeaderFilterLabel(columnTitle) {
  * a column header (e.g. updateDefinition).
  *
  * For each column with a title:
- * - The header is named by its title alone. Its name is otherwise built from everything
- *   inside it, the ⋮ button's label included, and a screen reader repeats that name with
- *   every cell: "Column options for Sponsor(s), Sponsor(s)".
+ * - The header holds only its title, for screen readers. NVDA reads a cell's column
+ *   name from the header's contents, ⋮ and filter box included, so every cell was read
+ *   "Column options for Sponsor(s), Sponsor(s)" (an aria-label on the header did not
+ *   change that). The ⋮ and the filter box are moved out, in the accessibility tree only,
+ *   with aria-owns, to a group just before the grid. On screen and in the Tab order
+ *   nothing moves.
  * - The header is its own Tab stop, so it is read and shows a focus ring separately from
  *   the ⋮; on a sortable column, Enter or Space sorts, as a click does.
  * - The ⋮ (Tabulator renders it as a plain <span>) becomes a named, focusable button
@@ -1096,7 +1076,6 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			return;
 		}
 		header.setAttribute("data-mcz-accessible", "true");
-		header.setAttribute("aria-label", title);
 		header.setAttribute("tabindex", "0");
 		if (header.classList.contains("tabulator-sortable")) {
 			header.addEventListener("keydown", function (e) {
@@ -1131,6 +1110,40 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			}
 		}, true);
 	});
+	mczMoveHeaderControlsOutOfHeaders(table);
+}
+
+/**
+ * mczMoveHeaderControlsOutOfHeaders takes each column's ⋮ and filter box out of its
+ * header in the accessibility tree, so a screen reader reading a cell names the column
+ * by its title alone. aria-owns on a group just before the grid adopts them, in column
+ * order; the DOM, the layout and the Tab order are unchanged. Rebuilt on every call, as
+ * headers (and so these controls) can be rebuilt.
+ *
+ * @param table the Tabulator instance.
+ */
+function mczMoveHeaderControlsOutOfHeaders(table) {
+	var ids = [];
+	table.element.querySelectorAll(".tabulator-col").forEach(function (header) {
+		header.querySelectorAll(".tabulator-header-popup-button, .tabulator-header-filter input").forEach(function (control) {
+			if (!control.id) {
+				mczMoveHeaderControlsOutOfHeaders.counter = (mczMoveHeaderControlsOutOfHeaders.counter || 0) + 1;
+				control.id = "mczHeaderControl" + mczMoveHeaderControlsOutOfHeaders.counter;
+			}
+			ids.push(control.id);
+		});
+	});
+	/* Found by position, not kept on the table object: a page that rebuilds its table in
+	   the same element (Projects.cfm on a Grid Select change) reuses the same group. */
+	var owner = table.element.previousElementSibling;
+	if (!owner || !owner.classList.contains("mcz-header-controls")) {
+		owner = document.createElement("div");
+		owner.className = "mcz-header-controls";
+		owner.setAttribute("role", "group");
+		owner.setAttribute("aria-label", "Column options and filters");
+		table.element.parentNode.insertBefore(owner, table.element);
+	}
+	owner.setAttribute("aria-owns", ids.join(" "));
 }
 
 /**
