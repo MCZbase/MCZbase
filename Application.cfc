@@ -429,6 +429,15 @@ limitations under the License.
 		<!--- onSessionStart runs ahead of onRequestStart in the same request --->
 		<cfset request.sessionIsNew = true>
 		<cfset sessionStats().started.incrementAndGet()>
+		<!--- TEMPORARY: what starts sessions, to be removed before merging.  No session ids are logged. --->
+		<cfset local.forwardedFrom = getPageContext().getRequest().getAttribute("jakarta.servlet.forward.request_uri")>
+		<cfif isNull(local.forwardedFrom)>
+			<cfset local.forwardedFrom = getPageContext().getRequest().getAttribute("javax.servlet.forward.request_uri")>
+		</cfif>
+		<cfif isNull(local.forwardedFrom)>
+			<cfset local.forwardedFrom = "">
+		</cfif>
+		<cflog file="MCZbaseSessions" type="information" text="new session: #clientAddress()# #cgi.request_method# #cgi.script_name# forwarded from [#local.forwardedFrom#] sent a CFID cookie [#findNoCase('CFID=', cgi.http_cookie) GT 0#] user agent [#left(cgi.http_user_agent, 200)#]">
 	</cffunction>
 	<!-------------------------------------------------------------->
 
