@@ -6,6 +6,10 @@
 	<cflocation url="/users/changePassword.cfm">
 </cfif>
 <cfset filePath = replace('#cgi.script_name#','//','/') >
+<!--- Application.cfc refuseRequest includes /errors/forbidden.cfm into a refused request, so check the page shown --->
+<cfif structKeyExists(request, "rolecheckPath")>
+	<cfset filePath = request.rolecheckPath>
+</cfif>
 <cfif fileexists(application.webDirectory & filePath)>
 	<!---  Find all of the roles specified for the given filePath (requested page) --->
 	<!---  Note, if you've just added a new page and requested it before adding permissions to cf_form_permissions, 

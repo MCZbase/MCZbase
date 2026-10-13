@@ -447,6 +447,8 @@ limitations under the License.
 		as an event handler exception, losing its message and the 403.
 	--->
 	<cffunction name="refuseRequest" access="private" output="true" returntype="void">
+		<!--- the header's rolecheck would otherwise check the refused page and refuse with its own message --->
+		<cfset request.rolecheckPath = "/errors/forbidden.cfm">
 		<cftry>
 			<cfinclude template="/errors/forbidden.cfm">
 		<cfcatch type="Access_Violation">
