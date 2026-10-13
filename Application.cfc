@@ -480,10 +480,12 @@ limitations under the License.
 		<cfif not isdefined("application.blacklist")>
 			<cfset application.blacklist="" />
 		</cfif>
+		<!--- Refusals below include their page rather than forward to it or redirect: a forwarded or
+			redirected request from a client without a session cookie starts a second session. --->
 		<cfif listfindnocase(application.blacklist,clientAddress())>
 			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
 			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
-				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
+				<cfinclude template="/errors/gtfo.cfm">
 				<cfabort />
 			</cfif>
 		</cfif>
@@ -524,14 +526,15 @@ limitations under the License.
 		<cfif currentPath contains "/CustomTags/" OR
 			currentPath contains "/binary_stuff/" OR
 			currentPath contains "/log/">
-			<cfset r=replace(currentPath,application.webDirectory,"") />
-			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
+			<cfset url.ref=replace(currentPath,application.webDirectory,"") />
+			<cfinclude template="/errors/forbidden.cfm">
+			<cfabort />
 		</cfif>
 		<!--- Scheduled tasks run only for the ColdFusion scheduler, which calls them from this server, or for a
 			global_admin running one by hand: they send email and change data. --->
 		<cfif currentPath contains "/ScheduledTasks/" AND NOT isRequestFromThisServer()
 				AND NOT (isdefined("session.roles") AND listFindNoCase(session.roles, "global_admin"))>
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
+			<cfinclude template="/errors/forbidden.cfm">
 			<cfabort />
 		</cfif>
 		<!--- protect "us" directories --->
@@ -544,14 +547,14 @@ limitations under the License.
 			currentPath contains "/picks/" or
 			currentPath contains "/tools/")>
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
+			<cfinclude template="/errors/forbidden.cfm">
 			<cfabort />
 		</cfif>
 		<!--- coldfusion_user distinguishes a logged in account from a visitor: setDbUser gives
 			anything without it the portal's Oracle account. --->
 		<cfif (currentPath contains "/Reports/") and
 			(not isdefined("session.roles") or not listFindNoCase(session.roles,"coldfusion_user"))>
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
+			<cfinclude template="/errors/forbidden.cfm">
 			<cfabort />
 		</cfif>
 		<cfreturn true />
