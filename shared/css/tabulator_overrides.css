@@ -258,21 +258,3 @@ tabulator_bootstrap4.min.css so these rules win.
 .tabulator .tabulator-header-filter {
 	margin-top: 1px;
 }
-
-/* The column's ⋮ moved beside its filter box (mczMakeHeaderMenuButtonsAccessible), so the
-   box narrows to make room. flex-basis 0 rather than the input's own inline width: 100%,
-   which Tabulator sets and which would otherwise push the ⋮ off the end. */
-.tabulator .tabulator-header-filter.mcz-filter-with-menu {
-	display: flex;
-	align-items: center;
-}
-
-.tabulator .tabulator-header-filter.mcz-filter-with-menu input {
-	flex: 1 1 0%;
-	min-width: 0;
-}
-
-.tabulator .tabulator-header-filter.mcz-filter-with-menu .tabulator-header-popup-button {
-	flex: 0 0 auto;
-	padding: 0 4px 0 6px;
-}

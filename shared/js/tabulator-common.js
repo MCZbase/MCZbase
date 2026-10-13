@@ -37,10 +37,30 @@ function mczRegisterTabulatorInstance(table) {
  * hijacking the browser's native selection (window.getSelection()) for its own cell-
  * focus tracking, on one specific table instance.
  *
- * The module's initializeFocus(cell) method does two
+ * The module's initializeFocus(cell) method (confirmed against source) does two
  * things: calls restoreFocus() (just table.rowManager.element.focus(), needed for
  * keyboard arrow-key navigation between cells) and, separately, wraps a cell's DOM
- * element in a native Range and adds it via window.getSelection().addRange(). 
+ * element in a native Range and adds it via window.getSelection().addRange(). Manual
+ * testing traced a real bug to that second part: once a table has done this even once
+ * (including just auto-focusing the first cell with no click at all), a later,
+ * separately-built Tabulator instance on the same page -- even one with no selection
+ * module enabled -- can no longer support native drag-to-select-text, and this
+ * persists until a full page reload. Neither an explicit
+ * window.getSelection().removeAllRanges() nor a capture-phase event interceptor
+ * (both tried first) fixed it, and no matching issue turned up in Tabulator's own
+ * issue tracker, so rather than clean up after the fact, this replaces
+ * initializeFocus on the instance (shadowing the class's prototype method for this
+ * table only, standard JS prototype-shadowing -- every rebuilt table needs this
+ * called again, same as any other per-instance setup here) with a version that keeps
+ * the restoreFocus() call but skips the native-selection manipulation entirely, since
+ * this app has its own CSS-based selection highlighting and doesn't rely on that
+ * native selection for anything.
+ *
+ * Safe to call on any table regardless of whether SelectRange is actually active --
+ * every module is always instantiated, just not necessarily initialized, so
+ * table.modules.selectRange exists either way.
+ *
+ * @param table the Tabulator instance to patch.
  */
 function mczPreventSelectRangeNativeSelection(table) {
 	if (table && table.modules && table.modules.selectRange) {
@@ -54,7 +74,8 @@ function mczPreventSelectRangeNativeSelection(table) {
  * mczClearStaleRangeSelectionClass removes the "tabulator-ranges" CSS class from a
  * table's container element.
  *
- * Tabulator's SelectRange module adds "tabulator-ranges" to the container element the first time
+ * Root cause of a real bug (confirmed against source, not a guess): Tabulator's
+ * SelectRange module adds "tabulator-ranges" to the container element the first time
  * cell/range selection initializes (`classList.add("tabulator-ranges")`), and nothing
  * in the library ever removes it again -- not on destroy(), not on tableDestroyed().
  * The bundled theme CSS has `.tabulator.tabulator-ranges .tabulator-cell:not(.tabulator-
@@ -63,8 +84,10 @@ function mczPreventSelectRangeNativeSelection(table) {
  * tabulator_overrides.css). So once a container has ever hosted a range-selection-mode
  * table, native text selection stays impossible for every table rebuilt into that same
  * container afterward, including plain "text" mode ones, until a full page reload
- * clears the DOM. Call this right after destroying the old instance and before
+ * clears the DOM. Call this right after destroy()ing the old instance and before
  * constructing the next one on the same container.
+ *
+ * @param container a DOM element, or a jQuery/CSS selector string for one.
  */
 function mczClearStaleRangeSelectionClass(container) {
 	jQuery(container).removeClass("tabulator-ranges");
@@ -1011,84 +1034,25 @@ function mczHeaderFilterLabel(columnTitle) {
 }
 
 /**
- * mczMakeHeaderMenuButtonsAccessible makes the column headers usable from the keyboard
- * and with a screen reader. Call on "tableBuilt", and again after anything that rebuilds
- * a column header (e.g. updateDefinition).
- *
- * For each column with a title:
- * - The header holds only its title, for screen readers: the ⋮ and the filter box are
- *   given a row of their own just below it (see mczBuildHeaderControlsRow).
- * - The header itself is not made a Tab stop: in a role="grid", focus on a header puts
- *   NVDA into focus mode, which turns off its table commands (Ctrl+Alt+arrows). From
- *   the keyboard, sort from the ⋮ menu.
- * - The ⋮ (Tabulator renders it as a plain <span>) becomes a named, focusable button
- *   that Enter or Space opens.
- *
- * And for the menu the ⋮ opens (see mczSetUpOpenMenu): it opens below the ⋮, focus moves
- * into it, it works from the keyboard, and focus returns to the ⋮ when it closes.
+ * mczMakeHeaderMenuButtonsAccessible makes each column's header menu button (the ⋮
+ * that headerMenu adds, which Tabulator renders as a plain <span>) reachable and
+ * operable from the keyboard, and gives it an accessible name. Call on "tableBuilt",
+ * and again after anything that rebuilds a column header (e.g. updateDefinition).
  *
  * @param table the Tabulator instance.
  */
 function mczMakeHeaderMenuButtonsAccessible(table) {
-	/* Once per table: this function runs again whenever headers are rebuilt. */
-	if (!table.mczMenuEventsBound) {
-		table.mczMenuEventsBound = true;
-		table.on("menuOpened", function () {
-			if (table.mczMenuOpener && document.body.contains(table.mczMenuOpener)) {
-				mczSetUpOpenMenu(table.mczMenuOpener);
-			}
-		});
-		table.on("menuClosed", function () {
-			var opener = table.mczMenuOpener;
-			table.mczMenuOpener = null;
-			if (!opener) {
-				return;
-			}
-			/* After the chosen action has run: leave focus alone if the action moved it
-			   (e.g. opened the Select Columns dialog); otherwise it was on a menu item that
-			   is now gone, so return it to the ⋮ -- or to the grid, if the action hid that
-			   column and took its ⋮ with it. */
-			setTimeout(function () {
-				var active = document.activeElement;
-				if (active && active !== document.body && document.body.contains(active)) {
-					return;
-				}
-				/* getClientRects is empty once hidden: a hidden column keeps its ⋮ in the
-				   page, but it can no longer take focus. */
-				if (document.body.contains(opener) && opener.getClientRects().length) {
-					opener.focus();
-				} else {
-					var holder = table.element.querySelector(".tabulator-tableholder");
-					if (holder) {
-						holder.focus();
-					}
-				}
-			}, 0);
-		});
-	}
 	table.getColumns().forEach(function (column) {
 		var title = column.getDefinition().title;
-		var header = column.getElement();
-		if (!title || header.getAttribute("data-mcz-accessible")) {
+		var button = column.getElement().querySelector(".tabulator-header-popup-button");
+		if (!button || !title || button.getAttribute("data-mcz-accessible")) {
 			return;
 		}
-		header.setAttribute("data-mcz-accessible", "true");
-		var button = header.querySelector(".tabulator-header-popup-button");
-		if (!button) {
-			return;
-		}
+		button.setAttribute("data-mcz-accessible", "true");
 		button.setAttribute("role", "button");
 		button.setAttribute("tabindex", "0");
 		button.setAttribute("aria-label", "Column options for " + title);
 		button.setAttribute("aria-haspopup", "menu");
-		/* Beside the filter box, where there is one, rather than before the title: the
-		   column's controls sit together, and the title reads on its own. Tabulator's
-		   click listener moves with the element. Styled in tabulator_overrides.css. */
-		var filter = header.querySelector(".tabulator-header-filter");
-		if (filter && filter.querySelector("input")) {
-			filter.classList.add("mcz-filter-with-menu");
-			filter.appendChild(button);
-		}
 		button.addEventListener("keydown", function (e) {
 			if (e.key === "Enter" || e.key === " ") {
 				e.preventDefault();
@@ -1096,158 +1060,5 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 				button.click();
 			}
 		});
-		/* Remember which ⋮ opened the menu, for menuOpened/menuClosed above. Capture
-		   phase, at the header, because Tabulator's own click listener on the ⋮ stops the
-		   click going any further. Nothing is changed about the click itself. */
-		header.addEventListener("click", function (e) {
-			if (button.contains(e.target)) {
-				table.mczMenuOpener = button;
-			}
-		}, true);
 	});
-	if (!table.mczControlsRowEventsBound) {
-		table.mczControlsRowEventsBound = true;
-		/* The controls row needs one cell per visible column, in display order. */
-		table.on("columnVisibilityChanged", function () { mczBuildHeaderControlsRow(table); });
-		table.on("columnMoved", function () { mczBuildHeaderControlsRow(table); });
-	}
-	mczBuildHeaderControlsRow(table);
-}
-
-/**
- * mczBuildHeaderControlsRow gives screen readers a second header-area row, just below
- * the column titles, that holds each column's ⋮ and filter box, so the header row itself
- * holds only titles.
- *
- * Why: NVDA names a column, when it reads a cell, from the header's contents -- ⋮ and
- * filter included -- so every cell was read "Column options for Sponsor(s), Sponsor(s)",
- * and an aria-label on the header did not change that. Moving the controls out of the
- * table altogether (tried first) fixed that, but then Tabbing to a ⋮ or filter put NVDA
- * outside the table ("not in a table cell"), so table navigation could not start there.
- * In a row of their own the controls stay in the table, in their column: from a ⋮ or a
- * filter, Ctrl+Alt+Down reads down the column and Ctrl+Alt+Up reaches the title.
- *
- * How: aria-owns -- the technique Tabulator itself uses to attach the body rows to the
- * grid -- adopts the controls into the row's cells in the accessibility tree only. The
- * row is visually hidden; on screen, in the DOM layout and in the Tab order the controls
- * stay where they are. Rebuilt on every call (headers, hidden columns and column order
- * all change it).
- *
- * @param table the Tabulator instance.
- */
-function mczBuildHeaderControlsRow(table) {
-	var headerGroup = table.element.querySelector(".tabulator-header");
-	if (!headerGroup) {
-		return;
-	}
-	var row = headerGroup.querySelector(".mcz-header-controls-row");
-	if (!row) {
-		row = document.createElement("div");
-		row.className = "mcz-header-controls-row sr-only";
-		row.setAttribute("role", "row");
-		headerGroup.appendChild(row);
-	}
-	row.innerHTML = "";
-	/* Display order; a hidden column has no cells in the body rows, so none here either. */
-	table.getColumns().forEach(function (column) {
-		if (!column.isVisible()) {
-			return;
-		}
-		var header = column.getElement();
-		var ids = [];
-		header.querySelectorAll(".tabulator-header-popup-button, .tabulator-header-filter input").forEach(function (control) {
-			if (!control.id) {
-				mczBuildHeaderControlsRow.counter = (mczBuildHeaderControlsRow.counter || 0) + 1;
-				control.id = "mczHeaderControl" + mczBuildHeaderControlsRow.counter;
-			}
-			ids.push(control.id);
-		});
-		var cell = document.createElement("div");
-		cell.setAttribute("role", "gridcell");
-		if (ids.length) {
-			cell.setAttribute("aria-owns", ids.join(" "));
-		}
-		row.appendChild(cell);
-	});
-}
-
-/**
- * mczSetUpOpenMenu finishes the Tabulator menu a ⋮ has just opened.
- *
- * Position: Tabulator places the menu at the click's coordinates. A click from the
- * keyboard, or from a screen reader, has none, so the menu opened at the page's top left.
- * It is moved to just below the ⋮ whatever opened it, which for a mouse click is where it
- * already was.
- *
- * Keyboard (WAI-ARIA APG menu pattern): Tabulator renders the menu as plain divs that
- * cannot take focus, and its own Escape check compares e.key to 27, so never matches.
- * Focus starts on the first item; Up/Down (wrapping) and Home/End move; Enter or Space
- * chooses; Escape or Tab closes, and focus goes back to the ⋮.
- *
- * @param button the ⋮ that opened the menu.
- */
-function mczSetUpOpenMenu(button) {
-	var menus = document.querySelectorAll(".tabulator-menu");
-	var menu = menus[menus.length - 1];
-	if (!menu || menu.getAttribute("role")) {
-		return;
-	}
-	var parent = menu.offsetParent || document.body;
-	var buttonRect = button.getBoundingClientRect();
-	var parentRect = parent.getBoundingClientRect();
-	var scrollTop = parent === document.body ? 0 : parent.scrollTop;
-	var scrollLeft = parent === document.body ? 0 : parent.scrollLeft;
-	menu.style.top = (buttonRect.bottom - parentRect.top + scrollTop) + "px";
-	menu.style.left = (buttonRect.left - parentRect.left + scrollLeft) + "px";
-
-	menu.setAttribute("role", "menu");
-	menu.querySelectorAll(".tabulator-menu-separator").forEach(function (separator) {
-		separator.setAttribute("role", "separator");
-	});
-	var items = Array.prototype.slice.call(menu.querySelectorAll(".tabulator-menu-item"));
-	items.forEach(function (item) {
-		item.setAttribute("role", "menuitem");
-		item.setAttribute("tabindex", "-1");
-		if (item.classList.contains("tabulator-menu-item-disabled")) {
-			item.setAttribute("aria-disabled", "true");
-		}
-	});
-	var enabled = items.filter(function (item) {
-		return !item.classList.contains("tabulator-menu-item-disabled");
-	});
-	if (!enabled.length) {
-		return;
-	}
-	menu.addEventListener("keydown", function (e) {
-		var index = enabled.indexOf(document.activeElement);
-		var next = null;
-		switch (e.key) {
-			case "ArrowDown": next = enabled[(index + 1) % enabled.length]; break;
-			case "ArrowUp": next = enabled[(index - 1 + enabled.length) % enabled.length]; break;
-			case "Home": next = enabled[0]; break;
-			case "End": next = enabled[enabled.length - 1]; break;
-			case "Enter":
-			case " ":
-				e.preventDefault();
-				e.stopPropagation();
-				if (index >= 0) {
-					enabled[index].click();
-				}
-				return;
-			case "Escape":
-			case "Tab":
-				e.preventDefault();
-				e.stopPropagation();
-				/* Tabulator closes the menu on a click on the menu itself -- at once, unlike
-				   its outside-click close, which only starts listening 100ms after opening. */
-				menu.click();
-				return;
-			default:
-				return;
-		}
-		e.preventDefault();
-		e.stopPropagation();
-		next.focus();
-	});
-	enabled[0].focus();
 }

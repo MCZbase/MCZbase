@@ -43,12 +43,11 @@ nav.navbar-harvard :focus-visible,
 .bg-black :focus-visible {
 	outline-color: #fff !important;
 }
-/* Tabulator clips anything drawn outside these -- the scroll body, the title box
-   (overflow: hidden) around each header's column-options button, and the scrolling menu
-   that button opens -- so draw the ring inside them. */
+/* Tabulator clips anything drawn outside these -- the scroll body, and the title box
+   (overflow: hidden) around each header's column-options button -- so draw the ring
+   inside them. */
 .tabulator-tableholder:focus-visible,
-.tabulator-header-popup-button:focus-visible,
-.tabulator-menu-item:focus-visible {
+.tabulator-header-popup-button:focus-visible {
 	outline-offset: -2px !important;
 }
 a:active {
