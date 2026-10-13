@@ -1042,6 +1042,40 @@ function mczHeaderFilterLabel(columnTitle) {
  * @param table the Tabulator instance.
  */
 function mczMakeHeaderMenuButtonsAccessible(table) {
+	/* Once per table: this function runs again whenever headers are rebuilt. */
+	if (!table.mczMenuKeyboardBound) {
+		table.mczMenuKeyboardBound = true;
+		table.on("menuOpened", function () {
+			if (table.mczMenuOpener) {
+				mczMakeOpenMenuKeyboardOperable(table);
+			}
+		});
+		table.on("menuClosed", function () {
+			var opener = table.mczMenuOpener;
+			table.mczMenuOpener = null;
+			if (!opener) {
+				return;
+			}
+			/* After the chosen action has run: leave focus alone if the action moved it
+			   (e.g. opened the Select Columns dialog); otherwise it was on a menu item that
+			   is now gone, so return it to the ⋮ -- or to the grid, if the action hid that
+			   column and took its ⋮ with it. */
+			setTimeout(function () {
+				var active = document.activeElement;
+				if (active && active !== document.body && document.body.contains(active)) {
+					return;
+				}
+				if (document.body.contains(opener)) {
+					opener.focus();
+				} else {
+					var holder = table.element.querySelector(".tabulator-tableholder");
+					if (holder) {
+						holder.focus();
+					}
+				}
+			}, 0);
+		});
+	}
 	table.getColumns().forEach(function (column) {
 		var title = column.getDefinition().title;
 		var button = column.getElement().querySelector(".tabulator-header-popup-button");
@@ -1065,15 +1099,23 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 		   button (NVDA's Enter in browse mode never reaches the keydown handler) -- has
 		   none, so the menu opened at the page's top left. Caught on the way down, at the
 		   column header, before Tabulator's own listener on the button sees it, and sent
-		   on again with the button's own position so the menu opens below it. detail is 0
-		   for a non-mouse click and 1 for the replacement, which this lets through. */
+		   on again with the button's own position so the menu opens below it. Told apart
+		   by position, not by e.detail: Chrome marks a screen reader's click as a single
+		   click (detail 1), just with no position. A real mouse click, and the
+		   replacement, land on the button and pass straight through. */
 		column.getElement().addEventListener("click", function (e) {
-			if (e.detail !== 0 || !button.contains(e.target)) {
+			if (!button.contains(e.target)) {
+				return;
+			}
+			var rect = button.getBoundingClientRect();
+			if (e.clientX >= rect.left - 1 && e.clientX <= rect.right + 1 &&
+					e.clientY >= rect.top - 1 && e.clientY <= rect.bottom + 1) {
 				return;
 			}
 			e.stopPropagation();
 			e.preventDefault();
-			var rect = button.getBoundingClientRect();
+			/* Opened without a mouse, so the menu needs keyboard focus (menuOpened above). */
+			table.mczMenuOpener = button;
 			button.dispatchEvent(new MouseEvent("click", {
 				bubbles: true,
 				cancelable: true,
@@ -1084,4 +1126,71 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			}));
 		}, true);
 	});
+}
+
+/**
+ * mczMakeOpenMenuKeyboardOperable gives the Tabulator menu that has just opened the
+ * keyboard behaviour of a menu (WAI-ARIA APG menu pattern). Tabulator renders it as
+ * plain divs: nothing in it can take focus, and its own Escape check compares e.key to
+ * 27, so never matches. Up/Down (wrapping), Home/End move between items; Enter or Space
+ * chooses one; Escape or Tab closes the menu, and focus then returns to the ⋮ (see
+ * menuClosed in mczMakeHeaderMenuButtonsAccessible). Focus starts on the first item.
+ *
+ * @param table the Tabulator instance whose menu opened.
+ */
+function mczMakeOpenMenuKeyboardOperable(table) {
+	var menus = document.querySelectorAll(".tabulator-menu");
+	var menu = menus[menus.length - 1];
+	if (!menu || menu.getAttribute("role")) {
+		return;
+	}
+	menu.setAttribute("role", "menu");
+	menu.querySelectorAll(".tabulator-menu-separator").forEach(function (separator) {
+		separator.setAttribute("role", "separator");
+	});
+	var items = Array.prototype.slice.call(menu.querySelectorAll(".tabulator-menu-item"));
+	items.forEach(function (item) {
+		item.setAttribute("role", "menuitem");
+		item.setAttribute("tabindex", "-1");
+		if (item.classList.contains("tabulator-menu-item-disabled")) {
+			item.setAttribute("aria-disabled", "true");
+		}
+	});
+	var enabled = items.filter(function (item) {
+		return !item.classList.contains("tabulator-menu-item-disabled");
+	});
+	if (!enabled.length) {
+		return;
+	}
+	menu.addEventListener("keydown", function (e) {
+		var index = enabled.indexOf(document.activeElement);
+		var next = null;
+		switch (e.key) {
+			case "ArrowDown": next = enabled[(index + 1) % enabled.length]; break;
+			case "ArrowUp": next = enabled[(index - 1 + enabled.length) % enabled.length]; break;
+			case "Home": next = enabled[0]; break;
+			case "End": next = enabled[enabled.length - 1]; break;
+			case "Enter":
+			case " ":
+				e.preventDefault();
+				e.stopPropagation();
+				if (index >= 0) {
+					enabled[index].click();
+				}
+				return;
+			case "Escape":
+			case "Tab":
+				e.preventDefault();
+				e.stopPropagation();
+				/* Tabulator closes the menu on any mousedown outside it. */
+				document.body.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+				return;
+			default:
+				return;
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		next.focus();
+	});
+	enabled[0].focus();
 }
