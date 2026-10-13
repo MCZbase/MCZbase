@@ -282,7 +282,7 @@ limitations under the License.
 	<cfset session.institutionlinkcolor = Application.institutionlinkcolor>
 </cfif>
 <header id="header" class="border-bottom">
-	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="Harvard University HARVARD.EDU">
