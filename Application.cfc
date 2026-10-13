@@ -399,9 +399,36 @@ limitations under the License.
 
 	<!-------------------------------------------------------------->
 
+	<!---
+		sessionStats counts sessions started and sessions that came back after their first request,
+		for the Admin Panel.  Created on first use, as onApplicationStart doesn't run again when new code
+		is deployed.
+
+		@return Application.sessionStats, with since, the time counting began, and started and returned,
+			java.util.concurrent.atomic.AtomicLong counters.
+	--->
+	<cffunction name="sessionStats" access="private" output="false" returntype="struct">
+		<cfif NOT structKeyExists(Application, "sessionStats")>
+			<cflock scope="Application" type="exclusive" timeout="5">
+				<cfif NOT structKeyExists(Application, "sessionStats")>
+					<cfset Application.sessionStats = {
+						since = now(),
+						started = createObject("java", "java.util.concurrent.atomic.AtomicLong").init(javaCast("long", 0)),
+						returned = createObject("java", "java.util.concurrent.atomic.AtomicLong").init(javaCast("long", 0))
+					}>
+				</cfif>
+			</cflock>
+		</cfif>
+		<cfreturn Application.sessionStats>
+	</cffunction>
+	<!-------------------------------------------------------------->
+
 	<cffunction name="onSessionStart" output="false">
 		<cfinclude template="/includes/functionLib.cfm">
 		<cfset initSession() />
+		<!--- onSessionStart runs ahead of onRequestStart in the same request --->
+		<cfset request.sessionIsNew = true>
+		<cfset sessionStats().started.incrementAndGet()>
 	</cffunction>
 	<!-------------------------------------------------------------->
 
@@ -440,6 +467,16 @@ limitations under the License.
 		<cfif not isdefined("session.roles")>
 			<cfinclude template="/includes/functionLib.cfm">
 			<cfset initSession() />
+		</cfif>
+		<!--- A client that never sends the session back, such as a crawler that keeps no cookies, never
+			reaches this.  Locked as a page's AJAX requests come back together. --->
+		<cfif NOT structKeyExists(request, "sessionIsNew") AND NOT structKeyExists(session, "sessionReturned")>
+			<cflock scope="Session" type="exclusive" timeout="5">
+				<cfif NOT structKeyExists(session, "sessionReturned")>
+					<cfset session.sessionReturned = true>
+					<cfset sessionStats().returned.incrementAndGet()>
+				</cfif>
+			</cflock>
 		</cfif>
 		<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 		<cfif currentPath contains "/CustomTags/" OR

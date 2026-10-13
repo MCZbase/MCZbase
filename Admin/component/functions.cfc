@@ -238,6 +238,10 @@ limitations under the License.
 	<cfset var getLocks = "">
 	<cfset var getLocks_result = "">
 	<cfset var sessionCount = "">
+	<cfset var sessionsSince = "">
+	<cfset var sessionsStarted = "">
+	<cfset var sessionsReturned = "">
+	<cfset var sessionLifetime = "">
 	<cfset var html = "">
 	<!--- ColdFusion sessions last three hours (Application.cfc sessionTimeout) --->
 	<cfset var SESSION_HOURS = 3>
@@ -276,6 +280,19 @@ limitations under the License.
 		<cfset sessionCount = "">
 	</cfcatch>
 	</cftry>
+	<!--- counted by Application.cfc; absent until the first new session since the application started --->
+	<cfif structKeyExists(Application, "sessionStats")>
+		<cfset sessionsSince = Application.sessionStats.since>
+		<cfset sessionsStarted = Application.sessionStats.started.get()>
+		<cfset sessionsReturned = Application.sessionStats.returned.get()>
+	</cfif>
+	<!--- how long this session may be idle before it ends; a method of ColdFusion's session scope object --->
+	<cftry>
+		<cfset sessionLifetime = session.getMaxInactiveInterval()>
+	<cfcatch>
+		<cfset sessionLifetime = "">
+	</cfcatch>
+	</cftry>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<ul class="mb-2">
@@ -283,6 +300,16 @@ limitations under the License.
 					(#listLen(valueList(getLogins.account_status))# with an Oracle account).</li>
 				<li>ColdFusion sessions on this server:
 					<cfif len(sessionCount) GT 0>#sessionCount#<cfelse>not available</cfif>.</li>
+				<li>New ColdFusion sessions
+					<cfif len(sessionsStarted) GT 0>
+						since #dateTimeFormat(sessionsSince, "yyyy-mm-dd HH:nn")#: #sessionsStarted#,
+						of which #sessionsReturned# came back after their first request.
+					<cfelse>
+						not yet counted.
+					</cfif>
+				</li>
+				<li>This session's lifetime (session.getMaxInactiveInterval()):
+					<cfif len(sessionLifetime) GT 0>#sessionLifetime#<cfelse>not available</cfif>.</li>
 				<li>Login locks:
 					<cfif getLocks.recordcount EQ 0>none<cfelse><cfloop query="getLocks">#getLocks.locked# #encodeForHtml(getLocks.lock_kind)#<cfif getLocks.currentRow LT getLocks.recordcount>, </cfif></cfloop></cfif>
 					(<a href="/Admin/AdminUsers.cfm?action=list&state=locked">Locked Account search</a>).</li>

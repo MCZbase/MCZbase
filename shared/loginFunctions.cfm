@@ -139,9 +139,10 @@ limitations under the License.
 	<cfset var sessionKey = "">
 	<cfoutput>
 	<!------------------------ logout ------------------------------------>
-	<!--- keep ColdFusion's own keys (cfid, cftoken, sessionid, urltoken), which identify the session --->
+	<!--- keep ColdFusion's own keys (cfid, cftoken, sessionid, urltoken), which identify the session,
+		and sessionReturned, so Application.cfc counts the session as returning only once --->
 	<cfloop list="#structKeyList(session)#" index="sessionKey">
-		<cfif NOT listFindNoCase("cfid,cftoken,sessionid,urltoken", sessionKey)>
+		<cfif NOT listFindNoCase("cfid,cftoken,sessionid,urltoken,sessionReturned", sessionKey)>
 			<cfset structDelete(session, sessionKey)>
 		</cfif>
 	</cfloop>
