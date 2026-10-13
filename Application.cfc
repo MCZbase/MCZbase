@@ -440,6 +440,23 @@ limitations under the License.
 	</cffunction>
 	<!-------------------------------------------------------------->
 
+	<!---
+		refuseRequest shows /errors/forbidden.cfm within this request, as a forward or redirect to it would
+		start a second session for a client without a session cookie, and ends the request.  The page's
+		Access_Violation is passed to onError here, as thrown out of onRequestStart ColdFusion would wrap it
+		as an event handler exception, losing its message and the 403.
+	--->
+	<cffunction name="refuseRequest" access="private" output="true" returntype="void">
+		<cftry>
+			<cfinclude template="/errors/forbidden.cfm">
+		<cfcatch type="Access_Violation">
+			<cfset onError(cfcatch, "onRequestStart")>
+		</cfcatch>
+		</cftry>
+		<cfabort />
+	</cffunction>
+	<!-------------------------------------------------------------->
+
 	<cffunction name="onSessionStart" output="false">
 		<cfinclude template="/includes/functionLib.cfm">
 		<cfset initSession() />
@@ -480,8 +497,7 @@ limitations under the License.
 		<cfif not isdefined("application.blacklist")>
 			<cfset application.blacklist="" />
 		</cfif>
-		<!--- Refusals below include their page rather than forward to it or redirect: a forwarded or
-			redirected request from a client without a session cookie starts a second session. --->
+		<!--- Refusals below show their page within this request (see refuseRequest). --->
 		<cfif listfindnocase(application.blacklist,clientAddress())>
 			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
 			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
@@ -527,15 +543,13 @@ limitations under the License.
 			currentPath contains "/binary_stuff/" OR
 			currentPath contains "/log/">
 			<cfset url.ref=replace(currentPath,application.webDirectory,"") />
-			<cfinclude template="/errors/forbidden.cfm">
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- Scheduled tasks run only for the ColdFusion scheduler, which calls them from this server, or for a
 			global_admin running one by hand: they send email and change data. --->
 		<cfif currentPath contains "/ScheduledTasks/" AND NOT isRequestFromThisServer()
 				AND NOT (isdefined("session.roles") AND listFindNoCase(session.roles, "global_admin"))>
-			<cfinclude template="/errors/forbidden.cfm">
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- protect "us" directories --->
 		<cfif NOT isRequestFromThisServer() and
@@ -547,15 +561,13 @@ limitations under the License.
 			currentPath contains "/picks/" or
 			currentPath contains "/tools/")>
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
-			<cfinclude template="/errors/forbidden.cfm">
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- coldfusion_user distinguishes a logged in account from a visitor: setDbUser gives
 			anything without it the portal's Oracle account. --->
 		<cfif (currentPath contains "/Reports/") and
 			(not isdefined("session.roles") or not listFindNoCase(session.roles,"coldfusion_user"))>
-			<cfinclude template="/errors/forbidden.cfm">
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<cfreturn true />
 	</cffunction>
