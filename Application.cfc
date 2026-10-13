@@ -28,15 +28,16 @@ limitations under the License.
 	<!--- Pages that only forward to another page.  The forwarded request can't find a session these
 		start, as its cookie hasn't reached the browser, and starts a second one; so these start none. --->
 	<cfset variables.FORWARD_ONLY_PAGES = "/index.cfm,/agents/index.cfm,/dataquality/index.cfm,/localities/index.cfm,/media/index.cfm,/metrics/index.cfm,/metrics/datafiles/index.cfm,/shared/images/index.cfm,/specimens/index.cfm,/transactions/index.cfm,/users/index.cfm,/vocabularies/index.cfm">
-	<cfif listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
-		<cfset This.SessionManagement="False" />
-	</cfif>
 	<!--- The load balancer's health check never returns a session, so it gets none, and onRequestStart
 		answers it without running the page.  Anything else sending this user agent gets only that answer. --->
 	<cfset variables.isHealthCheck = false>
 	<cfif left(cgi.http_user_agent, 17) EQ "ELB-HealthChecker">
 		<cfset variables.isHealthCheck = true>
+	</cfif>
+	<!--- Client management is off too, as it would still set CFID, CFTOKEN and CFGLOBALS cookies. --->
+	<cfif variables.isHealthCheck OR listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
 		<cfset This.SessionManagement="False" />
+		<cfset This.ClientManagement="False" />
 	</cfif>
 	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
