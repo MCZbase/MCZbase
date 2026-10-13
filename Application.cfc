@@ -25,6 +25,12 @@ limitations under the License.
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
 	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
+	<!--- Pages that only forward to another page.  The forwarded request can't find a session these
+		start, as its cookie hasn't reached the browser, and starts a second one; so these start none. --->
+	<cfset variables.FORWARD_ONLY_PAGES = "/index.cfm,/agents/index.cfm,/dataquality/index.cfm,/localities/index.cfm,/media/index.cfm,/metrics/index.cfm,/metrics/datafiles/index.cfm,/shared/images/index.cfm,/specimens/index.cfm,/transactions/index.cfm,/users/index.cfm,/vocabularies/index.cfm">
+	<cfif listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
+		<cfset This.SessionManagement="False" />
+	</cfif>
 	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
 		host to be served over https, as a browser will not return the cookie over http. --->
@@ -472,6 +478,10 @@ limitations under the License.
 			<cfabort />
 		<cfelse>
 			<cfscript>StructDelete(request, "fixAmp");</cfscript>
+		</cfif>
+		<!--- no session scope here; the page forwarded to runs onRequestStart again with its own --->
+		<cfif listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
+			<cfreturn true />
 		</cfif>
 		<cfif not isdefined("session.roles")>
 			<cfinclude template="/includes/functionLib.cfm">
