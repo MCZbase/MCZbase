@@ -244,7 +244,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 
 	/* Slightly under .h4's 1rem, so the heading and the grid controls share one line at
 	   100% zoom on a ~1600px window. Outranks .h4 by the added scope. */
-	.mcz-results-toolbar h1 {
+	.mcz-results-toolbar h2,
+	.mcz-results-toolbar .mcz-results-link {
 		font-size: .95rem;
 	}
 
@@ -522,22 +523,20 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
 					<!--- Symmetric padding, with align-items-center to centre the heading and the
 					      buttons on each other within it. --->
-					<!--- Announces the count when a new search finishes. Outside the toolbar, which
-					      is display:none until the first search: a live region must already be
-					      present and shown when its text changes, or it is not read. --->
-					<div id="resultsAnnouncement" class="sr-only" role="status"></div>
 					<div class="row mt-1 mb-0 border px-2 py-1 mx-0 align-items-center mcz-results-toolbar" style="background-color:#deebec;">
 						<!--- my-0: the bar's padding sets the vertical space; a margin here would add
 						      height and pull the heading off the centre line. --->
-						<!--- tabindex on the h1, not on "Results:" alone, so a screen reader reads the
-						      count with it. --->
-						<h1 class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
+						<!--- h2: "Search Projects" is the page's h1. tabindex on the heading, not on
+						      "Results:" alone, so a screen reader reads the count with it; a new search
+						      also moves focus here (mczHandleProjectsSearchResponse) so the count is
+						      read without going to look for it. "Link to this search" is a control,
+						      not part of the heading's text, so it sits in the controls beside it. --->
+						<h2 id="resultsHeading" class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
 							<span>Results: </span>
 							<span id="resultsMeta" style="display:none;">
 								<span class="pr-2 font-weight-normal" id="resultCount"></span>
-								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</span>
-						</h1>
+						</h2>
 						<!--- Line one, beside the heading: the search-form toggle, Save Search and the
 						      feedback Save Search writes. These belong with "Found N records" and "Link to
 						      this search" rather than with the grid's own controls below. --->
@@ -548,6 +547,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							<!--- The flex class sits on this inner div, never on the hide/show wrapper above:
 							      Bootstrap's d-flex is !important and would beat a plain inline display:none. --->
 							<div class="d-flex flex-wrap align-items-center">
+								<span id="resultLink" class="pr-2 mcz-results-link"></span>
 								<div id="showhide"></div>
 								<cfif oneOfUs EQ 1>
 									<button type="button" class="btn btn-xs btn-secondary m-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
@@ -665,9 +665,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   switching to All fires pageSizeChanged, which would overwrite it with true. */
 	var projectsSizeBeforeGrouping = null;
 	var projectsTotalRows = 0;
-	/* Set by searchProjects so only a new search announces its count -- not every page,
-	   size or sort change, which go through the same response handler. */
-	var projectsAnnounceCount = false;
+	/* Set by searchProjects so only a new search moves focus to the results heading --
+	   not every page, size or sort change, which go through the same response handler. */
+	var projectsFocusResults = false;
 	/* Set around a programmatic setPageSize so pageSizeChanged does not read it as the
 	   user's own choice. */
 	var projectsIgnoreNextPageSizeChange = false;
@@ -1107,15 +1107,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function mczHandleProjectsSearchResponse(response) {
 		var totalRows = response.last_row || 0;
-		var countText = "Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".";
-		$("##resultCount").text(countText);
-		if (projectsAnnounceCount) {
-			projectsAnnounceCount = false;
-			/* Emptied first, then filled after a pause: a screen reader ignores a live
-			   region whose text did not change, as when a new search finds the same count. */
-			$("##resultsAnnouncement").text("");
-			setTimeout(function () { $("##resultsAnnouncement").text(countText); }, 100);
-		}
+		$("##resultCount").text("Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".");
 		$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
 			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
 				.not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -1125,6 +1117,14 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		$("##resultsMeta").show();
 		$("##resultsHeadingControls").show();
 		$("##resultsToolbarControls").show();
+		/* A new search: put focus on the heading so a screen reader reads "Results: Found
+		   N project records." straight away. An aria-live region was tried first; NVDA held
+		   it back until focus moved. setTimeout lets Tabulator finish rendering the rows
+		   first, so nothing it does on render takes focus back. */
+		if (projectsFocusResults) {
+			projectsFocusResults = false;
+			setTimeout(function () { $("##resultsHeading").trigger("focus"); }, 0);
+		}
 		projectsTotalRows = totalRows;
 		if (projectsGroupField && totalRows > PROJECTS_GROUP_MAX_ROWS) {
 			clearProjectsGrouping("Grouping removed: " + totalRows + " rows is too many to group.");
@@ -1415,7 +1415,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		/* Cleared here rather than per request: Tabulator reloads on its own for paging,
 		   sizing and sorting, and those wiped messages written moments earlier. */
 		$("##actionFeedback").html("");
-		projectsAnnounceCount = true;
+		projectsFocusResults = true;
 		/* New results, so any held selection described the old ones. */
 		mczClearSelectionStore(projectsTable, projectsSelection, function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
