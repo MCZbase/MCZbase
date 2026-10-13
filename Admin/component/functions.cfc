@@ -243,8 +243,8 @@ limitations under the License.
 	<cfset var sessionsReturned = "">
 	<cfset var sessionLifetime = "">
 	<cfset var html = "">
-	<!--- a session that is used again, as every logged in one is, lasts three hours (Application.cfc sessionTimeout) --->
-	<cfset var SESSION_HOURS = 3>
+	<!--- a session that is used again, as every logged in one is, lasts this.sessionTimeout (Application.cfc), in days --->
+	<cfset var SESSION_HOURS = round(getApplicationMetadata().sessionTimeout * 24 * 100) / 100>
 	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 		<cfthrow message="Not authorized">
 	</cfif>
@@ -252,7 +252,7 @@ limitations under the License.
 		SELECT cf_users.username, cf_users.last_login, dba_users.account_status
 		FROM cf_users
 			LEFT JOIN dba_users ON upper(cf_users.username) = dba_users.username
-		WHERE cf_users.last_login > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SESSION_HOURS#"> / 24
+		WHERE cf_users.last_login > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="2" value="#SESSION_HOURS#"> / 24
 		ORDER BY cf_users.last_login DESC
 	</cfquery>
 	<cfquery name="getSessions" datasource="uam_god" result="getSessions_result">
