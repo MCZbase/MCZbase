@@ -52,14 +52,16 @@ limitations under the License.
 <!--- currentUserCanLoadPage test whether cf_rolecheck would let the current user load a page,
  so that a link to it is offered only when following it will succeed.  Applies the same rules
  as /CustomTags/rolecheck.cfm, against the same cf_form_permissions rows and cache period: no
- rows denies, rows of only "public" allow, otherwise every listed role is required.
+ rows denies, rows of only "public" allow, global_admin is allowed, otherwise every listed role is
+ required.
 
  For display only: use it to decide whether to show a link or button, never as access control
  for an action.  It reads a cached copy of the permissions and is not what admits a request;
  cf_rolecheck and each method's own role check do that, and must still guard the action.
 
  @param formPath the page path as cgi.script_name gives it, e.g. /annotations/Annotations.cfm.
- @return true if the current user holds every role cf_form_permissions lists for the page.
+ @return true if the current user is global_admin or holds every role cf_form_permissions lists
+	for the page.
  @see /CustomTags/rolecheck.cfm
 --->
 <cffunction name="currentUserCanLoadPage" returntype="boolean" access="public">
@@ -78,6 +80,9 @@ limitations under the License.
 	</cfif>
 	<cfif NOT isDefined("session.roles")>
 		<cfreturn false>
+	</cfif>
+	<cfif listFindNoCase(session.roles, "global_admin")>
+		<cfreturn true>
 	</cfif>
 	<cfloop query="pageRoles">
 		<cfif NOT listFindNoCase(session.roles, pageRoles.role_name)>
@@ -1382,21 +1387,6 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	<cfreturn result>
 </cffunction>
 
-
-<!--- Deliver html for a dialog to review and manage annotations on a cataloged item.
- Delegates to getAnnotationDialogHtml for a unified annotation dialog.
- @param collection_object_id the surrogate numeric primary key value for the cataloged_item.
- @return html for a dialog to review and manage annotations on a cataloged item.
---->
-<cffunction name="getReviewCIAnnotationHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfset var generatedDialogId = "reviewAnnotationsDialog_" & val(arguments.collection_object_id)>
-	<cfreturn getAnnotationDialogHtml(
-		target_type = "COLL_OBJECT",
-		target_id = val(arguments.collection_object_id),
-		dialogId = generatedDialogId
-	)>
-</cffunction>
 
 <!--- Update the review status and optional comment for an annotation.  Requires manage_collection.
  @param annotation_id the surrogate numeric primary key value for the annotation to be updated.

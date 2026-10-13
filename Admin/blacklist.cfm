@@ -1,6 +1,9 @@
 <cfset pageTitle = "Manage Blocklist">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
+<cfif NOT isDefined("isIpAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
 <cfoutput>
 	<main class="container py-3" id="content">
 		<h2 class="h3">Manage Blocklist</h2>
@@ -25,7 +28,7 @@
 				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
-					order by to_number(replace(ip,'.'))
+					order by ip
 				</cfquery>
 				<cfset application.blacklist=valuelist(all.ip)>
 				<h3 class="h4">The application.blacklist has been reloaded</h3>
@@ -60,7 +63,15 @@
 				<cfif NOT isPostWithCsrfToken()>
 					<cfthrow message="Adding to the blocklist requires a post from the blocklist form.">
 				</cfif>
-				<cfset variables.ip = form.ip>
+				<cfset variables.ip = trim(form.ip)>
+				<!--- one address per row: the blocklist matches whole addresses, and a pattern or list would never match --->
+				<cfif NOT isIpAddress(variables.ip)>
+					<cfthrow message="#encodeForHtml(variables.ip)# is not a single IPv4 or IPv6 address.">
+				</cfif>
+				<!--- as for the automatic blocklist: blocking a proxy or this server would block every user --->
+				<cfif isBlockExempt(variables.ip)>
+					<cfthrow message="#encodeForHtml(variables.ip)# is this server, a trusted proxy, or an exempt address, and can't be blocked.">
+				</cfif>
 				<cftry>
 				   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		   		   insert into blacklist 

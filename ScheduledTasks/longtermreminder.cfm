@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of long term loan code --->
 		<!---
@@ -67,7 +71,7 @@
 		<!--- loop once for each agent --->
 	<cfloop query="agent" startrow=1>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2025-01-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#"> and reminder_type = 'L' and date_sent > to_date('2025-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -294,7 +298,7 @@
 			<cfif specialmail EQ "noemails">
 				<cfset mailsubject = "ALERT: NO EXTERNAL CONTACTS | MCZbase Notification for Overdue Loans to " & #receivedby.agent_name#>
 			</cfif>
-			<cfmail 	to="#toaddresses#"
+			<cf_reminderMail 	to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu;heliumcell@gmail.com"
 						subject="#mailsubject#"
@@ -345,7 +349,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by
@@ -381,10 +385,13 @@
 				------
 				<br><br>
 
-				<cfquery name="upLogTable" datasource="uam_god">
-					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', <cfif specialmail NEQ "noemails">'#toaddresses#'<cfelse>'noemails'</cfif>)
-				</cfquery>
+				<!--- the log records reminders sent, so nothing is logged when nothing is sent --->
+				<cfif isLiveEmailServer()>
+					<cfquery name="upLogTable" datasource="uam_god">
+						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
+						values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">, 'L', <cfif specialmail NEQ "noemails"><cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toaddresses#"><cfelse>'noemails'</cfif>)
+					</cfquery>
+				</cfif>
 
 				</cfloop>
 				Approved Borrower: #receivedby.agent_name#
@@ -429,7 +436,7 @@
 				<BR>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 
 	</cfif>
 
@@ -447,7 +454,7 @@
 				select distinct collection from loanunderreview
 			</cfquery>
 
-			<cfmail 	to="#toaddresses#"
+			<cf_reminderMail 	to="#toaddresses#"
 						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="ALERT: OPEN UNDER-REVIEW | MCZbase Notification for Overdue Loans"
@@ -500,7 +507,7 @@
 						from
 							loan, loan_item, coll_object
 						where
-							loan.transaction_id=#transaction_id# and
+							loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 							loan.transaction_id = loan_item.transaction_id and
 							loan_item.collection_object_id = coll_object.collection_object_id
 						group by
@@ -536,10 +543,13 @@
 				------
 				<br><br>
 
-				<cfquery name="upLogTable" datasource="uam_god">
-					insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-					values(#agent.agent_id#, SYSDATE, #transaction_id#, 'L', 'under-review')
-				</cfquery>
+				<!--- the log records reminders sent, so nothing is logged when nothing is sent --->
+				<cfif isLiveEmailServer()>
+					<cfquery name="upLogTable" datasource="uam_god">
+						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
+						values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">, 'L', 'under-review')
+					</cfquery>
+				</cfif>
 
 				</cfloop>
 				Approved Borrower: #receivedby.agent_name#
@@ -572,7 +582,7 @@
 				<BR>
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 	</cfif>
 	</cfif>
 </cfloop>

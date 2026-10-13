@@ -29,7 +29,7 @@
 	<cfloop from="1" to="#numSiteMaps#" index="l">
 		<cfset thisFileName="specimen#l#.xml">
 		<cfquery name="i" datasource="uam_god">
-			insert into cf_sitemaps (filename) values ('#thisFileName#')
+			insert into cf_sitemaps (filename) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisFileName#">)
 		</cfquery>
 	</cfloop>
 	<cfquery name="t" datasource="uam_god">
@@ -39,7 +39,7 @@
 	<cfloop from="1" to="#numSiteMaps#" index="l">
 		<cfset thisFileName="taxonomy#l#.xml">
 		<cfquery name="i" datasource="uam_god">
-			insert into cf_sitemaps (filename) values ('#thisFileName#')
+			insert into cf_sitemaps (filename) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisFileName#">)
 		</cfquery>
 	</cfloop>
 	<cfquery name="t" datasource="uam_god">
@@ -49,7 +49,7 @@
 	<cfloop from="1" to="#numSiteMaps#" index="l">
 		<cfset thisFileName="publication#l#.xml">
 		<cfquery name="i" datasource="uam_god">
-			insert into cf_sitemaps (filename) values ('#thisFileName#')
+			insert into cf_sitemaps (filename) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisFileName#">)
 		</cfquery>
 	</cfloop>
 	<cfquery name="t" datasource="uam_god">
@@ -59,7 +59,7 @@
 	<cfloop from="1" to="#numSiteMaps#" index="l">
 		<cfset thisFileName="project#l#.xml">
 		<cfquery name="i" datasource="uam_god">
-			insert into cf_sitemaps (filename) values ('#thisFileName#')
+			insert into cf_sitemaps (filename) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisFileName#">)
 		</cfquery>
 	</cfloop>
 	<cfquery name="t" datasource="uam_god">
@@ -69,7 +69,7 @@
 	<cfloop from="1" to="#numSiteMaps#" index="l">
 		<cfset thisFileName="media#l#.xml">
 		<cfquery name="i" datasource="uam_god">
-			insert into cf_sitemaps (filename) values ('#thisFileName#')
+			insert into cf_sitemaps (filename) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisFileName#">)
 		</cfquery>
 	</cfloop>
 	<cfquery name="i" datasource="uam_god">
@@ -151,7 +151,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>
@@ -181,8 +181,8 @@
 					media 
 				order by media_id
 			) a
-		where rownum <= #maxRN#)
-		where rnum >=#minRN#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRN#">)
+		where rnum >=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minRN#">
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/#colls.filename#">
 	<cfset variables.encoding="UTF-8">
@@ -212,7 +212,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>
@@ -244,8 +244,8 @@
 					project.mask_project_fg = 0
 				order by niceURL(project_name)
 			) a
-		where rownum <= #maxRN#)
-		where rnum >=#minRN#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRN#">)
+		where rnum >=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minRN#">
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/#colls.filename#">
 	<cfset variables.encoding="UTF-8">
@@ -275,7 +275,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>
@@ -305,8 +305,8 @@
 					publication 
 				order by publication_id
 			) a
-		where rownum <= #maxRN#)
-		where rnum >=#minRN#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRN#">)
+		where rnum >=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minRN#">
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/#colls.filename#">
 	<cfset variables.encoding="UTF-8">
@@ -336,7 +336,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>
@@ -367,8 +367,8 @@
 				where scientific_name not like '?%'
 				order by scientific_name
 			) a
-		where rownum <= #maxRN#)
-		where rnum >=#minRN#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRN#">)
+		where rnum >=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minRN#">
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/#colls.filename#">
 	<cfset variables.encoding="UTF-8">
@@ -398,7 +398,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>
@@ -430,8 +430,8 @@
 				where guid is not null
 				order by guid
 			) a
-		where rownum <= #maxRN#)
-		where rnum >=#minRN#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRN#">)
+		where rnum >=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minRN#">
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/#colls.filename#">
 	<cfset variables.encoding="UTF-8">
@@ -462,7 +462,7 @@
 	</cfscript>
 	<cffile action="delete" file="#Application.webDirectory#/#colls.filename#">
 	<cfquery name="u" datasource="uam_god">
-		update cf_sitemaps set lastdate=sysdate where filename='#colls.filename#'
+		update cf_sitemaps set lastdate=sysdate where filename=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.filename#">
 	</cfquery>
 </cfoutput>
 </cfif>

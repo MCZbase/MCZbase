@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
@@ -37,7 +41,7 @@
 				<cfset toaddresses = "bhaley@oeb.harvard.edu">
 			</cfif>
 
-			<cfmail 	to="#toaddresses#"
+			<cf_reminderMail 	to="#toaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Expiring Encumbrance: #encumbrance#"
 						from="no_reply_encumbrance_notification@#Application.fromEmail#"
@@ -74,7 +78,7 @@
 
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 		</cfloop>
 	</cfoutput>
 <cfinclude template="/includes/_footer.cfm">

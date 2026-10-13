@@ -29,7 +29,7 @@ limitations under the License.
 <cfparam name="url.action" default="">
 
 <!--- Roles that grant administrative control over MCZbase or the database. --->
-<cfset variables.ADMINISTRATIVE_ROLES = "GLOBAL_ADMIN,DBA,MANAGE_COLLECTION">
+<cfset variables.ADMINISTRATIVE_ROLES = "GLOBAL_ADMIN,DBA,MANAGE_COLLECTION,CURATORIAL_ASSOCIATE">
 <!--- An account unused for this many days, that still holds roles, is listed for review. --->
 <cfset variables.STALE_DAYS = 365>
 <!--- Login history is meaningful only on production; elsewhere few people log in, so unused holders are not flagged in the roles table. --->
@@ -39,6 +39,8 @@ limitations under the License.
 <!--- A role held by at least this share of a role's open holders is expected of the others; only for roles with enough holders. --->
 <cfset variables.COMPANION_SHARE = 0.8>
 <cfset variables.COMPANION_MIN_HOLDERS = 5>
+<!--- Roles other than manage_ ones that let a holder change data, for ranking unused accounts. --->
+<cfset variables.CHANGE_ROLES = "DATA_ENTRY,COLLOPS">
 
 <cfquery name="getApplicationRoles" datasource="uam_god" result="getApplicationRoles_result">
 	SELECT upper(role_name) AS role_name, description
@@ -150,6 +152,55 @@ limitations under the License.
 	</cfloop>
 </cfloop>
 
+<!--- Accounts to review first: open accounts whose access goes unused or unowned, ranked by what they can do.
+	High: an administrative role, an admin_ role, or a role it can grant, on an account unused for over
+	STALE_DAYS days, never used, or with no MCZbase user.  Medium: an unused account that can still change data. --->
+<cfset variables.reviewFirst = arrayNew(1)>
+<cfloop list="#variables.accountOrder#" index="variables.grantee">
+	<cfset variables.account = variables.accounts[variables.grantee]>
+	<cfif variables.account.status EQ "OPEN">
+		<cfset variables.isStale = (len(variables.account.daysSinceLogin) EQ 0 OR variables.account.daysSinceLogin GT variables.STALE_DAYS)>
+		<cfset variables.noUser = (len(variables.account.mczbaseUsername) EQ 0)>
+		<cfset variables.powerRoles = "">
+		<cfset variables.changeRoles = "">
+		<cfloop collection="#variables.account.roles#" item="variables.role">
+			<cfif listFind(variables.ADMINISTRATIVE_ROLES, variables.role) GT 0 OR left(variables.role, 6) EQ "ADMIN_" OR variables.account.roles[variables.role].withAdmin>
+				<cfset variables.powerRoles = listAppend(variables.powerRoles, variables.role)>
+			<cfelseif left(variables.role, 7) EQ "MANAGE_" OR listFind(variables.CHANGE_ROLES, variables.role) GT 0>
+				<cfset variables.changeRoles = listAppend(variables.changeRoles, variables.role)>
+			</cfif>
+		</cfloop>
+		<cfset variables.lastSeen = "never logged in to MCZbase">
+		<cfif len(variables.account.daysSinceLogin) GT 0>
+			<cfset variables.lastSeen = "last logged in #variables.account.daysSinceLogin# days ago">
+		</cfif>
+		<cfset variables.staleDays = 999999>
+		<cfif len(variables.account.daysSinceLogin) GT 0>
+			<cfset variables.staleDays = variables.account.daysSinceLogin>
+		</cfif>
+		<cfif len(variables.powerRoles) GT 0 AND variables.noUser>
+			<cfset arrayAppend(variables.reviewFirst, { grantee = variables.grantee, priority = 1, staleDays = variables.staleDays,
+				roles = listSort(variables.powerRoles, "text"),
+				issue = "Database account with no MCZbase user holds administrative access",
+				action = "Find who uses this account; revoke the administrative roles, or drop the account if nobody does." })>
+		<cfelseif len(variables.powerRoles) GT 0 AND variables.isStale>
+			<cfset arrayAppend(variables.reviewFirst, { grantee = variables.grantee, priority = 1, staleDays = variables.staleDays,
+				roles = listSort(variables.powerRoles, "text"),
+				issue = "Unused account (#variables.lastSeen#) holds administrative access",
+				action = "Lock the account if the person has left; otherwise revoke the administrative roles until they are needed." })>
+		<cfelseif len(variables.changeRoles) GT 0 AND variables.isStale>
+			<cfset arrayAppend(variables.reviewFirst, { grantee = variables.grantee, priority = 2, staleDays = variables.staleDays,
+				roles = listSort(variables.changeRoles, "text"),
+				issue = "Unused account (#variables.lastSeen#) can still change data",
+				action = "Lock the account if the person has left; otherwise confirm the roles are still needed." })>
+		</cfif>
+	</cfif>
+</cfloop>
+<cfset arraySort(variables.reviewFirst, function(a, b) {
+	if (a.priority NEQ b.priority) { return sgn(a.priority - b.priority); }
+	return sgn(b.staleDays - a.staleDays);
+})>
+
 <!---
 	isCollectionRole test whether a role gives access to a collection's data.
 
@@ -173,6 +224,8 @@ limitations under the License.
 		<cfreturn "badge-danger">
 	<cfelseif left(arguments.role, 6) EQ "ADMIN_">
 		<cfreturn "badge-warning">
+	<cfelseif ucase(arguments.role) EQ "CURATORIAL_ASSOCIATE">
+		<cfreturn "badge-primary">
 	<cfelseif arguments.role EQ "MANAGE_COLLECTION">
 		<cfreturn "badge-info">
 	<cfelseif isCollectionRole(arguments.role)>
@@ -285,11 +338,72 @@ limitations under the License.
 				Accounts not used for over #variables.STALE_DAYS# days are flagged; administrative roles are #encodeForHtml(replace(variables.ADMINISTRATIVE_ROLES, ",", ", ", "all"))#.
 			</p>
 			<ul>
+				<li><a href="##reviewFirst">Review first</a>: #arrayLen(variables.reviewFirst)#</li>
 				<li><a href="##attention">Needs attention</a>: #arrayLen(variables.attention)#</li>
 				<li><a href="##byRole">Roles</a></li>
 				<li><a href="##roleToRole">Roles granted to roles</a>: #getRoleToRole.recordcount#</li>
 				<li><a href="##matrix">Users and roles</a></li>
 			</ul>
+		</div>
+	</section>
+
+	<section class="accordion mx-0 my-2" id="reviewFirst">
+		<div class="card mb-2 bg-light">
+			<div class="card-header" id="reviewFirstHeader">
+				<h2 class="h3 my-0">
+					<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##reviewFirstBody" aria-expanded="true" aria-controls="reviewFirstBody">
+						Review first (#arrayLen(variables.reviewFirst)#)
+					</button>
+				</h2>
+			</div>
+			<div id="reviewFirstBody" class="collapse show" aria-labelledby="reviewFirstHeader" data-parent="##reviewFirst">
+				<div class="card-body bg-white">
+					<p class="small">
+						Open accounts whose access is unused or has no MCZbase user, one row per account.
+						<span class="badge badge-danger font-weight-normal">High</span>: an administrative role (#encodeForHtml(lcase(replace(variables.ADMINISTRATIVE_ROLES, ",", ", ", "all")))#), an admin_ role, or a role it can grant to others, unused for over #variables.STALE_DAYS# days, never used, or with no MCZbase user.
+						<span class="badge badge-warning font-weight-normal">Medium</span>: unused, and can still change data (manage_ roles, #encodeForHtml(lcase(replace(variables.CHANGE_ROLES, ",", ", ", "all")))#).
+						<cfif NOT variables.IS_PRODUCTION>Login history is only meaningful on production.</cfif>
+					</p>
+					<cfif arrayLen(variables.reviewFirst) EQ 0>
+						<p class="font-italic">Nothing to review first.</p>
+					<cfelse>
+						<table class="table table-responsive d-xl-table table-sm table-striped sortable">
+							<thead class="thead-light">
+								<tr><th scope="col">Priority</th><th scope="col">Account</th><th scope="col">Name</th><th scope="col">Roles to review</th><th scope="col">Issue</th><th scope="col">Suggested action</th></tr>
+							</thead>
+							<tbody>
+								<cfloop array="#variables.reviewFirst#" index="variables.item">
+									<cfset variables.account = variables.accounts[variables.item.grantee]>
+									<cfset variables.priorityLabel = "Medium">
+									<cfset variables.priorityClass = "badge-warning">
+									<cfif variables.item.priority EQ 1>
+										<cfset variables.priorityLabel = "High">
+										<cfset variables.priorityClass = "badge-danger">
+									</cfif>
+									<tr>
+										<td sorttable_customkey="#variables.item.priority#"><span class="badge #variables.priorityClass# font-weight-normal">#variables.priorityLabel#</span></td>
+										<td>
+											<cfif len(variables.account.mczbaseUsername) GT 0>
+												<a href="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(variables.account.mczbaseUsername)#">#encodeForHtml(variables.item.grantee)#</a>
+											<cfelse>
+												#encodeForHtml(variables.item.grantee)#
+											</cfif>
+										</td>
+										<td>#encodeForHtml(variables.account.name)#</td>
+										<td>
+											<cfloop list="#variables.item.roles#" index="variables.role">
+												<span class="badge #roleBadgeClass(variables.role)# font-weight-normal mr-1">#encodeForHtml(lcase(variables.role))#</span>
+											</cfloop>
+										</td>
+										<td sorttable_customkey="#variables.item.staleDays#">#encodeForHtml(variables.item.issue)#</td>
+										<td class="small">#encodeForHtml(variables.item.action)#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+				</div>
+			</div>
 		</div>
 	</section>
 
@@ -472,6 +586,7 @@ limitations under the License.
 						One row per account, with its roles:
 						<span class="badge badge-danger font-weight-normal">dba, global_admin</span>
 						<span class="badge badge-warning font-weight-normal">admin_ roles</span>
+						<span class="badge badge-primary font-weight-normal">curatorial_associate</span>
 						<span class="badge badge-info font-weight-normal">manage_collection</span>
 						<span class="badge badge-success font-weight-normal">collection roles</span>
 						<span class="badge badge-dark font-weight-normal">connect</span>

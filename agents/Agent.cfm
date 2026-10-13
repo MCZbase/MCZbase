@@ -2335,8 +2335,12 @@ limitations under the License.
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
+										<!--- Table and column names cannot be bound; these come from the data dictionary, and
+											only plain identifiers are used. --->
 										<cfloop query="getFKFields">
-											<cfif getFKFields.delete_rule EQ "NO ACTION">
+											<cfif getFKFields.delete_rule EQ "NO ACTION"
+													AND REFind("^[A-Z][A-Z0-9_$##]*$", getFKFields.table_name) GT 0
+													AND REFind("^[A-Z][A-Z0-9_$##]*$", getFKFields.column_name) GT 0>
 												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRels_result">
 													SELECT count(*) as ct 
 													FROM #getFKFields.table_name#

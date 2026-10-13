@@ -874,7 +874,7 @@
 			<cfset l=1>
 			<cfloop list="#rauths#" index="a" delimiters="|">
 				<cfif l lte 5>
-					<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+					<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select * from (
 							select
 								preferred_agent_name.agent_name,
@@ -903,7 +903,7 @@
 							<cfset thisLastName=r.pre[1].PubmedArticle[1].MedlineCitation[1].Article[1].AuthorList[1].Author[l].LastName.xmltext>
 						</cfif>
 
-						<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,session.sessionKey)#">
+						<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select * from (
 								select
 									preferred_agent_name.agent_name,
@@ -985,20 +985,6 @@
 	</cfcatch>
 	</cftry>
 	<cfreturn "nocontrol">
-</cffunction>
-<!------------------------------------------------------->
-<cffunction name="kill_canned_search" access="remote">
-	<cfargument name="canned_id" type="numeric" required="yes">
-	<cftry>
-		<cfquery name="res" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from cf_canned_search where canned_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#canned_id#">
-		</cfquery>
-		<cfset result="#canned_id#">
-	<cfcatch>
-		<cfset result = "failure: #cfcatch.Message# #cfcatch.Detail#">
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="genMD5" access="remote">

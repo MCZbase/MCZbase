@@ -102,7 +102,7 @@ li.fontLocHG{
 			against sysdate gives this driver no column to resolve its type against, the same
 			position that breaks a bind inside a function call.  It is forced to a positive
 			integer above. --->
-		and GEOREF_UPDATED_DATE is not null and GEOREF_UPDATED_DATE > sysdate - #variables.filterTimeFrame#
+		and GEOREF_UPDATED_DATE is not null and GEOREF_UPDATED_DATE > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.filterTimeFrame#">
 		and GEOREF_UPDATED_DATE - CO.COLL_OBJECT_ENTERED_DATE > 1
 		<cfif len(variables.filterCollections) GT 0>
 			and l.locality_id in
@@ -179,7 +179,7 @@ li.fontLocHG{
               </ul>
             </div>
             <cfquery name="colls" dbtype="query">
-				select * from newgeorefs where locality_id = #localities.locality_id#
+				select * from newgeorefs where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localities.locality_id#">
 			</cfquery>
             <ul class="collsLoc fontColls">
               <li>Specimens in Collection(s):&nbsp;</li>

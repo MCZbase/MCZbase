@@ -258,8 +258,10 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
-<cfif isdefined("debug") and debug is true>
-	#preserveSingleQuotes(SqlString)#
+<!--- Shows the assembled statement, its values as bind tokens; administrators only, as it names the
+	session's results table and the shape of the search. --->
+<cfif isdefined("url.debug") and url.debug is true and isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+	#encodeForHtml(SqlString)#
 </cfif>
 <!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
 <!--- The results table is built in two statements rather than one CREATE TABLE ... AS SELECT.
@@ -453,6 +455,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
 			<a href="SpecimenResultsHTML.cfm?#encodeForHtml(mapurl)#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<!--- TODO: info/reportBadData.cfm can no longer file bugs, as Bugzilla no longer accepts bugs by email; replace this link with /info/bugs.cfm and remove that page. This page is linked from the loan reminder emails (ScheduledTasks/reminder.cfm, exhibitionreminder.cfm, tools/manualreminder.cfm), assess that use before changing it. --->
          <cfif isDefined("session.username") AND len(session.username) gt 0>
 				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
 			</cfif>

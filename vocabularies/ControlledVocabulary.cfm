@@ -1,7 +1,12 @@
 <cfoutput>
 <cfset pageTitle = "MCZbase Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
-<cfif not isdefined("table") OR len(table) EQ 0>
+<!--- Every table and column name interpolated below comes from the data dictionary (getCTName,
+	confirm) or from the columns of a query result, never from the request directly. --->
+<cfparam name="url.table" default="">
+<cfparam name="url.field" default="">
+<cfset table = url.table>
+<cfif len(table) EQ 0>
 	<div class="container my-3">
 		<div class="row">
 			<div class="col-12">
@@ -51,10 +56,8 @@
 
 	<cfset tableName = right(table,len(table)-2)>
 	
-	<cfif not isdefined("field")>
-		<!--- controlled vocabualry value to highlight --->
-		<cfset field="">
-	</cfif>
+	<!--- controlled vocabulary value to highlight --->
+	<cfset field = url.field>
 	
 	<cfquery name="confirm" datasource="uam_god">
 		SELECT
@@ -354,7 +357,7 @@
 				</cfquery>
 		
 				<cfif chosenOne.RecordCount EQ 0>
-					<h3>Warning: #field# is not a valid value for tableName</h3>
+					<h3>Warning: #encodeForHtml(field)# is not a valid value for #encodeForHtml(tableName)#</h3>
 				</cfif>
 			</cfif>
 

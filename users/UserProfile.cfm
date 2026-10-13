@@ -201,7 +201,13 @@ limitations under the License.
 							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
 							<div class="form-row">
 								<div class="col-12 col-md-6">
-									<h2 class="h3">Server Settings</h2>
+									<h2 class="h3">Server Settings
+										<cfif Application.protocol EQ "https">
+											<span class="badge badge-success">OK</span>
+										<cfelse>
+											<span class="badge badge-danger">Not https</span>
+										</cfif>
+									</h2>
 									<ul>
 										<li>Application.protocol: #Application.protocol#</li>
 										<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
@@ -228,16 +234,20 @@ limitations under the License.
 									GROUP BY stale_flag
 								</cfquery>
 								<div class="col-12 col-md-6">
-									<h2 class="h3">FLAT Table</h2>
+									<h2 class="h3">FLAT Table
+										<cfif flatstatus.recordcount EQ 1 AND flatstatus.stale_flag EQ 0>
+											<span class="badge badge-success">OK</span>
+										</cfif>
+									</h2>
 									<ul>
 										<cfloop query="flatstatus">
 											<cfset flattext = "">
 											<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
 											<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
 										</cfloop>
-									<ul>
+									</ul>
 								</div>
-							</div>		
+							</div>
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
 						<h3 class="h4">
@@ -564,6 +574,23 @@ limitations under the License.
 												},
 												)
 											};
+										</script>
+									</div>
+									<div class="form-row">
+										<div class="col-12 mb-2">
+											<div class="bg-light rounded border p-2">
+												<h3 class="h3">Your bug reports</h3>
+												<div id="myBugReportsDiv">
+													<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+												</div>
+												<button type="button" class="btn btn-xs btn-secondary" id="recheckBugReportsBtn" onClick="loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');" aria-describedby="recheckBugReportsHelp">Recheck Status</button>
+												<small id="recheckBugReportsHelp" class="text-muted">Can be rechecked once a minute.</small>
+											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												loadMyBugReports('myBugReportsDiv', false, 'recheckBugReportsBtn');
+											});
 										</script>
 									</div>
 								</cfif>

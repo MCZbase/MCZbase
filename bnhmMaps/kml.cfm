@@ -21,7 +21,7 @@
 	<cfset showUnaccepted=0>
 </cfif>
 <cfif not isdefined("userFileName")>
-	<cfset userFileName="kmlfile#cookie.cfid##cookie.cftoken#">
+	<cfset userFileName="kmlfile#session.DownloadFileID#">
 </cfif>
 <!--- userFileName names the files written to internalPath, so it must not contain a path. --->
 <cfif REFind("[/\\\x00-\x1F]", userFileName) GT 0 OR find("..", userFileName) GT 0>
@@ -323,7 +323,7 @@
 			from
 				data
 			where
-				scientific_name='#scientific_name#'
+				scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species.scientific_name#">
 			group by
 				dec_lat,
 				dec_long,
@@ -532,7 +532,7 @@
 			from
 				data
 			where
-				collection='#collection#'
+				collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln.collection#">
 			group by
 				dec_lat,
 				dec_long,

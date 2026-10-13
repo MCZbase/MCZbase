@@ -236,6 +236,9 @@
 	<cfset newQuery=0>
 <cfset newSearch = 1>
 </cfif>
+<!--- getBasic interpolates order_by into its order by clause.  The request's order_by is discarded
+	here and the list rebuilt only from the fixed column names below, chosen by matching groupBy, so
+	nothing from the request reaches it.  getBasic is a query of queries on SpecRes, not the database. --->
 <cfset order_by = "">
 <cfif listfindnocase(groupBy,"continent_ocean") GT 0>
 	 <cfif len(#order_by#) is 0>
@@ -335,7 +338,7 @@
 	<cfset order_order = "asc">
 </cfif>
 
-<cfset cfidAndToken = "#cookie.cfid##session.reencodedToken#">
+<cfset cfidAndToken = REReplace("#cookie.cfid##session.reencodedToken#", "[^A-Za-z0-9_]", "", "all")><!--- names in-memory queries; cookie.cfid comes from the browser --->
 <cfif isdefined("newSearch") and #newSearch# is 1>
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData

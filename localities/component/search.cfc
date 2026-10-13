@@ -42,6 +42,9 @@ limitations under the License.
  @return a struct with the properties pre, value, list, and post.
  @see setupNumericClause for numeric fields.
 --->
+<!--- setupClause and setupNumericClause return pre and post, interpolated into the where clauses
+	below, built only from the field argument and fixed operator text; every caller passes a literal column
+	or expression as field, and the value the caller supplied is returned separately and always bound. --->
 <cffunction name="setupClause" access="private" returntype="struct">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">

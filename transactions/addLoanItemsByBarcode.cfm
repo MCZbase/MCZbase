@@ -19,6 +19,11 @@ limitations under the License.
 --->
 <cfset pageTitle="Add Items to Loan">
 <cfinclude template="/shared/_header.cfm">
+<!--- TODO: Unfinished redesign, to be completed under Redmine 1017: the form posts to a loanByBarcode.cfm that does not exist under
+	/transactions/, so the page cannot save loan items.  Not available on production until it is finished. --->
+<cfif findNoCase('master',Session.gitBranch) GT 0>
+	<cfthrow message="Adding loan items by barcode is not yet available.">
+</cfif>
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
