@@ -225,8 +225,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		display: inline-flex;
 		align-items: center;
 		flex-wrap: wrap;
-		margin-top: .25rem;
-		margin-bottom: .25rem;
+		margin-top: 3px;
+		margin-bottom: 3px;
 	}
 
 	/* row-gap applies between wrapped flex lines and nowhere else, so controls that fall
@@ -544,7 +544,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							<div class="d-flex flex-wrap align-items-center">
 								<div id="showhide"></div>
 								<cfif oneOfUs EQ 1>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+									<button type="button" class="btn btn-xs btn-secondary m-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
 								<output id="actionFeedback" class="ml-1 my-0 small text-nowrap"></output>
