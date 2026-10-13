@@ -1053,11 +1053,6 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 		button.setAttribute("tabindex", "0");
 		button.setAttribute("aria-label", "Column options for " + title);
 		button.setAttribute("aria-haspopup", "menu");
-		/* The header's name is otherwise computed from everything inside it, button
-		   included, and a screen reader repeats that name for every cell in the column:
-		   "Column options for Sponsor(s), Sponsor(s)". An explicit label keeps it to the
-		   title; the button and filter inside stay reachable with their own names. */
-		column.getElement().setAttribute("aria-label", title);
 		button.addEventListener("keydown", function (e) {
 			if (e.key === "Enter" || e.key === " ") {
 				e.preventDefault();
