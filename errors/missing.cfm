@@ -401,24 +401,25 @@
 			<cfheader statuscode="301" statustext="Moved permanently">
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
+			<!--- 404.cfm is included, not forwarded to: a forwarded request from a client without a session
+				cookie starts a second session --->
+			<cfset forwardTo = "">
 			<cftry>
-				<cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
-					<cfscript>
-						getPageContext().forward("/errors/404.cfm");
-					</cfscript>
-				<cfelse>
-					<cfscript>
-						getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
-					</cfscript>
+				<cfif isSet(cgi.REDIRECT_URL) AND isSet(cgi.redirect_query_string)>
+					<cfset forwardTo = cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string>
 				</cfif>
-				<cfabort>
 			<cfcatch>
-				<cfscript>
-					getPageContext().forward("/errors/404.cfm");
-				</cfscript>
-				<cfabort>
+				<cfset forwardTo = "">
 			</cfcatch>
 			</cftry>
+			<cfif len(forwardTo) GT 0>
+				<cfscript>
+					getPageContext().forward(forwardTo);
+				</cfscript>
+			<cfelse>
+				<cfinclude template="/errors/404.cfm">
+			</cfif>
+			<cfabort>
 		</cfif>
 	</cfif>
 <cfelse>
