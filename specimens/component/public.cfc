@@ -29,7 +29,7 @@ limitations under the License.
 
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
