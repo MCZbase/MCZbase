@@ -286,7 +286,7 @@ limitations under the License.
 		<cfset sessionsStarted = Application.sessionStats.started.get()>
 		<cfset sessionsReturned = Application.sessionStats.returned.get()>
 	</cfif>
-	<!--- how long this session may be idle before it ends; a method of ColdFusion's session scope object --->
+	<!--- seconds this session may be idle before it ends; a method of ColdFusion's session scope object --->
 	<cftry>
 		<cfset sessionLifetime = session.getMaxInactiveInterval()>
 	<cfcatch>
@@ -310,7 +310,7 @@ limitations under the License.
 					</cfif>
 				</li>
 				<li>This session's lifetime (session.getMaxInactiveInterval()):
-					<cfif len(sessionLifetime) GT 0>#sessionLifetime#<cfelse>not available</cfif>.</li>
+					<cfif len(sessionLifetime) GT 0>#sessionLifetime# seconds (#round(sessionLifetime / 36) / 100# hours)<cfelse>not available</cfif>.</li>
 				<li>Login locks:
 					<cfif getLocks.recordcount EQ 0>none<cfelse><cfloop query="getLocks">#getLocks.locked# #encodeForHtml(getLocks.lock_kind)#<cfif getLocks.currentRow LT getLocks.recordcount>, </cfif></cfloop></cfif>
 					(<a href="/Admin/AdminUsers.cfm?action=list&state=locked">Locked Account search</a>).</li>
