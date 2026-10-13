@@ -522,11 +522,17 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				<div class="col-12 mb-5 px-0 pr-md-3 pr-xl-4 pl-xl-3">
 					<!--- Symmetric padding, with align-items-center to centre the heading and the
 					      buttons on each other within it. --->
+					<!--- Announces the count when a new search finishes. Outside the toolbar, which
+					      is display:none until the first search: a live region must already be
+					      present and shown when its text changes, or it is not read. --->
+					<div id="resultsAnnouncement" class="sr-only" role="status"></div>
 					<div class="row mt-1 mb-0 border px-2 py-1 mx-0 align-items-center mcz-results-toolbar" style="background-color:#deebec;">
 						<!--- my-0: the bar's padding sets the vertical space; a margin here would add
 						      height and pull the heading off the centre line. --->
-						<h1 class="h4 ml-2 ml-md-1 my-0 px-2">
-							<span tabindex="0">Results: </span>
+						<!--- tabindex on the h1, not on "Results:" alone, so a screen reader reads the
+						      count with it. --->
+						<h1 class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
+							<span>Results: </span>
 							<span id="resultsMeta" style="display:none;">
 								<span class="pr-2 font-weight-normal" id="resultCount"></span>
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
@@ -659,6 +665,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   switching to All fires pageSizeChanged, which would overwrite it with true. */
 	var projectsSizeBeforeGrouping = null;
 	var projectsTotalRows = 0;
+	/* Set by searchProjects so only a new search announces its count -- not every page,
+	   size or sort change, which go through the same response handler. */
+	var projectsAnnounceCount = false;
 	/* Set around a programmatic setPageSize so pageSizeChanged does not read it as the
 	   user's own choice. */
 	var projectsIgnoreNextPageSizeChange = false;
@@ -1098,7 +1107,15 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function mczHandleProjectsSearchResponse(response) {
 		var totalRows = response.last_row || 0;
-		$("##resultCount").text("Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".");
+		var countText = "Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".";
+		$("##resultCount").text(countText);
+		if (projectsAnnounceCount) {
+			projectsAnnounceCount = false;
+			/* Emptied first, then filled after a pause: a screen reader ignores a live
+			   region whose text did not change, as when a new search finds the same count. */
+			$("##resultsAnnouncement").text("");
+			setTimeout(function () { $("##resultsAnnouncement").text(countText); }, 100);
+		}
 		$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
 			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
 				.not(".excludeFromLink").serialize() + '">Link to this search</a>');
@@ -1398,6 +1415,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		/* Cleared here rather than per request: Tabulator reloads on its own for paging,
 		   sizing and sorting, and those wiped messages written moments earlier. */
 		$("##actionFeedback").html("");
+		projectsAnnounceCount = true;
 		/* New results, so any held selection described the old ones. */
 		mczClearSelectionStore(projectsTable, projectsSelection, function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
