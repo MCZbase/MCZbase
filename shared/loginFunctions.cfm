@@ -39,7 +39,9 @@ limitations under the License.
 	</cfif>
 	<!--- get the information for the portal --->
 	<cfif session.roles does not contain "coldfusion_user">
-		<cfquery name="portalInfo" datasource="cf_dbuser">
+		<!--- cached, as every new anonymous session, including each visit from a crawler that keeps no
+			cookies, asks for the same row; a change to cf_collection applies within ten minutes --->
+		<cfquery name="portalInfo" datasource="cf_dbuser" result="portalInfo_result" cachedWithin="#createTimeSpan(0,0,10,0)#">
 			select * from cf_collection 
 			where cf_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#portal_id#">
 		</cfquery>
