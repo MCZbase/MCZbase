@@ -1057,7 +1057,17 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			if (e.key === "Enter" || e.key === " ") {
 				e.preventDefault();
 				e.stopPropagation();
-				button.click();
+				/* Not button.click(): Tabulator places the menu at the click's coordinates,
+				   and a scripted click has none, so the menu opened at the page's top left.
+				   A click carrying the button's own position opens it below the button. */
+				var rect = button.getBoundingClientRect();
+				button.dispatchEvent(new MouseEvent("click", {
+					bubbles: true,
+					cancelable: true,
+					view: window,
+					clientX: rect.left,
+					clientY: rect.bottom
+				}));
 			}
 		});
 	});
