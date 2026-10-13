@@ -1016,12 +1016,8 @@ function mczHeaderFilterLabel(columnTitle) {
  * a column header (e.g. updateDefinition).
  *
  * For each column with a title:
- * - The header holds only its title, for screen readers. NVDA reads a cell's column
- *   name from the header's contents, ⋮ and filter box included, so every cell was read
- *   "Column options for Sponsor(s), Sponsor(s)" (an aria-label on the header did not
- *   change that). The ⋮ and the filter box are moved out, in the accessibility tree only,
- *   with aria-owns, to a group just before the grid. On screen and in the Tab order
- *   nothing moves.
+ * - The header holds only its title, for screen readers: the ⋮ and the filter box are
+ *   given a row of their own just below it (see mczBuildHeaderControlsRow).
  * - The header itself is not made a Tab stop: in a role="grid", focus on a header puts
  *   NVDA into focus mode, which turns off its table commands (Ctrl+Alt+arrows). From
  *   the keyboard, sort from the ⋮ menu.
@@ -1085,6 +1081,14 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 		button.setAttribute("tabindex", "0");
 		button.setAttribute("aria-label", "Column options for " + title);
 		button.setAttribute("aria-haspopup", "menu");
+		/* Beside the filter box, where there is one, rather than before the title: the
+		   column's controls sit together, and the title reads on its own. Tabulator's
+		   click listener moves with the element. Styled in tabulator_overrides.css. */
+		var filter = header.querySelector(".tabulator-header-filter");
+		if (filter && filter.querySelector("input")) {
+			filter.classList.add("mcz-filter-with-menu");
+			filter.appendChild(button);
+		}
 		button.addEventListener("keydown", function (e) {
 			if (e.key === "Enter" || e.key === " ") {
 				e.preventDefault();
@@ -1101,40 +1105,70 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			}
 		}, true);
 	});
-	mczMoveHeaderControlsOutOfHeaders(table);
+	if (!table.mczControlsRowEventsBound) {
+		table.mczControlsRowEventsBound = true;
+		/* The controls row needs one cell per visible column, in display order. */
+		table.on("columnVisibilityChanged", function () { mczBuildHeaderControlsRow(table); });
+		table.on("columnMoved", function () { mczBuildHeaderControlsRow(table); });
+	}
+	mczBuildHeaderControlsRow(table);
 }
 
 /**
- * mczMoveHeaderControlsOutOfHeaders takes each column's ⋮ and filter box out of its
- * header in the accessibility tree, so a screen reader reading a cell names the column
- * by its title alone. aria-owns on a group just before the grid adopts them, in column
- * order; the DOM, the layout and the Tab order are unchanged. Rebuilt on every call, as
- * headers (and so these controls) can be rebuilt.
+ * mczBuildHeaderControlsRow gives screen readers a second header-area row, just below
+ * the column titles, that holds each column's ⋮ and filter box, so the header row itself
+ * holds only titles.
+ *
+ * Why: NVDA names a column, when it reads a cell, from the header's contents -- ⋮ and
+ * filter included -- so every cell was read "Column options for Sponsor(s), Sponsor(s)",
+ * and an aria-label on the header did not change that. Moving the controls out of the
+ * table altogether (tried first) fixed that, but then Tabbing to a ⋮ or filter put NVDA
+ * outside the table ("not in a table cell"), so table navigation could not start there.
+ * In a row of their own the controls stay in the table, in their column: from a ⋮ or a
+ * filter, Ctrl+Alt+Down reads down the column and Ctrl+Alt+Up reaches the title.
+ *
+ * How: aria-owns -- the technique Tabulator itself uses to attach the body rows to the
+ * grid -- adopts the controls into the row's cells in the accessibility tree only. The
+ * row is visually hidden; on screen, in the DOM layout and in the Tab order the controls
+ * stay where they are. Rebuilt on every call (headers, hidden columns and column order
+ * all change it).
  *
  * @param table the Tabulator instance.
  */
-function mczMoveHeaderControlsOutOfHeaders(table) {
-	var ids = [];
-	table.element.querySelectorAll(".tabulator-col").forEach(function (header) {
+function mczBuildHeaderControlsRow(table) {
+	var headerGroup = table.element.querySelector(".tabulator-header");
+	if (!headerGroup) {
+		return;
+	}
+	var row = headerGroup.querySelector(".mcz-header-controls-row");
+	if (!row) {
+		row = document.createElement("div");
+		row.className = "mcz-header-controls-row sr-only";
+		row.setAttribute("role", "row");
+		headerGroup.appendChild(row);
+	}
+	row.innerHTML = "";
+	/* Display order; a hidden column has no cells in the body rows, so none here either. */
+	table.getColumns().forEach(function (column) {
+		if (!column.isVisible()) {
+			return;
+		}
+		var header = column.getElement();
+		var ids = [];
 		header.querySelectorAll(".tabulator-header-popup-button, .tabulator-header-filter input").forEach(function (control) {
 			if (!control.id) {
-				mczMoveHeaderControlsOutOfHeaders.counter = (mczMoveHeaderControlsOutOfHeaders.counter || 0) + 1;
-				control.id = "mczHeaderControl" + mczMoveHeaderControlsOutOfHeaders.counter;
+				mczBuildHeaderControlsRow.counter = (mczBuildHeaderControlsRow.counter || 0) + 1;
+				control.id = "mczHeaderControl" + mczBuildHeaderControlsRow.counter;
 			}
 			ids.push(control.id);
 		});
+		var cell = document.createElement("div");
+		cell.setAttribute("role", "gridcell");
+		if (ids.length) {
+			cell.setAttribute("aria-owns", ids.join(" "));
+		}
+		row.appendChild(cell);
 	});
-	/* Found by position, not kept on the table object: a page that rebuilds its table in
-	   the same element (Projects.cfm on a Grid Select change) reuses the same group. */
-	var owner = table.element.previousElementSibling;
-	if (!owner || !owner.classList.contains("mcz-header-controls")) {
-		owner = document.createElement("div");
-		owner.className = "mcz-header-controls";
-		owner.setAttribute("role", "group");
-		owner.setAttribute("aria-label", "Column options and filters");
-		table.element.parentNode.insertBefore(owner, table.element);
-	}
-	owner.setAttribute("aria-owns", ids.join(" "));
 }
 
 /**
