@@ -458,7 +458,9 @@ limitations under the License.
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onSessionStart" output="false">
-		<cfinclude template="/includes/functionLib.cfm">
+		<!--- only initSession's file: refuseRequest's page includes /shared/functionLib.cfm into this
+			component, which would redeclare functions of /includes/functionLib.cfm --->
+		<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 		<cfset initSession() />
 		<!--- onSessionStart runs ahead of onRequestStart in the same request --->
 		<cfset request.sessionIsNew = true>
@@ -521,7 +523,7 @@ limitations under the License.
 			<cfreturn true />
 		</cfif>
 		<cfif not isdefined("session.roles")>
-			<cfinclude template="/includes/functionLib.cfm">
+			<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 			<cfset initSession() />
 		</cfif>
 		<!--- A client that never sends the session back, such as a crawler that keeps no cookies, never
