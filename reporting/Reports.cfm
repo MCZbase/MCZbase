@@ -41,7 +41,7 @@ Landing pad page with lists of various self service reports.
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 					<li class="py-1"><a href="/tools/TaxonomyGaps.cfm">Potentially Problematic Taxonomy</a>  Check for Scientific Names containing unexpected characters, potential homonyms and higher taxa with more than one placement, and a No kingdom, phylum, class, etc. report like the above query on Taxa.cfm.</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
-					<li class="py-1"><a href="/reporting/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
+					<li class="py-1"><a href="/specimens/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
 					<li class="py-1"><a href="/info/slacker.cfm?action=projCounts">Counts of Transactions and Publications for Projects</a></li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 						<li class="py-1"><a href="/info/slacker.cfm?action=pubNoAuth">Publications without Authors</a></li>

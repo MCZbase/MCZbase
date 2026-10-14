@@ -2837,118 +2837,121 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- getTypes get type names and other information about type specimens by collection
- @param collection collection code for the collection for which to look up types
- @param kind jind of type status, Primary, Secondary, Voucher, Voucher Not of types to return
+<!--- getTypes get type names and other information about type specimens by collection.
+ @param collection collection code for the collection for which to look up types.
+ @param kind kind of type status to return: Primary, Secondary, Voucher, or Voucher Not.
+ @param phylorder optional order to limit the types to, with the = $ !$ ! prefixes, NULL, NOT NULL, or a comma separated list.
+ @param family optional family to limit the types to, as for phylorder.
+ @param author_text optional authorship of the current name to limit the types to, as for phylorder.
+ @param showplaceholders any non-empty value to include placeholder publication authors and citations.
  @return json suitable for a jqx grid
 --->
 <cffunction name="getTypes" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection" type="string" required="yes">
 	<cfargument name="kind" type="string" required="yes">
-	<cfargument name="phylorder" type="string" required="no">
-	<cfargument name="family" type="string" required="no">
-	<cfargument name="showplaceholders" type="string" required="no">
-	<cfargument name="author_text" type="string" required="no">
-	
-	<cfif not isdefined("showplaceholders")><cfset showplaceholders=""></cfif>
+	<cfargument name="phylorder" type="string" required="no" default="">
+	<cfargument name="family" type="string" required="no" default="">
+	<cfargument name="author_text" type="string" required="no" default="">
+	<cfargument name="showplaceholders" type="string" required="no" default="">
 
+	<cfset var data = ArrayNew(1)>
+	<cfset var row = "">
+	<cfset var col = "">
+	<cfset var bitsarr = "">
+	<cfset var search = "">
+	<cfset var search_result = "">
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT DISTINCT
-				flat.guid, 
+				flat.guid,
 				flat.cat_num,
-				toptypestatuskind, 
-				mczbase.get_top_typestatus(flat.collection_object_id) as toptypestatus, 
+				toptypestatuskind,
+				mczbase.get_top_typestatus(flat.collection_object_id) AS toptypestatus,
 				taxonomy.phylorder,
 				taxonomy.family,
-				taxonomy.genus as typegenus, 
-				taxonomy.species as typespecies, 
-				taxonomy.subspecies as typesubspecies, 
-				decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies) as typeepithet,
-				typestatusplain, 
-				flat.scientific_name as currentname, 
-				flat.author_text as currentauthorship, 
-				CONCATATTRIBUTEVALUE(flat.collection_object_id,'associated grant') as associatedgrant, 
-				CONCATUNDERSCORECOLS(flat.collection_object_id) as namedgroups,
+				taxonomy.genus AS typegenus,
+				taxonomy.species AS typespecies,
+				taxonomy.subspecies AS typesubspecies,
+				decode(taxonomy.subspecies, NULL, taxonomy.species, taxonomy.subspecies) AS typeepithet,
+				typestatusplain,
+				flat.scientific_name AS currentname,
+				flat.author_text AS currentauthorship,
+				CONCATATTRIBUTEVALUE(flat.collection_object_id,'associated grant') AS associatedgrant,
+				CONCATUNDERSCORECOLS(flat.collection_object_id) AS namedgroups,
 				flat.country,
 				flat.spec_locality,
-				mczbase.get_typestatusbits(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) as bits
+				mczbase.get_typestatusbits(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) AS bits
 			FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-				, taxonomy 
-			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#"> 
-				and toptypestatuskind = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kind#"> 
-				and taxonomy.taxon_name_id = mczbase.GET_TYPESTATUSTAXON(flat.collection_object_id,mczbase.get_top_typestatus(flat.collection_object_id))
-				<cfif isDefined("phylorder") AND len(phylorder) GT 0>
-					<cfif left(phylorder,1) is "=">
-						AND upper(flat.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
-					<cfelseif left(phylorder,1) is "$">
-						AND soundex(flat.phylorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">)
-					<cfelseif left(phylorder,2) is "!$">
-						AND soundex(flat.phylorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-2))#">)
-					<cfelseif left(phylorder,1) is "!">
-						AND upper(flat.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
-					<cfelseif phylorder is "NULL">
-						AND upper(flat.phylorder) is null
-					<cfelseif phylorder is "NOT NULL">
-						AND upper(flat.phylorder) is not null
+				, taxonomy
+			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection#">
+				AND toptypestatuskind = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.kind#">
+				AND taxonomy.taxon_name_id = mczbase.GET_TYPESTATUSTAXON(flat.collection_object_id,mczbase.get_top_typestatus(flat.collection_object_id))
+				<cfif len(arguments.phylorder) GT 0>
+					<cfif left(arguments.phylorder,1) IS "=">
+						AND upper(flat.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.phylorder,len(arguments.phylorder)-1))#">
+					<cfelseif left(arguments.phylorder,1) IS "$">
+						AND soundex(flat.phylorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.phylorder,len(arguments.phylorder)-1))#">)
+					<cfelseif left(arguments.phylorder,2) IS "!$">
+						AND soundex(flat.phylorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.phylorder,len(arguments.phylorder)-2))#">)
+					<cfelseif left(arguments.phylorder,1) IS "!">
+						AND upper(flat.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.phylorder,len(arguments.phylorder)-1))#">
+					<cfelseif arguments.phylorder IS "NULL">
+						AND flat.phylorder IS NULL
+					<cfelseif arguments.phylorder IS "NOT NULL">
+						AND flat.phylorder IS NOT NULL
 					<cfelse>
-						<cfif find(',',phylorder) GT 0>
-							AND upper(flat.phylorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylorder)#" list="yes"> )
+						<cfif find(',',arguments.phylorder) GT 0>
+							AND upper(flat.phylorder) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.phylorder)#" list="yes">)
 						<cfelse>
-							AND upper(flat.phylorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylorder)#%">
+							AND upper(flat.phylorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.phylorder)#%">
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isDefined("family") AND len(family) GT 0>
-					<cfif left(family,1) is "=">
-						AND upper(flat.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
-					<cfelseif left(family,1) is "$">
-						AND soundex(flat.family) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">)
-					<cfelseif left(family,2) is "!$">
-						AND soundex(flat.family) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-2))#">)
-					<cfelseif left(family,1) is "!">
-						AND upper(flat.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
-					<cfelseif family is "NULL">
-						AND upper(flat.family) is null
-					<cfelseif family is "NOT NULL">
-						AND upper(flat.family) is not null
+				<cfif len(arguments.family) GT 0>
+					<cfif left(arguments.family,1) IS "=">
+						AND upper(flat.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.family,len(arguments.family)-1))#">
+					<cfelseif left(arguments.family,1) IS "$">
+						AND soundex(flat.family) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.family,len(arguments.family)-1))#">)
+					<cfelseif left(arguments.family,2) IS "!$">
+						AND soundex(flat.family) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.family,len(arguments.family)-2))#">)
+					<cfelseif left(arguments.family,1) IS "!">
+						AND upper(flat.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.family,len(arguments.family)-1))#">
+					<cfelseif arguments.family IS "NULL">
+						AND flat.family IS NULL
+					<cfelseif arguments.family IS "NOT NULL">
+						AND flat.family IS NOT NULL
 					<cfelse>
-						<cfif find(',',family) GT 0>
-							AND upper(flat.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
+						<cfif find(',',arguments.family) GT 0>
+							AND upper(flat.family) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.family)#" list="yes">)
 						<cfelse>
-							AND upper(flat.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(family)#%">
+							AND upper(flat.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.family)#%">
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isDefined("author_text") AND len(author_text) GT 0>
-					<cfif left(author_text,1) is "=">
-						AND upper(flat.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
-					<cfelseif left(author_text,1) is "$">
-						AND soundex(flat.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">)
-					<cfelseif left(author_text,2) is "!$">
-						AND soundex(flat.author_text) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-2))#">)
-					<cfelseif left(author_text,1) is "!">
-						AND upper(flat.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
-					<cfelseif author_text is "NULL">
-						AND upper(flat.author_text) is null
-					<cfelseif author_text is "NOT NULL">
-						AND upper(flat.author_text) is not null
+				<cfif len(arguments.author_text) GT 0>
+					<cfif left(arguments.author_text,1) IS "=">
+						AND upper(flat.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.author_text,len(arguments.author_text)-1))#">
+					<cfelseif left(arguments.author_text,1) IS "$">
+						AND soundex(flat.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.author_text,len(arguments.author_text)-1))#">)
+					<cfelseif left(arguments.author_text,2) IS "!$">
+						AND soundex(flat.author_text) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.author_text,len(arguments.author_text)-2))#">)
+					<cfelseif left(arguments.author_text,1) IS "!">
+						AND upper(flat.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(arguments.author_text,len(arguments.author_text)-1))#">
+					<cfelseif arguments.author_text IS "NULL">
+						AND flat.author_text IS NULL
+					<cfelseif arguments.author_text IS "NOT NULL">
+						AND flat.author_text IS NOT NULL
 					<cfelse>
-						<cfif find(',',author_text) GT 0>
-							AND upper(flat.author_text) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(author_text)#" list="yes"> )
+						<cfif find(',',arguments.author_text) GT 0>
+							AND upper(flat.author_text) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.author_text)#" list="yes">)
 						<cfelse>
-							AND upper(flat.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
+							AND upper(flat.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.author_text)#%">
 						</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY
-				taxonomy.family, taxonomy.genus, decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies)
+				taxonomy.family, taxonomy.genus, decode(taxonomy.subspecies, NULL, taxonomy.species, taxonomy.subspecies)
 		</cfquery>
-
-		<cfset rows = 0>
-		<cfset data = ArrayNew(1)>
-
-		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
@@ -2956,12 +2959,12 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 					<cfset bitsarr = ListToArray(search[col][currentRow],"|",true)>
 					<cfset row["typename"] = "#bitsarr[1]#">
 					<cfset row["typeauthorship"] = "#bitsarr[2]#">
-					<cfif len(showplaceholders) EQ 0 AND trim(bitsarr[3]) EQ 'Author not listed'>
+					<cfif len(arguments.showplaceholders) EQ 0 AND trim(bitsarr[3]) EQ 'Author not listed'>
 						<cfset row["pubauthorship"] = "">
 					<cfelse>
 						<cfset row["pubauthorship"] = "#bitsarr[3]#">
 					</cfif>
-					<cfif len(showplaceholders) EQ 0 AND find('Citations Placeholder',bitsarr[4]) GT 0> 
+					<cfif len(arguments.showplaceholders) EQ 0 AND find('Citations Placeholder',bitsarr[4]) GT 0> 
 						<cfset row["citation"] = "">
 					<cfelse>
 						<cfset row["citation"] = "#canonicalize(bitsarr[4],false,false)#">
@@ -2973,8 +2976,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 					<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 				</cfif>
 			</cfloop>
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
+			<cfset ArrayAppend(data, row)>
 		</cfloop>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
