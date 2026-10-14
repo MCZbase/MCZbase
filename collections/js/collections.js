@@ -5,12 +5,13 @@
  *  @param targetId the id of the element to fill, without a leading # selector.
  *  @param method the remote method returning the widget's HTML.
  *  @param collectionId the collection_id of the collection to report on.
+ *  @param params optional object of further arguments for the method.
  */
-function loadCollectionWidget(targetId, method, collectionId) {
+function loadCollectionWidget(targetId, method, collectionId, params) {
 	$('#'+targetId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>');
 	$.ajax({
 		url: "/collections/component/functions.cfc",
-		data: { method: method, returnformat: "plain", collection_id: collectionId },
+		data: $.extend({ method: method, returnformat: "plain", collection_id: collectionId }, params || {}),
 		type: "get",
 		success: function (data) {
 			$('#'+targetId).html(data);

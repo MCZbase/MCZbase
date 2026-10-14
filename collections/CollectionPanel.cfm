@@ -145,6 +145,18 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
+		<div class="col-12 col-xl-6 mb-3">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center">
+					<h2 class="h4 mb-0 mr-auto">Collection Access</h2>
+					<input type="checkbox" id="vpdShowRoles" class="mr-1" onchange="loadVpdUsersWidget($('#collection_id').val());">
+					<label for="vpdShowRoles" class="data-entry-label d-inline mb-0">Show all roles</label>
+				</div>
+				<div class="card-body" id="vpdUsersWidget">
+					<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>
+				</div>
+			</div>
+		</div>
 	</section>
 </main>
 <script>
@@ -169,6 +181,14 @@ limitations under the License.
 		loadCollectionWidget('permitsWidget', 'getPermitsHtml', collectionId);
 		loadCollectionWidget('encumbrancesWidget', 'getEncumbrancesHtml', collectionId);
 		loadCollectionWidget('recentEditsWidget', 'getRecentEditsHtml', collectionId);
+		loadVpdUsersWidget(collectionId);
+	}
+	/** Load the Collection Access widget, with each account's roles if Show all roles is ticked.
+	 *  @param collectionId the collection_id to report on.
+	 */
+	function loadVpdUsersWidget(collectionId) {
+		if (!collectionId) { return; }
+		loadCollectionWidget('vpdUsersWidget', 'getVpdUsersHtml', collectionId, { show_roles: $('#vpdShowRoles').is(':checked') });
 	}
 	$(document).ready(function() {
 		var remembered = null;

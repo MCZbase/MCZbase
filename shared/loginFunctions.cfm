@@ -1,7 +1,7 @@
 <!--- shared/loginFunctions.cfm login and session initiation functions
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2022 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,7 +39,9 @@ limitations under the License.
 	</cfif>
 	<!--- get the information for the portal --->
 	<cfif session.roles does not contain "coldfusion_user">
-		<cfquery name="portalInfo" datasource="cf_dbuser">
+		<!--- cached, as every new anonymous session, including each visit from a crawler that keeps no
+			cookies, asks for the same row; a change to cf_collection applies within ten minutes --->
+		<cfquery name="portalInfo" datasource="cf_dbuser" result="portalInfo_result" cachedWithin="#createTimeSpan(0,0,10,0)#">
 			select * from cf_collection 
 			where cf_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#portal_id#">
 		</cfquery>
@@ -139,9 +141,10 @@ limitations under the License.
 	<cfset var sessionKey = "">
 	<cfoutput>
 	<!------------------------ logout ------------------------------------>
-	<!--- keep ColdFusion's own keys (cfid, cftoken, sessionid, urltoken), which identify the session --->
+	<!--- keep ColdFusion's own keys (cfid, cftoken, sessionid, urltoken), which identify the session,
+		and sessionReturned, so Application.cfc counts the session as returning only once --->
 	<cfloop list="#structKeyList(session)#" index="sessionKey">
-		<cfif NOT listFindNoCase("cfid,cftoken,sessionid,urltoken", sessionKey)>
+		<cfif NOT listFindNoCase("cfid,cftoken,sessionid,urltoken,sessionReturned", sessionKey)>
 			<cfset structDelete(session, sessionKey)>
 		</cfif>
 	</cfloop>
@@ -197,7 +200,7 @@ limitations under the License.
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+		<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 	<cfcatch>
 		<cfset gitBranch = "unknown">
 	</cfcatch>
@@ -255,6 +258,8 @@ limitations under the License.
 			Anything encrypted with the id below uses currentCfid(), the new one; cookie.cfid still holds
 			the old one until the browser's next request. --->
 		<cfset sessionRotate()>
+		<!--- onRequestStart gave the full lifetime to the session replaced here, not to the new one --->
+		<cfset session.setMaxInactiveInterval(javaCast("long", Application.SESSION_SECONDS))>
 		<cfif isDefined("recordLoginSuccess")>
 			<cfset recordLoginSuccess(username)>
 		</cfif>
@@ -364,7 +369,7 @@ limitations under the License.
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+		<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 	<cfcatch>
 		<cfset gitBranch = "unknown">
 	</cfcatch>
