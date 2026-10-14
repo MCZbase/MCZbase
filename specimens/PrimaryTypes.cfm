@@ -400,7 +400,7 @@ Report on primary types, by department.
 	
 			/** Finish setting up the results grid once its data is bound: hide the overlay, show the
 			 *  result count, set page sizes, and add the column picker and CSV export.
-			 *  @param gridId the id of the grid, without a leading #.
+			 *  @param gridId the id of the grid, without a leading hash.
 			 *  @param searchType the singular name of a result row, for the count and file name.
 			 */
 			function gridLoaded(gridId, searchType) { 
