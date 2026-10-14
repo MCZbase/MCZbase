@@ -947,6 +947,17 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				headerHozAlign: "center",
 				download: false
 			};
+			/* Tabulator names every row's checkbox "Select Row"; name it after the project,
+			   so Tabbing through the checkboxes with a screen reader reads as a list of
+			   projects. rowFormatter runs each time a row is drawn (paging, sorting,
+			   scrolling), so the name follows the row. setAttribute takes the name as plain
+			   text, as the Project column shows it. */
+			options.rowFormatter = function (row) {
+				var checkbox = row.getElement().querySelector('input[type="checkbox"]');
+				if (checkbox) {
+					checkbox.setAttribute("aria-label", "Select " + row.getData().project_name);
+				}
+			};
 			if (mode === "multiplerows") {
 				/* Select-all / deselect-all for the rows on the current page. */
 				options.rowHeader.titleFormatter = "rowSelection";
