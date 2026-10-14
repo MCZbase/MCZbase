@@ -29,14 +29,26 @@ limitations under the License.
 
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
 
+<!---
+	getSummaryHeaderHTML the summary and type status bar at the head of a specimen record.  For a cataloged
+	item that exists but that the user may not see, forwards to /errors/404.cfm, or /errors/forbidden.cfm
+	for an internal user, unless refusal is provided.
+
+	@param collection_object_id the cataloged item.
+	@param refusal optional struct, from a page that shows the error page itself rather than have this
+		forward to it, as a forward would start a second session for a client without a session cookie;
+		its page key is set to the error page, and an empty string returned.
+	@return html for the summary bar.
+--->
 <cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="refusal" type="struct" required="no">
 	
 	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#">
 		<cfoutput>
@@ -382,6 +394,10 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getSummaryHeaderThread" />
 	<cfif structKeyExists(getSummaryHeaderThread, "forwardTo")>
+		<cfif structKeyExists(arguments, "refusal")>
+			<cfset arguments.refusal.page = getSummaryHeaderThread.forwardTo>
+			<cfreturn "">
+		</cfif>
 		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
 		<cfabort>
 	</cfif>

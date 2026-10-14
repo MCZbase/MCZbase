@@ -1,4 +1,22 @@
-<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+<!---
+errors/missing.cfm routes requests for pages that do not exist (Apache ErrorDocument 404), such as /guid/, /name/ and /media/{id}
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---><cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 	<!--- TODO: Extract parameters from cgi.redirect_query_string, not being populated by apache/mod_jk though mod_jk is configured to do so --->
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>
@@ -401,24 +419,25 @@
 			<cfheader statuscode="301" statustext="Moved permanently">
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
+			<!--- 404.cfm is included, not forwarded to: a forwarded request from a client without a session
+				cookie starts a second session --->
+			<cfset forwardTo = "">
 			<cftry>
-				<cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
-					<cfscript>
-						getPageContext().forward("/errors/404.cfm");
-					</cfscript>
-				<cfelse>
-					<cfscript>
-						getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
-					</cfscript>
+				<cfif isSet(cgi.REDIRECT_URL) AND isSet(cgi.redirect_query_string)>
+					<cfset forwardTo = cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string>
 				</cfif>
-				<cfabort>
 			<cfcatch>
-				<cfscript>
-					getPageContext().forward("/errors/404.cfm");
-				</cfscript>
-				<cfabort>
+				<cfset forwardTo = "">
 			</cfcatch>
 			</cftry>
+			<cfif len(forwardTo) GT 0>
+				<cfscript>
+					getPageContext().forward(forwardTo);
+				</cfscript>
+			<cfelse>
+				<cfinclude template="/errors/404.cfm">
+			</cfif>
+			<cfabort>
 		</cfif>
 	</cfif>
 <cfelse>

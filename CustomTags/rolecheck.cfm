@@ -1,4 +1,22 @@
-<cfif (isdefined("session.roles") and
+<!---
+CustomTags/rolecheck.cfm custom tag run by the page headers, refusing a page to a user without the roles cf_form_permissions lists for it
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---><cfif (isdefined("session.roles") and
 	session.roles contains "coldfusion_user") and
 	(isdefined("session.force_password_change") and
 	session.force_password_change is "yes" and
@@ -6,6 +24,11 @@
 	<cflocation url="/users/changePassword.cfm">
 </cfif>
 <cfset filePath = replace('#cgi.script_name#','//','/') >
+<!--- Application.cfc refuseRequest includes /errors/forbidden.cfm into a refused request, so check the page shown;
+	set in the request scope, as this tag is called without attributes --->
+<cfif structKeyExists(request, "rolecheckPath")>
+	<cfset filePath = request.rolecheckPath>
+</cfif>
 <cfif fileexists(application.webDirectory & filePath)>
 	<!---  Find all of the roles specified for the given filePath (requested page) --->
 	<!---  Note, if you've just added a new page and requested it before adding permissions to cf_form_permissions, 
