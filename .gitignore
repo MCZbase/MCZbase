@@ -1,6 +1,7 @@
 mhk_diff.txt
 specimendetails_diff.txt
 checkcfquery.py
+checkSessions.sh
 cache
 mediaUploads
 specimen_images
