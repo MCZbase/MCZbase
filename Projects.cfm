@@ -786,6 +786,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				accessorDownload: function (value, data) {
 					return data.project_name;
 				},
+				tooltip: mczOverflowTooltip,
 				headerFilter: "input",
 				headerFilterPlaceholder: "filter...",
 				headerFilterParams: mczHeaderFilterLabel("Project"),
