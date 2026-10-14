@@ -22,6 +22,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/roles.cfc" runOnce="true">
 
 <!---
 	requirePanelViewer stop a widget method for anyone without the curatorial_associate or global_admin role.
@@ -570,6 +571,7 @@ limitations under the License.
 	<cfset var groupCounts = { specific = 0, admins = 0, associates = 0 }>
 	<cfset var GROUP_LABELS = { specific = "Accounts for this collection", admins = "Global admins", associates = "Curatorial associates" }>
 	<cfset var rolesByAccount = structNew()>
+	<cfset var collectionRoles = "">
 	<cfset var openCount = 0>
 	<cfset var group = "">
 	<cfset var name = "">
@@ -609,6 +611,7 @@ limitations under the License.
 		WHERE granted_role IN ('GLOBAL_ADMIN', 'CURATORIAL_ASSOCIATE')
 	</cfquery>
 	<cfif arguments.show_roles>
+		<cfset collectionRoles = collectionRoleNames()>
 		<cfquery name="heldRoles" datasource="uam_god" result="heldRoles_result">
 			SELECT rp.grantee, rp.granted_role
 			FROM dba_role_privs rp
@@ -652,6 +655,18 @@ limitations under the License.
 					It is also granted to the roles #encodeForHtml(lcase(valueList(viaRoles.grantee, ", ")))#, so their holders have access too.
 				</cfif>
 			</p>
+			<cfif arguments.show_roles>
+				<p class="small mb-2">
+					Roles, coloured as on the Database Access Report:
+					<span class="badge badge-danger font-weight-normal">dba, global_admin</span>
+					<span class="badge badge-warning font-weight-normal">admin_ roles</span>
+					<span class="badge badge-primary font-weight-normal">curatorial_associate</span>
+					<span class="badge badge-info font-weight-normal">manage_collection</span>
+					<span class="badge badge-success font-weight-normal">collection roles</span>
+					<span class="badge badge-dark font-weight-normal">connect</span>
+					<span class="badge badge-light border font-weight-normal">other roles</span>
+				</p>
+			</cfif>
 			<cfloop list="specific,admins,associates" index="group">
 				<cfif groupCounts[group] EQ 0>
 					<cfcontinue>
@@ -694,7 +709,7 @@ limitations under the License.
 										<td>
 											<cfif structKeyExists(rolesByAccount, holders.grantee)>
 												<cfloop list="#rolesByAccount[holders.grantee]#" index="role">
-													<span class="badge badge-light border font-weight-normal mr-1">#encodeForHtml(lcase(role))#</span>
+													<span class="badge #roleBadgeClass(role, collectionRoles)# font-weight-normal mr-1">#encodeForHtml(lcase(role))#</span>
 												</cfloop>
 											</cfif>
 										</td>

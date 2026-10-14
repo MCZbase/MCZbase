@@ -20,6 +20,8 @@ limitations under the License.
 <!--- Read-only report of which database accounts hold which roles, and which grants need attention. --->
 <cfset pageTitle = "Database Access Report">
 <cfinclude template="/shared/_header.cfm">
+<!--- roleBadgeClass and isCollectionRole --->
+<cfinclude template="/shared/component/roles.cfc" runOnce="true">
 <!--- Who holds which role, with account status and contact details, is for administrators only. --->
 <cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 	<cflocation url="/errors/forbidden.cfm" addtoken="false">
@@ -47,12 +49,7 @@ limitations under the License.
 	FROM cf_ctuser_roles
 	ORDER BY role_name
 </cfquery>
-<cfquery name="getCollectionRoles" datasource="uam_god" result="getCollectionRoles_result">
-	SELECT DISTINCT upper(portal_name) AS role_name
-	FROM cf_collection
-	WHERE portal_name IS NOT NULL
-</cfquery>
-<cfset variables.collectionRoles = valueList(getCollectionRoles.role_name)>
+<cfset variables.collectionRoles = collectionRoleNames()>
 <cfquery name="getGrants" datasource="uam_god" result="getGrants_result">
 	SELECT
 		rp.grantee,
@@ -201,40 +198,6 @@ limitations under the License.
 	return sgn(b.staleDays - a.staleDays);
 })>
 
-<!---
-	isCollectionRole test whether a role gives access to a collection's data.
-
-	@param role the role name, in upper case.
-	@return true for roles named by cf_collection.portal_name, or starting MCZ_.
---->
-<cffunction name="isCollectionRole" returntype="boolean" output="false">
-	<cfargument name="role" type="string" required="yes">
-	<cfreturn listFind(variables.collectionRoles, arguments.role) GT 0 OR left(arguments.role, 4) EQ "MCZ_">
-</cffunction>
-
-<!---
-	roleBadgeClass choose the badge colour for a role, so kinds of role can be told apart at a glance.
-
-	@param role the role name, in upper case.
-	@return Bootstrap badge classes.
---->
-<cffunction name="roleBadgeClass" returntype="string" output="false">
-	<cfargument name="role" type="string" required="yes">
-	<cfif listFind("DBA,GLOBAL_ADMIN", arguments.role) GT 0>
-		<cfreturn "badge-danger">
-	<cfelseif left(arguments.role, 6) EQ "ADMIN_">
-		<cfreturn "badge-warning">
-	<cfelseif ucase(arguments.role) EQ "CURATORIAL_ASSOCIATE">
-		<cfreturn "badge-primary">
-	<cfelseif arguments.role EQ "MANAGE_COLLECTION">
-		<cfreturn "badge-info">
-	<cfelseif isCollectionRole(arguments.role)>
-		<cfreturn "badge-success">
-	<cfelseif arguments.role EQ "CONNECT">
-		<cfreturn "badge-dark">
-	</cfif>
-	<cfreturn "badge-light border">
-</cffunction>
 
 <!--- For each application role: its open and inactive holders, and the reasons an open holder looks out of place. --->
 <cfset variables.roleSummaries = structNew()>
@@ -292,7 +255,7 @@ limitations under the License.
 		<cfif listFind(variables.DATA_ROLES, variables.role) GT 0>
 			<cfset variables.hasCollection = false>
 			<cfloop collection="#variables.account.roles#" item="variables.heldRole">
-				<cfif isCollectionRole(variables.heldRole)>
+				<cfif isCollectionRole(variables.heldRole, variables.collectionRoles)>
 					<cfset variables.hasCollection = true>
 				</cfif>
 			</cfloop>
@@ -392,7 +355,7 @@ limitations under the License.
 										<td>#encodeForHtml(variables.account.name)#</td>
 										<td>
 											<cfloop list="#variables.item.roles#" index="variables.role">
-												<span class="badge #roleBadgeClass(variables.role)# font-weight-normal mr-1">#encodeForHtml(lcase(variables.role))#</span>
+												<span class="badge #roleBadgeClass(variables.role, variables.collectionRoles)# font-weight-normal mr-1">#encodeForHtml(lcase(variables.role))#</span>
 											</cfloop>
 										</td>
 										<td sorttable_customkey="#variables.item.staleDays#">#encodeForHtml(variables.item.issue)#</td>
@@ -487,7 +450,7 @@ limitations under the License.
 								<cfset variables.summary = variables.roleSummaries[getApplicationRoles.role_name]>
 								<tr>
 									<th scope="row" class="font-weight-normal">
-										<span class="badge #roleBadgeClass(getApplicationRoles.role_name)# font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</span>
+										<span class="badge #roleBadgeClass(getApplicationRoles.role_name, variables.collectionRoles)# font-weight-normal">#encodeForHtml(lcase(getApplicationRoles.role_name))#</span>
 										<cfif variables.summary.isRare>
 											<br><span class="small text-secondary">rarely held</span>
 										</cfif>
@@ -659,7 +622,7 @@ limitations under the License.
 										</cfloop>
 										<cfset variables.roleOrder = listAppend(variables.roleOrder, variables.account.otherRoles)>
 										<cfloop list="#variables.roleOrder#" index="variables.role">
-											<cfset variables.badgeClass = roleBadgeClass(variables.role)>
+											<cfset variables.badgeClass = roleBadgeClass(variables.role, variables.collectionRoles)>
 											<cfset variables.roleLabel = lcase(variables.role)>
 											<cfset variables.roleNote = "">
 											<cfif NOT variables.account.roles[variables.role].isDefault>
