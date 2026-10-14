@@ -538,6 +538,7 @@ limitations under the License.
 								</div>
 								<div id="primarytypesPanel" role="tabpanel" aria-labelledby="tabPrimaryTypes" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 									<h3 class="px-2">Primary Types</h3>			
+									<p class="px-2 mb-1"><a href="/specimens/PrimaryTypes.cfm">Primary Types By Department</a> &ndash; list the primary types of one collection.</p>
 									<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 										<ul class="list-group list-group-horizontal d-flex flex-wrap px-1">
 											<cfset lastCollection = "">

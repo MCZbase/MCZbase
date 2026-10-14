@@ -1,5 +1,5 @@
 <!---
-/reporting/PrimaryTypes.cfm
+/specimens/PrimaryTypes.cfm
 
 Copyright 2021 President and Fellows of Harvard College
 
@@ -22,8 +22,12 @@ Report on primary types, by department.
 <cfset pageTitle = "Primary Type Report">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfif not isDefined("collection")><cfset collection=""></cfif>
-<cfset selectedCollection = collection>
+<cfparam name="url.collection" default="">
+<cfparam name="url.phylorder" default="">
+<cfparam name="url.family" default="">
+<cfparam name="url.author_text" default="">
+<cfparam name="url.execute" default="">
+<cfset selectedCollection = url.collection>
 
 <cfset defaultSelectionMode = "none">
 <cfif defaultSelectionMode EQ "none">
@@ -74,7 +78,6 @@ Report on primary types, by department.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<cfif not isDefined("phylorder")><cfset phylorder=""></cfif>
 								<label for="phylorder" class="data-entry-label align-left-center">Order 
 									<span class="small">
 										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=</button>,
@@ -82,10 +85,9 @@ Report on primary types, by department.
 										NULL, NOT NULL)
 									</span>
 								</label>
-								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
+								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(url.phylorder)#" placeholder="order">
 							</div>
 							<div class="col-12 col-md-3">
-								<cfif not isDefined("family")><cfset family=""></cfif>
 								<label for="family" class="data-entry-label align-left-center">Family 
 									<span class="small">
 										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=</button>,
@@ -93,10 +95,9 @@ Report on primary types, by department.
 										NULL, NOT NULL)
 									</span>
 								</label>
-								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
+								<input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(url.family)#" placeholder="family">
 							</div>
 							<div class="col-12 col-md-3">
-								<cfif not isDefined("author_text")><cfset author_text=""></cfif>
 								<label for="author_text" class="data-entry-label align-left-center">Authorship 
 									<span class="small">
 										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=</button>,
@@ -104,7 +105,7 @@ Report on primary types, by department.
 										NULL, NOT NULL)
 									</span>
 								</label>
-								<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author_text">
+								<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#encodeForHtml(url.author_text)#" placeholder="author_text">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -335,7 +336,7 @@ Report on primary types, by department.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/specimens/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','cataloged item');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -355,7 +356,7 @@ Report on primary types, by department.
 				/* End Setup jqxgrid for Search ******************************/
 
 				// If requested in uri, execute search immediately.
-				<cfif isdefined("execute")>
+				<cfif len(url.execute) GT 0>
 					$('##searchForm').submit();
 				</cfif>
 			}); /* End document.ready */
