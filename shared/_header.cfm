@@ -80,7 +80,13 @@ limitations under the License.
 
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
-<link rel="stylesheet" href="/shared/css/bootstrap_override.css">
+<!--- Versioned by last-modified time, as tabulator-common.js is below, so browsers fetch the new copy when it changes. --->
+<cfset variables.bootstrapOverrideVersion = "">
+<cfset variables.bootstrapOverridePath = expandPath("/shared/css/bootstrap_override.css")>
+<cfif fileExists(variables.bootstrapOverridePath)>
+	<cfset variables.bootstrapOverrideVersion = dateTimeFormat(getFileInfo(variables.bootstrapOverridePath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<link rel="stylesheet" href="/shared/css/bootstrap_override.css?v=#encodeForUrl(variables.bootstrapOverrideVersion)#">
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
 <script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script> 
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 

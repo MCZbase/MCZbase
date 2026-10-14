@@ -250,6 +250,16 @@ function mczOverflowTooltip(e, cell) {
 	return tooltip;
 }
 
+/* Escape closes an open Tabulator tooltip (WCAG 1.4.13: content shown on hover must be
+   dismissible without moving the pointer). Tabulator's own Escape check compares e.key
+   to 27, so never matches; its tooltips do close on a mousedown outside them, so that is
+   sent instead. */
+document.addEventListener("keydown", function (e) {
+	if (e.key === "Escape" && document.querySelector(".tabulator-tooltip")) {
+		document.body.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+	}
+});
+
 /**
  * mczPaginationRowsCounter is a Tabulator `paginationCounter`: "Showing 1-50 of 173
  * rows", as Tabulator's own "rows" counter, but correct when the page size is All.
@@ -848,9 +858,11 @@ function mczShowRowDetailsDialog(table, row, title) {
  * mczShowRowDetailsDialog for its row; not sortable or exported.
  *
  * @param dialogTitle optional title for the details dialog.
+ * @param nameField optional field naming the row (e.g. "project_name"), so each button
+ *   is read as "Details for <name>" rather than the same name on every row.
  * @return a column definition object.
  */
-function mczDetailsButtonColumn(dialogTitle) {
+function mczDetailsButtonColumn(dialogTitle, nameField) {
 	return {
 		title: "Details",
 		field: "_mczDetails",
@@ -858,12 +870,13 @@ function mczDetailsButtonColumn(dialogTitle) {
 		headerSort: false,
 		download: false,
 		hozAlign: "center",
-		formatter: function () {
+		formatter: function (cell) {
 			var button = document.createElement("button");
 			button.type = "button";
 			/* The developer's guide style for buttons in a results grid. */
 			button.className = "btn btn-xs btn-outline-primary py-0";
-			button.setAttribute("aria-label", "Show all values for this row");
+			var name = nameField ? cell.getRow().getData()[nameField] : "";
+			button.setAttribute("aria-label", name ? "Details for " + name : "Show all values for this row");
 			/* Not fa-eye, which the hide-search-form toggle uses. */
 			button.innerHTML = '<i class="fas fa-list-ul" aria-hidden="true"></i>';
 			return button;
@@ -902,7 +915,34 @@ function mczColumnTitle(table, field) {
  * @return a DocumentFragment holding the header content.
  */
 function mczGroupHeaderElement(table, group, value, count) {
-	var fragment = document.createDocumentFragment();
+	/* A real button, so a group can be opened and closed from the keyboard: Tabulator's
+	   own toggle is the arrow, which only takes a click. Tabulator rebuilds this header
+	   each time the group opens or closes, so aria-expanded is read fresh, and focus is
+	   put back on the new button after a toggle. */
+	var toggle = document.createElement("button");
+	toggle.type = "button";
+	toggle.className = "mcz-group-toggle btn btn-link p-0 text-left text-reset text-decoration-none";
+	toggle.setAttribute("aria-expanded", String(group.isVisible()));
+	toggle.addEventListener("click", function (e) {
+		e.stopPropagation();
+		var key = group.getKey();
+		group.toggle();
+		/* Toggling replaces Tabulator's group objects, so find this group again by its
+		   key, after the redraw, and focus its new button. */
+		setTimeout(function () {
+			table.getGroups().some(function (current) {
+				if (current.getKey() !== key) {
+					return false;
+				}
+				var element = current.getElement();
+				var rebuilt = element && element.querySelector ? element.querySelector(".mcz-group-toggle") : null;
+				if (rebuilt) {
+					rebuilt.focus();
+				}
+				return true;
+			});
+		}, 0);
+	});
 	var label = document.createElement("span");
 	label.className = "font-weight-lessbold";
 	label.textContent = mczColumnTitle(table, group.getField()) + ": ";
@@ -913,10 +953,10 @@ function mczGroupHeaderElement(table, group, value, count) {
 	var tally = document.createElement("span");
 	tally.className = "text-muted ml-1";
 	tally.textContent = "(" + count + ")";
-	fragment.appendChild(label);
-	fragment.appendChild(shown);
-	fragment.appendChild(tally);
-	return fragment;
+	toggle.appendChild(label);
+	toggle.appendChild(shown);
+	toggle.appendChild(tally);
+	return toggle;
 }
 
 /**
@@ -983,8 +1023,8 @@ function mczRenderGroupChip(containerId, label, onRemove) {
 
 /**
  * mczStandardHeaderMenu returns a headerMenu offering sort ascending, sort descending,
- * hide column and "Select Columns...". It is a function so the items are built each
- * time the menu opens.
+ * move left, move right, hide column and "Select Columns...". It is a function so the
+ * items are built each time the menu opens.
  *
  * @param options object with optional callbacks:
  *   onColumnHidden(column) -- called after "Hide column" (e.g. to persist visibility);
@@ -1003,6 +1043,30 @@ function mczStandardHeaderMenu(options) {
 			items.push({
 				label: '<i class="fas fa-sort-alpha-up mr-2" aria-hidden="true"></i>Sort descending',
 				action: function (e, col) { col.getTable().setSort(col.getField(), "desc"); }
+			});
+			items.push({ separator: true });
+		}
+		/* Move left / Move right: the keyboard alternative to dragging a header (WCAG
+		   2.1.1). Only among visible, unfrozen data columns -- frozen columns must stay
+		   together at the left edge, and control columns (Details, Edit) stay put. Moving
+		   fires columnMoved, as a drag does, so pages
+		   that save column order save this too. */
+		if (!column.getDefinition().frozen) {
+			var movable = column.getTable().getColumns().filter(function (other) {
+				return other.isVisible() && mczIsDataColumn(other.getDefinition()) && !other.getDefinition().frozen;
+			});
+			var position = movable.map(function (other) { return other.getField(); }).indexOf(column.getField());
+			var previous = position > 0 ? movable[position - 1] : null;
+			var next = position >= 0 && position < movable.length - 1 ? movable[position + 1] : null;
+			items.push({
+				label: '<i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Move left',
+				disabled: !previous,
+				action: function (e, col) { col.move(previous, false); }
+			});
+			items.push({
+				label: '<i class="fas fa-arrow-right mr-2" aria-hidden="true"></i>Move right',
+				disabled: !next,
+				action: function (e, col) { col.move(next, true); }
 			});
 			items.push({ separator: true });
 		}

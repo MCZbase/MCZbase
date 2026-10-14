@@ -208,7 +208,13 @@ links do) redisplays correctly.
 </cfquery>
 
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
-<link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
+<!--- Versioned by last-modified time, as tabulator-common.js is in the header, so browsers fetch the new copy when it changes. --->
+<cfset variables.tabulatorOverridesVersion = "">
+<cfset variables.tabulatorOverridesPath = expandPath("/shared/css/tabulator_overrides.css")>
+<cfif fileExists(variables.tabulatorOverridesPath)>
+	<cfset variables.tabulatorOverridesVersion = dateTimeFormat(getFileInfo(variables.tabulatorOverridesPath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<cfoutput><link rel="stylesheet" href="/shared/css/tabulator_overrides.css?v=#encodeForUrl(variables.tabulatorOverridesVersion)#"></cfoutput>
 <!---
 Results-toolbar layout, scoped to .mcz-results-toolbar. Inline rather than in
 shared/css/ -- a styleguide deviation -- while the arrangement is still being settled on
@@ -282,7 +288,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				<div class="search-box mt-4">
 					<div class="search-box-header">
 						<cfoutput>
-							<h1 class="h3 text-white" tabindex="0">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+							<h1 class="h3 text-white">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</cfoutput>
 					</div>
 					<div id="searchFormDiv">
@@ -771,7 +777,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   freezes and unfreezes with Project so the two travel together under Pin Project
 		   Column. Frozen columns have to be contiguous at the left edge, so their order here
 		   is also the order they must keep. */
-		var detailsColumn = mczDetailsButtonColumn("Project Details");
+		var detailsColumn = mczDetailsButtonColumn("Project Details", "project_name");
 
 		var columns = [
 			detailsColumn,
@@ -818,6 +824,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					a.className = "btn-xs btn-outline-primary";
 					a.href = "/projects/Project.cfm?action=edit&project_id=" + encodeURIComponent(d.project_id);
 					a.textContent = "Edit";
+					/* Named after the project, so a screen reader's links list isn't 25
+					   identical "Edit"s. Starts with the visible word, as WCAG 2.5.3 asks. */
+					a.setAttribute("aria-label", "Edit " + d.project_name);
 					/* Remembered for coming Back to this link: see PROJECTS_RETURN_EDIT_KEY. */
 					a.setAttribute("data-project-id", d.project_id);
 					a.addEventListener("click", function () {
@@ -1129,6 +1138,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function mczProjectsAjaxRequest(url, config, params) {
 		$("##overlay").show();
+		/* aria-busy while rows load, so a screen reader doesn't read a half-replaced grid. */
+		$("##projectsGridDiv").attr("aria-busy", "true");
 		var sorter = (params.sort && params.sort[0]) || {};
 		var requestData = $.extend({}, params, {
 			sort_field: sorter.field || "",
@@ -1147,9 +1158,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			dataType: "json"
 		}).done(function (response) {
 			$("##overlay").hide();
+			$("##projectsGridDiv").attr("aria-busy", "false");
 			mczHandleProjectsSearchResponse(response);
 		}).fail(function (jqXHR, status, error) {
 			$("##overlay").hide();
+			$("##projectsGridDiv").attr("aria-busy", "false");
 			handleFail(jqXHR, status, error, "searching for projects");
 		}));
 	}
