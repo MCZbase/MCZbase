@@ -34,31 +34,17 @@ function mczRegisterTabulatorInstance(table) {
 
 /**
  * mczPreventSelectRangeNativeSelection stops Tabulator's SelectRange module from
- * hijacking the browser's native selection (window.getSelection()) for its own cell-
- * focus tracking, on one specific table instance.
+ * changing the browser's native text selection on one table.
  *
- * The module's initializeFocus(cell) method (confirmed against source) does two
- * things: calls restoreFocus() (just table.rowManager.element.focus(), needed for
- * keyboard arrow-key navigation between cells) and, separately, wraps a cell's DOM
- * element in a native Range and adds it via window.getSelection().addRange(). Manual
- * testing traced a real bug to that second part: once a table has done this even once
- * (including just auto-focusing the first cell with no click at all), a later,
- * separately-built Tabulator instance on the same page -- even one with no selection
- * module enabled -- can no longer support native drag-to-select-text, and this
- * persists until a full page reload. Neither an explicit
- * window.getSelection().removeAllRanges() nor a capture-phase event interceptor
- * (both tried first) fixed it, and no matching issue turned up in Tabulator's own
- * issue tracker, so rather than clean up after the fact, this replaces
- * initializeFocus on the instance (shadowing the class's prototype method for this
- * table only, standard JS prototype-shadowing -- every rebuilt table needs this
- * called again, same as any other per-instance setup here) with a version that keeps
- * the restoreFocus() call but skips the native-selection manipulation entirely, since
- * this app has its own CSS-based selection highlighting and doesn't rely on that
- * native selection for anything.
+ * SelectRange's initializeFocus() focuses the table, which arrow-key navigation needs,
+ * and also adds the cell to window.getSelection(). After that has happened once, other
+ * Tabulator tables on the page lose drag-to-select-text until the page is reloaded;
+ * removeAllRanges() does not fix it. This replaces initializeFocus on this instance
+ * only, keeping the focus call and dropping the selection change. MCZbase highlights
+ * selections with CSS, so nothing depends on the native selection.
  *
- * Safe to call on any table regardless of whether SelectRange is actually active --
- * every module is always instantiated, just not necessarily initialized, so
- * table.modules.selectRange exists either way.
+ * Call it on every newly built table. It is safe whether or not SelectRange is
+ * enabled, because table.modules.selectRange always exists.
  *
  * @param table the Tabulator instance to patch.
  */
