@@ -593,7 +593,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								<span class="mcz-toolbar-group">
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="openProjectsColumnChooser('columnChooserDialog');">Select Columns</button>
 									<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
-										<div id="columnChooserList" class="px-1"></div>
+										<!--- A fieldset names the checkboxes as a group, so a screen reader says
+										      "Columns to show, grouping" when focus enters the list. --->
+										<fieldset class="px-1">
+											<legend class="w-auto font-weight-bold mb-2">Columns to show</legend>
+											<div id="columnChooserList"></div>
+										</fieldset>
 									</div>
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
 									<!--- Hidden until a column actually is hidden; mczRefreshShowHiddenColumnsButton
