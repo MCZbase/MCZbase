@@ -943,6 +943,11 @@ function mczGroupHeaderElement(table, group, value, count) {
 			});
 		}, 0);
 	});
+	/* Screen readers only: "Grouped by Start Date: 2018-08-01 (3)", so the button says
+	   what it is; the visible header stays "Start Date: 2018-08-01 (3)". */
+	var prefix = document.createElement("span");
+	prefix.className = "sr-only";
+	prefix.textContent = "Grouped by ";
 	var label = document.createElement("span");
 	label.className = "font-weight-lessbold";
 	label.textContent = mczColumnTitle(table, group.getField()) + ": ";
@@ -953,6 +958,7 @@ function mczGroupHeaderElement(table, group, value, count) {
 	var tally = document.createElement("span");
 	tally.className = "text-muted ml-1";
 	tally.textContent = "(" + count + ")";
+	toggle.appendChild(prefix);
 	toggle.appendChild(label);
 	toggle.appendChild(shown);
 	toggle.appendChild(tally);
