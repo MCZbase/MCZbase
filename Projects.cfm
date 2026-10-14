@@ -35,6 +35,7 @@ Search-with-results page for Projects.
 <cfparam name="url.year" default="">
 <cfparam name="url.start_year" default="">
 <cfparam name="url.end_year" default="">
+<cfparam name="url.project_status" default="">
 <cfparam name="url.descr_len" default="">
 <cfparam name="url.project_description" default="">
 <cfparam name="url.project_remarks" default="">
@@ -59,6 +60,16 @@ Search-with-results page for Projects.
 <cfset variables.year = url.year>
 <cfset variables.start_year = url.start_year>
 <cfset variables.end_year = url.end_year>
+<cfset variables.project_status = url.project_status>
+<!--- Active/Finished used to be typed into End Year as NULL / NOT NULL; links and saved
+      searches carrying those now set Status instead, leaving the year empty. --->
+<cfif variables.end_year EQ "NULL">
+	<cfset variables.project_status = "active">
+	<cfset variables.end_year = "">
+<cfelseif variables.end_year EQ "NOT NULL">
+	<cfset variables.project_status = "finished">
+	<cfset variables.end_year = "">
+</cfif>
 <cfset variables.descr_len = url.descr_len>
 <cfset variables.project_description = url.project_description>
 <cfset variables.project_remarks = url.project_remarks>
@@ -333,19 +344,30 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 												      the range subsumes it. Its BETWEEN was also broken -- see the year clauses in
 												      projects/component/search.cfc. The year argument is still accepted there, so
 												      saved searches carrying it keep working. --->
-												<div class="col-12">
-													<div class="d-flex align-items-end">
-														<span class="flex-fill">
-															<label for="start_year" class="data-entry-label mb-0">Start Year</label>
-															<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
-														</span>
-														<span class="text-secondary px-1 pb-1">&ndash;</span>
-														<span class="flex-fill">
-															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year</label>
-															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
-															<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
-														</span>
+												<!--- "Active between": the two years are one range, and a project matches if it
+												      was running at any point in it (see search.cfc). Labelled as a range, not
+												      "Start Year" / "End Year", which read as the project's own dates. Years only;
+												      anything else is caught by mczValidateYearRange before searching, rather than
+												      silently ignored by the server. Status (formerly NULL / NOT NULL typed into
+												      End Year) is its own control. --->
+												<div class="col-12 col-md-8" role="group" aria-labelledby="activeBetweenLabel">
+													<span id="activeBetweenLabel" class="data-entry-label mb-0">Active between</span>
+													<div class="d-flex align-items-center">
+														<label for="start_year" class="sr-only">Active from year</label>
+														<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
+														<span class="text-secondary px-2">and</span>
+														<label for="end_year" class="sr-only">Active to year</label>
+														<input type="text" id="end_year" name="end_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
 													</div>
+													<p id="yearRangeError" class="text-danger small mb-0"></p>
+												</div>
+												<div class="col-12 col-md-4">
+													<label for="project_status" class="data-entry-label">Status</label>
+													<select id="project_status" name="project_status" class="data-entry-select">
+														<option value="" <cfif variables.project_status EQ "">selected</cfif>>Any</option>
+														<option value="active" <cfif variables.project_status EQ "active">selected</cfif>>Active (no end date)</option>
+														<option value="finished" <cfif variables.project_status EQ "finished">selected</cfif>>Finished (has an end date)</option>
+													</select>
 												</div>
 												<cfif oneOfUs EQ 1>
 													<div class="col-12 col-md-9">
@@ -1506,6 +1528,33 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
+	 * mczValidateYearRange checks the "Active between" year boxes before a search. Each
+	 * must be empty or a 4-digit year: search.cfc skips anything else, so a typed date
+	 * such as 2022-08-26 used to be dropped silently and every project came back. A bad
+	 * box is marked aria-invalid, the message appears in #yearRangeError (each box's
+	 * aria-describedby, so a screen reader reads it with the box), and focus moves to it.
+	 *
+	 * @return true if the years are usable and the search can run.
+	 */
+	function mczValidateYearRange() {
+		var firstBad = null;
+		["start_year", "end_year"].forEach(function (id) {
+			var input = $("##" + id);
+			var value = $.trim(input.val());
+			var ok = value === "" || /^\d{4}$/.test(value);
+			input.attr("aria-invalid", ok ? null : "true");
+			if (!ok && !firstBad) {
+				firstBad = input;
+			}
+		});
+		$("##yearRangeError").text(firstBad ? "Enter a 4-digit year, such as 2022." : "");
+		if (firstBad) {
+			firstBad.trigger("focus");
+		}
+		return !firstBad;
+	}
+
+	/**
 	 * searchProjects starts a new search (as opposed to a page/size/sort change, which
 	 * Tabulator triggers on its own): builds the grid if this is the very first search
 	 * (which fetches page 1 itself, on construction, through mczProjectsAjaxRequest --
@@ -1615,7 +1664,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		});
 		$("##searchForm").on("submit", function (e) {
 			e.preventDefault();
-			searchProjects();
+			if (mczValidateYearRange()) {
+				searchProjects();
+			}
 		});
 
 		<cfif len(url.execute) GT 0>

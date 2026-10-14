@@ -118,8 +118,10 @@ the caller. Returns one row per matching project, ordered by project_name.
 @param start_year with end_year, a range of years the project must overlap: it must still
 	have been running in or after start_year.
 @param end_year with start_year, a range of years the project must overlap: it must have
-	started in or before end_year. "NOT NULL" instead restricts to projects with a defined
-	end_date (not ongoing), "NULL" to projects with no end_date (ongoing).
+	started in or before end_year. "NOT NULL" and "NULL" are still accepted, from saved
+	searches made before project_status, as project_status "finished" and "active".
+@param project_status "active" for projects with no end_date (ongoing), "finished" for
+	projects with one; blank for either.
 @param descr_len minimum length, in characters, of project_description.
 @param project_description substring to match against project_description.
 @param project_remarks substring to match against project_remarks.
@@ -186,6 +188,7 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="year" type="string" required="no" default="">
 	<cfargument name="start_year" type="string" required="no" default="">
 	<cfargument name="end_year" type="string" required="no" default="">
+	<cfargument name="project_status" type="string" required="no" default="">
 	<cfargument name="descr_len" type="string" required="no" default="">
 	<cfargument name="project_description" type="string" required="no" default="">
 	<cfargument name="project_remarks" type="string" required="no" default="">
@@ -417,6 +420,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 				<cfelseif len(arguments.end_year) GT 0 AND isnumeric(arguments.end_year)>
 					AND NVL(TO_NUMBER(TO_CHAR(project.start_date,'YYYY')), 0)
 						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
+				</cfif>
+				<cfif arguments.project_status EQ "active">
+					AND project.end_date IS NULL
+				<cfelseif arguments.project_status EQ "finished">
+					AND project.end_date IS NOT NULL
 				</cfif>
 				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
 					AND project.project_id IN (
