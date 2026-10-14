@@ -2,10 +2,45 @@
 <meta name="robots" content="noindex"><title>MCZbase</title></head>
 <body><p id="m">Loading specimen record&hellip;</p>
 <script>
+// Set the cookie, then load the record again, once.
+var message = document.getElementById("m");
+
+/** Replace the message with text followed by a link.
+ *  @param text the text before the link.
+ *  @param href the link's address.
+ *  @param linkText the link's text.
+ */
+function showLink(text, href, linkText) {
+	var link = document.createElement("a");
+	link.href = href;
+	link.textContent = linkText;
+	message.textContent = text;
+	message.appendChild(link);
+}
+
 document.cookie = "mczok=1; Max-Age=2592000; Path=/; Secure; SameSite=Lax";
-if (document.cookie.indexOf("mczok=1") >= 0) location.reload();
-else document.getElementById("m").textContent =
-  "Please enable cookies to view MCZbase specimen records.";
+if (document.cookie.indexOf("mczok=1") < 0) {
+	message.textContent = "Please enable cookies to view MCZbase specimen records.";
+} else if (location.pathname.indexOf("/guid/") !== 0) {
+	location.replace("/Specimens.cfm");
+} else {
+	var reloadKey = "mczcheck:" + location.pathname + location.search;
+	var now = Date.now();
+	var lastReload = null;
+	try {
+		lastReload = sessionStorage.getItem(reloadKey);
+		sessionStorage.setItem(reloadKey, String(now));
+	} catch (e) {
+		lastReload = "unknown";
+	}
+	if (lastReload === "unknown") {
+		showLink("", location.href, "Continue to the specimen record");
+	} else if (lastReload !== null && now - Number(lastReload) < 30000) {
+		showLink("This specimen record could not be loaded. ", "/Specimens.cfm", "Search MCZbase specimens");
+	} else {
+		location.reload();
+	}
+}
 </script>
 <noscript>Please enable JavaScript to view MCZbase specimen records.
 </noscript></body></html>
