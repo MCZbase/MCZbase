@@ -243,8 +243,8 @@ limitations under the License.
 	<cfset var sessionsReturned = "">
 	<cfset var sessionLifetime = "">
 	<cfset var html = "">
-	<!--- a session that is used again, as every logged in one is, lasts this.sessionTimeout (Application.cfc), in days --->
-	<cfset var SESSION_HOURS = round(getApplicationMetadata().sessionTimeout * 24 * 100) / 100>
+	<!--- a session that is used again, as every logged in one is, lasts Application.SESSION_SECONDS --->
+	<cfset var SESSION_HOURS = round(Application.SESSION_SECONDS / 36) / 100>
 	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 		<cfthrow message="Not authorized">
 	</cfif>

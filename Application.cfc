@@ -477,6 +477,9 @@ limitations under the License.
 	<cffunction name="onRequestStart" returnType="boolean" output="true">
 		<cfset var healthCheck = "">
 		<cfset var healthCheck_result = "">
+		<!--- for initSession, after sessionRotate, and the Admin Panel, as getApplicationMetadata().sessionTimeout
+			isn't in days; set on every request, so a change to this.sessionTimeout applies without a restart --->
+		<cfset Application.SESSION_SECONDS = variables.SESSION_SECONDS>
 		<!--- healthy when ColdFusion answers and the database responds, as when the check loaded / --->
 		<cfif variables.isHealthCheck>
 			<cftry>

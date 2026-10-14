@@ -259,7 +259,7 @@ limitations under the License.
 			the old one until the browser's next request. --->
 		<cfset sessionRotate()>
 		<!--- onRequestStart gave the full lifetime to the session replaced here, not to the new one --->
-		<cfset session.setMaxInactiveInterval(javaCast("long", round(getApplicationMetadata().sessionTimeout * 86400)))>
+		<cfset session.setMaxInactiveInterval(javaCast("long", Application.SESSION_SECONDS))>
 		<cfif isDefined("recordLoginSuccess")>
 			<cfset recordLoginSuccess(username)>
 		</cfif>
