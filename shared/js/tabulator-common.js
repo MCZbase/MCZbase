@@ -230,6 +230,27 @@ function mczSafeLinkFormatter(textField, hrefFn, className) {
 }
 
 /**
+ * mczOverflowTooltip is a Tabulator column `tooltip` that shows a cell's full text, but
+ * only when the cell is too narrow to show all of it. Returns an element with the text
+ * set as textContent, because Tabulator puts a returned string into innerHTML
+ * unescaped. Returns null for no tooltip; a returned false would be shown as "false".
+ *
+ * @param e the mouse event.
+ * @param cell the CellComponent under the pointer.
+ * @return a <div> holding the cell's text, or null if nothing is cut off.
+ */
+function mczOverflowTooltip(e, cell) {
+	var element = cell.getElement();
+	var text = element.textContent;
+	if (!text || element.scrollWidth <= element.clientWidth) {
+		return null;
+	}
+	var tooltip = document.createElement("div");
+	tooltip.textContent = text;
+	return tooltip;
+}
+
+/**
  * mczAddPageJumpControl adds a select listing every page in place of Tabulator's
  * numbered page buttons, which show only about 5 pages around the current one. The
  * jqxGrid pages have the same page select. The buttons are hidden in

@@ -791,8 +791,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				headerFilterParams: mczHeaderFilterLabel("Project"),
 				headerMenu: projectsHeaderMenu
 			},
-			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
-			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsor(s)"), headerMenu: projectsHeaderMenu },
+			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
+			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsor(s)"), headerMenu: projectsHeaderMenu },
 			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
 			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
 		];
