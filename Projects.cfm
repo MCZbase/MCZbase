@@ -581,8 +581,16 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								</span>
 								<!--- Rows: selecting them, and getting them out. --->
 								<span class="mcz-toolbar-group">
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export CSV</button>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export Excel</button>
+									<div class="d-inline-flex align-items-center flex-wrap mx-1">
+										<label for="exportFormat" class="mb-0 mr-1 small90">Export as:</label>
+										<select id="exportFormat" class="data-entry-select d-inline w-auto">
+											<option value="csv" selected>CSV</option>
+											<option value="xlsx">Excel (.xlsx)</option>
+											<option value="json">JSON</option>
+											<option value="html">HTML</option>
+										</select>
+										<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="exportProjects('exportFormat', 'exportSelectedOnly', 'overlay');">Export</button>
+									</div>
 									<!--- Outer span carries the show/hide; the flex class sits on the inner one
 									      (d-inline-flex is !important and would beat display:none). --->
 									<span id="exportSelectedOnlyContainer" style="display:none;">
@@ -1300,7 +1308,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
-	 * exportProjects downloads the current search as CSV or Excel.
+	 * exportProjects downloads the current search as CSV, Excel, JSON or HTML.
 	 *
 	 * Exports every project matching the current search, not just the page on screen:
 	 * in remote pagination mode the table only holds the current page, so
@@ -1312,14 +1320,16 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * When "Selected rows only" is checked (offered in the row selection modes), exports
 	 * just the selected rows instead, with no server request.
 	 *
-	 * @param format "csv" or "xlsx".
+	 * @param formatSelectId id (no leading ##) of the format select; its value is "csv",
+	 *   "xlsx", "json" or "html".
 	 * @param selectedOnlyCheckboxId id (no leading ##) of the "Selected rows only" checkbox.
 	 * @param overlayId id (no leading ##) of the loading overlay to show while working.
 	 */
-	function exportProjects(format, selectedOnlyCheckboxId, overlayId) {
+	function exportProjects(formatSelectId, selectedOnlyCheckboxId, overlayId) {
 		if (!projectsTable) {
 			return;
 		}
+		var format = $("##" + formatSelectId).val() || "csv";
 		var filename = mczExportFilename("project", format);
 		function writeRows(rows) {
 			if (format === "xlsx") {
@@ -1330,6 +1340,14 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					$("##" + overlayId).hide();
 					messageDialog("Could not create the Excel file: " + error.message, "Export to Excel");
 				});
+			}
+			if (format === "json") {
+				mczDownloadBlob(new Blob([mczBuildJson(projectsTable, rows, true)], { type: "application/json;charset=utf-8" }), filename);
+				return;
+			}
+			if (format === "html") {
+				mczDownloadBlob(new Blob([mczBuildHtmlDocument(projectsTable, rows, true, "MCZbase Projects")], { type: "text/html;charset=utf-8" }), filename);
+				return;
 			}
 			exportToCSV(mczBuildCsv(projectsTable, rows, true), filename);
 		}

@@ -464,16 +464,47 @@ function mczSaveTableColumnOrder(table, pageFilePath, label, feedbackDiv) {
 }
 
 /**
+ * mczExportColumns returns the columns an export includes, in their current order.
+ * Columns without a field, or with `download: false`, are always left out. Hidden
+ * columns are included when includeHidden is true, matching the jqxGrid pages'
+ * exportGridToCSV(), which exports hidden columns too.
+ *
+ * @param table the Tabulator instance whose columns describe the export.
+ * @param includeHidden true to include hidden columns.
+ * @return an array of ColumnComponents.
+ */
+function mczExportColumns(table, includeHidden) {
+	return table.getColumns().filter(function (column) {
+		var def = column.getDefinition();
+		return def.field && def.download !== false && (includeHidden || column.isVisible());
+	});
+}
+
+/**
+ * mczExportValue returns one row's value for one column as an export writes it: passed
+ * through the column's accessorDownload, if it has one, with null and undefined as "".
+ *
+ * @param column the ColumnComponent.
+ * @param row the row data object, keyed by field.
+ * @return the value to export.
+ */
+function mczExportValue(column, row) {
+	var def = column.getDefinition();
+	var value = row[def.field];
+	if (typeof def.accessorDownload === "function") {
+		value = def.accessorDownload(value, row, "download", def.accessorDownloadParams || {}, column);
+	}
+	return (value === null || value === undefined) ? "" : value;
+}
+
+/**
  * mczBuildExportRows turns an array of row data objects into an array of arrays (a
  * header row, then one array per data row) using a Tabulator table's column
  * definitions for the header text, column order, and any per-column accessorDownload
  * -- so a caller can export rows fetched separately from the server (e.g. every
  * matching row, in remote pagination mode, where table.download() would only see the
- * one page currently loaded), or the table's own selected rows.
- *
- * Columns without a field, or with `download: false`, are always left out. Hidden
- * columns are included when includeHidden is true, matching the jqxGrid pages'
- * exportGridToCSV(), which exports hidden columns too.
+ * one page currently loaded), or the table's own selected rows. See mczExportColumns
+ * for which columns are included.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -481,25 +512,96 @@ function mczSaveTableColumnOrder(table, pageFilePath, label, feedbackDiv) {
  * @return array of arrays; element 0 is the header row.
  */
 function mczBuildExportRows(table, rows, includeHidden) {
-	var columns = table.getColumns().filter(function (column) {
-		var def = column.getDefinition();
-		return def.field && def.download !== false && (includeHidden || column.isVisible());
-	});
+	var columns = mczExportColumns(table, includeHidden);
 	var result = [columns.map(function (column) {
 		var def = column.getDefinition();
 		return def.titleDownload || def.title || def.field;
 	})];
 	rows.forEach(function (row) {
 		result.push(columns.map(function (column) {
-			var def = column.getDefinition();
-			var value = row[def.field];
-			if (typeof def.accessorDownload === "function") {
-				value = def.accessorDownload(value, row, "download", def.accessorDownloadParams || {}, column);
-			}
-			return (value === null || value === undefined) ? "" : value;
+			return mczExportValue(column, row);
 		}));
 	});
 	return result;
+}
+
+/**
+ * mczBuildJson builds JSON text from an array of row data objects: an array of
+ * objects keyed by field name (the database field names, not the column titles, so
+ * the file is usable by a script without a lookup). Takes the same inputs as
+ * mczBuildCsv, and includes the same columns and values.
+ *
+ * @param table the Tabulator instance whose columns describe the export.
+ * @param rows array of row data objects, keyed by field.
+ * @param includeHidden true to include hidden columns.
+ * @return JSON text.
+ */
+function mczBuildJson(table, rows, includeHidden) {
+	var columns = mczExportColumns(table, includeHidden);
+	return JSON.stringify(rows.map(function (row) {
+		var record = {};
+		columns.forEach(function (column) {
+			record[column.getField()] = mczExportValue(column, row);
+		});
+		return record;
+	}), null, 2);
+}
+
+/**
+ * mczBuildHtmlDocument builds a standalone HTML document holding the rows as a table,
+ * for opening in a browser or a word processor. Every title and value is escaped, since
+ * they are row data. Takes the same inputs as mczBuildCsv, plus a document title.
+ *
+ * @param table the Tabulator instance whose columns describe the export.
+ * @param rows array of row data objects, keyed by field.
+ * @param includeHidden true to include hidden columns.
+ * @param title text for the document's title and heading.
+ * @return HTML text.
+ */
+function mczBuildHtmlDocument(table, rows, includeHidden, title) {
+	function escapeHtml(value) {
+		return String(value)
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#39;");
+	}
+	var lines = mczBuildExportRows(table, rows, includeHidden);
+	var header = lines.shift();
+	var html = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n" +
+		"<title>" + escapeHtml(title) + "</title>\n" +
+		"<style>body{font-family:sans-serif;font-size:14px;}" +
+		"table{border-collapse:collapse;}" +
+		"th,td{border:1px solid #bac5c6;padding:4px 6px;text-align:left;vertical-align:top;}" +
+		"th{background:#deebec;}</style>\n</head>\n<body>\n" +
+		"<h1>" + escapeHtml(title) + "</h1>\n<table>\n<thead>\n<tr>";
+	header.forEach(function (cell) {
+		html += "<th scope=\"col\">" + escapeHtml(cell) + "</th>";
+	});
+	html += "</tr>\n</thead>\n<tbody>\n";
+	lines.forEach(function (line) {
+		html += "<tr>" + line.map(function (cell) {
+			return "<td>" + escapeHtml(cell) + "</td>";
+		}).join("") + "</tr>\n";
+	});
+	return html + "</tbody>\n</table>\n</body>\n</html>\n";
+}
+
+/**
+ * mczDownloadBlob starts a browser download of a Blob.
+ *
+ * @param blob the content to download.
+ * @param filename download filename.
+ */
+function mczDownloadBlob(blob, filename) {
+	var link = document.createElement("a");
+	link.href = URL.createObjectURL(blob);
+	link.download = filename;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	setTimeout(function () { URL.revokeObjectURL(link.href); }, 10000);
 }
 
 /**
@@ -577,14 +679,7 @@ function mczExportRowsToExcel(table, rows, includeHidden, filename, sheetName) {
 		sheet.views = [{ state: "frozen", ySplit: 1 }];
 		return workbook.xlsx.writeBuffer();
 	}).then(function (buffer) {
-		var blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-		var link = document.createElement("a");
-		link.href = URL.createObjectURL(blob);
-		link.download = filename;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-		setTimeout(function () { URL.revokeObjectURL(link.href); }, 10000);
+		mczDownloadBlob(new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), filename);
 	});
 }
 
@@ -593,7 +688,7 @@ function mczExportRowsToExcel(table, rows, includeHidden, filename, sheetName) {
  * (see gridLoaded() in Taxa.cfm): {searchType}_results_{timestamp}.{extension}.
  *
  * @param searchType e.g. "project".
- * @param extension "csv" or "xlsx".
+ * @param extension "csv", "xlsx", "json" or "html".
  * @return the filename.
  */
 function mczExportFilename(searchType, extension) {
