@@ -1109,9 +1109,18 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	function mczHandleProjectsSearchResponse(response) {
 		var totalRows = response.last_row || 0;
 		$("##resultCount").text("Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".");
-		$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
+		var searchUrl = "/Projects.cfm?execute=true&" +
 			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
-				.not(".excludeFromLink").serialize() + '">Link to this search</a>');
+				.not(".excludeFromLink").serialize();
+		$("##resultLink").html('<a href="' + searchUrl + '">Link to this search</a>');
+		/* A new search also becomes the page's own address, without reloading: leaving for
+		   another page (e.g. Edit) and pressing Back then returns to this search rerun,
+		   rather than an empty form. Results load by AJAX after the page, so a page Chrome
+		   reloads on Back otherwise comes back without them. replaceState, not pushState,
+		   so each search does not add a Back step of its own. */
+		if (projectsFocusResults && window.history && window.history.replaceState) {
+			window.history.replaceState(window.history.state, "", searchUrl);
+		}
 		/* First successful search: reveal the toolbar controls and the results
 		   count/link, none of which should be visible before this point. Calling show()
 		   again on every later response is harmless. */
