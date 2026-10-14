@@ -921,6 +921,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			/* "Showing 1-50 of 173 rows", as Tabulator's own "rows" counter, which shows
 			   "1-1" when the page size is All (see mczPaginationRowsCounter). */
 			paginationCounter: mczPaginationRowsCounter,
+			/* No Tabulator "Loading" box: the page's own "Searching..." overlay shows for
+			   every load (mczProjectsAjaxRequest), and Tabulator's box sat dimmed beneath it
+			   -- the grid is its own stacking context, so no z-index can lift the box above
+			   the overlay without lifting the whole grid. aria-busy still marks loading. */
+			dataLoader: false,
 			/* Groups start closed: the reason to group is to read the counts, and 2000
 			   rows expanded is not a view anyone wants first. */
 			groupStartOpen: false,
