@@ -725,32 +725,10 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 /** Bind a paired hidden id and text name control into a project picker, for use by the
  * generic related-record relationship picker (pickedRelationship).
  *
- * WORKAROUND, read before "modernizing" this: media.cfm (this function's only caller)
- * includes /includes/_header.cfm, which -- unless the including page sets a "jquery11"
- * variable before the include (agents/editAgent.cfm does this; media.cfm does not) --
- * falls into includes/alwaysInclude.cfm's <cfelse> branch. That branch loads jQuery 1.3.2
- * (not the 1.11.3 the rest of this codebase assumes) and ONLY a datepicker-only jQuery UI
- * build (jquery.ui.datepicker.min.js), not the full jquery-ui-1.11.4.custom bundle that
- * ships the autocomplete and dialog widgets. Two consequences, confirmed live on
- * media.cfm?action=edit:
- *   1. $(...).autocomplete(...) throws "is not a function" -- the widget code simply isn't
- *      loaded on this page. This is why this function does NOT follow the
- *      $(...).autocomplete()-based pattern used by every other modern picker in this app
- *      (e.g. transactions.js's makeAccessionAutocompleteMeta) -- that pattern would fail
- *      here the same way.
- *   2. messageDialog() (includes/js/messageDialogWorkaround.js, itself a workaround for a
- *      DIFFERENT missing-shared-scripts.js problem) calls .dialog(...) internally, which is
- *      equally unavailable here -- so this function uses plain alert() for its error path
- *      rather than messageDialog(), to avoid swapping one broken dependency for another.
- * Instead, this binds a native HTML <datalist> (needs no jQuery UI at all) to the existing
- * text field, and uses jQuery's bind()/unbind() rather than on()/off() (on() was only added
- * in jQuery 1.7, well after the 1.3.2 this page may actually be running).
- *
- * Setting jquery11=true on media.cfm (matching editAgent.cfm's precedent) would fix the
- * root cause and let this be rewritten using the standard autocomplete pattern -- but that
- * upgrades jQuery for the WHOLE page, a bigger blast radius than this function alone, and
- * was deliberately deferred pending a real redesign of media.cfm onto /shared/_header.cfm.
- * Replace this entire function with the standard $(...).autocomplete() pattern at that time.
+ * media.cfm, this function's only caller, was written for jQuery 1.3.2 with no jQuery UI, so this
+ * binds a native <datalist> rather than a jQuery UI autocomplete, and reports errors with alert().
+ * The legacy headers now load jQuery 3.5.1 and jQuery UI 1.12.1, so it can be replaced with the
+ * standard autocomplete pattern when media.cfm is redesigned.
  *
  * @param projIdFld the id of a hidden input to hold the picked project_id.
  * @param projNameFld the id of a text input to be the suggestion field.
