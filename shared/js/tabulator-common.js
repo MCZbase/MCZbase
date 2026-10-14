@@ -251,6 +251,27 @@ function mczOverflowTooltip(e, cell) {
 }
 
 /**
+ * mczPaginationRowsCounter is a Tabulator `paginationCounter`: "Showing 1-50 of 173
+ * rows", as Tabulator's own "rows" counter, but correct when the page size is All.
+ * Tabulator's version computes the last row as first + pageSize - 1, and with All the
+ * page size is true, which counts as 1, so 3 rows showed as "Showing 1-1 of 3 rows".
+ *
+ * @param pageSize rows per page, or true for All.
+ * @param currentRow number of the first row on the page.
+ * @param currentPage current page number (unused).
+ * @param totalRows rows in the whole result.
+ * @param totalPages number of pages (unused).
+ * @return the counter text.
+ */
+function mczPaginationRowsCounter(pageSize, currentRow, currentPage, totalRows, totalPages) {
+	if (!totalRows) {
+		return "Showing 0 rows";
+	}
+	var lastRow = (pageSize === true) ? totalRows : Math.min(currentRow + pageSize - 1, totalRows);
+	return "Showing " + currentRow + "-" + lastRow + " of " + totalRows + " rows";
+}
+
+/**
  * mczAddPageJumpControl adds a select listing every page in place of Tabulator's
  * numbered page buttons, which show only about 5 pages around the current one. The
  * jqxGrid pages have the same page select. The buttons are hidden in

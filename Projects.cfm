@@ -909,10 +909,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			   back on All, or its counts would describe one page of preferredPageSize. */
 			paginationSize: projectsGroupField ? true : preferredPageSize,
 			paginationSizeSelector: PROJECTS_PAGE_SIZE_BASE_OPTIONS.concat([true]),
-			/* Tabulator's own built-in "rows" counter preset ("Showing 1-50 of 173
-			   rows"), rather than a custom one -- this app has no existing convention of
-			   its own to match here. */
-			paginationCounter: "rows",
+			/* "Showing 1-50 of 173 rows", as Tabulator's own "rows" counter, which shows
+			   "1-1" when the page size is All (see mczPaginationRowsCounter). */
+			paginationCounter: mczPaginationRowsCounter,
 			/* Groups start closed: the reason to group is to read the counts, and 2000
 			   rows expanded is not a view anyone wants first. */
 			groupStartOpen: false,
