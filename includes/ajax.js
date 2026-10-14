@@ -293,10 +293,6 @@ function uncheckAllById(list) {
 		}
 	}
 }
-function goPickParts (collection_object_id,transaction_id) {
-	var url='/picks/internalAddLoanItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
-	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
-}
 function hidePageLoad() {
 	$('#loading').hide();
 }
@@ -456,22 +452,6 @@ function makeLineListAutocomplete(fieldId, url, params, maxItems) {
 	});
 }
 jQuery(document).ready(function() {
-	jQuery(document).on('click', '.helpLink', function(e){
-		var id=this.id;
-		removeHelpDiv();
-		var bgDiv = document.createElement('div');
-		bgDiv.id = 'bgDiv';
-		bgDiv.className = 'bgDiv';
-		bgDiv.setAttribute('onclick','removeHelpDiv()');
-		document.body.appendChild(bgDiv);
-		var theDiv = document.createElement('div');
-		theDiv.id = 'helpDiv';
-		theDiv.className = 'helpBox';
-		theDiv.innerHTML='<br>Loading...';
-		document.body.appendChild(theDiv);
-		jQuery("#helpDiv").css({position:"absolute", top: e.pageY, left: e.pageX});
-		jQuery(theDiv).load("/service/get_doc_rest.cfm",{fld: id, addCtl: 1});
-	});
 	jQuery("#c_collection_cust").click(function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -540,14 +520,6 @@ function changecustomOtherIdentifier (tgt) {
 			}
 		}
 	);
-}
-function removeHelpDiv() {
-	if(document.getElementById('bgDiv')){
-		jQuery('#bgDiv').remove();
-	}
-	if (document.getElementById('helpDiv')) {
-		jQuery('#helpDiv').remove();
-	}
 }
 function changeshowObservations (tgt) {
 	jQuery.getJSON("/component/functions.cfc",

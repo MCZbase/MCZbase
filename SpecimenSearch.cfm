@@ -1104,7 +1104,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_1" id="attribute_type_1" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
@@ -1129,7 +1128,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_2" id="attribute_type_2" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
@@ -1154,7 +1152,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_3" id="attribute_type_3" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">

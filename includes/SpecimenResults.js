@@ -383,14 +383,6 @@ function splitBySemicolon(str) {
 	}
 	return rStr;
 }
-function goPickParts (collection_object_id,transaction_id) {
-	var url='/picks/internalAddLoanItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
-	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
-}
-function goPickPartsDeacc (collection_object_id,transaction_id) {
-	var url='/picks/internalAddDeaccItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
-	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
-}
 function removeItems() {
 	var theList = document.getElementById('killRowList').value;
 	var currentLocn = document.getElementById('mapURL').value;
