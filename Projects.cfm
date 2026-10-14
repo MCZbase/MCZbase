@@ -668,6 +668,33 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	/* Set by searchProjects so only a new search moves focus to the results heading --
 	   not every page, size or sort change, which go through the same response handler. */
 	var projectsFocusResults = false;
+	/* The project whose Edit link was followed, kept for this tab (sessionStorage) so that
+	   coming Back puts focus on that Edit link again. Chrome and Edge restore the page as
+	   it was, focus included; Firefox reloads it, and the search reruns from the address
+	   (see mczHandleProjectsSearchResponse). Only a Back or Forward visit uses it; any
+	   other load drops it, so a new search still focuses the results heading. */
+	var PROJECTS_RETURN_EDIT_KEY = "mczProjectsReturnToEdit";
+	var projectsReturnToEdit = null;
+	try {
+		var projectsNavigation = performance.getEntriesByType("navigation")[0];
+		if (projectsNavigation && projectsNavigation.type === "back_forward") {
+			projectsReturnToEdit = sessionStorage.getItem(PROJECTS_RETURN_EDIT_KEY);
+		}
+		sessionStorage.removeItem(PROJECTS_RETURN_EDIT_KEY);
+	} catch (e) {
+		/* No sessionStorage (e.g. blocked site data): Back lands on the heading instead. */
+	}
+	/* A page Chrome or Edge restores as it was runs none of the above, so drop the note
+	   here too; otherwise a later Back could send focus to an older Edit link. */
+	window.addEventListener("pageshow", function (e) {
+		if (e.persisted) {
+			try {
+				sessionStorage.removeItem(PROJECTS_RETURN_EDIT_KEY);
+			} catch (err) {
+				/* Nothing to drop. */
+			}
+		}
+	});
 	/* Set around a programmatic setPageSize so pageSizeChanged does not read it as the
 	   user's own choice. */
 	var projectsIgnoreNextPageSizeChange = false;
@@ -782,6 +809,15 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					a.className = "btn-xs btn-outline-primary";
 					a.href = "/projects/Project.cfm?action=edit&project_id=" + encodeURIComponent(d.project_id);
 					a.textContent = "Edit";
+					/* Remembered for coming Back to this link: see PROJECTS_RETURN_EDIT_KEY. */
+					a.setAttribute("data-project-id", d.project_id);
+					a.addEventListener("click", function () {
+						try {
+							sessionStorage.setItem(PROJECTS_RETURN_EDIT_KEY, String(d.project_id));
+						} catch (e) {
+							/* No sessionStorage: Back lands on the results heading instead. */
+						}
+					});
 					return a;
 				}
 			});
@@ -1133,7 +1169,14 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   first, so nothing it does on render takes focus back. */
 		if (projectsFocusResults) {
 			projectsFocusResults = false;
-			setTimeout(function () { $("##resultsHeading").trigger("focus"); }, 0);
+			var returnTo = projectsReturnToEdit;
+			projectsReturnToEdit = null;
+			setTimeout(function () {
+				/* Back from an Edit page: that project's Edit link, if it is on this page of
+				   the rerun search; otherwise the heading, as for any new search. */
+				var editLink = /^\d+$/.test(returnTo || "") ? $('##projectsGridDiv a[data-project-id="' + returnTo + '"]') : $();
+				(editLink.length ? editLink : $("##resultsHeading")).first().trigger("focus");
+			}, 0);
 		}
 		projectsTotalRows = totalRows;
 		if (projectsGroupField && totalRows > PROJECTS_GROUP_MAX_ROWS) {
