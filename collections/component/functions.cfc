@@ -546,7 +546,8 @@ limitations under the License.
 	role (institution acronym and collection code, e.g. MCZ_HERP), which gives access to the
 	collection's data through its VPD, and any roles it is granted to.  Global admins and curatorial
 	associates, who have access to every collection, are grouped separately from the accounts specific
-	to this one; an account holding both is grouped with the global admins.
+	to this one; an account holding both is grouped with the global admins.  Database accounts with
+	no MCZbase user are listed only for global admins.
 
 	@param collection_id the collection to report on.
 	@param show_roles true to list every role each account holds.
@@ -572,11 +573,15 @@ limitations under the License.
 	<cfset var GROUP_LABELS = { specific = "Accounts for this collection", admins = "Global admins", associates = "Curatorial associates" }>
 	<cfset var rolesByAccount = structNew()>
 	<cfset var collectionRoles = "">
+	<cfset var showUnlinked = false>
 	<cfset var openCount = 0>
 	<cfset var group = "">
 	<cfset var name = "">
 	<cfset var role = "">
 	<cfset requirePanelViewer()>
+	<cfif listFindNoCase(session.roles, "global_admin") GT 0>
+		<cfset showUnlinked = true>
+	</cfif>
 	<cfquery name="collection" datasource="uam_god" result="collection_result">
 		SELECT institution_acronym, collection_cde
 		FROM collection
@@ -596,6 +601,9 @@ limitations under the License.
 			LEFT JOIN cf_users cu ON upper(cu.username) = rp.grantee
 			LEFT JOIN cf_user_data cud ON cud.user_id = cu.user_id
 		WHERE rp.granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+			<cfif NOT showUnlinked>
+				AND cu.username IS NOT NULL
+			</cfif>
 		ORDER BY CASE WHEN u.account_status = 'OPEN' THEN 0 ELSE 1 END, rp.grantee
 	</cfquery>
 	<cfquery name="viaRoles" datasource="uam_god" result="viaRoles_result">
@@ -650,7 +658,7 @@ limitations under the License.
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<p class="mb-2">
-				#holders.recordcount# database accounts hold #encodeForHtml(lcase(collectionRole))#, which gives access to this collection's data; #openCount# of them are open.
+				#holders.recordcount# <cfif showUnlinked>database accounts<cfelse>MCZbase users</cfif> hold #encodeForHtml(lcase(collectionRole))#, which gives access to this collection's data; #openCount# of them are open.
 				<cfif viaRoles.recordcount GT 0>
 					It is also granted to the roles #encodeForHtml(lcase(valueList(viaRoles.grantee, ", ")))#, so their holders have access too.
 				</cfif>
