@@ -1,10 +1,4 @@
-<cftry>
-	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-<cfcatch>
-	<cfset gitBranch = "unknown">
-</cfcatch>
-</cftry>
+<!--- Runs without a session or client variables (FORWARD_ONLY_PAGES in Application.cfc), so it may only forward. --->
 <cfscript>
 	getPageContext().forward("/Specimens.cfm");
 </cfscript>

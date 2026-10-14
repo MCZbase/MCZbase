@@ -1,7 +1,7 @@
 <!---
 _header.cfm
 
-Copyright 2019-2021 President and Fellows of Harvard College
+Copyright 2019-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ limitations under the License.
 	<!--- TODO: Move to initSession --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+		<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 	<cfcatch>
 		<cfset gitBranch = "unknown">
 	</cfcatch>
@@ -60,8 +60,8 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<!--- Easy to overlook this shared function file ---> 
-<cfinclude template="/shared/functionLib.cfm">
+<!--- Easy to overlook this shared function file; runOnce, as a page may include it ahead of the header --->
+<cfinclude template="/shared/functionLib.cfm" runOnce="true">
 <!--- switch out version of library files to use --->
 <cfset jqwidgets_ver = "jqwidgets_ver20.0.0">
 <!--- include stylesheets and javascript library files --->

@@ -25,6 +25,26 @@ limitations under the License.
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
 	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
+	<!--- A new session lasts five minutes, until the client comes back with it (onRequestStart), so a
+		crawler that keeps no cookies leaves only a short lived session behind. --->
+	<cfset variables.NEW_SESSION_SECONDS = 300>
+	<cfset variables.SESSION_SECONDS = round(This.sessionTimeout * 86400)>
+	<!--- Pages that only forward to another page.  The forwarded request can't find a session these
+		start, as its cookie hasn't reached the browser, and starts a second one; so these start none.
+		Each page says so, as code added to one can't use the session. --->
+	<cfset variables.FORWARD_ONLY_PAGES = "/index.cfm,/agents/index.cfm,/dataquality/index.cfm,/localities/index.cfm,/media/index.cfm,/metrics/index.cfm,/metrics/datafiles/index.cfm,/shared/images/index.cfm,/specimens/index.cfm,/transactions/index.cfm,/users/index.cfm,/vocabularies/index.cfm">
+	<!--- The load balancer's health check never returns a session, so it gets none, and onRequestStart
+		answers it without running the page.  Anything else sending this user agent gets only that answer. --->
+	<cfset variables.HEALTH_CHECK_AGENT = "ELB-HealthChecker">
+	<cfset variables.isHealthCheck = false>
+	<cfif left(cgi.http_user_agent, len(variables.HEALTH_CHECK_AGENT)) EQ variables.HEALTH_CHECK_AGENT>
+		<cfset variables.isHealthCheck = true>
+	</cfif>
+	<!--- Client management is off too, as it would still set CFID, CFTOKEN and CFGLOBALS cookies. --->
+	<cfif variables.isHealthCheck OR listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
+		<cfset This.SessionManagement="False" />
+		<cfset This.ClientManagement="False" />
+	</cfif>
 	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
 		host to be served over https, as a browser will not return the cookie over http. --->
@@ -192,7 +212,6 @@ limitations under the License.
 		</cfloop>
 
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
-		<cfset Application.session_timeout=90 /><!--- in minutes --->
 		<cfset Application.ajax_timeout=60 /><!--- in seconds, for ajax calls for search/browse --->
 		<cfset Application.query_timeout=55 /><!--- in seconds, for cfquery for search/browse --->
 		<cfset Application.short_timeout=5 /><!--- in seconds, for cfquery that should complete rapidly --->
@@ -399,13 +418,84 @@ limitations under the License.
 
 	<!-------------------------------------------------------------->
 
+	<!---
+		sessionStats counts sessions started and sessions that came back after their first request,
+		for the Admin Panel.  Created on first use, as onApplicationStart doesn't run again when new code
+		is deployed.
+
+		@return Application.sessionStats, with since, the time counting began, and started and returned,
+			java.util.concurrent.atomic.AtomicLong counters.
+	--->
+	<cffunction name="sessionStats" access="private" output="false" returntype="struct">
+		<cfif NOT structKeyExists(Application, "sessionStats")>
+			<cflock scope="Application" type="exclusive" timeout="5">
+				<cfif NOT structKeyExists(Application, "sessionStats")>
+					<cfset Application.sessionStats = {
+						since = now(),
+						started = createObject("java", "java.util.concurrent.atomic.AtomicLong").init(javaCast("long", 0)),
+						returned = createObject("java", "java.util.concurrent.atomic.AtomicLong").init(javaCast("long", 0))
+					}>
+				</cfif>
+			</cflock>
+		</cfif>
+		<cfreturn Application.sessionStats>
+	</cffunction>
+	<!-------------------------------------------------------------->
+
+	<!---
+		refuseRequest shows /errors/forbidden.cfm within this request, as a forward or redirect to it would
+		start a second session for a client without a session cookie, and ends the request.  The page's
+		exception (its Access_Violation, or anything else that fails) is passed to onError here, as thrown out
+		of onRequestStart ColdFusion would wrap it as an event handler exception, losing its message and the 403.
+	--->
+	<cffunction name="refuseRequest" access="private" output="true" returntype="void">
+		<cfset var refusalPage = "/errors/forbidden.cfm">
+		<!--- The header's rolecheck would otherwise check the refused page and refuse with its own message.
+			Deliberately passed in the request scope: rolecheck is a custom tag the header calls without
+			attributes, so there is no argument to pass it in. --->
+		<cfset request.rolecheckPath = refusalPage>
+		<cftry>
+			<cfinclude template="#refusalPage#">
+		<cfcatch type="any">
+			<cfset onError(cfcatch, "onRequestStart")>
+		</cfcatch>
+		</cftry>
+		<cfabort />
+	</cffunction>
+	<!-------------------------------------------------------------->
+
 	<cffunction name="onSessionStart" output="false">
-		<cfinclude template="/includes/functionLib.cfm">
+		<!--- only initSession's file: refuseRequest's page includes /shared/functionLib.cfm into this
+			component, which would redeclare functions of /includes/functionLib.cfm --->
+		<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 		<cfset initSession() />
+		<!--- onSessionStart runs ahead of onRequestStart in the same request --->
+		<cfset request.sessionIsNew = true>
+		<cfset session.setMaxInactiveInterval(javaCast("long", variables.NEW_SESSION_SECONDS))>
+		<cfset sessionStats().started.incrementAndGet()>
 	</cffunction>
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onRequestStart" returnType="boolean" output="true">
+		<cfset var healthCheck = "">
+		<cfset var healthCheck_result = "">
+		<!--- for initSession, after sessionRotate, and the Admin Panel, as getApplicationMetadata().sessionTimeout
+			isn't in days; set on every request, so a change to this.sessionTimeout applies without a restart --->
+		<cfset Application.SESSION_SECONDS = variables.SESSION_SECONDS>
+		<!--- healthy when ColdFusion answers and the database responds, as when the check loaded / --->
+		<cfif variables.isHealthCheck>
+			<cftry>
+				<cfquery name="healthCheck" datasource="cf_dbuser" result="healthCheck_result" timeout="5">
+					SELECT 1 FROM dual
+				</cfquery>
+				<cfcontent type="text/plain" reset="true">OK
+			<cfcatch>
+				<cfheader statuscode="503" statustext="Service Unavailable">
+				<cfcontent type="text/plain" reset="true">Database not responding
+			</cfcatch>
+			</cftry>
+			<cfreturn false />
+		</cfif>
 		<!--- uncomment for a break from googlebot ---->
 		<!----
 			<cfif cgi.HTTP_USER_AGENT contains "bot" or cgi.HTTP_USER_AGENT contains "slurp" or cgi.HTTP_USER_AGENT contains "spider">
@@ -419,10 +509,11 @@ limitations under the License.
 		<cfif not isdefined("application.blacklist")>
 			<cfset application.blacklist="" />
 		</cfif>
+		<!--- Refusals below show their page within this request (see refuseRequest). --->
 		<cfif listfindnocase(application.blacklist,clientAddress())>
 			<!---cfif cgi.script_name is not "/errors/gtfo.cfm"--->
 			<cfif replace(cgi.script_name,"//","/") is not "/errors/gtfo.cfm" and replace(cgi.script_name,"//","/") is not "/bkh.cfm">
-				<cfscript>getPageContext().forward("/errors/gtfo.cfm");</cfscript>
+				<cfinclude template="/errors/gtfo.cfm">
 				<cfabort />
 			</cfif>
 		</cfif>
@@ -437,23 +528,39 @@ limitations under the License.
 		<cfelse>
 			<cfscript>StructDelete(request, "fixAmp");</cfscript>
 		</cfif>
+		<!--- no session scope here; the page forwarded to runs onRequestStart again with its own --->
+		<cfif listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
+			<cfreturn true />
+		</cfif>
 		<cfif not isdefined("session.roles")>
-			<cfinclude template="/includes/functionLib.cfm">
+			<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 			<cfset initSession() />
+		</cfif>
+		<!--- A client that never sends the session back, such as a crawler that keeps no cookies, never
+			reaches this, and its session ends after NEW_SESSION_SECONDS. --->
+		<cfif NOT structKeyExists(request, "sessionIsNew")>
+			<cfset session.setMaxInactiveInterval(javaCast("long", variables.SESSION_SECONDS))>
+			<!--- locked as a page's AJAX requests come back together --->
+			<cfif NOT structKeyExists(session, "sessionReturned")>
+				<cflock scope="Session" type="exclusive" timeout="5">
+					<cfif NOT structKeyExists(session, "sessionReturned")>
+						<cfset session.sessionReturned = true>
+						<cfset sessionStats().returned.incrementAndGet()>
+					</cfif>
+				</cflock>
+			</cfif>
 		</cfif>
 		<cfset currentPath=GetDirectoryFromPath(GetTemplatePath()) />
 		<cfif currentPath contains "/CustomTags/" OR
 			currentPath contains "/binary_stuff/" OR
 			currentPath contains "/log/">
-			<cfset r=replace(currentPath,application.webDirectory,"") />
-			<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- Scheduled tasks run only for the ColdFusion scheduler, which calls them from this server, or for a
 			global_admin running one by hand: they send email and change data. --->
 		<cfif currentPath contains "/ScheduledTasks/" AND NOT isRequestFromThisServer()
 				AND NOT (isdefined("session.roles") AND listFindNoCase(session.roles, "global_admin"))>
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- protect "us" directories --->
 		<cfif NOT isRequestFromThisServer() and
@@ -465,15 +572,13 @@ limitations under the License.
 			currentPath contains "/picks/" or
 			currentPath contains "/tools/")>
 			<cfset r=replace(#currentPath#,#application.webDirectory#,"") />
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<!--- coldfusion_user distinguishes a logged in account from a visitor: setDbUser gives
 			anything without it the portal's Oracle account. --->
 		<cfif (currentPath contains "/Reports/") and
 			(not isdefined("session.roles") or not listFindNoCase(session.roles,"coldfusion_user"))>
-			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
-			<cfabort />
+			<cfset refuseRequest()>
 		</cfif>
 		<cfreturn true />
 	</cffunction>
