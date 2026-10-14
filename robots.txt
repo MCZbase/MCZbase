@@ -59,6 +59,7 @@ Allow: /specimens/Specimen.cfm
 Allow: /specimens/SpecimenResultsHTML.cfm
 Allow: /specimens/browseSpecimens.cfm
 Allow: /specimens/viewSpecimenSearchMetadata.cfm
+Allow: /specimens/PrimaryTypes.cfm
 Disallow: /specimens/
 Disallow: /taxonomy/component/
 Disallow: /taxonomy/js/
