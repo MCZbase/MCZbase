@@ -79,14 +79,17 @@ For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, 
 
 widely reused cold fusion, javascript, and css files that we have written SHOULD be in /shared/
 
+```
 	/shared/
 	/shared/js/
 	/shared/css/
+```
 
 Included libraries (jquery, etc), MUST be inside /lib/
 
 Accompany top level pages about objects (nouns, in upper case), with a lower case directory name to support specific components used in the rendering and editing of that object.
 
+```
 	Taxa.cfm (search with results page (plural) role=public)
 	taxonomy/
 	taxonomy/Taxonomy.cfm (taxonomy editor (singular), role=manage\_taxonomy, create and edit functionality).
@@ -94,6 +97,7 @@ Accompany top level pages about objects (nouns, in upper case), with a lower cas
 	taxonomy/js/taxonomy.js (supporting javascript files).
 	taxonomy/component/search.cfc (backing methods for /Taxa.cfm search role=public).
 	taxonomy/component/functions.cfc (other backing methods particular to taxa, backing functions for create/edit, role=manage\_taxonomy).
+```
 
 Place javascript functions that will be widely used outside their concept in /shared/, e.g. /shared/js/vocabularies.js for ajax lookups of controlled vocabulary terms. If a javascript function will be used outside of its concept, place it in a file in /shared/js/ and include this file in /shared/\_header.cfm. If a javascript function is only used within a concept, place it in a file in /{concept}/js/, include this file in /shared/\_header.cfm, but in a section that checks for the /concept/ path in the request (or in rare cases, where the code isn’t reused include directly from a .cfm file, or more likely place inline in that file).
 
@@ -105,10 +109,11 @@ Avoid external dependencies whenever possible. Included libraries MUST be loaded
 
 At the top of each new page include the following block:
 
+```coldfusion
 	<!--
 	{filename}.{extension}
 
-	Copyright 2021 President and Fellows of Harvard College
+	Copyright 2026 President and Fellows of Harvard College
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -123,11 +128,14 @@ At the top of each new page include the following block:
 	limitations under the License.
 
 	-->
+```
 
 On pages modified from existing MCZbase code, use these copyright statements instead:
 
+```
 	Copyright 2008-2017 Contributors to Arctos
-	Copyright 2008-2020 President and Fellows of Harvard College
+	Copyright 2008-2026 President and Fellows of Harvard College
+```
 
 This block MAY be followed by a brief comment about intended function of the page.
 
@@ -141,11 +149,15 @@ On windows computers you MUST NOT commit files which have had the line endings s
 
 To identify files which need line ending conversion (typical of files copied over from the master branch into redesign, use:
 
-`   egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"`
+```bash
+	egrep -l -R $'\r'\$ * | grep -v "^lib/" | grep -v "`\(.png\|.cfr\)`$"
+```
 
 To convert files to unix line endings use:
 
-`   dos2unix filename.cfm`
+```bash
+	dos2unix filename.cfm
+```
 
 ### Indentation
 
@@ -153,6 +165,7 @@ Indent each level of control nesting with **one tab** character. Indentation MUS
 
 Set your editing environment to use tabs for indentation. For display you can set your editing environment to display (but not convert) the tabs as either two or three spaces (1 tab = 4 spaces in Dreamweaver)
 
+```coldfusion
 	<cfif action EQ “foo”>
 		<cfif case EQ 1>
 			<cfset>
@@ -160,11 +173,13 @@ Set your editing environment to use tabs for indentation. For display you can se
 			<cfset>
 		</cfif>
 	</cfif>
+```
 
 When nesting html or javascript or sql within coldfusion, indentation SHOULD start at the current level of indentation and indent for each level of nesting, regardless of the language involved.
 
-	<cfif>	[coldfusion]
-		<cfset>
+```
+	<cfif ...>	[coldfusion]
+		<cfset ...>
 		<div>[html]
 			<h2></h2>
 			<script> [html]
@@ -174,15 +189,25 @@ When nesting html or javascript or sql within coldfusion, indentation SHOULD sta
 			</script>
 		</div>
 	</cfif>
+```
 
 Nest <cftry><cfcatch> blocks at the same level of indentation.
 
+```coldfusion
 	<ctry>
 		do stuff
 	<cfcatch>
 		handle exception
 	</cfcatch>
 	</cftry>
+```
+
+Do not nest inputs within labels, instead use the for attribute of the label to link it to the input.
+
+```coldfusion
+	<label for="inputId">Label Text</label>
+	<input id="inputId" type="text" name="inputName">
+```
 
 ### Variable Naming
 
@@ -194,33 +219,64 @@ For IDs of DOM elements such as `<div>` tags in html that are to be referred to 
 
 In general, use long descriptive names for variables. Exception: Loop counters can use single lower case letters, in particular i or j. Avoid using q for the name of a query, except in very small function calls where the query will be operated on and referenced only within a few lines of the query.
 
+For variables that hold magic values, (these may be database values given special meaning in the code), use UPPER_SNAKE_CASE.  For example, LOANNUMBERPATTERN is a variable that holds the regex pattern for a valid loan number.  Define these early in a file, and reference that magic value in the code by using the variable name, rather than embedding the magic value directly in the code at the point of use.
+
 ### Operators
 
 Place coldfusion operators in upper case.
 
+```coldfusion
 	<cfif foo EQ bar>
+```
 
 Beware of logic errors created by using = instead of == to test for equality in javascript.
 
+```javascript
 	if (foo=1) {    // error for test foo==1   (or foo===1, depending).
 		// assignment of 1 to foo is always true
 	} else {
 		// this block is never reached
 	}
+```
 
 Use spaces around operators when needed for clarity.
+
+### Parameters and Arguments
+
+On .cfm pages, declare explicit url and form parameters that are expected to be passed to the page: 
+
+```coldfusion
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+```
+
+In cffunction declarations in .cfc files, explicitly list arguments to the cffunction.
+
+```coldfusion
+<cffunction name="linkMediaHtml" access="remote">
+	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="related_value" type="string" required="yes">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="callback" type="string" required="no" default="reloadTransMedia">
+
+	<cfset target_id = related_id>
+```
 
 ### Scopes
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
 
+```coldfusion
 	<cfset pageTitle = "Search Taxonomy">
 	<cfinclude template = "/shared/_header.cfm">
+```
 
 Avoid:
 
+```coldfusion
 	<cfset someParameter = "#retrievedValue#">
 	<cfinclude template = "someTemplateThatUsesSomeParameter.cfm">
+```
 
 Pass variables explicitly to .cfc methods, and declare those variables explicitly using cfargument.
 
@@ -228,16 +284,22 @@ The following scopes must be explicit: cgi, url, form, cookie, file, client.
 
 Cookie scope is widely used with cfid: 
 
-    #cookie.cfid#
+```coldfusion
+	#cookie.cfid#
+```
 
 HTTP GET url parameters (and forms posted with method=get) use the url scope (except in cfcomponents).  The url scope MUST be declared explicitly.  This can be accomplished with a cfset that puts an url scope variable into the variables scope as below (or by using the url scope for all references to the variable). 
 
-    <cfset variables.result_id = url.result_id>
+```coldfusion
+	<cfset variables.result_id = url.result_id>
+```
 
 HTTP POST parameters (from forms posted with method=post) use the form scope (except in cfcomponents).  The form scope MUST be declared explicitly.  his can be accomplished with a cfset
 that puts an form scope variable into the variables scope as below (or by using the url scope for all references to the variable).
 
-    <cfset variables.endDate=form.endDate>
+```coldfusion
+	<cfset variables.endDate=form.endDate>
+```
 
 Forms and form handlers MUST be matched in their use of POST and GET, and variables in the url and form scope in the handlers MUST be explicitly declared.   
 
@@ -245,41 +307,77 @@ The "link to this search" url on search forms passes parameters for the search i
 
 When a form submission occurrs to a cfmethod in a cfcomponent, use argment scope instead of url or form scope.
 
-Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where 
+Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where this is no longer the case).
 
 In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
 
-    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-    <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
+```coldfusion
+   <cfparam name="url.action" default="">
 
-    <cfif isDefined("variables.action") and variables.action EQ "someaction">
-        ...
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
+	<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
 
-In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.
+	<cfif isDefined("variables.action") and variables.action EQ "someaction">
+		...
+```
+In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.  
 
-    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-    <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+```coldfusion
+   <cfparam name="url.action" default="">
+   <cfparam name="form.action" default="">
 
-    <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
-       ...
+	<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
+	<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
 
-It is a good practice to be explicit about variables scope.
+	<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
+		...
+```
 
-     <cfset variables.endDate=form.endDate>
+Be explicit about variables scope:
+
+```coldfusion
+	<cfset variables.endDate=form.endDate>
+```
+
+or local scope:
+
+```coldfusion
+	<cfset var endDate=form.endDate>
+	#local.endDate#
+```
+
+Variable scope is available to all pages processed in the same request, so if the same variable name may be given different values by different functions processed in the same request (e.g. when collection_object_id may be used for a cataloged item in one function and a specimen part in another function), then there may be unintended consequences of using variable scope, and local scope may be preferred.
 
 Use explicit argument scope and variables scope for backing methods that use threading to make the argument values available within the thread:
 
-    <cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
-       <cfargument name="result_id" type="string" required="yes">
-       <cfset variable.result_id = arguments.result_id>
-       <cfthread name="getSomethingThread" >
-		    <cfquery ....
-              result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+```coldfusion
+	<cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+		<cfargument name="result_id" type="string" required="yes">
+		<cfset variable.result_id = arguments.result_id>
+		<cfthread name="getSomethingThread" >
+			<cfquery ....
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+			</cfquery>
+			<!--- note, changing the value of variables.result_id will change it for the entire request (page scope), and could hit deadlocks between threads --->
+```
+
+Or better, pass variables from argument scope into the thread as thread attributes.
+
+```coldfusion
+	<cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+		<cfargument name="result_id" type="string" required="yes">
+		<cfthread name="getSomethingThread" result_id="#arguments.result_id#" >
+			<cfquery ....
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			<!--- changing the value of result_id here will only change the copy within the thread --->
+```
 
 ### Functions
 
 Documentation for functions in both javascript or colfusion SHOULD be provided with a comment in javadoc format. Use @param, @return, and @see as needed.
 
+```javascript
 	/** Function confirmDialog creates a simple confirm dialog with OK and cancel buttons,
 	 * it creates a new div, types it as a jquery-ui modal dialog and displays it, invokes the
 	 * specified callback function when OK is pressed.
@@ -291,6 +389,7 @@ Documentation for functions in both javascript or colfusion SHOULD be provided w
 	function confirmDialog(dialogText, dialogTitle, okFunction) {
 		.....
 	}
+```
 
 ### Embeded SQL
 
@@ -304,31 +403,86 @@ Use upper case for SQL reserved words.
 
 In general, begin each SQL clause on a new line, and indent for readability.
 
+```coldfusion
 	<cfquery>
-		SELECT fields FROM table
+		SELECT fields 
+		FROM table
 		WHERE
 			field = ‘1’
 			<cfif case EQ ‘x’>
-				otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
+				and otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
 			</cfif>
 		ORDER BY otherfield
 	</cfquery>
 
+	<cfquery>
+		SELECT fields 
+		FROM table
+			JOIN othertable
+		WHERE
+			field = ‘1’
+			and otherfield = <cfsqlparam value=”#providedValue#” cfsqltype=”CF_SQL_VARCHAR’>
+		ORDER BY otherfield
+	</cfquery>
+```
+
 When declaring a result within each named query, use the name of the query with \_result appended.
 
+```
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
+```
+
+### CFQuery and credentials
+
+When passing user credentials into a cfquery, use the user_login datasource and obtain the credentials from the session directly, do not store locally, that is, use:
+
+```coldfusion
+	<cfquery name="permitExp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+```
+
+When necessary (as in a transaction where a trigger needs to be disabled and all cfqueries need to use the same datasource, use the datasource attribute of cfquery to specify the datasource to use for the query, for a datasource where the credentials are stored in the ColdFusion administrator.
+
+```coldfusion
+	<cfquery name="checkMedia" datasource="uam_god">
+```
+
+### Comments
+
+Use comments to explain the purpose of blocks of code, and to provide documentation for functions. Avoid comments that explain what the code is doing line by line, instead, use comments to explain why the code is doing what it is doing, and to provide documentation for the function as a whole.
+
+Comments within the coldfusion code are intended for developers, and therefore should use `<!--- and --->` to avoid being rendered in the html output. 
+
+```coldfusion
+	<!--- This is a comment in coldfusion, it will not be rendered in the html output, always use this style of commeent. --->
+
+	<!-- This is a comment in coldfusion that will be rendered in the html output.  **Do Not Use this style of comment**  -->
+```
+
+Comments within javascript code should be visible in the rendered javascript to aid developers, so use `//` for single line comments and `/* */` for block comments, do not embedd these in `<!--- and --->` when javascript is produced by coldfusion code as this will cause them to be hidden in the rendered javascript.
+
+```javascript
+	// This is a single line comment in javascript, it will be visible in the rendered javascript, use this for short comments.
+
+	/* This is a block comment in javascript, 
+		it will be visible in the rendered javascript, 
+		use this for longer comments. */
+```
 
 ### Javascript Organization.
 
 Include short javascript function invocations in onClick elements of button and other html tags rather than binding them to clickEvents. (This practice makes generalization harder, but makes following the sequence of events from an event easier to trace out).
 
-In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. Doing otherwise tends to make syntax highlighting code fail.
+In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and escape \# selectors by doubling them. 
 
+```coldfusion
 	<cfoutput>
 		<script>
 			$(‘##someId’).var();
 		</script>
 	</cfoutput>
+```
+
+Errors will occur if you do not escape # characters (e.g. in jquery class selectors).
 
 ### Javascript References to DOM
 
@@ -336,10 +490,13 @@ Whenever possible, pass the ID values of elements in the DOM that are reference 
 
 Given: 
 
+```html
 	<div id=”placeToCreateDialog”> </div> 
+```
 
 Use (passing reference to id of div in function call):
 
+```
 	<script>
 		/* function somethingHandler does something with a dialog
 		 * @param dialogID the ID of a dialog in the dom, without the leading # id selector.
@@ -348,14 +505,44 @@ Use (passing reference to id of div in function call):
 			$(‘#’+dialogID).dialog....
 		}
 	</script>
+```
 
 Not (hard coding div id):
 
+```
 	<script>
 		function somethingHandler() {
 			$(‘#placeToCreateDialog’).dialog....
 		}
 	</script>
+```
+
+In general, use jquery selectors for IDs rather than document.getElementById()
+
+```
+	$("#targetfieldid").val();
+```
+
+### Separate concerns for readability
+
+Avoid using cfset with complex expressions that return booleans, use nested cfif statements instead for readability
+
+```coldfusion
+	<cfset doStuff = false>
+	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
+		<cfset doStuff = true>	
+	</cfif>
+```
+
+Avoid including cfif statements within input or option tags, instead, set a variable before the input or option tag and use that variable within the tag.
+
+```coldfusion
+	<cfset selected = "">
+	<cfif isDefined("url.stuff") AND url.stuff EQ "do">
+		<cfset selected = "selected">	
+	</cfif>
+	<option value="do" #selected#>Do Stuff</option>
+```
 
 ### CSS
 
@@ -375,10 +562,12 @@ Styles that are only used for a particular narrow solution related to one concep
 
 Layout blocks in the stylesheet files with the selector on one line then an indented block of the style declarations, one per line. Place multiple values for the same property on the same line.
 
+```css
 	.indent {
 		text-indent: -2em;
 		padding-left: 2em;
 	}
+```
 
 ### Semantic Tags
 
@@ -394,6 +583,7 @@ MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most fr
 
 Use the following semantic tags to organize the body of the page:
 
+```html
 	<main class=”container” id=”content”>
 		<section class=”row” >
 			Main form or page content
@@ -402,12 +592,15 @@ Use the following semantic tags to organize the body of the page:
 			Additional forms or content
 		</section>
 	</main>
+```
 
 A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
 
 For Ajax feedback, use `<output>`
 
+```html
 	<output id=”submitFeedback”>&nbsp;</output>
+```
 
 Use html semantic tags instead of role properties whenever possible.
 
@@ -425,7 +618,7 @@ Enforcement of required fields MUST be provided through not null constraints on 
 
 ### Search/Results
 
-MCZbase uses a model where a search form is at the top of a page and search results are loaded by Ajax into a jqxgrid below. These pages MUST support an API that allows the entire search form to be populated with url parameters, with the option to include an execute=true parameter in the url. When the execute=true parameter is present, on page loading, the search form mustMUST be filled in with the provided parameters and the search executed.
+MCZbase uses a model where a search form is at the top of a page and search results are loaded by Ajax into a jqxgrid below. These pages MUST support an API that allows the entire search form to be populated with url parameters, with the option to include an execute=true parameter in the url. When the execute=true parameter is present, on page loading, the search form MUST be filled in with the provided parameters and the search executed.
 
 ### Saving Changes
 
@@ -437,15 +630,19 @@ New record pages in MCZbase SHOULD save changes by posting the new record form t
 
 Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
 
+```html
 	<output id=”getsReplacedOnPageLoad”> Loading stuff...  </output>
+```
 
 **Provide a consistent spinner that ajax is happening.**
 
 Use this pattern for areas that are to have content loaded by ajax on page load: 
 
-    <div id="areaIntoWhichDataIsToBeAjaxLoaded"> 
-        <div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading...</div>
-    </div>
+```html
+	<div id="areaIntoWhichDataIsToBeAjaxLoaded"> 
+		<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading...</div>
+	</div>
+```
 
 WARNING: The spinner is deceptive, it implies that an action is ongoing, if this area remains spinning it is likely that javascript is broken and nothing is happening.
 
@@ -467,6 +664,7 @@ The only form that uses the bootstrap fields is the account profile page.
 
 Header and footer are included as includes.  Content between these includes on edit record pages SHOULD be structured with: 
 
+```html
 	<main class=”container py-3” id=”content” >
 		<section class=”row border rounded my-2”>
 			<h1 class=”h2”>Title of Page </h1>
@@ -480,12 +678,48 @@ Header and footer are included as includes.  Content between these includes on e
 `           ... related concepts, e.g. shipments for loans...`
 		</section>
 	</main>
+```
 
-See: (??)Edit loans on Transactions.cfm(??) to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
+See Edit loans to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
 
+```html
 	<section class="row px-0">
 		<form  name="Name" class="col-12 col-md-6 border rounded">
 	</section>
+```
+
+Here, `<div class="col-12 col-sm-6 col-xl-3">`  within a `form-row` will be stacked on small screens, side-by-side in pairs on medium screens, and side-by-side with 4 columns on extra large screens.  
+
+```coldfusion
+<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" title="Form for creating a new loan">
+   <form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
+      <input type="hidden" name="action" value="makeLoan">
+      <div class="form-row mb-2">
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="collection_id" class="data-entry-label">Collection</label>
+            <select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1">
+               <cfloop query="ctcollection">
+                  <option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
+            <input type="text" name="loan_number" class="reqdClr data-entry-input mb-1" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+            <label for="loan_type" class="data-entry-label">Loan Type</label>
+            <select name="loan_type" id="loan_type" class="reqdClr data-entry-select mb-1" required >
+               <cfloop query="ctLoanType">
+                  <option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+               </cfloop>
+            </select>
+         </div>
+         <div class="col-12 col-sm-6 col-xl-3">
+				...
+         </div>
+		</div>
+```
 
 On smaller screens, the boxes will be stacked, but on medium screens and up, they will be side-by-side (iPad 768px width).
 
@@ -518,6 +752,7 @@ Use semantic tags instead of roles whenever possible.
 
 Search/Results pages MUST use the following top level structure. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
 
+```html
 	<div id="overlaycontainer" style="position: relative;">
 		<main id=”content’>
 			<section class="container-fluid" role="search" >
@@ -532,9 +767,11 @@ Search/Results pages MUST use the following top level structure. This structure,
 		</script>
 		<div id=”overlay”....></div>
 	</div>
+```
 
 A search form SHOULD use the classes search-box and search-box-header the following to style the search form within a box with a heading.  See: [Content-Boxes](#Content-Boxes) for the variation to use for tabs for mulitiple search forms on the same page.
 
+```html
 	<div id="overlaycontainer" style="position: relative;">
 		<main id=”content”>
 			<section class="container-fluid" role="search">
@@ -545,6 +782,7 @@ A search form SHOULD use the classes search-box and search-box-header the follow
 						</div>
 						<div class="col-12 px-4 py-1">
 							<form>
+```
 
 as the initial outer containers for the search form. Add interior rows/form-rows and columns as necessary to layout form elements in a responsive grid.
 
@@ -564,18 +802,21 @@ Headings MUST reflect actual nesting of content, and SHOULD use bootstrap classe
 
 EDIT PAGE HEADINGS
 
+```html
 	<h1 class="h2">
 		< i class="fas fas-info fa-info-circle mr-2” onClick="getMCZDocs('Edit\_Taxonomy')" aria-label="help link"\></i>
 	</h1>
-
+```
 
 SEARCH PAGE HEADINGS (NO TABS)
 
+```html
 	<div class="search-box-header ">
 		<h1 class="h3 smallcaps text-white" tabindex="0">
 			Search Taxonomy <span class="count font-italic text-grayish mx-0"><small>(\#getCount.cnt\# records)</small></span>
 		</h1>
 	</div>
+```
 
 Heading titles for record searches are inside dark teal tab-cards with outer container as class=”container-fluid”. See Taxonomy search page.
 
@@ -587,35 +828,119 @@ Use on pages that hold metadata for records (e.g., encumbrances, named groups). 
 
 The following legal form of nesting section headings is not used: 
 
-    <section>
-       <h1>Heading</h1>
-       <section>
-         <h1>Subheading</h1>
+```html
+	<section>
+		<h1>Heading</h1>
+		<section>
+			<h1>Subheading</h1>
 			 ...
-       </section>
-       <section>
-         <h1>Subheading</h1>
+		</section>
+		<section>
+			<h1>Subheading</h1>
 			 ...
-       </section>
-    </section>
+		</section>
+	</section>
+```
 
 Instead, nest headings successively h1 to h6 with nesting depth.
 
-    <section>
-       <h1>Heading</h1>
-       <section>
-         <h2>Subheading</h2>
+```html
+	<section>
+		<h1>Heading</h1>
+		<section>
+			<h2>Subheading</h2>
 			 ...
-       </section>
-       <section>
-         <h2>Subheading</h2>
+		</section>
+		<section>
+			<h2>Subheading</h2>
 			 ...
-       </section>
-    </section>
+		</section>
+	</section>
+```
+
+If you cannot keep the nesting in order of h1 to h6 due to the title also being a button, add aria-level="n", where is the level of header (e.g., 2).
+
+```html
+<h1 id="searchHeading">Search</h1>
+
+<div role="tablist" aria-labelledby="searchHeading">
+  <button type="button"
+          class="col-3 col-md-2 px-2 my-0 active"
+          id="basicSearchTabButton"
+          role="tab"
+          aria-controls="fixedSearchPanel"
+          aria-selected="true"
+          tabindex="0"
+          data-tabid="1">
+    <span class="h2 mb-0 font-weight-bold"
+          role="heading"
+          aria-level="2">
+      Basic Search
+    </span>
+  </button>
+```
+
+### Form Field Patterns
+
+Our form fields often have controls. We stack the form field components within a fieldset on the public search forms.
+
+```html
+	<fieldset class="my-0 px-2 pb-1 border-top border-right border-bottom border-left field-set">
+		<legend class="h6 mb-0 px-3 border-top border-right border-bottom border-left field-set-legend bg-teal font-weight-bold w-auto">Name / Identifier</legend>
+		<div class="form-row pt-2">
+			<div class="col-12 col-md-12 col-lg-4 col-xl-5 mx-0 mb-0 pb-0 mt-0">
+				<label for="anyName" id="anyName_label">Any part of any name</label>
+				<span class="text-secondary small">(match entire name with: </span>
+				<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='='+e.value;" 
+					aria-label="prefix with equals for a case insensitive exact match search">
+					=
+				</button>, 
+				<button type="button" class="rules" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;" 
+					aria-label="prefix with tilde for 0.8 or greater Jaro-Winkler similarity match">
+					~
+				</button>,
+				<span class="text-secondary small">comma separated list)</span>
+				<input type="text" id="anyName" name="anyName" value="#encodeForHtml(anyName)#">
+			</div>
+			<div class="col-12 col-md-12 col-lg-8 col-xl-7 pb-0 mb-0 mt-0">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-7 col-xl-8 pr-md-0 mb-0 pb-0">
+						<label for="specificagent">Specific Agent</label>
+						<small id="agentPick_help" class="text-secondary">(select from pick list that appears as you type)</small>
+						<input type="text" id="specificagent" name="specificagent" value="#encodeForHtml(specificagent)#" aria-describedby="agentPick_help">
+						<script>
+							$(document).ready(function() {
+								makeAgentAutocompleteMeta("specificagent", "agent_id", true);
+							});
+						</script>
+					</div>
+					<div class="col-6 col-md-2 col-xl-2 mb-1 form-group mb-0 pb-0">
+						<label for="specificagent">Agent ID</label>
+						<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#">
+					</div>
+					<div class="col-6 col-md-3 col-xl-2 form-group mb-0 pb-0">
+						<label for="agent_type">Agent Type</label>
+						<select id="agent_type" name="agent_type">
+							<option></option>
+							<cfloop query="ctagent_type">
+								<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+								<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+							</cfloop>
+							<cfloop query="ctagent_type">
+								<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+								<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+							</cfloop>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+```
 
 ### Responsive Styles
 
-Col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
+The class col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
 
 The class=”row” – important to know that the row class has a -15px margin on each side. Combined with class=”col-12” (or any column number, col-N), which has padding of 15px on each side, allows it to fit devices to the edge without movement (bouncing left or right when a field is brought into focus).
 
@@ -652,7 +977,7 @@ For reference purposes, the following colors are used throughout the website.
 From left to right.
 
 1. Red = \#a51c30
-1. Required = \#e4e476  
+1. Required = \#e4e476  (reqdClr)
 1. Warning = \#ffc107
 1. Danger = \#f8d7da
 1. Search-box gray = \#f5f5f5
@@ -672,7 +997,9 @@ Font size for displayed data should be .875em.  The font-weight is 500 and font-
 
 For example: Search Transactions page has many headers so the overarching title is styled a little differently: 
 
-     <h1 class="h3 smallcaps pl-1">
+```html
+	<h1 class="h3 smallcaps pl-1">
+```
 
 TODO: Check the following assertion, it doesn't seem current:
 
@@ -689,6 +1016,8 @@ SAVE = btn btn-xs **btn-primary**. Use save buttons where needed. Make sure its 
 CREATE = btn btn-xs **btn-primary**. Use Create buttons on New {object} forms instead of a Save button to save the content of the form as a new primary record. Put the Create button under all the fields aligning the left side flush to the start of the fields above it.
 
 SEARCH = btn-xs '''btn-primary '''Execute the search
+
+EDIT (page-level) = btn btn-xs **btn-primary**. Use on a show/details page (e.g. showTaxonomy.cfm, showProject.cfm, Agent.cfm, showMedia.cfm, showPublication.cfm) for the button that navigates to the full edit page for the record the show page is displaying. This is distinct from an Edit button for a related record embedded within a section of the page -- see btn-secondary below.
 
 ####  Buttons that Delete records, use btn-danger.
 
@@ -724,7 +1053,7 @@ PRINT = btn btn-xs **btn-info**. Use to navigate to printable reports of or rela
 
 ADD\_{OBJECT} = btn btn-xs **btn-secondary** Use to create a relationship to another record of the same or different type.
 
-EDIT = btn btn-xs '''btn-secondary '''Use edit details of a related record when used as a button on the page.
+EDIT = btn btn-xs '''btn-secondary '''Use to edit details of a related record embedded within a section of the page (not the page's own record -- see the page-level EDIT button under btn-primary above).
 
 CREATE\_NEW\_{OBJECT} = btn btn-xs''' btn-secondary. '''Use Create New {Object} buttons on search forms, rendered only for users with rights to create as an alternative route from the main menu to create a new object of the type the search form applies to. Put the Create New {Object} button inline with the Search, Reset, and New Search buttons.
 
@@ -748,11 +1077,14 @@ for Organization and Focus
 
 Include accessible tab navigation by setting pageHasTabs=true prior to loading _header.cfm
 
+```coldfusion
 	<cfset pageHasTabs="true">
 	<cfinclude template = "/shared/_header.cfm">
+```
 
 The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.  To support accessible navigation, active tab must have class active, tabs should have role tab and one based integer value for tabid, container for tabs should have role tablist.  Tabs and tab pane content should be crossreferenced with aria-labelledby={id} on the tab pane content.
 
+```html
 	<div class=”tab-card-main mt-1 tab-card”>
 		<div class="tab-card-main mt-1 tab-card">
 			<div class="card-header tab-card-header pb-0" role="tablist">
@@ -760,6 +1092,7 @@ The tabs should follow this set of tags and classes. It makes a Teal border with
 					<a class="nav-link active" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" tabid="1" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
 					<div class="tab-content pb-0 px-2" id="tabContentDiv">
 						<div class="tab-pane fade active py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+```
 
 Within main groupings, try to keep the spaces and margins even. Give highlight boxes or borders when additional grouping is needed. Sometimes it is difficult to distribute the fields evenly on the page. The “Find loans” page search section shows the difficulty.
 
@@ -770,6 +1103,32 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 <u>**For highlighting a field or group of fields**</u>
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
+
+### Form Inputs and Labels
+
+On forms, provide paired label and input using the for property of the label, place a data-entry-label class on the label and a data-entry-{type} e.g. data-entry-input class on the input.  
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<label for="scientific_name" class="data-entry-label">Scientific Name<label>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+```
+
+When additional controls, such as those that prefix $ for soundex matching to the value in the input, place these outside the label, but wrap them and the label in a span with the data-entry-label class on that span instead of the label.
+
+```html
+<div class="form-group mb-0 col-12 col-md-4">
+	<span class="data-entry-label">
+		<label for="scientific_name" class="">Scientific Name<label>
+		<span class="h6">
+			(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+			<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 field-set" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+		</span>
+	</span>
+	<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#encodeForHtml(scientific_name)#" aria-labelledby="scientific_name">
+</div>
+
 
 ### Dialog Boxes
 Dialog content boxes should be laid out similarly to a main page when data captured is the same (e.g., create media page appear as a dialog box). The buttons follow the same rules as listed in the button section of this document when in the content area.  The close button for the dialog and any button along the bottom will have the standard jquery gray buttonface background (difficult to style separately without changing the library files). The borders and background should be different from the main page so it is easy to recognize it as a dialog box. Searches in dialog boxes will have the class "search-box", which has following styles:  background-color: #f5f5f5; margin-top: 1em; padding-bottom: .25em; width: 100%; border-radius: 8px; border: 2px solid #3E6F7D; to make a dark teal outline with a gray background around the search fields. Small search/create dialog boxes which do not replicate a main page, can have a white background (e.g., add shipment dialog box). The search results should repeat the jqxwidget grid style when possible.  The form fields to create a records should have the classes "p-3 border bg-light" in the column div around them (see create media for an example).  The dialog boxes should be repsonsive based on the screen size when launched.  Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
@@ -782,19 +1141,23 @@ Other dialog boxes for alerts should also be styled with white background and gr
 Agent fields MUST have the bust icon from fontawesome as a prepend to the input field.  The background is gray before the agent is verified as one from the database then it switches to green. It includes a hidden field and requires JavaScript to match the entry to the database and validate it.
 The code:
 
-        `<input type="hidden" name="trans_agent_id_1" id="trans_agent_id_1" value="1017544">
-        <div class="input-group">
-            <div class="input-group-prepend">
-	        <span class="input-group-text smaller bg-lightgreen" id="agent_icon_1"><i class="fa fa-user" aria-hidden="true"></i></span> 
-            </div>
-        <input type="text" name="trans_agent_1" id="trans_agent_1" required="" class="goodPick form-control data-entry-input data-height ui-autocomplete-input" value="Joe Q. Pimm" autocomplete="off">
-        </div>`
+```html
+	<input type="hidden" name="trans_agent_id_1" id="trans_agent_id_1" value="1017544">
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<span class="input-group-text smaller bg-lightgreen" id="agent_icon_1"><i class="fa fa-user" aria-hidden="true"></i></span> 
+		</div>
+		<input type="text" name="trans_agent_1" id="trans_agent_1" required="" class="goodPick form-control data-entry-input data-height ui-autocomplete-input" value="Joe Q. Pimm" autocomplete="off">
+	</div>
+```
 
 ### Simple static tabular data
 HTML tables MAY be used, when appropriate, for presenting simple tabular data that has a natural tabular structure (such as tables of controlled vocabulary values with additional metadata columns).  Such tables can be made sortable by including the /lib/misc/sorttable.js script on the page, and adding the sortable class to the table element.
 
+```html
 	<script src="/lib/misc/sorttable.js"></script>
 	<table border class="sortable">
+```
 
 ## Accessibility:
 
@@ -818,8 +1181,10 @@ Some form of visible label is usually best. The labeled element MUST have an “
 
 MCZbase inputs on search and edit forms SHOULD be accessibly labeled with a label for the input: 
 
+```html
 	<label for="loan_number">Loan Number</label>
 	<input type="text" id="loan_number" name="loan_number" value="">
+```
 
 If an element has a label with a “for” property that links to it by id, then aria properties are generally not needed and SHOULD NOT be included (as they are likely to introduce copy/paste errors or become out of date as the page is updated). Check for duplicity by using a screen reader. See if your label is read to determine if you need aria-labels.
 
@@ -827,23 +1192,29 @@ If there is no visible label for an element, there are several alternatives:
 
 (1) If a visible label is not desirable, add `<label class=”sr-only”>` to a label. This allows the label to be read by the screen reader but positions the text off-screen so it isn’t visible.
 
+```html
 	<label for=”loan_number” class=”sr-only”>Loan Number</label>
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll”>
+```
 
 (2) Point to an existing element that can act as a label using aria-labelledby. It is similar to `<label for=””>` with establishes the relationship between objects and their labels. It needs an ID on the element it is pointing to (in the example below it is the `<span>`).
 
+```html
 	Searching on <span id=”loan_number_label”>Loan Number</span> lets you find loans...
 	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” aria-labeledby=”loan_number_label”>
+```
 
 (3) Provide a title attribute.
 
+```html
 	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” title=”Loan Number”>
+```
 
 (4) Explicitly set the accessible name on an element using aria-label.
 
+```html
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” aria-label=”Loan Number”>
-
-
+```
 
 If none of these are present assistive technologies may resort to using the placeholder attribute as a fallback for the accessible name on `<input>` and `<textarea>` elements.
 
@@ -853,8 +1224,10 @@ There MUST NOT be multiple types of accessible label on the same input field. Re
 
 Antipattern to avoid (a screen reader is likely to read “Loan Number” four times to identify the input):
 
+```html
 	<label for=”loan_number” id=”loan_number_label”>`Loan Number`</label>
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” title=”Load Number” aria-label=”Loan Number” labeled-by=”loan_number_label”>
+```
 
 ### Skip to main content link
 

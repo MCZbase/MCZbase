@@ -1,7 +1,7 @@
 <!---
 localities/component/functions.cfc
 
-Copyright 2020-2023 President and Fellows of Harvard College
+Copyright 2020-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
+<cfinclude template="/dataquality/component/functions.cfc" runOnce="true"><!--- For interpretDate --->
 <cf_rolecheck>
 
 <!--- Save preferences for open/closed sections of geography/locality/collecting event 
@@ -275,11 +276,23 @@ Delete an existing collecting event number record.
 				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 
-			<cfset row = StructNew()>
-			<cfset row["status"] = "updated">
-			<cfset row["id"] = "#locality_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit">
+		<cfset row = StructNew()>
+        <cfset row["status"] = "updated">
+        <cfset row["id"] = "#locality_id#">
+        <cfset data[1] = row>
+        <cftransaction action="commit">
+
+        <!--- clear cached static maps for this locality --->
+        <cfset var mapDir      = expandPath("/cache/static_maps/")>
+        <cfset var mapFile3col = mapDir & "locality-#locality_id#-3col.png">
+        <cfset var mapFile2col = mapDir & "locality-#locality_id#-2col.png">
+
+        <cfif fileExists(mapFile3col)>
+            <cffile action="delete" file="#mapFile3col#">
+        </cfif>
+        <cfif fileExists(mapFile2col)>
+            <cffile action="delete" file="#mapFile2col#">
+        </cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1907,6 +1920,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
 						error_polygon,
 						datum,
+						coordinate_precision,
 						extent,
 						extent_units,
 						to_meters(lat_long.extent, lat_long.extent_units) extentInMeters,
@@ -1983,106 +1997,122 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfelse>
 					<div class="w-100">
 						<cfloop query="getGeoreferences">
-								<cfset original="">
-								<cfset det = "">
-								<cfset ver = "">
-								<cfif len(determined_by) GT 0>
-									<cfset det = " Determiner: #determined_by#. ">
-								</cfif>
-								<cfif len(verified_by) GT 0>
-									<cfset ver = " Verified by: #verified_by#. ">
-								</cfif>
-								<cfif len(utm_zone) GT 0>
-									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-								<cfelse>
-									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-								</cfif>
-								<cfset divClass="small90 my-1 w-100">
-								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
-								</cfif>
-								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-								<ul class="mb-2">
+							<cfset original="">
+							<cfset det = "">
+							<cfset ver = "">
+							<cfif len(determined_by) GT 0>
+								<cfset det = " Determiner: #determined_by#. ">
+							</cfif>
+							<cfif len(verified_by) GT 0>
+								<cfset ver = " Verified by: #verified_by#. ">
+							</cfif>
+							<cfif len(utm_zone) GT 0>
+								<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+							<cfelse>
+								<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+							</cfif>
+							<cfset divClass="small90 my-1 w-100">
+							<cfif accepted_lat_long EQ "Accepted">
+								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+							</cfif>
+							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+							<ul class="mb-2">
+								<li>
+									#original# <span class="#divClass#">#accepted_lat_long#</span>
+								</li>
+								<li>
+									Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+								</li>
+								<cfif len(spatialfit) GT 0>
 									<li>
-										#original# <span class="#divClass#">#accepted_lat_long#</span>
-									</li>
-									<li>
-										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-									</li>
-									<cfif len(spatialfit) GT 0>
-										<li>
-											<cfif spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than point-radius.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
-											</cfif>
-											Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(error_polygon) GT 0>
-										<li>Has Footprint.
-											<cfif footprint_spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than footprint.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the footprint">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
-											</cfif>
-											Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(geolocate_score) GT 0>
-										<li>
-											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-										</li>
-									</cfif>
-									<cfif len(extent) GT 0>
-										<li>
-											Radial of feature: #extentInMeters# m
-										</li>
-									</cfif>
-									<cfif len(nearest_named_place) GT 0>
-										<cfif lat_long_for_nnp_fg EQ 1>
-											<cfset label = "Georefrence is for Nearest Named Place: ">
+										<cfif spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than point-radius.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
 										<cfelse>
-											<cfset label = "Nearest Named Place is ">
+											<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
 										</cfif>
-										<li>
-											#label##nearest_named_place#
-										</li>
+										Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(error_polygon) GT 0>
+									<li>Has Footprint.
+										<cfif footprint_spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than footprint.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the footprint">
+										<cfelse>
+											<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
+										</cfif>
+										Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(geolocate_score) GT 0>
+									<li>
+										GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+									</li>
+								</cfif>
+								<cfif len(extent) GT 0>
+									<li>
+										Radial of feature: #extentInMeters# m
+									</li>
+								</cfif>
+								<cfif len(nearest_named_place) GT 0>
+									<cfif lat_long_for_nnp_fg EQ 1>
+										<cfset label = "Georefrence is for Nearest Named Place: ">
+									<cfelse>
+										<cfset label = "Nearest Named Place is ">
 									</cfif>
-								</ul>
-								<script>
-									var bouncing#lat_long_id# = false;
-									function toggleBounce#lat_long_id#() { 
-										if (bouncing#lat_long_id#==true) { 
-											bouncing#lat_long_id# = false;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-											$('##toggleButton#lat_long_id#').html("Highlight on map");
-										} else { 
-											bouncing#lat_long_id# = true;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-											$('##toggleButton#lat_long_id#').html("Stop bouncing");
-										}
-									};
-								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-								<button type="button" class="btn btn-xs btn-secondary mb-1" 
-									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
-									aria-label = "Edit this georeference"
-								>Edit</button>
-								<button type="button" class="btn btn-xs btn-warning mb-1" 
-									onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
-									aria-label = "Delete this georeference from this locality"
-								>Delete</button>
-								<script>
-									function doDeleteGeoref() { 
-										deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
-									};
-								</script>
-							</cfloop>
+									<li>
+										#label##nearest_named_place#
+									</li>
+								</cfif>
+								<cfif len(coordinate_precision) EQ 0>
+									<li class="text-danger">
+										<strong>Warning:</strong> No precision set for this georeference.
+									</li>
+								</cfif>
+								<cfif len(lat_long_remarks) GT 0>
+									<li>
+										Remarks: #lat_long_remarks#
+									</li>
+								</cfif>
+							</ul>
+							<script>
+								var bouncing#lat_long_id# = false;
+								function toggleBounce#lat_long_id#() { 
+									if (bouncing#lat_long_id#==true) { 
+										bouncing#lat_long_id# = false;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+										$('##toggleButton#lat_long_id#').html("Highlight on map");
+									} else { 
+										bouncing#lat_long_id# = true;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+										$('##toggleButton#lat_long_id#').html("Stop bouncing");
+									}
+								};
+							</script>
+							<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+							<cfif accepted_lat_long_fg EQ "1">
+								<cfset editButtonID = "id='editAcceptedGeorefButton'">
+							<cfelse>
+								<cfset editButtonID = "">
+							</cfif>
+							<button type="button" class="btn btn-xs btn-secondary mb-1" 
+								onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
+								aria-label = "Edit this georeference"
+								#editButtonID#
+							>Edit</button>
+							<button type="button" class="btn btn-xs btn-warning mb-1" 
+								onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
+								aria-label = "Delete this georeference from this locality"
+							>Delete</button>
+							<script>
+								function doDeleteGeoref() { 
+									deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+								};
+							</script>
+						</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
@@ -4227,6 +4257,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
 	<cfargument name="geolocate_score" type="string" required="no">
 	<cfargument name="geolocate_precision" type="string" required="no">
@@ -4615,6 +4653,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
+	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
 	
 	<cfif isDefined("arguments.verbatim_date")>
@@ -4644,6 +4685,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfif isDefined("arguments.verbatimSRS")>
 		<cfset variables.verbatimSRS = arguments.verbatimSRS>
 	</cfif>
+	<cfif isDefined("arguments.verbatim_collectors")>
+		<cfset variables.verbatim_collectors = arguments.verbatim_collectors>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_field_numbers")>
+		<cfset variables.verbatim_field_numbers = arguments.verbatim_field_numbers>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_habitat")>
+		<cfset variables.verbatim_habitat = arguments.verbatim_habitat>
+	</cfif>
 	<cfif isDefined("arguments.collecting_time")>
 		<cfset variables.collecting_time = arguments.collecting_time>
 	</cfif>
@@ -4665,7 +4715,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				coll_event_remarks, collecting_source, habitat_desc,
 				valid_distribution_fg, collecting_method, 
 				fish_field_number,
-				date_determined_by_agent_id
+				date_determined_by_agent_id,
+				verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
@@ -4673,6 +4724,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif eventToCloneFrom.recordcount EQ 0>
 			<cfthrow message = "No event to clone from found for specified collecting event id.">
 		<cfelse>
+			<cfset collecting_event_id = ""><!--- new event, so no id to pass to form --->
 			<cfset variables.locality_id = eventToCloneFrom.locality_id>
 			<cfset variables.verbatim_locality = eventToCloneFrom.verbatim_locality>
 			<cfset variables.verbatimDepth = eventToCloneFrom.verbatimDepth>
@@ -4684,6 +4736,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset variables.verbatimSRS = eventToCloneFrom.verbatimSRS>
 			<cfset variables.verbatim_date = eventToCloneFrom.verbatim_date>
 			<cfset variables.collecting_time = eventToCloneFrom.collecting_time>
+			<cfset variables.verbatim_habitat = eventToCloneFrom.verbatim_habitat>
+			<cfset variables.verbatim_field_numbers = eventToCloneFrom.verbatim_field_numbers>
+			<cfset variables.verbatim_collectors = eventToCloneFrom.verbatim_collectors>
 			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
 			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
 			<cfset began_date = eventToCloneFrom.began_date>
@@ -4696,6 +4751,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset fish_field_number = eventToCloneFrom.fish_field_number>
 			<cfset date_determined_by_agent_id = eventToCloneFrom.date_determined_by_agent_id>
 		</cfif>
+	<cfelseif mode EQ "create">
+		<!--- create, but not cloning, set defaults --->
+		<cfset collecting_event_id = "">
+		<cfif not isDefined("locality_id")> <cfset variables.locality_id = ""></cfif>
+		<cfif not isDefined("verbatim_locality")> <cfset verbatim_locality = ""></cfif>
+		<cfif not isDefined("verbatimDepth")> <cfset verbatimDepth = ""></cfif>
+		<cfif not isDefined("verbatimElevation")> <cfset verbatimElevation = ""></cfif>
+		<cfif not isDefined("verbatimCoordinates")> <cfset verbatimCoordinates = ""></cfif>
+		<cfif not isDefined("verbatimLatitude")> <cfset verbatimLatitude = ""></cfif>
+		<cfif not isDefined("verbatimLongitude")> <cfset verbatimLongitude = ""></cfif>
+		<cfif not isDefined("verbatimCoordinateSystem")> <cfset verbatimCoordinateSystem = ""></cfif>
+		<cfif not isDefined("verbatimSRS")> <cfset verbatimSRS = ""></cfif>
+		<cfif not isDefined("verbatim_date")> <cfset verbatim_date = ""></cfif>
+		<cfif not isDefined("collecting_time")> <cfset collecting_time = ""></cfif>
+		<cfif not isDefined("verbatim_collectors")> <cfset verbatim_collectors = ""></cfif>
+		<cfif not isDefined("verbatim_field_numbers")> <cfset verbatim_field_numbers = ""></cfif>
+		<cfif not isDefined("verbatim_habitat")> <cfset verbatim_habitat = ""></cfif>
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
@@ -4708,7 +4780,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				coll_event_remarks, collecting_source, habitat_desc,
 				date_began_date, date_ended_date,
 				valid_distribution_fg, collecting_method,
-				date_determined_by_agent_id, fish_field_number
+				date_determined_by_agent_id, fish_field_number,
+				verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
@@ -4727,6 +4800,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfset variables.verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
 				<cfset variables.verbatimSRS = getEvent.verbatimSRS>
 				<cfset variables.verbatim_date = getEvent.verbatim_date>
+				<cfset variables.verbatim_habitat = getEvent.verbatim_habitat>
+				<cfset variables.verbatim_field_numbers = getEvent.verbatim_field_numbers>
+				<cfset variables.verbatim_collectors = getEvent.verbatim_collectors>
 				<cfset variables.collecting_time = getEvent.collecting_time>
 				<cfset startDayOfYear = getEvent.startDayOfYear>
 				<cfset endDayOfYear = getEvent.endDayOfYear>
@@ -4762,11 +4838,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	</cfif>
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="createCollEventFormThread#tn#">
+	<cfthread name="createCollEventFormThread#tn#" collecting_event_id="#collecting_event_id#" locality_id="#locality_id#" verbatim_locality="#verbatim_locality#" verbatimDepth="#verbatimDepth#" verbatimElevation="#verbatimElevation#" verbatimCoordinates="#verbatimCoordinates#" verbatimLatitude="#verbatimLatitude#" verbatimLongitude="#verbatimLongitude#" verbatimCoordinateSystem="#verbatimCoordinateSystem#" verbatimSRS="#verbatimSRS#" verbatim_date="#verbatim_date#" collecting_time="#collecting_time#" verbatim_collectors="#verbatim_collectors#" verbatim_field_numbers="#verbatim_field_numbers#" verbatim_habitat="#verbatim_habitat#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-					select collecting_source from ctcollecting_source order by collecting_source
+					SELECT collecting_source 
+					FROM ctcollecting_source 
+					ORDER BY 
+						CASE 
+							WHEN collecting_source = 'wild caught' THEN 1 
+							ELSE 2 
+						END,
+  						collecting_source
 				</cfquery>
 				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_method from ctcollecting_method order by collecting_method
@@ -4793,12 +4876,33 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
-							<input type="hidden" id="reset_state" value="0">
+							<input type="hidden" id="reset_state" value="0"><!--- 0 = not editing locality, 1 = editing locality --->
 						</div>
+						<cfif NOT isDefined("onelinesummary")>
+							<cfif isDefined("collecting_event_id") AND len(collecting_event_id) GT 0>
+								<cfset onelinesummary = "Collecting Event (#collecting_event_id#)">
+							<cfelse>	
+								<cfset onelinesummary = "New Collecting Event">
+							</cfif>
+						</cfif>
 						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', '#onelinesummary#', 'locality', 'locality_id', localityPicked, null);" id="pickLocalityButton">Pick</button>
 							<script>
+								function localityPicked() { 
+									console.log("locality picked");
+									console.log($("##locality_id").val());
+									$("##editLocalityToggle").html("Change Locality");
+									$("##pickLocalityButton").hide();
+									if ($("##reset_state").val()=="0") { 
+										$("##reset_state").val("1");
+									}
+									// if handleChange function exists, call it
+									if (typeof handleChange === "function") { 
+										handleChange();
+									}
+								}
 								function toggleChangeLocality() { 
 									if ($("##reset_state").val()=="0") { 
 										$("##reset_state").val("1");
@@ -4815,12 +4919,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									makeLocalityAutocompleteMeta("locality", "locality_id");
 									$("##editLocalityToggle").html("Reset");
 									$("##locality").val("");
+									$("##pickLocalityButton").show();
 								}
 								function resetLocality() { 
 									$("##locality").val($("##reset_locality").val());
 									$("##locality_id").val($("##reset_locality_id").val());
 									$("##editLocalityToggle").html("Change Locality");
+									$("##pickLocalityButton").hide();
 								}
+								$(document).ready(function() { 
+									$("##pickLocalityButton").hide();
+								});
 							</script>
 						</div>
 					</cfif>
@@ -4834,7 +4943,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<!--- TODO: interpret and populate began_date/ended_date --->
 						<script>
 							function fillDatesFromVerbatim() { 
-							} 
+								var verbatimDate = $("##verbatim_date").val()
+ 								jQuery.getJSON(
+									"/dataquality/component/functions.cfc",
+									{
+										method : "interpretDate",
+										verbatimDate : verbatimDate,
+										returnformat : "json",
+									},
+									function (result) {
+										console.log(result);
+									}
+								).fail(function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
+								});
+							}
 						</script>
 					</div>
 					<div class="col-12 col-md-3 mb-2">
@@ -4941,26 +5064,41 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
-						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate Sys. (e.g., decimal degrees)</label>
+						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 						<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
-						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
+						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input" title="The coordinate system used by the verbatim coordinates (geographic in decimal degrees, geographic in degrees minutes seconds, UTM, MGRS, USNG, PLSS, Ordinance Survey grid, etc).  This is not a verbatim value, but metadata about the verbatim coordinates.">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLatitude" class="data-entry-label">Verbatim Latitude</label>
 						<cfif not isDefined("verbatimLatitude")><cfset verbatimLatitude = ""></cfif>
-						<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input">
+						<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input" title="If the verbatim coordinates are geographic coordinates, repeat the latitude portion of the verbatim coordinates here.">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLongitude" class="data-entry-label">Verbatim Longitude</label>
 						<cfif not isDefined("verbatimLongitude")><cfset verbatimLongitude = ""></cfif>
-						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
+						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input" title="If the verbatim coordinates are geographic coordinates, repeat the longitude portion of the verbatim coordinates here.">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (ellipsoid model/datum)</label>
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
-						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
+						<input type="text" name="verbatimSRS" title="The EPSG code for the spatial reference system in which the verbatim coordinates are represented.  This is not a verbatim value, but metadata about the verbatim coordinates." value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input" placeholder="EPSG:">
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-md-3">
+						<label for="verbatim_habitat" class="data-entry-label">Verbatim Habitat</label>
+						<cfif not isDefined("verbatim_habitat")><cfset verbatim_habitat = ""></cfif>
+						<input type="text" name="verbatim_habitat" value="#encodeForHTML(verbatim_habitat)#" id="verbatim_habitat" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="verbatim_collectors" class="data-entry-label">Verbatim Collectors</label>
+						<cfif not isDefined("verbatim_collectors")><cfset verbatim_collectors = ""></cfif>
+						<input type="text" name="verbatim_collectors" value="#encodeForHTML(verbatim_collectors)#" id="verbatim_collectors" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="verbatim_field_numbers" class="data-entry-label">Verbatim Field Numbers</label>
+						<cfif not isDefined("verbatim_field_numbers")><cfset verbatim_field_numbers = ""></cfif>
+						<input type="text" name="verbatim_field_numbers" value="#encodeForHTML(verbatim_field_numbers)#" id="verbatim_field_numbers" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-6 mb-2">
 						<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 						<cfif not isDefined("variables.valid_distribution_fg")>
 							<cfset variables.valid_distribution_fg = "1">
@@ -4989,7 +5127,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 			<cfcatch>
 				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #error_message# in #function_called#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
@@ -5198,11 +5337,43 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimLongitude" type="string" required="no">
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
+	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="startDayOfYear" type="string" required="no">
+	<cfargument name="endDayOfYear" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 
 	<cfif not isDefined("action")><cfset action="update"></cfif>
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.began_date = arguments.began_date>
+	<cfset variables.ended_date = arguments.ended_date>
+	<cfset variables.verbatim_date = arguments.verbatim_date>
+	<cfset variables.collecting_source = arguments.collecting_source>
+	<cfset variables.locality_id = arguments.locality_id>
+	<cfif isDefined("arguments.verbatim_locality")> <cfset variables.verbatim_locality = arguments.verbatim_locality> <cfelse> <cfset variables.verbatim_locality = ""> </cfif>
+	<cfif isDefined("arguments.verbatimDepth")> <cfset variables.verbatimdepth = arguments.verbatimDepth> <cfelse> <cfset variables.verbatimdepth = ""> </cfif>
+	<cfif isDefined("arguments.verbatimElevation")> <cfset variables.verbatimelevation = arguments.verbatimElevation> <cfelse> <cfset variables.verbatimelevation = ""> </cfif>
+	<cfif isDefined("arguments.verbatimCoordinates")> <cfset variables.verbatimCoordinates = arguments.verbatimCoordinates> <cfelse> <cfset variables.verbatimCoordinates = ""> </cfif>
+	<cfif isDefined("arguments.verbatimLatitude")> <cfset variables.verbatimLatitude = arguments.verbatimLatitude> <cfelse> <cfset variables.verbatimLatitude = ""> </cfif>
+	<cfif isDefined("arguments.verbatimLongitude")> <cfset variables.verbatimLongitude = arguments.verbatimLongitude> <cfelse> <cfset variables.verbatimLongitude = ""> </cfif>
+	<cfif isDefined("arguments.verbatimCoordinateSystem")> <cfset variables.verbatimCoordinateSystem = arguments.verbatimCoordinateSystem> <cfelse> <cfset variables.verbatimCoordinateSystem = ""> </cfif>
+	<cfif isDefined("arguments.verbatimSRS")> <cfset variables.verbatimSRS = arguments.verbatimSRS> <cfelse> <cfset variables.verbatimSRS = ""> </cfif>
+	<cfif isDefined("arguments.verbatim_collectors")> <cfset variables.verbatim_collectors = arguments.verbatim_collectors> <cfelse> <cfset variables.verbatim_collectors = ""> </cfif>
+	<cfif isDefined("arguments.verbatim_field_numbers")> <cfset variables.verbatim_field_numbers = arguments.verbatim_field_numbers> <cfelse> <cfset variables.verbatim_field_numbers = ""> </cfif>
+	<cfif isDefined("arguments.collecting_method")> <cfset variables.collecting_method = arguments.collecting_method> <cfelse> <cfset variables.collecting_method = ""> </cfif>
+	<cfif isDefined("arguments.collecting_time")> <cfset variables.collecting_time = arguments.collecting_time> <cfelse> <cfset variables.collecting_time = ""> </cfif>
+	<cfif isDefined("arguments.date_determined_by_agent_id")> <cfset variables.date_determined_by_agent_id = arguments.date_determined_by_agent_id> <cfelse> <cfset variables.date_determined_by_agent_id = ""> </cfif>
+	<cfif isDefined("arguments.fish_field_number")> <cfset variables.fish_field_number = arguments.fish_field_number> <cfelse> <cfset variables.fish_field_number = ""> </cfif>
+	<cfif isDefined("arguments.coll_event_remarks")> <cfset variables.coll_event_remarks = arguments.coll_event_remarks> <cfelse> <cfset variables.coll_event_remarks = ""> </cfif>
+	<cfif isDefined("arguments.startDayOfYear")> <cfset variables.startDayOfYear = arguments.startDayOfYear> <cfelse> <cfset variables.startDayOfYear = ""> </cfif>
+	<cfif isDefined("arguments.endDayOfYear")> <cfset variables.endDayOfYear = arguments.endDayOfYear> <cfelse> <cfset variables.endDayOfYear = ""> </cfif>
+	<cfif isDefined("arguments.valid_distribution_fg")> <cfset variables.valid_distribution_fg = arguments.valid_distribution_fg> <cfelse> <cfset variables.valid_distribution_fg = "1"> </cfif>
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
@@ -5298,6 +5469,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
 					<cfelse>
 						,valid_distribution_fg = null
+					</cfif>
+					<cfif len(#verbatim_collectors#) gt 0>
+						,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
+					<cfelse>
+						,verbatim_collectors = null
+					</cfif>
+					<cfif len(#verbatim_field_numbers#) gt 0>
+						,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">
+					<cfelse>
+						,verbatim_field_numbers = null
+					</cfif>
+					<cfif len(#verbatim_habitat#) gt 0>
+						,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
+					<cfelse>
+						,verbatim_habitat = null
 					</cfif>
 	 			WHERE
 					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">

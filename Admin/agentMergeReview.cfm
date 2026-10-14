@@ -106,7 +106,7 @@ limitations under the License.
 						agent records for anything that's even a little bit ambiguous, then do it again. You will be changing 
 						agent IDs in a big pile-O-tables; make sure you really want to first!</p>
 						<form name="go" method="post" action="killBadAgentDups.cfm">
-							<input type="hidden" name="action" value="doIt">
+							<input type="hidden" name="action" value="entryPoint">
 							<input type="submit" value="Make the Changes" class="btn btn-xs btn-warning">
 						</form>
 					</div>

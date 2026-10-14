@@ -812,12 +812,48 @@ limitations under the License.
 	<cfreturn getTransItemCountryThread.output>
 </cffunction>
 
+<!--- getLoanStatus obtain the status for a loan 
+  @param transaction_id the pk of the loan transaction.
+  @return the loan status string or empty string or an http error on failure.
+--->
+<cffunction name="getLoanStatus" access="remote" returntype="string">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfset theResult="" >
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"manage_transactions")>
+			<cfquery name="loanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					loan_status
+				FROM
+					loan
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif loanStatus.recordcount NEQ 1>
+				<cfthrow message="Unable to obtain loan status. Provided transaction_id does not match a record in the loan table.">
+			</cfif>
+			<cfset theResult = loanStatus.loan_status>
+		<cfelse>
+			<cfthrow message="Not authorized to obtain loan status.">
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cftry>
 		<cfif listcontainsnocase(session.roles,"admin_transactions")>
-			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="itemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					1 as status,
 					count(distinct cataloged_item.collection_object_id) catItemCount,
@@ -830,29 +866,17 @@ limitations under the License.
 					specimen_part,
 					coll_object,
 					cataloged_item,
-					coll_object_encumbrance,
-					encumbrance,
-					agent_name,
-					identification,
 					collection
 				WHERE
 					loan_item.collection_object_id = specimen_part.collection_object_id AND
 					loan.transaction_id = loan_item.transaction_id AND
 					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 					specimen_part.collection_object_id = coll_object.collection_object_id AND
-					coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-					coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-					encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					identification.accepted_id_fg = 1 AND
 					cataloged_item.collection_id=collection.collection_id AND
 					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		<cfelse>
-			<cfset rankCount=queryNew("status, message")>
-			<cfset t = queryaddrow(rankCount,1)>
-			<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
-			<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
+			<cfset itemCount=queryNew("status, message")>
 		</cfif>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -861,7 +885,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn rankCount>
+	<cfreturn itemCount>
 </cffunction>
 
 <!--- ** removeSubloanFromParent removes a record from loan_relations of type Subloan.
@@ -1051,7 +1075,8 @@ limitations under the License.
 								shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
 								toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
 								fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
-								shipment.print_flag
+								shipment.print_flag,
+								shipment.costs
 						 from shipment
 								left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
 								left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -1107,23 +1132,24 @@ limitations under the License.
 						<div class='shipments bg-white border my-2'>
 							<table class='table table-responsive d-md-table mb-0'>
 								<thead class='thead-light'>
-									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th>
+									<th>Ship Date:</th><th>Method:</th><th>Packages:</th><th colspan="2">Tracking Number:</th><th>Costs ($):</th>
 								</thead>
 								<tbody>
 									<tr>
 										<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>
 										<td>#shipped_carrier_method#&nbsp;</td>
 										<td>#no_of_packages#&nbsp;</td>
-										<td>#carriers_tracking_number#</td>
+										<td colspan="2">#carriers_tracking_number#</td>
+										<td>#costs#</td>
 									</tr>
 									<cfif len(shipment_remarks) GT 0>
 										<tr>
-											<td colspan="4"><span class="font-weight-lessbold">Shipment Remarks:</span> #shipment_remarks#</td>
+											<td colspan="6"><span class="font-weight-lessbold">Shipment Remarks:</span> #shipment_remarks#</td>
 										</tr>
 									</cfif>
 									<cfif len(contents) GT 0>
 										<tr>
-											<td colspan="4"><span class="font-weight-lessbold">Contents:</span> #contents#</td>
+											<td colspan="6"><span class="font-weight-lessbold">Contents:</span> #contents#</td>
 										</tr>
 									</cfif>
 								</tbody>
@@ -1332,7 +1358,8 @@ limitations under the License.
 				shipped_from_addr_id, 
 				fromaddr.formatted_addr as shipped_from_address, 
 				toaddr.formatted_addr as shipped_to_address,
-				shipment.print_flag
+				shipment.print_flag,
+				shipment.costs
 			from shipment
 				left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
 				left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
@@ -1884,7 +1911,7 @@ limitations under the License.
 	<cfset result = "">
 		<cftry>
 			<cfquery name="addPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				INSERT INTO permit_trans (permit_id, transaction_id) VALUES (#permit_id#, #transaction_id#)
+				INSERT INTO permit_trans (permit_id, transaction_id) VALUES (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">)
 			</cfquery>
 		
 			<cfset result = "Added this permit (#permit_id#) to transaction #transaction_label#. ">
@@ -4410,6 +4437,8 @@ limitations under the License.
   * method addSubLoanToLoan given two transaction ids add one transaction as the subloan of another. 
   * @param transaction_id the parent transaction
   * @param subloan_transaction_id the child transaction
+  * @return a query object with the loan numbers and transaction ids of all subloans of the parent 
+  *  transaction after the new subloan is added, ordered by loan number.
 --->
 <cffunction name="addSubLoanToLoan" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
@@ -4420,15 +4449,36 @@ limitations under the License.
 			insert into loan_relations 
 				(transaction_id, related_transaction_id, relation_type)
 			values (
-				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
-				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#arguments.subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
 				'Subloan'
 			)
 		</cfquery>
+		<!--- set the recipient institution of the subloan to be the same as the recipient institution of the parent loan --->
+		<!--- obtain the recipient institution of the parent loan --->
+		<cfquery name="getRecipientInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT agent_id 
+			FROM trans_agent
+			WHERE
+				transaction_id = <cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+				AND
+				trans_agent_role = 'recipient institution'
+		</cfquery>
+		<cfif getRecipientInstitution.recordcount EQ 1>
+			<!--- set the recipient institution of child loans to that of the parent loan --->
+			<cfquery name="propagateRecipientToChild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE trans_agent
+				SET agent_id = <cfqueryparam value="#getRecipientInstitution.agent_id#" cfsqltype="CF_SQL_DECIMAL">
+				WHERE transaction_id = <cfqueryparam value = "#arguments.subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+					and
+					trans_agent_role = 'recipient institution'
+			</cfquery>
+		</cfif>
+		<!--- return the updated list of child loans for the parent loan --->
 		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select l.loan_number, l.transaction_id 
 			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
-			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			where lr.transaction_id = <cfqueryparam value = "#arguments.transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 			order by l.loan_number
 		</cfquery>
 	<cfcatch>
@@ -4515,7 +4565,9 @@ limitations under the License.
 		<cftry>
 			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select project_name, project.project_id, 
-					project_trans_remarks,
+					project_trans_remarks, 
+					mask_project_fg,
+					decode(mask_project_fg,0,'Public',1,'Hidden') as project_visibility,
 					to_char(start_date,'YYYY-MM-DD') as start_date,
 					to_char(end_date,'YYYY-MM-DD') as end_date
 				from project_trans left join project on project_trans.project_id =  project.project_id
@@ -4528,7 +4580,8 @@ limitations under the License.
 						<ul class="pl-4 pr-0 list-style-disc">
 						<cfloop query="projs">
 							<li class="my-1">
-								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
+								<a href="/projects/showProject.cfm?project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a>
+								<cfif mask_project_fg eq 1>#project_visibility#</cfif>
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
 							</li>
@@ -4719,6 +4772,15 @@ limitations under the License.
 					</div>
 					<div class="form-row mt-2">
 						<div class="col-12 px-0">
+							<label for="mask_project_fg" class="data-entry-label">Project Visibility</label>
+							<select name="mask_project_fg" id="mask_project_fg" size="1" class="data-entry-select">
+								<option value="0" selected>Public</option>
+								<option value="1">Hidden</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row mt-2">
+						<div class="col-12 px-0">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
@@ -4896,6 +4958,7 @@ limitations under the License.
 	<cfargument name="newAgent_name_id" type="string" required="yes">
 	<cfargument name="project_agent_role" type="string" required="yes">
 	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfargument name="mask_project_fg" type="string" required="no" default="0">
 	<cfset r=1>
 	<cftransaction>
 		<cftry>
@@ -4907,6 +4970,7 @@ limitations under the License.
 				INSERT INTO project (
 					PROJECT_ID
 					,PROJECT_NAME
+					,mask_project_fg
 					<cfif len(#START_DATE#) gt 0>
 						,START_DATE
 					</cfif>
@@ -4924,6 +4988,7 @@ limitations under the License.
 				(
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_project_fg#">
 					<cfif len(#START_DATE#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
 					</cfif>
@@ -5300,6 +5365,7 @@ limitations under the License.
    <cfargument name="package_weight" type="string" required="no">
    <cfargument name="no_of_packages" type="string" required="no">
    <cfargument name="hazmat_fg" type="numeric" required="no">
+   <cfargument name="costs" type="string" required="no">
    <cfargument name="insured_for_insured_value" type="string" required="no">
    <cfargument name="shipment_remarks" type="string" required="no">
    <cfargument name="contents" type="string" required="no">
@@ -5337,7 +5403,8 @@ limitations under the License.
                 </cfif>
                 hazmat_fg, shipment_remarks, contents, foreign_shipment_fg,
                 shipped_to_addr_id, shipped_from_addr_id,
-                print_flag
+                print_flag,
+					 costs
              )
              values (
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
@@ -5358,7 +5425,12 @@ limitations under the License.
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
-                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">,
+					 <cfif isDefined("costs") and len(costs) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#costs#">
+					 <cfelse>
+						NULL
+ 					 </cfif>
              )
          </cfquery>
       <cfelse>
@@ -5383,7 +5455,12 @@ limitations under the License.
                 contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
                 foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
                 shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
-                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+					 <cfif isDefined("costs") and len(costs) gt 0>
+						costs = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#costs#">
+					 <cfelseif isDefined("costs") and len(costs) eq 0>
+						costs = NULL
+ 					 </cfif>
              where
                 shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
                 transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">

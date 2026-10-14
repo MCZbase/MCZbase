@@ -55,7 +55,7 @@
 					$("#pd_" + i).remove();
 					$("#en_" + i).remove();
 					$("#ctl_" + i).remove();
-					var d='<td id="sp_' + r.DATA.I + '"><a href="/SpecimenDetail.cfm?collection_object_id=' + r.DATA.COLLECTION_OBJECT_ID[0] + '">';
+					var d='<td id="sp_' + r.DATA.I + '"><a href="/specimens/Specimen.cfm?collection_object_id=' + r.DATA.COLLECTION_OBJECT_ID[0] + '">';
 					d+=r.DATA.COLLECTION + ' ' + r.DATA.CAT_NUM + '</a></td>';
 					d+='<td id="sn_' + r.DATA.I + '">' + r.DATA.SCIENTIFIC_NAME + '</td>';
 					d+='<td id="ci_' + r.DATA.I + '">' + r.DATA.CUSTOMID + '</td>';
@@ -168,7 +168,7 @@
 		<cfif getPartLoanRequests.recordcount is 0>
 			<br>This loan contains no parts.
 		<cfelse>
-			<br>Existing Parts (use <a href="/a_loanItemReview.cfm?transaction_id=#transaction_id#">Loan Item Review</a> to adjust):
+			<br>Existing Parts (use <a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Loan Item Review</a> to adjust):
 			<table border>
 				<tr>
 					<th>Barcode</th>
@@ -183,7 +183,7 @@
 					<tr>
 						<td>#barcode#</td>
 						<td>
-							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+							<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 								#collection# #cat_num#
 							</a>
 						</td>
@@ -229,6 +229,7 @@
 						</td>
 					</tr>
 				</cfloop>
+			</table>
 		</form>
 	</cfoutput>
 </cfif>

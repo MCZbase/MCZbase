@@ -1,16 +1,17 @@
 mhk_diff.txt
 specimendetails_diff.txt
 checkcfquery.py
+checkSessions.sh
 cache
 mediaUploads
 specimen_images
 metrics/datafiles/
-metrics/R/datafiles/
-metrics/R/graphs/
 _notes/
 /bower_components/
 /node_modules/
 bnhmMaps/tabfiles
+# some scripts for helping with cleanup of old files
+find_unreferenced_images.sh
 # Generated sitemap files
 sitemapindex.xml
 sitemapindex.xml.gz
@@ -30,19 +31,6 @@ taxonomy*.xml
 # Eclipse
 .project
 # Generaed by schedueld job
-all_all/
-mcz_bird/
-mcz_cryo/
-mcz_ent/
-mcz_fish/
-mcz_herp/
-mcz_herpobs/
-mcz_ip/
-mcz_iz/
-mcz_mala/
-mcz_mamm/
-mcz_sc/
-mcz_vp/
 media2.xml
 media4.xml
 specimen1.xml
@@ -59,3 +47,5 @@ includes/_header_withPaulsChanges.cfm
 /lib/fontawesome/fontawesome-free-5.5.0-web/less/_variables.css
 .bracketsGitTemp
 metrics/R/chart1.png
+# for generative AI tools
+.claude

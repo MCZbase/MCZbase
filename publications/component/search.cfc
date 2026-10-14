@@ -41,11 +41,12 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="begin_page" type="string" required="no">
 	<cfargument name="published_year" type="string" required="no">
 	<cfargument name="to_published_year" type="string" required="no">
-	<cfargument name="cites_collection" type="string" required="no"><!--- TODO --->
+	<cfargument name="cites_collection" type="string" required="no">
 	<cfargument name="cites_specimens" type="string" required="no">
-	<cfargument name="cited_taxon" type="string" required="no"><!--- TODO --->
-	<cfargument name="accepted_for_cited_taxon" type="string" required="no"><!--- TODO --->
+	<cfargument name="cited_taxon" type="string" required="no">
+	<cfargument name="accepted_for_cited_taxon" type="string" required="no">
 	<cfargument name="cited_collection_object_id" type="string" required="no">
+	<cfargument name="citation_remarks" type="string" required="no"><!--- paired with cited_collection_object_id  --->
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
@@ -138,7 +139,10 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("type_status") AND len(type_status) GT 0>
 					left join citation type_status_citation on publication.publication_id = type_status_citation.publication_id
 				</cfif>
-				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0 >
+				<cfif ( isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0 ) 
+						OR 
+						( isDefined("citation_remarks") AND len(citation_remarks) GT 0 ) 
+				>
 					left join citation on publication.publication_id = citation.publication_id
 				<cfelse>
 					<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
@@ -333,11 +337,23 @@ Function getPublications.  Search for publications by fields
 					<cfelseif cited_collection_object_id EQ "NOT NULL">
 						and citation.collection_object_id IS NOT NULL
 					<cfelse>
-						and citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_collection_object_id#">
+						and citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#cited_collection_object_id#">
 					</cfif>
-				</cfif>
-				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
+				<cfelseif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
 					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes">)
+				</cfif>
+				<cfif isDefined("citation_remarks") AND len(citation_remarks) GT 0>
+					<cfif citation_remarks EQ "NULL">
+						and citation.citation_remarks IS NULL
+					<cfelseif citation_remarks EQ "NOT NULL">
+						and citation.citation_remarks IS NOT NULL
+					<cfelseif left(citation_remarks,1) EQ "!">
+						and citation.citation_remarks <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(citation_remarks,len(citation_remarks)-1)#">
+					<cfelseif left(citation_remarks,1) EQ "=">
+						and citation.citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(citation_remarks,len(citation_remarks)-1)#">
+					<cfelse>
+						and citation.citation_remarks LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#citation_remarks#%">
+					</cfif>
 				</cfif>
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
 					<cfif cites_collection EQ "NOT NULL">
@@ -887,6 +903,43 @@ Function getJournalNames.  Search for publications by fields
 		</cffinally>
 		</cftry>
 	</cftransaction>
+</cffunction>
+
+<!--- Function getPublicationCitation.  Get the formatted publication citations for a given publication_id, returning json 
+  with entries for each format_style.
+@param publication_id the publication_id to get formatted citations for.
+@return a json structure containing publication_id, and the value of formatted_publication for each format_style.
+--->
+<cffunction name="getPublicationCitationForms" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="getPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPublication_result" timeout="#Application.query_timeout#">
+			SELECT 
+				publication_id, formatted_publication, format_style
+			FROM 
+				formatted_publication
+			WHERE
+			 	publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.publication_id#">
+		</cfquery>
+		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfloop query="getPublication">
+			<cfset row["publication_id"] = "#getPublication.publication_id#">
+			<cfset row["#getPublication.format_style#"] = "#getPublication.formatted_publication#" >
+		</cfloop>
+		<cfset data[i]  = row>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>

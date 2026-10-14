@@ -16,10 +16,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+
+
+<!---Static map handler for Google cost reduction--->
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+    
+    
 <!---
 	linkMediaHtml create dialog content to link media to an object 
 	@see findMediaSearchResults 
@@ -138,6 +144,89 @@ limitations under the License.
 	</cftry>
 
 	<cfreturn result>
+</cffunction>
+
+<!---
+ getWikiArticle invoke the mediawiki API to retrieve a wiki article and prepare it for display within MCZbase.
+
+ @param page the name of the wiki page to retrieve.
+ @param section the section of the wiki page to retrieve, if not provided, or if value is 0, then the full page is returned.
+ @param showImages if true then images are included in the returned content, if false then images are stripped from the content.
+ @return a JSON object with the result of the wiki article retrieval.
+--->
+<cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
+	<cfargument name="page" type="string" required="true">
+	<cfargument name="section" type="string" required="false" default="">
+	<cfargument name="showImages" type="string" required="false" default="false">
+
+	<cfset local.wikiIRI = "https://code.mcz.harvard.edu/wiki/">
+	<cfset local.ALLOWED_CATEGORY = "Category:Public Help Page">
+
+	<cfset var returnContent = "">
+
+	<cfset local.visiblePage = false>
+	<!--- check that the page is visible to the user --->
+	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+		<cfset local.visiblePage = true>
+	<cfelse>
+		<!--- look up the page category in the wiki --->
+		<!--- check that page is a single page, not a list --->
+		<!--- confirm that arguments.page does not contain | or %7C or %1F --->
+		<cfif isDefined("arguments.page") AND len(arguments.page) GT 0 AND (listLen(arguments.page, "|") GT 1 OR findNoCase("|", arguments.page) OR findNoCase("%7C", arguments.page) OR findNoCase("%1F", arguments.page))>
+			<!--- throw an exception if the user attempted to obtain a list of pages --->
+			<cfthrow message = "The requested page is not visible to this user."> 
+		</cfif>
+		<cfif isDefined("arguments.page") AND len(arguments.page) GT 0 AND listLen(arguments.page, "|") EQ 1>
+			<!--- check if the requested page is in the "Public Help Page" category --->
+			<cfset var url = "#local.wikiIRI#api.php?action=query&prop=categories&titles=" & URLEncodedFormat(arguments.page) & "&format=json">
+			<cfhttp url="#url#" method="get" result="wikiCategories" />
+			<cfset var parsed = deserializeJson(wikiCategories.fileContent)>
+			<cfif structKeyExists(parsed, "query") AND structKeyExists(parsed.query, "pages")>
+				<cfloop collection="#parsed.query.pages#" item="pageId">
+					<cfif structKeyExists(parsed.query.pages[pageId], "categories")>
+						<cfset var categories = parsed.query.pages[pageId].categories>
+						<cfloop array="#categories#" index="category">
+							<cfif listFindNoCase(category.title, local.ALLOWED_CATEGORY)>
+								<cfset local.visiblePage = true>
+								<cfbreak>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfif>
+	</cfif>
+
+	<cfif not local.visiblePage>
+		<cfthrow message = "The requested page is not visible to this user.">
+	</cfif>
+
+	<!--- Select wiki API endpoint based on section argument --->
+	<cfif isDefined("arguments.section") AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
+		<cfset var url = "#local.wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
+		<cfhttp url="#url#" method="get" result="wikiContent" />
+		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
+		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
+	<cfelse>
+		<!--- Fallback: full page fetch using API --->
+		<cfset var url = "#local.wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+		<cfhttp url="#url#" method="get" result="wikiContent" />
+		<cfset returnContent = wikiContent.fileContent>
+	</cfif>
+	<cfif NOT isDefined("returnContent") OR len(returnContent) EQ 0>
+		<cfset returnContent = "No content found for the specified page or section.">
+	</cfif>
+	
+	<!--- Process the content to remove unwanted tags and attributes --->
+	<cfif isDefined("arguments.showImages") AND arguments.showImages EQ "true" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+		<!--- If showImages is true and this is a sufficiently privileged user, keep the images --->
+	<cfelse>
+		<!--- otherwise remove all <img> tags --->
+		<cfset returnContent = rereplacenocase(returnContent, "(?i)<img\b[^>]*>", "", "all")>   <!--- " --->
+	</cfif>
+
+	<cfheader name="Content-Type" value="application/json">
+	<cfreturn serializeJson({result=returnContent})>
 </cffunction>
 
 <!------------------------------------->
@@ -361,13 +450,13 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 pb-2">
 						<label for="media_type">Media Type</label>
-							<select name="media_type" id="media_type" class="reqdClr w-75"  required>
-								<option value=""></option>'>
-								<cfloop query="ctmedia_type">
-									<cfset result = result & '<option value="#media_type#">#media_type#</option>' >
-								</cfloop> 
-								<cfset result = result & '
-							</select>
+                        <select name="media_type" id="media_type" class="reqdClr w-75"  required>
+                            <option value=""></option>'>
+                            <cfloop query="ctmedia_type">
+                                <cfset result = result & '<option value="#media_type#">#media_type#</option>' >
+                            </cfloop> 
+                            <cfset result = result & '
+                        </select>
 					</div>
 					<div class="col-12 col-md-4 pb-2">
 						<label for="mask_media_fg">Media Record Visibility</label>
@@ -411,19 +500,18 @@ limitations under the License.
 						<label for="relationships" class="mt-2">Media Relationships</label>
 						<div id="relationships" class="p-2 rounded dotted-border">
 							<div id="relationshiperror"></div>
-								<select name="relationship__1" id="relationship__1" size="1" class="col-3 float-left" onchange="pickedRelationship(this.id)">
-									<option value="">None/Unpick</option>'>
-									<cfloop query="ctmedia_relationship">
-										<cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
-									</cfloop>
-									<cfset result = result & '
-								</select>
-						
-								<input type="text" name="related_value__1" id="related_value__1" class="col-9 float-left" readonly>
-								<input type="hidden" name="related_id__1" id="related_id__1">
-								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
-							</div>
-					</div>
+                            <select name="relationship__1" id="relationship__1" size="1" class="col-3 float-left" onchange="pickedRelationship(this.id)">
+                                <option value="">None/Unpick</option>'>
+                                <cfloop query="ctmedia_relationship">
+                                    <cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
+                                </cfloop>
+                                <cfset result = result & '
+                            </select>
+                            <input type="text" name="related_value__1" id="related_value__1" class="col-9 float-left" readonly>
+                            <input type="hidden" name="related_id__1" id="related_id__1">
+                            <button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
+				        </div>
+				    </div>
 				</div>
 				<div class="form-row">
 					<div class="col-12 col-md-12">
@@ -437,14 +525,16 @@ limitations under the License.
 									</cfloop>
 									<cfset result = result & '
 								</select>
-				
 								<input type="text" name="label_value__1" id="label_value__1" class="col-9 float-left">
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabelTo(2,''labels'',''addLabel'');" aria-label="Add a media label">Add Label</button>
 							</div>
-					</div>
-				</div>
-			</div>
-</form></div></div></div>
+					    </div>
+				    </div>
+			    </div>
+            </form>
+            </div>
+        </div>
+    </div>
 	</div>'>
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -782,6 +872,8 @@ limitations under the License.
 	<cfreturn returnValue>
 </cffunction>
 
+                
+
 <!--- given a table and field return a comment on the field from the schema.
 
  @param table the name of the table the field is in 
@@ -951,6 +1043,8 @@ limitations under the License.
 							depth = depth + "-" + max_depth;
 						}
 						depth = $.trim(depth + " " + depth_units) + ". ";
+					} else if (max_depth) { 
+						depth = " Depth: " + max_depth + " " + depth_units + ". ";
 					} else {
 						depth = "";
 					}

@@ -120,7 +120,7 @@ function remPartFromDeacc( partID, collObjectID ) {
 	varisSslVal = isSslFld.value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	if (varisSslVal > 0) {
-		var dialogText = "Would you like to remove this subsample from the Deaccession?  If you do, check the parts and part counts for the <a href='/SpecimenDetail.cfm?collection_object_id=" + collObjectID +  "' target='_blank'>cataloged item</a> when done, you may wish to manually merge the subsample part back into its parent lot.";
+		var dialogText = "Would you like to remove this subsample from the Deaccession?  If you do, check the parts and part counts for the <a href='/specimens/Specimen.cfm?collection_object_id=" + collObjectID +  "' target='_blank'>cataloged item</a> when done, you may wish to manually merge the subsample part back into its parent lot.";
                 confirmAction(dialogText, "Remove subsample from Deaccession", function(){ remPartFromDeaccSubsample(thisDispn,partID,transaction_id) } );
 	} else if (thisDispn != 'in collection') {
 		messageDialog('That part cannot be removed because the disposition is not "in collection".','Unable to remove part.');
@@ -198,4 +198,82 @@ function success_updateDispn (r) {
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
+}
+
+
+/** openDeaccessionItemDialog open a dialog for editing a deaccession item.
+ *
+ * @param deacc_item_id the primary key for the deaccession item to edit.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name text to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openDeaccessionItemDialog(deacc_item_id,dialogId,name,callback) {
+   var title = "Edit " + name;
+   createGenericEditDialog(dialogId,title,callback);
+   jQuery.ajax({
+      url: "/transactions/component/itemFunctions.cfc",
+      data : {
+         method : "getDeaccItemDialogHtml",
+         deacc_item_id: deacc_item_id
+      },
+      success: function (result) {
+         $("#" + dialogId + "_div").html(result);
+      },
+      error: function (jqXHR, textStatus, error) {
+         handleFail(jqXHR,textStatus,error,"opening edit deaccession item dialog");
+      },
+      dataType: "html"
+   });
+};
+
+function openRemoveDeaccItemDialog(deacc_item_id, dialogId, callback) { 
+	var title = "Remove Part from Deaccession.";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+   createGenericEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		type: "get",
+		data: {
+			method: 'getRemoveDeaccItemDialogContent',
+			returnformat: "plain",
+			deacc_item_id: deacc_item_id,
+			dialogId: dialogId
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+		}
+	});
+}
+
+function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
+	$.ajax({
+		url: '/transactions/component/itemFunctions.cfc',
+		type: 'POST',
+		data: {
+			method: 'removePartFromDeacc',
+			deacc_item_id: deacc_item_id,
+			coll_obj_disposition: coll_obj_disposition
+		},
+		success: function(data) {
+			console.log("Successfully removed deaccession item " + deacc_item_id);
+			if (typeof callback === "function") {
+				callback();
+			} else if (typeof callback === "string") {
+				// look up function of that name and invoke it 
+				window[callback]();
+			}
+			// check if deaccessionModifiedHere function is defined and call it
+			if (typeof deaccessionModifiedHere === "function") {
+				deaccessionModifiedHere();
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing deaccession item");
+		}
+	});
 }

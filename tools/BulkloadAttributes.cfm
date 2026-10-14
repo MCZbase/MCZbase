@@ -23,8 +23,10 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,collection_cde,other_id_type,other_id_number,
-			attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+		SELECT 
+			institution_acronym,collection_cde,other_id_type,other_id_number,
+			attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,
+			status
 		FROM cf_temp_attributes 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -559,8 +561,8 @@ limitations under the License.
 										where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
 									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTASSOCIATED_GRANTS">
 										select ASSOCIATED_GRANT from CTASSOCIATED_GRANTS
-									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTCOLLECTION_FULL_NAMES">
-										select COLLECTION from CTCOLLECTION_FULL_NAMES
+									<cfelseif ctAttribute_code_tables.value_code_table EQ "CTCOLLECTIONS_FULL_NAMES">
+										select COLLECTION from CTCOLLECTIONS_FULL_NAMES
 									</cfif>
 								)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -737,15 +739,18 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
+						<!--- check if this created a duplicate attribute --->
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttributes1_result">
 							select attribute_type,attribute_value,collection_object_id from attributes 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+								and attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.attribute#">
+								and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.attribute_value#">
 							group by attribute_type,attribute_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfif updateAttributes1_result.recordcount gt 0>
-							<cfthrow message = "Error: attempting to insert duplicated attribute.">
+							<cfthrow message = "Error: attempting to insert duplicated attribute, [#getTempData.attribute#]:[#gettemmpData.attributed_value#] is already present on this record.">
 						</cfif>
 					</cfloop>
 					<cfif getTempData.recordcount eq attributes_updates>

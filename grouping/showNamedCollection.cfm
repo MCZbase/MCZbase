@@ -22,6 +22,64 @@ limitations under the License.
 <cfif not isdefined("debug")>
 	<cfset debug ="">
 </cfif>
+<!--- if given url.underscore_collection_id redirect to /namedGroup/{target_underscore_collection_id} --->
+<cfif isDefined("url.underscore_collection_id") AND len(url.underscore_collection_id) GT 0>
+	<cfquery name="checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkGroup_result" timeout="#Application.short_timeout#">
+		SELECT underscore_collection_id, collection_name
+		FROM underscore_collection
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.underscore_collection_id#">
+			<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+				AND mask_fg = 0
+			</cfif>
+	</cfquery>
+	<cfif checkGroup.recordcount is 1>
+		<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+			<cfset redirectUrl = "#redirectUrl#/#EncodeForURL(trim(url.format))#">
+		</cfif>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="#redirectUrl#">
+		<cfabort>
+	</cfif>
+</cfif>
+<!--- if target_underscore_collection_id is given in environment 
+      (which errors/missing.cfm provides when /namedGroup/{target_underscore_collection_id is provided)
+      then use that as the underscore_collection_id to show, otherwise fail over to form.underscore_collection_id
+--->
+<cfif isDefined("target_underscore_collection_id") AND len(target_underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = target_underscore_collection_id>
+<cfelseif isDefined("form.underscore_collection_id") AND len(form.underscore_collection_id) GT 0>
+	<cfset underscore_collection_id = form.underscore_collection_id>
+</cfif>
+<cfinclude template="/grouping/component/public.cfc" runOnce="true">
+<cfif NOT isDefined("requestedFormat")>
+	<cfset requestedFormat = "html">
+</cfif>
+<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
+	<cfset requestedFormat = trim(url.format)>
+<cfelseif isDefined("form.format") AND len(trim(form.format)) GT 0>
+	<cfset requestedFormat = trim(form.format)>
+</cfif>
+<cftry>
+	<cfset acceptHeader = GetHttpRequestData().Headers["accept"]>
+<cfcatch>
+	<cfset acceptHeader = "">
+</cfcatch>
+</cftry>
+<cfset exportFormat = resolveNamedGroupExportFormat(format=requestedFormat, acceptHeader=acceptHeader)>
+<cfif len(exportFormat) GT 0>
+	<cfif NOT isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
+		<cfthrow message="No named group specified to show.">
+	</cfif>
+	<cfset namedGroupExport = getNamedGroupLatimerCoreExport(
+		underscore_collection_id=underscore_collection_id,
+		oneOfUs=oneOfUs,
+		format=exportFormat
+	)>
+	<cfheader name="Content-Type" value="#namedGroupExport.contentType#">
+	<cfoutput>#namedGroupExport.body#</cfoutput>
+	<cfabort>
+</cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
 	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
 		SELECT collection_name
@@ -47,7 +105,8 @@ limitations under the License.
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg,
-		displayed_media_id
+		displayed_media_id,
+		link_name
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 </cfquery>
@@ -71,6 +130,21 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
+		<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+			SELECT distinct media.media_id, 
+				media.media_uri, 
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type,
+				2 as topsort
+			FROM
+				underscore_collection
+				join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship like '% underscore_collection'
+		</cfquery>
 		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
@@ -120,6 +194,12 @@ limitations under the License.
 			FROM specimenMedia_raw 
 			WHERE encumb < 1
 				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY media_id
+		</cfquery>
+		<cfquery name="directMedia" dbtype="query">
+			SELECT * 
+			FROM directMedia_raw 
+			WHERE encumb < 1
 			ORDER BY media_id
 		</cfquery>
 		<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -246,14 +326,20 @@ limitations under the License.
 			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentCollectingImage = 1;
 		</script>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-			SELECT distinct flat.locality_id,flat.dec_lat as Latitude, flat.DEC_LONG as Longitude 
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-			WHERE 
-				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
+            SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
+            FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+                join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+                join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+            WHERE 
+                underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+                and flat.guid IS NOT NULL
+                and flat.dec_lat is not null
+                and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+            GROUP BY 
+                flat.locality_id,
+                flat.dec_lat,
+                flat.dec_long
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -264,14 +350,23 @@ limitations under the License.
 						<div class="row mx-0">
 							<div class="col-12 px-1 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-										<div class="d-inline-block float-right"> <a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a> </div>
-									</cfif>
+									<div class="d-inline-block float-right">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") and len(trim(getNamedGroup.link_name)) GT 0>
+											<a id="namedGroupPermalink" class="px-1 text-muted" target="_blank"
+													href="#Application.serverRootUrl#/namedGroup/#encodeForUrl(getNamedGroup.link_name)#"
+													aria-label="Permalink: #Application.serverRootUrl#/namedGroup/#encodeForHtml(getNamedGroup.link_name)#">
+												<i class="fas fa-link" aria-hidden="true"></i>
+											</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a>
+										</cfif>
+									</div>
 								</h1>
 							</div>
 						</div>
 						<div class="row mx-0">
-							<div class="col-12 px-3 mt-0"> 
+							<div class="col-12 px-3 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content ---> 
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
@@ -374,7 +469,8 @@ limitations under the License.
 						<div class="col-12 my-2">
 							<h2 class="float-left">Specimen Records 
 								<span class="small">
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
+									<a href="/Specimens.cfm?execute=true&action=fixedSearch&underscore_collection_id=#encodeForURL(underscore_collection_id)#
+&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#" target="_blank">#specimens.recordcount#</a>
 								</span>
 							</h2>
 							<div id="btnContainer" class="ml-3 float-left"></div>
@@ -398,7 +494,7 @@ limitations under the License.
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
 									<section class="imagesLeft">
-										<div class="col-12 px-1">
+										<div class="col-12 float-left px-0">
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
@@ -480,6 +576,8 @@ limitations under the License.
 										</script>
 									</section><!--- end specimen images --->
 								</cfif>
+                                                
+                                                
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
 									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
@@ -488,120 +586,69 @@ limitations under the License.
 									join underscore_relation u on u.collection_object_id = flat.collection_object_id
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>
-								<cfif points.recordcount gt 0>
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-									<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-										<script>
-										let map, heatmap;
-										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < bounds.length; i++) {
-												if (bounds[i].lat != " ") {
-													var weightedLoc = {
-														location: new google.maps.LatLng(#points2.minlat#,#points2.minlong#),
-														weight: parseFloat(bounds[i].Intensity)
-													};
-													heat.push(weightedLoc);
-												} 
-											}
-											var centerpoint = weightedLoc;
-											var mapOptions = {
-												zoom: 1,
-												minZoom: 1,
-												maxZoom: 13,
-												center: centerpoint,
-												controlSize: 20,
-												mapTypeId: "hybrid",
-											};
-											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											} else {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
-												});
-											}
-											map.fitBounds(bounds);
+                                <cfif points.recordcount gt 0>
+                                  <section class="heatmap mt-2 w-100">
+                                    <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
+                                    <script>
+                                      window.MCZ_BOUNDS = {
+                                        minlat: #points2.minlat#,
+                                        minlong: #points2.minlong#,
+                                        maxlat: #points2.maxlat#,
+                                        maxlong: #points2.maxlong#
+                                      };
 
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-												map: map,
-											});
-													document
-														.getElementById("toggle-heatmap")
-														.addEventListener("click", toggleHeatmap);
-													document
-														.getElementById("change-gradient")
-														.addEventListener("click", changeGradient);
-													document
-														.getElementById("change-opacity")
-														.addEventListener("click", changeOpacity);
-													document
-														.getElementById("change-radius")
-														.addEventListener("click", changeRadius);
-											}
-											function toggleHeatmap(){
-												heatmap.setMap(heatmap.getMap() ? null : map);
-											}
-											function changeGradient() {
-												const gradient = [
-													"rgba(0, 255, 255, 0)",
-													"rgba(0, 255, 255, 1)",
-													"rgba(0, 191, 255, 1)",
-													"rgba(0, 127, 255, 1)",
-													"rgba(0, 63, 255, 1)",
-													"rgba(0, 0, 255, 1)",
-													"rgba(0, 0, 223, 1)",
-													"rgba(0, 0, 191, 1)",
-													"rgba(0, 0, 159, 1)",
-													"rgba(0, 0, 127, 1)",
-													"rgba(63, 0, 91, 1)",
-													"rgba(127, 0, 63, 1)",
-													"rgba(191, 0, 31, 1)",
-													"rgba(255, 0, 0, 1)",
-												];
-												heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-											}
-											function changeRadius() {
-												heatmap.set("radius", heatmap.get("radius") ? null : 20);
-											}
-											function changeOpacity() {
-												heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-											}
-										function getPoints() {
-											return [
-												<cfloop query="points">
-													new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-												</cfloop>
-											]
-										}
-									</script>
-										<div class="col-12 px-0 float-left">
-											<div class="border rounded px-1 mx-1 pb-1">
-												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
-												<div id="map" class="w-100 rounded"></div>
-												<div id="floating-panel" class="w-100 mx-auto">
-													<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
-													<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
-													<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
-													<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
-												</div>
-											</div>
-										</div>
-										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									</section><!--- end heat map--->
-								</cfif>
+                                      window.MCZ_HEATMAP_DATA = [
+                                        <cfloop query="points">
+                                          {
+                                            latitude: #points.Latitude#,
+                                            longitude: #points.Longitude#,
+                                            weight: #points.record_count#
+                                          }<cfif currentrow LT recordcount>,</cfif>
+                                        </cfloop>
+                                      ];
+
+                                      window.onload = function () {
+                                        if (typeof initMap === 'function') {
+                                          initMap();
+                                        } else {
+                                          console.error("window.onload: initMap is not defined");
+                                        }
+                                      };
+                                    </script>
+
+                                    <div class="col-12 px-0">
+                                      <div class="border float-left col-12 rounded px-2 pb-1">
+                                        <h2 class="px-3 text-center pt-2">
+                                          Map of Georeferenced Localities
+                                        </h2>
+
+                                        <!-- Map container -->
+                                        <div id="map"
+                                             class="w-100 rounded"
+                                             style="height: 600px;"
+                                             aria-label="Map of georeferenced specimen locations">
+                                        </div>
+                                        <!-- Controls: use the same IDs the shared JS expects -->
+                                        <div id="floating-panel" class="w-100 mx-auto pt-1">
+                                            <select id="view-mode"
+                                                    class="mt-1 btn btn-xs btn-secondary text-left"
+                                                    aria-label="Select map view mode">
+                                              <option value="heatmap">Heatmap</option>
+                                              <option value="points">Points</option>
+                                            </select>
+
+                                            <button id="change-gradient"
+                                                    class="mt-1 btn btn-xs btn-secondary"
+                                                    aria-label="Toggle heatmap color scheme">
+                                              Color
+                                            </button>
+                                            <span id="view-description" class="ml-2 small text-muted">Specimen record density per locality</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </section>
+                                </cfif>
 
 								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
@@ -665,28 +712,43 @@ limitations under the License.
 														function goAgent() { 
 															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
-														$(document).ready(function () {
-															$inputAgent.addEventListener('change', function (e) {
-																goAgent()
-															}, false)
-															$prevAgent.addEventListener('click', function (e) {
-																goPreviousAgent()
-															}, false)
-															$nextAgent.addEventListener('click', function (e) {
-																goNextAgent()
-															}, false)
-															$("##agent_media_img").scrollTop(function (event) {
-																try {
-																	event.preventDefault();
-																} catch { }
-																var ya = event.scrollTop;
-																if (ya > $nextAgent) { 
-																	currentAgentImage = 0;
-																} else { 
-																	goPreviousAgent();
-																}
-															});
-														});
+													//	$(document).ready(function () {
+														//	$inputAgent.addEventListener('change', function (e) {
+//																goAgent()
+//															}, false)
+//															$prevAgent.addEventListener('click', function (e) {
+//																goPreviousAgent()
+//															}, false)
+//															$nextAgent.addEventListener('click', function (e) {
+//																goNextAgent()
+//															}, false)
+//															$("##agent_media_img").scrollTop(function (event) {
+//																try {
+//																	event.preventDefault();
+//																} catch { }
+//																var ya = event.scrollTop;
+//																if (ya > $nextAgent) { 
+//																	currentAgentImage = 0;
+//																} else { 
+//																	goPreviousAgent();
+//																}
+//                                                        
+//															});
+//														});
+                                                        // looking to use this code instead (below) to eliminate warnings in console //
+                                                          $(document).ready(function () {
+                                                                $inputAgent.addEventListener('change', function () {
+                                                                  goAgent();
+                                                                }, false);
+
+                                                                $prevAgent.addEventListener('click', function () {
+                                                                  goPreviousAgent();
+                                                                }, false);
+
+                                                                $nextAgent.addEventListener('click', function () {
+                                                                  goNextAgent();
+                                                                }, false);
+                                                            });
 													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
@@ -868,7 +930,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -879,7 +941,67 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</cfif>
+									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
+										SELECT DISTINCT flat.TOPTYPESTATUS 
+										FROM
+											underscore_relation 
+											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.TOPTYPESTATUS is not null
+										ORDER BY
+											CASE
+												-- Primary types
+												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype') THEN 1
+												-- Secondary types
+												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')            THEN 2
+												-- Everything else
+												ELSE 3
+											END,
+												flat.TOPTYPESTATUS
+									</cfquery>
+
+									<cfif types.recordcount GT 0>
+										<div class="col-12 pb-3">
+											<h3 class="px-2 pb-1 border-bottom border-dark">Specimens Cited in this Group</h3>
+											
+											<cfif types.recordcount gt 30>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForTypes">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingTypes">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseTypes">
+																#types.recordcount# Types
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseTypes" aria-labelledby="headingTypes" data-parent="##accordionForTypes" class="collapse show">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																	<cfloop query="types">
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.TOPTYPESTATUS#</a> 
+																		</li>
+																	</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="types">
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&type_status=%3D#encodeForUrl(types.TOPTYPESTATUS)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#types.TOPTYPESTATUS#</a> 
+														</li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -893,7 +1015,7 @@ limitations under the License.
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.continent_ocean like '%Ocean%'
-											and flat.continent_ocean <> 'Oceania'
+											and flat.continent_ocean NOT like '%Oceania%'
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
 									<cfif marine.recordcount GT 0>
@@ -914,7 +1036,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -926,7 +1048,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -978,7 +1100,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -990,7 +1112,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a target="_blank" class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -1025,7 +1147,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&island=%3D#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#"> #continent_ocean#: #islandsQuery.island# </a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1037,7 +1159,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a target="_blank" class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&island=%3D#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -1073,9 +1195,9 @@ limitations under the License.
 														</div>
 														<div class="card-body bg-white py-0">
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
-																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																	<li class=""> 
 																		<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 																	</li>
 																</cfloop>
@@ -1085,9 +1207,9 @@ limitations under the License.
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+												<ul class="list-unstyled py-2 rounded-0">
 													<cfloop query="collectors">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+														<li class=""> 
 															<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name#</a> 
 														</li>
 													</cfloop>
@@ -1095,7 +1217,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
+									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount + directMedia.recordcount>
 									<cfif otherMediaCount GT 0>
 										<cfset shownMedia = "">
 										<div class="col-12 pb-3">
@@ -1122,6 +1244,18 @@ limitations under the License.
 														<div class="card-body bg-white py-0">
 															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="#bodyClass#">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="directMedia">
+																	<!--- media directly linked to the named group --->
+																	<cfif NOT ListContains(shownMedia,directMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,directMedia.media_id)>
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#directMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
+																</cfloop>
 																<cfloop query="specimenNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
 																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
@@ -1291,6 +1425,79 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<cfif 0 EQ 1>
+									<div class="col-12 px-0">
+										<!--- obtaining common names for families and classes works, but linking to search results won't find desired matches --->
+										<!--- 
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy f on common_name.taxon_name_id = f.taxon_name_id
+												join taxonomy t on t.family = f.family
+												join identification_taxonomy on t.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE f.genus IS NULL
+												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											UNION
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy c on common_name.taxon_name_id = c.taxon_name_id
+												join taxonomy t on t.phylclass = c.phylclass
+												join identification_taxonomy on t.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE c.genus IS NULL and c.family IS NULL
+												and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										--->
+										<cfquery name="commonNamesHigher" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="commonNamesHigher_result" timeout="#Application.query_timeout#" >
+											SELECT DISTINCT common_name 
+											FROM common_name
+												join taxonomy on common_name.taxon_name_id = taxonomy.taxon_name_id
+												join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+												join identification on identification_taxonomy.identification_id = identification.identification_id
+												join underscore_relation on identification.collection_object_id = underscore_relation.collection_object_id
+											WHERE
+												underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										</cfquery>
+										<cfif commonNamesHigher.recordcount GT 0>
+											<div class="col-12 pb-3">
+												<h3 class="border-bottom pb-1 border-dark px-2">Common Names</h3>
+												<cfif commonNamesHigher.recordcount gt 50>
+													<div class="accordion col-12 px-0 mb-3" id="accordionForcommonNamesHigher">
+														<div class="card mb-2 bg-light">
+															<div class="card-header py-0" id="headingcommonNamesHigher">
+																<h3 class="h4 my-0">
+																	<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapsecommonNamesHigher">
+																	#commonNamesHigher.recordcount# Common Names:
+																	</button>
+																</h3>
+															</div>
+															<div class="card-body bg-white py-0">
+																<div id="collapsecommonNamesHigher" aria-labelledby="headingcommonNamesHigher" data-parent="##accordionForcommonNamesHigher" class="collapse show">
+																	<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
+																	<cfloop query="commonNamesHigher">
+																		<li class=""> 
+																			<a class="h4" href="/Specimens.cfm?execute=true&action=fixedSearch&common_name=#commonNamesHigher.common_name#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#commonNamesHigher.common_name# </a> 
+																		</li>
+																	</cfloop>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												<cfelse>
+													<ul class="list-unstyled py-2 rounded-0">
+														<cfloop query="commonNamesHigher">
+															<li class=""> 
+																<a class="h4" href="/agents/Agent.cfm?agent_id=#commonNamesHigher.agent_id#">#commonNamesHigher.common_name#</a> 
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</cfif>
+									</div>
+									</cfif><!--- disabled comon names block --->
 								</div>
 							</div>
 							<cfif oneOfUs EQ 1>

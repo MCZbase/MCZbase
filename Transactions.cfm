@@ -2790,7 +2790,7 @@ limitations under the License.
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-					content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/projects/showProject.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 				} else { 
 					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
@@ -2806,9 +2806,10 @@ limitations under the License.
 		}
 		content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
-		content = content + "<ul class='list-group list-group-horizontal'><li class='list-group-item'><a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
+		content = content + "<ul class='list-group list-group-horizontal'><li class='list-group-item'><a href='/transactions/reviewLoanItems.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a></li>";
+		content = content + "<li class='list-group-item'><a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a></li>";
 		content = content + "<li class='list-group-item'><a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li></ul>";
 		content = content + "</div>";
 		$("##" + rowDetailsTargetId + rowIndex).html(content);
@@ -2852,7 +2853,7 @@ limitations under the License.
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/projects/showProject.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 				} else { 
 					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
@@ -2876,7 +2877,7 @@ limitations under the License.
 		var transaction_id = datarecord['transaction_id'];
 		var accn_number = datarecord['accn_number'];
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
-		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
 		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 		content = content + "</div>";
@@ -2887,6 +2888,74 @@ limitations under the License.
 				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 				width: dialogWidth,
 				title: 'Accession Details'
+			}
+		);
+		// Workaround, expansion sits below row in zindex.
+		var maxZIndex = getMaxZIndex();
+		$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	}
+
+	/** createDeaccRowDetailsDialog, create a custom deaccession specific popup dialog to show details for
+		a row of deaccession data from the deaccession results grid.
+
+		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+	 */
+	function createDeaccRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+		var columns = $('##' + gridId).jqxGrid('columns').records;
+		var content = "<div id='" + gridId + "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+		if (columns.length < 21) {
+			// don't split into columns for shorter sets of columns.
+			content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+		}
+		var gridWidth = $('##' + gridId).width();
+		var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
+		var transaction_id = datarecord['transaction_id'];
+		if (dialogWidth < 150) { dialogWidth = 150; }
+		for (i = 1; i < columns.length; i++) {
+			var text = columns[i].text;
+			var datafield = columns[i].datafield;
+			if (datafield == 'deacc_number') {
+				if (transaction_id) {
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Deaccession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>Edit</a> "+ datarecord[datafield] + "</li>";
+				} else {
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+				}
+			} else if (datafield == 'project_name') {
+				if (pid) {
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/projects/showProject.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+				} else {
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+				}
+			} else if (datafield == 'permits') {
+				permits = datarecord[datafield];
+				if (permits.length > 0) {
+					permits = permits.replaceAll('|','</li><li>');
+		 			content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + permits + "</li></ul></li>";
+				}
+			} else if (datafield == 'id_link') {
+				// don't show to user (duplicates deacc number)
+				console.log(datarecord[datafield]);
+			} else if (datafield == 'transaction_id') {
+				// don't show to user
+				console.log(datarecord[datafield]);
+			} else {
+				content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+			}
+		}
+		content = content + "</ul>";
+		var transaction_id = datarecord['transaction_id'];
+		content = content + "<a href='/transactions/reviewDeaccItems.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Deaccession Items</a>";
+		content = content + "<a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/transactions/Deaccession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Deaccession</a>";
+		content = content + "</div>";
+		$("##" + rowDetailsTargetId + rowIndex).html(content);
+		$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+			{
+				autoOpen: true,
+				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+				width: dialogWidth,
+				title: 'Deaccession Details'
 			}
 		);
 		// Workaround, expansion sits below row in zindex.
@@ -3164,7 +3233,7 @@ $(document).ready(function() {
 		var result = "";
 		var pid = rowData['pid'];
 		if (pid) {
-			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/ProjectDetail.cfm?project_id='+pid+'" target="_blank">'+value+'</a></span>';
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/projects/showProject.cfm?project_id='+pid+'" target="_blank">'+value+'</a></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}
@@ -3561,7 +3630,7 @@ $(document).ready(function() {
 		var result = "";
 		var transaction_id = rowData['transaction_id'];
 		if (value > 0) {
-			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/a_deaccItemReview.cfm?transaction_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/transactions/reviewDeaccItems.cfm?transaction_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}
@@ -3635,7 +3704,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createDeaccRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -3719,7 +3788,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createDeaccRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
@@ -4018,7 +4087,8 @@ function gridLoaded(gridId, searchType) {
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
 	var items = "";
-	// TODO: Find number of objects in results, display link to those through specimen search: 
+	// Find number of objects in results, display link to those through specimen search: 
+	var transactionCountSummary = "";
 	if (searchType == 'accn') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
 		if (item_summary['sum']==1){ 
@@ -4026,9 +4096,14 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
-		// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
-		// /Specimens.cfm?accn_number={list of numbers}&execute=true&action=fixedSearch
-		// $('##specimensLink').html('<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ +'">View ' + items +  ' in these '+ rowcount + 'Accessions</a>');
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of accessions, with at least one specimen, link to the specimen search. 
+			var rows   = $("##"+gridId).jqxGrid('getrows');
+			var values = $.map(rows, function (row) {
+    			return row.accn_number; 
+			});
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Accessions';
+		}
 	}
 	if (searchType == 'deacc') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
@@ -4037,11 +4112,30 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
+		if (rowcount < 21 && item_summary['sum'] > 0) {
+			// if there are a small number of deaccessions, with at least one specimen, link to the specimen search. 
+			var rows   = $("##"+gridId).jqxGrid('getrows');
+			var values = $.map(rows, function (row) {
+    			return row.deacc_number; 
+			});
+			transactionCountSummary = '<a href="/Specimens.cfm?action=fixedSearch&execute=true&deaccession_number='+ values.join(',') +'" target="_blank">View ' + items +  '</a> in these '+ rowcount + ' Deaccessions';
+		}
 	}
-	if (rowcount == 1) {
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
-	} else { 
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
+	if (rowcount == 1) { plural = ""; } else { plural = "s"; }
+	// Loan/accession/deaccession results resolve to storage locations via transaction_id -- offer a
+	// bulk link to the containers holding all of a short result set's material at once, the same way
+	// the accession/deaccession specimen-count links above only appear for a small result set (a long
+	// transaction_id list isn't a usable link, and isn't worth passing through).
+	var storageLocationsLink = "";
+	if ((searchType == 'loan' || searchType == 'accn' || searchType == 'deacc') && rowcount > 0 && rowcount < 21) {
+		var rows = $("##"+gridId).jqxGrid('getrows');
+		var transactionIds = $.map(rows, function (row) { return row.transaction_id; });
+		storageLocationsLink = ' <a href="/containers/Containers.cfm?transaction_id=' + transactionIds.join(',') + '&execute=true" class="btn btn-xs btn-secondary" target="_blank">Storage Locations for these ' + rowcount + ' ' + searchType + plural + '</a>';
+	}
+	if (transactionCountSummary === "") {
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + plural + items + storageLocationsLink);
+	} else {
+		$('##resultCount').html(transactionCountSummary + storageLocationsLink);
 	}
 	// set maximum page size
 	if (rowcount > 100) { 

@@ -23,8 +23,29 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/specimens/component/manage.cfc">
 
+<cfif isdefined("url.result_id") and len(url.result_id) GT 0>
+	<cfset result_id = url.result_id>
+<cfelseif isdefined("form.result_id") and len(form.result_id) GT 0>
+	<cfset result_id = form.result_id>
+</cfif>
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
+</cfif>
+
+<!--- Optional parameters for loan and deaccession actions where a target may be specified (passed through the search) --->
+<cfif isdefined("url.target_loan_id") and len(url.target_loan_id) GT 0>
+	<cfset target_loan_id = url.target_loan_id>
+<cfelseif isdefined("form.target_loan_id") and len(form.target_loan_id) GT 0>
+	<cfset target_loan_id = form.target_loan_id>
+<cfelse>
+	<cfset target_loan_id = "">
+</cfif>
+<cfif isdefined("url.target_deacc_id") and len(url.target_deacc_id) GT 0>
+	<cfset target_deacc_id = url.target_deacc_id>
+<cfelseif isdefined("form.target_deacc_id") and len(form.target_deacc_id) GT 0>
+	<cfset target_deacc_id = form.target_deacc_id>
+<cfelse>
+	<cfset target_deacc_id = "">
 </cfif>
 
 <cfswitch expression="#action#">
@@ -57,11 +78,27 @@ limitations under the License.
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 									<li class="nav-item mb-1">
-										<cfif findNoCase('master',Session.gitBranch) EQ 0>
-											<!--- TODO: In progress, BugID:  --->
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+										<cfif isdefined("target_deacc_id") and len(target_deacc_id) GT 0>
+											<cfquery name="getDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT deacc_number
+												FROM deaccession
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_deacc_id#">
+											</cfquery>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#target_deacc_id#" target="_blank">Deaccession into #getDeaccession.deacc_number#</a>
 										<cfelse>
-											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts to Deaccession</a>
+										</cfif>
+									</li>
+									<li class="nav-item mb-1">
+										<cfif isdefined("target_loan_id") and len(target_loan_id) GT 0>
+											<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT loan_number
+												FROM loan
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_loan_id#">
+											</cfquery>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#&transaction_id=#encodeForUrl(url.target_loan_id)#" target="_blank">Add Parts to Loan #getLoan.loan_number#</a>
+										<cfelse>
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAddPartsLoan.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Add Parts To Loan</a>
 										</cfif>
 									</li>
 								</cfif>
@@ -87,11 +124,16 @@ limitations under the License.
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
+									<a href="/containers/Containers.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Change Part Containers</a>
+									<a href="/containers/partLocations.cfm?execute=true&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Part Location Report</a>
 								</li>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+									<li class="nav-item mb-1">
+										<a href="/specimens/changeQueryPartContainers.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Change Part Containers</a>
+									</li>
+								</cfif>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
 								</li>
@@ -111,7 +153,7 @@ limitations under the License.
 									<cfset query="SELECT count(flat.collection_object_id) ct, flat.scientific_name, flat.collection, flat.collectors, flat.spec_locality, flat.country, flat.author_text, flat.toptypestatus #crlf#FROM user_search_table#crlf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#crlf#WHERE user_search_table.result_id='#result_id#'#crlf#GROUP BY flat.scientific_name, flat.collection, flat.collectors, flat.spec_locality, flat.country,flat.author_text, flat.toptypestatus#crlf#ORDER BY count(flat.collection_object_id) desc">
 									---->
 									<cfset query="SELECT count(flat.collection_object_id) ct, scientific_name, author_text sciname_author #crlf#FROM user_search_table#crlf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#crlf#WHERE user_search_table.result_id='#result_id#'#crlf#GROUP BY scientific_name, author_text#crlf#ORDER BY count(flat.collection_object_id) desc">
-									<a href="/tools/userSQL.cfm?input_sql=#encodeForURL(query)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Run SQL Queries on this Result</a>
+									<a href="/tools/userSQL.cfm?sql=#encodeForURL(query)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Run SQL Queries on this Result</a>
 								</li>
 	<!---
 

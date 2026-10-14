@@ -41,7 +41,7 @@ limitations under the License.
 
 <cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID,VERIFIED_BY_AGENT_ID,LAT_DEG,LAT_SEC,LAT_MIN,LAT_DIR,LONG_DEG,LONG_MIN,LONG_SEC,LONG_DIR">
 
-<cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
@@ -85,7 +85,7 @@ limitations under the License.
 		}
 	</style>
 	<!--- End proof of concept style block --->
-	<h1 class="h2 mt-2">Bulkload Geography</h1>
+	<h1 class="h2 mt-2">Bulkload Georeferences</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load a new accepted georeference to a locality record. HigherGeography and SpecLocality, if provided, can be used to look up a locality_id in MCZbase data or the locality_id can be provided alone. The locality_id will be used to cross reference the HigherGeography and SpecLocality data (to either verify provided data or add where missing). Check each step to be sure what is expected is being loaded. If in doubt, give your filled-out template to Collections Operations to load.</p>
@@ -214,8 +214,8 @@ limitations under the License.
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
-			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
 			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 			<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
@@ -228,110 +228,16 @@ limitations under the License.
 					DELETE FROM CF_TEMP_GEOREF
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<!---Parse the CSV file using Apache Commons CSV library. Include with ColdFusion so columns with comma delimiters will be separated properly.--->
-					<cfset fileProxy = CreateObject("java","java.io.File") >
-					<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
-					<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser">
-					<cfobject type="Java" name="csvRecord" class="org.apache.commons.csv.CSVRecord">
-					<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-					<cfobject type="Java" name="javaCharset" class="java.nio.charset.Charset">
-					<cfobject type="Java" name="standardCharsets" class="java.nio.charset.StandardCharsets">
-					<cfset filePath = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-					<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#filePath#)>
-					<!--- Create a FileReader object to provide a reader for the CSV file --->
-					<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#filePath#)>
-					<!---We cannot use the withHeader() method from coldfusion, as it is overloaded. With no parameters ColdFusion has no means to pick the correct method.--->
-					<!---Select format of csv file based on format variable from user.--->
-					<cfif not isDefined("format")><cfset format="DEFAULT"></cfif>
-					<cfswitch expression="#format#">
-						<cfcase value="DEFAULT">
-							<cfset csvFormat = CSVFormat.DEFAULT>
-						</cfcase>
-						<cfcase value="TDF">
-							<cfset csvFormat = CSVFormat.TDF>
-						</cfcase>
-						<cfcase value="RFC4180">
-							<cfset csvFormat = CSVFormat.RFC4180>
-						</cfcase>
-						<cfcase value="EXCEL">
-							<cfset csvFormat = CSVFormat.EXCEL>
-						</cfcase>
-						<cfcase value="ORACLE">
-							<cfset csvFormat = CSVFormat.ORACLE>
-						</cfcase>
-						<cfcase value="MYSQL">
-							<cfset csvFormat = CSVFormat.MYSQL>
-						</cfcase>
-						<cfdefaultcase>
-							<cfset csvFormat = CSVFormat.DEFAULT>
-						</cfdefaultcase>
-					</cfswitch>
-					<!--- Create a CSVParser using the FileReader and CSVFormat--->
-					<cfset csvParser = CSVParser.parse(fileReader, csvFormat)>
-					<!--- Select charset based on characterSet variable from user --->
-					<cfswitch expression="#characterSet#">
-						<cfcase value="utf-8">
-							<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-						</cfcase>
-						<cfcase value="iso-8859-1">
-							<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-						</cfcase>
-						<cfcase value="windows-1250">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1250")) >
-						</cfcase>
-						<cfcase value="windows-1251">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1251")) >
-						</cfcase>
-						<cfcase value="windows-1252">
-							<cfif javaCharset.isSupported(JavaCast("string","windows-1252"))>
-								<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","windows-1252")) >
-							<cfelse>
-							<!--- If not available, iso-8859-1 will substitute, except for 0x80 to 0x9F --->
-							<!--- These characters won't be handled correctly if the source is windows-1252:  €  Š  š  Ž  ž  Œ  œ  Ÿ --->
-								<cfset javaSelectedCharset = standardCharsets.ISO_8859_1 >
-							</cfif>
-						</cfcase>
-						<cfcase value="x-MacCentralEurope">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacCentralEurope")) >
-						</cfcase>
-						<cfcase value="MacRoman">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","x-MacRoman")) >
-						</cfcase>
-						<cfcase value="utf-16">
-							<cfset javaSelectedCharset = standardCharsets.UTF_16 >
-						</cfcase>
-						<cfcase value="utf-32">
-							<cfset javaSelectedCharset = javaCharset.forName(JavaCast("string","utf-32")) >
-						</cfcase>
-						<cfdefaultcase>
-							<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-						</cfdefaultcase>
-					</cfswitch>
-					<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-					<!--- obtain an iterator to loops through the rows/records in the csv --->
-					<cfset iterator = records.iterator()>
-					<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
-					<cfif iterator.hasNext()>
-						<cfset headers = iterator.next()>
-					<cfelse>
-						<cfthrow message="#NO_HEADER_ERR# No first line found.">
-					</cfif>
-					<!---Get the number of column headers--->
-					<cfset size = headers.size()>
-					<cfif size EQ 0>
-						<cfthrow message="#NO_HEADER_ERR# First line appears empty.">
-					</cfif>
-					<cfset separator = "">
-					<cfset foundHeaders = "">
-					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<cfset foundHeaders = "#foundHeaders##separator##headers.get(JavaCast("int",i))#" >
-						<cfset separator = ",">
-					</cfloop>
-					<cfset colNameArray = listToArray(ucase(foundHeaders))><!--- the list of columns/fields found in the input file --->
+				<!--- Delegate CSV parsing to csv.cfc loadCsvFile() for consistent BOM stripping and header normalization (BugID: 7276) --->
+					<cfset variables.foundHeaders=""><!--- populated by loadCsvFile --->
+					<cfset variables.size=""><!--- populated by loadCsvFile --->
+					<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>
+
+					<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<div class="col-12 my-3 px-0">
-						<h3>Found #size# columns in header of csv file.</h3> 
+						<h3>Found #variables.size# columns in header of csv file.</h3>
 						There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
 					</div>
 					<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
@@ -343,7 +249,7 @@ limitations under the License.
 					<!--- Identify duplicate columns and fail if found --->
 					<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
 						
-					<cfset colNames="#foundHeaders#">
+					<cfset colNames="#variables.foundHeaders#">
 					<cfset loadedRows = 0>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
@@ -403,18 +309,6 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									<style>
-										red {color: red;}
-										p.wrapped-text {
-											max-width: 100%;  /* Adjust as needed for your layout */
-											white-space: normal;  /* Allow wrapping */
-											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 5px 10px;
-											margin-bottom: 2px;
-										}
-										p.top {margin-top: 1rem;}
-									</style>
 							
 									<!--- identify the problematic row, and problem as much as possible --->
 									<cfset err_help = "">
@@ -433,71 +327,107 @@ limitations under the License.
 								</cftry>
 						</cfloop>
 						<cfif foundHighCount GT 0>
-							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-								you probably want to <a href="/tools/BulkloadGeoref.cfm">reload this file</a> selecting a different encoding. If these appear as expected, then you selected the correct encoding and can continue to validate or load.</p>
-							</div>
-							<ul class="pb-1 h4 list-unstyled">#foundHighAscii# #foundMultiByte#</ul>
-
+							<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadGeoref.cfm')>
 						</cfif>
-					</div>
-					<h3 class="h4">
-						Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
-					</h3>
+						<h3 class="mt-3">
+							<cfif loadedRows EQ 0>
+								Loaded no rows from the CSV file. The file appears to be just a header with no data. Fix file and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>
+							<cfelse>
+								Successfully read #loadedRows# records from the CSV file. Next <a href="/tools/BulkloadGeoref.cfm?action=validate" class="btn-link font-weight-lessbold">click to validate</a>.
+							</cfif>
+						</h3>
 
 				<cfcatch>
-					<h3 class="h4">
-						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm">reload</a>.
+					<h3 class="mt-3">
+						<strong class="text-danger">Failed to read the CSV file.</strong> Fix the errors in the file and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 					</h3>
-					<cfif isDefined("arrResult")>
+					<cfif isDefined("variables.foundHeaders")>
 						<cfset foundHighCount = 0>
 						<cfset foundHighAscii = "">
 						<cfset foundMultiByte = "">
-						<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-							<cfset thisBit=arrResult[1][col]>
+						<cfloop list="#variables.foundHeaders#" index="thisBit">
 							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 								<!--- high ASCII --->
 								<cfif foundHighCount LT 6>
-									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 								<!--- multibyte --->
 								<cfif foundHighCount LT 6>
-									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold m-3'>#thisBit#</li>"><!--- " --->
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							</cfif>
 						</cfloop>
 						<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-							<h3 class="h4">Found characters with unexpected encoding in the header row. This is probably the cause of your error.</h3>
-							<div>
-								<p>Showing #foundHighCount# examples. Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?</p>
-							</div>
-							<ul class="py-1 h4">
-								#foundHighAscii# #foundMultiByte#
-							</ul>
+							<cfset extendedResult = reportExtended(foundHighCount=foundHighCount,foundHighAscii=foundHighAscii,foundMultiByte=foundMultiByte,linkTarget='/tools/BulkloadGeoref.cfm',inHeader='yes')>
 						</cfif>
 					</cfif>
+					<!--- identify and provide guidance for some standard failure conditions --->
+					<cfif format EQ "DEFAULT"><cfset fmt="CSV: Default Comma Separated values"><cfelse><cfset fmt="#format#"></cfif>
 					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message# 
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#NO_HEADER_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message#
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("#DUP_COLUMN_ERR#",cfcatch.message) GT 0>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1) invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Does your file actually have the format #fmt#?  Did you select CSV format for a tab delimited file?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException: (line 1)",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read headers in line 1.  Does your file actually have the format #fmt#?
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
+					<cfelseif Find("invalid char between encapsulated token and delimiter",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Does your file have an inconsistent format?  Are some lines tab delimited but others comma delimited?
+						</h4>
+					<cfelseif Find("IOException reading next record: java.io.IOException:",cfcatch.message) GT 0>
+						<h4 class='mb-3'>
+							Unable to read a record from the file.  One or more lines may not be consistent with the specified format #fmt#
+						</h4>
+						<h4 class='mb-3'>#cfcatch.message#</h4>
 					<cfelse>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
+
+				<cffinally>
+					<cftry>
+						<!--- Close the CSV parser and the reader --->
+						<cfset csvParser.close()>
+						<cfset fileReader.close()>
+					<cfcatch>
+						<!--- consume exception and proceed --->
+					</cfcatch>
+					</cftry>
+				</cffinally>
 				</cftry>
 			</cfoutput>
 		</cfif>
 	<!------------------------------------------------------->
 	<cfif variables.action is "validate">
+		<!--- Load utility class for evaluating date strings --->
+		<cfobject type="Java" class="org.filteredpush.qc.date.util.DateUtils" name="dateUtils">
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!--- Validating data in bulk --->
 			<!--- Checks that do not require looping through the data, check for missing required data, missing values from key value pairs, bad formats and values that do not match database code tables--->
+			<cfloop list="#requiredfieldlist#" item="aField">
+				<cfquery name="warningMissingRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE CF_TEMP_GEOREF
+					SET status = concat(nvl2(status, status || '; ', ''),'#aField# is required')
+					WHERE
+						( #aField# is null or trim(#aField#) is null )
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<cfquery name="warningMissingAlternative" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_GEOREF
 				SET status = concat(nvl2(status, status || '; ', ''),'If locality_id is not provided, HigherGeography and SpecLocality must be provided')
@@ -546,8 +476,12 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'Only one record per locality_id is allowed')
 				WHERE 
 					locality_id in 
-						(select locality_id from CF_TEMP_GEOREF group by locality_id 
-						having count(*) > 1)
+						(	select locality_id 
+							from CF_TEMP_GEOREF 
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							group by locality_id 
+							having count(*) > 1
+						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
@@ -561,7 +495,7 @@ limitations under the License.
 			<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'DATUM does not match - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTEXTENT_UNITS">controlled vocabulary</a>')
+				SET status = concat(nvl2(status, status || '; ', ''),'DATUM does not match - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
 				WHERE DATUM not in (select DATUM from CTDATUM ) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -607,7 +541,7 @@ limitations under the License.
 			<!--- Check Extent in code table--->
 			<cfquery name="warningExtent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'EXTENT_UNITS does not exist')
+				SET status = concat(nvl2(status, status || '; ', ''),'EXTENT_UNITS is not a known value, see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTEXTENT_UNITS">controlled vocabulary</a>')
 				WHERE 
 					EXTENT_UNITS not in 
 						(select UNITS from MCZBASE.CTEXTENT_UNITS)
@@ -669,8 +603,8 @@ limitations under the License.
 					LAT_DEG is not null 
 					AND (
 						NOT regexp_like(LAT_DEG,'^[0-9]+$')
-						OR TO_NUMBER(LAT_DEG) < 0 
-						OR TO_NUMBER(LAT_DEG) > 90 
+						OR TO_NUMBER(LAT_DEG default -100 on conversion error) < 0 
+						OR TO_NUMBER(LAT_DEG default 0 on conversion error) > 90 
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -681,8 +615,8 @@ limitations under the License.
 					LONG_DEG is not null 
 					AND ( 
 						NOT regexp_like(LONG_DEG,'^[0-9]+$')
-						OR TO_NUMBER(LONG_DEG) < 0 
-						OR TO_NUMBER(LONG_DEG) > 180
+						OR TO_NUMBER(LONG_DEG default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_DEG default 0 on conversion error) > 180
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -692,8 +626,8 @@ limitations under the License.
 				WHERE 
 					LAT_MIN is not null 
 					AND (NOT regexp_like(LAT_MIN,'^[0-9]+$')
-						OR TO_NUMBER(LAT_MIN) < 0 
-						OR TO_NUMBER(LAT_MIN) > 60
+						OR TO_NUMBER(LAT_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LAT_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -704,8 +638,8 @@ limitations under the License.
 					LONG_MIN is not null 
 					AND (
 						NOT regexp_like(LONG_MIN,'^[0-9]+$')
-						OR TO_NUMBER(LONG_MIN) < 0 
-						OR TO_NUMBER(LONG_MIN) > 60
+						OR TO_NUMBER(LONG_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -716,8 +650,8 @@ limitations under the License.
 					LAT_MIN is not null 
 					AND (
 						NOT regexp_like(LAT_MIN,'^[0-9.]+$')
-						OR TO_NUMBER(LAT_MIN) < 0 
-						OR TO_NUMBER(LAT_MIN) > 60
+						OR TO_NUMBER(LAT_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LAT_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -727,8 +661,8 @@ limitations under the License.
 				WHERE 
 					LONG_MIN is not null 
 					AND ( NOT regexp_like(LONG_MIN,'^[0-9.]+$')
-						OR TO_NUMBER(LONG_MIN) < 0 
-						OR TO_NUMBER(LONG_MIN) > 60
+						OR TO_NUMBER(LONG_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -738,19 +672,102 @@ limitations under the License.
 				WHERE 
 					DEC_LAT is not null
 					AND ( NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LAT) < -90
-						OR TO_NUMBER(DEC_LAT) > 90
+						OR TO_NUMBER(DEC_LAT default -100 on conversion error) < -90
+						OR TO_NUMBER(DEC_LAT default 0 on conversion error) > 90
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="decLongCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range -180 to 180.')
+				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range -180 to 180')
 				WHERE
 					DEC_LONG is not null 
 					AND (NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LONG) < -180 
-						OR TO_NUMBER(DEC_LONG) > 180
+						OR TO_NUMBER(DEC_LONG default -200 on conversion error) < -180 
+						OR TO_NUMBER(DEC_LONG default 0 on conversion error) > 180
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+
+			<cfquery name="precisionTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'COORDINATE_PRECISION, is required and must be an integer in the range 0 to 6 inclusive')
+				WHERE 
+					( 	
+						COORDINATE_PRECISION is null 
+						OR NOT regexp_like(COORDINATE_PRECISION,'^[0123456]$')
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="nnpflagTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_FOR_NNP_FG, if provided, must be either 0 or 1')
+				WHERE 
+					LAT_LONG_FOR_NNP_FG is not null 
+					AND (
+						NOT regexp_like(LAT_LONG_FOR_NNP_FG,'^[01]$')
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="nnpflagTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'if LAT_LONG_FOR_NNP_FG is provided NEAREST_NAMED_PLACE must also have a value')
+				WHERE 
+					LAT_LONG_FOR_NNP_FG is not null 
+					AND NEAREST_NAMED_PLACE is null 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="errordistanceTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_DISTANCE must be numeric, a positive number, and must not be zero')
+				WHERE 
+					MAX_ERROR_DISTANCE is not null 
+					AND (
+						NOT regexp_like(MAX_ERROR_DISTANCE,'^[0-9.]+$')
+						OR trim(MAX_ERROR_DISTANCE) = '0' 
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="extentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'EXTENT, if provided, must be a positive number and must not be zero')
+				WHERE 
+					EXTENT is not null 
+					AND (
+						NOT regexp_like(EXTENT,'^[0-9.]+$')
+						OR trim(EXTENT) = '0' 
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="extentwithunitsTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'If EXTENT is provided, EXTENT_UNITS must also be provided')
+				WHERE 
+					EXTENT is not null 
+					AND EXTENT_UNITS is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="gpsaccuracyTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'GPSACCURACY, if provided, must be a positive number and must not be zero')
+				WHERE 
+					GPSACCURACY is not null 
+					AND (
+						NOT regexp_like(GPSACCURACY,'^[0-9.]+$')
+						OR TO_NUMBER(GPSACCURACY default 0 on conversion error) < 0 
+						OR ( TO_NUMBER(GPSACCURACY default 0 on conversion error) > 0 AND TO_NUMBER(GPSACCURACY default 0 on conversion error) < 1 )
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="spatialfitTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT, if provided, must be zero, or a positive number greater than or equal to 1')
+				WHERE 
+					SPATIALFIT is not null 
+					AND (
+						NOT regexp_like(SPATIALFIT,'^[0-9.]+$')
+						OR TO_NUMBER(SPATIALFIT default 0 on conversion error) < 0 
+						OR ( TO_NUMBER(SPATIALFIT default 0 on conversion error) > 0 AND TO_NUMBER(SPATIALFIT default 0 on conversion error) < 1 )
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -770,21 +787,6 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
-				<!--- check for any existing accepted lat_long records --->
-				<!--- currently unable to insert if accepted record exists --->
-				<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'There is already an accepted georeference for this locality.')
-					WHERE 
-						locality_id IN (
-							SELECT locality_id
-							FROM LAT_LONG
-							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-								AND accepted_lat_long_fg = 1
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
 				<cfset agentProblem1 = "">
 				<!--- Determination Agent --->
 				<cfset relatedAgentID = "">
@@ -1038,19 +1040,46 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-
-				<!---SET DETERMINED_DATE to YYYY-MM-DD--->
-				<cfif DatePart("yyyy",getTempData.DETERMINED_DATE) gte '1700'>
-					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!--- check for any existing accepted lat_long records --->
+				<!--- currently unable to insert if accepted record exists --->
+				<cfif len(getTempData.LOCALITY_ID) GT 0>
+					<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						SET status = concat(nvl2(status, status || '; ', ''),'There is already an accepted georeference for this locality.')
+						WHERE 
+							locality_id IN (
+								SELECT locality_id
+								FROM LAT_LONG
+								WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+									AND accepted_lat_long_fg = 1
+							)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
+				</cfif>
+
+				<!--- Check that DETERMINED_DATE is YYYY-MM-DD--->
+				<cfif REFind( "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", getTempData.DETERMINED_DATE) GT 0>
+					<cfif NOT dateUtils.eventDateValid(#getTempData.DETERMINED_DATE#)>
+						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE is in the correct format but is not a valid date "#determined_date#"')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						</cfquery>
+					<cfelseif DatePart("yyyy",parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd")) LT '1700'>
+						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE Year must be 1700 or later "#determined_date#"')
+							WHERE determined_date is not null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						</cfquery>
+					</cfif>
 				<cfelse>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Year is invalid "#determined_date#"')
+						SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE is not in the form yyyy-mm-dd "#determined_date#"')
 						WHERE determined_date is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -1080,21 +1109,6 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
-				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
-					WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
-						and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">) 
-						and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">)
-						and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_distance#">)
-						and datum in (select datum from lat_long where datum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.datum#">)
-						and max_error_units in (select MAX_ERROR_UNITS from lat_long where MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_units#">)
-						and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NEAREST_NAMED_PLACE#">)
-						and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">)
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
 				<cfif getTempData.SPATIALFIT GT 1>
 					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
@@ -1111,6 +1125,45 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
 						WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
+
+				<!--- Reload Data from the temp table --->
+				<cfquery name="getTempDataKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,
+						GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,
+						VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,
+						LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,
+						VERIFIED_BY,VERIFIED_BY_AGENT_ID,DETERMINED_BY_AGENT_ID,
+						SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,
+						LAT_DEG, LAT_MIN, LAT_SEC, LAT_DIR, LONG_DEG, LONG_MIN, LONG_SEC, LONG_DIR,
+						KEY
+					FROM CF_TEMP_GEOREF
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
+				<cfif REFind("^[0-9.-]+$",getTempDataKey.dec_lat) GT 0 AND REFind("^[0-9.-]+$",getTempDataKey.dec_long) GT 0 AND ( REFind("^[0-9.]*$",getTempDataKey.max_error_distance) GT 0 OR getTempDataKey.max_error_distance EQ '') AND REFind("^[0-9]*$",getTempDataKey.locality_id) GT 0>
+					<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
+						WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.dec_lat#">)
+							and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.dec_long#">) 
+							and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.georefmethod#">)
+							and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.max_error_distance#">)
+							and datum in (select datum from lat_long where datum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.datum#">)
+							and max_error_units in (select MAX_ERROR_UNITS from lat_long where MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.max_error_units#">)
+							and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.NEAREST_NAMED_PLACE#">)
+							and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.locality_id#">)
+							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'Prerequisites for checking for duplicate georeferences not met, dec_lat, dec_long_max_error_distance, locality_id must be numbers.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
@@ -1161,7 +1214,6 @@ limitations under the License.
 						<th>GPSACCURACY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
-						<th>USERNAME</th>
 						<th>VERIFIED_BY</th>
 						<th>ACCEPTED_LAT_LONG_FG</th>
 						<th>EXTENT_UNITS</th>
@@ -1196,7 +1248,6 @@ limitations under the License.
 							<td>#data.GPSACCURACY#</td>
 							<td>#data.SPATIALFIT#</td>
 							<td>#data.NEAREST_NAMED_PLACE#</td>
-							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
 							<td>1</td>
 							<td>#data.EXTENT_UNITS#</td>
@@ -1367,9 +1418,8 @@ limitations under the License.
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> </p>
 					<cfif #getData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif #insResult.recordcount# gt #getData.recordcount#>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+					<cfelse>
+						<cfthrow message="Number to insert not equal to number inserted.">
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -1443,7 +1493,7 @@ limitations under the License.
 						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped mt-3'>
 							<thead class="thead-light">
 								<tr>
-									<th>COUNT</th>
+									<th>ROW</th>
 									<th>HIGHERGEOGRAPHY</th>
 									<th>SPECLOCALITY</th>
 									<th>LOCALITY_ID</th>

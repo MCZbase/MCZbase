@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 
 <cfset DOWNLOAD_THRESHOLD = 1001>
 
@@ -26,7 +27,7 @@ limitations under the License.
  ** Given a string that may be a search term for a date or a date range, reformat it to 
  *  fit the expectations of a date search, e.g. change "2020" to "2020-01-01/2020-12-31"
  *  handles yyyy-mm-dd, yyyy-mm, yyyy, yyyy, yyyy-mm-dd/yyyy-mm-dd, yyyy/yyyy, yyyy-mm-dd/yyyy
- *    yyyy/yyyy-mm-dd, yyyy-mm/yyyy-mm, yyyy-mm/yyyy-mm, yyyy-mm-dd/yyyy-mm, yyyy-mm/yyyy-mm-dd
+ *  yyyy/yyyy-mm-dd, yyyy-mm/yyyy-mm, yyyy-mm/yyyy-mm, yyyy-mm-dd/yyyy-mm, yyyy-mm/yyyy-mm-dd
  * 
  * @param searchText the string to convert, if possible
  * @return searchText, expanded if possible, or any empty string if an exception occurs.
@@ -276,17 +277,61 @@ limitations under the License.
 *		listOfNumbers, that is A1-2 will be turned into prefixFieldName="A-" if false, then "A" alone
 *		is used.
 * @param openWith number of open parenthesies to add to the initial openParens in constructed json 
-*     clauses, 0 or a positive integer.
+*	clauses, 0 or a positive integer.
 * @param closeWith number of close parenthesies to add in the final closeParens to constructed json
-*     clauses, 0 or a postitive integer.
+*	clauses, 0 or a postitive integer.
 *
 * @return A string containing conditions to append to a SQL where clause.  See unit tests:
 *		 testScriptPrefixedNumberListToSQLWherePrefix and testScriptPrefixedNumberListToSQLWherePrefixLists
 */
 function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator, openWith, closeWith, leadingJoin ) {
+
+	// Make sure the call is not using the old parameter list, which had nest instead of openWith/closeWith.
+	if (NOT structKeyExists(arguments, "leadingJoin") OR len(trim(arguments.leadingJoin)) EQ 0) {
+		throw(type="InvalidArgumentException",
+			  message="ScriptPrefixedNumberListToJSON: missing required parameter 'leadingJoin' (expected 'and' or 'or').");
+	}
+
+	// normalize and validate leadingJoin
+	leadingJoin = lcase(trim(arguments.leadingJoin));
+	if (NOT (leadingJoin EQ "and" OR leadingJoin EQ "or")) {
+		throw(type="InvalidArgumentException",
+			  message="ScriptPrefixedNumberListToJSON: invalid leadingJoin value '" & arguments.leadingJoin & "'. Expect 'and' or 'or'.");
+	}
+
+	// ensure openWith/closeWith are numeric so later loops don't misbehave
+	if (NOT isNumeric(arguments.openWith)) {
+		openWith = 0;
+	} else {
+		openWith = int(arguments.openWith);
+	}
+	if (NOT isNumeric(arguments.closeWith)) {
+		closeWith = 0;
+	} else {
+		closeWith = int(arguments.closeWith);
+	}
+
+	// local declarations (important: declare loop counters so they don't leak or get clobbered)
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
+	var i = 0;
+	var j = 0;
+	var comma = "";
+	var nestDepth = "";
+	var numericClause = "";
+	var wherebit = "";
+	var prefix = "";
+	var numeric = "";
+	var suffix = "";
+	var mayBeQuoted = "";
+	var partFromList = "";
+	var atomParts = [];
+	var partCount = 0;
+	var specialNumber = "";
+	var localentryNestDepth = "";
+	var joinPhrase = "";
+
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
 		baseFieldName = "CAT_NUM";
 		displayFieldName = "CAT_NUM";
@@ -304,7 +349,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, "\s", ",","all");	// whitespace to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
+	// listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"<>_\-]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -431,7 +477,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			mayBeQuoted = lparts[i];
 			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
-			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-<>]',"","all");
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%_<>\-]',"","all");
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
 			specialNumber = "";  // used to pass special case values to the number handling clause
@@ -561,8 +607,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 						comparator = '"comparator": "<"';
 						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 					} else if (partCount EQ 1 OR partCount GT 4) { 
+						comparator = '=';
+						if (specialNumber CONTAINS "%" OR specialNumber CONTAINS "_") { 
+							comparator = 'like';
+						}
 						// unexpected, and likely failure case, but try something
-						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#specialNumber#"}';
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "#comparator#","value": "#specialNumber#"}';
 						comma = ",";
 					} 
 				} else { 
@@ -801,8 +851,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset filterscount="0">
 	</cfif>
 	<cfif isDefined("recordstartindex")>
-		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
-         which returns values between start and end inclusive.  --->
+		<!--- the value of recordstartindex is off by one from the expectations of oracle where 
+				rownumber between recordstartindex and recordendindex, 
+				which returns values between start and end inclusive.  --->
 		<cfset recordstartindex = recordstartindex + 1>
 	</cfif>
 
@@ -919,6 +970,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					SELECT * FROM (
 				</cfif>
 					SELECT distinct 
+						<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+							specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+							the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 						<cfset comma = "">
 						<cfloop query="getFieldMetadata">
 							<cfif len(sql_element) GT 0> 
@@ -998,6 +1052,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 </cffunction>
 
 <cffunction name="constructJsonForField">
+	<!--- NOTE: If changing the structure of JSON to change to a different procedure than build_query_dbms_sql, 
+		make sure to also assess the changes in specimens/SpecimenResultsHTML.cfm as well as in this file --->
 	<cfargument name="join" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
@@ -1134,8 +1190,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset filterscount="0">
 	</cfif>
 	<cfif isDefined("recordstartindex")>
-		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
-         which returns values between start and end inclusive.  --->
+		<!--- the value of recordstartindex is off by one from the expectations of oracle 
+			where rownumber between recordstartindex and recordendindex, 
+			which returns values between start and end inclusive.  --->
 		<cfset recordstartindex = recordstartindex + 1>
 	</cfif>
 
@@ -1152,6 +1209,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		ORDER BY
 		search_category, table_name, label
 	</cfquery>
+	<cfset hasAnyEntry = false>
 	<cfloop index="i" from="1" to="#int(builderMaxRows)#">
 		<cfset hasEntry = true>
 		<cftry>
@@ -1168,6 +1226,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfcatch>
 		</cftry>
 		<cfif hasEntry>
+			<cfset hasAnyEntry = true>
 			<cfset searchId = Evaluate("searchId"&i)>
 			<cfset joinWith = Evaluate("joinOperator"&i)>
 			<cfset nestdepth = 0 >
@@ -1249,6 +1308,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
    </cfloop>
+	<cfif NOT hasAnyEntry>
+		<cfthrow message="At least one search field and value must be provided.">
+	</cfif>
 
 	<cfset search_json = "#search_json#]">
 
@@ -1322,6 +1384,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT * FROM (
 			</cfif>
 			SELECT distinct
+				<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+					specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+					the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
@@ -1449,6 +1514,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
+	<cfargument name="preparator" type="string" required="no">
+	<cfargument name="preparator_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
@@ -1470,6 +1537,23 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="received_date" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="underscore_collection" type="string" required="no">
+	<cfargument name="root_container_label" type="string" required="no">
+	<cfargument name="root_container_barcode" type="string" required="no">
+	<cfargument name="root_container_type" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="issued_by_agent_id" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_to_agent_id" type="string" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="accession_agent" type="string" required="no">
+	<cfargument name="accession_agent_id" type="string" required="no">
+	<cfargument name="loan_agent" type="string" required="no">
+	<cfargument name="loan_agent_id" type="string" required="no">
+	<cfargument name="deaccession_agent" type="string" required="no">
+	<cfargument name="deaccession_agent_id" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -1494,8 +1578,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset filterscount="0">
 	</cfif>
 	<cfif isDefined("recordstartindex")>
-		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
-         which returns values between start and end inclusive.  --->
+		<!--- the value of recordstartindex is off by one from the expectations of oracle 
+			where rownumber between recordstartindex and recordendindex, 
+			which returns values between start and end inclusive.  --->
 		<cfset recordstartindex = recordstartindex + 1>
 	</cfif>
 
@@ -1871,6 +1956,14 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
+	<cfif isDefined("current_id_only") AND current_id_only EQ "current">
+		<cfset field = '"field": "ACCEPTED_ID_FG"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = '"1"'>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": #value#}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "IDENTIFICATIONS_TAXON_NAME_ID"'>
 		<cfset comparator = '"comparator": "="'>
@@ -2065,7 +2158,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
-	<cfif isDefined("island_group") AND len(island) GT 0>
+	<cfif isDefined("island_group") AND len(island_group) GT 0>
 		<cfset field = '"field": "island_group"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
@@ -2175,6 +2268,52 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
+		<cfif isDefined("permit_num") AND len(permit_num) GT 0>
+			<cfset field = '"field": "permit_num"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_num#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("permit_title") AND len(permit_title) GT 0>
+			<cfset field = '"field": "permit_title"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_title#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("issued_by_agent_id") AND len(issued_by_agent_id) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_AGENT_ID"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_by_agent_id#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		<cfelseif isDefined("IssuedByAgent") AND len(IssuedByAgent) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_BY_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedByAgent#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("issued_to_agent_id") AND len(issued_to_agent_id) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_AGENT_ID"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#issued_to_agent_id#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		<cfelseif isDefined("IssuedToAgent") AND len(IssuedToAgent) GT 0>
+			<cfset field = '"field": "PERMIT_ISSUED_TO_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#IssuedToAgent#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("permit_type") AND len(permit_type) GT 0>
+			<cfset field = '"field": "permit_type"'><!--- in the code table --->
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#permit_type#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("specific_type") AND len(specific_type) GT 0>
+			<cfset field = '"field": "permit_specific_type"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#specific_type#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
 	</cfif>
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
@@ -2200,6 +2339,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("preparator_agent_id") AND len(preparator_agent_id) GT 0>
+		<cfset field = '"field": "PREPARATORS_AGENT_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJSON(preparator_agent_id)>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelse>
+		<cfif isDefined("preparator") AND len(preparator) GT 0>
+			<cfset field = '"field": "PREPARATORS_AGENT_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#preparator#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
 	</cfif>
 
 	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
@@ -2264,6 +2418,58 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 	</cfif>
 
+	<cfif isDefined("root_container_label") AND len(root_container_label) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_LABEL"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_label#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("root_container_barcode") AND len(root_container_barcode) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_BARCODE"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_barcode#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("root_container_type") AND len(root_container_type) GT 0>
+		<cfset field = '"field": "ROOT_CONTAINER_TYPE"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#root_container_type#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("accession_agent_id") AND len(accession_agent_id) GT 0>
+		<cfset field = '"field": "ACCESSIONS_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accession_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("accession_agent") AND len(accession_agent) GT 0>
+		<cfset field = '"field": "ACCESSIONS_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accession_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("loan_agent_id") AND len(loan_agent_id) GT 0>
+		<cfset field = '"field": "LOAN_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("loan_agent") AND len(loan_agent) GT 0>
+		<cfset field = '"field": "LOAN_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("deaccession_agent_id") AND len(deaccession_agent_id) GT 0>
+		<cfset field = '"field": "DEACC_AGENT_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelseif isDefined("deaccession_agent") AND len(deaccession_agent) GT 0>
+		<cfset field = '"field": "DEACC_AGENT_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_agent#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
 		<cfdump var="#search_json#">
@@ -2286,7 +2492,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
+			<!--- NOTE: if changing to a different proceedure, also change the invocation in specimens/SpecimenResultsHTML.cfm --->
+			<!--- errors are handled by build_query_dbms_sql_nest throwing exceptions --->
 			<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
@@ -2339,6 +2546,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT * FROM (
 			</cfif>
 			SELECT distinct
+				<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+					specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+					the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
@@ -2424,11 +2634,20 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			FROM
 				#session.flatTableName# f
 			WHERE
+				(
 				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
 				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
 				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
+				)
+			ORDER BY 
+				f.guid
+			<cfif REFind("^MCZ:[A-Za-z:]+$", arguments.term)>
+				FETCH FIRST 10 ROWS ONLY
+			<cfelse>
+				FETCH FIRST 100 ROWS ONLY
+			</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -2773,10 +2992,13 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
  with a _renderItem overriden to display more detail on the picklist, and minimal details for the selected value.
 
 @param term information to search for.
+@param collection_cde the collection code to limit the part name values to, restricting to that collection in the code table.
 @return a json structure containing id and value, with guid in value and collection_object_id in id, and guid with more data in meta.
 --->
 <cffunction name="getPartNameAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="collection_cde" type="string" required="no" default="">
+
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -2784,14 +3006,26 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 			SELECT 
 				count(f.collection_object_id) ct,
 				specimen_part.part_name
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					, ctspecimen_part_name.description
+				<cfelse>
+					, '' as description
+				</cfif>
 			FROM
-				#session.flatTableName# f
-				left join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
+				<cfif ucase(session.flatTableName) EQ "FLAT">#session.flatTableName#<cfelse>FILTERED_FLAT</cfif> f
+				join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
+				left join ctspecimen_part_name on specimen_part.part_name = ctspecimen_part_name.part_name
 			WHERE
 				f.collection_object_id IS NOT NULL
 				AND specimen_part.part_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					AND ctspecimen_part_name.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_cde#"> 
+				</cfif>
 			GROUP BY
 				specimen_part.part_name
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					, ctspecimen_part_name.description
+				</cfif>
 			ORDER BY
 				specimen_part.part_name
 		</cfquery>
@@ -2801,7 +3035,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.part_name#">
 			<cfset row["value"] = "#search.part_name#" >
-			<cfset row["meta"] = "#search.part_name# (#search.ct#)" >
+			<cfset row["meta"] = "#search.part_name# (#search.ct#) #search.description#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -3109,70 +3343,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 
 <!--- 
   ** given a result_id return the data set for that result_id from the current user's 
-  * user_search_table joined with session.flatTableName as a csv serialization.
-  * @param result_id the uuid that identifies the search to return as csv
-  * @return a csv serialization with a content type text/csv http header or a http error status.
-  *
-  * @deprecated 
-  * @see getSpecimensAsCSVProfile
-  ** --->
-<cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
-	<cfargument name="result_id" type="string" required="yes">
-
-	<cfset retval = "">
-	<cftry>
-		<cfset username = session.dbuser>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="attrFields_result">
-			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
-			FROM cf_spec_res_cols_r
-			WHERE access_role = 'PUBLIC'
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					OR access_role = 'COLDFUSION_USER'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					OR access_role = 'MANAGE_TRANSACTIONS'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-					OR access_role = 'MANAGE_SPECIMENS'
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
-					OR access_role = 'DATA_ENTRY'
-				</cfif>
-			ORDER by category, disp_order
-		</cfquery>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
-			SELECT 
-				<cfset comma = "">
-				<cfloop query="getFieldMetadata">
-					<cfif len(sql_element) GT 0> 
-						#comma##replace(sql_element,"''","'","all")# #column_name#
-						<cfset comma = ",">
-					</cfif>
-				</cfloop>
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
-			WHERE
-				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				and rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DOWNLOAD_THRESHOLD#">
-		</cfquery>
-
-		<cfset retval = queryToCSV(search)>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-
-	<cfheader name="Content-Type" value="text/csv">
-<cfoutput>#retval#</cfoutput>
-</cffunction>
-
-
-<!--- 
-  ** given a result_id return the data set for that result_id from the current user's 
   * user_search_table joined with session.flatTableName as a csv serialization using the set
   * of fields specified in a download_profile.
   * @param result_id the uuid that identifies the search to return as csv
@@ -3273,6 +3443,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cflog text="Query for stream. paging=#paging# count.ct=#count.ct#" file="MCZbase">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 					SELECT 
+						<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+							specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+							the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 						<cfset comma = "">
 						<cfloop array="#valid_columns#" index="idx">
 							<cfif len(idx.sql_element) GT 0> 
@@ -3323,6 +3496,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 							SELECT 
 								rownum as foundrownum,
+								<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+									specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+									the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 								<cfset comma = "">
 								<cfloop array="#valid_columns#" index="idx">
 									<cfif len(idx.sql_element) GT 0> 
@@ -3347,6 +3523,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 										SELECT 
 											rownum as foundrownum,
+											<!--- sql_element and column_name come from cf_spec_res_cols_r, maintained by global_admin through
+												specimens/component/admin.cfc, and the sort expression only from a row whose column_name matches
+												the requested sort field, so none of this is caller supplied; expressions cannot be bound. --->
 											<cfset comma = "">
 											<cfloop array="#valid_columns#" index="idx">
 												<cfif len(idx.sql_element) GT 0> 
@@ -3359,6 +3538,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 											and
+											<!--- pagenumber is a loop counter and pagesize the constant 10000, both set in this method. --->
 											pagesort > = ((#pagenumber#-1) * #pagesize# + 1)
 											and
 											pagesort < ((#pagenumber# * #pagesize#) + 1)
@@ -3805,7 +3985,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cffunction name="getDownloadAgreeDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="filename" type="string" required="yes">
-	<cfthread name="getDownloadAgreeDialogThread">
+	<cfthread name="getDownloadAgreeDialogThread" csrf_token="#CSRFGenerateToken()#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getUserData" datasource="cf_dbuser">
@@ -3821,6 +4001,14 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<!--- Values already in the profile are shown read only; they are changed on the profile page. --->
+				<cfset readonlyFields = structNew()>
+				<cfloop list="first_name,middle_name,last_name,affiliation,email" index="fieldName">
+					<cfset readonlyFields[fieldName] = "">
+					<cfif getUserData.recordcount EQ 1 AND len(getUserData[fieldName][1]) GT 0>
+						<cfset readonlyFields[fieldName] = "readonly">
+					</cfif>
+				</cfloop>
 				<h3>Download Agreement</h3>
 				<form name="downloadForm" id="downloadForm">
 					<input type="hidden" name="user_id" value="#getUserData.user_id#">
@@ -3828,26 +4016,27 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="form-row">
 						<div class="col-12 p-1">
 							You must fill out this form before you may download data. Fields with a <input type="text" size="6" class="reqdClr" value="yellow" disabled aria-label="yellow"> background color are required.
+							Fields filled in from your profile can be changed on your <a href="/users/UserProfile.cfm" target="_blank">profile page</a>.
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-4">
 							<label for="first_name" class="data-entry-label">First Name</label>
-							<input type="text" name="first_name" id="first_name" value="#getUserData.first_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="first_name" id="first_name" value="#encodeForHtmlAttribute(getUserData.first_name)#" class="data-entry-input reqdClr" required #readonlyFields.first_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="middle_name" class="data-entry-label">Middle Name</label>
-							<input type="text" name="middle_name" id="middle_name" value="#getUserData.middle_name#" class="data-entry-input">
+							<input type="text" name="middle_name" id="middle_name" value="#encodeForHtmlAttribute(getUserData.middle_name)#" class="data-entry-input" #readonlyFields.middle_name#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="last_name" class="data-entry-label">Last Name</label>
-							<input type="text" name="last_name" id="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="last_name" id="last_name" value="#encodeForHtmlAttribute(getUserData.last_name)#" class="data-entry-input reqdClr" required #readonlyFields.last_name#>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
 							<label for="affiliation" class="data-entry-label">Affiliation</label>
-							<input type="text" name="affiliation" id="affiliation" value="#getUserData.affiliation#" class="data-entry-input reqdClr" required>
+							<input type="text" name="affiliation" id="affiliation" value="#encodeForHtmlAttribute(getUserData.affiliation)#" class="data-entry-input reqdClr" required #readonlyFields.affiliation#>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="download_purpose" class="data-entry-label">Purpose of Download</td>
@@ -3880,17 +4069,23 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-8">
-							<label for="email" class="data-entry-label">Email</td>
-							<input type="text" name="email" id="email" value="#getUserData.email#" class="data-entry-input">
+							<label for="email" class="data-entry-label">Email</label>
+							<input type="email" name="email" id="email" value="#encodeForHtmlAttribute(getUserData.email)#" class="data-entry-input" onchange="handleAgreeClick();" #readonlyFields.email#>
 						</div>
-						<div class="col-12 col-md-4">
-							<label for="agree">I agree.</label>
-							<input type="checkbox" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" >
+						<div class="col-12 col-md-4 d-flex align-items-end pt-2 pt-md-0">
+							<div class="reqdClr d-inline-flex align-items-center px-2 py-1">
+								<input type="checkbox" class="m-0 mr-2" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" required>
+								<label for="agree" class="mb-0">I agree to these terms.</label>
+							</div>
 							<script>
 								function handleAgreeClick() {
 									var valid = false;
 									if ($("##first_name").val()!="" && $("##last_name").val()!="" && $("##affiliation").val()!="" ) { 
 										valid = true;
+									}
+									// type="email" makes an empty field valid and a malformed one invalid.
+									if (!$("##email")[0].checkValidity()) {
+										valid = false;
 									}			
 									if(valid && $("##agree").prop('checked')==true) {
 										$("##specimencsvdownloadbutton").removeClass("disabled");
@@ -3902,9 +4097,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									$("##downloadFeedback").html("Download requested...");
 									jQuery.ajax({
 										dataType: "json",
+										type: "POST",
 										url: "/specimens/component/search.cfc",
 										data: { 
 											method : "logExternalDownload",
+											csrfToken : "#encodeForJavaScript(attributes.csrf_token)#",
 											result_id :  "#result_id#",
 											first_name :  $("##first_name").val(),
 											middle_name : $("##middle_name").val(),
@@ -3912,7 +4109,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											affiliation : $("##affiliation").val(),
 											download_purpose : $("##download_purpose").val(),
 											email : $("##email").val(),
-											agree : $("##agree").val()
+											agree : $("##agree").prop("checked") ? "yes" : "no"
 										},
 										error: function (jqXHR, status, message) {
 											console.log("Error logging download [#result_id#]: " + status + " " + jqXHR.responseText);
@@ -4013,7 +4210,20 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="download_purpose" type="string" required="no">
 	<cfargument name="agree" type="string" required="no">
-	<cfthread name="logDownloadThread">
+	<cfargument name="csrfToken" type="string" required="no" default="">
+	<!--- This saves the caller's email into their profile, which a forged request could point at
+		another address and then take over the account through password recovery. --->
+	<cfif NOT isPostWithCsrfToken(arguments.csrfToken)>
+		<cfheader statuscode="403" statustext="Forbidden">
+		<cfreturn "This request must come from the MCZbase download dialog.">
+	</cfif>
+	<!--- The download is logged whatever the email, since the download itself proceeds from the
+		link regardless of this call; only a validly formed address is saved to the profile. --->
+	<cfset var emailToSave = "">
+	<cfif isDefined("arguments.email") AND isValid("email", trim(arguments.email))>
+		<cfset emailToSave = trim(arguments.email)>
+	</cfif>
+	<cfthread name="logDownloadThread" email_to_save="#emailToSave#">
 		<cftry>
 			<cfquery name="getUserID" datasource="cf_dbuser">
 				SELECT cf_users.user_id
@@ -4035,8 +4245,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 					WHERE
 						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
@@ -4052,7 +4262,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,middle_name
 						</cfif>
-						<cfif len(#email#) gt 0>
+						<cfif len(attributes.email_to_save) gt 0>
 							,email
 						</cfif>
 						)
@@ -4064,8 +4274,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cfif len(#middle_name#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 						</cfif>
-						<cfif len(#email#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						<cfif len(attributes.email_to_save) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attributes.email_to_save#">
 						</cfif>
 						)
 				</cfquery>
@@ -4111,7 +4321,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfoutput>
 			<cftransaction>
 			<cftry>
-				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail,SpecDetail",id) EQ 0 >
+				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail,SpecDetail,TransactionDetail",id) EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">

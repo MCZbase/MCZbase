@@ -26,6 +26,18 @@ test-uam> desc uam_query.query_stats_coll
 ---->
 
 <cfinclude template="/includes/_header.cfm">
+<!--- The form posts to this page, and every value it sends was read from implicit scope, which is
+	also why a first request with no parameters failed on an undefined action. --->
+<cfparam name="form.action" default="nothing">
+<cfparam name="form.query_type" default="">
+<cfparam name="form.collection_id" default="">
+<cfparam name="form.bdate" default="">
+<cfparam name="form.edate" default="">
+<cfset variables.action = form.action>
+<cfset variables.query_type = form.query_type>
+<cfset variables.collection_id = form.collection_id>
+<cfset variables.bdate = form.bdate>
+<cfset variables.edate = form.edate>
     <div style="width: 100%;">
         <div style="width: 50em; margin: 0 auto;padding: 0 0 3em 0;">
 <script src="/lib/misc/sorttable.js"></script>
@@ -35,7 +47,7 @@ test-uam> desc uam_query.query_stats_coll
 		$("#edate").datepicker();
 	});
 </script>
-<cfif action is "nothing">
+<cfif variables.action is "nothing">
 <cfoutput>
 	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select collection_id,collection from collection order by collection
@@ -66,10 +78,10 @@ test-uam> desc uam_query.query_stats_coll
 </form>
 </cfoutput>
 </cfif>
-<cfif action is "showSummary">
+<cfif variables.action is "showSummary">
 	<cfoutput>
-		<cfif len(bdate) gt 0 and len(edate) is 0>
-			<cfset edate=bdate>
+		<cfif len(variables.bdate) gt 0 and len(variables.edate) is 0>
+			<cfset variables.edate=variables.bdate>
 		</cfif>
 		<cfquery name="total" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 			select
@@ -87,16 +99,16 @@ test-uam> desc uam_query.query_stats_coll
 			where
 				uam_query.query_stats.QUERY_ID=uam_query.query_stats_coll.QUERY_ID (+) and
 				uam_query.query_stats_coll.collection_id=collection.collection_id (+)
-			<cfif isdefined("query_type") and len(query_type) gt 0>
-				and query_type ='#query_type#'
+			<cfif len(variables.query_type) gt 0>
+				and query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
 			</cfif>
-			<cfif isdefined("collection_id") and len(collection_id) gt 0>
-				and uam_query.query_stats_coll.collection_id  in (#collection_id#)
+			<cfif len(variables.collection_id) gt 0>
+				and uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
 			</cfif>
-			<cfif len(#bdate#) gt 0>
+			<cfif isDate(variables.bdate) AND isDate(variables.edate)>
 				AND (
-					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date('#dateformat(bdate,"yyyy-mm-dd")#')
-					and to_date('#dateformat(edate,"yyyy-mm-dd")#')
+					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
+					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
 				)
 			</cfif>
 		</cfquery>
@@ -296,11 +308,11 @@ test-uam> desc uam_query.query_stats_coll
 		</cfloop>
 	</cfoutput>
 </cfif>
-<cfif action is "showTable">
+<cfif variables.action is "showTable">
 <cfoutput>
 	This form will return no more than 5000 rows.
-	<cfif len(bdate) gt 0 and len(edate) is 0>
-		<cfset edate=bdate>
+	<cfif len(variables.bdate) gt 0 and len(variables.edate) is 0>
+		<cfset variables.edate=variables.bdate>
 	</cfif>
 	<cfquery name="d" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 		select * from (	
@@ -319,16 +331,19 @@ test-uam> desc uam_query.query_stats_coll
 			where
 				uam_query.query_stats.QUERY_ID=uam_query.query_stats_coll.QUERY_ID (+) and
 				uam_query.query_stats_coll.collection_id=collection.collection_id (+)
-			<cfif isdefined("query_type") and len(query_type) gt 0>
-				and query_type ='#query_type#'
+			<cfif len(variables.query_type) gt 0>
+				and query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
 			</cfif>
-			<cfif isdefined("collection_id") and len(collection_id) gt 0>
-				and uam_query.query_stats_coll.collection_id ='#collection_id#'
+			<!--- IN rather than the = this had: collection_id comes from a multiple select, so
+				more than one selection made this compare a column to a comma separated list and
+				match nothing.  The summary above always used IN. --->
+			<cfif len(variables.collection_id) gt 0>
+				and uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
 			</cfif>
-			<cfif len(#bdate#) gt 0>
+			<cfif isDate(variables.bdate) AND isDate(variables.edate)>
 				AND (
-					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date('#dateformat(bdate,"yyyy-mm-dd")#')
-					and to_date('#dateformat(edate,"yyyy-mm-dd")#')
+					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
+					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
 				)
 			</cfif>
 		) where rownum <= 5000

@@ -588,7 +588,7 @@ Roll yer own:
 	<cfinput type="hidden" name="enteredby" value="#enteredby#">
 	<cfinput type="hidden" name="accn" value="#accn#">
 	<cfgrid query="data"  name="blGrid" width="1200" height="400" selectmode="edit">
-		<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
+		<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&showAllUsers=true&pMode=edit" hrefkey="collection_object_id" target="_blank">
 		<!----
 		<cfgridcolumn name="loaded" select="yes">
 		<cfgridcolumn name="ENTEREDBY" select="yes">

@@ -146,8 +146,7 @@
 					<input type="text" name="scientific_name" id="scientific_name" readonly class="readClr" size="50">
 				</td>
 				<td colspan="2">
-					<label for="cited_taxon_name" id="lbl_cited_taxon_name">
-						<a href="javascript:void(0);" onClick="getDocs('publication','cited_as_taxon')">Cited As</a></label>
+					<label for="cited_taxon_name" id="lbl_cited_taxon_name">Cited As</label>
 					<input type="text" name="cited_taxon_name" id="cited_taxon_name" class="reqdClr" size="50" onChange="taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',this.value); return false;">
 					<span class="infoLink"
 						onClick = "taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',document.getElementById('scientific_name').value)">Use Current</span>
@@ -156,9 +155,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="type_status">
-						<a href="javascript:void(0);" onClick="getDocs('publication','citation_type')">Citation Type</a>
-					</label>
+					<label for="type_status">Citation Type</label>
 					<select name="type_status" id="type_status" size="1">
 						<cfloop query="ctTypeStatus">
 							<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
@@ -167,9 +164,7 @@
 					<span class="infoLink" onClick="getCtDoc('ctcitation_type_status',newCitation.type_status.value)">Define</span>
 				</td>
 				<td>
-					<label for="occurs_page_number">
-						<a href="javascript:void(0);" onClick="getDocs('publication','cited_on_page_number')">Page ##</a>
-					</label>
+					<label for="occurs_page_number">Page ##</label>
 					<input type="text" name="occurs_page_number" id="occurs_page_number" size="4">
 				</td>
 			</tr>
@@ -203,7 +198,7 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th>Cat Num</th>
-				<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
+				<cfif len(#session.CustomOtherIdentifier#) GT 0><th>#session.CustomOtherIdentifier#</th><cfelse><th></th></cfif>
 				<th>Cited As</th>
 				<th>Current ID</th>
 				<th>Citation Type</th>
@@ -258,8 +253,8 @@
 							</tr>
 						</table>
 					</td>
-					<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-					<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
+					<td style="padding:0 .5rem;"><a href="/specimens/Specimen.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+					<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#getCited.CustomID#</td><cfelse><td>&nbsp;</td></cfif>
 					<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
@@ -308,23 +303,23 @@
 			</cfif>
 			)
 			VALUES (
-			#publication_id#,
-			#collection_object_id#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
 			1
 			<cfif len(#cited_taxon_name_id#) gt 0>
-				,#cited_taxon_name_id#
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 			</cfif>
 			<cfif len(#occurs_page_number#) gt 0>
-				,#occurs_page_number#
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">
 			</cfif>
 			<cfif len(#type_status#) gt 0>
-				,'#type_status#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,'#escapequotes(citation_remarks)#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">
 			</cfif>
 			<cfif len(#citation_page_uri#) gt 0>
-				,'#escapequotes(citation_page_uri)#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 			</cfif>
 			)
 			</cfquery>
@@ -340,35 +335,35 @@
 		UPDATE citation SET
 			cit_current_fg = 1
 			<cfif len(#cited_taxon_name_id#) gt 0>
-				,cited_taxon_name_id = #cited_taxon_name_id#
+				,cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 			  <cfelse>
 			  	,cited_taxon_name_id = null
 			</cfif>
 			<cfif len(#occurs_page_number#) gt 0>
-				,occurs_page_number = #occurs_page_number#
+				,occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">
 			  <cfelse>
 			  	,occurs_page_number = null
 			</cfif>
 			<cfif len(#type_status#) gt 0>
-				,type_status = '#type_status#'
+				,type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 			  <cfelse>
 				,type_status = null
 			</cfif>
 			<cfif len(#citation_remarks#) gt 0>
-				,citation_remarks = '#escapequotes(citation_remarks)#'
+				,citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">
 			  <cfelse>
 			  	,citation_remarks = null
 			</cfif>
 			<cfif len(#citation_page_uri#) gt 0>
-				,citation_page_uri = '#escapequotes(citation_page_uri)#'
+				,citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 			  <cfelse>
 			  	,citation_page_uri = null
 			</cfif>
 
 		WHERE
-			publication_id = #publication_id# AND
-			collection_object_id = #collection_object_id# AND
-			cited_taxon_name_id = #current_cited_taxon_name_id#
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> AND
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> AND
+			cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_cited_taxon_name_id#">
 		</cfquery>
 		<cflocation url="Citation.cfm?publication_id=#publication_id#">
 	</cfoutput>

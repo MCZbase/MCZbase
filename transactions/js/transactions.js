@@ -544,8 +544,7 @@ function updateAccnLoans(transaction_id,targetDiv) {
  * @param targetDiv the id div for which to replace the contents (without a leading #).
  */
 function updateLoanItemCount(transactionId,targetDiv) {
-	jQuery.ajax(
-	{
+	jQuery.ajax({
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
@@ -566,8 +565,7 @@ function updateLoanItemCount(transactionId,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
-	)
+	})
 };
 
 /* Update the content of a div containing inherited restrictions on transaction items
@@ -1168,9 +1166,12 @@ function setupNewShipment(transaction_id) {
 	$("#dialog-shipment").dialog( "option", "title", "Create New Shipment" );
 	$("#shipment_id").val("");
 	$("#transaction_id").val(transaction_id);
-	var date = new Date();
-	var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-	$("#shipped_date").val(datestring);
+   // BugID: 7350, don't stamp today's date into the new shipment.
+	// var date = new Date();
+	// var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+	// $("#shipped_date").val(datestring);
+	$("#shipped_date_today_button").show();
+	$("#shipped_date").val("");
 	$("#contents").val("");
 	$("#no_of_packages").val("1");
 	$("#carriers_tracking_number").val("");
@@ -1189,6 +1190,7 @@ function setupNewShipment(transaction_id) {
 	$("#hazmat_fg option[value='0']").prop('selected',true); 
 	$("#shipmentFormPermits").html(""); 
 	$("#shipmentFormStatus").html(""); 
+	$("#costs").html(""); 
 	$(".ui-dialog-buttonpane button").addClass("btn btn-primary btn-sm");
 }
 
@@ -1199,7 +1201,8 @@ function setupNewShipment(transaction_id) {
 function loadShipment(shipmentId,form) {
 	$("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
 	$("#shipmentFormPermits").html(""); 
-	$("#shipmentFormStatus").html(""); 
+	$("#shipmentFormStatus").html("");
+	$("#shipped_date_today_button").hide();
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getShipments",
@@ -1226,6 +1229,7 @@ function loadShipment(shipmentId,form) {
 					$("#shipped_to_addr").val(result.DATA.SHIPPED_TO_ADDRESS[i]);
 					$("#shipped_from_addr").val(result.DATA.SHIPPED_FROM_ADDRESS[i]);
 					$("#shipped_carrier_method").val(result.DATA.SHIPPED_CARRIER_METHOD[i]);
+					$("#costs").val(result.DATA.COSTS[i]);
 					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 $(target).attr("selected",true);
 					if (result.DATA.FOREIGN_SHIPMENT_FG[i] == 0) { 
@@ -1931,7 +1935,7 @@ function deleteMediaFromPermit(mediaId,permitId,relationType) {
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
  */
-function makeLoanPicker(valueControl, idControl) { 
+function makeLoanPicker(valueControl, idControl,selectCallback=null) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1954,12 +1958,42 @@ function makeLoanPicker(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+			// if selectCallback is a function, invoke it
+			if (jQuery.type(selectCallback) === 'function') {
+				selectCallback();
+			}
 		},
 		minLength: 3
-	}).autocomplete("instance")._renderItem = function(ul,item) { 
+	}).autocomplete("instance")._renderItem = function(ul,item) {
 		// override to display meta with additional information instead of minimal value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+
+/** Make a text control into an autocomplete loan number picker, intended for use with
+ * search, prepends an equals sign on selection.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeLoanPickerSearch(valueControl) {
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/transactions/component/search.cfc",
+				data: { term: request.term, method: 'getLoanAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up loans for a loan number search picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	});
 };
 
 /** Make a paired hidden id and text name control into an autocomplete accession picker.
@@ -1999,7 +2033,8 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 };
 
 /** Make a paired hidden id and text name control into an autocomplete accession picker, 
- * with a collection_id control as a limit on which collections are searched.
+ * with a collection_id control as a limit on which collections are searched, also limts to
+ * accessions that can take cataloged items.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected transaction_id (without a leading # selector).

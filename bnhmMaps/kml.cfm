@@ -1,4 +1,10 @@
 <cfinclude  template="/includes/_header.cfm"> 
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "action,includeTimeSpan,mapByLocality,method,next,showErrors,showUnaccepted,
+	userFileName">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <cfset table_name=session.SpecSrchTab>
 <cfset internalPath="#Application.webDirectory#/bnhmMaps/tabfiles/">
 <cfset externalPath="#Application.ServerRootUrl#/bnhmMaps/tabfiles/">
@@ -15,7 +21,12 @@
 	<cfset showUnaccepted=0>
 </cfif>
 <cfif not isdefined("userFileName")>
-	<cfset userFileName="kmlfile#cookie.cfid##cookie.cftoken#">
+	<cfset userFileName="kmlfile#session.DownloadFileID#">
+</cfif>
+<!--- userFileName names the files written to internalPath, so it must not contain a path. --->
+<cfif REFind("[/\\\x00-\x1F]", userFileName) GT 0 OR find("..", userFileName) GT 0>
+	File names may not contain slashes, backslashes, control characters or "..".
+	<cfabort>
 </cfif>
 <cfif not isdefined("includeTimeSpan")>
 	<cfset includeTimeSpan=0>
@@ -80,19 +91,18 @@
 <!--- handle direct calls --->
 <cfif action is "newReq">
 	<cfoutput>
-		<cfset basSelect = " SELECT distinct #flatTableName#.collection_object_id">
+		<cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
 		<cfquery name="reqd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from cf_spec_res_cols where category='required'
 		</cfquery>
 		<cfset basSelect = listappend(basSelect,valuelist(reqd.SQL_ELEMENT))>
-		<cfset basFrom = " FROM #flatTableName#">
-		<cfset basJoin = "INNER JOIN cataloged_item ON (#flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-		<cfset basWhere = " WHERE #flatTableName#.collection_object_id IS NOT NULL ">	
-		<cfset basQual = "">
+		<cfset basFrom = " FROM #flatTableName# flatTableName">
+		<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+		<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">	
 		<cfset mapurl="">
 		<cfinclude template="/includes/SearchSql.cfm">
-		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
-		<cfset sqlstring = replace(sqlstring,"flatTableName","#flatTableName#","all")>
+		<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)#">
+		<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
 		<cfset srchTerms="">
 		<cfloop list="#mapurl#" delimiters="&" index="t">
 			<cfset tt=listgetat(t,1,"=")>
@@ -118,11 +128,20 @@
 				<!--- not there, so what? --->
 			</cfcatch>
 		</cftry>
-		<cfset checkSql(SqlString)>	
-		<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
-		<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preserveSingleQuotes(SqlString)#
-		</cfquery>
+		<!--- Two statements rather than one CREATE TABLE ... AS SELECT: that is DDL, and Oracle
+			permits no bind variable in DDL, so the shell is created empty with AND 1=0 in place of
+			the criteria and the criteria run as an INSERT, which does take binds.  SpecSrchTab is
+			built from the session identity with no user input. --->
+		<cfset queryExecute("CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#",{},{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
+		<cfset queryExecute("INSERT INTO #session.SpecSrchTab# #SqlString#",variables.sqlParams,{
+			datasource = "user_login",
+			username = session.dbuser,
+			password = decrypt(session.epw,cookie.cfid)
+		})>
 		<cfset burl="kml.cfm?method=#method#&showErrors=#showErrors#&mapByLocality=#mapByLocality#">
 		<cfset burl=burl & "&showUnaccepted=#showUnaccepted#&userFileName=#userFileName#&action=#next#">	
 		<cflocation url="#burl#" addtoken="false">
@@ -130,10 +149,16 @@
 </cfif>
 <!------------------------------------------------------------------------------------------>
 <cfif isdefined("action") and #action# is "getFile">
-	<cfoutput>
-		<cfheader name="Content-Disposition" value="attachment; filename=#f#">
-		<cfcontent type="application/vnd.google-earth.kml+xml" file="#internalPath##f#">
-	</cfoutput>	
+	<cfparam name="url.f" default="">
+	<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
+	<cfset variables.kmlFile = resolveFileInDirectory(internalPath, url.f, "kml")>
+	<cfif len(variables.kmlFile) EQ 0>
+		<cfheader statuscode="404" statustext="Not Found">
+		File not found.
+		<cfabort>
+	</cfif>
+	<cfheader name="Content-Disposition" value="#attachmentDisposition(url.f)#">
+	<cfcontent type="application/vnd.google-earth.kml+xml" file="#variables.kmlFile#">
 </cfif>
 <!------------------------------------------------------------->
 <cfif #action# is "nothing">
@@ -298,7 +323,7 @@
 			from
 				data
 			where
-				scientific_name='#scientific_name#'
+				scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species.scientific_name#">
 			group by
 				dec_lat,
 				dec_long,
@@ -507,7 +532,7 @@
 			from
 				data
 			where
-				collection='#collection#'
+				collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln.collection#">
 			group by
 				dec_lat,
 				dec_long,
@@ -573,7 +598,7 @@
 			</cfif>
 			<cfloop query="sdet">
 				<cfscript>
-					kml=kml & '<a href="#application.serverRootUrl#/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">' &
+					kml=kml & '<a href="#application.serverRootUrl#/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">' &
 						'#collection# #cat_num# (<em>#scientific_name#</em>)</a><br/>';
 				</cfscript>				
 			</cfloop>

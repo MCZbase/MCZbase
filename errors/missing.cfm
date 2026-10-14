@@ -1,12 +1,31 @@
-<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+<!---
+errors/missing.cfm routes requests for pages that do not exist (Apache ErrorDocument 404), such as /guid/, /name/ and /media/{id}
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---><cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 	<!--- TODO: Extract parameters from cgi.redirect_query_string, not being populated by apache/mod_jk though mod_jk is configured to do so --->
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>
 		<cfset rdurl=replace(rdurl,chr(195) & chr(151),chr(215))>
 	</cfif>
-	<cfset gPos=listfindnocase(rdurl,"guid","/")>
-	<cfif gPos >
-		<!--- Request for GUID --->
+
+	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
+	<!--- default to human readable web page --->
+	<cfif NOT isDefined("deliver")>
 		<cftry>
 			<cfset accept = GetHttpRequestData().Headers['accept'] >
 		<cfcatch>
@@ -14,53 +33,55 @@
 		</cfcatch>
 		</cftry>
 
-		<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
-		<!--- default to human readable web page --->
-		<cfif NOT isDefined("deliver")>
-			<cfset deliver = "text/html">
-			<cfset done = false>
-			<cfloop list='#accept#' delimiters=',' index='a'>
-				<cfif NOT done>
-					<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-						<cfset deliver = a>
-						<cfset done = true>
-					<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-						<!--- use text/html for human readable delivery, actual is xhtml --->
-						<cfset deliver = 'text/html'>
-						<cfset done = true>
-					</cfif>
+		<cfset deliver = "text/html">
+		<cfset done = false>
+		<cfloop list='#accept#' delimiters=',' index='a'>
+			<cfif NOT done>
+				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+					<cfset deliver = a>
+					<cfset done = true>
+				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
+					<!--- use text/html for human readable delivery, actual is xhtml --->
+					<cfset deliver = 'text/html'>
+					<cfset done = true>
 				</cfif>
-			</cfloop>
-			<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
-			<cfif refind('/json$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/json$","")>
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif refind('/json-ld$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif refind('/turtle$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/turtle$","")>
-	   		<cfset deliver = "text/turtle">
-			<cfelseif refind('/rdf$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/rdf$","")>
-	   		<cfset deliver = "application/xhtml+xml">
 			</cfif>
-		<cfelse>
-			<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
-			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
-			<cfif deliver IS "json" OR deliver IS "json-ld">
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif deliver IS "turtle">
- 			  	<cfset deliver = "text/turtle">
-			<cfelseif deliver IS "rdf">
-	   		<cfset deliver = "application/xhtml+xml">
-			<cfelse>
-				<cfset deliver = "text/html">
-			</cfif>
+		</cfloop>
+		<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
+		<cfif refind('/json$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/json$","")>
+	  		<cfset deliver = "application/ld+json">
+		<cfelseif refind('/json-ld$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
+	  		<cfset deliver = "application/ld+json">
+		<cfelseif refind('/turtle$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/turtle$","")>
+	  		<cfset deliver = "text/turtle">
+		<cfelseif refind('/rdf$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/rdf$","")>
+	  		<cfset deliver = "application/xhtml+xml">
 		</cfif>
+	<cfelse>
+		<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
+		<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
+		<cfif deliver IS "json" OR deliver IS "json-ld">
+   		<cfset deliver = "application/ld+json">
+		<cfelseif deliver IS "turtle">
+ 		  	<cfset deliver = "text/turtle">
+		<cfelseif deliver IS "rdf">
+   		<cfset deliver = "application/xhtml+xml">
+		<cfelse>
+			<cfset deliver = "text/html">
+		</cfif>
+	</cfif>
 
+	<cfset gPos=listfindnocase(rdurl,"guid","/")>
+	<cfif gPos >
+		<!--- Request for GUID --->
 		<cfif deliver NEQ "text/html">
 			<cftry>
+				<cfset lookup = "guid">
+				<cfset uuid = "">
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfinclude template="/rdf/Occurrence.cfm">
 			<cfcatch>
@@ -68,51 +89,134 @@
 			</cfcatch>
 			</cftry>
 		<cfelse> 
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-				<cfset guid = listgetat(rdurl,gPos+1,"/")>
-				<cfinclude template="/specimens/Specimen.cfm">
-			<cfelse>
-				<cfset guid = listgetat(rdurl,gPos+1,"/")>
-				<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
-					<cfset guid=replacenocase(guid, "fish", "Ich")>
-					<cfset guid=replacenocase(guid, "bird", "Orn")>
-					<cfheader statuscode="301" statustext="Moved permanently">
-					<cfheader name="Location" value="/guid/#guid#">
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<!--- logged in users see the old specimen details page, this allows editing --->
-					<cftry>
-						<cfinclude template="/SpecimenDetail.cfm">
-					<cfcatch>
-						<cfinclude template="/errors/404.cfm">
-					</cfcatch>
-					</cftry>
-				<cfelse>
-					<!--- not logged in sees the redesigned specimen details page, editing not enabled for them and not working there yet --->
-					<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
-					<!---  exceptions should rise up to the Application.cfc error handler.  --->
-					<cfinclude template="/specimens/Specimen.cfm">
-				</cfif>
+			<cfset guid = listgetat(rdurl,gPos+1,"/")>
+			<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
+				<cfset guid=replacenocase(guid, "fish", "Ich")>
+				<cfset guid=replacenocase(guid, "bird", "Orn")>
+				<cfheader statuscode="301" statustext="Moved permanently">
+				<cfheader name="Location" value="/guid/#guid#">
 			</cfif>
+			<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
+			<!--- exceptions should rise up to the Application.cfc error handler.  --->
+			<cfinclude template="/specimens/Specimen.cfm">
 		</cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<!--- Request by (old) specimen API --->
-		<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-			<cfset guid = listgetat(rdurl,gPos+1,"/")>
-			<cfinclude template="/specimens/Specimen.cfm">
-		<cfelse>
-			<cftry>
-				<cfset gPos=listfindnocase(rdurl,"specimen","/")>
-				<cfset	i = listgetat(rdurl,gPos+1,"/")>
-				<cfset	c = listgetat(rdurl,gPos+2,"/")>
-				<cfset	n = listgetat(rdurl,gPos+3,"/")>
-				<cfset guid=i & ":" & c & ":" & n>
-				<cfinclude template="/SpecimenDetail.cfm">
-			<cfcatch>
-				<cfinclude template="/errors/404.cfm">
-			</cfcatch>
-			</cftry>
-		</cfif>
+		<cfset gPos=listfindnocase(rdurl,"specimen","/")>
+		<cfset	i = listgetat(rdurl,gPos+1,"/")>
+		<cfset	c = listgetat(rdurl,gPos+2,"/")>
+		<cfset	n = listgetat(rdurl,gPos+3,"/")>
+		<cfset guid=i & ":" & c & ":" & n>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="/guid/#guid#">
+	<cfelseif listfindnocase(rdurl,'uuid',"/")>
+		<!--- UUID resolver service --->
+		<cftry>
+			<cfset gPos=listfindnocase(rdurl,"uuid","/")>
+			<!--- expected form is /uuid/{urn:uuid:local_identifier} or uuid/{local_identifier} --->
+			<cfset uuid = listgetat(rdurl,gPos+1,"/")>
+			<cfif left(uuid,9) IS "urn:uuid:">
+				<cfset uuid = mid(uuid,10,len(uuid)-9)>
+			</cfif>
+			<!--- check that local_identifier is a valid UUID, with or without dashes --->
+			<cfif NOT REFindNoCase("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",uuid) GT 0 AND
+					NOT REFindNoCase("^[0-9a-f]{32}$",uuid) GT 0>
+				<cfthrow message="Invalid UUID format" detail="Provided value is is not in valid format for a UUID">
+			</cfif>
+			<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
+			<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id, taxon_name_id, guid_is_a, disposition
+				FROM guid_our_thing
+				<!--- Compared without regard to case: existing rows hold identifiers in both cases.  The
+					value is uppercased in ColdFusion rather than in SQL because a bind inside upper()
+					leaves this driver without a column type to resolve the parameter against. --->
+				WHERE upper(local_identifier) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(uuid)#">
+					AND scheme = 'urn' 
+					AND type = 'uuid'
+			</cfquery>
+			<!--- if target table is coll_object and guid_is_a is occurrenceID then lookup institution code, collection code, cat num and redirect to /guid/ --->
+			<cfif lookupUUID.recordcount EQ 0>
+				<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
+			<cfelseif lookupUUID.recordcount GT 0>
+				<cfif deliver NEQ "text/html">
+					<cfset lookup = "uuid">
+					<cfset guid = "">
+					<cfif lookupUUID.guid_is_a IS "occurrenceID">
+						<cfinclude template="/rdf/Occurrence.cfm">
+					<cfelseif lookupUUID.guid_is_a IS "materialSampleID">
+						<cfinclude template="/rdf/MaterialSample.cfm">
+					<cfelseif lookupUUID.guid_is_a IS "taxonID">
+						<cfinclude template="/rdf/Taxon.cfm">
+					<cfelse>
+						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but guid_is_a #lookupUUID.guid_is_a# not handled.">
+					</cfif>
+				<cfelse>
+					<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "COLL_OBJECT" AND lookupUUID.guid_is_a IS "occurrenceID">
+						<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
+						<!--- type of coll_object should be "SP" (we are not using uuid based guids for CI), check this and lookup from parent cataloged item  --->
+						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
+							SELECT coll_object.coll_object_type, 
+								coll.institution_acronym institution_code, 
+								coll.collection_cde collection_code, 
+								ci.cat_num catalog_number
+							FROM coll_object 
+							left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+							left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+							LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
+							WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+						</cfquery>
+						<cfif getCatItem.recordcount EQ 1>
+							<cfif getCatItem.coll_object_type IS NOT "SP">
+								<cfthrow message="UUID found but target coll_object is not a specimen part" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# is type #getCatItem.coll_object_type#, expected type 'SP'">
+							</cfif>
+							<cfset guid = "#getCatItem.institution_code#:#getCatItem.collection_code#:#getCatItem.catalog_number#">
+							<cfheader statuscode="301" statustext="Moved permanently">
+							<cfheader name="Location" value="/guid/#guid#">
+						<cfelse>
+							<cfthrow message="UUID found but target coll_object not found" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# not found in coll_object table.">
+						</cfif>
+					<cfelseif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
+						<!--- lookup the cataloged item for the material sample and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
+						<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
+						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
+							SELECT coll_object.coll_object_type, 
+								coll.institution_acronym institution_code, 
+								coll.collection_cde collection_code, 
+								ci.cat_num catalog_number
+							FROM coll_object 
+							left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+							left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+							LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
+							WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
+						</cfquery>
+						<cfif getCatItem.recordcount EQ 1>
+							<cfif getCatItem.coll_object_type IS NOT "SP">
+								<cfthrow message="UUID found but target coll_object is not a specimen part" detail="Record found in guid_our_thing table but target coll_object #q.sp_collection_object_id# is type #getCatItem.coll_object_type#, expected type 'SP'">
+							</cfif>
+							<cfset lookup="uuid">
+							<cfset occurrenceID = "">
+							<cfset uuid="#uuid#">
+							<cfinclude template="/rdf/MaterialSample.cfm">
+							<cfabort>
+							<cfset guid = "#getCatItem.institution_code#:#getCatItem.collection_code#:#getCatItem.catalog_number#">
+							<cfheader statuscode="301" statustext="Moved permanently">
+							<cfheader name="Location" value="/guid/#guid#">
+						<cfelse>
+							<cfthrow message="UUID found but target coll_object not found" detail="Record found in guid_our_thing table but target specimen_part #q.sp_collection_object_id# not found in coll_object table.">
+						</cfif>
+
+					<cfelse>
+						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but target_table #lookupUUID.target_table#, guid_is_a #lookupUUID.guid_is_a# or disposition #lookupUUID.disposition# not handled.">
+					</cfif>
+				</cfif>
+			</cfif>
+		<cfcatch>
+			<cfoutput>
+			#cfcatch.message# #cfcatch.detail#
+			</cfoutput>
+			<cfinclude template="/errors/404.cfm">
+		</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'document',"/")>
 		<cfoutput>
 		<cftry>
@@ -140,6 +244,49 @@
 			</cfcatch>
 		</cftry>
 		</cfoutput>
+	<cfelseif listfindnocase(rdurl,'namedGroup',"/")>
+		<!--- Request by underscore_collection.link_name, falling back to
+			underscore_collection_id if the segment doesn't match any link_name, so every
+			named group stays addressable even before it has a link_name value. --->
+		<cftry>
+			<cfset gPos=listfindnocase(rdurl,"namedGroup","/")>
+			<cfset rawLinkName = trim(listgetat(rdurl,gPos+1,"/"))>
+			<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE lower(link_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(rawLinkName)#">
+			</cfquery>
+			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
+				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT underscore_collection_id
+					FROM underscore_collection
+					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
+				</cfquery>
+			</cfif>
+			<cfif lookupByLinkName.recordcount EQ 0>
+				<cfthrow message="Named group not found." errorcode="404">
+			</cfif>
+			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
+			<!--- if provided, get format from url, otherwise default to html --->
+			<cfset requestedformat = "html">
+			<cftry>
+				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
+				<cfcatch>
+					<cfset requestedformat = "html">
+				</cfcatch>
+			</cftry>
+			<cfset variables.loadMapLibraries = true>
+			<cfinclude template="/grouping/showNamedCollection.cfm">
+			<cfcatch>
+				<cfset errorMessage = cfcatch.message>
+				<cfset errorDetail = cfcatch.detail>
+				<cfif cfcatch.errorCode IS "404">
+					<cfinclude template="/errors/404.cfm">
+				<cfelse>
+					<cfinclude template="/errors/500.cfm">
+				</cfif>
+			</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
 		<!--- Request by name API (for taxon record) --->
 		<cftry>
@@ -156,7 +303,7 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"api","/")>
 			<cfif listlen(rdurl,"/") gt 1>
-				<cfset action = listgetat(rdurl,gPos+1,"/")>
+				<cfset variables.action = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
 			<cfinclude template="/info/api.cfm">
 			<cfcatch>
@@ -169,7 +316,7 @@
 			<cfif listlen(rdurl,"/") gt 1>
 				<cfset niceProjName = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
-			<cfinclude template="/ProjectDetail.cfm">
+			<cfinclude template="/projects/showProject.cfm">
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
@@ -198,7 +345,7 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"publication","/")>
 			<cfif listlen(rdurl,"/") gt 1>
-				<cfset publication_id = listgetat(rdurl,gPos+1,"/")>
+				<cfset url.publication_id = listgetat(rdurl,gPos+1,"/")>
 			</cfif>
 			<cfinclude template="/publications/showPublication.cfm">
 			<cfcatch>
@@ -272,24 +419,25 @@
 			<cfheader statuscode="301" statustext="Moved permanently">
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
+			<!--- 404.cfm is included, not forwarded to: a forwarded request from a client without a session
+				cookie starts a second session --->
+			<cfset forwardTo = "">
 			<cftry>
-				<cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
-					<cfscript>
-						getPageContext().forward("/errors/404.cfm");
-					</cfscript>
-				<cfelse>
-					<cfscript>
-						getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
-					</cfscript>
+				<cfif isSet(cgi.REDIRECT_URL) AND isSet(cgi.redirect_query_string)>
+					<cfset forwardTo = cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string>
 				</cfif>
-				<cfabort>
 			<cfcatch>
-				<cfscript>
-					getPageContext().forward("/errors/404.cfm");
-				</cfscript>
-				<cfabort>
+				<cfset forwardTo = "">
 			</cfcatch>
 			</cftry>
+			<cfif len(forwardTo) GT 0>
+				<cfscript>
+					getPageContext().forward(forwardTo);
+				</cfscript>
+			<cfelse>
+				<cfinclude template="/errors/404.cfm">
+			</cfif>
+			<cfabort>
 		</cfif>
 	</cfif>
 <cfelse>

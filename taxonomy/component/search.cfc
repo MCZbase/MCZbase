@@ -47,6 +47,8 @@ limitations under the License.
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="taxon_status" type="string" required="no">
 	<cfargument name="taxon_remarks" type="string" required="no">
+	<cfargument name="taxon_category" type="string" required="no">
+	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="nomenclatural_code" type="string" required="no">
 	<cfargument name="division" type="string" required="no">
 	<cfargument name="subdivision" type="string" required="no">
@@ -95,6 +97,11 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
+		<cfset oneOfUs = false>	
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = true>
+		</cfif>
+
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
@@ -641,6 +648,31 @@ limitations under the License.
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>
 					AND taxonomy.taxon_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_status#">
 				</cfif>
+				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
+					AND taxonomy.source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
+				</cfif>
+				<cfif isdefined("taxon_category") AND len(taxon_category) GT 0>
+					<cfif taxon_category IS 'NULL' AND oneOfUs>
+						AND taxonomy.taxon_name_id NOT IN (
+							SELECT taxon_name_id 
+							FROM taxon_category
+						)
+					<cfelseif taxon_category IS 'NOT NULL' AND oneOfUs>
+						AND taxonomy.taxon_name_id IN (
+							SELECT taxon_name_id 
+							FROM taxon_category
+						)
+					<cfelse>
+						AND taxonomy.taxon_name_id in (
+							SELECT taxon_name_id 
+							FROM taxon_category
+							WHERE taxon_category = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_category#">
+							<cfif NOT oneOfUs>
+								and taxon_category in (select taxon_category from cttaxon_category where hidden_fg = 0)
+							</cfif>
+						)
+					</cfif>
+				</cfif>
 				<cfif isdefined("nomenclatural_code") AND len(nomenclatural_code) gt 0>
 					AND taxonomy.nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
 				</cfif>
@@ -736,18 +768,17 @@ limitations under the License.
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
 			ORDER BY taxonomy.scientific_name, taxonomy.author_text
 		</cfquery>
-		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables. 
-		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
-		./TaxonomyResults.cfm:<CFSET SQL = "create table #session.TaxSrchTab# as #SQL#">
-		./TaxonomyResults.cfm:		drop table #session.TaxSrchTab#
-		--->
+		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables.  --->
 		<cftry>
-			<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
-			</cfquery>
-			<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
-			</cfquery>
+			<cfif isDefined("session.TaxSrchTab") AND len(session.TaxSrchTab) gt 0 and left(session.TaxSrchTab,7) is "TaxSrch">
+				<cfset tablenm = session.TaxSrchTab>
+				<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
+				</cfquery>
+				<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
+				</cfquery>
+			</cfif>
 		<cfcatch>
 		</cfcatch>
 		</cftry>

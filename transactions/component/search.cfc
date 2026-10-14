@@ -995,9 +995,17 @@ limitations under the License.
 				accn left join trans on accn.transaction_id = trans.transaction_id
 				left join collection on trans.collection_id = collection.collection_id
 			where 
-				upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif ucase(arguments.term) EQ "LOW">
+					length(accn_number) < 3
+				<cfelseif ucase(arguments.term) EQ "PLACEHOLDER">
+					trans.nature_of_material LIKE '%placeholder%'
+				<cfelse>
+					upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				</cfif>
 				<cfif isDefined("collection_id") and len(collection_id) GT 0>
 					and trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					and accn.accn_status <> 'pre-accession'
+					and accn.accn_status <> 'declined'
 				</cfif>
 			order by accn_number
 		</cfquery>
@@ -1479,7 +1487,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					<cfif left(accn.accn_type,1) is "!">
+					<cfif left(#accn_type#,1) is "!">
 						AND upper(accn.accn_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
 					<cfelse>
 						AND accn.accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">

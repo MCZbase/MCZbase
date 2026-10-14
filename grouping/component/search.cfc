@@ -58,6 +58,10 @@ limitations under the License.
 				underscore_collection.underscore_collection_id is not null
 				<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
 					AND mask_fg = 0
+				<cfelse>
+					<cfif isDefined("mask_fg") AND len(mask_fg) gt 0>
+						AND mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("underscore_collection_id") and len(underscore_collection_id) gt 0>
 					AND underscore.collection.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -163,6 +167,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				underscore_collection
 			WHERE
 				upper(collection_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+					AND mask_fg = 0
+				</cfif>
 		</cfquery>
 		<cfset i = 1>
 		<cfloop query="search">

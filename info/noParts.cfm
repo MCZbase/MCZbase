@@ -35,14 +35,14 @@
 		cataloged_item.collection_object_id=specimen_part.derived_From_cat_item (+) and
 		specimen_part.derived_from_cat_item is null
 		<cfif isdefined("collection_id") and collection_id gt 0>
-			and collection.collection_id=#collection_id#
+			and collection.collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfif>
 	order by
 		collection.collection,
 		cat_num
 </cfquery>
 <cfset fileDir = "#Application.webDirectory#">
-<cfset fileName = "ArctosData_#cookie.cfid#_#cookie.cftoken#.csv">
+<cfset fileName = "ArctosData_#session.DownloadFileID#.csv">
 <cfset header="collection,cat_num">
 <cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#header#">
 <cfloop query="d">

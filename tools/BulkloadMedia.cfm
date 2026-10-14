@@ -17,12 +17,16 @@ limitations under the License.
 
 --->
 
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- increase timout to three minutes --->
 <cfsetting requestTimeOut = "180" />
 
 <!--- Set configuration for lists of fields --->  
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
-<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 4>
+<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 12>
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA">
 <cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="i">
 	<cfset fieldlist = "#fieldlist#,MEDIA_RELATIONSHIP_#i#,MEDIA_RELATED_TO_#i#">
@@ -41,14 +45,14 @@ limitations under the License.
 
 <!--- special case handling to dump problem data as csv --->
 
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfset separator = "">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
 			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
-				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#,
+				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#
 			</cfloop>
 			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
 				#separator#MEDIA_LABEL_#lpi#,LABEL_VALUE_#lpi#
@@ -68,7 +72,7 @@ limitations under the License.
 
 		
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -81,11 +85,11 @@ limitations under the License.
 </cfif>
 
 <!--- special case handling to produce bulkloader sheet for files without media records in a directory --->
-<cfif isDefined("action") AND action is "getFileList">
-	<cfif NOT isDefined("path") or len(path) EQ 0>
+<cfif isDefined("variables.action") AND variables.action is "getFileList">
+	<cfif NOT isDefined("url.path") or len(url.path) EQ 0>
 		<cfthrow message="Missing required parameter path.">
 	</cfif>
-	<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
+	<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#url.path#")>
 		<cfthrow message="Error: Directory not found.">
 	</cfif>
 	<cfset csv = "">
@@ -102,10 +106,10 @@ limitations under the License.
 		FROM
 			media
 		WHERE
-			auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
+			auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#url.path#/">
 	</cfquery>
 	<cfset knownFiles = ValueList(knownMedia.auto_filename)>
-	<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
+	<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#url.path#",false,"query","","datelastmodified DESC","file")>
 	<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
 	<cfset numberUnknown = 0>
 	<cfloop query="allFiles">
@@ -145,8 +149,8 @@ limitations under the License.
 <cfset pageTitle = "BulkloadMedia">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0>
-	<cfset action="nothing">
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0>
+	<cfset variables.action="nothing">
 </cfif>
 	
 	
@@ -155,7 +159,7 @@ limitations under the License.
 
 <!------------------------------------------------------->
 	
-	<cfif #action# is "nothing">
+	<cfif #variables.action# is "nothing">
 		<cfoutput>
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.  For very large image files you may include height and width attributes to skip automatic calculation if that is too slow.
 			</p>
@@ -289,6 +293,7 @@ limitations under the License.
 							<cfset alsoSupported['deaccession']="DEACC_NUMBER">
 							<cfset alsoSupported['loan']="LOAN_NUMBER">
 							<cfset alsoSupported['borrow']="BORROW_NUMBER">
+							<cfset alsoSupported['container']="BARCODE or LABEL">
 							<cfquery name="getRelationshipTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
 									media_relationship, description, label, auto_table, cols.column_name as primary_key
@@ -447,7 +452,13 @@ limitations under the License.
 
 <!------------------------------------------------------->
 
-	<cfif #action# is "getFile">
+	<cfif #variables.action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -675,7 +686,7 @@ limitations under the License.
 
 <!------------------------------------------------------->
 
-	<cfif #action# is "validate">
+	<cfif #variables.action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
 			<!--- Checks that do not require looping through the data, check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that do not match database code tables--->
@@ -767,6 +778,18 @@ limitations under the License.
 			<cfelse>
 				
 			</cfif>
+
+			<!--- Check if media filenames in specimen_images contain spaces, error if they do. --->
+			<cfquery name="errorSpacesInName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE 
+					cf_temp_media
+				SET status = concat(nvl2(status, status || '; ', ''),'Spaces are not allowed in MEDIA_URI for media in specimen_images directory, you must fix both the filename and this record.')
+				WHERE 
+					media_uri like '% %'
+					and media_uri like '%mczbase.mcz.harvard.edu/specimen_images/%'
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -892,7 +915,7 @@ limitations under the License.
 				<!--- Check MEDIA_URI ------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
-				<cfhttp url="#urlToCheck#" method="HEAD" timeout="10" throwonerror="false">
+				<cfhttp url="#urlToCheck#" method="HEAD" timeout="5" throwonerror="false">
 				<cfif cfhttp.statusCode NEQ '200 OK'>	
 					<cfquery name="warningBadURI1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
@@ -1086,7 +1109,7 @@ limitations under the License.
 						<cfset MD5HASH = "">
 						<cfif size LT 3115008><!--- 3MB --->
 							<!--- small file, just load and calculate --->
-							<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+							<cfhttp url="#getTempMedia.media_uri#" timeout="4" method="get" getAsBinary="yes" result="result">
 							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
 						<cfelseif size LT 3221225472><!--- 300 MB --->
 							<!--- large file, handle in shell, but skip very large, likely to timeout load --->
@@ -1213,22 +1236,35 @@ limitations under the License.
 									<!--- SPECIAL CASES - Cataloged_item and specimen_part--->
 									<cfif #getMediaRel.MEDIA_RELATED_TO# contains "MCZ:">
 										<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
-											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
-											<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
-											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												update cf_temp_media 
-												set MEDIA_RELATED_TO_#i# =
-													(
-														select collection_object_id
-														from cataloged_item 
-														where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
-															and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
-														)
-													WHERE MEDIA_RELATED_TO_#i# is not null AND
-													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-											</cfquery>
+											<!--- test if the MEDIA_RELATED_TO contains two colons, if so, split into three parts, otherwise mark as error --->
+											<cfif listLen(getMediaRel.MEDIA_RELATED_TO,":") NEQ 3>
+												<cfquery name="warningFailedCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													UPDATE
+														cf_temp_media
+													SET
+														status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i#  with GUID ['|| media_related_to_#i# ||'] does not have the expected format of MCZ:collection_code:catalog_number.')
+													WHERE
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											<cfelse>
+												<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
+												<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
+												<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
+												<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													update cf_temp_media 
+													set MEDIA_RELATED_TO_#i# =
+														(
+															select collection_object_id
+															from cataloged_item 
+															where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
+																and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
+															)
+														WHERE MEDIA_RELATED_TO_#i# is not null AND
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											</cfif>
 										<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
 											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
 											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
@@ -1390,6 +1426,40 @@ limitations under the License.
 											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												UPDATE cf_temp_media 
 												SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCollection.underscore_collection_id#"> 
+												WHERE MEDIA_RELATED_TO_#i# is not null 
+													AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+													AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										</cfif>
+									<cfelseif getMediaRel.media_relationship contains 'container' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+										<cfquery name="lookupContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT container_id
+											FROM #theTable#
+											WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+										</cfquery>
+										<cfif lookupContainer.recordcount EQ 0>
+											<!--- no match on barcode, try label --->
+											<cfquery name="lookupContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT container_id
+												FROM #theTable#
+												WHERE
+													label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+											</cfquery>
+										</cfif>
+										<cfif lookupContainer.recordcount NEQ 1>
+											<cfquery name="warningFailedContainerMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'failed to find container for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+												WHERE
+													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										<cfelse>
+											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE cf_temp_media 
+												SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupContainer.container_id#"> 
 												WHERE MEDIA_RELATED_TO_#i# is not null 
 													AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 													AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
@@ -1627,7 +1697,7 @@ limitations under the License.
 
 <!------------------------------------------------------->
 
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<div class="position-relative" style="padding-top: 22px;">
@@ -2012,7 +2082,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
-		<cfif action is "pickTopDirectory">
+		<cfif variables.action is "pickTopDirectory">
 			<cfquery name="collectionRoles" datasource="uam_god">
 				SELECT
 					granted_role role_name
@@ -2065,12 +2135,12 @@ limitations under the License.
 				</ul>
 			</cfoutput>
 		</cfif>
-		<cfif action is "pickDirectory">
+		<cfif variables.action is "pickDirectory">
 			<cfset drillList = "herp,orni,spec">
 			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 			<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 			<cfoutput>
-				<cfif len(REReplace(path,"[.]","")) EQ len(path)>
+				<cfif len(REReplace(url.path,"[.]","")) EQ len(url.path)>
 					<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
 					<cfexecute name="/usr/bin/tree" arguments='-d -f -i --noreport "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
 					<ul>
@@ -2084,11 +2154,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		</cfif>
-		<cfif action is "listUnknowns">
+		<cfif variables.action is "listUnknowns">
 			<cfoutput>
 				<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
-				<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
-				<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
+				<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(url.path)#:</h3>
+				<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#url.path#")>
 					<cfthrow message="Error: Directory not found.">
 				</cfif>
 				<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2097,11 +2167,11 @@ limitations under the License.
 					FROM
 						media
 					WHERE
-						auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
+						auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#url.path#/">
 				</cfquery>
-				<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(path)#</p>
+				<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(url.path)#</p>
 				<cfset knownFiles = ValueList(knownMedia.auto_filename)>
-				<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
+				<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#url.path#",false,"query","","datelastmodified DESC","file")>
 				<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
 				<cfset numberUnknown = 0>
 				<cfloop query="allFiles">
@@ -2114,8 +2184,8 @@ limitations under the License.
 				<cfif numberUnknown EQ 0>
 					<p>There are media records in MCZbase for all files in this directory.</p>
 				<cfelse> 
-					<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
-					<p><a href="/tools/BulkloadMedia.cfm?action=getFileList&path=#path#">Download</a> a bulkloader sheet for these files.</p>
+					<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(url.path)#.</p>
+					<p><a href="/tools/BulkloadMedia.cfm?action=getFileList&path=#url.path#">Download</a> a bulkloader sheet for these files.</p>
 				</cfif>
 			</cfoutput>
 		</cfif>

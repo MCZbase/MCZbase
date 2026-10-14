@@ -267,8 +267,8 @@ function displayQCResult(data,category,targetDivId) {
 	// assemble and display the result
 	display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
 	displayprepostheader = "<tr style='background-color: #ccffff;'><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
-	display = display + "<table style='border: 1px solid #ddd;' >" + displayprepostheader + displaymeasure + displayprepost + "</table>";
-	display = display + "<h3>Proposed Amendments</h3><div><ul>" + displayamendments + "</ul></div>";
+	display = display + "<table class='table table-responsive mb-0' style='border: 1px solid #ddd;' >" + displayprepostheader + displaymeasure + displayprepost + "</table>";
+	display = display + "<div class='bg-light border mb-2'><h3 class='bg-box-header-gray py-2 px-3'>Proposed Amendments</h3><div><ul>" + displayamendments + "</ul></div></div>";
 
 	$("#"+targetDivId).html(display);
 }

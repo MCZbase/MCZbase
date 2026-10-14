@@ -134,53 +134,6 @@ function findPart_Atrribute(partFld2,attType,partName){
     attributepick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
 
-function saveThisAnnotation() {
-	var idType = document.getElementById("idtype").value;
-	var idvalue = document.getElementById("idvalue").value;
-	var annotation = document.getElementById("annotation").value;
-	if (annotation.length==0){
-		alert('You must enter an annotation to save.');
-		return false;
-	}
-	$.getJSON("/component/functions.cfc",
-		{
-			method : "addAnnotation",
-			idType : idType,
-			idvalue : idvalue,
-			annotation : annotation,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function(r) {
-			if (r == 'success') {
-				closeAnnotation();
-				alert("Your annotations have been saved, and the appropriate curator will be alerted. \n Thank you for helping improve Arctos!");
-			} else {
-				alert('An error occured! \n ' + r);
-			}	
-		}
-	);
-}
-function openAnnotation(q) {
-	var bgDiv = document.createElement('div');
-	bgDiv.id = 'bgDiv';
-	bgDiv.className = 'bgDiv';
-	bgDiv.setAttribute('onclick','closeAnnotation()');
-	document.body.appendChild(bgDiv);
-	
-	var theDiv = document.createElement('div');
-	theDiv.id = 'annotateDiv';
-	theDiv.className = 'annotateBox';
-	theDiv.innerHTML='';
-	theDiv.src = "";
-	document.body.appendChild(theDiv);
-	var guts = "/info/annotate.cfm?q=" + q;
-	jQuery('#annotateDiv').load(guts,{},function(){
-		viewport.init("#annotateDiv");
-		viewport.init("#bgDiv");
-	});
-}
-
 function npPage(offset,rpp,tnid){
 	var stm = "/includes/taxonomy/specTaxMedia.cfm";
 	var v="?Result_Per_Page=" + rpp + "&offset=" + offset + "&taxon_name_id=" + tnid;
@@ -189,12 +142,6 @@ function npPage(offset,rpp,tnid){
 	jQuery.get(stm, function(data){
 		jQuery('#specTaxMedia').html(data);
 	})
-}
-function closeAnnotation() {
-	var theDiv = document.getElementById('bgDiv');
-	document.body.removeChild(theDiv);
-	var theDiv = document.getElementById('annotateDiv');
-	document.body.removeChild(theDiv);
 }
 function saveSearch(returnURL){
 	var sName=prompt("Name this search", "my search");
@@ -376,172 +323,6 @@ function success_findAccession(result) {
 		document.getElementById('b_num').className='doShow';
 	}
 }
-function addPartToContainer () {
-	document.getElementById('pTable').className='red';
-	var cid=document.getElementById('collection_object_id').value;
-	var pid1=document.getElementById('part_name').value;
-	var pid2=document.getElementById('part_name_2').value;
-	var parent_barcode=document.getElementById('parent_barcode').value;
-	var new_container_type=document.getElementById('new_container_type').value;
-	if(cid.length==0 || pid1.length==0 || parent_barcode.length==0) {
-		alert('Something is null');
-		return false;
-	}
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "addPartToContainer",
-			collection_object_id : cid,
-			part_id : pid1,
-			part_id2 : pid2,
-			parent_barcode : parent_barcode,
-			new_container_type : new_container_type,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_addPartToContainer
-	);
-}
-function success_addPartToContainer(result) {
-	statAry=result.split("|");
-	var status=statAry[0];
-	var msg=statAry[1];
-	document.getElementById('pTable').className='';
-	var mDiv=document.getElementById('msgs');
-	var mhDiv=document.getElementById('msgs_hist');
-	var mh=mDiv.innerHTML + '<hr>' + mhDiv.innerHTML;
-	mhDiv.innerHTML=mh;
-	mDiv.innerHTML=msg;
-	if (status==0){
-		mDiv.className='error';
-	} else {
-		mDiv.className='successDiv';
-		document.getElementById('oidnum').focus();
-		document.getElementById('oidnum').select();
-		getParts();
-	}
-}
-function clonePart() {
-	var collection_id=document.getElementById('collection_id').value;
-	var other_id_type=document.getElementById('other_id_type').value;
-	var oidnum=document.getElementById('oidnum').value;
-	if (collection_id.length>0 && other_id_type.length>0 && oidnum.length>0) {
-		jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "getSpecimen",
-				collection_id : collection_id,
-				other_id_type : other_id_type,
-				oidnum : oidnum,
-				returnformat : "json",
-				queryformat : 'column'
-			},
-			success_getSpecimen
-		);
-	} else {
-		alert('Error: cannot resolve ID to specimen.');
-	}
-}
-function success_getSpecimen(r){
-	if (toString(r.DATA.COLLECTION_OBJECT_ID[0]).indexOf('Error:')>-1) {
-		alert(r.DATA.COLLECTION_OBJECT_ID[0]);	
-	} else {
-		newPart (r.DATA.COLLECTION_OBJECT_ID[0]);
-	}
-}
-function checkSubmit() {
-	var c=document.getElementById('submitOnChange').checked;
-	if (c==true) {
-		addPartToContainer();
-	}
-}	
-function newPart (collection_object_id) {
-	var collection_id=document.getElementById('collection_id').value;
-	var part=document.getElementById('part_name').value;
-	var url="/form/newPart.cfm";
-	url +="?collection_id=" + collection_id;
-	url +="&collection_object_id=" + collection_object_id;
-	url +="&part=" + part;
-	divpop(url);
-}
- function getParts() {
-	var collection_id=document.getElementById('collection_id').value;
-	var other_id_type=document.getElementById('other_id_type').value;
-	var oidnum=document.getElementById('oidnum').value;
-	if (collection_id.length>0 && other_id_type.length>0 && oidnum.length>0) {
-		var s=document.createElement('DIV');
-	    s.id='ajaxStatus';
-	    s.className='ajaxStatus';
-	    s.innerHTML='Fetching parts...';
-	    document.body.appendChild(s);
-	    var noBarcode=document.getElementById('noBarcode').checked;
-	    var noSubsample=document.getElementById('noSubsample').checked;
-	    jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "getParts",
-				collection_id : collection_id,
-				other_id_type : other_id_type,
-				oidnum : oidnum,
-				noBarcode : noBarcode,
-				noSubsample : noSubsample,
-				returnformat : "json",
-				queryformat : 'column'
-			},
-			success_getParts
-		);
-	}
- }
-
-function success_getParts(r) {
-	var	result=r.DATA;	
-	var s=document.getElementById('ajaxStatus');
-	document.body.removeChild(s);
-	var sDiv=document.getElementById('thisSpecimen');
-	var ocoln=document.getElementById('collection_id');
-	var specid=document.getElementById('collection_object_id');
-	var p1=document.getElementById('part_name');
-	var p2=document.getElementById('part_name_2');
-	var op1=p1.value;
-	var op2=p2.value;
-	p1.options.length=0;
-	p2.options.length=0;
-	var selIndex = ocoln.selectedIndex;
-	var coln = ocoln.options[selIndex].text;		
-	var idt=document.getElementById('other_id_type').value;
-	var idn=document.getElementById('oidnum').value;
-	var ss=coln + ' ' + idt + ' ' + idn;
-	if (result.PART_NAME[0].indexOf('Error:')>-1) {
-		sDiv.className='error';
-		ss+=' = ' + result.PART_NAME[0];
-		specid.value='';
-		document.getElementById('pTable').className='red';
-	} else {
-		document.getElementById('pTable').className='';
-		sDiv.className='';
-		specid.value=result.COLLECTION_OBJECT_ID[0];
-		var option = document.createElement('option');
-		option.setAttribute('value','');
-		option.appendChild(document.createTextNode(''));
-		p2.appendChild(option);
-		
-		for (i=0;i<r.ROWCOUNT;i++) {
-			var option = document.createElement('option');
-			var option2 = document.createElement('option');
-			option.setAttribute('value',result.PARTID[i]);
-			option2.setAttribute('value',result.PARTID[i]);
-			var pStr=result.PART_NAME[i];
-			if (result.BARCODE[i]!==null){
-				pStr+=' [' + result.BARCODE[i] + ']';
-			}
-			option.appendChild(document.createTextNode(pStr));
-			option2.appendChild(document.createTextNode(pStr));
-			p1.appendChild(option);
-			p2.appendChild(option2);
-		}
-		p1.value=op1;
-		p2.value=op2;	
-		ss+=' = ' + result.COLLECTION[0] + ' ' + result.CAT_NUM[0] + ' (' + result.CUSTOMIDTYPE[0] + ' ' + result.CUSTOMID[0] + ')';
-	}
-	sDiv.innerHTML=ss;
-}
 function divpop (url) {
 	var req;
  	var bgDiv=document.createElement('div');
@@ -585,53 +366,6 @@ function divpopClose(){
 	document.body.removeChild(p);
 	var b = document.getElementById('bgDiv');
 	document.body.removeChild(b);
-}
-function makePart(){
-	var collection_object_id=document.getElementById('collection_object_id').value;
-	var part_name=document.getElementById('npart_name').value;
-	var lot_count=document.getElementById('lot_count').value;
-	var coll_obj_disposition=document.getElementById('coll_obj_disposition').value;
-	var condition=document.getElementById('condition').value;
-	var coll_object_remarks=document.getElementById('coll_object_remarks').value;
-	var barcode=document.getElementById('barcode').value;
-	var new_container_type=document.getElementById('new_container_type').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "makePart",
-			collection_object_id : collection_object_id,
-			part_name : part_name,
-			lot_count : lot_count,
-			coll_obj_disposition : coll_obj_disposition,
-			condition : condition,
-			coll_object_remarks : coll_object_remarks,
-			barcode : barcode,
-			new_container_type : new_container_type,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (r){
-			var result=r.DATA;
-			var status=result.STATUS[0];
-			if (status=='error') {
-				var msg=result.MSG[0];
-				alert(msg);
-			} else {
-				var msg="Created part: ";
-				msg += result.PART_NAME[0] + " ";
-				if (result.BARCODE[0]!==null) {
-					msg += "barcode " + result.BARCODE[0];
-					if (result.NEW_CONTAINER_TYPE[0]!==null) {
-						msg += "( " + result.NEW_CONTAINER_TYPE[0] + ")";
-					}
-				}
-				var p = document.getElementById('ppDiv');
-				document.body.removeChild(p);
-				var b = document.getElementById('bgDiv');
-				document.body.removeChild(b);
-				getParts();
-			}
-		}
-	);
 }
 function changeresultSort (tgt) {
 	jQuery.getJSON("/component/functions.cfc",
@@ -777,73 +511,22 @@ function changeshowObservations (tgt) {
 	);
 }
 
-function saveComplete(savedStr){
-	var savedArray = savedStr.split(",");
-	var result = savedArray[0];
-	var id = savedArray[1];
-	var onOff = savedArray[2];
-	if (result == "cookie") {
-		var cookieArray = new Array();
-		var cCookie = readCookie("specsrchprefs");
-		var idFound = -1;
-		if (cCookie!==null)	{
-			cookieArray = cCookie.split(",");
-			for (i = 0; i<cookieArray.length; i++) {
-				if (cookieArray[i] == id) {
-					idFound = i;
-				}
-			}
-		}
-		if (onOff==1) { //showHide On			
-			if (idFound == -1) { // no current id in cookie
-				cookieArray.push(id);
-			}
-		}
-		else {
-			if (idFound != -1)
-				cookieArray.splice(idFound,1);
-		}
-		var nCookie = cookieArray.join();
-		createCookie("specsrchprefs", nCookie, 0);
-	}
-}
-function saveSpecSrchPref(id,onOff){
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "saveSpecSrchPref",
-			id : id,
-			onOff : onOff,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		saveComplete
-	);
-}
 function showHide(id,onOff) {
 	var t='e_' + id;
 	var z='c_' + id;
-	if (document.getElementById(t) && document.getElementById(z)) {	
-		var tab=document.getElementById(t);
+	if (document.getElementById(t) && document.getElementById(z)) {
 		var ctl=document.getElementById(z);
-		if (t=='e_spatial_query'){
-			var offText='Select on Google Map';
-			var onText='Hide Google Map';
-		} else {
-			var onText='Show Fewer Options';
-			var offText='Show More Options';
-		}
+		var onText='Show Fewer Options';
+		var offText='Show More Options';
 		if (onOff==1) {
-			var ptl="/includes/SpecSearch/" + id + ".cfm";
-            $('#'+t).show();
-			ctl.innerHTML='<img src="/images/indicator.gif">';
-		    ctl.innerHTML=onText;
+			$('#'+t).show();
+			ctl.innerHTML=onText;
 			ctl.setAttribute("onclick","showHide('" + id + "',0)");
 		} else {
 			$('#'+t).hide();
 			ctl.setAttribute("onclick","showHide('" + id + "',1)");
 			ctl.innerHTML=offText;
 		}
-	    //  saveSpecSrchPref(id,onOff);
 	}
 }
 function closeAndRefresh(){
@@ -946,17 +629,6 @@ function windowOpener(url, name, args) {
 	}
 	popupWins[name].focus();
 }
-function getDocs(url,anc) {
-	var url;
-	var anc;
-	var baseUrl = "http://g-arctos.appspot.com/arctosdoc/";
-	var extension = ".html";
-	var fullURL = baseUrl + url + extension;
-		if (anc != null) {
-			fullURL += "#" + anc;
-		}
-	siteHelpWin=windowOpener(fullURL,"HelpWin","width=700,height=400, resizable,scrollbars,location,toolbar");
-}		
 function noenter(e) {
 	var key;
 
@@ -996,14 +668,89 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 	var oawin=url+"?agentIdFld="+agentIdFld+"&agentNameFld="+agentNameFld+"&formName="+formName+"&agent_name="+agentNameString+"&allowCreation="+allowCreation;
 	agentpickwin=window.open(oawin,"","width=400,height=338, resizable,scrollbars");
 }
-function getProject(projIdFld,projNameFld,formName,projNameString){
-	var url="/picks/findProject.cfm";
-	var projIdFld;
-	var projNameFld;
-	var formName;
-	var projNameString;
-	var prwin=url+"?projIdFld="+projIdFld+"&projNameFld="+projNameFld+"&formName="+formName+"&project_name="+projNameString;
-	projpickwin=window.open(prwin,"","width=400,height=338, resizable,scrollbars");
+/** Bind a paired hidden id and text name control into a project picker, for use by the
+ * generic related-record relationship picker (pickedRelationship).
+ *
+ * WORKAROUND, read before "modernizing" this: media.cfm (this function's only caller)
+ * includes /includes/_header.cfm, which -- unless the including page sets a "jquery11"
+ * variable before the include (agents/editAgent.cfm does this; media.cfm does not) --
+ * falls into includes/alwaysInclude.cfm's <cfelse> branch. That branch loads jQuery 1.3.2
+ * (not the 1.11.3 the rest of this codebase assumes) and ONLY a datepicker-only jQuery UI
+ * build (jquery.ui.datepicker.min.js), not the full jquery-ui-1.11.4.custom bundle that
+ * ships the autocomplete and dialog widgets. Two consequences, confirmed live on
+ * media.cfm?action=edit:
+ *   1. $(...).autocomplete(...) throws "is not a function" -- the widget code simply isn't
+ *      loaded on this page. This is why this function does NOT follow the
+ *      $(...).autocomplete()-based pattern used by every other modern picker in this app
+ *      (e.g. transactions.js's makeAccessionAutocompleteMeta) -- that pattern would fail
+ *      here the same way.
+ *   2. messageDialog() (includes/js/messageDialogWorkaround.js, itself a workaround for a
+ *      DIFFERENT missing-shared-scripts.js problem) calls .dialog(...) internally, which is
+ *      equally unavailable here -- so this function uses plain alert() for its error path
+ *      rather than messageDialog(), to avoid swapping one broken dependency for another.
+ * Instead, this binds a native HTML <datalist> (needs no jQuery UI at all) to the existing
+ * text field, and uses jQuery's bind()/unbind() rather than on()/off() (on() was only added
+ * in jQuery 1.7, well after the 1.3.2 this page may actually be running).
+ *
+ * Setting jquery11=true on media.cfm (matching editAgent.cfm's precedent) would fix the
+ * root cause and let this be rewritten using the standard autocomplete pattern -- but that
+ * upgrades jQuery for the WHOLE page, a bigger blast radius than this function alone, and
+ * was deliberately deferred pending a real redesign of media.cfm onto /shared/_header.cfm.
+ * Replace this entire function with the standard $(...).autocomplete() pattern at that time.
+ *
+ * @param projIdFld the id of a hidden input to hold the picked project_id.
+ * @param projNameFld the id of a text input to be the suggestion field.
+ * @param formName unused; kept for compatibility with pickedRelationship's call signature.
+ */
+function getProject(projIdFld,projNameFld,formName){
+	var nameField = document.getElementById(projNameFld);
+	var listId = projNameFld + '_projectDatalist';
+	var dataList = document.getElementById(listId);
+	if (!dataList) {
+		// created once per field; re-used (and repopulated) across repeated selections
+		// of the "project" relationship type on the same row.
+		dataList = document.createElement('datalist');
+		dataList.id = listId;
+		nameField.parentNode.insertBefore(dataList, nameField.nextSibling);
+	}
+	nameField.setAttribute('list', listId);
+	var projectsByName = {};
+	// unbind first: pickedRelationship may call getProject() again on this same field if
+	// the user re-selects "project" after switching to a different relationship type.
+	jQuery('#'+projNameFld).unbind('keyup.getProject').bind('keyup.getProject', function () {
+		jQuery('#'+projIdFld).val('');
+		jQuery('#'+projNameFld).removeClass('goodPick');
+		var term = jQuery(this).val();
+		if (term.length < 3) { return; }
+		jQuery.ajax({
+			url: "/projects/component/search.cfc",
+			data: { term: term, method: 'getProjectAutocompleteMeta' },
+			dataType: 'json',
+			success: function (data) {
+				projectsByName = {};
+				while (dataList.firstChild) { dataList.removeChild(dataList.firstChild); }
+				jQuery.each(data, function (i, item) {
+					projectsByName[item.value] = item.id;
+					var option = document.createElement('option');
+					option.value = item.value;
+					dataList.appendChild(option);
+				});
+			},
+			error: function (jqXHR, status, error) {
+				alert('Error retrieving projects: ' + jqXHR.responseText);
+			}
+		});
+	});
+	jQuery('#'+projNameFld).unbind('change.getProject').bind('change.getProject', function () {
+		var val = jQuery(this).val();
+		if (projectsByName.hasOwnProperty(val)) {
+			jQuery('#'+projIdFld).val(projectsByName[val]);
+			jQuery('#'+projNameFld).addClass('goodPick');
+		} else {
+			jQuery('#'+projIdFld).val('');
+			jQuery('#'+projNameFld).removeClass('goodPick');
+		}
+	});
 }
 function findCatalogedItem(collIdFld,CatNumStrFld,formName,oidType,oidNum,collID){
 	var url="/picks/findCatalogedItem.cfm";
@@ -1075,10 +822,6 @@ function confirmDelete(formName,msg) {
 	var msg = msg || "this record";
 	confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable");
 }
-function getHistory(contID) {
-	var idcontID;
-	historyWin=windowOpener("/info/ContHistory.cfm?container_id="+contID,"historyWin","width=800,height=338, resizable,scrollbars");
-}
 function getQuadHelp() {
 	helpWin=windowOpener("/info/quad.cfm","quadHelpWin","width=800,height=600, resizable,scrollbars,status");
 }
@@ -1086,15 +829,6 @@ function getLegal(blurb) {
 	var blurb;
 	helpWin=windowOpener("/info/legal.cfm?content="+blurb,"legalWin","width=400,height=338, resizable,scrollbars");
 }	
-function getInfo(subject,id) {
-	var subject;
-	var id;
-	infoWin=windowOpener("/info/SpecInfo.cfm?subject=" + subject + "&thisId="+id,"infoWin","width=800,height=500, resizable,scrollbars");
-}	
-function addLoanItem(coll_obj_id) {
-	var coll_obj_id;
-	loanItemWin=windowOpener("/user/loanItem.cfm?collection_object_id="+coll_obj_id,"loanItemWin","width=800,height=500, resizable,scrollbars,toolbar,menubar");
-}
 function findMedia(mediaStringFld,mediaIdFld,media_uri){
 	var url="/picks/findMedia.cfm";
 	var mediaIdFld;
@@ -1147,14 +881,6 @@ function addrPick(addrIdFld,addrFld,formName){
 	var formName;
 	var popurl=url+"?addrIdFld="+addrIdFld+"&addrFld="+addrFld+"&formName="+formName;
 	addrpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
-}
-function GeogPick(geogIdFld,highGeogFld,formName){
-	var url="/picks/GeogPick.cfm";
-	var geogIdFld;
-	var highGeogFld;
-	var formName;
-	var popurl=url+"?geogIdFld="+geogIdFld+"&highGeogFld="+highGeogFld+"&formName="+formName;
-	geogpick=window.open(popurl,"","width=600,height=600, toolbar,resizable,scrollbars,");
 }
 function LocalityPick(localityIdFld,speclocFld,formName,fireEvent){
 	var url="/picks/LocalityPick.cfm";

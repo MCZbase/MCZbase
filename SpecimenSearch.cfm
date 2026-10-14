@@ -1,5 +1,4 @@
 <cfinclude template="/includes/_header.cfm">
-<cfhtmlhead text='<script src="#Application.protocol#://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'><!--- ' --->
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <cfset title="Specimen Search">
 <cfset metaDesc="Search for museum specimens and observations by taxonomy, identifications, specimen attributes, and usage history.">
@@ -111,7 +110,7 @@
 			<div id="groupByDiv1" style="display:none;border:1px solid green;padding:.5em;">
 				<font size="-1"><em><strong>Group by:</strong></em></font><br>
 				<select name="groupBy1" id="groupBy1" multiple size="4" onchange="changeGrp(this.id)">
-					<option value="">Scientific Name</option>
+					<option value="scientific_name">Scientific Name</option>
 					<option value="continent_ocean">Continent</option>
 					<option value="country">Country</option>
 					<option value="state_prov">State</option>
@@ -543,12 +542,9 @@
 			<td class="srch">
             <p class="topspace">&nbsp;</p>
 				<input type="text" name="any_geog" id="any_geog" size="50"> <span style='font-size:.9em;'>(include&nbsp;known&nbsp;accent&nbsp;marks&nbsp;for&nbsp;optimal&nbsp;results)</span>
-				<span class="secControl" style="font-size:.9em;" id="c_spatial_query" onclick="showHide('spatial_query',1)">Select on Google Map</span>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div id="e_spatial_query"></div>
+				<!--- The map box-select control that stood here was removed; it drew a Google Maps v2
+					map, an API retired in 2013.  The bounding box search it fed is still live and
+					still reachable by passing NWLat, NWLong, SELat and SELong to this page --->
 			</td>
 		</tr>
 	</table>
@@ -1169,7 +1165,7 @@
           			</select>
           			<input type="text" name="attribute_value_2" size="20">
           			<span class="infoLink"
-          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
+          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=2&attribute='+SpecData.attribute_type_2.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
           			<input type="text" name="attribute_units_2" size="6">(units)
@@ -1194,7 +1190,7 @@
           			</select>
           			<input type="text" name="attribute_value_3" size="20">
           			<span class="infoLink"
-          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=1&attribute='+SpecData.attribute_type_1.value,'attPick','width=600,height=600, resizable,scrollbars');">
+          				onclick="windowOpener('/info/attributeHelpPick.cfm?attNum=3&attribute='+SpecData.attribute_type_3.value,'attPick','width=600,height=600, resizable,scrollbars');">
           				Pick
           			</span>
           			<input type="text" name="attribute_units_3" size="6">(units)
@@ -1546,7 +1542,7 @@
 			<div id="groupByDiv" style="display:none;border:1px solid green;padding:.5em;">
 			<font size="-1"><em><strong>Group by:</strong></em></font><br>
 			<select name="groupBy" id="groupBy" multiple size="4" onchange="changeGrp(this.id)">
-				<option value="">Scientific Name</option>
+				<option value="scientific_name">Scientific Name</option>
 				<option value="continent_ocean">Continent</option>
 				<option value="country">Country</option>
 				<option value="state_prov">State</option>

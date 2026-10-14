@@ -1,7 +1,7 @@
 <!--- login.cfm login dialog and account creation
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2022 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,22 @@ limitations under the License.
 <cfset pageTitle = "Login">
 <cfset minimal = "true"><!--- load fewer js library files --->
 <cfinclude template = "/shared/_header.cfm">
+<cfif NOT isDefined("localReturnPath")>
+	<cfinclude template="/shared/loginFunctions.cfm">
+</cfif>
+<!--- counts failed logins, and locks a username or address after repeated failures --->
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("allowAlertMail")>
+	<cfinclude template="/shared/component/mailThrottle.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("loginLockStatus")>
+	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
+</cfif>
+<!--- The page to return to after logging in: passed by GET to the login form, and posted from the login forms. --->
+<cfparam name="url.gotopage" default="">
+<cfparam name="form.gotopage" default="">
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and (NOT isDefined("action") OR #action# neq "signOut")>
 	<!--- user is logged in already, redirect to user profile page --->
 	<cflocation url="/users/UserProfile.cfm" addtoken="false">
@@ -45,6 +61,10 @@ limitations under the License.
 				var pword = $("#formPassword").val();
 				if (uname.length == 0 || pword.length == 0) {
 					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
+				} else if (uname.length > 30) {
+					messageDialog("Your username must be at most 30 characters long.","Username not accepted.");
+				} else if (!uname.match(/^[A-Za-z][A-Za-z0-9_]*$/) && !uname.match(/^[A-Za-z0-9._+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/)) {
+					messageDialog("Your username must be either your email address, or start with a letter and contain only letters, digits and underscores.","Username not accepted.");
 				} else {
 					var checkResult = orapwCheck(pword,uname);
 					if (checkResult =='Password is acceptable'){
@@ -58,8 +78,10 @@ limitations under the License.
 		</script>
 		<cfoutput>
 			<cfif NOT isDefined("username") or len(username) EQ 0 ><cfset username=""></cfif>
-			<cfif not isdefined("gotopage")>
-				<cfset gotopage=''>
+			<!--- a page passed in, or else the MCZbase page that linked here --->
+			<cfset variables.gotopage = localReturnPath(url.gotopage)>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = localReturnPath(cgi.http_referer)>
 			</cfif>
 			<main class="container py-3" id="content" >
 				<section class="row mx-0 my-3">
@@ -74,7 +96,7 @@ limitations under the License.
 
 						<form name="loginform" id="loginform" method="post" action="/login.cfm">
 							<input name="action" id="formAction" value="signIn" type="hidden">
-							<input name="gotopage" value="#gotopage#" type="hidden">
+							<input name="gotopage" value="#encodeForHtmlAttribute(variables.gotopage)#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
 							<div class="form-row mx-0">
 								<h1 class="h2 px-2">#headingText#</h1>
@@ -91,12 +113,19 @@ limitations under the License.
 									<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
 								</div>
 								<div class="col-12 col-xl-8">
-									<cfif isdefined("badPW") and badPW is true>
+									<cfif isdefined("url.locked") and url.locked is true>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">This account is locked. Please contact an MCZbase administrator.</div>
+									<cfelseif isdefined("url.throttled") and url.throttled is true>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">Too many failed attempts. Please try again in #loginThrottleSettings().lockMinutes# minutes, or <a class="text-white" href="/users/changePassword.cfm"><u>reset your password</u></a>.</div>
+									<cfelseif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
 										</cfif>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
-										<div class="data-entry-input bg-danger py-1 text-white mt-3">#err#</div>
+										<!--- warning, as the user can try again; the lock messages above are danger --->
+										<div class="data-entry-input bg-warning py-1 text-dark mt-3">#encodeForHtml(err)#</div>
 										<script>
 											$(document).ready(function() { 
 												$('##username').css('backgroundColor','red');
@@ -128,18 +157,19 @@ limitations under the License.
 							<cfif mode EQ "register"> 
 								<div class="form-row mx-0 my-2">
 									<div class="col-12">
-										<h2 class="h3 w-100 px-2">Password rules:</h2>
+										<h2 class="h3 w-100 px-2">Username and password rules:</h2>
 										<ul class="list-style-disc px-5">
-											<li class="pb-1">At least eight characters</li>
+											<li class="pb-1">Usernames are your email address, or start with a letter and contain only letters, digits and underscores (at most 30 characters)</li>
+											<li class="pb-1">Passwords are eight to thirty characters</li>
 											<li class="pb-1">May not contain your username</li>
 											<li class="pb-1">Must contain at least:
 												<ul class="mt-1 list-style-circle px-5">
 													<li class="pb-1">One letter</li>
 													<li class="pb-1">One number</li>
-													<li class="pb-1">One special character .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;*&nbsp;?&nbsp;_&nbsp;-&nbsp;(&nbsp;)&nbsp;<&nbsp;>&nbsp;=&nbsp;/&nbsp;:&nbsp;;</li>
+													<li class="pb-1">One of !&nbsp;##&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;(&nbsp;)&nbsp;`&nbsp;*&nbsp;+&nbsp;,&nbsp;-&nbsp;/&nbsp;:&nbsp;;&nbsp;&lt;&nbsp;=&nbsp;&gt;&nbsp;?&nbsp;_</li>
 												</ul>
 											</li>
-											<li class="pb-1">May only contain characters A-Z, a-z, 0-9, and .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;_&nbsp;?&nbsp;\&nbsp;-&nbsp;)&nbsp;&lt;&nbsp;(&nbsp;&gt;&nbsp;=&nbsp;/&nbsp;:&nbsp;;&nbsp;*</li>
+											<li class="pb-1">May contain letters, digits and punctuation, but not spaces, double quotes or accented characters</li>
 										</ul>
 									</div>
 								</div>
@@ -158,29 +188,29 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="newUser">
-		<!--- Check that conditions for new account are met --->
-		<cfset err="">
-		<cfquery name="uUser" datasource="cf_dbuser">
-			select * from cf_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-		</cfquery>
-		<cfif len(password) is 0>
-			<cfset err="Your password must be at least one character long.">
+		<!--- Usernames and passwords are checked here as well as in the browser, as a user may later be
+			given a database account under the same name and password. --->
+		<cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
+		<cfparam name="form.username" default="">
+		<cfparam name="form.password" default="">
+		<cfif cgi.request_method NEQ "POST">
+			<cflocation url="/login.cfm?mode=register" addtoken="false">
 		</cfif>
-		<cfquery name="dbausr" datasource="uam_god">
-			select username from dba_users where upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
-		</cfquery>
-		<cfif len(dbausr.username) gt 0>
-			<cfset err="That username is already in use.">
+		<cfset variables.username = form.username>
+		<cfset variables.password = form.password>
+		<!--- One message for every username problem, so that registering does not confirm which
+			usernames exist. --->
+		<cfif len(usernameProblem(variables.username)) GT 0>
+			<cfset err = "That username cannot be used.  Choose another: your email address, or a name that starts with a letter and contains only letters, digits and underscores, at most 30 characters.">
+		<cfelse>
+			<cfset err = "">
 		</cfif>
-		<cfif len(username) is 0>
-			<cfset err="Your user name must be at least one character long.">
-		</cfif>
-		<cfif uUser.recordcount gt 0>
-			<cfset err="That username is already in use.">
+		<cfif len(err) EQ 0>
+			<cfset err = passwordRuleProblem(variables.username, variables.password)>
 		</cfif>
 		<cfif len(err) gt 0>
 			<!--- Don't create the new account --->
-			<cflocation url="/login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
+			<cflocation url="/login.cfm?username=#encodeForURL(variables.username)#&badPW=true&err=#encodeForURL(err)#&mode=register" addtoken="false">
 		</cfif>
 		<!--- Create the new account --->
 		<cfoutput>
@@ -198,8 +228,8 @@ limitations under the License.
 							last_login
 						) VALUES (
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextUserID.nextid#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(password)#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.username#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(variables.password)#">,
 							sysdate,
 							sysdate
 						)
@@ -207,16 +237,17 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<cfset err="User Creation Failed. #cfcatch.message#">
-					<cflocation url="/login.cfm?username=#encodeForURL(username)#&badPW=true&err=#encodeForURL(err)#&mode=#encodeForURL(mode)#" addtoken="false">
+					<cflog file="MCZbase" type="error" text="Creating MCZbase user #variables.username# failed: #cfcatch.message#">
+					<cfset err="Your account could not be created.  Please try again, or choose another username.">
+					<cflocation url="/login.cfm?username=#encodeForURL(variables.username)#&badPW=true&err=#encodeForURL(err)#&mode=register" addtoken="false">
 				</cfcatch>
 				</cftry>
 				<main class="container py-3" id="content" >
 					<section class="row my-3 p-2">
 						<div class="col-12 py-2 border rounded rounded">
-							<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
+							<h1 class="h2 w-100">Successfully created user #encodeForHtml(variables.username)#.</h1>
 							<div class="mt-2">
-								<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/users/UserProfile.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
+								<a href="/login.cfm?username=#encodeForURL(variables.username)#&gotopage=/users/UserProfile.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
 							</div>
 						</div>
 					</section>
@@ -226,40 +257,30 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="signIn">
-		<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 		<cfoutput>
-			<cfset initSession('#username#','#password#')>
-			<cfif len(session.username) is 0>
-				<cfset u="/login.cfm?badPW=true&username=#encodeForUrl(username)#">
-				<cfif isdefined("gotopage")>
-					<cfset u=u & '&gotopage=#encodeForUrl(gotopage)#'>
+			<!--- only a page on this site: the posted page, or else the page the login was posted from --->
+			<cfset variables.gotopage = localReturnPath(form.gotopage)>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = localReturnPath(cgi.http_referer)>
+			</cfif>
+			<!--- while a username or address is locked, the password isn't checked, so guesses learn nothing --->
+			<cfif loginLockStatus(username, clientAddress()).locked>
+				<cfset u="/login.cfm?throttled=true&username=#encodeForUrl(username)#">
+				<cfif len(variables.gotopage) GT 0>
+					<cfset u=u & '&gotopage=#encodeForUrl(variables.gotopage)#'>
 				</cfif>
 				<cflocation url="#u#" addtoken="false">
 			</cfif>
-	
-			<cfif not isdefined("gotopage") or len(gotopage) is 0>
-				<cfif isdefined("cgi.HTTP_REFERER") and left(cgi.HTTP_REFERER,(len(application.serverRootUrl))) is application.serverRootUrl>
-					<cfset gotopage=replace(cgi.HTTP_REFERER,application.serverRootUrl,'')>
-					<cfset junk="CFID,CFTOKEN">
-					<cfloop list="#gotopage#" index="e" delimiters="?&">
-						<cfloop list="#junk#" index="j">
-							<cfif left(e,len(j)) is j>
-								<cfset rurl=replace(gotopage,e,'','all')>
-							</cfif>
-						</cfloop>
-					</cfloop>
-					<cfset t=1>
-					<cfset rurl=replace(gotopage,"?&","?","all")>
-					<cfset rurl=replace(gotopage,"&&","&","all")>
-					<cfset nogo="login.cfm,errors/">
-					<cfloop list="#nogo#" index="n">
-						<cfif gotopage contains n>
-							<cfset gotopage = "/Specimens.cfm">
-						</cfif>
-					</cfloop>
-				<cfelse>
-					<cfset gotopage = "/Specimens.cfm">
+			<cfset initSession('#username#','#password#',variables.gotopage)>
+			<cfif len(session.username) is 0>
+				<cfset u="/login.cfm?badPW=true&username=#encodeForUrl(username)#">
+				<cfif len(variables.gotopage) GT 0>
+					<cfset u=u & '&gotopage=#encodeForUrl(variables.gotopage)#'>
 				</cfif>
+				<cflocation url="#u#" addtoken="false">
+			</cfif>
+			<cfif len(variables.gotopage) EQ 0>
+				<cfset variables.gotopage = "/Specimens.cfm">
 			</cfif>
 			<cfif session.roles contains "coldfusion_user">
 				<cfquery name="getUserData" datasource="cf_dbuser">
@@ -285,15 +306,15 @@ limitations under the License.
 						Your password expires in #pwage# days
 						<br>You may <a href="/users/changePassword.cfm">change it now</a>
 					</div>
-					<a href="#gotopage#">Continue to #encodeForHtml(gotopage)#</a>
+					<a href="#encodeForHtmlAttribute(variables.gotopage)#">Continue to #encodeForHtml(variables.gotopage)#</a>
 				<cfelse>
-					<cflocation url="#gotopage#" addtoken="no">
+					<cflocation url="#variables.gotopage#" addtoken="no">
 				</cfif>
 				<cfif len(getUserData.email) is 0>
 					<cfset session.needEmailAddr=1>
 				</cfif>
 			<cfelse>
-				<cflocation url="#gotopage#" addtoken="no">
+				<cflocation url="#variables.gotopage#" addtoken="no">
 			</cfif>
 		</cfoutput>
 	</cfcase>

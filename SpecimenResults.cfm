@@ -1,4 +1,17 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- Parameters this page reads from the request, put in the variables scope explicitly
+	rather than resolved implicitly across the url and form scopes, which is deprecated.
+	A name that was not supplied is omitted, so the defaults below still apply. --->
+<cfset REQUEST_PARAMETERS = "accentInsensitive,action,customID,debug,detail_level,displayrows,goWhere,killrow,
+	killRowList,killRows,mapurl,oidOper,orderBy1,orderBy2,
+	page_record,result_sort,resultList,returnURL,searchParams,sciNameOper,transaction_id">
+<cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
+<!--- These are read without an isdefined guard, so they need a value even when the
+	request omits them. --->
+<cfparam name="variables.action" default="">
+<cfparam name="variables.killrow" default="">
+<cfparam name="variables.result_sort" default="">
+<cfparam name="variables.resultList" default="">
 <script type='text/javascript' language="javascript" src='/includes/SpecimenResults.js'></script>
 <cfif len(session.displayrows) is 0>
 	<cfset session.displayrows=20>
@@ -155,12 +168,12 @@ function removeHelpDiv() {
 		<cfset session.resultColumnList = ListAppend(session.resultColumnList, COLUMN_NAME)>
 	</cfif>
 </cfloop>
-<cfset basSelect = " SELECT distinct #session.flatTableName#.collection_object_id">
+<cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
 <cfif len(session.CustomOtherIdentifier) gt 0>
 	<cfset basSelect = "#basSelect#
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+		,concatSingleOtherId(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
 		'#session.CustomOtherIdentifier#' as myCustomIdType,
-		to_number(ConcatSingleOtherIdInt(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
+		to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
 </cfif>
 <cfloop query="r_d">
 	<cfif left(column_name,1) is not "_" and (
@@ -178,25 +191,23 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 </cfif>
 --->
 <cfif ListContainsNoCase(session.resultColumnList,"_day_of_ymd")>
-	<cfset basSelect = "#basSelect#,getYearCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) YearColl,
-		getMonthCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) MonColl,
-		getDayCollected(#session.flatTableName#.began_date,#session.flatTableName#.ended_date) DayColl">
+	<cfset basSelect = "#basSelect#,getYearCollected(flatTableName.began_date,flatTableName.ended_date) YearColl,
+		getMonthCollected(flatTableName.began_date,flatTableName.ended_date) MonColl,
+		getDayCollected(flatTableName.began_date,flatTableName.ended_date) DayColl">
 </cfif>
 <cfif ListContainsNoCase(session.resultColumnList,"_original_elevation")>
 	<cfset basSelect = "#basSelect#,MINIMUM_ELEVATION,MAXIMUM_ELEVATION,ORIG_ELEV_UNITS">
 </cfif>
-	<cfset basFrom = " FROM #session.flatTableName#">
-	<cfset basJoin = "INNER JOIN cataloged_item ON (#session.flatTableName#.collection_object_id =cataloged_item.collection_object_id)">
-	<cfset basWhere = " WHERE #session.flatTableName#.collection_object_id IS NOT NULL ">
+	<cfset basFrom = " FROM #session.flatTableName# flatTableName">
+	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">
+	<cfset basWhere = " WHERE flatTableName.collection_object_id IS NOT NULL ">
 
-	<cfset basQual = "">
 	<cfset basOrder = "">
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 	<!--- wrap everything up in a string --->
-	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual# #basOrder#">
+	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #whereClausesToSql(variables.whereClauses)# #basOrder#">
 
-	<cfset sqlstring = replace(sqlstring,"flatTableName","#session.flatTableName#","all")>
 
 <!---cfoutput>[#sqlstring#]</cfoutput--->
 
@@ -247,12 +258,23 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
-<cfset checkSql(SqlString)>
-<cfif isdefined("debug") and debug is true>
-	#preserveSingleQuotes(SqlString)#
+<!--- Shows the assembled statement, its values as bind tokens; administrators only, as it names the
+	session's results table and the shape of the search. --->
+<cfif isdefined("url.debug") and url.debug is true and isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+	#encodeForHtml(SqlString)#
 </cfif>
 <!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
-<cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
+<!--- The results table is built in two statements rather than one CREATE TABLE ... AS SELECT.
+	That statement is DDL, and Oracle permits no bind variable anywhere in DDL, so the criteria
+	cannot travel in it.  The shell carries the select list, which fixes the column names and
+	types, with AND 1=0 in place of the criteria so it creates the table empty and needs no
+	bind.  The criteria then run as an INSERT, which is DML and does take binds.
+
+	session.SpecSrchTab is built by ColdFusion from the session identity with no user input, so
+	it is interpolated directly; a table name cannot be a bind variable in any case. --->
+<cfset variables.shellSelect = "#basSelect# #basFrom# #basJoin# #basWhere# #variables.basShellPredicate# AND 1=0">
+<cfset variables.buildShellSql = "CREATE TABLE #session.SpecSrchTab# AS #variables.shellSelect#">
+<cfset variables.buildInsertSql = "INSERT INTO #session.SpecSrchTab# #SqlString#">
     <cfset linguisticFlag = false>
     <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>
     <cfif linguisticFlag >
@@ -265,30 +287,45 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
             ALTER SESSION SET NLS_SORT = GENERIC_M_AI
         </cfquery> 
         <!--- Run the query --->
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset queryExecute(variables.buildShellSql,{},{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
+	<cfset queryExecute(variables.buildInsertSql,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
         <!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. ---> 
         <cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
             ALTER SESSION SET NLS_COMP = BINARY
         </cfquery>
         </cftransaction>
     <cfelse>
-	<cfquery name="buildIt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-		#preserveSingleQuotes(SqlString)#
-	</cfquery>
+	<cfset queryExecute(variables.buildShellSql,{},{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
+	<cfset queryExecute(variables.buildInsertSql,variables.sqlParams,{
+		datasource = "user_login",
+		username = session.dbuser,
+		password = decrypt(session.epw,cookie.cfid),
+		timeout = Application.query_timeout
+	})>
     </cfif>
 <form name="defaults">
 	<input type="hidden" name="killrow" id="killrow" value="#session.killrow#">
 	<input type="hidden" name="displayrows" id="displayrows" value="#session.displayrows#">
 	<input type="hidden" name="action" id="action" value="#action#">
-	<input type="hidden" name="mapURL" id="mapURL" value="#mapURL#">
+	<input type="hidden" name="mapURL" id="mapURL" value="#encodeForHtml(mapURL)#">
 	<cfset session.mapURL = mapURL>
 	<cfif isdefined("transaction_id")>
 			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	</cfif>
-	<cfif isdefined("loan_request_coll_id")>
-			<input type="hidden" name="loan_request_coll_id" id="loan_request_coll_id" value="#loan_request_coll_id#">
 	</cfif>
 </form>
 	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
@@ -366,7 +403,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 </cfquery>
 
 <form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-	<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#" />
+	<input type="hidden" name="returnURL" value="#encodeForHtml(Application.ServerRootUrl & "/SpecimenResults.cfm?" & mapURL)#" />
 </form>
 <!--- clean up things we'll let them sort by --->
 <cfset resultList = session.resultColumnList>
@@ -412,15 +449,13 @@ If your item needs to be sorted in a special way, then do that here. --->
         <cfif #mappable.cnt# gt 0>
           and can be displayed with
 			<span class="controlButton"
-				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#mapurl#','_blank');">BerkeleyMapper</span>
+				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?#encodeForHtml(mapurl)#','_blank');">BerkeleyMapper</span>
 			<span class="controlButton"
-				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&#mapurl#','_blank');">BerkeleyMapper+Rangemaps</span>
-			<span class="infoLink" onclick="getDocs('maps');">
-				What's this?
-			</span>
+				onclick="window.open('/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&#encodeForHtml(mapurl)#','_blank');">BerkeleyMapper+Rangemaps</span>
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
-			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<a href="SpecimenResultsHTML.cfm?#encodeForHtml(mapurl)#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
+			<!--- TODO: info/reportBadData.cfm can no longer file bugs, as Bugzilla no longer accepts bugs by email; replace this link with /info/bugs.cfm and remove that page. This page is linked from the loan reminder emails (ScheduledTasks/reminder.cfm, exhibitionreminder.cfm, tools/manualreminder.cfm), assess that use before changing it. --->
          <cfif isDefined("session.username") AND len(session.username) gt 0>
 				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
 			</cfif>
@@ -428,7 +463,8 @@ If your item needs to be sorted in a special way, then do that here. --->
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
 	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
-    <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
+	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Review Loan Items</a>
+<cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
     <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">
@@ -533,20 +569,12 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<span class="controlButton"
 			onmouseover="this.className='controlButton btnhov'"
 				onmouseout="this.className='controlButton'"
-                  onclick="saveSearch('#Application.ServerRootUrl#/SpecimenResults.cfm?#mapURL#');">Save Search</span></cfif>
+                  onclick="saveSearch('#encodeForHtml(Application.ServerRootUrl & "/SpecimenResults.cfm?" & mapURL)#');">Save Search</span></cfif>
 		</td>
 		<td nowrap="nowrap">
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
-					<!--- 
-               <option value="/bulkCollEvent.cfm"><!--- works only with collection_object_id --->
-						Collecting Events
-					</option>
-					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
-						Localities [Warning: No Tabs]
-					</option>
-					--->
 					<!--- 
 					<option value="/specimens/changeQueryIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification

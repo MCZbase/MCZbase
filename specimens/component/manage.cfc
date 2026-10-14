@@ -298,7 +298,7 @@ limitations under the License.
  ** Obtain summary information on Accessions in a result set 
  * @param result_id the result for which to return summary information
 --->
-<cffunction name="getAccessionsSummaryHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getAccessionsSummaryHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 
 	<cfset variables.result_id = arguments.result_id>

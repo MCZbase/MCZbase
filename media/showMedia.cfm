@@ -41,7 +41,7 @@ limitations under the License.
 	<cfif media.recordcount EQ 0>
 		<cfthrow message="Media record with media_id=[#encodeForHtml(media_id)#] not found." type="MCZbase.MEDIA_NOT_FOUND" errorCode="9995">
 	</cfif>
-	<div class="container-fluid container-xl px-0 py-1">
+	<div class="container-fluid px-0 py-1">
 		<div class="row">
 			<div class="col-10 mx-auto px-1 px-md-0 pb-4">
 				<main class="content">
@@ -59,6 +59,11 @@ limitations under the License.
 									<a class="btn float-right btn-xs btn-primary" href="/media.cfm?action=edit&media_id=#media_id#">Edit</a>
 								</cfif>
 							</h1>
+							<cfif isDefined("MCZ_IMAGE_SERVERS_ENABLED") AND NOT MCZ_IMAGE_SERVERS_ENABLED >
+								<div class="alert alert-warning" role="alert">
+									<h4 class="alert-heading">MCZ hosted images are temporarily unavailable</h4>
+								</div>
+							</cfif>
 						</div>
 						<div class="col-12 px-0 my-0">
 							<cfif len(media.media_id) gt 0>

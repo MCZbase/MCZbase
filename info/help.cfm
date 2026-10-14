@@ -652,6 +652,21 @@ this window</A>
 		</tr>
 	</form>
 	</table>
+	<!--- Posted by the permit search form above.  Declared explicitly rather than resolved
+		implicitly across the url and form scopes, which is deprecated.  The query below aliases
+		two of its own columns issuer and issuee, so these carry their scope. --->
+	<cfparam name="url.permit_num" default="">
+	<cfparam name="form.permit_num" default="">
+	<cfparam name="url.issuee" default="">
+	<cfparam name="form.issuee" default="">
+	<cfparam name="url.issuer" default="">
+	<cfparam name="form.issuer" default="">
+	<cfset variables.permit_num = url.permit_num>
+	<cfif len(form.permit_num) GT 0><cfset variables.permit_num = form.permit_num></cfif>
+	<cfset variables.issuee = url.issuee>
+	<cfif len(form.issuee) GT 0><cfset variables.issuee = form.issuee></cfif>
+	<cfset variables.issuer = url.issuer>
+	<cfif len(form.issuer) GT 0><cfset variables.issuer = form.issuer></cfif>
 	<cfquery name="perm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			ISSUED_BY.agent_name issuer,
@@ -668,14 +683,14 @@ this window</A>
 		WHERE
 			permit.ISSUED_TO_AGENT_ID = ISSUED_TO.agent_id (+) AND
 			permit.ISSUED_BY_AGENT_ID = ISSUED_BY.agent_id (+)
-		<cfif len(#permit_num#) gt 0>
-			AND upper(permit_num) LIKE '%#ucase(permit_num)#%'
+		<cfif len(variables.permit_num) gt 0>
+			AND upper(permit_num) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.permit_num)#%">
 		</cfif>
-		<cfif len(#issuee#) gt 0>
-			AND upper(ISSUED_BY.agent_name) LIKE '%#ucase(issuee)#%'
+		<cfif len(variables.issuee) gt 0>
+			AND upper(ISSUED_BY.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.issuee)#%">
 		</cfif>
-		<cfif len(#issuer#) gt 0>
-			AND upper(ISSUED_TO.agent_name) LIKE '%#ucase(issuer)#%'
+		<cfif len(variables.issuer) gt 0>
+			AND upper(ISSUED_TO.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(variables.issuer)#%">
 		</cfif>
 	</cfquery>
 	Click a Permit to select.

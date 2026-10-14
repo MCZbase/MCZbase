@@ -1,4 +1,8 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of loan code --->
 		<!--- days after and before return_due_date on which to send email. Negative is after ---->
@@ -37,7 +41,7 @@
 				<cfset toaddresses = "bhaley@oeb.harvard.edu">
 			</cfif>
 
-			<cfmail 	to="#toaddresses#"
+			<cf_reminderMail 	to="#toaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Expiring Encumbrance: #encumbrance#"
 						from="no_reply_encumbrance_notification@#Application.fromEmail#"
@@ -54,11 +58,11 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				ENCUMBRANCE EXPIRATION NOTIFICATION FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				ENCUMBRANCE EXPIRATION NOTIFICATION FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				The following encumbrance for which you are the encumbering agent is set to expire today:<br><br>
 
-				https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encumbrance_id#
+				https://mczbase.mcz.harvard.edu/encumbrances/Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encumbrance_id#
 
 				<br><br>
 
@@ -74,7 +78,7 @@
 
 				---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 		</cfloop>
 	</cfoutput>
 <cfinclude template="/includes/_footer.cfm">

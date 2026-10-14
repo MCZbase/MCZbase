@@ -1,12 +1,11 @@
+/***********************************************************/
 /** This file contains Various local style customizations **/
-/************************/
+/***********************************************************/
 body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
 }
-/*a {
-	color: #0460c1;
-}*/
+/* Add and a{} style for non-href anchors if neded */
 a:link {
 	color: #0460c1;
 	cursor: pointer;
@@ -43,7 +42,7 @@ input.reqdClr, select.reqdClr, textarea.reqdClr {
 	border-radius: .2rem;
 }
 input.badPick, select.badPick, textarea.badPick {
-	background-color: #FF3366 !important;
+	background-color: rgba(220, 53, 69, 0.3) !important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: rgba(173, 236, 199, 0.3) !important;
@@ -137,6 +136,9 @@ table td .small {
 .bg-lt-gray {
 	background-color: #F0F3F7 !important;
 }
+.border-default {
+    border: 1px solid #dee2e6 !important;
+}
 .border-white {
 	border: 1px solid white;
 }
@@ -173,9 +175,30 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
+.bg-med-teal {
+    background-color: #deebec;
+}
+
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
-
+.part-occurrence-head {
+	background-color: #d4f6f6;
+} 
+.part-occurrence {
+	background-color: #d4f6f685;
+}
+.field-set {
+    background-color: #efeded !important;
+}
+.field-set-legend {
+    background-color: #f8f9fa !important;
+    color: #041132 !important;
+    font-weight: 520 !important;
+    text-align: left;
+}
+.border2 {
+    border: 1px solid #5f9da3;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
@@ -196,8 +219,6 @@ select:focus {
 	outline: 0;
 }
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-/*	line-height: 1.25;
-	margin: .5rem 0;*/
 	font-weight: 500;
 }
 h1, .h1 {
@@ -250,7 +271,7 @@ h1.h4 {
 	margin-top: .5rem;
 }
 .text-dark-gray {
-	color: #524e4e;
+    color: #4f4b4b;
 }
 .btn-link, .helpText, .fas-info {
 	color: #0460c1 !important;
@@ -260,6 +281,12 @@ h1.h4 {
 span.caps {
 	text-transform: capitalize;
 }
+/*span.data-entry-label label {
+    font-weight: 700;
+}
+label.font-weight-lessbold {
+    font-weight: 700;
+}*/
 .line-height-sm {
 	line-height: .9rem;
 }
@@ -291,8 +318,8 @@ span.caps {
 }
 /* Editable cells in a jqx-grid */
 .editable-cell {
-	border-width: 1px 1px 1px 1px !important;
-	border-color: #939393 !important;
+	border-width: 1px 1px 2px 1px !important;
+	border-color: #2e95fe !important;
 }
 p {
 	margin-bottom: .75rem;
@@ -300,22 +327,12 @@ p {
 	margin-top: 0;
 	font-size: .95rem;
 }
-/*p:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}
-div:focus, div > span:focus {
-	box-shadow: 0 0 0 0;
-}*/
 .info {
 	position: absolute;
 	left: -9000px;
 	width: 0;
 	overflow: hidden;
 }
-
 .link-color {
 	color: #02458c;
 }
@@ -353,8 +370,7 @@ div:focus, div > span:focus {
 #loanAgents tr {
 	line-height: 1rem;
 }
-label {
-	/* Override bootstrap label .5rem to reduce excess whitespace on forms. */
+label { /* Override bootstrap label .5rem to reduce excess whitespace on forms. */
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
@@ -365,6 +381,10 @@ label {
 }
 .bg-grayish {
 	background-color: #F5F5F5;
+}
+.bg-box-header-gray {
+	background-color:#dee2e6;
+	background-color: #cccccc47;
 }
 .dotted-border {
 	border: 2px dotted #bac5c6 !important;
@@ -380,7 +400,6 @@ label {
 /* BELOW:    code for 3 searches */
 /*********************************/
 /************************
-*************************
 BELOW: Small Form button (bootstrap override)
 ************************/
 .btn-xs { /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
@@ -397,7 +416,7 @@ BELOW: Small Form button (bootstrap override)
 	border: 1px solid #aaa;
 	padding: .15rem .5rem .22rem .5rem;
 	font-size: .875rem;
-	line-height: 1.15rem;
+	line-height: 1.2rem;
 	border-radius: .2rem;
 }
 button#showRelatedDataBtn.btn-xs {
@@ -411,7 +430,7 @@ button#showRelatedDataBtn.btn-xs {
 	user-select: none;
 	background-color: transparent;
 	border: 1px solid #aaa;
-	padding: .15rem .5rem .22rem .5rem;
+	padding: .15rem .5rem .2rem .5rem;
 	font-size: .875rem;
 	line-height: 1.15rem;
 	border-radius: .2rem;
@@ -456,7 +475,6 @@ span.data-entry-addon {
 	height: calc(1.5rem + .5rem + 1px);
 }
 .btn-primary:hover {
-	/*background-color: #d3dfe0;*/
 	color: #212529;
 	background-color: #deebec;
 	background: #deebec;
@@ -483,7 +501,6 @@ span.data-entry-addon {
 	font-weight: 490;
 }
 .btn-powder-blue:hover {
-	/*background-color: #d3dfe0;*/
 	color: #fff;
 	background: #54a4f9;
 	letter-spacing: .04rem;
@@ -561,31 +578,10 @@ span.data-entry-addon {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
-/*
-.jqx-widget a:link, .jqx-widget a.link {
-	color: #0460c1;
-}
-.jqx-widget a:visited,.jqx-widget a.visited {
-	color: purple;
-}
-.jqx-widget a:hover,.jqx-widget a.hover {
-	color: #0460c1;
-	text-decoration: underline;
-}
-.jqx-widget a.focus, .jqx-widget a:focus {
-	text-decoration: underline;
-	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
-	box-shadow: none;
-	color: purple;
-}
-.jqx-widget a:active {
-	color: #0460c1;
-}*/
 .jqx-item {
 	color: black;
 }
 .text-success {
-	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
 }
 .btn-danger {
@@ -632,7 +628,6 @@ used by cellclassname functions in the results grids
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
 	background-color: #e1edff;
 }
-
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -659,7 +654,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: -webkit-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*Chrome10-25,Safari5.1-6*/
 	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
-	border: 1px solid #aaa;
 }
 .secondaryType {
 	background-color: white;
@@ -676,7 +670,6 @@ BELOW: SPECIMEN DETAIL STYLES
 .ptype {
 	font-weight: bold;
 	background-color: white;
-	border: 1px solid #ccc;
 	border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1rem;
@@ -708,9 +701,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
 	border: 1px solid #aaa;
 }
-/*.card-columns .card {
-	margin-bottom: 0;
-}*/
 .card-body {
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
@@ -731,9 +721,6 @@ li.pid {
 .card-header {
 	padding: .25rem .75rem;
 }
-/*.no-card {
-	border: none;
-}*/
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
@@ -801,132 +788,6 @@ body.modal-open {
 .list-group-item {
 	background-color: transparent;
 }
-/***********************************************/
-/* BELOW: filter and column slider menu styles */
-/***********************************************/
-/*#cbp-spmenu-s2 {
-	z-index: 600;
-}*/
-/* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
-/*section a#showRightPush {
-	width: 30px;
-	margin-left: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	margin-top: 163px;
-	padding: 7px 1px 7px 5px;
-	position: relative;
-	letter-spacing: .07rem;
-	font-weight: bold;
-	font-size: 1rem;
-	transform-origin: top left;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}*/
-/* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
-/*section a#showLeftPush {
-	width: 32px;
-	margin-right: -30px;
-	writing-mode: vertical-rl;
-	z-index: 999;
-	right: 30px;
-	padding: 7px 3px 7px 5px;
-	position: relative;
-	letter-spacing: .07em;
-	font-weight: bold;
-	font-size: 1rem;
-	margin-top: 301px;
-	transform-origin: top right;
-	text-align: center;
-	color: white;
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu {
-	background: white;
-	position: fixed;
-	z-index: 5000;
-}
-.cbp-spmenu h3.filters {
-	color: #3E6F7D;
-	font-size: 1.7rem;
-	padding: 20px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -298px;
-}
-.cbp-spmenu a {
-	display: block;
-	font-size: 1.1rem;
-	font-weight: 400;
-	color: #006ee3;
-}
-.cbp-spmenu a:hover {
-	cursor: pointer;
-	font-weight: 400;
-}
-.cbp-spmenu a:active {
-	color: azure;
-}
-.cbp-spmenu-vertical {
-	width: 298px;
-	height: 100%;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-
-.cbp-spmenu-right {
-	right: -298px;
-}
-.cbp-spmenu-right.cbp-spmenu-open {
-	right: 0px;
-	border-left: 1px solid #ccc;
-	padding-right: 3px;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu, .cbp-spmenu-push {
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.cbp-spmenu h3.columns {
-	color: #3E6F7D;
-	font-size: 1.3rem;
-	padding: 16px;
-	margin: 0;
-	font-weight: 400;
-	background: #DEEBEC;
-	margin-top: -392px;
-}
-
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu section a.disabled {
-	display: none;
-}
-.cbp-spmenu-vertical-left {
-	width: 214px;
-	height: 420px;
-	top: 0;
-	z-index: 50000;
-	background-color: white;
-}
-.cbp-spmenu-left {
-	right: -214px;
-}
-.cbp-spmenu-left.cbp-spmenu-open {
-	right: 0px;
-	border: 1px solid #ccc;
-	border-right: none;
-	transition: all 0.3s ease;
-}*/
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -990,18 +851,15 @@ a#showLeftPush.hiddenclass {
 #regForm select {
 	font-size: .875rem;
 }
-/* Mark input boxes that gets an error on validation: */
 #regForm input.invalid, #regForm select.invalid {
 	background-color: #ffdddd;
 }
-/* Hide all steps by default: */
 #regForm .tab {
 	display: none;
 }
 #prevBtn {
 	background-color: #bbbbbb;
 }
-/* Make circles that indicate the steps of the form: */
 #regForm .step {
 	height: 26px;
 	width: 116px;
@@ -1021,7 +879,6 @@ a#showLeftPush.hiddenclass {
 	color: white;
 	letter-spacing: .02rem;
 }
-/* Mark the steps that are finished and valid: */
 #regForm .step.finish {
 	background-color: #80ADCC;
 	background-color: #d3ebd8;
@@ -1191,22 +1048,8 @@ ul.sd li.list-group-item:last-child {
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
-	/*	padding: .15em 0;*/
 	border-radius: 4px;
 	margin-top: 0px;
-}
-.search-form-basic-odd {
-   /* odd rows in the basic specimen search form */
-/*	background: #f3f3f3;
-	background: -moz-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, #f0f0f0));
-	background: -webkit-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -o-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: -ms-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
-	background: linear-gradient(to bottom, #f3f3f3 0%, #e1e1e1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='@lightgrey', GradientType=0);
-	border-bottom: 1px solid #c1c1c1!important;
-	border-top: 1px solid #cfcfcf!important;*/
 }
 .search-form-basic-odd {
 	/* odd rows in the basic specimen search form */
@@ -1214,7 +1057,6 @@ ul.sd li.list-group-item:last-child {
 	border-bottom: 1px solid #e3e3e3;
 	background-color: #efeded!important;
 }
-/*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
 	background-position: 0% 0%;
 }
@@ -1260,8 +1102,7 @@ table.inputTable tr td label {
 table.inputTable tr {
 	background-color: white;
 }
-.save_shared {
-	/*  desktop button for saving shared locality on dialog*/
+.save_shared { /* desktop button for saving shared locality on dialog */
 	border: 2px solid red;
 	position: absolute;
 	left: 1.5em !important;
@@ -1307,16 +1148,33 @@ table.inputTable tr {
 }
 .search-box, .add-form {
 	background-color: #f5f5f5;
-	margin-top: 2rem;
 	padding-bottom: .25rem;
 	width: 100%;
 	border-radius: .5rem;
-	border: 2px solid #3E6F7D;
 }
 .search-box-header, .add-form-header {
-	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
 	margin-top: -1px;
+}
+.search-box {
+	border: 2px solid #3E6F7D;
+	margin-top: 2rem;
+}
+.search-box-header {
+	background-color: #3E6F7D;
+}
+.add-form {
+	border: 2px solid #C7DADB;
+	margin-top:.1rem;
+}
+.add-form-header {
+	background-color: #DEEBEC;
+}
+.add-form-header h1, .add-form-header h2 {
+	color: #333;
+}
+.search-box-header h1, .search-box-header h2 {
+	color: #fff;
 }
 ::-ms-clear {
 	display: none;
@@ -1374,7 +1232,6 @@ table#POITable tr td select:hover {
 	padding: .9rem;
 	margin-right: -5px;
 }
-
 #contenttablejqxgrid {
 	z-index: 100;
 }
@@ -1475,7 +1332,6 @@ table#pairs, th, td {
 	background-color: white
 }
 /* Style the arrow inside the select element: */
-/*.custom-select:after, */
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1524,7 +1380,6 @@ table.mediaTable tr:last-child {
 table.mediaTable td {
 	border-bottom: none;
 }
-
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -1553,7 +1408,7 @@ table.mediaTable td {
 	display: block;
 }
 span.data-entry-label {
-	margin-top: 2px;
+	/*margin-top: 2px;*/
 }
 .data-entry-input {
 	display: block;
@@ -1746,9 +1601,7 @@ textarea {
 	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .autogrow {
-	/* autogrow textareas must have a vertical padding in pixels for
-	the autogrow calculation of the height to work correctly,
-	otherwise the textareas grow in height with each keystroke.  */
+	/* autogrow textareas must have a vertical padding in px for the autogrow calculation of the height to work correctly, otherwise the textareas grow in height with each keystroke. */
 	padding: 2px .5rem;
 }
 .input-group > .custom-file, .input-group > .custom-select, .input-group > .form-control, .input-group > .form-control-plaintext {
@@ -1894,7 +1747,7 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f067";
+	/*content: "\f067";*/
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -1904,7 +1757,7 @@ tr.line-top:first-child {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f068";
+	/*content: "\f068";*/
 	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -1920,14 +1773,12 @@ tr.line-top:first-child {
 .nav-link.dropdown-toggle:hover:after {
 	transform: rotate(-90deg);
 }
-.card-body li.list-group-item span:last-child {
-	/*display: none;  */
+.card-body li.list-group-item span:last-child {/*changes the last element of the group with the class*/
 	display: block;
 	margin-bottom: .5rem;
-	/* Caution, this directive will have unexpected side effects such as hiding badge spans. The point of this is to prevent the */
 }
-.card-body li.list-group-item span.sd:last-child {
-	display:none;
+.card-body li.list-group-item span.sd:last-child {/*changes the last element of the group with the class*/
+	display:none; 
 }
 .comma1 span {
 	display:inline;
@@ -1941,7 +1792,7 @@ input#readMore_check_id {
 .comma2 span{display:inline!important;}
 .comma2 span:last-child {display:none!important;}
 .jqx-grid-load {
-	background-image: url("../../images/spinner_712_sm.gif");
+	background-image: url("/shared/images/spinner_712_sm.gif");
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 }
@@ -1967,7 +1818,6 @@ input#readMore_check_id {
 .MediaAccordionShow {
 	display: none;
 }
-/************tabs -- redone for accessibility  ***************/
 .tabpanel {
 	margin: 20px;
 	padding: 0;
@@ -2049,6 +1899,16 @@ input#readMore_check_id {
 	border-right: 1px solid #deebec;
 	border-left: 1px solid #deebec;
 }
+.tab-content h2 {
+    font-size: 80%;
+    font-weight: 700;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    background-color: rgb(199 251 255 / .35)!important;
+    border: 1px solid #dee2e6 !important;
+    margin: 0;
+    display: block !important;
+}
 .tab-content div[aria-hidden='true'] {
 	display: none;
 	outline: 0;
@@ -2056,9 +1916,44 @@ input#readMore_check_id {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
-.tab-content label {
-	font-weight: 600;
+.tab-content label, #searchFormDiv fieldset label {
+	font-weight: 400;
+    font-size: 0.85em;
+    border: none;
+    padding: 0 0 0 .25rem;
+    margin-bottom: 0;
 }
+.tab-content input, #searchFormDiv fieldset input {
+    display: block;
+    width: 100%;
+    padding: 1px .5rem 1px .5rem;
+    color: black;
+    border: 1px solid #ced4da;
+    background-clip: padding-box;
+    background-color: white;
+    vertical-align: middle;
+    font: 500 .875rem/1.4 apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
+    line-height: 1.15rem;    
+}
+.tab-content select, #searchFormDiv fieldset select {
+    display: block;
+    width: 100%!important;
+    font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    padding: 0 .5rem;
+    color: rgba(0, 0, 0, .67);
+    border: 1px solid #ced4da;
+    background-clip: padding-box;
+    background-color: white;
+    vertical-align: middle;
+    border-radius: .2rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    line-height: 0.875rem;
+}
+/*#searchFormDiv button {
+    border: none;
+    background-color: transparent !important;
+}*/
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
 	box-shadow: none;
@@ -2102,7 +1997,7 @@ button[tabindex="-1"]:focus {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f067";
+/*	content: "\f067";*/
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
@@ -2112,7 +2007,7 @@ button[tabindex="-1"]:focus {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f068";
+	/*content: "\f068";*/
 	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
@@ -2141,7 +2036,7 @@ button[tabindex="-1"]:focus {
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
-a.anchorFocus {
+a.anchorFocus, button.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .25rem .75rem;
@@ -2150,8 +2045,10 @@ a.anchorFocus {
 	z-index: 3;
 	top: 0;
 	right: 0;
+	color: #0460c1;
+	text-decoration: underline dotted #aaa;
 }
-a.anchorFocus:focus {
+a.anchorFocus:focus, button.anchorFocus:focus {
 	border: 2px inset rgba(0, 123,255, .25)!important;
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	outline: 0;
@@ -2259,6 +2156,9 @@ section#mediaSection.accordion {
 .bg-teal {
 	background-color: rgb(199 251 255 / .35) !important;
 }
+.bg-paleyellow {
+	background-color: rgb(233 204 138 / 35%) !important;
+}
 .height1p2 {
 	height: 1.4rem!important;
 }
@@ -2298,37 +2198,69 @@ section#mediaSection.accordion {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-button.help-btn {
-	background-color: #1b1b1b;
-	color: white;
-	float:right;
-	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateX(-98%) rotate(-90deg);
-	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-98%) rotate(-90deg);
-	-moz-transform-origin: right top;
-	-o-transform: translateX(-98%) rotate(-90deg);
-	-o-transform-origin: right top;
-	transform: translateX(-98%) rotate(-90deg);
-	transform-origin: right top;
-	margin-bottom: 15px;
-	top: -.25rem;
-	right: -92px;
-	z-index:1; 
-	padding-top:.15rem;
-	padding-bottom: .15rem; 
-	font-size: 13.5px;
-	margin-top:0;
-	position: absolute;
+button.help-btnSp-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 2.1rem;
+    right: 1.75rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
 }
-/*.jqx-fill-state-normal { 
-	border-color: #e0da76; 
-	background-color: #fdfcf3;
-}*/
-#collapseKeyword h2.headerSm {
+button.help-btnA-SearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    float: right;
+    margin-bottom: 15px;
+    top: 1.5rem;
+    right: 4rem;
+    z-index: 1; 
+    padding-top: .5rem;
+    padding-bottom: .35rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+button.help-btnSearchWiki {
+    background-color: #1b1b1b;
+    color: white;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateX(-98%) rotate(90deg);
+    -webkit-transform-origin: right top;
+    -moz-transform: translateX(-98%) rotate(90deg);
+    -moz-transform-origin: right top;
+    -o-transform: translateX(-98%) rotate(90deg);
+    -o-transform-origin: right top;
+    transform: translateX(-98%) rotate(90deg);
+    transform-origin: right top;
+    margin-bottom: 15px;
+    top: 11.5rem;
+    right: -120px;
+    z-index: 1; 
+    padding-top: .75rem;
+    padding-bottom: .15rem; 
+    font-size: 13.5px;
+    margin-top: 0;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 0 0 6px 6px; /* adjust 6px as desired */
+    border-color: black;
+}
+#wikiDrawer h2.headerSm {
 	font-size: 1.25rem;
 }
-#collapseKeyword dt {
+#wikiDrawer dt {
 	float:left;
 	display: inline-block;
 	min-width: 25px!important;
@@ -2456,7 +2388,6 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: transparent;
 	width: auto;
 }
-
 .text-truncate1 p, .text-truncate1 h3 {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
@@ -2532,7 +2463,6 @@ div.vslider-item[aria-hidden="true"]{
 	webkit-transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 	transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 }
-
 .toggle-switch:not(.disabled) .ts-helper:active:before {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(128, 128, 128, .1)
 }
@@ -2547,99 +2477,106 @@ div.vslider-item[aria-hidden="true"]{
 	cursor: pointer
 }
 .toggle-switch input:checked+.ts-helper:before {
-	left: 20px
+    left: 20px
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper {
-	background: rgba(0, 150, 136, .5)
+    background: rgba(0, 150, 136, .5)
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:before {
-	background: #009688
+    background: #009688
 }
 .toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
 }
 .toggle-switch.disabled {
-	opacity: .6;
-	filter: alpha(opacity=60)
+    opacity: .6;
+    filter: alpha(opacity=60)
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper {
-	background: rgba(244, 67, 54, .5)
+    background: rgba(244, 67, 54, .5)
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:before {
-	background: #F44336
+    background: #F44336
 }
 .toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper {
-	background: rgba(33, 150, 243, .5)
+    background: rgba(33, 150, 243, .5);
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:before {
-	background: #2196F3
+    background: #2196F3
 }
 .toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper {
-	background: rgba(255, 193, 7, .5)
+    background: rgba(255, 193, 7, .5)
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:before {
-	background: #FFC107
+    background: #FFC107
 }
 .toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper {
-	background: rgba(186, 104, 200, .5)
+    background: rgba(186, 104, 200, .5)
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:before {
-	background: #BA68C8
+    background: #BA68C8
 }
 .toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper {
-	background: rgba(233, 30, 99, .5)
+    background: rgba(233, 30, 99, .5)
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:before {
-	background: #E91E63
+    background: #E91E63
 }
 .toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper {
-	background: rgba(205, 220, 57, .5)
+    background: rgba(205, 220, 57, .5)
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:before {
-	background: #CDDC39
+    background: #CDDC39
 }
 .toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper {
-	background: rgba(0, 188, 212, .5)
+    background: rgba(0, 188, 212, .5)
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:before {
-	background: #00BCD4
+    background: #00BCD4
 }
 .toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
 }
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
-	background: rgba(76, 175, 80, .5)
+    background: rgba(76, 175, 80, .5)
 }
-
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
-	background: #4CAF50
+    background: #4CAF50
 }
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
 }	
 input[disabled] {
 	color:#9e9e9e;
 }
 .pt2px {
+    padding-top:2px!important;
+}
+.py2px {
+    padding-top: 2px!important;
+    padding-bottom:2px!important;
+}
+.py2px {
 	padding-top:2px!important;
+    padding-bottom:2px!important;
 }
 .pt3px {
 	padding-top:3px!important;
@@ -2657,7 +2594,6 @@ input[disabled] {
 	animation-duration: .5s;
 	animation-name: slideup;
 }
-
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
 	background-color: transparent;
@@ -2675,29 +2611,24 @@ input[disabled] {
 	transition: transform 0.8s;
 	transform-style: preserve-3d;
 }
-/* Do an horizontal flip when you move the mouse over the flip box container */
 .flip-card:hover .flip-card-inner,
 .flip-card:focus-within .flip-card-inner,
 .flip-card:active .flip-card-inner,
-.flip-card:focus .flip-card-inner {
+.flip-card:focus .flip-card-inner {/* Do an horizontal flip when you move the mouse over the flip box container */
   transform: rotateY(180deg);
 }
-/* Position the front and back side */
 .flip-card-front, .flip-card-back {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	-webkit-backface-visibility: hidden;
-	/* Safari */
+	-webkit-backface-visibility: hidden;	/* Safari */
 	backface-visibility: hidden;
 }
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
+.flip-card-front {/* Style the front side (fallback if image is missing) */
 	background-color: aliceblue;
 	color: black;
 }
-/* Style the back side */
-.flip-card-back {
+.flip-card-back { /* Style the back side */
 	background-color:#dee2e6;
 	color: black;
 	transform: rotateY(180deg);
@@ -2709,8 +2640,8 @@ input[disabled] {
 	width: 21.5rem!important;
 }
 @keyframes slideup {
-	from {top: 700px;}
-	to {top:100px;}
+	from { top: 700px; }
+	to { top:100px; }
 }
 table.tablesection td {
 	border: 1px solid transparent;
@@ -2718,10 +2649,6 @@ table.tablesection td {
 tr.line-top-sd {
 	border-top: 2px solid #e8eaeb!important;
 }
-/*.variedHeight {
-	height: 225px;
-}*/
-
 .imageFeatures {
 	width: 100%;
 	border: 2px solid gray;
@@ -2783,12 +2710,125 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
+
+.wiki-drawer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 325px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	overflow-y: auto;
+	overflow-x: hidden; 
+	transform: translateX(-325px);
+	transition: transform 0.3s ease;
+}
+.wiki-drawer.open {
+	transform: translateX(0);
+}
+#content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	width: 100%;
+	box-sizing: border-box;
+}
+#content.pushed {
+	margin-left: 325px;
+	width: calc(100% - 325px);
+}
+body.wiki-open .ui-dialog {  /* Override jQuery UI's inline width */
+    width: auto !important;
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
+    right: 0 !important;
+  
+    box-sizing: border-box;   /* ensure it stays within viewport */
+}
+body.wiki-open .ui-dialog {
+    width: auto !important;   /* Override jQuery UI's inline width */
+    max-width: calc(100vw - 325px) !important;
+    left: 325px !important;      /* start right after the drawer */
+    right: 0 !important;
+    box-sizing: border-box;    /* ensure it stays within viewport */
+}
+div.mw-parser-output h1 {
+	font-size: 20px;
+	font-weight:bold;
+	border-top:1px solid black;
+	padding-top:36px;
+}
+div.mw-parser-output h2 {
+	font-size: 16px;
+}
+div.mw-parser-output h3 {
+	font-size: 15px;
+	font-weight: 720;
+	text-decoration: underline;
+}
+div.mw-parser-output h4 {
+	font-size: 14px;
+	text-decoration: underline;
+	margin-top: 1rem;
+}
+div.mw-parser-output dt {
+	font-weight:650;
+}
+div.toctitle {
+    margin-bottom:0;
+}
+.thumbinner {
+    display:none;
+}
+.mw-toc-heading {
+	margin-bottom: 0;
+}
+.tinymap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    margin: 0 0; 
+}
+.tinymap-3col, .tinymap-2col {/* Explicit heights per layout */
+    height: 180px;   
+}
+.tinymap .static-map,
+.tinymap .interactive-map {/* Both maps fill the wrapper box */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+}
+.tinymap .static-map {/* Static thumbnail: keep whole map and center it */
+    object-fit: cover;
+    object-position: 50% 50%;
+    margin: 0;
+    padding: 0;
+    border: 3px solid #444;
+    cursor: pointer;
+}
+.tinymap .interactive-map {/* Interactive map: hidden until JS shows it */
+    display: none;
+    z-index: 2;
+}
+
+@media (min-width: 768px) {
+    #content.pushed {
+        margin-left: 325px;
+        width: calc(100% - 325px);
+    }
+    #content.pushed .ui-dialog {
+        max-width: calc(100vw - 325px);
+    }
+}
 /****************end all screen styles*********************/
 /**********************************************************/
-/*********************************/
-/* Device styles below ***********/
-/*********************************/
 
+/**************** Device styles below *********************/
+/**********************************************************/
 @media only screen and (min-width: 1599px) {
 	.container-wide {
 		padding-right: 9%;
@@ -2799,11 +2839,11 @@ form.form-inline.logout-style {
 	.w-350 {
 		width: 100%;
 	}
-
+/* Styles below are in browse specimens    */
 	ol.flowXXS,ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 170px; /* need to specify height :-( */
+		height: 170px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXXS li, ul.flowXXS li {
@@ -2818,7 +2858,7 @@ form.form-inline.logout-style {
 	ol.flowXS, ul.flowXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 270px; /* need to specify height :-( */
+		height: 270px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXS li,ul.flowXS li {
@@ -2833,7 +2873,7 @@ form.form-inline.logout-style {
 	ol.flowSm, ul.flowSm {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 410px; /* need to specify height :-( */
+		height: 410px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowSm li,ul.flowSm li {
@@ -2848,7 +2888,7 @@ form.form-inline.logout-style {
 	ol.flowMd,ul.flowMd {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 509px; /* need to specify height :-( */
+		height: 509px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowMd li, ul.flowMd li {
@@ -2863,7 +2903,7 @@ form.form-inline.logout-style {
 	ol.flowLg ,ul.flowLg{
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 660px; /* need to specify height :-( */
+		height: 660px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowLg li,ul.flowLg li {
@@ -2878,7 +2918,7 @@ form.form-inline.logout-style {
 	ol.flowXL,ul.flowXL {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: 800px; /* need to specify height :-( */
+		height: 800px; /* need to specify height */
 		column-count: 4;
 	}
 	ol.flowXL li,ul.flowXL li {
@@ -2893,7 +2933,7 @@ form.form-inline.logout-style {
 	ol.flowNone,ul.flowNone {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
-		height: auto; /* need to specify height :-( */
+		height: auto; /* need to specify height */
 		column-count: 1;
 	}
 	ol.flowNone li,ul.flowNone li {
@@ -2905,12 +2945,6 @@ form.form-inline.logout-style {
 		padding-right: 3px;
 	}
 }
-
-/*@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
-	.variedHeight {
-		height: 235px;
-	}
-}*/
 /*******************/
 /*******************/
 /*******************/
@@ -2925,16 +2959,28 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
-
-
+/*fas is for the arrow up and down (more and less on form sections*/
+.fas {
+	font-size: 16px;
+}
+/*for the */
+@media screen and (max-width: 678px) {
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
+}
+/* below is for the basic search width of form fields area inside teal box */
+@media screen and (min-width: 1200px) {
+.col-xxl-1 {max-width: 12%}
+.col-xxl-11 {max-width: 88%; padding-left: .25rem}
+}
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr {}
 	.step-arrow {
 		background-color: #deebec;
 		border-bottom: 1px solid #aaa;
@@ -2944,7 +2990,6 @@ and also iPads specifically.
 	.w-350 {
 		width: 100%;
 	}
-
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
@@ -3050,9 +3095,6 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-
-
-
 @media only screen and (min-width: 1513px) {
 	.variedHeight {
 		height: 217px;
@@ -3063,12 +3105,6 @@ and also iPads specifically.
 		height: 250px;
 	}
 }
-
-/*@media only screen and (max-width: 1466px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
 		height: 283px;
@@ -3177,28 +3213,15 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-/*@media only screen and (max-width: 1200px) {
-	.variedHeight {
-		height: 283px;
-	}
-}*/
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 250px;
 	}
 }
-/*@media only screen and (max-width: 1000px) {
-	.variedHeight {
-		height: 250px;
-	}
-}*/
 @media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
 	}
-/*	.variedHeight {
-	height: 250px;	
-	}*/
 	h1 {
 		margin-bottom: 0;
 	}
@@ -3307,6 +3330,9 @@ and also iPads specifically.
 	.html_desc {
 		width: 21.5rem!important;
 	}
+    button.help-btnA-SearchWiki {
+        right: 3rem;
+    }
 }
 @media only screen and (max-width: 800px){
 	ol.flowXXS, ul.flowXXS{
@@ -3421,9 +3447,52 @@ and also iPads specifically.
 		margin-top: -4px;
 	}
 }
-@media screen and (max-width: 767px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
+@media (max-width: 991.98px) {        /* adjust breakpoint as you like */
+	.wiki-drawer {
+		width: 95vw;                  /* drawer almost full width */
+		max-width: 95vw;
+		transform: translateX(-95vw); /* fully hidden when closed */
+	}
+	.wiki-drawer.open {
+		transform: translateX(0);     /* 5vw of page still visible */
+	}
+	/* Don’t push content on these sizes */
+	#content.pushed {
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on these widths */
+	body.wiki-open .ui-dialog {
+		width: auto;
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
+	}
+}
+@media screen and (max-width: 767.98px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
 	input, select, textarea {
 		font-size: 16px;
+	}
+	.wiki-drawer {
+		width: 90vw;
+		max-width: 90vw;
+		transform: translateX(-90vw);   /* start fully off-screen */
+	}
+	.wiki-drawer.open {
+		transform: translateX(0);
+	}
+	#content.pushed {/* Ignore the "pushed" class on small screens */
+		margin-left: 0;
+		width: 100%;
+	}
+	/* Let dialogs behave normally on small screens */
+	body.wiki-open .ui-dialog {
+		width: auto;        /* remove our large-screen overrides */
+		max-width: 100vw;
+		left: 0;
+		right: 0;
+		box-sizing: border-box;
 	}
 }
 @media only screen and (max-width: 575px) {
@@ -3462,89 +3531,6 @@ and also iPads specifically.
 	.card_search {
 		padding-right: 0;
 		padding-left: 0;
-	}
-}
-@media (min-width:1200px) and (max-width: 1700px) {
-	#searchHelpTextBlock {
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		list-style-type: none;
-		font-size: .875rem;
-		margin-bottom: 1rem;
-	}
-	div span.ilt {
-		display: block;
-		height: 100%;
-		text-decoration: none;
-		color: #0460c1 !important;
-		padding-left: 0px;
-		position: relative;
-		-webkit-transition: background .3s;
-		transition: background .3s;
-	}
-	div span.ilt:hover {
-		background: #cdcbc4;
-	}
-	.readMore {
-		position: relative;
-		height: auto;
-		border-top: 0;
-	}
-	#searchHelpTextBlock[type="checkbox"] {
-		position: absolute;
-		left: -9999px;
-	}
-	label.read {
-		background: aliceblue;
-		display: block;
-		width: 70px;
-		cursor: pointer;
-		position: relative;
-		float: right;
-		right: 1rem;
-	}
-	label.read:before, label.read:after {
-		position: absolute;
-		
-	}
-	label.read:before {
-		right: -7px;
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d7";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-		/*down*/
-	}
-	label.read:after {
-		content: "more";
-		right: 10px;
-		-webkit-animation: sudo .85s linear infinite alternate;
-		animation: sudo .85s linear infinite alternate;
-		color: #0460c1 !important;
-	}
-	.readMore [type="checkbox"] ~ span.ilt {
-		width: 100%;
-		display: none;
-	}
-	.readMore [type="checkbox"]:checked ~ span.ilt {
-		display: block;
-	}
-	.readMore [type="checkbox"]:checked + label.read {
-		position: absolute;
-		top: 100%;
-	}
-	.readMore [type="checkbox"]:checked + label.read:before {
-		font-family: "Font Awesome 5 Free"; 
-		font-weight: 900; 
-		content: "\f0d8";
-		font-size: 1.3rem;
-		color: #0460c1 !important;
-		/* up */
-	}
-	.readMore [type="checkbox"]:checked + label.read:after {
-		content: "less";
 	}
 }
 @media(min-width:768px) {
@@ -3670,7 +3656,7 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1023.95px) {
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -3678,6 +3664,59 @@ and also iPads specifically.
 		font-size: 0.8rem;
 		text-align: right;
 	}
+    button.help-btnA-SearchWiki {
+        background-color: #1b1b1b;
+        color: white;
+        float: right;
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        margin-bottom: 15px;
+        top: 9.35rem;
+        right: -8rem;
+        z-index: 1; 
+        padding-top: .35rem;
+        padding-bottom: .5rem; 
+        font-size: 13.5px;
+        margin-top: 0;
+        position: absolute;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px; 
+    }
+    button.help-btnSp-SearchWiki {
+        background-color: #1b1b1b;
+        color: white;
+        float: right;
+        box-sizing: border-box;
+        border: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -webkit-backface-visibility: hidden;
+        transform: translateX(-98%) rotate(90deg);
+        transform-origin: right top;
+        -webkit-transform: translateX(-98%) rotate(90deg);
+        -webkit-transform-origin: right top;
+        -moz-transform: translateX(-98%) rotate(90deg);
+        -moz-transform-origin: right top;
+        -o-transform: translateX(-98%) rotate(90deg);
+        -o-transform-origin: right top;
+        position: absolute;
+        top: 11.5rem;
+        right: -117px;
+        z-index: 1;
+        padding: 0.55rem 0.8rem;
+        line-height: 1;         
+        font-size: 13.5px;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0 0 6px 6px;
+    }
 }
 @media screen and (max-width: 768px) {
 	.caption-sm {
@@ -3708,6 +3747,7 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
+  
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -3725,27 +3765,20 @@ and also iPads specifically.
 		font-size: .78rem;
 		height: 5rem;
 	}
-		.html_desc {
+    .html_desc {
 		width: 100%!important;
-	}
+	}   
 }
 /* styles above are media queries for named groups page*/
-
 /* styles for locality maps */
 .uglyGeoSPatData{
 	border:4px solid red;
-	margin:.3em;
-	padding:1em;
 }
 .niceGeoSPatData{
 	border:3px solid green;
-	margin:.3em;
-	padding:1em;
 }
 .noWKT{
 	border:3px solid yellow;
-		margin:.3em;
-		padding:1em;
 }
 /* end styles for locality maps */
 
@@ -3778,7 +3811,7 @@ and also iPads specifically.
 	overflow: auto;
 }
 .fancybox-close {
-	background: url("/images/fancybox.png") repeat scroll -40px 0 transparent;
+	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
 	cursor: pointer;
 	height: 30px;
 	position: absolute;
@@ -3796,3 +3829,10 @@ and also iPads specifically.
 	border: 1px solid white;
 }
 /* end styles for geolocate frame */
+
+/* Annotation row size utility.  Declared last and !important so it does not depend on
+	source order against other single-class rules - .data-entry-label and friends sit far
+	below the other .smallNN utilities and would otherwise win on position. */
+.small875 {
+	font-size: 0.875rem !important;
+}

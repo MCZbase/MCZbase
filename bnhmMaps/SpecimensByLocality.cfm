@@ -5,7 +5,7 @@ Retrieving map data - please wait....
 		<cfthrow message= "Invalid call.  The parameter result_id must be specified for SpecimensByLocality.cfm">
 	</cfif>
 	<cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
-	<cfset dlFile = "tabfile#cookie.cfid##cookie.cftoken#.txt">
+	<cfset dlFile = "tabfile#session.DownloadFileID#.txt">
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			flatTable.collection_object_id,
@@ -93,7 +93,7 @@ Retrieving map data - please wait....
 		<cfloop query="sdet">
 			<cfset rColn = replace(collection," ","&nbsp;","all")>
 			<cfset rName = replace(scientific_name," ","&nbsp;","all")>
-			<cfset oneSpecLink = '<a href="#Application.serverRootUrl#/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">#rColn#&nbsp;#cat_num#&nbsp;#rName#</a>'><!--- ' --->
+			<cfset oneSpecLink = '<a href="#Application.serverRootUrl#/specimens/Specimen.cfm?collection_object_id=#collection_object_id#" target="_blank">#rColn#&nbsp;#cat_num#&nbsp;#rName#</a>'><!--- ' --->
 			<cfif len(#specLink#) is 0>
 				<cfset specLink = oneSpecLink>
 			<cfelse>

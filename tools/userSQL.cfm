@@ -23,11 +23,34 @@ limitations under the License.
 	<!--- extra check to ensure access only by authorized users --->
 	<cfthrow message="Inadequate Permissions.">
 </cfif>
-<cfif not isDefined("action")>
-	<cfset action = "nothing"> 
-<cfelse>
-	<cfset action = "run"> 
+<!--- obtain variables from form or URL with explicit scopes, form taking priority --->
+<cfset input_sql = "">
+<cfif isDefined("form.sql")>
+	<cfset input_sql = form.sql>
+<cfelseif isDefined("url.sql")>
+	<cfset input_sql = url.sql>
 </cfif>
+<cfset format = "table">
+<cfif isDefined("form.format")>
+	<cfset format = form.format>
+<cfelseif isDefined("url.format")>
+	<cfset format = url.format>
+</cfif>
+<!--- allow only valid formats --->
+<cfif not listfind("table,csv",format)>
+	<cfset format = "table">
+</cfif>
+<cfset action = "entryPoint">
+<cfif isDefined("form.action")>
+	<cfset action = form.action>
+<cfelseif isDefined("url.action")>
+	<cfset action = url.action>
+</cfif>
+<!--- allow only valid actions --->
+<cfif not listfind("entryPoint,run",action)>
+	<cfset action = "entryPoint">
+</cfif>
+
 <cfset guidanceText = "This tool allows you to run arbitrary queries on MCZbase. ">
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
@@ -38,7 +61,7 @@ limitations under the License.
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
-<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href='/specimens/viewSpecimenSearchMetadata.cfm?action=flat' target='_blank'>FLAT table</a>, and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
+<cfset guidanceText = "#guidanceText# The <a href='/documentation/er_diagrams/' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, the list of fields in the <a href='/specimens/viewSpecimenSearchMetadata.cfm?action=flat' target='_blank'>FLAT table</a>, the Table Name, Column Name, and Definition columns in the <a href='https://mczbase.mcz.harvard.edu/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&search_category=Cataloged%20Item&table_name=&column_name=&label=&access_role=&description=&ui_function=' target='_blank'>Specimen Search Builder Help</a> and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
 <cfif isDefined("sql")>
 	<!--- prevent typical copy/paste problem that users encounter, a query with normal ; termination. Strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
@@ -58,7 +81,7 @@ limitations under the License.
 					<h1 class="h2">SQL</h1>
 					<p class="">#guidanceText#</p>
 					<label for="sql" class="data_entry_label d-none">SQL</label>
-					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
+					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#encodeForHtml(sql)#</textarea>
 					<h2 class="h3">Result Output Format: &nbsp; &nbsp;
 					Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 					CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
@@ -82,6 +105,9 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<h2 class="h3">Result: </h2>
+					<p>
+						<a href="/tools/userSQL.cfm?sql=#encodeForUrl(sql)#&amp;format=#encodeForUrl(format)#" id="linkToQuery">Link to this Query</a>
+					</p>
 					<cfif unsafeSql(sql)>
 						<div class="error">
 							<h2 class="h3">The code you submitted contains illegal characters.</h2>
@@ -97,7 +123,7 @@ limitations under the License.
 							<cfif format is "csv">
 								<cfset ac = user_sql.columnlist>
 								<cfset fileDir = "#Application.webDirectory#/download/">
-								<cfset fileName = "MCZbaseUserSql_#cookie.cfid#_#cookie.cftoken#.csv">
+								<cfset fileName = "MCZbaseUserSql_#session.DownloadFileID#.csv">
 								<cfset header=#trim(ac)#>
 								<cffile action="write" file="#fileDir##fileName#" addnewline="yes" output="#header#">
 								<cfloop query="user_sql">
@@ -119,9 +145,9 @@ limitations under the License.
 							</cfif>
 						<cfcatch>
 							<div class="error">
-								#cfcatch.message#
+								#encodeForHtml(cfcatch.message)#
 								<br>
-								#cfcatch.detail#
+								#encodeForHtml(cfcatch.detail)#
 							</div>
 						</cfcatch>
 						</cftry>

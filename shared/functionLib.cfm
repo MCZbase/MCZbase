@@ -1,9 +1,9 @@
-<!---  
+<!---
 functionLib.cfm 
 
 This file is to hold only globaly reused coldfusion functions.
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,13 +17,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-  @author Paul J. Morris
+@author Paul J. Morris
+@author Michelle Kennedy
 
 --->
 <cfscript>
 	function isYear(x){
-       var d = "^[1-9][0-9]{3}$";
-       return isValid("regex", x, d);
+		var d = "^[1-9][0-9]{3}$";
+		return isValid("regex", x, d);
 	}
 </cfscript>
 <cffunction name="jsescape">
@@ -52,13 +53,13 @@ limitations under the License.
 	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
 	<cfargument name="s" type="string" required="yes">
 	<cfscript>
-	      var r=trim(s);
-	      r = Replace(Replace(r,'[','%5B'),']','%5D');
-	      r = Replace(Replace(r,'(','%28'),')','%29');
-	      r = Replace(r,'!','%21');
-	      r = Replace(r,',','%2C');
-	      r = Replace(r,' ','%20');
-	      return r;
+		var r=trim(s);
+		r = Replace(Replace(r,'[','%5B'),']','%5D');
+		r = Replace(Replace(r,'(','%28'),')','%29');
+		r = Replace(r,'!','%21');
+		r = Replace(r,',','%2C');
+		r = Replace(r,' ','%20');
+		return r;
 	</cfscript>
 </cffunction>
 	
@@ -95,26 +96,29 @@ limitations under the License.
 
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
-    <cfargument name="sql" required="true" type="string">
-    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,ctxsys,all_users">
-    <cfset dels="';','|',">
-    <cfset safe=0>
-    <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">
-	    <cfif ListFindNoCase(nono, i)>
-	        <cfset safe=1>
-	    </cfif>
-    </cfloop>
-    <cfif safe is 0>
-        <cfreturn true>
-    <cfelse>
+	<cfargument name="sql" required="true" type="string">
+
+	<cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,utl_inaddr,ctxsys,all_users">
+	<cfset dels="';','|',">
+	<cfset safe=0>
+	<cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">
+		<cfif ListFindNoCase(nono, i)>
+			<cfset safe=1>
+		</cfif>
+	</cfloop>
+	<cfif safe is 0>
+		<cfreturn true>
+	<cfelse>
 		<cfinclude template="/errors/autoblacklist.cfm">
 		<cfreturn false>
-    </cfif>
+	</cfif>
 </cffunction>
 		
 <!------------------------------------------------------------------------------------->
+
 <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
 	<cfargument name="sql" required="true" type="string">
+
 	<!--- NOTE: Limited use, poor approach to sanitizing sql, it is well understood that methods that "exclude bad" can be evaded in ways that "allow only good" cannot. --->
 	<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
 	<cfset dels="';','|',">
@@ -130,6 +134,7 @@ limitations under the License.
 		<cfreturn false>
 	</cfif>
 </cffunction>
+
 <!----------------------------------------------------->
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">
@@ -162,7 +167,7 @@ limitations under the License.
 					locality.locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "agent">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select agent_name data 
@@ -182,7 +187,7 @@ limitations under the License.
 					collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
 		<cfelseif table_name is "accn">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -195,7 +200,7 @@ limitations under the License.
 					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -208,7 +213,7 @@ limitations under the License.
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -221,7 +226,7 @@ limitations under the License.
 					loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "borrow">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -234,7 +239,7 @@ limitations under the License.
 					borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "permit">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -296,7 +301,7 @@ limitations under the License.
 				project where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-			<cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/projects/showProject.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select display_name data,scientific_name from
@@ -304,8 +309,32 @@ limitations under the License.
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+		<cfelseif table_name is "underscore_collection">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_name data, underscore_collection_id 
+				FROM underscore_collection 
+				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
+		<cfelseif table_name is "container">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT label, barcode, container_type, container_id
+				FROM container
+				WHERE container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset data = "">
+			<cfif d.recordcount GT 0>
+				<cfif d.barcode NEQ d.label>
+					<cfset data = "#d.label# [#d.barcode#] (#d.container_type#)">
+				<cfelse>
+					<cfset data = "#d.label# (#d.container_type#)">
+				</cfif>
+			</cfif>
+			<cfset temp = QuerySetCell(result, "summary", "#data#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/containers/viewContainer.cfm?container_id=#d.container_id#", i)>
 		<cfelse>
-		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
+			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		</cfif>
 		<cfset i=i+1>
 	</cfloop>
@@ -320,7 +349,7 @@ limitations under the License.
 	<cfset var LOCAL = StructNew() />
 	<cfset ARGUMENTS.Delimiter = Left( ARGUMENTS.Delimiter, 1 ) />
 	<cfif Len( ARGUMENTS.Qualifier )>
- 	    <cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
+		<cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
 	</cfif>
 	<cfset LOCAL.LineDelimiter = Chr( 13 ) />
 	<cfset ARGUMENTS.CSV = ARGUMENTS.CSV.ReplaceAll( "\r?\n", LOCAL.LineDelimiter) />
@@ -370,4 +399,153 @@ limitations under the License.
 	</cfloop>
 	<cfreturn LOCAL.Return />
 
+</cffunction>
+
+<!----------------------------------------------------->
+
+<cffunction name="renderWikiButtons" access="public" returntype="string" output="false">
+	<cfargument name="buttonClass" type="string" required="false" default="btn btn-xs btn-info">
+
+	<cfset var html = "">
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<button id="show-wiki" class="#arguments.buttonClass#">Show Help</button>
+			<button id="hide-wiki" class="#arguments.buttonClass#">Hide Help</button>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<cffunction name="renderWikiDrawer" access="public" returntype="string" output="false">
+	<cfargument name="action" type="string" required="true">
+	<cfargument name="targetWikiPage" type="string" required="true">
+
+	<cfset var html = "">
+	<cfset var canEdit = false>-
+
+	<!--- Determine if user can edit --->
+	<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+		<cfset canEdit = true>
+	</cfif>
+
+	<!--- Only show drawer for new/edit actions --->
+	<cfif arguments.action EQ "new" OR arguments.action EQ "edit" OR arguments.action EQ "search">
+		<cfsavecontent variable="html">
+			<cfoutput>
+				<div id="wikiDrawer" class="wiki-drawer border">
+					<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+						<cfif isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user")>
+							<div class="mb-0 h5" id="wiki-content-title">MCZ Wiki Article</div>
+						<cfelse>
+							<div class="mb-0 h5" id="wiki-content-title">Help Article</div>
+						</cfif>
+						<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div id="wiki-content" class="p-3 overflow-hidden"></div>
+				</div>
+
+				<!--- Initialize the drawer behavior using the shared JS function --->
+				<script>
+					initWikiDrawer({
+						targetWikiPage: "#encodeForJavaScript(arguments.targetWikiPage)#",
+						canEdit: #canEdit ? "true" : "false"#
+					});
+				</script>
+			</cfoutput>
+		</cfsavecontent>
+	</cfif>
+
+	<cfreturn html>
+</cffunction>
+
+<!----------------------------------------------------->
+
+<!--- This function will return the URL of a static map image for a given locality, creating and caching the image if it doesn't already exist or if a refresh is forced. It uses the Google Static Maps API to generate the map based on the provided latitude and longitude.
+
+	@param locality_id (numeric, required): The ID of the locality for which the map is being generated. This is used to name and cache the map image.
+	@param lat (numeric, required): The latitude coordinate of the locality, used to center the map.
+	@param lng (numeric, required): The longitude coordinate of the locality, used to center the map.
+	@param layout (string, optional, default="3col"): The layout of the page where the map will be displayed. This can be used to adjust the size of the map if needed.
+	@param forceRefresh (boolean, optional, default=false): If true, the function will bypass the cache and generate a new map image even if one already exists for the locality.
+	@param createIfMissing (boolean, optional, default=true): If true, the function will create a new map image if one does not already exist for the locality. If false and the image is missing, an empty string will be returned instead.
+	@return (string): The URL of the static map image for the locality, or an empty string if the image could not be generated or retrieved.
+--->
+<cffunction name="getOrCreateStaticMapForLocality" access="public" returntype="string">
+	<cfargument name="locality_id"  type="numeric" required="true">
+	<cfargument name="lat"          type="numeric" required="true">
+	<cfargument name="lng"          type="numeric" required="true">
+	<cfargument name="layout"       type="string"  required="false" default="3col">
+	<cfargument name="forceRefresh" type="boolean" required="false" default="false">
+	<cfargument name="createIfMissing" type="boolean" required="false" default="true">
+
+	<!--- one size / zoom --->
+	<cfset var mapWidth  = 320>
+	<cfset var mapHeight = 180>
+	<cfset var zoom      = 10>
+
+	<cfset var mapDir      = expandPath("/cache/static_maps/")>
+	<cfset var mapFileName = "locality-#arguments.locality_id#-#arguments.layout#.png">
+	<cfset var mapFilePath = mapDir & mapFileName>
+	<cfset var mapUrl      = "#Application.serverRootUrl#/cache/static_maps/#mapFileName#">
+	<cfset var apiKey      = application.gmap_api_key>
+	<cfset var staticUrl   = "">
+	<cfset var httpRes     = "">
+	<cfset var fileSize    = 0>
+	<cfset var badSize     = 8123>   <!--- size (bytes) of known Google error tile --->
+	<cfset var minGoodSize = 2000>   <!--- ignore tiny “images” that are likely errors --->
+
+	<cfset retval = ""><!--- default return value is empty string indicating a problem --->
+
+	<cfif NOT arguments.forceRefresh AND fileExists(mapFilePath)>
+		<!---  If we already have a file and no refresh is requested, just use it --->
+	  <cfset retval = mapUrl>
+	<cfelseif NOT fileExists(mapFilePath) AND NOT arguments.createIfMissing>
+		<!--- If file is missing and caller is not allowed to create it return an empty string --->
+		<cfreturn "">
+	<cfelse>
+		<!--- Build Google Static Maps URL, then get it, then validate the result --->
+		<cfset staticUrl = "https://maps.googleapis.com/maps/api/staticmap"
+			& "?center=#arguments.lat#,#arguments.lng#"
+			& "&zoom=#zoom#"
+			& "&scale=1"
+			& "&size=#mapWidth#x#mapHeight#"
+			& "&maptype=roadmap"
+			& "&markers=color:red|#arguments.lat#,#arguments.lng#"
+			& "&key=#apiKey#">
+
+		<!--- Make sure cache directory exists --->
+		<cfif NOT directoryExists(mapDir)>
+			<cfdirectory action="create" directory="#mapDir#">
+		</cfif>
+
+		<!--- Call Google and stream directly to disk --->
+		<cfhttp url="#staticUrl#" method="get" timeout="10"
+			path="#GetDirectoryFromPath(mapFilePath)#"
+			file="#GetFileFromPath(mapFilePath)#"
+			result="httpRes" />
+
+		<!--- Non‑200 http response: delete whatever was written, return an empty string --->
+		<cfif NOT (httpRes.statusCode CONTAINS "200")>
+			<cfif fileExists(mapFilePath)>
+				<cffile action="delete" file="#mapFilePath#">
+			</cfif>
+			<cfset retval = "">
+		<cfelseif fileExists(mapFilePath)>
+			<!--- validate that the file is a reasonable size, delete and return an empty string if not --->
+			<cfset fileInfo = getFileInfo(mapFilePath)>
+			<cfif fileInfo.size EQ badSize OR fileInfo.size LT minGoodSize>
+				<!--- looks like the Google error tile or bad content --->
+				<cffile action="delete" file="#mapFilePath#">
+		 		<cfset retval = "">
+			<cfelse>
+				<!--- successfully created and validated, return the URL for the cached map file --->
+				<cfset retval = mapUrl>
+			</cfif>
+		</cfif>
+	</cfif>
+
+	<!--- return the result --->
+	<cfreturn retval>
 </cffunction>

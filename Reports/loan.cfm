@@ -45,10 +45,13 @@ limitations under the License.
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			loan.transaction_id, 
-			loan.loan_number
+			loan.loan_number,
+			collection.collection
 		FROM
 			loan_relations
 			join loan on loan_relations.related_transaction_id = loan.transaction_id
+			join trans on loan.transaction_id = trans.transaction_id	
+			join collection on trans.collection_id = collection.collection_id
 		WHERE
 			loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			AND
@@ -89,8 +92,14 @@ limitations under the License.
 			cataloged_item.collection_object_id as collection_object_id,
 			collection.institution_acronym as institution_acronym,
 			loan_number,
+			loan_item.loan_item_state,
+			item_instructions,
+			loan_item.resolution_recorded_by_agent_id,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_remarks,
+			to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 			to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
-			MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+			loan_item.loan_item_remarks,
 			concattransagent(loan.transaction_id, 'received by')  recAgentName,
 			cat_num,
 			MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -107,6 +116,10 @@ limitations under the License.
 			) as typestatusname,
 		
 			MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+			coll_object.lot_count as lot_count_one_part,
+			coll_object.lot_count_modifier,
+			specimen_part.part_name, 
+			specimen_part.preserve_method,
 			MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 			MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 			spec_locality,
@@ -117,10 +130,11 @@ limitations under the License.
 			cat_num_prefix,
 			cat_num_integer
 		FROM loan 
-			left join loan_item on loan.transaction_id = loan_item.transaction_id 
-			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			left join collection on cataloged_item.collection_id = collection.collection_id 
+			join loan_item on loan.transaction_id = loan_item.transaction_id 
+			join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join collection on cataloged_item.collection_id = collection.collection_id 
 			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 			left join locality on collecting_event.locality_id = locality.locality_id 
 			left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
@@ -399,6 +413,9 @@ limitations under the License.
 										<cfif getSubloanCount.item_ct EQ 1><cfset plural = ""><cfelse><cfset plural = "s"></cfif>
 										(#getSubloanCount.item_ct# specimen#plural#)
 									</cfloop>
+									<cfif getSubloanCount.recordcount EQ 0 >
+										#getSubloans.collection# #getSubloans.loan_number# (see Nature of Material)
+									</cfif>
 								</div>
 							</cfloop>
 							<!--- div style="#font# font-size: 1em;">
@@ -424,7 +441,7 @@ limitations under the License.
 					</tr>
 					<tr>
 						<td style="width: 40%; vertical-align: top;">
-							<strong>ADDRESS:</strong>
+							<strong>ORIGINALLY SHIPPED TO:</strong>
 						</td>
 						<td style="width: 60%; vertical-align: top;">
 									#getLoan.shipped_to_address#
@@ -494,112 +511,115 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
-				<div style="text-align: center; #font# font-size: 1em;">
+				<div style="text-align: center; #font# font-size: x-small;">
 					<strong>CONDITIONS</strong>
 				</div>
 				<div style="text-align: left;#font# font-size: x-small;">
-					<strong>1. TRANSPORTATION<strong>
-					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
-						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
-						and from the Museum of Comparative Zoology.
+					<strong>1. USE</strong>
+					<p>Specimens are loaned to bona fide institutions for non-commercial use (e.g., education, exhibition). 
+						Loans may not be transferred to other institutions without express written permission. 
 					</p>
-					<strong>2. PACKING</strong>
-					<p>The Museum of Comparative Zoology will determine the appropriate means of packing the loan material and will approve in writing all crating and
-						packing arrangements. The Borrowing Institution agrees to cover all crating and packing costs.
+					<strong>2. TRANSPORTATION</strong>
+					<p>The Museum of Comparative Zoology (MCZ) will determine the appropriate means 
+						of transportation of the loan material and will approve in writing all
+						transportation arrangements. The Borrowing Institution agrees to cover 
+						all shipping costs, including courier fee, courier travel, and courier per diem to
+						and from the MCZ.
 					</p>
-					<strong>3. INSURANCE</strong>
+					<strong>3. PACKING</strong>
+					<p>The MCZ will determine the appropriate means of packing the loan material 
+						and will approve in writing all crating and packing arrangements. The Borrowing 
+						Institution agrees to cover all crating and packing costs.
+					</p>
+					<strong>4. INSURANCE</strong>
 					<p>If insurance is arranged by the Borrowing Institution, coverage will be under
 						an All Risk fine arts "wall to wall" policy from the time that the loan object(s)
-						leaves the Museum of Comparative Zoology, until the object(s) is returned
-						to the Museum of Comparative Zoology and the final condition reports are
+						leaves the MCZ, until the object(s) is returned to the MCZ and the final condition reports are
 						completed. Coverage will include all risk of physical damage or loss
 						including, but not limited to, loss or damage from earthquakes, floods,
 						strikes, riots, or civil commotion. The loan object(s) will be insured at the
-						value(s) assigned by the Museum of Comparative Zoology in 
-						this agreement. The Borrowing Institution&##39;s policy will name "President
-						and Fellows of Harvard College" as additional insured and will waive
+						value(s) assigned by the MCZ in this agreement. The Borrowing Institution&##39;s policy 
+						will name "President and Fellows of Harvard College" as additional insured and will waive
 						subrogation rights against Harvard University. A Certificate of Insurance
-						evidencing such coverage must be delivered to the Museum of
-						Comparative Zoology before shipment to the Borrowing Institution occurs.
-						The Borrowing Institution agrees to cover any deductible under its policy. If
-						the Museum of Comparative Zoology carries insurance under its policy, the
+						evidencing such coverage must be delivered to the MCZ before shipment to the 
+						Borrowing Institution occurs.  The Borrowing Institution agrees to cover any 
+						deductible under its policy. If the MCZ carries insurance under its policy, the
 						Borrowing Institution will be responsible for the cost of the premium while
 						the loan object(s) is in transit and on location.
 					</p>
-					<strong> 4. WITHDRAWAL OF OBJECTS </strong>
-					<p>The Museum of Comparative Zoology reserves the right to withdraw any
+					<strong>5. LOAN RETURN, WITHDRAWAL OF OBJECTS </strong>
+					<p>Specimens must be returned by the date stated on the invoice unless a loan renewal 
+						is granted in writing. Loans are granted for a period of up to one year and 
+						may be renewed up to four times in one-year increments. Loans that have been 
+						open for five years must be returned to the MCZ. A new loan request can then 
+						be submitted for consideration.  The MCZ reserves the right to withdraw any
 						items whose condition has deteriorated or may deteriorate due to continued
 						travel, or whose security appears to be threatened, or when other urgent
 						reasons necessitate withdrawal.
 					</p>
-					<strong> 5. PROCEDURE IN EVENT OF MISHAP </strong>
+					<strong>6. PROCEDURE IN EVENT OF MISHAP </strong>
 					<p>In the event that a loan item is damaged, destroyed, lost or stolen, the
-						Borrowing Institution shall give the Departmental contact at the Museum of
-						Comparative Zoology immediate telephone notice, followed by written
+						Borrowing Institution shall give the Departmental contact at the MCZ 
+						immediate telephone notice, followed by written
 						confirmation. The report of damage or loss should provide a description of
 						the extent and circumstances surrounding the mishap. No repairs or other
 						actions may be taken on the object(s) by the Borrowing Institution without
-						instruction in writing from the Museum of Comparative Zoology.
+						instruction in writing from the MCZ.
 					</p>
-					<strong> 6. PUBLICITY AND CREDITS </strong>
-					<p>
-						The credit line as shown on the first page of this form will be used in all printed
-						material (including web) related to the loan object(s). Loans for exhibition
-						require that one copy of any catalog or publicity material be sent directly to
-						the Departmental contact at the Museum of Comparative Zoology.
+					<strong>7. PUBLICITY AND CREDITS </strong>
+					<p>The credit line as shown on the first page of this form will be used in all printed
+						material (including web) related to the loan object(s).  One copy of any publication, 
+						catalog, or publicity material must be sent to the Departmental contact at the MCZ.
 					</p>
-					<strong> 7. PHOTOGRAPHY </strong>
-					<p> All photographs of Museum of Comparative Zoology items to be used in
+					<strong>8. PHOTOGRAPHY </strong>
+					<p>All photographs of MCZ items to be used in
 						exhibition catalog, brochures, publicity releases, and the like, either will be
-						taken by the Museum of Comparative Zoology or, if taken by another
-						photographer, must be approved in writing by the Museum. Copyright to
-						any photograph of Museum of Comparative Zoology object(s), regardless of
+						taken by the MCZ or, if taken by another photographer, must be approved in writing 
+						by the MCZ. Copyright to any photograph of MCZ object(s), regardless of
 						the photographer and the intended use, is retained by the President and
 						Fellows of Harvard College, and a copy of any photograph must be sent
-						directly to the MCZ Departmental contact if not taken by the Museum of
-						Comparative Zoology. Use of the photograph in any publication (including
-						web) requires prior permission by the Museum of Comparative Zoology. All
+						directly to the MCZ Departmental contact if not taken by the MCZ. Use of the 
+						photograph in any publication (including web) requires prior permission by the MCZ. All
 						permissions are for one time only.
 					</p>
-					<strong> 8. GENERAL CARE AND HANDLING </strong>
-					<p> The Borrowing Institution will exercise the same care and handling to the
+					<strong>9. GENERAL CARE AND HANDLING </strong>
+					<p>Borrowing institutions must demonstrate the ability to properly unpack, 
+						care for, use, and return the specimens according to best practices. 
+						The Borrowing Institution will exercise the same care and handling of the
 						loan item(s) as it does in the safekeeping of comparable property of its own.
 						Each object shall remain in the same condition in which it was received.
 						The Borrowing Institution agrees to follow all special handling, installation,
 						and packing instructions provided on the first page of this document, and
-						detailed in the correspondence and the Departmental Loan document from
-						the Museum of Comparative Zoology to the Borrowing Institution.
-						Upon arrival, all travel containers must be equilibrated to the environment
-						for 24-48 hours before unpacked.
+						detailed in the correspondence and the Loan document from
+						the MCZ to the Borrowing Institution.  Upon arrival, all travel containers 
+						must be equilibrated to the environment for 24-48 hours before unpacked.
 						No restoration, repair, cleaning, or fumigation of loan objects may be
-						performed by the borrower without instruction in writing from the Museum of
-						Comparative Zoology. Other organic objects stored or exhibited with those
-						from the Museum of Comparative Zoology must be free of infestation.
+						performed by the borrower without instruction in writing from the MCZ. 
+						Other organic objects stored or exhibited with those from the MCZ must 
+						be free of infestation.
 					</p>
-					<strong> 9. CONDITION REPORT </strong>
-					<p> The Museum of Comparative Zoology will provide a detailed condition
+					<strong>10. CONDITION REPORT </strong>
+					<p>The MCZ will provide a detailed condition
 						report of the loan item(s). The Borrowing Institution will review this condition
 						report against the loan item(s) at the time of its arrival and departure.
 					</p>
-					<strong> 10. EXHIBITION DESIGN AND INSTALLATION </strong>
-					<p> The Borrowing Institution agrees to comply with all requirements detailed on
+					<strong>11. EXHIBITION DESIGN AND INSTALLATION </strong>
+					<p>The Borrowing Institution agrees to comply with all requirements detailed on
 						the first page of this document, as well as those described in correspondence
-						and the Departmental Loan document from the Museum of Comparative
-						Zoology to the Borrowing Institution.
+						and the Loan document from the MCZ to the Borrowing Institution.
 						Mounting fixtures must be padded at contact points with the loan item(s).
 					</p>
-					<strong> 11. LOAN FEES </strong>
-					<p> The Borrowing Institution agrees to pay administrative loan fees,
+					<strong>12. LOAN FEES </strong>
+					<p>The Borrowing Institution agrees to pay administrative loan fees,
 						conservation, mount fabrication costs, courier fee, courier travel, and
-						courier per diem as detailed in correspondence and the Departmental Loan
-						document from the Museum of Comparative Zoology to the Borrowing
-						Institution.
+						courier per diem as detailed in correspondence and the Loan document 
+						from the MCZ to the Borrowing Institution.
 					</p>
-					<strong> 12. GOVERNING LAW </strong>
-					<p> 
-						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
+					<strong>13. GOVERNING LAW </strong>
+					<p>This agreement shall be governed by and construed in accordance with the laws 
+						of the Commonwealth of Massachusetts.
 					</p>
-					<strong>13. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
+					<strong>14. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
 					<p>Neither party&##39;s rights nor obligation hereunder may be assigned except with
 						the other&##39;s written consent. Subject to the foregoing, this agreement shall
 						be binding on and inure to the benefit of the parties and their successors
@@ -1032,7 +1052,12 @@ limitations under the License.
 								cataloged_item.collection_object_id as collection_object_id,
 								loan_number,
 								to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
-								MCZBASE.CONCATITEMREMINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as loan_item_remarks,
+								loan_item.loan_item_state,
+								MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+								loan_item.resolution_remarks,
+								to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
+								loan_item.loan_item_remarks,
+								loan_item.item_instructions,
 								concattransagent(loan.transaction_id, 'received by')  recAgentName,
 								cat_num,
 								MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
@@ -1047,8 +1072,11 @@ limitations under the License.
 										MCZBASE.GET_TYPESTATUS(cataloged_item.collection_object_id))
 									)
 								) as typestatusname,
-							
 								MCZBASE.CONCATPARTSINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as parts,
+								part.lot_count as lot_count_one_part,
+								part.lot_count_modifier,
+								specimen_part.part_name, 
+								specimen_part.preserve_method,
 								MCZBASE.CONCATPARTCTINLOAN(specimen_part.derived_from_cat_item, loan_item.transaction_id) as lot_count,
 								MCZBASE.GET_SCIENTIFIC_NAME(cataloged_item.collection_object_id) as scientific_name, 
 								spec_locality,
@@ -1060,11 +1088,11 @@ limitations under the License.
 								cat_num_integer,
 								part.condition as condition
 							FROM loan 
-								left join loan_item on loan.transaction_id = loan_item.transaction_id 
-								left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
-								left join coll_object part on loan_item.collection_object_id = part.collection_object_id 
-								left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-								left join collection on cataloged_item.collection_id = collection.collection_id 
+								join loan_item on loan.transaction_id = loan_item.transaction_id 
+								join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id 
+								join coll_object part on loan_item.collection_object_id = part.collection_object_id 
+								join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+								join collection on cataloged_item.collection_id = collection.collection_id 
 								left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 								left join locality on collecting_event.locality_id = locality.locality_id 
 								left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
@@ -1097,8 +1125,8 @@ limitations under the License.
 					<table style="#font# font-size: 1em; width: 100%;">
 						<tr>
 							<th style="width: 25%;">MCZ Number</th>
-							<th style="width: 50%;">Taxon, Locality</th>
-							<th style="width: 25%;">Specimen Count</th>
+							<th style="width: 45%;">Taxon, Locality</th>
+							<th style="width: 30%;">Specimen Count</th>
 						</tr>
 						<cfset totalLotCount = 0>
 						<cfset totalSpecimens = 0>
@@ -1107,10 +1135,9 @@ limitations under the License.
 								SELECT distinct 
 									collection_object_id,
 									institution_acronym, collection_cde, cat_num,
-									reconciled_date,
 									scientific_name, type_status, higher_geog,
 									collection, chronostrat,lithostrat,
-									spec_locality, collectors, loan_item_remarks
+									spec_locality, collectors
 								FROM getLoanItems
 							</cfquery>
 						<cfelse>
@@ -1123,9 +1150,19 @@ limitations under the License.
 							<tr>
 								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 									#institution_acronym#:#collection_cde#:#cat_num#
-									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+										<cfif dateDiff("d", loanDate, addedDate) GT 30>
+											<br>added #reconciled_date#
+										</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<br>#loan_item_state# #return_date#
+										</cfif>
+									</cfif>
 								</td>
-								<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 									<div>
 										<em>#scientific_name#</em>
 										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1135,23 +1172,45 @@ limitations under the License.
 										</cfif>
 										<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 										<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										</cfif>
 									</div>
 								</td>
-								<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+								<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 									<cfif isDefined("groupBy") AND groupBy EQ "part">
 										<cfquery name="getLoanItemsParts" dbtype="query">
-											SELECT sum(lot_count) slc, parts
+											SELECT sum(lot_count) slc, lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date, reconciled_date
 											FROM getLoanItems
 											WHERE 
 												institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 												and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-											GROUP BY parts
+											GROUP BY lot_count_one_part, lot_count_modifier, part_name, preserve_method, 
+												loan_item_remarks, item_instructions, loan_item_state, return_date, reconciled_date
 										</cfquery>
 										<cfloop query="getLoanItemsParts">
-											#parts#
-											<cfset totalSpecimens = totalSpecimens + slc>
+											<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+											#lot_count_one_part# #part_name#
+											<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+											<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+											<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+											<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+											<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+											<cfif dateDiff("d", loanDate, addedDate) GT 30>
+												<br>added #reconciled_date#
+											</cfif>
+											<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+											<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+											<cfif loan_item_state NEQ 'in loan'>
+												<br>#loan_item_state# #return_date#
+											</cfif>
+											<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+											<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+												<p> </p>
+											</cfif>
 										</cfloop>
 									<cfelse>
 										<cfset totalSpecimens = totalSpecimens + lot_count>
@@ -1188,10 +1247,15 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + 1>
 						</cfloop>
 					</table>
+					<cfif getLoanItemsLoop.recordcount EQ 0>
+						<div style="#font# font-size: 1em; margin-bottom: 2em;">
+							No Cataloged Items Encluded, See Nature of Material for Details. 
+						</div>
+					</cfif>
 					<div style="#font# font-size: 1em; margin-bottom: 2em; border-bottom: 1px solid black;">
 						<cfif TotalSpecimens EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 						<cfif TotalLotCount EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-						Subloan #getSubloans.loan_number# includes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
+						Subloan #getSubloans.loan_number# #chr(69)#ncludes #TotalSpecimens# specimen#splural# in #TotalLotCount# lot#lplural#.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
 					</div>
@@ -1199,7 +1263,7 @@ limitations under the License.
 				<div style="#font# font-size: 1em;">
 					<cfif masterTotal EQ 1><cfset splural = ""><cfelse><cfset splural = "s"></cfif>
 					<cfif masterLotTotal EQ 1><cfset lplural = ""><cfelse><cfset lplural = "s"></cfif>
-					<strong>Loan #loan_number# includes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
+					<strong>Loan #loan_number# #chr(69)#ncludes a total of #masterTotal# specimen#splural# in #masterLotTotal# lot#lplural#.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
@@ -1207,8 +1271,8 @@ limitations under the License.
 				<table style="#font# font-size: 1em;">
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
-						<th style="width: 50%;">Taxon, Locality</th>
-						<th style="width: 25%;">Specimen Count</th>
+						<th style="width: 45%;">Taxon, Locality</th>
+						<th style="width: 30%;">Specimen Count</th>
 					</tr>
 					<cfset totalLotCount = 0>
 					<cfset totalSpecimens = 0>
@@ -1217,10 +1281,9 @@ limitations under the License.
 							SELECT distinct 
 								collection_object_id,
 								institution_acronym, collection_cde, cat_num,
-								reconciled_date,
 								scientific_name, type_status, higher_geog,
 								collection, chronostrat,lithostrat,
-								spec_locality, collectors, loan_item_remarks
+								spec_locality, collectors
 							FROM getLoanItems
 						</cfquery>
 					<cfelse>
@@ -1233,9 +1296,19 @@ limitations under the License.
 						<tr>
 							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
 								#institution_acronym#:#collection_cde#:#cat_num#
-								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
+								<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+									<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+									<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+									<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+									<cfif dateDiff("d", loanDate, addedDate) GT 30>
+										<br>added #reconciled_date#
+									</cfif>
+									<cfif loan_item_state NEQ 'in loan'>
+										<br>#loan_item_state# #return_date#
+									</cfif>
+								</cfif>
 							</td>
-							<td style="width: 50%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 45%; vertical-align: top; #font# font-size: small;">
 								<div>
 									<em>#scientific_name#</em>
 									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
@@ -1245,23 +1318,53 @@ limitations under the License.
 									</cfif>
 									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
 									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+									<cfif NOT (isDefined("groupBy") AND groupBy EQ "part")>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+									</cfif>
 								</div>
 							</td>
-							<td style="width: 25%; vertical-align: top; #font# font-size: small;">
+							<td style="width: 30%; vertical-align: top; #font# font-size: small;">
 								<cfif isDefined("groupBy") AND groupBy EQ "part">
 									<cfquery name="getLoanItemsParts" dbtype="query">
-										SELECT sum(lot_count) slc, parts
+										SELECT 
+											lot_count as lot_count_one_part,
+											lot_count_modifier,
+											part_name,
+											preserve_method,
+											item_instructions,
+											loan_item_remarks,
+											return_date,
+											reconciled_date,
+											loan_item_state
 										FROM getLoanItems
 										WHERE 
 											institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 											and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 											and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_num#">
-										GROUP BY parts
+										GROUP BY lot_count, lot_count_modifier, part_name, preserve_method,
+											item_instructions, loan_item_remarks, return_date, reconciled_date, loan_item_state
 									</cfquery>
 									<cfloop query="getLoanItemsParts">
-										#parts#
-										<cfset totalSpecimens = totalSpecimens + slc>
+										<cfif len(lot_count_modifier) GT 0>#lot_count_modifier#</cfif>
+										#lot_count_one_part# #part_name# 
+										<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+										<cfset totalSpecimens = totalSpecimens + lot_count_one_part>
+										<!--- if reconciled_date (added loan item) is more than 30 days after the loan date, show the reconciled date to indicate material added later --->
+										<cfset addedDate = parseDateTime(reconciled_date,'yyyy-mm-dd')>
+										<cfset loanDate = parseDateTime(getLoan.trans_date_iso,'yyyy-mm-dd')>
+										<cfif dateDiff("d", loanDate, addedDate) GT 30>
+											<br>added #reconciled_date#
+										</cfif>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+										<cfif Len(item_instructions) GT 0><BR>Instructions: #item_instructions#</cfif>
+										<cfif loan_item_state NEQ 'in loan'>
+											<br>#loan_item_state# #return_date#
+										</cfif>
+										<!--- new line if not last record for part to better separate multiple parts on same specimen --->
+										<cfif getLoanItemsParts.currentrow LT getLoanItemsParts.recordcount>
+											<p> </p>
+										</cfif>
 									</cfloop>
 								<cfelse>
 									<cfset totalSpecimens = totalSpecimens + lot_count>

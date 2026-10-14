@@ -1,7 +1,7 @@
 <!--- specimens/changeQueryCollEvent.cfm manage specimens by collecting event
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2022 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ limitations under the License.
 <cfset actionWord = "To Be">
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
@@ -665,9 +665,9 @@ limitations under the License.
 						</cfif>
 						<tr>
 							<td>
-							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-							#collection#&nbsp;#cat_num#
-							</a>
+								<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
+									#collection#&nbsp;#cat_num#
+								</a>
 							</td>
 						<cfif len(#session.CustomOtherIdentifier#) GT 0>
 							<td>

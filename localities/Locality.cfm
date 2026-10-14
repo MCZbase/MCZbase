@@ -47,6 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -169,9 +170,18 @@ limitations under the License.
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
 						</div>
+						<cfif isDefined("url.launchEditCurrentGeorefDialog") AND url.launchEditCurrentGeorefDialog EQ "true">
+							<!--- if requested in the url, launch the edit georeference dialog for the accepted georeference--->
+							<script>
+								$(document).ready(function() {
+									$("##editAcceptedGeorefButton").trigger('click');
+								});
+							</script>
+						</cfif>
 					</div>
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
+							<cfoutput>#renderWikiButtons()#</cfoutput>
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
@@ -243,19 +253,25 @@ limitations under the License.
 			<cfelse>
 				<cfset blockform = getCreateLocalityHtml()>
 			</cfif>
-			<main class="container-fluid container-xl my-2" id="content">
-				<section class="row">
-					<div class="col-12 mt-2 mb-5">
-					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
-						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-							<form name="createLocality" method="post" action="/localities/Locality.cfm">
-								<input type="hidden" name="Action" value="makenewLocality">
-								#blockform#
-							</form>
+				<main class="container-fluid container-xl my-2" id="content">
+					<section class="row">
+						<div class="col-12 mt-2 mb-5">
+							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<form name="createLocality" method="post" action="/localities/Locality.cfm">
+									<input type="hidden" name="Action" value="makenewLocality">
+									#blockform#
+								</form>
+							</div>
+							<cftry>
+								#renderWikiButtons()#
+							<cfcatch>
+								Error calling renderWikiButtons: #cfcatch.message#
+							</cfcatch>
+							</cftry>
 						</div>
-					</div>
-				</section>
-			</main>
+					</section>
+				</main>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
@@ -428,14 +444,17 @@ limitations under the License.
 							,LAT_LONG_REMARKS
 							,MAX_ERROR_DISTANCE
 							,MAX_ERROR_UNITS
+							,COORDINATE_PRECISION
 							,NEAREST_NAMED_PLACE
 							,LAT_LONG_FOR_NNP_FG
 							,FIELD_VERIFIED_FG
 							,ACCEPTED_LAT_LONG_FG
 							,EXTENT
+							,EXTENT_UNITS
 							,GPSACCURACY
 							,SPATIALFIT
 							,FOOTPRINT_SPATIALFIT
+							,ERROR_POLYGON 
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
 							,verified_by_agent_id)
@@ -537,6 +556,11 @@ limitations under the License.
 							<cfelse>
 								,NULL
 							</cfif>
+							<cfif len(#COORDINATE_PRECISION#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COORDINATE_PRECISION#">
+							<cfelse>
+								,NULL
+							</cfif>
 							<cfif len(#NEAREST_NAMED_PLACE#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">
 							<cfelse>
@@ -558,6 +582,11 @@ limitations under the License.
 							<cfelse>
 								,NULL
 							</cfif>
+							<cfif len(#EXTENT_UNITS#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">
+							<cfelse>
+								,NULL
+							</cfif>
 							<cfif len(#GPSACCURACY#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
 							<cfelse>
@@ -570,6 +599,11 @@ limitations under the License.
 							</cfif>
 							<cfif len(#FOOTPRINT_SPATIALFIT#) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIALFIT#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#ERROR_POLYGON#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -641,5 +675,10 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Edit_Locality" : "Locality")>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+
 
 <cfinclude template = "/shared/_footer.cfm">

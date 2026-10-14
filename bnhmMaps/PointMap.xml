@@ -1,13 +1,13 @@
 <bnhmmaps>
 	<metadata>
-		<name>UAM Map Configuration File</name>
-		<relatedinformation>http://arctos.database.museum/</relatedinformation>
-		<abstract> GIS configuration file for UAM query interface</abstract>
+		<name>MCZ Map Configuration File</name>
+		<relatedinformation>http://mczbase.mcz.harvard.edu/</relatedinformation>
+		<abstract> GIS configuration file for MCZbase query interface</abstract>
 		<mapkeyword keyword="specimens"/>
 		<header location="http://arctos.database.museum/images/empty.gif"/>
 		<linkbackheader location="http://arctos.database.museum/"/>
 		
-		<footer location="http://arctos.database.museum/bnhmMaps/BerkMapFooter.html"/>
+		<footer location="http://mczbase.mcz.harvard.edu/bnhmMaps/BerkMapFooter.html"/>
 	</metadata>
 
 	<colors method="field" fieldname="char120_3" label="Accepted LatLong">

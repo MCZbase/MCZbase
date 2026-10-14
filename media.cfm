@@ -4,6 +4,15 @@
 	<cf_rolecheck>
 <cfelse>
 	<cfset title="Manage Media">
+	<!--- This page does not set jquery11=true before this include, so
+	      includes/alwaysInclude.cfm loads jQuery 1.3.2 plus a datepicker-only jQuery UI
+	      build here, not the full jquery-ui-1.11.4.custom bundle (no autocomplete, no
+	      dialog widget). The "project" relationship picker below (pickedRelationship ->
+	      getProject(), includes/ajax.js) works around this with a plain <datalist> and
+	      jQuery 1.3.2-safe bind()/unbind() instead of the $(...).autocomplete() pattern
+	      used elsewhere in this app. Setting jquery11=true here would remove the need for
+	      that workaround, but upgrades jQuery for this whole page -- deferred pending a
+	      real redesign of this page onto /shared/_header.cfm. --->
 	<cfinclude template="/includes/_header.cfm">
 	<script type='text/javascript' src='/includes/internalAjax.js'></script>
 	<script>
@@ -254,6 +263,9 @@
           <div id="seedMedia" style="display:none">
             <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
             <cfset d="">
+            <!--- picking "shows project"/"documents project" here dispatches to
+                  getProject() (includes/ajax.js) -- see the jQuery-version note on this
+                  page's header include above. --->
             <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
               <option value="delete">delete</option>
               <cfloop query="ctmedia_relationship">
@@ -268,6 +280,7 @@
         <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+          <!--- see the jQuery-version note on this page's header include above (getProject() workaround) --->
           <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
             <option value="delete">delete</option>
             <cfloop query="ctmedia_relationship">
@@ -481,6 +494,7 @@
       <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
       <div id="relationships" class="graydot">
         <div id="relationshiperror"></div>
+        <!--- see the jQuery-version note on this page's header include above (getProject() workaround) --->
         <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
           <option value="">None/Unpick</option>
           <cfloop query="ctmedia_relationship">

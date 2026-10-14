@@ -21,7 +21,4 @@ function hidePrevious(eid) {
 	tglon.className='doShow infoLink';
 	eid.className='noShow';
 }
-function success_saveThisAnnotation (result) {
-	
-}
 

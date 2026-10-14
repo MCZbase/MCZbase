@@ -2,6 +2,10 @@
  * Place scripts that should be available on all web pages for all users here.
 */
 
+
+
+
+
 /** Make some readable content for a message dialog from an error message,
  * message may be empty, in which case placeholder text is returned, message
  * may start with the coldfusion responseText for a server error of <!-- \" --->,
@@ -30,6 +34,57 @@ function prepareErrorMessage(message) {
 	}
 	return result;
 }
+
+/** create a dialog asking if user wishes to reload page, with option to cancel, and a
+  message describing the reason for the dialog, typically a state change message.  
+  If user selects yes, page is reloaded, if no, dialog is closed and page is not reloaded.
+  @param dialogText the text to place in the dialog, typically describing the reason for the dialog, e.g. a state change message.
+  @param dialogTitle the title to place in the dialog header.
+*/
+function reloadPageDialog(dialogText, dialogTitle) {
+	if (!dialogTitle) { dialogTitle = "Error"; } 
+	console.log(dialogTitle);
+	if (dialogTitle=="Internal Server Error" && dialogText=="") { 
+		// internal server errors cause duplicate copies of message dialog to launch, one containing the message, one without
+		// supress the one without, but log to console.
+		console.log("reloadPageDialog invoked with no message text");
+	} else { 
+		// normal case, display a dialog with the message.
+		var titleTrimmed = dialogTitle.substring(0,50);
+		var reloadPageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+			modal: true,
+			resizable: false,
+			draggable: true,
+			width: 'auto',
+			minHeight: 80,
+			title: titleTrimmed,
+			buttons: {
+				"Yes": function() {
+					// pages that want feedback while reloading (rather than looking unresponsive
+					// until the new page appears) provide a div with this id, hidden via a d-none
+					// class removed here; harmless no-op on pages without one.
+					if ($('#pageReloadOverlay').length) {
+						$('#pageReloadOverlay').removeClass('d-none');
+					}
+					location.reload();
+				},
+				"No": function() { 
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$(this).dialog( "destroy" );
+			},
+			open: function (event, ui) { 
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			} 
+		});
+		reloadPageDialog.dialog('moveToTop');
+	}
+};
 
 /** Creates a simple message dialog with an OK button.  Creates a new div, 
  * types it as a jquery-ui modal dialog and displays it.
@@ -73,15 +128,17 @@ function messageDialog(dialogText, dialogTitle) {
 	}
 };
 
-/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
- * types it as a jquery-ui modal dialog and displays it, invokes the specified callback 
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div,
+ * types it as a jquery-ui modal dialog and displays it, invokes the specified callback
  * function when OK is pressed.
  *
  * @param dialogText the text to place in the dialog.
  * @prarm dialogTitle for the dialog header.
  * @param okFunction callback function to invoke upon a press of the OK button.
+ * @param cancelFunction optional callback function to invoke upon a press of the Cancel
+ *	button, or the dialog being dismissed via its close icon or the Escape key.
  */
-function confirmDialog(dialogText, dialogTitle, okFunction) {
+function confirmDialog(dialogText, dialogTitle, okFunction, cancelFunction) {
 	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
@@ -96,10 +153,16 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 			},
 			Cancel: function () {
 				$(this).dialog('destroy');
+				if (cancelFunction) {
+					setTimeout(cancelFunction, 30);
+				}
 			}
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
+			 if (cancelFunction) {
+			 	setTimeout(cancelFunction, 30);
+			 }
 		},
 		open: function (event, ui) { 
 			// force the dialog to lay above any other elements in the page.
@@ -749,6 +812,63 @@ function createRowDetailsDialogNoBlanks(gridId, rowDetailsTargetId, datarecord,r
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
 
+/** setFeedbackControlState is used to set the css classes and message of the feedback control
+ * @param control the id of the control to set without a leading # selector
+ * @param state the state to set, one of 'unsaved', 'saving', 'saved', 'error', 'info', 'success', 'removed'
+*/
+function setFeedbackControlState(control,state){
+	state = state.toLowerCase();
+	if (state == 'unsaved') {
+		message = "Unsaved changes."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'saving') {
+		message = "Saving..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'saved'){
+		message = "Saved"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleting'){
+		message = "Deleting..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleted'){
+		message = "Deleted."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'error'){
+		message = "Error"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'info'){
+		message = "Info"
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'success'){
+		message = "Success"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'removed'){
+		message = "Removed"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else {
+		message = ""
+	}
+	$('#' + control).html(message);
+};
+
 /** function countCharsLeft count the characters available for data entry in an input
  * (typically a text area) and report used and remaining characters as the content of
  * a specified control. Example use bound to onkeyup event of a textarea:
@@ -991,11 +1111,12 @@ function makeRichMediaPickerOneControlMeta(valueControl,typeLimit) {
  *
  *  @param type the type of media record to limit to, use empty value for no limitation.
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param typeLimit a value that limits the autocomplete to that type, defaults to image.
  *  @param idControl the id for an input that is to be the media_id field (without a leading # selector).
  */
 function makeRichMediaPickerControlMeta(valueControl,idControl,typeLimit) { 
 	if (!typeLimit) { 
-		typeLimit = "";
+		typeLimit = "image";
 	} 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
@@ -1004,6 +1125,43 @@ function makeRichMediaPickerControlMeta(valueControl,idControl,typeLimit) {
 				data: { 
 					term: request.term, 
 					type: typeLimit,
+					method: 'getRichMediaAutocomplete' 
+				},
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up media for a media_id picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+valueControl).val(result.item.value);
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+/** Make a text name control and media_id control and a media_type control
+ *  into an autocomplete media_id picker, 
+ *  with media metadata displayed in the autocomplete,
+ *  value of separate media_type control limits the autocomplete to that type.
+ *
+ *  @param type the type of media record to limit to, use empty value for no limitation.
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param valueControl the id for an input that provides a type limit (without a leading # selector).
+ *  @param idControl the id for an input that is to be the media_id field (without a leading # selector).
+ */
+function makeRichMediaPickerControlMeta2(valueControl,idControl,typeControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/media/component/search.cfc",
+				data: { 
+					term: request.term, 
+					type: $('#'+typeControl).val(),
 					method: 'getRichMediaAutocomplete' 
 				},
 				dataType: 'json',
@@ -1056,8 +1214,9 @@ function makeLicenseAutocompleteMeta(valueControl, idControl) {
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected publication_id (without a leading # selector).
+ *  @param callback a callback function that is called with the selected publication_id as a parameter when a selection is made.
  */
-function makePublicationAutocompleteMeta(valueControl, idControl) { 
+function makePublicationAutocompleteMeta(valueControl, idControl, callback=null) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1072,6 +1231,20 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+			if (callback && typeof callback === 'function') { 
+				// if a callback is provided, call it with the selected item.
+				try { 
+					callback(result.item.id);
+				} catch (error) {
+					console.log("Error invoking callback (will retry with no parameters): " + error);
+					// try invoking callback with no parameters
+					try { 
+						callback();
+					} catch (error) {
+						console.log("Error invoking callback with no parameters: " + error);
+					}
+				}
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
@@ -1298,7 +1471,8 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
-/** Make a text control into an autocomplete part name  picker.
+/** Make a text control into an autocomplete part name picker, intended for use with search,
+ * prepends an equals sign on selection.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  */
@@ -1318,6 +1492,38 @@ function makePartNameAutocompleteMeta(valueControl ) {
 		select: function (event, result) {
 			event.preventDefault();
 			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+/** Make a text control into an autocomplete part name picker limited by collection, intended for use with data entry
+ * does not prepend an equals sign on selection.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param collection_cde the collection code to limit the autocomplete to.
+ */
+function makePartNameAutocompleteMetaForCollection(valueControl,collection_cde) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { 
+					term: request.term, 
+					collection_cde: collection_cde,
+					method: 'getPartNameAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up part names for a part name picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val(result.item.value);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
@@ -2298,7 +2504,7 @@ function openDownloadAgreeDialog(dialogid, result_id, filename) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog_fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -2463,4 +2669,59 @@ function toggleAnySearchForm(formId, toggleIconId) {
 		$('#'+toggleIconId).addClass('fa-eye-slash');
 		$('#'+toggleIconId).removeClass('fa-eye');
 	}
+}
+
+/** tdHasWrappedSpans determine if a table cell contains spans that have wrapped to multiple lines.
+ * Detects by checking the top position of each span within the td, if any differ from the first 
+ * span's top position by more than the specified tolerance, then we have wrapped spans.
+ * 
+ * @param td the table cell element to check for wrapped spans, can be a selector string, a jQuery object, 
+ *   or a DOM element, e.g. given <td id="mytd">...</td> you can pass '#mytd', $('#mytd'), or document.getElementById('mytd')
+ *
+ * @param tolerance an optional number of pixels tolerance to allow for minor differences in top position.
+ * @return true if the td contains spans that have wrapped to multiple lines, false otherwise.
+ */
+function tdHasWrappedSpans(td, tolerance = 3) {
+  // Accept selector string
+  if (typeof td === 'string') td = document.querySelector(td);
+
+  // jQuery object -> pick first element (if the collection has many elements, we check the first)
+  if (window.jQuery && td instanceof window.jQuery) {
+    if (td.length === 0) return false;
+    td = td.get(0);
+  }
+  // Now td should be a DOM element, check this
+  if (!(td instanceof Element)) {
+	 throw new Error('tdHasWrappedSpans: td parameter must be a selector string, jQuery object, or DOM element.');
+  }
+  const spans = Array.from(td.querySelectorAll('span:not(.d-none)'));
+  if (spans.length <= 1) return false;
+  const firstTop = spans[0].getBoundingClientRect().top;
+  return spans.some(s => Math.abs(s.getBoundingClientRect().top - firstTop) > tolerance);
+}
+
+// Check a collection (jQuery, selector, NodeList, array, or single element).
+// Returns true if any element in the collection is a <td> that contains wrapped spans.
+function tdClassHasWrappedSpans(elOrSelector, tolerance = 3) {
+  const elements = resolveToElements(elOrSelector);
+  if (!elements.length) return false;
+  const tol = Number(tolerance) || 0;
+  for (const el of elements) {
+    // Only consider TD elements (skip others)
+    if (!el.matches || !el.matches('td')) continue;
+    if (tdHasWrappedSpans(el, tol)) return true;
+  }
+  return false;
+}
+
+// Helper to resolve input to an array of DOM elements
+// Return an array of Elements from various inputs
+function resolveToElements(input) {
+  if (!input) return [];
+  if (typeof input === 'string') return Array.from(document.querySelectorAll(input));
+  if (input instanceof Element) return [input];
+  if (window.jQuery && input instanceof window.jQuery) return input.toArray();
+  if (NodeList.prototype.isPrototypeOf(input) || HTMLCollection.prototype.isPrototypeOf(input)) return Array.from(input);
+  if (Array.isArray(input)) return input.filter(i => i instanceof Element);
+  return [];
 }

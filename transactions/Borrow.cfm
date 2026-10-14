@@ -115,27 +115,62 @@ limitations under the License.
 	<cfoutput>
 		<!-- upload items --->
 		<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-		<cfset fileContent=replace(fileContent,"'","''","all")>
+		<!--- The uploaded file's first row supplied the column list of the insert directly, and its
+			remaining rows supplied quoted literals, the whole file having had its quotes doubled
+			first.  Column names are now checked against the table, and values bind.  Doubling quotes
+			across the whole file also turned any apostrophe in the data into two, so removing it
+			fixes that as well. --->
+		<cfquery name="getBorrowItemCols" datasource="uam_god">
+			SELECT column_name
+			FROM sys.user_tab_cols
+			WHERE table_name='BORROW_ITEM'
+		</cfquery>
+		<cfset borrowItemColumns = valuelist(getBorrowItemCols.column_name)>
+		<cfif NOT isNumeric(transaction_id)>
+			<cfthrow type="InvalidParameter" message="A numeric transaction_id is required to load borrow items.">
+		</cfif>
 		<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		<cfset colNames="">
+		<cfset colNames = arrayNew(1)>
 		<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-			<cfset colVals="">
+			<cfif o is 1>
 				<cfloop from="1" to ="#ArrayLen(arrResult[o])#" index="i">
-					<cfset thisBit=arrResult[o][i]>
-					<cfif #o# is 1>
-						<cfset colNames="#colNames#,#thisBit#">
-					<cfelse>
-						<cfset colVals="#colVals#,'#thisBit#'">
+					<cfset thisBit = trim(arrResult[o][i])>
+					<cfset thisColumn = listfindnocase(borrowItemColumns,thisBit)>
+					<cfif thisColumn EQ 0>
+						<cfthrow type="InvalidParameter" message="The heading #encodeForHtml(thisBit)# is not a column of BORROW_ITEM.">
+					</cfif>
+					<!--- kept as the data dictionary spells it, not as the file did --->
+					<cfset arrayAppend(colNames,listgetat(borrowItemColumns,thisColumn))>
+				</cfloop>
+			<cfelse>
+				<cfset rowIsEmpty = true>
+				<cfloop from="1" to ="#ArrayLen(arrResult[o])#" index="i">
+					<cfif len(trim(arrResult[o][i])) GT 0>
+						<cfset rowIsEmpty = false>
 					</cfif>
 				</cfloop>
-			<cfif #o# is 1>
-				<cfset colNames="TRANSACTION_ID#colNames#">
-			</cfif>
-			<cfif len(#colVals#) gt 1>
-				<cfset colVals="#transaction_id##colVals#">
-				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into BORROW_ITEM (#colNames#) values (#preservesinglequotes(colVals)#)
-				</cfquery>
+				<cfif NOT rowIsEmpty>
+					<cfif ArrayLen(arrResult[o]) NEQ ArrayLen(colNames)>
+						<cfthrow type="InvalidParameter" message="Row #o# of the file holds a different number of values than the heading row.">
+					</cfif>
+					<cfset sqlParams = structNew()>
+					<cfset valueTokens = arrayNew(1)>
+					<cfloop from="1" to ="#ArrayLen(colNames)#" index="i">
+						<cfset paramName = "p" & numberFormat(i,"0000")>
+						<cfset arrayAppend(valueTokens,":" & paramName)>
+						<cfset sqlParams[paramName] = { value=arrResult[o][i], cfsqltype="CF_SQL_VARCHAR" }>
+					</cfloop>
+					<cfset sqlParams["ptransaction_id"] = { value=transaction_id, cfsqltype="CF_SQL_DECIMAL" }>
+					<cfset queryExecute(
+						"INSERT INTO BORROW_ITEM (TRANSACTION_ID," & arrayToList(colNames,",")
+							& ") VALUES (:ptransaction_id," & arrayToList(valueTokens,",") & ")",
+						sqlParams,
+						{
+							datasource = "user_login",
+							username = session.dbuser,
+							password = decrypt(session.epw,cookie.cfid)
+						})>
+				</cfif>
 			</cfif>
 		</cfloop>
 		<cflocation url="/transactions/Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">

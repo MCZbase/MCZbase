@@ -10,3 +10,4 @@ jquery-ui: Public Domain (CC0 grant)
 
 jqwidgets: CC-BY-NC, explicit grant to "A public school, university or a non-profit organization."
 
+deck.gl: MIT https://github.com/visgl/deck.gl

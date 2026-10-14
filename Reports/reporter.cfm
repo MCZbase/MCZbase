@@ -304,8 +304,18 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "download">
-	<cfheader name="Content-Disposition" value="attachment; filename=#report_template#">
-	<cfcontent type="application/vnd.coldfusion-reporter" file="#Application.webDirectory#/Reports/templates/#report_template#">
+	<cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
+	<cfset variables.templateFile = "">
+	<cfif isDefined("url.report_template")>
+		<cfset variables.templateFile = resolveFileInDirectory("#Application.webDirectory#/Reports/templates", url.report_template, "cfr")>
+	</cfif>
+	<cfif len(variables.templateFile) EQ 0>
+		<cfheader statuscode="404" statustext="Not Found">
+		Report template not found.
+		<cfabort>
+	</cfif>
+	<cfheader name="Content-Disposition" value="#attachmentDisposition(url.report_template)#">
+	<cfcontent type="application/vnd.coldfusion-reporter" file="#variables.templateFile#">
 </cfif>
 <!-------------------------------------------------------------->
 </cfoutput>

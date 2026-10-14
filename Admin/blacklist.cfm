@@ -1,5 +1,9 @@
 <cfset pageTitle = "Manage Blocklist">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
+<cfif NOT isDefined("isIpAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
 <cfoutput>
 	<main class="container py-3" id="content">
 		<h2 class="h3">Manage Blocklist</h2>
@@ -11,6 +15,7 @@
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
+							#csrfTokenInput()#
 							<label for="ip" class="data-entry-label">IP address to block</label>
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
@@ -23,13 +28,19 @@
 				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
-					order by to_number(replace(ip,'.'))
+					order by ip
 				</cfquery>
 				<cfset application.blacklist=valuelist(all.ip)>
 				<h3 class="h4">The application.blacklist has been reloaded</h3>
 				<h3 class="h4">All Blocked IP Addresses (#all.recordcount#)</h3>
 				<cfloop query="all">
-					<br>#ip# <a href="blacklist.cfm?action=del&ip=#ip#">Remove</a>
+					<br>#ip#
+					<form method="post" action="/Admin/blacklist.cfm" class="d-inline m-0">
+						<input type="hidden" name="action" value="del">
+						#csrfTokenInput()#
+						<input type="hidden" name="ip" value="#encodeForHtmlAttribute(ip)#">
+						<input type="submit" value="Remove from blocklist" class="btn btn-xs btn-danger">
+					</form>
 					<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 				</cfloop>
 				<ul>
@@ -48,6 +59,19 @@
 			</cfcase>
 			<cfcase value="ins">
 				<!--- add an ip address to the block list --->
+				<cfparam name="form.ip" default="">
+				<cfif NOT isPostWithCsrfToken()>
+					<cfthrow message="Adding to the blocklist requires a post from the blocklist form.">
+				</cfif>
+				<cfset variables.ip = trim(form.ip)>
+				<!--- one address per row: the blocklist matches whole addresses, and a pattern or list would never match --->
+				<cfif NOT isIpAddress(variables.ip)>
+					<cfthrow message="#encodeForHtml(variables.ip)# is not a single IPv4 or IPv6 address.">
+				</cfif>
+				<!--- as for the automatic blocklist: blocking a proxy or this server would block every user --->
+				<cfif isBlockExempt(variables.ip)>
+					<cfthrow message="#encodeForHtml(variables.ip)# is this server, a trusted proxy, or an exempt address, and can't be blocked.">
+				</cfif>
 				<cftry>
 				   <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		   		   insert into blacklist 
@@ -68,6 +92,11 @@
 			</cfcase>
 			<cfcase value="del">
 				<!--- remove an ip address from the block list --->
+				<cfparam name="form.ip" default="">
+				<cfif NOT isPostWithCsrfToken()>
+					<cfthrow message="Removing from the blocklist requires a post from the blocklist page.">
+				</cfif>
+				<cfset variables.ip = form.ip>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from blacklist 
 					where ip = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#ip#">
@@ -85,6 +114,7 @@
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
+							#csrfTokenInput()#
 							<label for="ip" class="data-entry-label">IP address to block</label>
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
@@ -96,10 +126,11 @@
 				</form>
 				<cfobject type="Java" class="java.net.InetAddress" name="inetAddr">
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
+					select ip, to_char(listdate,'YYYY-MM-DD') as listdate /*, LOOKUP_HOSTNAME(ip) as hostname*/ from blacklist 
 					where listdate > sysdate - 30
 					order by ip
 				</cfquery>
+				<cfset hostname='hostname'>
 				<h3 class="h4">Addresses blocked in the last 30 days</h3>
 				<ul>
 					<cfif last30.recordcount EQ 0>
@@ -117,7 +148,12 @@
 							</cfif>
 							<li>
 								#ip# added on #listdate# #host_name# 
-								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
+								<form method="post" action="/Admin/blacklist.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="del">
+									#csrfTokenInput()#
+									<input type="hidden" name="ip" value="#encodeForHtmlAttribute(ip)#">
+									<input type="submit" value="Remove from blocklist" class="btn btn-xs btn-danger">
+								</form>
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
 						</cfloop>
@@ -145,7 +181,12 @@
 							</cfif>
 							<li>
 								#ip# added on #listdate# #host_name# 
-								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
+								<form method="post" action="/Admin/blacklist.cfm" class="d-inline m-0">
+									<input type="hidden" name="action" value="del">
+									#csrfTokenInput()#
+									<input type="hidden" name="ip" value="#encodeForHtmlAttribute(ip)#">
+									<input type="submit" value="Remove from blocklist" class="btn btn-xs btn-danger">
+								</form>
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
 						</cfloop>

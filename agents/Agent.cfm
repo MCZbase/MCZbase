@@ -1,10 +1,10 @@
 <cfset pageTitle = "Agent Details">
-<!--
+<!---
 agents/Agent.cfm
 
 Form for displaying agent details, editing agent details, and creating new agents.
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,8 +18,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
-
+--->
 <cfif isdefined("agent_id")>
 	<cfif len(agent_id) GT 0 and REFind("^[0-9]*$",agent_id) EQ 0>
 		<cfinclude template="/errors/autoblacklist.cfm">
@@ -33,6 +32,8 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml ---><!--- ? unused ? remove ? --->
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/public.cfc" runOnce="true">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
@@ -77,7 +78,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
+	SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 		left join collector on collector.collection_object_id = flat.collection_object_id
 		left join agent on agent.agent_id = collector.agent_id
@@ -86,8 +87,11 @@ limitations under the License.
 		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
-		and collector.collector_role = 'c'
 		and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
+    GROUP BY 
+        flat.locality_id,
+        flat.dec_lat,
+        flat.dec_long
 </cfquery>
 
 <cfoutput>
@@ -128,8 +132,9 @@ limitations under the License.
 	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 	var currentAgentImage = 1;
 </script>
-	<main class="container-xl px-0" id="content">
+	<main class="container-fluid" id="content">
 		<div class="row mx-0">
+			<div class="col-10 mx-auto px-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-3">
@@ -140,7 +145,7 @@ limitations under the License.
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
 									<!--- add birth death dates --->
-									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false) >
+									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false,is_person=true) >
 								</cfif>
 							<cfelse>
 								<!--- add start and end years when implemented --->
@@ -171,7 +176,16 @@ limitations under the License.
 									<cfset rankBit = '#rankBit#</span>'><!--- ' --->
 								</cfif>
 							</cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #agent_type# #agent_id_bit##rankBit#</span> 
+							<cfquery name="getIndeterminate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getIndeterminate_result">
+								SELECT MCZBASE.is_indeterminate_agent(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">) as is_indeterminate
+								FROM dual
+							</cfquery>
+							<cfif getIndeterminate.is_indeterminate EQ 1>
+								<cfset indeterminateBit = "indeterminate ">
+							<cfelse>
+								<cfset indeterminateBit = "">
+							</cfif>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #indeterminateBit##agent_type# #agent_id_bit##rankBit#</span>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>
@@ -471,7 +485,7 @@ limitations under the License.
 																		goNextAgent()
 																	}, false)
 																	$("##agent_media_img").scrollTop(function (event) {
-																		event.preventDefault();
+																	//	event.preventDefault();
 																		var ya = event.scrollTop;
 																		if (ya > $nextAgent) { 
 																			currentAgentImage = 0;
@@ -677,21 +691,21 @@ limitations under the License.
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
 							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="groupMembership_result">
-									SELECT
-										group_agent_id,
-										member_order,
-										agent_name
-									FROM
-										group_member 
-										join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
-									WHERE
-										member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										<cfif oneOfUs NEQ 1>
-											AND agent_name not like 'MCZ%Data%'
-										</cfif>
-									ORDER BY
-										agent_name
-								</cfquery>
+								SELECT
+									group_agent_id,
+									member_order,
+									agent_name
+								FROM
+									group_member 
+									join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
+								WHERE
+									member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									<cfif oneOfUs NEQ 1>
+										AND agent_name not like 'MCZ%Data%'
+									</cfif>
+								ORDER BY
+									agent_name
+							</cfquery>
 							<cfif groupMembership.recordcount GT 20 OR groupMembership.recordcount EQ 0>
 									<!--- cardState = collapsed --->
 									<cfset bodyClass = "collapse">
@@ -736,6 +750,51 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
+							<!--- annotations on this agent record --->
+							<cfquery name="countAgentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+								SELECT count(annotation_id) ct
+								FROM annotations
+								WHERE target_table = 'AGENT'
+									AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+									</cfif>
+							</cfquery>
+							<script type="text/javascript">
+								function reloadAgentAnnotationCardBody() {
+									$.ajax({
+										url: '/annotations/component/public.cfc',
+										data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+										success: function(result) { $('##agentAnnotationsCardBodyWrap').html(result); },
+										error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+										dataType: 'html'
+									});
+								}
+							</script>
+							<section class="accordion" id="agentAnnotationsSection">
+								<div class="card mb-2 bg-light">
+									<div id="agentAnnotationDialog"></div>
+									<div class="card-header" id="agentAnnotationsHeader">
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##agentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="agentAnnotationsCardBodyWrap">
+												Annotations (#countAgentAnnotations.ct#)
+											</button>
+											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
+												<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,reloadAgentAnnotationCardBody);">
+													Edit Annotations
+												</a>
+											<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+												<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('agentAnnotationDialog','AGENT',#agent_id#,reloadAgentAnnotationCardBody);">
+													Annotate
+												</a>
+											</cfif>
+										</h2>
+									</div>
+									<div id="agentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="agentAnnotationsHeader" data-parent="##agentAnnotationsSection">
+										#getAgentAnnotationCardBodyHtml(agent_id=val(agent_id))#
+									</div>
+								</div>
+							</section>
 						</div>
 						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
@@ -834,99 +893,66 @@ limitations under the License.
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								and collector_role='c'
 							</cfquery>
+							<style>
+							##view-mode {
+								font-size: 0.875rem;   /* same as .btn-sm in Bootstrap 4/5 */
+								line-height: 1.5;
+							}
+							</style>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<div class="heatmap">
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-									<script>
-										let map, heatmap;
-										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-											var bounds = new google.maps.LatLngBounds(sw, ne);
-											for (i = 0; i < bounds.length; i++) {
-												if (bounds[i].lat != " ") {
-													var weightedLoc = {
-														location: new google.maps.LatLng(#points2.minlat#, #points2.minlong#),
-														weight: parseFloat(bounds[i].Intensity)
-													};
-													heat.push(weightedLoc);
-												} 
-											}
-											var centerpoint = weightedLoc;
-											var mapOptions = {
-												zoom: 1,
-												minZoom: 1,
-												maxZoom: 13,
-												center: centerpoint,
-												controlSize: 20,
-												mapTypeId: "hybrid",
+										<script>
+											window.MCZ_BOUNDS = {
+												minlat: #points2.minlat#,
+												minlong: #points2.minlong#,
+												maxlat: #points2.maxlat#,
+												maxlong: #points2.maxlong#
 											};
-											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											} else {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
-												});
-											}
-											map.fitBounds(bounds);
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-												map: map,
-											});
-											document
-												.getElementById("change-gradient")
-												.addEventListener("click", changeGradient);
-											}
-										function toggleHeatmap(){
-											heatmap.setMap(heatmap.getMap() ? null : map);
-										}
-										function changeGradient() {
-											const gradient = [
-												"rgba(0, 255, 255, 0)",
-												"rgba(0, 255, 255, 1)",
-												"rgba(0, 191, 255, 1)",
-												"rgba(0, 127, 255, 1)",
-												"rgba(0, 63, 255, 1)",
-												"rgba(0, 0, 255, 1)",
-												"rgba(0, 0, 223, 1)",
-												"rgba(0, 0, 191, 1)",
-												"rgba(0, 0, 159, 1)",
-												"rgba(0, 0, 127, 1)",
-												"rgba(63, 0, 91, 1)",
-												"rgba(127, 0, 63, 1)",
-												"rgba(191, 0, 31, 1)",
-												"rgba(255, 0, 0, 1)",
+											window.MCZ_HEATMAP_DATA = [
+												<cfloop query="points">
+												{
+													latitude: #points.Latitude#,
+													longitude: #points.Longitude#,
+													weight: #points.record_count#
+												}<cfif currentrow LT recordcount>,</cfif>
+												</cfloop>
 											];
-											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-										}
-										function getPoints() {
-											return [
-											<cfloop query="points">
-												new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
-											</cfloop>
-											]
-										}
-									</script>
-									<div class="p-0 mx-1">
-										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
-										<div id="floating-panel" class="w-100 mx-auto">
-											<span class="text-left d-block float-left">Collecting Event Map</span>
-											<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Toggle Marker Color</button>
+
+											window.onload = function () {
+												if (typeof initMap === 'function') {
+													initMap();
+												} else {
+													console.error("window.onload: initMap is not defined");
+												}
+											};
+										</script>
+
+										<div class="p-0 mx-1">
+											<h4 class="text-left d-block mx-2 mt-0 mb-1 float-left">Map of Georeferenced Localities</h4>
+											<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Georeferenced Localities"></div>
+											<div id="floating-panel" class="w-100 mx-auto">
+												<div class="float-left">
+													<select id="view-mode"
+															class="mt-1 btn btn-xs btn-secondary text-left"
+															aria-label="Select map view mode">
+														<option value="heatmap">Heatmap</option>
+														<option value="points">Points</option>
+													</select>
+
+													<button id="change-gradient" class="mt-1 btn btn-xs btn-secondary" aria-label="Toggle heatmap color scheme">
+														Color
+													</button>
+												</div>
+												<span id="view-description" class="ml-2 small text-muted">
+													Specimen record density per locality
+												</span>
+											</div>
 										</div>
+										<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 									</div>
-									<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 								</div>
 							</section>
 							</cfif>
@@ -1009,18 +1035,12 @@ limitations under the License.
 															<cfif len(getAgentFamilyScope.family) GT 0>
 																<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 															<cfelse>
-																<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
-																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-																	<cfif len(getAgentFamilyScope.phylclass) GT 0>
-																		<cfset classSearch=getAgentFamilyScope.phylclass>
-																	<cfelse>
-																		<cfset classSearch="NULL">
-																	</cfif>
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=NULL&phylclass=#classSearch#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+																<cfif len(getAgentFamilyScope.phylclass) GT 0>
+																	<cfset classSearch=getAgentFamilyScope.phylclass>
 																<cfelse>
-																	<!--- old search does not support nulls, just show values --->
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (#getAgentFamilyScope.ct# record#plural#) #yearbit#</li>
+																	<cfset classSearch="NULL">
 																</cfif>
+																<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=NULL&phylclass=#classSearch#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 															</cfif>
 														</cfloop>
 													</ul>
@@ -1030,6 +1050,53 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
+
+							<!--- Author of Taxon Names --->
+							<section class="accordion" id="taxonAuthorSection2">
+								<div class="card mb-2 bg-light">
+									<cfquery name="getAgentTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentTaxonAuthor_result">
+										SELECT scientific_name, display_name, author_text
+										FROM agent
+											join taxon_author on agent.agent_id = taxon_author.AGENT_ID
+											join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
+										WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										ORDER BY scientific_name
+									</cfquery>
+									<cfif getAgentTaxonAuthor.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<cfif getAgentTaxonAuthor.recordcount GT 20 OR getAgentTaxonAuthor.recordcount eq 0>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+									</cfif>
+									<div class="card-header" id="taxonAuthorHeader2">
+										<h2 class="h4 my-0">
+											<button class="headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##taxonAuthorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="taxonAuthorCardBodyWrap2">
+											Author (of #getAgentTaxonAuthor.recordcount# scientific name#plural# in MCZbase)
+											</button>
+										</h2>
+									</div>
+									<div id="taxonAuthorCardBodyWrap2" class="#bodyClass#" aria-labelledby="taxonAuthorHeader2" data-parent="##taxonAuthorSection2">
+										<div class="card-body py-1 mb-1">
+											<div class="w-100"> 
+												<cfif getAgentTaxonAuthor.recordcount EQ 0>
+													<ul class="list-group"><li class="list-group-item">Not the author of any scientific names in MCZbase</li></ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="getAgentTaxonAuthor">
+															<li class="list-group-item"><a href="/name/#encodeForUrl(getAgentTaxonAuthor.scientific_name)#">#getAgentTaxonAuthor.display_name#</a> #getAgentTaxonAuthor.author_text#</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div>
+									</div><!--- end taxonAuthorCardBodyWrap --->
+								</div>
+							</section>
+
 							<!--- Preparator--->
 							<section class="accordion" id="preparatorSection"> 
 								<div class="card mb-2 bg-light">
@@ -1299,7 +1366,7 @@ limitations under the License.
 												count(*) cnt,
 												count(distinct(locality_id)) locs 
 											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											where verified_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
 										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
@@ -1703,6 +1770,9 @@ limitations under the License.
 												left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
 											WHERE
 												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												<cfif oneOfUs NEQ 1>
+													and project.mask_project_fg = 0
+												</cfif>
 											UNION
 											SELECT distinct
 												project_agent_role as role, 
@@ -1714,6 +1784,9 @@ limitations under the License.
 												left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
 											WHERE
 												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												<cfif oneOfUs NEQ 1>
+													and project.mask_project_fg = 0
+												</cfif>
 										</cfquery>
 										<cfif getProjRoles.recordcount GT 20 OR getProjRoles.recordcount eq 0>
 											<!--- cardState = collapsed --->
@@ -1738,7 +1811,7 @@ limitations under the License.
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
-															<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#" target="_blank">#project_name#</a></li>
+															<li class="list-group-item">#getProjRoles.role# for <a href="/projects/showProject.cfm?project_id=#project_id#" target="_blank">#project_name#</a></li>
 														</cfloop>
 													</ul>
 												</cfif>
@@ -2143,10 +2216,20 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordsEntered = 0>
+										<cfloop query="entered">
+											<cfset recordsEntered = recordsEntered + val(entered.cnt)>
+										</cfloop>
+										<cfif recordsEntered EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif entered.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (in #entered.recordcount# collections)
+													MCZbase Records Entered (#recordsEntered#
+														<cfif recordsEntered GT 0>
+															in #entered.recordcount# collection#collPlural#
+														</cfif>
+													)
 												</button>
 											</h2>
 										</div>
@@ -2198,10 +2281,20 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset recordsTouched = 0>
+										<cfloop query="lastEdit">
+											<cfset recordsTouched = recordsTouched + val(lastEdit.cnt)>
+										</cfloop>
+										<cfif recordsTouched EQ 1><cfset recPlural=""><cfelse><cfset recPlural="s"></cfif>
+										<cfif lastEdit.recordcount EQ 1><cfset collPlural=""><cfelse><cfset collPlural="s"></cfif>
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (#recordsTouched# 
+														<cfif recordsTouched GT 0>
+															in #lastEdit.recordcount# collection#collPlural#
+														</cfif>
+													)
 												</button>
 											</h2>
 										</div>
@@ -2242,8 +2335,12 @@ limitations under the License.
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
+										<!--- Table and column names cannot be bound; these come from the data dictionary, and
+											only plain identifiers are used. --->
 										<cfloop query="getFKFields">
-											<cfif getFKFields.delete_rule EQ "NO ACTION">
+											<cfif getFKFields.delete_rule EQ "NO ACTION"
+													AND REFind("^[A-Z][A-Z0-9_$##]*$", getFKFields.table_name) GT 0
+													AND REFind("^[A-Z][A-Z0-9_$##]*$", getFKFields.column_name) GT 0>
 												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRels_result">
 													SELECT count(*) as ct 
 													FROM #getFKFields.table_name#
@@ -2256,6 +2353,17 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
+										<!--- annotations reference agents via target_table/target_primary_key, not a standard FK --->
+										<cfquery name="getAnnotationRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+											SELECT count(annotation_id) as ct
+											FROM annotations
+											WHERE target_table = 'AGENT'
+												AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfif getAnnotationRels.ct GT 0>
+											<cfset okToDelete = false>
+											<cfset relatedTo["ANNOTATIONS.TARGET_PRIMARY_KEY"] = getAnnotationRels.ct>
+										</cfif>
 										<div class="card-body py-1 mt-1 mb-1">
 											<cfif okToDelete>
 												<h3 class="small95 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
@@ -2278,6 +2386,7 @@ limitations under the License.
 					</div>
 				</div>
 			</cfloop><!--- getAgent --->
+			</div>
 		</div>
 	</main>
 </cfoutput>

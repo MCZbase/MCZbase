@@ -2,7 +2,9 @@ function saveSearch(returnURL){
 	var sName=prompt("Name this search", "my search");
 	if (sName!==null){
 		var sn=encodeURIComponent(sName);
-		var ru=encodeURI(returnURL);
+		// jQuery.getJSON escapes each parameter it sends, so escaping the url here as well
+		// left every escape in it doubled once it was stored.
+		var ru=returnURL;
 		jQuery.getJSON("/component/functions.cfc",
 			{
 				method : "saveSearch",
@@ -479,7 +481,10 @@ function success_getSpecResultsData(result){
 	var nAtt=attAry.length;
 	var collection_object_id = data.COLLECTION_OBJECT_ID[0];
 	if (collection_object_id < 1) {
-		var msg = data.message[0];
+		// ColdFusion serializes query column names in upper case, so the error row this method
+		// returns arrives as MESSAGE.  Reading data.message turned every server side error on
+		// this call into a TypeError instead of reporting what went wrong.
+		var msg = data.MESSAGE[0];
 		alert(msg);
 	} else {
 		var clist = data.COLUMNLIST[0];
@@ -499,11 +504,6 @@ function success_getSpecResultsData(result){
 		} else {
 			var transaction_id='';
 		}
-		if (document.getElementById('loan_request_coll_id') && document.getElementById('loan_request_coll_id').value.length>0){
-			var loan_request_coll_id = document.getElementById('loan_request_coll_id').value;
-		} else {
-			var loan_request_coll_id='';
-		}
 		if (document.getElementById('deacc_request_coll_id') && document.getElementById('deacc_request_coll_id').value.length>0){
 			var deacc_request_coll_id = document.getElementById('deacc_request_coll_id').value;
 		} else {
@@ -519,9 +519,6 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Remove</th>';
 			}
 			theInnerHtml += '<th>Cat&nbsp;Num</th>';
-			if (loan_request_coll_id.length > 0){
-				theInnerHtml +='<th>Request</th>';
-			}
 			if (action == 'dispCollObj'){
 				theInnerHtml +='<th>Loan</th>';
 			}
@@ -791,7 +788,7 @@ function success_getSpecResultsData(result){
 					theInnerHtml +=data.COLLECTION_OBJECT_ID[i] + "'" + ',this.checked);"></td>';
 				}
 				theInnerHtml += '<td nowrap="nowrap" id="CatItem_'+data.COLLECTION_OBJECT_ID[i]+'">';
-					theInnerHtml += '<a target="_blank" href="/SpecimenDetail.cfm?collection_object_id=';
+					theInnerHtml += '<a target="_blank" href="/specimens/Specimen.cfm?collection_object_id=';
 					theInnerHtml += data.COLLECTION_OBJECT_ID[i];
 					theInnerHtml += '" onClick=" event.preventDefault(); $(&#39;#aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'&#39;).submit();"  >';
 					theInnerHtml += data.COLLECTION[i];
@@ -805,15 +802,6 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '<div class="showType">' + typestatus + '</div>';
 				}
 				theInnerHtml += '</td>';
-				if (loan_request_coll_id.length > 0) {
-					if (loan_request_coll_id == data.COLLECTION_ID[i]){
-						theInnerHtml +='<td><span class="likeLink" onclick="addLoanItem(' + "'";
-						theInnerHtml += data.COLLECTION_OBJECT_ID;
-						theInnerHtml += "');" + '">Request</span></td>';
-					} else {
-						theInnerHtml +='<td>N/A</td>';
-					}
-				}
 				if (action == 'dispCollObj' || action == 'dispCollObjDeacc'){
 					theInnerHtml +='<td id="partCell_' + data.COLLECTION_OBJECT_ID[i] + '"></td>';
 				}

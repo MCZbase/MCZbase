@@ -196,7 +196,8 @@ Functions supporting editing higher geographies.
 							island_group, island,
 							valid_catalog_term_fg, source_authority, 
 							wkt_polygon,
-							highergeographyid, highergeographyid_guid_type,
+							null as highergeographyid, 
+							null as highergeographyid_guid_type,
 							curated_fg, management_remarks
 						FROM geog_auth_rec
 						WHERE 

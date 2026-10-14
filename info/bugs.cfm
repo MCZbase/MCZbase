@@ -18,6 +18,12 @@ limitations under the License.
 --->
 <cfset pageTitle="Report Bug">
 <cfinclude template="/shared/_header.cfm">
+<cfif NOT isDefined("recaptchaWidget")>
+	<cfinclude template="/shared/component/captcha.cfc" runOnce="true">
+</cfif>
+<cfif NOT isDefined("clientAddress")>
+	<cfinclude template="/shared/component/clientAddress.cfc" runOnce="true">
+</cfif>
 
 <cfset FEEDBACK_INSTRUCTIONS="Include DETAILS of the problem plus the text of any error you received, the catalog number of the record causing the issue, or the URL of the non-functioning page.">
 
@@ -27,6 +33,13 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="bugReportForm">
+		<!--- The error page links here with its reference and message, to start the report. --->
+		<cfparam name="url.error_reference" default="">
+		<cfparam name="url.error_message" default="">
+		<cfset variables.complaintText = "">
+		<cfif REFind("^[0-9]{8}-[0-9A-F]{8}$", url.error_reference) GT 0>
+			<cfset variables.complaintText = "Error reference: #url.error_reference#" & chr(10) & "Error message: #left(url.error_message, 1000)#" & chr(10) & chr(10)>
+		</cfif>
 		<cfoutput>
 			<cfset reportedName ="">
 			<cfset email = "">
@@ -55,11 +68,6 @@ limitations under the License.
 						<cfset email = "#getUserInfo.emails#">
 					</cfloop>
 				</cfif>
-			</cfif>
-			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-				<!--- captcha not needed --->
-			<cfelse>
-				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
 			<main class="container py-3" id="content">
 				<section class="container-fluid">
@@ -187,7 +195,7 @@ limitations under the License.
 										</cfif>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
-											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
+											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required>#encodeForHtml(variables.complaintText)#</textarea>
 										</div>
 										<script>
 											// Make textarea with autogrow class be bound to the autogrow function on key up
@@ -209,7 +217,7 @@ limitations under the License.
 											<!--- captcha not needed --->
 										<cfelse>
 											<div class="col-12">
-												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
+												#recaptchaWidget()#
 											</div>
 										</cfif>
 										<div class="col-12 mt-1">
@@ -264,25 +272,11 @@ limitations under the License.
 			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
 				<!--- capcha not needed ---->
 			<cfelse>
-				<cftry>
-					<cfobject action = "create" 
-						type = "java" 
-						class = "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate" 
-						name = "Validator"> 
-					<cfif structKeyExists(FORM,"g-recaptcha-response") >
-						<cfset response = FORM['g-recaptcha-response'] >
-						<cfset valid = Validator.validate("#response#","#CGI.REMOTE_ADDR#") >
-					<cfelse>
-						<cfset valid = FALSE >
-					</cfif>
-					<cfif not valid >
-						Captcha not validated.
-						<cfabort>
-					</cfif>
-				<cfcatch>
-					#cfcatch.message#
-				</cfcatch>
-				</cftry>
+				<cfif NOT isRecaptchaCorrect("info/bugs.cfm")>
+					The "I'm not a robot" check was not completed or could not be checked, so the report was not
+					submitted. Please go back and try again.
+					<cfabort>
+				</cfif>
 			</cfif>
 	
 			<cfif #complaint# eq #FEEDBACK_INSTRUCTIONS#>
@@ -394,33 +388,74 @@ limitations under the License.
 				<cfset human_importance="Submitter Importance = High Priority [#user_priority#]">
 			</cfif>
 			<cfset newline= Chr(13) & Chr(10)>
+			<cfset bugID = "">
 			<cftry>
-				<cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">
-@rep_platform = PC
-@op_sys = Linux
-@product = MCZbase
-@component = #bugzilla_component#
-@version = 2.5.1merge
-#bugzilla_priority##newline#
-#bugzilla_severity#
-	
-Bug report by: #reported_name# (Username: #session.username#)
-Email: #user_email# <cfif NOT (isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user"))>IP Address: #ipaddress#</cfif>
-Complaint: #complaint#
-#newline##newline#
-#human_importance#
-				</cfmail>
+				<cfif len(Application.bugzilla_api_key) GT 0>
+					<!--- this should be the api key of bugzilla_user to have the bug attributed to MCZbase --->
+					<cfset bugzilla_api_key="#Application.bugzilla_api_key#">
+					<cfset bugzilla_path = "/bugzilla">
+
+					<!--- Sanitize the inputs to handle quotes --->
+					<!--- Keep "(Username: {username})" in the description: bugs are filed as the bug reporting account, so
+						getMyBugReportsHtml in users/component/functions.cfc finds a user's bugs by querying Bugzilla for that text. --->
+					<cfset sanitizedSummary = Replace(summary, '"', '\"', 'all')>
+					<cfset sanitizedDescription = Replace("Bug report by: #reported_name# (Username: #session.username#) Email: #user_email# IP Address: #ipaddress# #newline#Complaint: #complaint##newline##newline##human_importance#", '"', '\"', 'all')>
+        
+					<!--- Create a ColdFusion structure for the payload --->
+					<cfset bugData = {
+						"rep_platform": "PC",
+						"op_sys": "Linux",
+						"product": "MCZbase",
+						"component": "#bugzilla_component#",
+						"version": "2.5.1merge",
+						"summary": sanitizedSummary,
+						"description": sanitizedDescription,
+						"priority": "#ListLast(bugzilla_priority, ' ')#",
+						"severity": "#ListLast(bugzilla_severity, ' ')#",
+						"api_key": "#bugzilla_api_key#"
+					}>
+					        
+					<!--- Serialize the structure to JSON --->
+					<cfset jsonPayload = SerializeJSON(bugData)>
+
+					<cfhttp method="POST" url="https://#Application.bugzilla_api_url##bugzilla_path#/rest/bug" result="bugzillaResult">
+						<cfhttpparam type="header" name="Content-Type" value="application/json">
+						<cfhttpparam type="header" name="Accept" value="application/json">
+						<cfhttpparam type="body" value='#jsonPayload#'>
+					</cfhttp>
+					<cfif NOT (bugzillaResult.statusCode EQ "200 OK" OR bugzillaResult.statusCode EQ "201 Created")>
+						<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
+							<cfdump var="#bugzillaResult#">
+						</cfif>
+						<cfthrow message= "Error creating bug, response was: #bugzillaResult.statusCode#" >
+					<cfelse>
+						<!--- check that bugzillaResult.fileContent contains json with a bug id --->
+						<cfif NOT structKeyExists(DeserializeJSON(bugzillaResult.fileContent), "id")>
+							<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
+								<cfdump var="#bugzillaResult#">
+							</cfif>
+							<cfthrow message= "Error creating bug, response did not contain a bugID" >
+						<cfelse>
+							<cfset bugID = DeserializeJSON(bugzillaResult.fileContent).id>
+						</cfif>
+					</cfif>
+				<cfelse>
+					<cfthrow message="Bugzilla integration is not configured. Please contact the system administrator.">
+				</cfif>
 			<cfcatch>
-				<div>Error: Unable to send bugreport to bugzilla. #cfcatch.Message#</div>
 				<cfset sentok="false">
+				<div>Error: Unable to post bugzilla report. #cfcatch.Message#</div>
 			</cfcatch>
 			</cftry>
 			<div class="basic_box">
 				<cfif sentok eq "true">
 					<p align="center">Your report has been successfully submitted.</p>
+					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"coldfusion_user")>
+						<p align="center">Your bug report has been assigned bugID: #bugID#.</p>
+					</cfif>
 					<p align="center">Thank you for helping to improve this site!</p>
 				</cfif>
-				<p align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</p>
+				<p align="center">Return to the <a href="/Specimens.cfm">Specimen Search</a>.</p>
 			</div>
 		</main>
 		</cfoutput>

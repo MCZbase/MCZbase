@@ -191,7 +191,7 @@ got #proj.recordcount# proj <cfflush>
 			<tr>
 				<td>
 			<cfif #ArctosProjectId# gt 0>
-				This is already a project. Click <a href="/ProjectList.cfm?src=proj&project_id=#ArctosProjectId#">here</a> to view.
+				This is already a project. Click <a href="/projects/showProject.cfm?project_id=#ArctosProjectId#">here</a> to view.
 			<cfelse>
 					<input type="submit" 
 						value="Create Arctos Project" 
@@ -655,7 +655,7 @@ starting 1<cfflush>
 	</cfquery>
 	The project has been added to Arctos. You <i><b>must</b></i> now edit the project to add agents.
 	<p>
-		Click <a href="/Project.cfm?Action=editProject&project_id=#nextID.nextid#" target="_blank">here</a> to edit in a new widow.
+		Click <a href="/projects/Project.cfm?action=edit&project_id=#nextID.nextid#" target="_blank">here</a> to edit in a new widow.
 	</p>
 	</cfoutput>
 </cfif>

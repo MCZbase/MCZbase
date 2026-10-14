@@ -4,19 +4,19 @@
 <cftry>
 	<cfif not isDefined("result_id") OR len(result_id) EQ 0> 
 		<!--- new search --->
-		<cfinclude template="/specimens/component/search.cfc" runOnce="true">
+		<cfinclude template="/specimens/component/search.cfc" runOnce="true"><!--- constructJsonForField --->
 	
 		<cfset search_json = "[">
 		<cfset separator = "">
 		<cfset join = ''>
 
-		<cfset nest = 1>
+		<cfset nest = '"openParens":"0","closeParens":"0"'>
 
 		<cfset parameters = StructNew()>
 	
 		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 			<cfset StructInsert(parameters,"collection_id",collection_id)>
-			<!--- lookup collection from collection_id if specified --->
+			 <!--- lookup collection from collection_id if specified --->
 			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 				SELECT collection_cde
 				FROM collection
@@ -31,18 +31,18 @@
 			<cfset field = '"field": "collection_cde"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = encodeForJSON(collection_cde)>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 			<cfset StructInsert(parameters,"cat_num",cat_num)>
-			<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nest, "and")>
+			<cfset openWith = 0>
+			<cfset closeWith = 0>
+			<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, openWith, closeWith, "and")>
 			<cfset search_json = "#search_json##separator##clause#">
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("type_status") AND len(type_status) GT 0>
 			<cfset StructInsert(parameters,"type_status",type_status)>
@@ -79,7 +79,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status_value#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("any_taxa_term") AND len(any_taxa_term) GT 0>
 			<cfset StructInsert(parameters,"any_taxa_term",any_taxa_term)>
@@ -91,7 +90,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#any_taxa_term#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("phylum") AND len(phylum) GT 0>
 			<cfset StructInsert(parameters,"phylum",phylum)>
@@ -99,7 +97,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylum#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("family") AND len(family) GT 0>
 			<cfset StructInsert(parameters,"family",family)>
@@ -107,7 +104,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
 			<cfset StructInsert(parameters,"any_geography",any_geography)>
@@ -131,10 +127,9 @@
 			<cfset searchValueForJSON = searchValue>
 			<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
 			<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("continent_ocean") AND len(continent_ocean) GT 0>
 			<cfset StructInsert(parameters,"continent_ocean",continent_ocean)>
@@ -142,7 +137,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#continent_ocean#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("country") AND len(country) GT 0>
 			<cfset StructInsert(parameters,"country",country)>
@@ -150,7 +144,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("island_group") AND len(island_group) GT 0>
 			<cfset StructInsert(parameters,"island_group",island_group)>
@@ -158,7 +151,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("islands") AND len(islands) GT 0>
 			<cfset island=islands>
@@ -169,7 +161,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 			<cfset StructInsert(parameters,"spec_locality",spec_locality)>
@@ -177,7 +168,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("date_collected") AND len(date_collected) GT 0>
 			<cfset StructInsert(parameters,"date_collected",date_collected)>
@@ -186,13 +176,11 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 			<cfset field = '"field": "date_ended_date"'>
 			<cfset searchText = reformatDateSearchTerm(searchText="#date_collected#") >
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("part_name") AND len(part_name) GT 0>
 			<cfset StructInsert(parameters,"part_name",part_name)>
@@ -200,14 +188,15 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 	
 		<cfset search_json = "#search_json#]">
 		<cfif isdefined("debug") AND len(debug) GT 0>
 			<cfoutput>
 				<cfdump var="#search_json#">
-				<cfdump var="#session.dbuser#">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#session.dbuser#">
+				</cfif>
 			</cfoutput>
 		</cfif>
 		<cfif NOT IsJSON(search_json)>
@@ -218,7 +207,7 @@
 		</cfif>
 	
 		<cfset result_id = CreateUUID()>
-		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+		<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">

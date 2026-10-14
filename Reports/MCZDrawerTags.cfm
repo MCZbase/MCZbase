@@ -18,7 +18,7 @@ Parameters:
 --->
 <cfoutput>
 <p>
-	<a href="/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
+	<a href="/temp/loaninvoice_#session.DownloadFileID#.pdf" target="_blank">Get the PDF</a>
 </p>
 <cfparam default="Bird/Mammal" name="format">
 <cfif format is "Malacology">
@@ -47,40 +47,79 @@ Change to: <select name="format">
 </form>
 </cfoutput>
 <cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
+	<cfset NOT_SUBSAMPLE = "The Vial, Not A Subsample">
 	<cftry>
-     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-      select
-           cataloged_item.collection_cde,
-           cataloged_item.cat_num,
-           cataloged_item.collection_object_id,
-           identification.scientific_name as sciName,
-           MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
-           c5.barcode as rack,
-           c4.barcode as slot,
-           c3.barcode as box,
-           c2.label as position,
-           c1.barcode as vial,
-           corem.coll_object_remarks as part_remarks,
-           pcorem.coll_object_remarks as sampled_from_part_remarks
-      from
-         loan_item
-            left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-            left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
-            left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
-            left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
-            left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-            left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-            left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
-            left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
-            left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
-            left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-            left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
-            left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
-      where identification.accepted_id_fg = 1 AND
-            coll_obj_cont_hist.current_container_fg = 1 AND
-            loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-        ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
-     </cfquery>
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT * 
+			FROM (
+				select
+				   cataloged_item.collection_cde,
+				   cataloged_item.cat_num,
+				   cataloged_item.collection_object_id,
+				   identification.scientific_name as sciName,
+				   MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
+				   c5.barcode as rack,
+				   c4.barcode as slot,
+				   c3.barcode as box,
+				   c2.label as position,
+				   c1.barcode as vial,
+				   corem.coll_object_remarks as part_remarks,
+				   pcorem.coll_object_remarks as sampled_from_part_remarks
+				from
+					loan_item
+					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
+					left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
+					left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
+					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+					left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
+					left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
+					left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
+					left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
+					left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
+					left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
+				where identification.accepted_id_fg = 1 AND
+					coll_obj_cont_hist.current_container_fg = 1 AND
+					specimen_part.sampled_from_obj_id is not null AND
+					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				UNION	  
+				select
+				   cataloged_item.collection_cde,
+				   cataloged_item.cat_num,
+				   cataloged_item.collection_object_id,
+				   identification.scientific_name as sciName,
+				   MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
+				   c5.barcode as rack,
+				   c4.barcode as slot,
+				   c3.barcode as box,
+				   c2.label as position,
+				   c1.barcode as vial,
+				   corem.coll_object_remarks as part_remarks,
+				   '#NOT_SUBSAMPLE#' sampled_from_part_remarks
+				from
+					loan_item
+					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
+					left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+					left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
+					left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
+					left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
+					left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
+					left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
+					left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
+				where identification.accepted_id_fg = 1 AND
+					coll_obj_cont_hist.current_container_fg = 1 AND
+					specimen_part.sampled_from_obj_id is null AND
+					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			)
+			ORDER BY 
+				rack, slot, box, 
+				decode(LENGTH(TRIM(TRANSLATE(position, '0123456789',' '))),null,to_number(position),position), 
+				vial, cat_num
+		</cfquery>
 	<cfcatch>
 		<cfoutput>
 			<h3>Query Error obtaining item/container records for spreadsheet.</h3>
@@ -183,7 +222,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -218,7 +257,12 @@ Change to: <select name="format">
     		         <td #tdStyle#><span class="#textClass#"><strong>#slot#</strong></span></td>
     		         <td #tdStyle#><span class="#textClass#">#box#</span></td>
     		         <td #tdStyle#><span class="#textClass#"><strong>#position#</strong></span></td>
-    		         <td #tdStyle#><span class="#textClass#">#vial#</span></td>
+    		         <td #tdStyle#><span class="#textClass#">
+							#vial#
+							<cfif sampled_from_part_remarks EQ NOT_SUBSAMPLE>
+								(Not a Subsample)
+							</cfif>
+						</span></td>
 						<cfif format is "Cryo-Sheet-R">
     		         	<td #tdStyle#><span class="#textClass#">#part_remarks#</span></td>
     		         	<td #tdStyle#><span class="#textClass#">#sampled_from_part_remarks#</span></td>
@@ -488,7 +532,7 @@ Change to: <select name="format">
     	marginright=".25"
     	orientation="#orientiation#"
     	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
+    	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
     	overwrite="yes">
     <cfoutput>
     <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
@@ -782,7 +826,7 @@ Based on:
 		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
 		<cfoutput>
 			<p>
-				<a href="/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf" target="_blank">Get the PDF</a>
+				<a href="/temp/loaninvoice_#session.DownloadFileID#.pdf" target="_blank">Get the PDF</a>
 			</p>
 		</cfoutput>
 
@@ -803,7 +847,7 @@ Based on:
 	marginright=".25"
 	orientation="portrait"
 	fontembed="yes"
-	filename="#Application.webDirectory#/temp/loaninvoice_#cookie.cfid#_#cookie.cftoken#.pdf"
+	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
 	overwrite="yes">
 <cfoutput>
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">

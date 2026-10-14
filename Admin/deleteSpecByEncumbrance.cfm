@@ -40,7 +40,7 @@
 			<cfloop query="specs">
 				<tr>
 					<td>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+						<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 							#collection# #cat_num#</a>
 					</td>
 					<td>#scientific_name#</td>

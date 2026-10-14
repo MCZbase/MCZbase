@@ -634,17 +634,17 @@
 	<!--- -------------------------------------------------- --->
 	<!--- PathFormat --->
 	<cffunction name="PathFormat" access="private" output="no" returntype="string" hint="Convert path into Windows or Unix format.">
-
 		<!--- Function Arguments --->
 		<cfargument name="path" required="yes" type="string" hint="The path to convert.">
 
+		<cfset var local_path = "">
 		<cfif FindNoCase("Windows", this.os)>
-			<cfset arguments.path = Replace(arguments.path, "/", "\", "ALL")>
+			<cfset local_path = Replace(arguments.path, "/", "\", "ALL")>
 		<cfelse>
-			<cfset arguments.path = Replace(arguments.path, "\", "/", "ALL")>
+			<cfset local_path = Replace(arguments.path, "\", "/", "ALL")>
 		</cfif>
 
-		<cfreturn arguments.path>
+		<cfreturn local_path>
 
 	</cffunction>
 

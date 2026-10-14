@@ -196,7 +196,7 @@ Based on:
 	        marginleft=".25"
 	        marginright=".25"
 			unit="in"
-	        orientation="landscape" filename="#Application.webDirectory#/temp/permit_#cookie.cfid#_#cookie.cftoken#.pdf" overwrite="true">
+	        orientation="landscape" filename="#Application.webDirectory#/temp/permit_#session.DownloadFileID#.pdf" overwrite="true">
 	
 	<!---<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">--->
 	
@@ -539,7 +539,7 @@ Based on:
 	</cftry>
 	</cfloop>
 	</cfdocument>
-	<a href="/temp/permit_#cookie.cfid#_#cookie.cftoken#.pdf">Get the PDF</a><br />
+	<a href="/temp/permit_#session.DownloadFileID#.pdf">Get the PDF</a><br />
 	</cfoutput>
 </cfif> <!--- end the action generatePDF --->
 
@@ -1122,7 +1122,7 @@ and on day add a 0 to the front if it is one digit only--->
 		</cfif>
 			>
 			<td name='cat_num'>
-			<a href='../SpecimenDetail.cfm?collection_object_id=#collection_object_id#' target='Edit Specimen'>
+			<a href='/specimens/Specimen.cfm?collection_object_id=#collection_object_id#' target='Edit Specimen'>
 				#collection_cde# #cat_num#</a>
 			<input type='checkbox' 
 			<cfif order is defaultOrder or isdefined('$#collection_object_id#$')>

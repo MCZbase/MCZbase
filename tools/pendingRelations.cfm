@@ -91,7 +91,7 @@ Pending Relationships
 		<cfloop query="getRels">
 			<tr>
 				<td>
-					<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 						#collection# #cat_num#</a>
 				</td>
 				<td>
@@ -109,7 +109,7 @@ Pending Relationships
 				<td>
 					<cfif #len(fail_reason)# is 0 and len(#related_collection_object_id#) gt 0>
 						<!--- spiffy, it's loaded --->
-						<a href="/SpecimenDetail.cfm?collection_object_id=#related_collection_object_id#">
+						<a href="/specimens/Specimen.cfm?collection_object_id=#related_collection_object_id#">
 						Successfully resolved (click for related specimen)</a>
 					<cfelseif #len(fail_reason)# is 0 and len(#related_collection_object_id#) is 0>
 						Has not been tried or has failed unexpectedly. That's bad. 

@@ -1239,7 +1239,7 @@ limitations under the License.
 					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
 						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join accn on trans.transaction_id = accn.transaction_id
@@ -1247,7 +1247,7 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join loan on trans.transaction_id = loan.transaction_id
@@ -1255,23 +1255,23 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
 							where trans.transaction_type = 'deaccession'
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
-							select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							select 'borrow' as ontype, borrow_number as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, lenders_trans_num_cde as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join borrow on trans.transaction_id = borrow.transaction_id
 							where trans.transaction_type = 'borrow'
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
-							select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+							select 'borrow shipment' as ontype, borrow_number as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri, lenders_trans_num_cde as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1280,7 +1280,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1289,7 +1289,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1298,7 +1298,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1311,7 +1311,10 @@ limitations under the License.
 								<h2 class="h3">Permit used for</h2>
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
-										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
+										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = " (#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
+										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
+										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
+										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
 										<li>No linked transactions or shipments.</li>
@@ -1534,7 +1537,7 @@ limitations under the License.
 					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
 						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join accn on trans.transaction_id = accn.transaction_id
@@ -1542,7 +1545,7 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join loan on trans.transaction_id = loan.transaction_id
@@ -1550,23 +1553,23 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
 							where trans.transaction_type = 'deaccession'
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
-							select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							select 'borrow' as ontype, borrow_number as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, lenders_trans_num_cde as bnumber
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join borrow on trans.transaction_id = borrow.transaction_id
 							where trans.transaction_type = 'borrow'
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
-							select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+							select 'borrow shipment' as ontype, borrow_number as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri, lenders_trans_num_cde as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1575,7 +1578,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1584,7 +1587,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1593,7 +1596,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri, '' as bnumber
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1606,7 +1609,10 @@ limitations under the License.
 								<h2 class="h3">Permit used for</h2>
 								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
 									<cfloop query="permituse">
-										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
+										<cfif len(permituse.bnumber) GT 0><cfset borrowNumber = " (#permituse.bnumber#)"><cfelse><cfset borrowNumber =""></cfif>
+										<cfif len(permituse.ttype) GT 0><cfset transType = ", type: #permituse.ttype#"><cfelse><cfset transType =""></cfif>
+										<cfif permituse.transaction_type EQ 'borrow' OR permituse.transaction_type EQ 'accn'><cfset forText = "went to"><cfelse><cfset forText = "for"></cfif>
+										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a>#borrowNumber# #ontype##transType# on: #dateformat(trans_date,'yyyy-mm-dd')# #forText#: #guid_prefix#</li>
 									</cfloop>
 									<cfif permituse.recordCount eq 0>
 										<li>No linked transactions or shipments.</li>

@@ -17,7 +17,8 @@ Parameters:
 	accn_number:
 		The accession number for the ledger.
 Based on:
-	loanShipLabel.cfm for its cfdocument usage
+	loanShipLabel.cfm for its cfdocument usage (that file has since been removed; its whole
+		body had been commented out since 2012 and nothing called it)
 	narrowLabels.cfm and wideLabels.cfm for its queries.
 --->
 
@@ -154,7 +155,7 @@ the option to choose these parameters.  in that case, remove these lines--->
         marginright=".25"
 		unit="in"
         orientation="landscape" 
-		filename="#Application.webDirectory#/temp/ledger_#cookie.cfid#_#cookie.cftoken#.pdf" overwrite="true">
+		filename="#Application.webDirectory#/temp/ledger_#session.DownloadFileID#.pdf" overwrite="true">
 
 <!---<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">--->
 
@@ -479,7 +480,7 @@ is 1 inch, even => bottom side is 1 inch. --->
         </cfif>
 </cfloop>
 </cfdocument>
-<a href="/temp/ledger_#cookie.cfid#_#cookie.cftoken#.pdf">Get the PDF</a><br />
+<a href="/temp/ledger_#session.DownloadFileID#.pdf">Get the PDF</a><br />
 </cfoutput>
 </cfif> <!--- end the action generatePDF --->
 

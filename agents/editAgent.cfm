@@ -58,6 +58,8 @@ limitations under the License.
 <cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/functions.cfc" runOnce="true">
+<cfinclude template="/annotations/component/public.cfc" runOnce="true">
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -88,8 +90,8 @@ limitations under the License.
 </cfquery>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%agent.agentguid%'
+	from ctguid_type 
+	where applies_to like '%agent.agentguid%'
 </cfquery>
 
 <cfswitch expression="#action#">
@@ -100,7 +102,7 @@ limitations under the License.
 		</cfoutput>
 	<cfelse>
 		<cfoutput>
-			<main class="container py-3" id="content">
+			<main class="container-fluid py-3" id="content">
 				<script>
 					function getAssembledName() {
 						var result = "";
@@ -184,15 +186,24 @@ limitations under the License.
 						<cfelse>
 							<cfset vetted="">
 						</cfif>
+						<cfquery name="getIndeterminate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getIndeterminate_result">
+							SELECT MCZBASE.is_indeterminate_agent(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">) as is_indeterminate
+							FROM dual
+						</cfquery>
+						<cfif getIndeterminate.is_indeterminate EQ 1>
+							<cfset indeterminateBit = "indeterminate ">
+						<cfelse>
+							<cfset indeterminateBit = "">
+						</cfif>
 						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">  <!--- " --->
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
-							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
+							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false,is_person=true) >
 						</cfif>
-						<div class="container">
-							<div class="form-row">
+						<div class="row mx-auto">
+							<div class="row col-12 col-xl-10 mx-auto">
 								<div class="col-12">
-									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 my-2">Edit #indeterminateBit##getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
 										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
@@ -247,7 +258,7 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
+						<section class="col-12 col-xl-10 mx-auto">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
@@ -538,7 +549,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mt-1 mb-1">
 									<div class="form-group col-12">
-										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+										<input type="button" value="Save" class="btn btn-xs btn-primary  mt-2 px-3 mr-2"
 											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
@@ -622,7 +633,7 @@ limitations under the License.
 								</script>
 							</form>
 						</section>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-5 pr-xl-2">
 								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
@@ -669,7 +680,7 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-						<div class="row">
+						<div class="row col-12 col-xl-10 mx-auto">
 							<div class="col-12 col-lg-12 col-xl-6 pr-xl-2">
 								<section class="row border rounded mx-0 my-2 px-1 pt-2 pb-3">
 									<div class="col-12">
@@ -701,6 +712,51 @@ limitations under the License.
 								</section>
 							</div>
 						</div>
+					<!--- annotations on this agent record --->
+					<cfquery name="countAgentAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(annotation_id) ct
+						FROM annotations
+						WHERE target_table = 'AGENT'
+							AND target_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							<cfif NOT listcontainsnocase(session.roles, "coldfusion_user")>
+								AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+							</cfif>
+					</cfquery>
+					<script type="text/javascript">
+					function reloadEditAgentAnnotationCardBody() {
+						$.ajax({
+							url: '/annotations/component/public.cfc',
+							data: { method: 'getAgentAnnotationCardBodyHtml', agent_id: #val(agent_id)# },
+							success: function(result) { $('##editAgentAnnotationsCardBodyWrap').html(result); },
+							error: function(jqXHR, textStatus, error) { handleFail(jqXHR, textStatus, error, 'reloading agent annotations'); },
+							dataType: 'html'
+						});
+					}
+					</script>
+					<section class="accordion" id="editAgentAnnotationsSection">
+						<div class="card mb-2 bg-light">
+							<div id="editAgentAnnotationDialog"></div>
+							<div class="card-header" id="editAgentAnnotationsHeader">
+								<h2 class="h4 my-0">
+									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editAgentAnnotationsCardBodyWrap" aria-expanded="true" aria-controls="editAgentAnnotationsCardBodyWrap">
+										Annotations (#countAgentAnnotations.ct#)
+									</button>
+									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_collection") AND countAgentAnnotations.ct GT 0>
+										<a href="javascript:void(0)" role="button" aria-label="Edit Annotations" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
+											Edit Annotations
+										</a>
+									<cfelseif isdefined("session.username") AND len(session.username) GT 0>
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('editAgentAnnotationDialog','AGENT',#agent_id#,reloadEditAgentAnnotationCardBody);">
+											Annotate
+										</a>
+									</cfif>
+								</h2>
+							</div>
+							<div id="editAgentAnnotationsCardBodyWrap" class="collapse show" aria-labelledby="editAgentAnnotationsHeader" data-parent="##editAgentAnnotationsSection">
+								#getAgentAnnotationCardBodyHtml(agent_id=val(agent_id))#
+							</div>
+						</div>
+					</section>
 					</cfloop>
 				</cfif>
 			</main>
@@ -728,9 +784,9 @@ limitations under the License.
 			}
 		</script>
 		<main id="content">
-			<section class="container-fluid container-xl mt-2">
+			<section class="container-fluid mt-2">
 				<div class="row">
-					<div class="col-12 mt-2 mb-3">
+					<div class="col-12 col-xl-9 mx-auto mt-2 mb-3">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
 							<h1 class="h2 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
@@ -844,7 +900,8 @@ limitations under the License.
 									function pasteFMLtoPreferred() {
 										if ($('##pref_name').val()=='') { 
 											var fml = $('##prefix option:selected').text() + " " + $('##first_name').val() + " " + $('##middle_name').val() + " " + $('##last_name').val() + " " +  $('##suffix option:selected').text();
-											$('##pref_name').val(fml.trim().replace("  "," "));
+											$('##pref_name').val(fml.trim().replace(/\s+/g," "));
+											checkNameExists($('##pref_name').val(),'name_matches',false);
 										} else { 
 											messageDialog("You must edit an existing preferred name by hand.");
 										} 
@@ -1168,7 +1225,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
@@ -1270,7 +1327,7 @@ limitations under the License.
 							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
-							<main class="container py-3" id="content">
+							<main class="container-fluid py-3" id="content">
 								<h2 class="h3">The agent <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
@@ -1405,5 +1462,7 @@ limitations under the License.
 	</cfoutput>
 </cfcase>
 </cfswitch>
-
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset targetWikiPage = (action EQ "edit" ? "Agent" : "Agent")>
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">

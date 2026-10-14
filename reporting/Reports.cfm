@@ -36,21 +36,28 @@ Landing pad page with lists of various self service reports.
 					<li class="py-1"><a href="/info/noParts.cfm">Partless Specimen Records</a> &ndash; Find specimens with no parts per collection (or in all collections) </li>
 					<li class="py-1"><a href="/reporting/PartUsageReport.cfm">Part Usage</a> &ndash; Distribution of Part name usage by collection. &ndash; Part names (e.g., partial animal, cast, whole animal); <em>is Tissue</em> codings of that part name; with sums of parts by name and; count of part name by collection with links to specimens.</li>
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
+					<li class="py-1"><a href="/tools/TaxonomyGaps.cfm">Potentially Problematic Taxonomy</a>  Check for Scientific Names containing unexpected characters, potential homonyms and higher taxa with more than one placement, and a No kingdom, phylum, class, etc. report like the above query on Taxa.cfm.</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
 					<li class="py-1"><a href="/reporting/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
+					<li class="py-1"><a href="/info/slacker.cfm?action=projCounts">Counts of Transactions and Publications for Projects</a></li>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+						<li class="py-1"><a href="/info/slacker.cfm?action=pubNoAuth">Publications without Authors</a></li>
+					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 				 		<li class="py-1"><a href="/reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
 				 		<li class="py-1"><a href="/reporting/ProblemCollectingEventDates.cfm">Problematic Collecting Dates</a> &ndash; Find collecting events with out of range dates.</li>
+					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<li class="py-1"><a href="/transactions/ShipmentReport.cfm">Shipment Report</a> &ndash; Report on Shipments and costs by transaction type and collection.</li>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 						<br/>
 						<h2 class="h3">Broken or Problematic Reports</h1>
 						<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li>
-						<li><a href="/info/slacker.cfm">Suspect Data</a></li>
+						<li><a href="/info/slacker.cfm">Suspect Data in publications, projects, etc</a></li>
 						<li><a href="/info/dupAgent.cfm">Duplicate Agents</a></li>
 						<li><a href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
 						<li><a href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a></li>
-						<li><a href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
 					</cfif>
 				</ul>
 			</div>

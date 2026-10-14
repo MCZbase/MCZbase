@@ -41,7 +41,6 @@
 <table>
 
 <form method="post" action="SpecimenResultsDownload.cfm" name="dlForm">
-	<input type="hidden" name="user_id" value="#getUserData.user_id#">
 	<input type="hidden" name="tableName" value="#checkedTableName#">
 	
 	<input type="hidden" name="action" value="continue">
@@ -84,7 +83,7 @@
 	</tr>
 	<tr>
 		<td align="right">Email</td>
-		<td><input type="text" name="email" value="#getUserData.email#"></td>
+		<td><input type="email" name="email" value="#getUserData.email#"></td>
 	</tr>
 	<tr>
 		<td align="right">File Format</td>
@@ -149,17 +148,22 @@ do not agree</font>.</a>
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
-	<!--- TODO: Don't trust userland assertion of user_id, look up from session.username anyway --->
-	<cfif NOT isdefined("user_id") or len(#user_id#) EQ 0>
-		<!--- user_id wasn't passed for some reason, look it up again --->
-		<cfquery name="getUserID" datasource="cf_dbuser">
-			SELECT cf_users.user_id
-			FROM cf_users
-			WHERE
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfset user_id = getUserID.user_id>
+	<!--- The address is checked here as well as by type="email" on the input, since annotation
+		and password recovery rely on it. --->
+	<cfparam name="form.email" default="">
+	<cfset variables.email = trim(form.email)>
+	<cfif len(variables.email) GT 0 AND NOT isValid("email", variables.email)>
+		The email address you entered is not a validly formed address. Please use your browser's back button to try again.
+		<cfabort>
 	</cfif>
+	<!--- lookup user_id from session.username --->
+	<cfquery name="getUserID" datasource="cf_dbuser">
+		SELECT cf_users.user_id
+		FROM cf_users
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfset user_id = getUserID.user_id>
 	<cfquery name="isUser" datasource="cf_dbuser">
 		select * from cf_user_data where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 	</cfquery>
@@ -173,8 +177,8 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 				WHERE
 					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
@@ -190,7 +194,7 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name
 					</cfif>
-					<cfif len(#email#) gt 0>
+					<cfif len(variables.email) gt 0>
 						,email
 					</cfif>
 					)
@@ -202,8 +206,8 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 					)
 			</cfquery>
@@ -268,7 +272,7 @@ do not agree</font>.</a>
 		<cfoutput>
 			<cfset variables.encoding="UTF-8">
 			<cfif #fileFormat# is "csv">
-				<cfset fname = "MCZbaseData_#cookie.cfid#_#cookie.cftoken#.csv">
+				<cfset fname = "MCZbaseData_#session.DownloadFileID#.csv">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header=trim(ac)>
 				<cfscript>
@@ -303,7 +307,7 @@ do not agree</font>.</a>
 				<cflocation url="/download.cfm?file=#fname#" addtoken="false">
 				<a href="/download/#fname#">Click here if your file does not automatically download.</a>
 			<cfelseif #fileFormat# is "text">
-				<cfset fname = "ArctosData_#cookie.cfid#_#cookie.cftoken#.txt">
+				<cfset fname = "ArctosData_#session.DownloadFileID#.txt">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header = replace(ac,",","#chr(9)#","all")>
 				<cfset header=#trim(header)#>
@@ -339,7 +343,7 @@ do not agree</font>.</a>
 				<a href="/download/#fname#">Click here if your file does not automatically download.</a>
 			
 			<cfelseif #fileFormat# is "xml">
-				<cfset fname = "MCZbaseData_#cookie.cfid#_#cookie.cftoken#.xml">
+				<cfset fname = "MCZbaseData_#session.DownloadFileID#.xml">
 				<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 				<cfset header = "<result>">
 				<cfscript>

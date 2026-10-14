@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) { 
+function openRemoveLoanItemDialog(loan_item_id, dialogId, callback) { 
 	var title = "Remove Part from Loan.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
@@ -64,8 +64,7 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) {
 		data: {
 			method: 'getRemoveLoanItemDialogContent',
 			returnformat: "plain",
-			part_id: part_id,
-			transaction_id: transaction_id
+			loan_item_id: loan_item_id
 		},
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
@@ -74,6 +73,45 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) {
 			handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
 		}
 	});
+}
+
+function updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state) {
+	setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saving");
+	$.ajax({
+		url: '/transactions/component/itemFunctions.cfc',
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			method: 'updateLoanItem',
+			loan_item_id: loan_item_id,
+			item_instructions: item_instructions,
+			loan_item_state: loan_item_state,
+			condition: condition,
+			loan_item_remarks: loan_item_remarks,
+			coll_obj_disposition: coll_obj_disposition,
+			item_descr: item_descr
+		},
+		success: function(data) {
+			loanModifiedHere();
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "saved");
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"updating loan item");
+			setFeedbackControlState( "loanItemStatusDiv_"+ loan_item_id, "error");
+		}
+	});
+}
+
+function doLoanItemUpdate(loan_item_id) {
+	console.log(loan_item_id);
+	let loan_item_remarks = $("#loan_item_remarks_" + loan_item_id).val();
+	let item_instructions = $("#item_instructions_" + loan_item_id).val();
+	let condition = $("#condition_" + loan_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + loan_item_id).val();
+	let item_descr = $("#item_descr_" + loan_item_id).val();
+	let loan_item_state = $("#loan_item_state_" + loan_item_id).val();
+	console.log(loan_item_state);
+	updateLoanItem(loan_item_id, item_instructions, loan_item_remarks, coll_obj_disposition, condition, item_descr, loan_item_state);
 }
 
 function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
@@ -104,18 +142,57 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 	});
 };
 
-function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) { 
+function removeLoanItemFromLoan(loan_item_id,targetDiv,callback=null) { 
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
 		url: "/transactions/component/itemFunctions.cfc",
 		data : {
 			method : "removePartFromLoan",
-			transaction_id: transaction_id,
-			part_id: part_id,
+			loan_item_id: loan_item_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
 		success: function (result) {
+			if (typeof result == 'string') { result = JSON.parse(result); } 
+			if (result.DATA.STATUS[0]==1) {
+				if (typeof callback === 'function') {
+					callback();
+				}
+				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
+			} else { 
+				$("#"+targetDiv).html("Error");
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$("#"+targetDiv).html("Error");
+			handleFail(jqXHR,textStatus,error,"removing loan item from loan");
+		},
+		dataType: "html"
+	});
+};
+
+/** Resolve a loan item, marking it as returned or consumed.
+ *
+ * @param loan_item_id the primary key for the loan item to resolve.
+ * @param targetDiv the id of the div to update with the result of the operation.
+ * @param loan_item_state the new state for the loan item, either 'returned' or 'consumed'.
+ * @param callback a callback function to invoke on success.
+ */
+function resolveLoanItem(loan_item_id,targetDiv,loan_item_state,callback) { 
+	$("#"+targetDiv).html("Saving...");
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		data : {
+			method : "markLoanItemResolved",
+			loan_item_id: loan_item_id,
+			loan_item_state: loan_item_state,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success: function (result) {
+			if (typeof callback === 'function') {
+				callback();
+			}
 			if (typeof result == 'string') { result = JSON.parse(result); } 
 			if (result.DATA.STATUS[0]==1) {
 				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
@@ -125,11 +202,11 @@ function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			$("#"+targetDiv).html("Error");
-			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
+			handleFail(jqXHR,textStatus,error,"removing loan item from loan");
 		},
 		dataType: "html"
 	});
-};
+}
 
 /** Create a dialog to add items to a loan 
  */
@@ -191,7 +268,16 @@ function openAddLoanItemDialog(guid,transaction_id, dialogId, callback) {
 	});
 }
 
-/** Add an item to a loan.
+/** Add an item to a loan, creating a loan_item record linking a specimen part 
+ * to a loan.
+ *
+ * @param part_id the collection_object_id of  the part to add to the loan.
+ * @param transaction_id the transaction_id of the loan to add the part to.
+ * @param remark any remark to associate with the loan item.
+ * @param instructions any special instructions to associate with the loan item.
+ * @param subsample boolean indicating whether the item is to be created as a subsample 
+ *   of the specified part.
+ * @param targetDiv the id of the div to update with the result of the operation.
  */
 function addItemToLoan(part_id,transaction_id,remark,instructions,subsample,targetDiv) { 
 	var subsampleInt = 0;
@@ -221,8 +307,36 @@ function addItemToLoan(part_id,transaction_id,remark,instructions,subsample,targ
 		},
 		error: function (jqXHR, textStatus, error) {
 			$("#"+targetDiv).html("Error");
-			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
+			handleFail(jqXHR,textStatus,error,"adding a part as a loan item to a loan");
 		},
 		dataType: "html"
 	});
 };
+
+/** openEditLoanItemDialog open a dialog for editing a loan item.
+ *
+ * @param loan_item_id the primary key for the loan item to edit.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name text to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openLoanItemDialog(loan_item_id,dialogId,name,callback) {
+   var title = "Edit " + name;
+   createGenericEditDialog(dialogId,title,callback);
+   jQuery.ajax({
+      url: "/transactions/component/itemFunctions.cfc",
+      data : {
+         method : "getLoanItemDialogHtml",
+         loan_item_id: loan_item_id
+      },
+      success: function (result) {
+         $("#" + dialogId + "_div").html(result);
+      },
+      error: function (jqXHR, textStatus, error) {
+         handleFail(jqXHR,textStatus,error,"opening edit loan item dialog");
+      },
+      dataType: "html"
+   });
+};
+

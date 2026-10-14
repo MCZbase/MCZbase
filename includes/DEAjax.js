@@ -1,15 +1,15 @@
 jQuery(document).ready(function() {
 	$("#made_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});
 	$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 	$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});	
 	$("#determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});
 	for (i=1;i<=14;i++){
 		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});
@@ -556,12 +556,6 @@ function loadedEditRecord(){
 	$("#selectbrowse").val($("#collection_object_id").val());
 	// force attribute check
 	checkRequiredParts();
-	// set up edit URL
-	var theURL='/DataEntry.cfm?action=edit';
-	if ($("#ImAGod").val()=="yes"){
-		theURL+='&ImAGod=yes';
-	}
-	theURL+='&collection_object_id=' + $("#collection_object_id").val();
 }
 
 function checkRequiredParts(){
@@ -1063,114 +1057,72 @@ function UAMArtDefaults() {
 	}
 }
 	
+/** Function attributeRowFields collects the inputs of one attribute column that the form has
+ * actually rendered, so that copying a value into the attribute rows does not depend on a row
+ * count written into this file.  Which attribute rows a collection offers for entry varies, and
+ * when rows 11 to 14 were added to the form the lists this replaces were left at 10, so a copied
+ * date reached some rows and not others.
+ *
+ * Hidden inputs are included, which is deliberate.  Several collection layouts fix the attribute
+ * of a row and render only its value, carrying that row's date and determiner as hidden inputs:
+ * DataEntry.cfm:1383 onward does this for tail length, hind foot with claw, ear from notch and
+ * weight, and :1468 onward for fat deposition, molt condition and ossification.  Those rows are
+ * real, and filling their date and determiner is the reason these copy functions exist.
+ *
+ * @param idPrefix id prefix of the column to collect, for example attribute_date_
+ * @return jQuery set of the matching inputs, empty if the form rendered none.
+ */
+function attributeRowFields(idPrefix) {
+	return $('input[id^="' + idPrefix + '"]');
+}
+
+/** Function copyAllDates copies one date into every date field on the data entry screen,
+ * including the date of each attribute row the form rendered.
+ *
+ * @param theID id of the field holding the date to copy.
+ */
 function copyAllDates(theID) {
-	var theDate = document.getElementById(theID).value;
-	if (theDate.length > 0) {
-		var date_array = new Array();
-		date_array.push('ended_date');
-		date_array.push('began_date');
-		date_array.push('determined_date');
-		date_array.push('made_date');
-		date_array.push('attribute_date_1');
-		date_array.push('attribute_date_2');
-		date_array.push('attribute_date_3');
-		date_array.push('attribute_date_4');
-		date_array.push('attribute_date_5');
-		date_array.push('attribute_date_6');
-		date_array.push('attribute_date_7');
-		date_array.push('attribute_date_8');
-		date_array.push('attribute_date_9');
-		date_array.push('attribute_date_10');
-		for (i=0;i<date_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(date_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theDate;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theDate = $('#' + theID).val();
+	if (theDate && theDate.length > 0) {
+		$('#ended_date, #began_date, #determined_date, #made_date').val(theDate);
+		attributeRowFields('attribute_date_').val(theDate);
 	}
 }
+
+/** Function copyAttributeDates copies one date into the date of each attribute row the form
+ * rendered.
+ *
+ * @param theID id of the field holding the date to copy.
+ */
 function copyAttributeDates(theID) {
-	var theDate = document.getElementById(theID).value;
-	if (theDate.length > 0) {
-		var date_array = new Array();
-		date_array.push('attribute_date_1');
-		date_array.push('attribute_date_2');
-		date_array.push('attribute_date_3');
-		date_array.push('attribute_date_4');
-		date_array.push('attribute_date_5');
-		date_array.push('attribute_date_6');
-		date_array.push('attribute_date_7');
-		date_array.push('attribute_date_8');
-		date_array.push('attribute_date_9');
-		date_array.push('attribute_date_10');
-		for (i=0;i<date_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(date_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theDate;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theDate = $('#' + theID).val();
+	if (theDate && theDate.length > 0) {
+		attributeRowFields('attribute_date_').val(theDate);
 	}
 }
+
+/** Function copyAttributeDetr copies one agent into the determiner of each attribute row the form
+ * rendered.
+ *
+ * @param theID id of the field holding the agent to copy.
+ */
 function copyAttributeDetr(theID) {
-	var theAgent = document.getElementById(theID).value;
-	if (theAgent.length > 0) {
-		var agnt_array = new Array();
-		agnt_array.push('attribute_determiner_1');
-		agnt_array.push('attribute_determiner_2');
-		agnt_array.push('attribute_determiner_3');
-		agnt_array.push('attribute_determiner_4');
-		agnt_array.push('attribute_determiner_5');
-		agnt_array.push('attribute_determiner_6');
-		agnt_array.push('attribute_determiner_7');
-		agnt_array.push('attribute_determiner_8');
-		agnt_array.push('attribute_determiner_9');
-		agnt_array.push('attribute_determiner_10');
-		for (i=0;i<agnt_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(agnt_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theAgent;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theAgent = $('#' + theID).val();
+	if (theAgent && theAgent.length > 0) {
+		attributeRowFields('attribute_determiner_').val(theAgent);
 	}
 }
+
+/** Function copyAllAgents copies one agent into every agent field on the data entry screen,
+ * including the determiner of each attribute row the form rendered.
+ *
+ * @param theID id of the field holding the agent to copy.
+ */
 function copyAllAgents(theID) {
-	var theAgent = document.getElementById(theID).value;
-	if (theAgent.length > 0) {
-		var agnt_array = new Array();
-		agnt_array.push('determined_by_agent');
-		agnt_array.push('id_made_by_agent');
-		agnt_array.push('attribute_determiner_1');
-		agnt_array.push('attribute_determiner_2');
-		agnt_array.push('attribute_determiner_3');
-		agnt_array.push('attribute_determiner_4');
-		agnt_array.push('attribute_determiner_5');
-		agnt_array.push('attribute_determiner_6');
-		agnt_array.push('attribute_determiner_7');
-		agnt_array.push('attribute_determiner_8');
-		agnt_array.push('attribute_determiner_9');
-		agnt_array.push('attribute_determiner_10');
-		for (i=0;i<agnt_array.length;i++) {
-			try {
-				var thisFld = document.getElementById(agnt_array[i]);
-				var theValue = thisFld.value;
-				thisFld.value=theAgent;
-			}
-			catch ( err ){// nothing, just ignore 
-			}
-		
-		}	
+	var theAgent = $('#' + theID).val();
+	if (theAgent && theAgent.length > 0) {
+		$('#determined_by_agent, #id_made_by_agent').val(theAgent);
+		attributeRowFields('attribute_determiner_').val(theAgent);
 	}
 }
 function highlightErrors (loadedMsg) {
@@ -1224,6 +1176,25 @@ function cleanup () {
 			Date4UnitVal.value = Date2UnitVal;
 			Date5UnitVal.value = Date2UnitVal;
 			Date6UnitVal.value = Date2UnitVal;
+		} catch(e){
+			// whatever
+		}
+	} else if (thisCC == 'Herp') {
+		/******************************** Herpetology Routine ************************************************/
+		try {
+			var Att2UnitVal = document.getElementById('attribute_units_2').value; // weight
+			var Att3UnitVal = document.getElementById('attribute_units_3').value; //snout-vent length
+			var Att4UnitVal = document.getElementById('attribute_units_4').value; //tail length
+			var Det2UnitVal = document.getElementById('attribute_determiner_2').value; // weight
+			var Det3UnitVal = document.getElementById('attribute_determiner_3'); //snout-vent length
+			var Det4UnitVal = document.getElementById('attribute_determiner_4'); //tail length
+			Det3UnitVal.value = Det2UnitVal;
+			Det4UnitVal.value = Det2UnitVal;
+			var Date2UnitVal = document.getElementById('attribute_date_2').value; //weight
+			var Date3UnitVal = document.getElementById('attribute_date_3'); //snout-vent length
+			var Date4UnitVal = document.getElementById('attribute_date_4'); //tail length
+			Date3UnitVal.value = Date2UnitVal;
+			Date4UnitVal.value = Date2UnitVal;
 		} catch(e){
 			// whatever
 		}

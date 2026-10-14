@@ -1,0 +1,233 @@
+/*
+containers/css/containers.css
+
+css specific to the containers tree and leaf browser
+
+Copyright 2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+/* Container tree list structure */
+.container-tree {
+	list-style: none;
+	padding: 0;
+	font-size: 1rem;
+}
+
+.container-tree ul {
+	list-style: none;
+	padding-left: 1.5em;
+	font-size: 1rem;
+}
+
+.container-tree li {
+	margin: 0.15em 0;
+}
+
+.container-tree .tree-node-toggle {
+	cursor: pointer;
+	user-select: none;
+}
+
+.container-tree .tree-node-label {
+	cursor: default;
+}
+
+.container-tree .tree-node-type {
+	white-space: nowrap;
+}
+
+.container-tree .tree-node-inline-leaf {
+	padding-left: 1.5em;
+	margin-top: 0.1em;
+}
+
+.container-tree .tree-node-toggle[aria-expanded="true"]::before {
+	content: "▼ ";
+}
+
+.container-tree .tree-node-toggle[aria-expanded="false"]::before {
+	content: "▶ ";
+}
+
+.container-tree .tree-leaf-badge {
+	font-size: 0.8em;
+}
+
+/* Leaf browser panel */
+.container-leaf-panel {
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+	background-color: #f8f9fa;
+	padding: 1rem;
+}
+
+/* Tree node description line */
+.container-tree .tree-node-desc {
+	padding-left: 1.5em;
+	margin-bottom: 0.1em;
+}
+
+/* Highlighted node when exploring from search results */
+.container-tree .tree-node-highlighted {
+	background-color: #fff3cd;
+	border-radius: 0.2em;
+	padding: 0 0.2em;
+	font-weight: bold;
+}
+
+/* Downwards arrow pointing right prefix for tree node descriptions */
+.arrowprefix::before {
+  content: " ↳ ";
+}
+
+/* Bold ⇒ indicator shown before the target node when exploring from search results */
+.tree-node-target-arrow {
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 1;
+	vertical-align: middle;
+	margin-right: 0.15rem;
+}
+
+/* Breadcrumb navigation, stronger presentation than default bootstrap. */
+.breadcrumb-item.active {
+  color: black;
+  font-weight: bold;
+}
+
+
+.container-role-badge {
+	font-size: 0.75rem;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.container-role-proxy {
+	background-color: #e7f1ff;
+	border: 1px solid #9ec5fe;
+	color: #0a58ca;
+}
+
+.container-role-leafbearer {
+	background-color: #fff3cd;
+	border: 1px solid #ffda6a;
+	color: #997404;
+}
+
+.container-role-structural {
+	background-color: #e2e3e5;
+	border: 1px solid #c6c8ca;
+	color: #41464b;
+}
+
+.container-role-leaf {
+	background-color: #d1e7dd;
+	border: 1px solid #a3cfbb;
+	color: #0f5132;
+}
+
+/* Despite the name, the positions-grid-* classes below are a general scan-box grid component:
+   a bordered cell with a short numeric label, a barcode input, and a status line beneath it.
+   Originally built for the container-positions scan-to-place grid (viewContainer.cfm), they're
+   also reused as-is by the batch child-move grid on moveContainer.cfm (#batchChildGrid), which
+   just adds its own layout variant (positions-grid-autofill) below rather than duplicating the
+   cell/label/input rules. The status line in both grids renders the shared placement-ok/warning/
+   blocked badge (renderPlacementWarningBadge in containers.js), not a bespoke color scheme. */
+.positions-grid-wrapper {
+	overflow-x: auto;
+}
+
+.positions-grid {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.positions-grid-5x5 {
+	grid-template-columns: repeat(5, minmax(5rem, 1fr));
+}
+
+.positions-grid-9x9 {
+	grid-template-columns: repeat(9, minmax(4rem, 1fr));
+}
+
+.positions-grid-10x10 {
+	grid-template-columns: repeat(10, minmax(4rem, 1fr));
+}
+
+.positions-grid-12x4 {
+	grid-template-columns: repeat(4, minmax(5rem, 1fr));
+}
+
+.positions-grid-11x3 {
+	grid-template-columns: repeat(3, minmax(5rem, 1fr));
+}
+
+.positions-grid-autofill {
+	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+}
+
+.positions-grid-cell {
+	align-items: flex-start;
+	background-color: #ffffff;
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-height: 5rem;
+	padding: 0.5rem;
+	text-align: left;
+	width: 100%;
+}
+
+.positions-grid-cell-empty {
+	background-color: #f8f9fa;
+}
+
+.positions-grid-label {
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.positions-grid-occupant,
+.positions-grid-type {
+	line-height: 1.2;
+	word-break: break-word;
+}
+
+.positions-grid-barcode-input {
+	width: 100%;
+}
+
+.positions-grid-fallback td {
+	vertical-align: top;
+}
+
+/* batch child-move grid's cells aren't click-to-open-a-dialog like the positions grid's are */
+#batchChildGrid .positions-grid-cell {
+	cursor: default;
+}
+
+.positions-grid-barcode-status {
+	line-height: 1.15;
+	word-break: break-word;
+}
+
+/* browseContainers.cfm's department-prefix picker list */
+.department-prefix-list {
+	padding-left: 2em;
+	line-height: 1.5em;
+}

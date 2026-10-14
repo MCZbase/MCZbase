@@ -122,7 +122,7 @@ override Bootstrap styles
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	background-color: white;
-	background-image: url("https://mczbase.mcz.harvard.edu/shared/images/close.png");
+	background-image: url("/shared/images/close.png");
 	background-repeat: no-repeat;
 	background-size: 16px;
 	border: 2px solid #ddd;
@@ -180,7 +180,7 @@ override Bootstrap styles
 	color: #036ee0 !important;
 }
  .ui-autocomplete-loading {
-     background: transparent url("https://mczbase.mcz.harvard.edu/shared/images/spinner_16px_reqd_bg.gif") right center no-repeat;
+     background: transparent url("/shared/images/spinner_16px_reqd_bg.gif") right center no-repeat;
   }
 .left-3 {
 	left:30%!important;
@@ -190,11 +190,13 @@ override Bootstrap styles
 	font-family:Arial, Helvetica, "sans-serif"
 }
 .ui-widget-header {
-	border: 1px solid #A41034;
 	border: 1px solid #dddddd;
-	background: #c1272d url(https://mczbase.mcz.harvard.edu/shared/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
-	background: #ebebeb url(https://mczbase.mcz.harvard.edu/shared/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
-	color: #ffffff;
+	/* unused line.  c1272d is the crimson from the Harvard header, BAC5C6 is grey from footer, ui-bg_gloss-wave_35_f6a828_500x100.png was orange, not a custom image */
+   /* 
+	background: #c1272d url("/shared/images/ui-bg_gloss-wave_35_BAC5C6_500x100.png") 50% 50% repeat-x;
+   */
+   /* this appears to be the intent for the custom ui-widget-header, a light grey background */
+	background: #ebebeb url("/shared/images/ui-bg_gloss-wave_35_ebebeb_500x100.png") 50% 50% repeat-x;
 	color: #000000;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {

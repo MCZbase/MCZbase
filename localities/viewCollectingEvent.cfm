@@ -4,7 +4,7 @@ localities/viewCollectingEvent.cfm
 
 Form for displaying collecting event details
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ limitations under the License.
 <!--- TODO: Remove when edit collecting event is ready for production --->
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
@@ -65,7 +65,8 @@ limitations under the License.
 		startdayofyear, enddayofyear, 
 		verbatimcoordinates, verbatimlatitude, verbatimlongitude,
 		verbatimcoordinatesystem, verbatimsrs,
-		verbatimelevation, verbatimdepth
+		verbatimelevation, verbatimdepth,
+		verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 	FROM
 		collecting_event
 		left join preferred_agent_name on collecting_event.date_determined_by_agent_id = preferred_agent_name.agent_id
@@ -174,6 +175,18 @@ limitations under the License.
 							<cfif len(verbatimelevation) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimelevation#</li>
+							</cfif>
+							<cfif len(verbatim_collectors) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Collectors: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_collectors#</li>
+							</cfif>
+							<cfif len(verbatim_field_numbers) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Field Numbers: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_field_numbers#</li>
+							</cfif>
+							<cfif len(verbatim_habitat) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Habitat: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_habitat#</li>
 							</cfif>
 							<cfif len(habitat_desc) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Habitat: </li>

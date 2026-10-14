@@ -17,16 +17,43 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfif isDefined("url.result_id")>
+	<cfset result_id = url.result_id>
+<cfelseif isDefined("form.result_id")>
+	<cfset result_id = form.result_id>
+</cfif>
+<cfif isDefined("url.container_id")>
+	<cfset container_id = url.container_id>
+<cfelseif isDefined("form.container_id")>
+	<cfset container_id = form.container_id>
+</cfif>
 <cfif isDefined("result_id") AND len(result_id) GT 0>
 	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_object_id
-		from user_search_table
-		where 
+		SELECT collection_object_id
+		FROM user_search_table
+		WHERE 
 			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 	</cfquery>
 	<cfif getCollectionObjectIdList.recordcount GT 0>
 		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
 	</cfif>
+<cfelseif isDefined("container_id") AND len(container_id) GT 0>
+	<!--- if given a list of containers, find the cataloged items for parts that have containers of type collection object in that list --->
+	<!--- this is not the list of all leaf collection object nodes for the given containers, just containers in the list that are collection objects --->
+	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 
+			specimen_part.derived_from_cat_item collection_object_id
+		FROM coll_obj_cont_hist
+			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+		WHERE 
+			container_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">)
+			AND
+			current_container_fg = 1
+	</cfquery>
+	<cfif getCollectionObjectIdList.recordcount GT 0>
+		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
+	</cfif>
+	<cfset container_id = "">
 </cfif>
 <cfif not isdefined("collection_object_id")>
 	<cfset collection_object_id="">
@@ -37,6 +64,11 @@ limitations under the License.
 <cfif not isdefined("container_id")>
 	<cfset container_id="">
 </cfif>
+
+<cfif len(collection_object_id) EQ 0 AND len(transaction_id) EQ 0 AND len(container_id) EQ 0>
+	<cfthrow message="Nothing to print: No collection_object_id, transaction_id, or container_id specifies collection objects to print labels for.">
+</cfif>
+
 <cfif not isdefined("sort")>
 	<cfset sort="">
 </cfif>
@@ -103,8 +135,11 @@ limitations under the License.
 				<cfloop query="usersColls">
 					<cfset collList = listToArray("#reportprefs#") >
 				</cfloop>
-				<!-- Add the All code so that reports in the form __All will be shown to everyone.  -->
+				<!--- Add the All code so that reports in the form __All will be shown to everyone.  --->
 				<cfset added = ArrayPrepend(collList,"All") >
+				<cfif usersColls.reportprefs EQ "">
+					<h2 class="h3">You have no configured collections for reports, please file a bug report with the list of collections which you wish to see reports for by default here.</h2>
+				</cfif>
 			
 				<form name="print" id="print" method="post" action="report_printer.cfm">
 					<input type="hidden" name="action" value="print">
@@ -117,7 +152,33 @@ limitations under the License.
 						<tr>
 							<td>
 								<label for="report_id">Print....</label>
-								<select name="report_id" id="report_id" size="36" style="width: 22em;">
+								<!--- find how many reports there are to show in the picklist --->
+								<cfif show_all IS "true">
+									<!--- If show_all is set, then show all reports, so the size of the select box is the number of reports --->
+									<cfset selectSize = e.recordcount>
+								<cfelse>
+									<cfset selectSize = 0>
+									<!--- If show_all is not set then count report to show using same logic as shows them below --->
+									<cfloop query="e">
+										<!---
+										  Take the part of the report name after the double underscore,
+										  then explode the collection codes in it on underscores
+										--->
+										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
+										<cfif NOT ArrayIsEmpty(repBit)>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then count it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+											 		<cfif cel EQ element >
+														<cfset selectSize = selectSize + 1>
+													</cfif>
+												</cfloop>
+											</cfloop>
+										</cfif>
+									</cfloop>
+								</cfif>
+								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
 									<cfloop query="e">
 										<cfset show = 0 >
 										<!---
@@ -126,20 +187,19 @@ limitations under the License.
 										--->
 										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
 										<cfif NOT ArrayIsEmpty(repBit)>
-										<cfset repList = listToArray(#repBit[1]#,"_",true)>
-						
-										<!--  If the report name includes a collection code in the user's list, then show it. -->
-										<cfloop index="element" array="#repList#">
-										  <cfloop index="cel" array="#collList#">
-											 <cfif cel EQ element >
-												<cfset show = 1 >
-											 </cfif>
-										  </cfloop>
-										</cfloop>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then show it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+													<cfif cel EQ element >
+														<cfset show = 1 >
+													</cfif>
+												</cfloop>
+											</cfloop>
 										</cfif>
-										<!-- Show only reports for users collections, unless showAll is set -->
+										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
-										  <option value="#report_id#">#report_name#</option>
+											<option value="#report_id#" style="padding: 3.75;">#report_name#</option>
 										</cfif>
 									</cfloop>
 								</select>
@@ -153,7 +213,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPreserveRewrite#) GT 0>
 									<cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-								  </cfif>
+								</cfif>
 								<!--- Compile a list of reports that cotain the limit_preserve_method marker, 
 									  for only those reports show the picklist of preservation types --->
 								<cfset reportsWithPartNameRewrite = "">
@@ -164,7 +224,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPartNameRewrite#) GT 0>
 									<cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
-								  </cfif>
+								</cfif>
 								<script>
 										$("##report_id").change( function () {
 											$("##printReportButton").prop('disabled', false); 

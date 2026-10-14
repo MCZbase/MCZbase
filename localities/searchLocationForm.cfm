@@ -2,7 +2,7 @@
 
 localities/searchLocationForm.cfm
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -578,13 +578,13 @@ Typical use:
 										<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
 										<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 											<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="=">is</option>
+											<option value="=" #selected#>is</option>
 											<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="<>">is not</option><!--- " --->
+											<option value="<>" #selected#>is not</option><!--- " --->
 											<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value=">">more than</option><!--- " --->
+											<option value=">" #selected#>more than</option><!--- " --->
 											<cfif minDepthOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="<">less than</option>
+											<option value="<" #selected#>less than</option>
 										</select>
 										<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
 										<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
@@ -1111,9 +1111,9 @@ Typical use:
 										<input type="text" name="verbatimlatitude" id="verbatimlatitude" class="data-entry-input" value="#encodeForHtml(verbatimlatitude)#">
 									</div>
 									<div class="col-12 col-md-2 py-2">
-										<cfif NOT isDefined("verbatimlongigude") ><cfset verbatimlongigude=""></cfif>
-										<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
-										<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
+										<cfif NOT isDefined("verbatimlongitude") ><cfset verbatimlongitude=""></cfif>
+										<label for="verbatimlongitude" class="data-entry-label">Verbatim Longitude</label>
+										<input type="text" name="verbatimlongitude" id="verbatimlongitude" class="data-entry-input" value="#encodeForHtml(verbatimlongitude)#">
 									</div>
 									<div class="col-12 col-md-2 pt-md-4 pt-lg-2 py-2">
 										<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
@@ -1129,7 +1129,7 @@ Typical use:
 											<option value="NOT NULL" #selected#>NOT NULL</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-3 py-2">
+									<div class="col-12 col-md-2 py-2">
 										<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 										<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
 										<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
@@ -1141,7 +1141,7 @@ Typical use:
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3 py-2">
+									<div class="col-12 col-md-2 py-2">
 										<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
 										<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
 										<label for="collector_agent" class="data-entry-label">Specimen Collector</label>
@@ -1153,7 +1153,7 @@ Typical use:
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3 px-3 px-md-2 py-1">
+									<div class="col-12 col-md-2 px-3 px-md-2 py-2">
 										<cfif not isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
 										<label for="collnEvOper" class="data-entry-label">Event Use</label>
 										<select name="collnEvOper" id="collnEvOper" size="1" class="data-entry-select">
@@ -1166,6 +1166,21 @@ Typical use:
 											<cfif collnEvOper EQ "eventSharedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="eventSharedOnlyBy" #selected#>shared only including (pick collection above)</option>
 										</select>
+									</div>
+									<div class="col-12 col-md-2 py-2">
+										<cfif NOT isDefined("verbatim_collectors") ><cfset verbatim_collectors=""></cfif>
+										<label for="verbatim_collectors" class="data-entry-label">Verbatim Collectors</label>
+										<input type="text" name="verbatim_collectors" id="verbatim_collectors" class="data-entry-input" value="#encodeForHtml(verbatim_collectors)#">
+									</div>
+									<div class="col-12 col-md-2 py-2">
+										<cfif NOT isDefined("verbatim_field_numbers") ><cfset verbatim_field_numbers=""></cfif>
+										<label for="verbatim_field_numbers" class="data-entry-label">Verbatim Field No.</label>
+										<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" class="data-entry-input" value="#encodeForHtml(verbatim_field_numbers)#">
+									</div>
+									<div class="col-12 col-md-2 py-2">
+										<cfif NOT isDefined("verbatim_habitat") ><cfset verbatim_habitat=""></cfif>
+										<label for="verbatim_habitat" class="data-entry-label">Verbatim Habitat</label>
+										<input type="text" name="verbatim_habitat" id="verbatim_habitat" class="data-entry-input" value="#encodeForHtml(verbatim_habitat)#">
 									</div>
 								</cfif>
 							</div>

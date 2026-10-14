@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 <cfset title="Download Agreement">
 <!--- make sure they have an account --->
 <cfif not isdefined("cnt") OR len(#cnt#) is 0>
@@ -31,10 +32,10 @@
 <table>
 
 <form method="post" action="download_agree.cfm" name="dlForm">
-	<input type="hidden" name="user_id" value="#getUserData.user_id#">
 	<input type="hidden" name="downloadFile" value="#downloadFile#">
 	
 	<input type="hidden" name="action" value="continue">
+	#csrfTokenInput()#
 	<input type="hidden" name="cnt" value="#cnt#">
 	<tr>
 		<td colspan="2"><span style="font-weight: bold; font-style: italic;">
@@ -74,7 +75,7 @@
 	</tr>
 	<tr>
 		<td align="right">Email</td>
-		<td><input type="text" name="email" value="#getUserData.email#"></td>
+		<td><input type="email" name="email" value="#getUserData.email#"></td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -123,6 +124,11 @@ do not agree</font>.</a>
 </cfif>
 
 <cfif #action# is "continue">
+	<!--- The token stops another site saving its own email address into the profile. --->
+	<cfif NOT isPostWithCsrfToken()>
+		This form must be submitted from the download agreement page. Please return to your search results and try again.
+		<cfabort>
+	</cfif>
 	<!--- get the values they filled in --->
 	<cfif len(#first_name#) is 0 OR
 		len(#last_name#) is 0 OR
@@ -131,6 +137,27 @@ do not agree</font>.</a>
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
+	<!--- The address is checked here as well as by type="email" on the input, since annotation
+		and password recovery rely on it. --->
+	<cfparam name="form.email" default="">
+	<cfset variables.email = trim(form.email)>
+	<cfif len(variables.email) GT 0 AND NOT isValid("email", variables.email)>
+		The email address you entered is not a validly formed address. Please use your browser's back button to try again.
+		<cfabort>
+	</cfif>
+	<!--- Always the logged-in user's record: user_id is looked up from the session, never taken
+		from the form, which a user could alter to overwrite another account's profile. --->
+	<cfquery name="getUserID" datasource="cf_dbuser">
+		SELECT cf_users.user_id
+		FROM cf_users
+		WHERE
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfif getUserID.recordcount NEQ 1>
+		No unique user account was found for your login. Please log in again.
+		<cfabort>
+	</cfif>
+	<cfset variables.user_id = getUserID.user_id>
 	<cfquery name="dl" datasource="cf_dbuser">
 		INSERT INTO cf_download (
 			user_id,
@@ -139,7 +166,7 @@ do not agree</font>.</a>
 			num_records,
 			agree_to_terms)
 		VALUES (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.user_id#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#download_purpose#">,
 			sysdate,
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cnt#">,
@@ -150,7 +177,7 @@ do not agree</font>.</a>
 		select * 
 		from cf_user_data 
 		where 
-			user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+			user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.user_id#">
 	</cfquery>
 		<!---- already have a user_data entry --->
 		<cfif #isUser.recordcount# is 1>
@@ -162,11 +189,11 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 				WHERE
-					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.user_id#">
 			</cfquery>
 		</cfif>
 		<cfif #isUser.recordcount# is not 1>
@@ -179,20 +206,20 @@ do not agree</font>.</a>
 					<cfif len(#middle_name#) gt 0>
 						,middle_name
 					</cfif>
-					<cfif len(#email#) gt 0>
+					<cfif len(variables.email) gt 0>
 						,email
 					</cfif>
 					)
 				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.user_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
 					<cfif len(#middle_name#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
 					</cfif>
-					<cfif len(#email#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+					<cfif len(variables.email) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.email#">
 					</cfif>
 					)
 			</cfquery>

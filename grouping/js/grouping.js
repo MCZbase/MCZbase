@@ -421,3 +421,117 @@ function removeUndCollCitation(underscore_coll_citation_id, okcallback) {
 		}
 	});
 }
+
+/** --------------------------------------------------------------  **/
+
+/** Builds a link_name value from a named group's collection_name, using the same
+ * transform used to backfill underscore_collection.link_name for existing rows:
+ * trim, collapse runs of spaces to a single underscore, strip anything that isn't
+ * alphanumeric or an underscore, collapse runs of underscores, then truncate to 200
+ * characters (the column's width). Used to auto-populate link_name on the create
+ * named group page.
+ * @param collectionName the collection_name value to derive a link_name from.
+ * @return the derived link_name value.
+ */
+function slugifyCollectionNameForLinkName(collectionName) {
+	var result = (collectionName || '').trim();
+	result = result.replace(/ +/g, '_');
+	result = result.replace(/[^A-Za-z0-9_]/g, '');
+	result = result.replace(/_+/g, '_');
+	return result.substring(0, 200);
+}
+
+/** Auto-populates the link_name field from the collection_name field's current value on
+ * collection_name's onblur, but only while link_name is still empty. Bound to blur rather
+ * than keyup/input so the whole typed name is used at once -- binding this to every keystroke
+ * instead would derive link_name from only the first character typed, since link_name stops
+ * being empty the moment that first character is written.
+ * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
+ * @param linkNameFieldId id of the link name text input to auto-populate, without a leading # selector.
+ */
+function autoPopulateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
+	var linkNameField = $('#' + linkNameFieldId);
+	if (linkNameField.val().length > 0) {
+		return;
+	}
+	linkNameField.val(slugifyCollectionNameForLinkName($('#' + collectionNameFieldId).val()));
+}
+
+/** (Re)builds link_name from collection_name's current value, using the same transform as
+ * the auto-populate above -- unlike auto-populate, this always overwrites whatever link_name
+ * currently holds, letting a user reset it to match the group name on demand. Triggers an
+ * input event on link_name afterward so any oninput-bound permalink preview on the page
+ * (e.g. the edit page's) picks up the new value; harmless where nothing is bound to it.
+ * @param collectionNameFieldId id of the collection name text input, without a leading # selector.
+ * @param linkNameFieldId id of the link name text input to (re)generate, without a leading # selector.
+ */
+function generateNamedGroupLinkName(collectionNameFieldId, linkNameFieldId) {
+	var collectionName = $('#' + collectionNameFieldId).val();
+	$('#' + linkNameFieldId).val(slugifyCollectionNameForLinkName(collectionName)).trigger('input');
+}
+
+/** Toggles a link_name input between disabled and enabled, relabeling the adjacent toggle
+ * button "Edit"/"Lock" to match, so a save made without pressing the button leaves the field
+ * disabled (and so excluded from the submitted form) rather than editable by default. The
+ * Generate button is enabled/disabled along with the field, since generating a value while
+ * the field is locked would be immediately discarded (Generate has no effect while disabled,
+ * but the enabled/disabled state should still tell the user that).
+ * @param linkNameFieldId id of the link name text input, without a leading # selector.
+ * @param toggleButtonId id of the toggle button, without a leading # selector.
+ * @param generateButtonId id of the Generate button, without a leading # selector; may not
+ *	exist on the page, in which case this has no effect on it.
+ */
+function toggleNamedGroupLinkNameEdit(linkNameFieldId, toggleButtonId, generateButtonId) {
+	var input = $('#' + linkNameFieldId);
+	var button = $('#' + toggleButtonId);
+	var generateButton = $('#' + generateButtonId);
+	if (input.prop('disabled')) {
+		input.prop('disabled', false).trigger('focus');
+		button.text('Lock').attr('aria-pressed', 'true');
+		generateButton.prop('disabled', false);
+	} else {
+		input.prop('disabled', true);
+		button.text('Edit').attr('aria-pressed', 'false');
+		generateButton.prop('disabled', true);
+	}
+}
+
+/** Disables the link_name toggle button once its field has been changed while editable, so
+ * it can't be clicked to re-lock (disable) the field before that change is saved -- a
+ * disabled field is excluded from the submitted form, which would otherwise silently drop
+ * an edit the user believed they'd made. Re-enable it after a successful save.
+ * @param toggleButtonId id of the toggle button, without a leading # selector.
+ */
+function disableNamedGroupLinkNameToggleUntilSaved(toggleButtonId) {
+	$('#' + toggleButtonId).prop('disabled', true);
+}
+
+/** Rebuilds the /namedGroup/{link_name} permalink preview to match the link_name field's
+ * current value, choosing between a full text link and an icon-only link with an aria-label
+ * once the value reaches charLimit, matching the same threshold and markup used when the
+ * page was first rendered, so the preview never falls out of sync with a live edit.
+ * @param linkNameFieldId id of the link name text input, without a leading # selector.
+ * @param displayContainerId id of the element whose contents should be replaced with the
+ *	rendered permalink, without a leading # selector.
+ * @param serverRootUrl the application's server root URL to prefix the permalink path with.
+ * @param charLimit link_name length at or above which the icon-only display is used instead
+ *	of the full text link.
+ */
+function updateNamedGroupPermalinkPreview(linkNameFieldId, displayContainerId, serverRootUrl, charLimit) {
+	var linkName = $('#' + linkNameFieldId).val();
+	var container = $('#' + displayContainerId);
+	container.empty();
+	if (!linkName) {
+		return;
+	}
+	var url = serverRootUrl + '/namedGroup/' + encodeURIComponent(linkName);
+	if (linkName.length < charLimit) {
+		container.append($('<a id="link_name_permalink" target="_blank"></a>').attr('href', url).text(url));
+	} else {
+		var link = $('<a id="link_name_permalink" class="px-1 text-muted" target="_blank"></a>')
+			.attr('href', url)
+			.attr('aria-label', 'Permalink: ' + url)
+			.append('<i class="fas fa-link" aria-hidden="true"></i>');
+		container.append(link);
+	}
+}

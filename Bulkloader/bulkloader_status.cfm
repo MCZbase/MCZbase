@@ -17,7 +17,7 @@ table.stat th {
 	from 
 		bulkloader
 	where
-		upper(institution_acronym || '_' || collection_cde) IN (#ListQualify(inAdminGroups, "'")#)
+		upper(institution_acronym || '_' || collection_cde) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inAdminGroups#" list="yes">)
 	group by
 		loaded, 
 		accn, 
@@ -33,7 +33,7 @@ table.stat th {
 	<div class="container">
 		<div class="row">
 		<div class="col-12 mt-4 border-bottom-black">
-			<h1 class="h3">What's In The Bulkloader:</h1>
+			<h1 class="h3">What&##39;s In The Specimen Bulkloader:</h1>
 			<table class="table stat">
 				<thead class="thead-light">
 					<tr>
@@ -97,7 +97,7 @@ table.stat th {
 					where
 						bulkloader.collection_object_id = B_COLLECTION_OBJECT_ID AND
 						loaded <> 'spiffification complete' and
-						upper(bulkloader.institution_acronym || '_' || bulkloader.collection_cde) IN (#ListQualify(inAdminGroups, "'")#)
+						upper(bulkloader.institution_acronym || '_' || bulkloader.collection_cde) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inAdminGroups#" list="yes">)
 					group by
 						bulkloader.collection_object_id,
 						loaded,
@@ -123,7 +123,7 @@ table.stat th {
 						<cfloop query="failures">
 							<tr>
 								<td>
-									<a href="/DataEntry.cfm?ImAGod=yes&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
+									<a href="/DataEntry.cfm?showAllUsers=true&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
 										#collection_object_id#
 									</a>
 									 (#institution_acronym# #collection_cde#)
@@ -149,8 +149,8 @@ table.stat th {
 						bulkloader_deletes.collection_object_id = B_COLLECTION_OBJECT_ID AND
 						bulkloader_attempts.collection_object_id = cataloged_item.collection_object_id AND
 						cataloged_item.collection_id = collection.collection_id AND
-						TSTAMP > ('#dateformat(now()-5,"yyyy-mm-dd")#') and
-						upper(bulkloader_deletes.institution_acronym || '_' || bulkloader_deletes.collection_cde) IN (#ListQualify(inAdminGroups, "'")#)
+						TSTAMP > <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateAdd('d', -5, now())#"> and
+						upper(bulkloader_deletes.institution_acronym || '_' || bulkloader_deletes.collection_cde) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inAdminGroups#" list="yes">)
 					group by
 						bulkloader_attempts.collection_object_id,
 						cataloged_item.cat_num,
@@ -178,7 +178,7 @@ table.stat th {
 						<cfloop query="success">
 							<tr>
 								<td><cfif len(success.cat_num) gt 0>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+									<a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">
 										#institution_acronym# #collection_cde# #cat_num#
 									</a>
 									<cfelse>

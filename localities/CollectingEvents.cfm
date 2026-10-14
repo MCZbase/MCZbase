@@ -55,7 +55,7 @@ limitations under the License.
 							<cfset showExtraFields=1>
 							<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
 							<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-3 px-4">Find Collecting Event</h1></cfif>
-							<input type="hidden" id="method" name="method" value="getCollectingEvents">
+							<input type="hidden" id="method" name="method" value="getCollectingEvents_queryExecute">
 							<div class="row mx-0">
 								<section class="container-fluid" role="search">
 									<cfinclude template = "/localities/searchLocationForm.cfm">
@@ -160,6 +160,8 @@ limitations under the License.
 								depth = depth + "-" + max_depth;
 							}
 							depth = $.trim(depth + " " + depth_units) + ". ";
+						} else if (max_depth) { 
+							depth = " Depth: " + max_depth + " " + depth_units + ". ";
 						} else {
 							depth = "";
 						}
@@ -520,6 +522,9 @@ limitations under the License.
 									{ name: 'ENDDAYOFYEAR', type: 'string'},
 									{ name: 'VERBATIMELEVATION', type: 'string'},
 									{ name: 'VERBATIMDEPTH', type: 'string'},
+									{ name: 'VERBATIM_COLLECTORS', type: 'string'},
+									{ name: 'VERBATIM_FIELD_NUMBERS', type: 'string'},
+									{ name: 'VERBATIM_HABITAT', type: 'string'},
 									{ name: 'COLL_EVENT_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -611,6 +616,9 @@ limitations under the License.
 									{ text: 'Verb. Long.', datafield: 'VERBATIMLONGITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLONGITUDE',true)  },
 									{ text: 'Verb. Coord System', datafield: 'VERBATIMCOORDINATESYSTEM',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATESYSTEM',true)  },
 									{ text: 'Verb. Datum', datafield: 'VERBATIMSRS',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMSRS',true)  },
+									{ text: 'Verb. Collectors', datafield: 'VERBATIM_COLLECTORS',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_COLLECTORS',true)  },
+									{ text: 'Verb. Field Nos.', datafield: 'VERBATIM_FIELD_NUMBERS',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_FIELD_NUMBERS',true)  },
+									{ text: 'Verb. Habitat', datafield: 'VERBATIM_HABITAT',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_HABITAT',true)  },
 									{ text: 'Start Day', datafield: 'STARTDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('STARTDAYOFYEAR',true)  },
 									{ text: 'End Day', datafield: 'ENDDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('ENDDAYOFYEAR',true)  },
 									{ text: 'Verb. Elevation', datafield: 'VERBATIMELEVATION',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMELEVATION',true)  },

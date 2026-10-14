@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfif #action# is "nothing">
-    <div style="width: 62.5em;margin: 0 auto;padding: 1em 0 3em 0;">
+    <div style="width: 82.5em;margin: 0 auto;padding: 1em 0 3em 0;">
         <cfparam name="order_by" default="gbi_id">
 <cfparam name="order_order" default="DESC">
 <cfoutput>

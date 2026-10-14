@@ -1,14 +1,13 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
-<cf_customizeIFrame>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
         $("input[id='wktFile'").change(function(){
@@ -99,17 +98,8 @@
 	<cfset action = firstAction>
 </cfif>
 <cfif isdefined("collection_object_id") AND collection_object_id gt 0 AND action is "nothing">
-	<!--- probably got here from SpecimenDetail, make sure we're in a frame --->
-	<script>
-		var thePar = parent.location.href;
-		var isFrame = thePar.indexOf('Locality.cfm');
-		if (isFrame == -1) {
-			// we're in a frame, action is NOTHING, we have a collection_object_id; redirect to
-			// get a collecting_event_id
-			//alert('in a frame');
-			document.location='Locality.cfm?action=findCollEventIdForSpecDetail&collection_object_id=#collection_object_id#';
-		}
-	</script>
+	<!--- probably unused failover from old specimen details page where this was invoked in an iframe --->
+	<cfset action ="findCollEventIdForSpecDetail">
 </cfif>
 <cfif action is "findCollEventIdForSpecDetail">
 	<!--- get a collecting event ID and relocate to editCollEvnt --->
@@ -192,9 +182,6 @@
 				</form>
 			</cfif>
 		</td>
-		<td>
-			<span class="infoLink" onclick="getDocs('higher_geography');">Define</span>
-		</td>
 	</tr>
 	<tr>
 		<td>Localities</td>
@@ -211,9 +198,6 @@
 				</form>
 			</cfif>
 		</td>
-		<td>
-			<span class="infoLink" onclick="getDocs('locality');">Define</span>
-		</td>
 	</tr>
 	<tr>
 		<td>Collecting Events</td>
@@ -224,9 +208,6 @@
 			</form>
 		</td>
 		<td>(Find and clone to create new)</td>
-		<td>
-			<span class="infoLink" onclick="getDocs('collecting_event');">Define</span>
-		</td>
 	</tr>
 </table>
 </cfoutput>
@@ -460,15 +441,13 @@ You deleted a collecting event.
 		(#collecting_event_id#)
 		</span>
 		<font color="##FF0000"><strong>
-		<a href="javascript:void(0);" onClick="getDocs('collecting_event')"><img src="/images/info.gif" border="0"></a>
-		contains no specimens. Please delete it if you don't have plans for it!</strong></font>
+		contains no specimens. Please delete it if you don&apos;t have plans for it!</strong></font>
   	<cfelseif #whatSpecs.recordcount# is 1>
 		<font color="##FF0000"><strong>These #numCollEvents# Collecting Events </strong></font>
 		<span style="font-size:small;">
 		(#collecting_event_id#)
 		</span>
 		<font color="##FF0000"><strong>
-		<a href="javascript:void(0);" onClick="getDocs('collecting_event')"><img src="/images/info.gif" border="0"></a>
 		contains #whatSpecs.numOfSpecs# #whatSpecs.collection_cde#
 		<a href="SpecimenResults.cfm?collecting_event_id=#collecting_event_id#">specimens</a>.</strong></font>
 	<cfelse>
@@ -478,7 +457,6 @@ You deleted a collecting event.
 		(#collecting_event_id#)
 		</span>
 		<font color="##FF0000"><strong>
-		<a href="javascript:void(0);" onClick="getDocs('collecting_event')"><img src="/images/info.gif" border="0"></a>
 		contains the following <a href="SpecimenResults.cfm?collecting_event_id=#collecting_event_id#">specimens</a>:</strong></font>
 		<ul>
 			<cfloop query="whatSpecs">
@@ -504,7 +482,7 @@ You deleted a collecting event.
 	</tr>
 	<cfloop query="cd">
 		<tr>
-			<td><a href="/localiteis/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
+			<td><a href="/localities/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
 			<td>#higher_geog#</td>
 			<td>#dec_lat# #dec_long#</td>
 		</tr>

@@ -1,7 +1,7 @@
 <!---
 specimens/Specimen.cfm
 
-Copyright 2019-2025 President and Fellows of Harvard College
+Copyright 2019-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,11 +32,8 @@ limitations under the License.
 
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
-<cfset pageTitle = "MCZbase Specimen not found.">
-<script type='text/javascript' src='/media/js/media.js'></script>
-<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
-</cfif>
+<cfset pageTitle = "Specimen not found.">
+
 
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
@@ -60,7 +57,7 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <cfif isdefined("guid")>
-	<cfset pageTitle = "MCZbase Specimen not found: #guid#">
+	<cfset pageTitle = "Specimen not found: #guid#">
 	<!---  Lookup the GUID, handling several possible variations --->
 
 	<!---  Redirect from explicit Specimen Detail page to  to /guid/ --->
@@ -78,7 +75,7 @@ limitations under the License.
 		<cfabort>
 	</cfif>
 	
-	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
+	<!---  GUID is expected to be in the form institutioncode:collectioncode:catalognumber --->
 	<cfif guid contains ":">
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cresult">
 			select collection_object_id 
@@ -145,35 +142,70 @@ limitations under the License.
 	WHERE
 		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
+<!--- check for mixed collection --->
+<cfset variables.isMixed = false>
+<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT 
+		count(identification.collection_object_id) ct
+	FROM
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTable
+		join coll_object on flatTable.collection_object_id = coll_object.collection_object_id
+		join specimen_part on coll_object.collection_object_id = specimen_part.derived_from_cat_item
+		join identification on specimen_part.collection_object_id = identification.collection_object_id
+	WHERE
+		flatTable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+</cfquery>
+<cfif checkMixed.ct GT 0>
+	<cfset variables.isMixed = true>
+</cfif>
+
+<!--- Include the templates that contains functions used to load portions of this page --->
+<cfinclude template="/specimens/component/public.cfc">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
+<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
+<!--- Ahead of the header, so a record the user may not see shows its error page in this request: a forward
+	to it would start a second session for a client without a session cookie. --->
+<cfset variables.specimenRefusal = { page = "" }>
+<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#", refusal = variables.specimenRefusal)>
+<cfif len(variables.specimenRefusal.page) GT 0>
+	<cfinclude template="#variables.specimenRefusal.page#">
+	<cfabort>
+</cfif>
 
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle plus page metadata and call the header to reflect this ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #header.collection# collection; #header.scientific_name#; #header.higher_geog#; #header.spec_locality#; #header.typestatusplain#">
 <cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.typestatuswords#">
 <cfset pageTitle = "MCZbase #guid# specimen record">
+<cfset pageHasContainers = "true"><!--- for containers/js/containers.js's openContainerPickerDialog/loadPlacementWarningBadge, used by the Edit Parts dialog's Container field --->
 <cfinclude template="/shared/_header.cfm">
+<link rel="stylesheet" href="/containers/css/containers.css"><!--- for the container-role-badge classes used by the Part Container Placement dialog's proxy badges --->
+
+<!--- load javascript libraries for the page --->
+<script type='text/javascript' src='/media/js/media.js'></script>
+<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="/containers/js/containers.js"></script>
+</cfif>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
 
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
-<cfoutput>
-	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>
 
-<!--- (4) Display the summary/type bar for the record --->
-<!--- Include the templates that contains functions used to load portions of this page --->
-<cfinclude template="/specimens/component/public.cfc">
-<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
-<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
-<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
-<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
+<!--- (4) Display the summary/type bar for the record, obtained above --->
 <cfoutput>
+<div id="specimenDetailsPageContent">
 <div id="specimenSummaryHeaderDiv">
 #summaryHeadingBlock#
 </div>
 </cfoutput>
 
-<!--- (5) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
+<!--- (5) Bulk of the specimen page (formerly in SpecimenDetail_body) --->
 
 <!--- query getCatalogedItem is needed for determining what is public and what is partitioned --->
 <cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -181,9 +213,12 @@ limitations under the License.
 		cataloged_item.collection_object_id,
 		cataloged_item.collection_cde,
 		cataloged_item.cat_num,
+		cataloged_item.collecting_event_id,
+		collection.institution_acronym,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
 		cataloged_item
+		join collection on cataloged_item.collection_id = collection.collection_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
@@ -197,7 +232,7 @@ limitations under the License.
 	<!--- it shouldn't be possible to reach this check, as it is preceeded by a query on session.flattablename which has the same effect --->
 	<cfthrow message="Record masked.">
 </cfif>
-<cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
+<cfset guid = "#getCatalogedItem.institution_acronym#:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
 <cfif oneOfUs NEQ 1 AND Findnocase("mask parts", getCatalogedItem.encumbranceDetail)>
 	<cfset partCount="">
 <cfelse>
@@ -213,12 +248,15 @@ limitations under the License.
 </cfif>
 
 <cfoutput>
-	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
+	<!--- public.js provides functions available for everyone, edit.js provides functions that support editing ---->
 	<script type="text/javascript" src="/specimens/js/public.js"></script> 
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<script type="text/javascript" src="/specimens/js/edit.js"></script> 
+	</cfif>
    <cfif isdefined("session.username") AND len(session.username) gt 0>
 		<script>
 			function reloadAnnotations() { 
-				loadAnnotations(#collection_object_id#,'annotationsCardBody');
+				loadAnnotations(#getCatalogedItem.collection_object_id#,'annotationsCardBody');
 			}
 
 		</script>
@@ -227,72 +265,109 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			var triggerHeadingReload = false;
+			var triggerPageReload = false;
+			function reloadPage() { 
+				if (triggerPageReload) {
+					$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
+					window.location.reload();
+				}
+			}
 			function reloadHeadingBar() { 
 				// invoke specimen/component/public function to reload summary header section.
 				// called from several other sections where data shown in summary may be changed.
-				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
+				loadSummaryHeaderHTML(#getCatalogedItem.collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
-			function reloadMedia() { 
-				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
-				loadMedia(#collection_object_id#,'specimenMediaCardBody');
+			function reloadCatalog() { 
+				reloadHeadingBar();
+				reloadTransactions();
+			}
+			function reloadSpecimenMedia() { 
+				// if accordionMedia exists, reload its content, if it does not, reload the page.
+				if ($("##accordionMedia").length) {
+					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+					loadMedia(#getCatalogedItem.collection_object_id#,'specimenMediaCardBody');
+					// Update media count
+					updateMediaCounts(#getCatalogedItem.collection_object_id#,'specimenMediaCount');
+					reloadLedger();
+				} else {
+					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
+					triggerPageReload = true;
+					reloadPage();
+				}
 			}
 			function reloadIdentifiers() { 
 				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
-				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+				loadIdentifiers(#getCatalogedItem.collection_object_id#,'identifiersCardBody');
 			}
 			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
-				loadIdentifications(#collection_object_id#,'identificationsCardBody');
+				loadIdentifications(#getCatalogedItem.collection_object_id#,'identificationsCardBody');
 				reloadHeadingBar();
 			}
 			function reloadCitations() { 
 				// replace the citations block via ajax.
-				loadCitations(#collection_object_id#,'citationsCardBody');
+				loadCitations(#getCatalogedItem.collection_object_id#,'citationsCardBody');
 				// replace the citation media block via ajax.
-				loadCitationMedia(#collection_object_id#,'citationMediaBlock');
+				loadCitationMedia(#getCatalogedItem.collection_object_id#,'citationMediaBlock');
 				reloadHeadingBar();
 			}
 			function reloadOtherIDs() { 
 				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
-				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+				loadOtherIDs(#getCatalogedItem.collection_object_id#,'otherIDsCardBody');
 			}
 			function reloadParts() { 
 				// reload the parts html block
-				loadParts(#collection_object_id#,'partsCardBody');
+				loadParts(#getCatalogedItem.collection_object_id#,'partsCardBody');
 				// Update part count
-				loadPartCount(#collection_object_id#,'partCountSpan');
+				loadPartCount(#getCatalogedItem.collection_object_id#,'partCountSpan');
+				if (triggerHeadingReload) {
+					reloadHeadingBar();
+				}
+			}
+			function reloadPartsAndSection() {
+				reloadParts();
+				// if it is a function, execture reloadPartsSection, it should be defined if invoked, but check to avoid js error.
+				if (typeof reloadPartsSection === "function") {
+					reloadPartsSection();
+				}
 			}
 			function reloadAttributes() { 
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
-				loadAttributes(#collection_object_id#,'attributesCardBody');
+				loadAttributes(#getCatalogedItem.collection_object_id#,'attributesCardBody');
 			}
 			function reloadRelations() { 
-				loadRelations(#collection_object_id#,'relationsCardBody');
+				loadRelations(#getCatalogedItem.collection_object_id#,'relationsCardBody');
 			}
 			function reloadRemarks() { 
-				loadRemarks(#collection_object_id#,'remarksCardBody');
+				loadRemarks(#getCatalogedItem.collection_object_id#,'remarksCardBody');
+				// also reload microhabitat 
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody', $("##editControlsDiv").data("twoThreeColumnClassesData"));
 			}
 			function reloadMeta() { 
-				loadMeta(#collection_object_id#,'metaCardBody');
+				loadMeta(#getCatalogedItem.collection_object_id#,'metaCardBody');
 			}
 
 			function reloadLocality() { 
-				loadLocality(#collection_object_id#,'localityCardBody');
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody', $("##editControlsDiv").data("twoThreeColumnClassesData"));
 				reloadHeadingBar();
 			}
 			function reloadPreparators() { 
-				loadPreparators(#collection_object_id#,'collectorsCardBody');
+				loadPreparators(#getCatalogedItem.collection_object_id#,'collectorsCardBody');
 			}
 			function reloadLedger() { 
 				// replace the ledger/field notes block via ajax.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
-				loadLedger(#collection_object_id#,'ledgerCardBody');
+				loadLedger(#getCatalogedItem.collection_object_id#,'ledgerCardBody');
 			}
 			function reloadTransactions() { 
-				loadTransactions(#collection_object_id#,'transactionsCardBody');
+				loadTransactions(#getCatalogedItem.collection_object_id#,'transactionsCardBody');
 			}
 			function reloadNamedGroups() { 
-				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
+				loadNamedGroups(#getCatalogedItem.collection_object_id#,'namedGroupsCardBody');
+			}
+			function reloadEncumbrances() { 
+				loadEncumbrances(#getCatalogedItem.collection_object_id#,'encumbranceCardBody');
 			}
 		</script>
 		<!--- setup for navigation between specimen records within a result set. --->
@@ -306,7 +381,7 @@ limitations under the License.
 			<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT pagesort  
 				FROM user_search_table
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#">
 					AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif positionInResult.recordcount GT 0>
@@ -422,10 +497,19 @@ limitations under the License.
 			<cfset isNext="">
 			<cfset isPrev="">
 		</cfif>
+		
+		<!--- Div to hold full page editing dialog --->
+		<div id="InPageEditorDiv" class="container-fluid bg-paleyellow"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog1"></div>
+		<div id="encumbranceEditDialog"></div>
+
 		<!--- controls for editing record --->
-		<div class="container-lg d-none d-lg-block">
-			<div class="row mt-2">
-				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
+		<div class="container-fluid" id="editControlsDiv"><!--- WARNING: do not change this id=editControlsDiv, it is referenced in reloadLocality() --->
+			<div class="row mt-1" id="editControlsBlock">
+				<ul class="d-flex flex-wrap list-inline px-3 py-0 mb-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
@@ -433,10 +517,10 @@ limitations under the License.
 							<cfset resultBit = "&result_id=#result_id#">
 						</cfif>
 						<cfif isPrev is "yes">
-							<li class="list-group-item px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
-										<img src="/images/first.gif" alt="[ First Record ]">
+										<img src="/images/first.gif" class="mt-1" alt="[ First Record ]">
 									</a>
 									<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -447,10 +531,10 @@ limitations under the License.
 									</form>
 								</span>
 							</li>
-							<li class="list-group-item px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
-										<img src="/images/previous.gif" alt="[ Previous Record ]">
+										<img src="/images/previous.gif" class="mt-1" alt="[ Previous Record ]">
 									</a>
 									<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -462,65 +546,123 @@ limitations under the License.
 								</span>
 							</li>
 						<cfelse>
-							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_first.gif" alt="[ inactive button ]">
+							<li class="px-0 m-1">
+								<img src="/images/no_first.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
-							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_previous.gif" alt="[ inactive button ]">
+							<li class="px-0 m-1">
+								<img src="/images/no_previous.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
-					<li class="list-group-item px-0 mx-1">
-						<div id="mediaDialog"></div>
+					<li class="px-0 m-1">
+						<div id="catalogDialog"></div>
+						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog/Clone</button>
+					</li>
+					<li class="px-0 m-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+							<button type="button" class="btn btn-xs btn-powder-blue small px-1 py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
-	<!---				<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" >Identifiers</button>
-					</li>--->
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane3" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<div id="otherIDsDialog"></div>
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane4" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane5" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPartsInPage(#collection_object_id#,reloadParts)">Parts</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane6" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPreparatorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadPreparators)">Preparators</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane7" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane9" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
+					<li class="px-0 m-1">
+						<div id="collEventPickerDialogDiv"></div>
+						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#getCatalogedItem.collecting_event_id#">
+						<button type="button" id="btn_pane10" class="btn btn-xs btn-powder-blue py-0 px-1 small" 
+							onclick=" launchCollectingEventDialog(); ">Coll&nbsp;Event</button>
+						<script>
+							function launchCollectingEventDialog() {
+								console.log("launchCollectingEventDialog called");
+								// open the collecting event dialog to select a new collecting event
+								openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', 'changeCollectingEvent', null);
+							}
+							function changeCollectingEvent() {
+								console.log("changeCollectingEvent called");
+								// change the collecting event id from the value in the hidden input field
+								var new_collecting_event_id = $("##collecting_event_id_control").val();
+								console.log("New collecting_event_id: " + new_collecting_event_id);
+								if (new_collecting_event_id.length == 0) {
+									// but not if empty
+									console.log("No collecting event selected, aborting change.");
+									return;
+								} else if (new_collecting_event_id == "#getCatalogedItem.collecting_event_id#") {
+									// but not if the same as the current one
+									console.log("Selected collecting event is the same as the current one, aborting change.");
+									return;
+								}
+								// launch a confirm dialog, if the user confirms, proceed with the change
+								confirmDialog("Change the collecting event for this cataloged item?  This will unlink this cataloged item from the current collecting event and locality and switch it to the new collecting event and locality.", "Confirm change collecting event", 
+								function() { 
+									// otherwise make an ajax call to change the collecting event id on the cataloged item.
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										data: {
+											method: 'changeCollectingEvent',
+											collection_object_id: #collection_object_id#,
+											collecting_event_id: new_collecting_event_id
+										},
+										success: function(response) {
+                        	      		var response = JSON.parse(response);
+											if (response.success) {
+												console.log("Collecting event changed successfully.");
+												reloadLocality();
+												reloadHeadingBar();
+											} else {
+												alert("Error changing collecting event: " + response.message);
+											}
+										},
+										error: function(xhr, status, error) {
+											// handle error
+											console.error("Error changing collecting event:", error);
+											handleError(xhr, status, error);
+										}
+									});
+								} );
+							}
+						</script>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+					<li class="px-0 m-1">
+						<!--- 
+						<button type="button" id="btn_pane11" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+						--->
+						<button type="button" id="btn_pane12" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Locality/Event</button>
 					</li>
-					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane13" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
+					</li>
+					<li class="px-0 m-1">
+						<button type="button" id="btn_pane14" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
 					</li>
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
 						<cfif isNext is "yes">
-							<li class="list-group-item px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
-										<img src="/images/next.gif" alt="[ Next Record ]">
+										<img src="/images/next.gif" class="mt-1" alt="[ Next Record ]">
 									</a>
 									<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -531,10 +673,10 @@ limitations under the License.
 									</form>
 								</span>
 							</li>
-							<li class="list-group-item px-0 mx-1">
+							<li class="px-0 m-1">
 								<span>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
-										<img src="/images/last.gif" alt="[ Last Record ]">
+										<img src="/images/last.gif" class="mt-1" alt="[ Last Record ]">
 									</a>
 									<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -546,11 +688,11 @@ limitations under the License.
 								</span>
 							</li>
 						<cfelse>
-							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_next.gif" alt="[ inactive button ]">
+							<li class="px-0 m-1">
+								<img src="/images/no_next.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
-							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_last.gif" alt="[ inactive button ]">
+							<li class="px-0 m-1">
+								<img src="/images/no_last.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
@@ -559,7 +701,7 @@ limitations under the License.
 		</div>
 	</cfif>
 	
-	<div class="container-fluid ">
+	<div class="container-fluid " id="SpecimenDetailsDiv">
 		<div class="row mx-0 mt-2">
 
 			<!----------------------------- one left column for media only if media exist ---------------------------------->
@@ -576,10 +718,10 @@ limitations under the License.
 								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane" title="media">
 										Media
-										<span class="text-dark">(#specimenMediaCount#)</span>
+										<span class="text-dark">(<span id="specimenMediaCount">#specimenMediaCount#</span>)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_openEditMediaDialog" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div> 
@@ -597,9 +739,18 @@ limitations under the License.
 				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-9 float-left">
 			<cfelse>
 				<!--- two column layout --->
+				<div id="mediaDialog"></div>
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
-
+			<!--- store the value of twoThreeColumnClasses in a data attribute of the editControlsDiv 
+				so that it can be used in the reloadLocality function to determine the width of the 
+				locality card body on an ajax reload --->
+			<script>
+				$(document).ready(function() {
+					$("##editControlsDiv").data("twoThreeColumnClassesData", "#twoThreeColumnClasses#");
+				});
+			</script>
+			
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
@@ -613,8 +764,13 @@ limitations under the License.
 							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+									<button type="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Cataloged Item
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" id="btn_openCatalogDialog" class="anchorFocus btn btn-xs small py-0 d-block d-xl-none" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">
+												Edit/Clone
+											</a>
+										</cfif>
 									</button>
 								</h3>
 							</div>
@@ -633,18 +789,18 @@ limitations under the License.
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingID">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+									<button type="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
 										Identifications
 									</button>
 									<cfif len(#blockident#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" href="javascript:void(0)" id="btn_openEditIdentDialog" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Edit
 											</a>
 										</cfif>
 									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" href="javascript:void(0)" id="btn_openEditIdentDialog" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Add
 											</a>
 										</cfif>
@@ -659,6 +815,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					
 					<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
@@ -670,7 +827,7 @@ limitations under the License.
 										Citations
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -744,9 +901,10 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
-					<div class="accordion" id="accordionParts">
+						<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
+							<div id="editPartAttributesDialog"></div>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="Parts Pane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
@@ -757,17 +915,23 @@ limitations under the License.
 										</cfif>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
-											Edit
-										</a>
+										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit parts" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
-							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body px-1" id="partsCardBody">
-									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #partCount# gt 5>click once to close and another time to see all #partCount#</cfif>
-									</p>
+							<cfset heightStyle = "">
+							<cfif oneOfUs eq 0 AND partCount GT 5>
+								<!--- for external users, limit the number of parts visible on initial page load --->
+								<cfset heightStyle = "height:300px">
+							</cfif>
+							<div id="PartsPane" style="#heightStyle#" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+								<div class="card-body px-0 pb-0 pt-1" id="partsCardBody">
+									<cfif len(heightStyle) GT 0>
+										<p class="smaller py-0 mb-0 text-center w-100">
+											<cfif #partCount# gt 5>Click Parts header once to close and again to see all #partCount#.</cfif>
+										</p>
+									</cfif>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
 								</div>
@@ -801,13 +965,13 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-1" id="attributesCardBody">
+									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
 									<div class="card-body py-0" id="attributesCardBody">
 										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 font-italic">None</li>
+											<li class="small list-group-item px-3 py-1 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
@@ -824,14 +988,12 @@ limitations under the License.
 										Relationships
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-											Edit
-										</a>
+										<a role="button" href="javascript:void(0)" aria-label="edit relationships" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
 							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+							<div id="RelationsPane" class="collapse show py-1" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body" id="relationsCardBody">
 									#blockrel# 
 								</div>
@@ -841,17 +1003,15 @@ limitations under the License.
 					<!------------------------------------ coll object remarks -------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
-							<div id="RemarksDialog"></div>
+							<div id="remarksDialog"></div>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-label="Remarks Pane" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-										Collection Object Remarks
+										Cataloged Item Remarks
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit specimen remarks" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -867,21 +1027,41 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="annotationDialog"></div>
 							<div id="AnnotationsDialog"></div>
+							<cfquery name="countAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									count(annotation_id) ct
+								FROM 
+									annotations
+								WHERE
+									target_table = 'COLL_OBJECT'
+									AND target_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+									<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+										AND (mask_annotation_fg = 0 OR cf_username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR">)
+									</cfif>
+								ORDER BY 
+									annotate_date
+							</cfquery>
+							<cfif countAnnotations.ct GT 0>
+								<cfset hasAnnotations = true>
+							<cfelse>
+								<cfset hasAnnotations = false>
+							</cfif>
 							<cfset blockAnnotations = getAnnotationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAnnotations">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
- 									<cfif isdefined("session.username") AND len(session.username) gt 0>
-										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
-											Report Bad Data
+									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collection") AND hasAnnotations>
+										<a href="javascript:void(0)" role="button" 
+											aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" 
+											onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
+											Edit Annotations
 										</a>
-									</cfif>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
-											Edit
+ 									<cfelseif isdefined("session.username") AND len(session.username) gt 0>
+										<!--- anyone with a username can create annotations --->
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','COLL_OBJECT',#collection_object_id#,reloadAnnotations);">
+											Annotate
 										</a>
 									</cfif>
 								</h3>
@@ -904,11 +1084,6 @@ limitations under the License.
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Meta Pane" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Metadata
 										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
-												Edit
-											</a>
-										</cfif>
 									</h3>
 								</div>
 								<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
@@ -919,12 +1094,32 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
+					<!------------------------------------ Key/Value Store Data------------------------------------------->
+					<cfif #oneOfUs# eq 1>
+						<div class="accordion" id="accordionKVS">
+							<div class="card mb-2 bg-light">
+								<cfset blockkvs = getKeyValueStoreHTML(collection_object_id = "#collection_object_id#")>
+								<div class="card-header" id="headingKVS">
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Additional Data Pane" aria-controls="KVSPane" data-toggle="collapse" data-target="##KVSPane">
+											Additional Data
+										</button>
+									</h3>
+								</div>
+								<div id="KVSPane" class="collapse show" aria-labelledby="headingKVS" data-parent="##accordionKVS">
+									<div class="card-body" id="kvsCardBody">
+										#blockkvs#
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfif>
 				</div>
 
 				<!----- start of column 3 (rightmost of the two right columns) --->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!-------------------.locality and collecting event----------------->
-					<div class="accordion" id="accordionLocality">
+				<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
 							<div id="collectorsDialog"></div>
@@ -934,13 +1129,11 @@ limitations under the License.
 										Location and Collecting Event
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit locality and collecting event" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
-							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#",twoThreeColumnClasses="#twoThreeColumnClasses#")>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 								<div class="card-body" id="localityCardBody">
 									#blocklocality# 
@@ -959,9 +1152,7 @@ limitations under the License.
 										Preparators
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit preparators" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -973,7 +1164,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------- Ledger---------------------------------------->
-					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
+				<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
 					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
@@ -1010,13 +1201,8 @@ limitations under the License.
 							<div class="card-header" id="headingTransactions">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-label="Transactions Pane" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
-										Transactions
+									Transactions
 									</button>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">
-											Edit
-										</a>
-									</cfif>
 								</h3>
 							</div>
 							<div id="TransactionsPane" class="collapse show" aria-labelledby="headingTransactions" data-parent="##accordionTransactions">
@@ -1033,13 +1219,11 @@ limitations under the License.
 							<div id="NamedGroupsDialog"></div>
 							<div class="card-header" id="headingNamedGroups">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
+									<button type="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
 										Featured Collections (Named Groups)
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">
-											Edit
-										</a>
+										<a role="button" href="javascript:void(0)" aria-label="edit named groups" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1051,6 +1235,31 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<!------------------- encumbrances  -------------------------------->
+					<cfif #oneOfUs# eq 1>
+						<div class="accordion" id="accordionEncumberance">
+							<div class="card mb-2 bg-light">
+								<div id="EncumbranceDialog"></div>
+								<div class="card-header" id="headingEncumbrance">
+									<h3 class="h5 my-0">
+										<button type="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
+											Encumbrances
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" aria-label="edit encumbrances" class="btn btn-xs small py-0 anchorFocus" onClick="openEditEncumbarancesDialog(#collection_object_id#,'EncumbranceDialog','#guid#',reloadEncumbrances);">Edit</a>
+										</cfif>
+									</h3>
+								</div>
+								<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
+									<cfset encumbranceBlock = getEncumbrancesDetailsHTML(collection_object_id = "#collection_object_id#")>
+									<div class="card-body" id="encumbranceCardBody">
+										#encumbranceBlock#
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfif>
+
 				</div> <!--- end of column 3 --->
 			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
 		</div><!--- end row --->
@@ -1061,8 +1270,8 @@ limitations under the License.
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
-			<section class="row" id="QCSection">
-				<div class="col-12 px-2 border bg-light rounded mt-2">
+			<section class="row mx-0" id="QCSection">
+				<div class="col-12 my-3">
 					<!---  Include the TDWG BDQ TG2 test integration --->
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 					<script>
@@ -1074,17 +1283,19 @@ limitations under the License.
 					</script>
 					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
 					<!---  Scientific Name tests --->
-					<div id="NameDQDiv"></div>
+					<div id="NameDQDiv" class="mt-3"></div>
 					<!---  Spatial tests --->
-					<div id="SpatialDQDiv"></div>
+					<div id="SpatialDQDiv" class="mt-3"></div>
 					<!---  Temporal tests --->
-					<div id="EventDQDiv"></div>
-				</div>					
+					<div id="EventDQDiv" class="mt-3"></div>
 				</div>					
 			</section><!-- end QCSection --->
 		</div>
 	</cfif>
+ 
+    
 </cfoutput>
+</div><!--- end of specimenDetailsPageContent --->
 
 <!--- (7) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">

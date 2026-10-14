@@ -15,15 +15,18 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- function saveUndColl 
+<!--- function saveUndColl
 Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
-@param collection_name the brief uman readable description of the arbitrary collection, must not be blank.
+@param underscore_collection_type the ctunderscore_collection_type code for this named group
+@param collection_name the brief human readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
+@param html_description rich HTML content shown on the named group's page
+@param displayed_media_id media_id of the image shown for this named group, if any
+@param mask_fg visibility of the record: 0 = public, 1 = hidden (requires coldfusion_user to view)
+@param link_name value for the /namedGroup/{link_name} permalink.
 @return json structure with status and id or http status 500
 --->
-		
-			
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="underscore_collection_type" type="string" required="yes">
@@ -32,10 +35,34 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="html_description" type="string" required="no">
 	<cfargument name="displayed_media_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
+	<cfargument name="link_name" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>
 			<cfthrow type="Application" message="Name of named group must contain a value.">
+		</cfif>
+		<cfset applyLinkName = false>
+		<cfset normalizedLinkName = "">
+		<cfif isdefined("link_name")>
+			<cfif len(trim(link_name)) EQ 0>
+				<cfthrow type="Application" message="Link name must contain a value.">
+			</cfif>
+			<cfset normalizedLinkName = trim(link_name)>
+			<cfif REFind("^[A-Za-z0-9_]+$", normalizedLinkName) NEQ 1>
+				<cfthrow type="Application" message="Link name may contain only letters, numbers, and underscores.">
+			</cfif>
+			<!--- link_name has no unique constraint at the database level yet, so check for a
+				collision here rather than letting two named groups resolve to the same /namedGroup/ link --->
+			<cfquery name="checkLinkNameInUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLinkNameInUse_result">
+				SELECT underscore_collection_id
+				FROM underscore_collection
+				WHERE link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#normalizedLinkName#">
+					AND underscore_collection_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			</cfquery>
+			<cfif checkLinkNameInUse.recordcount GT 0>
+				<cfthrow type="Application" message="This link name is already used by another named group. Choose a different one.">
+			</cfif>
+			<cfset applyLinkName = true>
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update underscore_collection set
@@ -55,7 +82,10 @@ Update an existing arbitrary collection record (underscore_collection).
 				<cfif isdefined("html_description")>
 					,html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
-			where 
+				<cfif applyLinkName>
+					,link_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#normalizedLinkName#">
+				</cfif>
+			where
 				underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 		</cfquery>
 		<cfset row = StructNew()>

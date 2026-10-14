@@ -22,6 +22,10 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- Constant to enable/disable delivery of images from MCZ image / IIIF servers.
+      Set to false to temporarily disable direct use of these image servers without
+      changing any calling code. --->
+<cfset MCZ_IMAGE_SERVERS_ENABLED = true>
 
 <!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
  serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
@@ -130,8 +134,9 @@ imgStyleClass=value
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cfset output = getMediaBlockHtmlUnthreaded(media_id="#l_media_id#",displayAs="#l_displayAs#",size="#l_size#",styles="#l_styles#",captionAs="#l_captionAs#",background_class="#l_background_class#",background_color="#l_background_color#")>
-				
-			#output#
+			<cfif isDefined("output") AND len(output) GT 0>
+				#output#
+			</cfif>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="mediaWidgetThread#tn#" />
@@ -275,6 +280,12 @@ include this function and use it.
 								<!--- graceful failure, making sure iiifSquare is defined, shouldn't be used --->
 								<cfset iiifSquare = iiifFull>
 							</cfif>
+							<cfif isDefined("media.height") AND isDefined("media.width") AND len(media.height) GT 0 AND len(media.width) GT 0>
+								<cfif size EQ 350 AND ((media.height / media.width) GT 2.4) >
+									<!--- very tall image - slide, limit size to 250px so that overview is transmission rather than the reflected layer showing up at 300 --->
+									<cfset size = 250>
+								</cfif>
+							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 							<cfset xzoom = 'class = "zoom"'>
@@ -286,6 +297,18 @@ include this function and use it.
 					</cfif>
 					<cfif media_type EQ '3D model'>
 						<cfset isDisplayable = false>
+					</cfif>
+					<!--- If MCZ image/IIIF servers are disabled, do not attempt to display
+					      images that are hosted on those services; fall back to existing
+					      placeholder logic instead of broken thumbnails. --->
+					<cfif NOT MCZ_IMAGE_SERVERS_ENABLED>
+						<cfif findNoCase("https://mczbase.mcz.harvard.edu/specimen_images", media_uri)
+							OR findNoCase("https://iiif.mcz.harvard.edu/", media_uri)>
+							<!--- Treat as non-displayable and suppress use of preview_uri so that
+							      the generic icon / placeholder logic below takes over. --->
+							<cfset isDisplayable = false>
+							<cfset preview_uri = "">
+						</cfif>
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 					<cfset hw = 'height="auto"'>
@@ -388,6 +411,15 @@ include this function and use it.
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
+					</cfif>
+					<!--- When image/IIIF servers are disabled, never send users directly to
+					      those URLs; instead, always send them to the media metadata record,
+					      where rights and other essential metadata are available. --->
+					<cfif NOT MCZ_IMAGE_SERVERS_ENABLED>
+						<cfif findNoCase("https://mczbase.mcz.harvard.edu/specimen_images", linkTarget)
+							OR findNoCase("https://iiif.mcz.harvard.edu/", linkTarget)>
+							<cfset linkTarget = "/media/#media.media_id#">
+						</cfif>
 					</cfif>
 					<cfset unique = REReplace(CreateUUID(), "[-]", "", "all") >
 					<cfset elementID = "MID_#media.media_id#_#unique#">
@@ -612,6 +644,20 @@ include this function and use it.
 						select null as transaction_id, null as accn_number from dual where 0=1
 					</cfquery>
 				</cfif>
+				<cfif oneOfUs EQ 1>
+					<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select distinct container.container_id, container.label, container.container_type
+						from container
+							left join media_relations on media_relations.related_primary_key = container.container_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'container'
+					</cfquery>
+				<cfelse>
+					<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select null as container_id, null as label, null as container_type from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -792,13 +838,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select cataloged_item.collection_object_id
-					from underscore_collection
-					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
-					left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows underscore_collection'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					SELECT DISTINCT underscore_collection.underscore_collection_id, 	underscore_collection.collection_name
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
+					WHERE
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
@@ -859,8 +905,32 @@ include this function and use it.
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
+						
+							<!-- treat “huge” as > 50000px -->
+							<cfset widthVal = 0> <!--- default, will be overwritten if we find a width label --->
+							<cfloop query="labels">
+								<!-- capture width from labels for later use -->
+								<cfif labels.media_label EQ "width">
+									<cfset widthVal = val(labels.label_value)>
+								</cfif>
+							</cfloop>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+								<!-- treat “huge” as > 50000px based on the width label -->
+								<cfset isHuge = widthVal GT 50000>
+				
+								<tr class="border mt-2 p-2">
+									<th scope="row">Media URI </th>
+									<td>
+										<a target="_blank"
+										href="#encodeForHtmlAttribute(media.media_uri)#"
+										class="<cfif isHuge>text-dark<cfelse>btn-link</cfif>"
+										<cfif isHuge>
+										title="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										aria-label="NOTE: this file is extremely large, and cannot be opened at original resolution on most computer hardware. However, the pyramidal structure of the file also contains several downsampled versions. To access these using ImageJ, open the image as a Hyperstack, and select an appropriate resolution in the &quot;Bio-Formats Series Options&quot; dialog."
+										</cfif>
+										>#encodeForHtml(media.media_uri)#</a>
+									</td>
+								</tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumbnail for media type used.">
@@ -889,7 +959,7 @@ include this function and use it.
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
 										<cfset found = "<span class='strong text-danger'>#found#</span>"><!--- " --->
 									</cfif>
-									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr><!--- " --->
 								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
@@ -948,6 +1018,16 @@ include this function and use it.
 												<cfloop query="agents5">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
+											</cfif>
+											<!---Display Containers--->
+											<cfif media_rel.media_relationship contains 'container'>
+												<cfif oneofus eq 1>
+													<cfloop query="getContainers">
+														<a class="font-weight-lessbold" href="/containers/viewContainer.cfm?container_id=#encodeForUrl(getContainers.container_id)#"> #encodeForHtml(getContainers.label)# (#encodeForHtml(getContainers.container_type)#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="d-inline font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>
@@ -1037,7 +1117,7 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
@@ -1067,7 +1147,7 @@ include this function and use it.
 </cffunction>
 
 					
-<!--- Edit Media Metadata Table using media_id --->		
+<!--- Edit Media Metadata Table using media_id ****IS this an extra set of code??? --->		
 <cffunction name="editMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1124,6 +1204,14 @@ include this function and use it.
 						select null as transaction_id, null as accn_number from dual where 0=1
 					</cfquery>
 				</cfif>
+				<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct container.container_id, container.label, container.container_type
+					from container
+						left join media_relations on media_relations.related_primary_key = container.container_id
+						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and mczbase.ctmedia_relationship.auto_table = 'container'
+				</cfquery>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -1305,13 +1393,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select cataloged_item.collection_object_id
-					from underscore_collection
-					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
-					left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows underscore_collection'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					SELECT DISTINCT underscore_collection.underscore_collection_id, underscore_collection.collection_name
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
+					WHERE
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
@@ -1373,7 +1461,9 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+								<tr class="border mt-2 p-2">
+									<th scope="row">Media URI </th><td>#media.media_uri#</td>
+								</tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfset thumbText = "None. Default Thumnail for media type used.">
@@ -1402,7 +1492,7 @@ include this function and use it.
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
 										<cfset found = "<span class='strong text-danger'>#found#</span>"><!--- " --->
 									</cfif>
-									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr><!--- " --->
 								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
@@ -1437,6 +1527,16 @@ include this function and use it.
 												<cfloop query="agents1">
 													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
+											</cfif>
+											<!---Display Containers--->
+											<cfif media_rel.media_relationship contains 'container'>
+												<cfif oneofus eq 1>
+													<cfloop query="getContainers">
+														<a class="font-weight-lessbold" href="/containers/viewContainer.cfm?container_id=#encodeForUrl(getContainers.container_id)#"> #encodeForHtml(getContainers.label)# (#encodeForHtml(getContainers.container_type)#)</a><cfif getContainers.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="d-inline font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>
@@ -1549,8 +1649,8 @@ include this function and use it.
 													<span class="font-weight-lessbold">#specpart.part_name# </span>
 												</cfloop>
 											</cfif>
-											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+											<!---Display underscore_collection related named groups--->
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>

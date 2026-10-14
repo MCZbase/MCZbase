@@ -22,11 +22,11 @@
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[\-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
-<!--
+<!---
 transactions/Loan.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to loan search page --->
 	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
@@ -436,11 +436,73 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "editLoan">
 	<cfset title="Edit Loan">
+	<cfinclude template="/transactions/component/itemFunctions.cfc" runOnce="true">
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Loan called without a transaction_id for the loan to edit">
 	</cfif>
 	<cfoutput>
+		<script>
+			var bc = new BroadcastChannel('loan_channel');
+			function loanModifiedHere() { 
+				bc.postMessage({"source":"loan","transaction_id":"#transaction_id#"});
+			}
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
+					doItemUpdate();
+					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
+				}
+				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
+					doItemUpdate();
+				}
+			}
+			function reloadLoanSummaryData(){ 
+				// reload dispositions of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getDispositionsList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##dispositionsDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+					}
+				});
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getDispositionsTable&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##dispositionsTableDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, dispositions");
+					}
+				});
+				// reload preservation types of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getPreservationsList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##preservationDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+					}
+				});
+				// reload countries of origin of loan items
+				$.ajax({
+					dataType: 'html',
+					url: '/transactions/component/itemFunctions.cfc?method=getCountriesList&transaction_id=#transaction_id#',
+					success: function (data, status, xhr) {
+						$('##countriesDiv').html(data);
+					},
+					error: function (jqXHR,textStatus,error) {
+						handleFail(jqXHR,textStatus,error,"loading loan summary data, preservations");
+					}
+				});
+			}
+		</script>
 		<script>
 			function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
 				console.log(targetid);
@@ -880,6 +942,7 @@ limitations under the License.
 										$('##saveResultDiv').removeClass('text-danger');
 										$('##saveResultDiv').removeClass('text-warning');
 										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										loanModifiedHere();
 									},
 									error: function(jqXHR,textStatus,error){
 										$('##saveResultDiv').html('Error.');
@@ -895,66 +958,55 @@ limitations under the License.
 				</section>
 				<section name="loanItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this loan" tabindex="0">
 					<div class="col-12 pt-3 pb-1">
-						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
+						<cfif loanDetails.loan_status NEQ 'closed'>
+							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/Specimens.cfm?target_loan_id=#transaction_id#');">
+							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+								onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
+						</cfif>
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+							onClick="window.open('/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#');">
+						<input type="button" value="Storage Locations" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/containers/Containers.cfm?transaction_id=#transaction_id#&execute=true');">
+						<input type="button" value="Part Location Report" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/containers/partLocations.cfm?transaction_id=#transaction_id#&execute=true');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" doItemUpdate(); ">
 					</div>
-					<div class="col-12 pt-2">
+					<div class="col-12 row pt-2">
 						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
 							function doItemUpdate() { 
 							 	updateLoanItemCount('#transaction_id#','loanItemCountDiv');
 								updateRestrictionsBlock('#transaction_id#','restrictionSection','restrictionWarningDiv');
+								// Reload the item summary
+								reloadLoanSummaryData();
 							}
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
-							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
-							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-								from loan 
-									left join loan_item on loan.transaction_id = loan_item.transaction_id
-									left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-									left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-									left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-								where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-									and coll_obj_disposition is not null
-								group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-							</cfquery>
-							<cfif getDispositions.RecordCount EQ 0 >
-								<h4>There are no attached collection objects.</h4>
-							<cfelse>
-								<table class="table table-responsive">
-									<thead class="thead-light">
-										<tr>
-											<th>Parts</th>
-											<th>Disposition</th>
-											<th>Deaccession</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="getDispositions">
-											<tr>
-												<cfif len(trim(getDispositions.deacc_number)) GT 0>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td><a href="/Transactions.cfm?action=findDeaccessions&execute=true&deacc_number=#encodeForURL(deacc_number)#">#deacc_number# (#deacc_status#)</a></td>
-												<cfelse>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td>Not in a Deaccession</td>
-												</cfif>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</cfif>
+							<div class="col-12 col-md-6 pt-1">
+								<h2 class="h4 mb-1">Disposition of material in loan:</h2>
+								<div id="dispositionsTableDiv">
+									<cfset dispositions = getDispositionsTable(transaction_id=loanDetails.transaction_id)>
+									#dispositions#
+								</div>
+							</div>
 						</cfif>
+						<div class="col-12 col-md-6 pt-1">
+							<h3 class="h4 mb-1">Part Dispositions (current) and Loan Item States (this loan)</h3>
+							<div id="dispositionsDiv">
+								<cfset dispositions = getDispositionsList(transaction_id=loanDetails.transaction_id)>
+								#dispositions#
+							</div>
+						</div>
+						<div class="col-12 col-md-6 pt-1">
+							<h3 class="h4 mb-1">Preservation Methods</h3>
+							<div id="preservationDiv">
+								<cfset preservations = getPreservationsList(transaction_id=loanDetails.transaction_id)>
+								#preservations#
+							</div>
+						</div>
 					</div>
 					<cfif getRestrictions.recordcount GT 0>
 						<cfset restrictionsVisibility = "">
@@ -962,7 +1014,7 @@ limitations under the License.
 						<cfset restrictionsVisibility = "hidden">
 					</cfif>
 					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
-						<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+						<div class="h2">One of more specimens in this loan has restrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
 					</div>
 				</section>
 				<section class="row mx-0">
@@ -1063,29 +1115,10 @@ limitations under the License.
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
 								<h2 class="h3">Countries of Origin of items in this loan</h2>
-								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select count(*) as ct, sovereign_nation 
-									from loan_item 
-										left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-										left join locality on collecting_event.locality_id = locality.locality_id
-									where
-										loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
-									group by sovereign_nation
-								</cfquery>
-								<cfset sep="">
-								<cfif ctSovereignNation.recordcount EQ 0>
-									<span class="var-display">None</span>
-								<cfelse>
-									<cfloop query=ctSovereignNation>
-										<cfif len(sovereign_nation) eq 0>
-											<cfset sovereign_nation = '[no value set]'>
-										</cfif>
-										<span class="var-display">#sep##sovereign_nation#&nbsp;(#ct#)</span>
-										<cfset sep="; ">
-									</cfloop>
-								</cfif>
+								<div id="countriesDiv">
+									<cfset countries = getCountriesList(transaction_id=transaction_id)>
+									#countries#
+								</div>	
 							</div>
 						</section>
 						<div class="row mx-0">
@@ -1237,7 +1270,7 @@ limitations under the License.
 								</div>
 							</section>
 						<cfelse>
-							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0"><section>
+							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0"></section>
 						</cfif>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">

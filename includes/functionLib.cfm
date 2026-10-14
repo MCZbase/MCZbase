@@ -184,7 +184,7 @@
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
-    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,ctxsys,all_users">
+    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,utl_inaddr,ctxsys,all_users">
     <cfset dels="';','|',">
     <cfset safe=0>
     <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">
@@ -202,6 +202,37 @@
 <!--------------------------------------------------------------------->
 <!--- setDbUser and initSession  moved to separate library file --->
 <cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
+<!--- Helpers for parameterizing the specimen search criteria.  In /includes/ rather than
+	/shared/ deliberately: see the comment at the top of that file. --->
+<cfinclude template="/includes/sqlBuilder.cfm" runOnce="true">
+<!--- Function requestScopeValues collects named parameters out of the url and form scopes so
+	that a page can put them in its variables scope explicitly, rather than relying on
+	ColdFusion resolving an unscoped name across those scopes, which is deprecated.
+
+	A name present in both scopes takes its url value, which is the order ColdFusion itself
+	searches.  A name absent from both, or present but empty, is omitted from the result, so a
+	caller's own default for an absent name still applies to it.
+
+	@param parameterNames comma separated list of parameter names; surrounding whitespace in an
+		entry is ignored, so the list may be written across several lines.
+	@return a struct of the names that were supplied, mapped to their values.
+--->
+<cffunction name="requestScopeValues" access="public" returntype="struct" output="false">
+	<cfargument name="parameterNames" type="string" required="yes">
+
+	<cfset var suppliedValues = structNew()>
+	<cfset var parameterName = "">
+	<cfloop list="#arguments.parameterNames#" index="parameterName">
+		<cfset parameterName = trim(parameterName)>
+		<cfif structKeyExists(url,parameterName) AND len(url[parameterName]) GT 0>
+			<cfset suppliedValues[parameterName] = url[parameterName]>
+		<cfelseif structKeyExists(form,parameterName) AND len(form[parameterName]) GT 0>
+			<cfset suppliedValues[parameterName] = form[parameterName]>
+		</cfif>
+	</cfloop>
+
+	<cfreturn suppliedValues>
+</cffunction>
 <!------------------------------------------------------------------------------------->
 <cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
@@ -409,7 +440,7 @@
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
+            <cfset temp = QuerySetCell(result, "link", "/projects/showProject.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select display_name data,scientific_name from
@@ -417,10 +448,35 @@
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+		<cfelseif table_name is "underscore_collection">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_name data, underscore_collection_id 
+				FROM underscore_collection 
+				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
+		<cfelseif table_name is "container">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT label, barcode, container_type, container_id
+				FROM container
+				WHERE container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset data = "">
+			<cfif d.recordcount GT 0>
+				<cfif d.barcode NEQ d.label>
+					<cfset data = "#d.label# [#d.barcode#] (#d.container_type#)">
+				<cfelse>
+					<cfset data = "#d.label# (#d.container_type#)">
+				</cfif>
+			</cfif>
+			<cfset temp = QuerySetCell(result, "summary", "#data#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/containers/viewContainer.cfm?container_id=#d.container_id#", i)>
 		<cfelse>
-		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
-		<cfset temp = QuerySetCell(result, "link_text", "#table_name# is not currently supported.", i)>
+			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#table_name# is not currently supported.", i)>
 		</cfif>
 		<cfset i=i+1>
 	</cfloop>
@@ -551,7 +607,7 @@
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/projects/showProject.cfm?project_id=#related_primary_key#", i)>
 			<cfset temp = QuerySetCell(result, "rel_type", "project", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -560,8 +616,17 @@
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
 			<cfset temp = QuerySetCell(result, "rel_type", "taxonomy", i)>
+		<cfelseif table_name is "underscore_collection">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_name data, underscore_collection_id 
+				FROM underscore_collection 
+				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
+			<cfset temp = QuerySetCell(result, "rel_type", "underscore_collection", i)>
 		<cfelse>
 			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		</cfif>
@@ -1084,7 +1149,7 @@ function ProperMod(y,x) {
 	<cfelseif #unit# is "m">
 		<cfset valInM = #val#>
 	<cfelseif #unit# is "yd">
-		<cfset valInM = #val# * 9144 >
+		<cfset valInM = #val# * 0.9144 >
 	<cfelseif #unit# is "fms">
 		<cfset valInM = #val# * 1.8288 >
 	<cfelseif #unit# is "in">

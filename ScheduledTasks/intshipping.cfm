@@ -1,4 +1,8 @@
 <!---cfinclude template="/includes/_header.cfm">
+<!--- emails are sent only from production with master checked out; elsewhere they are reported --->
+<cfif NOT isDefined("isLiveEmailServer")>
+	<cfinclude template="/shared/component/scheduledTasks.cfc" runOnce="true">
+</cfif>
 	<cfoutput>
 		<!--- start of long term loan code --->
 		<!---
@@ -50,7 +54,7 @@
 
 			<cfset mailsubject = "Important information for returning MCZ loans; new international shipping protocols from US Fish and Wildlife Service" >
 
-			<cfmail 	to="#address#"
+			<cf_reminderMail 	to="#address#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="#mailsubject#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
@@ -83,12 +87,15 @@
 
 				<p>---------------------------------------------------------------------</P>
 				<hr><hr>
-			</cfmail>
+			</cf_reminderMail>
 
-				<cfquery name="upLogTable" datasource="uam_god">
-					insert into intshipping_log(address, date_sent)
-					values('#address#', SYSDATE)
-				</cfquery>
+				<!--- the log records addresses emailed, so nothing is logged when nothing is sent --->
+				<cfif isLiveEmailServer()>
+					<cfquery name="upLogTable" datasource="uam_god">
+						insert into intshipping_log(address, date_sent)
+						values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#address#">, SYSDATE)
+					</cfquery>
+				</cfif>
 
 </cfloop>
 <!--- end of loan code --->

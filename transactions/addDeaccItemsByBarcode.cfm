@@ -19,6 +19,11 @@ limitations under the License.
 --->
 <cfset pageTitle="Add Deacc. Items by Barcode">
 <cfinclude template="/shared/_header.cfm">
+<!--- TODO: Unfinished redesign, to be completed under Redmine 1017: the form posts to a loanByBarcode.cfm that does not exist under
+	/transactions/, so the page cannot save deaccession items.  Not available on production until it is finished. --->
+<cfif findNoCase('master',Session.gitBranch) GT 0>
+	<cfthrow message="Adding deaccession items by barcode is not yet available.">
+</cfif>
 <script>
 	function addThis(i){
 		$.getJSON("/transactions/component/itemFunctions.cfc",
@@ -75,7 +80,7 @@ limitations under the License.
 					$("#pd_" + i).remove();
 					$("#en_" + i).remove();
 					$("#ctl_" + i).remove();
-					var d='<td id="sp_' + r.DATA.I + '"><a href="/SpecimenDetail.cfm?collection_object_id=' + r.DATA.COLLECTION_OBJECT_ID[0] + '">';
+					var d='<td id="sp_' + r.DATA.I + '"><a href="/specimens/Specimen.cfm?collection_object_id=' + r.DATA.COLLECTION_OBJECT_ID[0] + '">';
 					d+=r.DATA.COLLECTION + ' ' + r.DATA.CAT_NUM + '</a></td>';
 					d+='<td id="sn_' + r.DATA.I + '">' + r.DATA.SCIENTIFIC_NAME + '</td>';
 					d+='<td id="ci_' + r.DATA.I + '">' + r.DATA.CUSTOMID + '</td>';
@@ -186,7 +191,7 @@ limitations under the License.
 				<cfif getPartDeaccRequests.recordcount is 0>
 					<h3 class="h3">This deaccession contains no parts.</h3>
 				<cfelse>
-					<br>Existing Parts (use <a href="/a_deaccItemReview.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
+					<br>Existing Parts (use <a href="/transactions/reviewDeaccItems.cfm?transaction_id=#transaction_id#">Deaccession Item Review</a> to adjust):
 					<table border>
 						<tr>
 							<th>Barcode</th>
@@ -201,7 +206,7 @@ limitations under the License.
 							<tr>
 								<td>#barcode#</td>
 								<td>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+									<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 										#collection# #cat_num#
 									</a>
 								</td>
