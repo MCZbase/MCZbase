@@ -238,9 +238,13 @@ limitations under the License.
 	<cfset var getLocks = "">
 	<cfset var getLocks_result = "">
 	<cfset var sessionCount = "">
+	<cfset var sessionsSince = "">
+	<cfset var sessionsStarted = "">
+	<cfset var sessionsReturned = "">
+	<cfset var sessionLifetime = "">
 	<cfset var html = "">
-	<!--- ColdFusion sessions last three hours (Application.cfc sessionTimeout) --->
-	<cfset var SESSION_HOURS = 3>
+	<!--- a session that is used again, as every logged in one is, lasts Application.SESSION_SECONDS --->
+	<cfset var SESSION_HOURS = round(Application.SESSION_SECONDS / 36) / 100>
 	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
 		<cfthrow message="Not authorized">
 	</cfif>
@@ -248,7 +252,7 @@ limitations under the License.
 		SELECT cf_users.username, cf_users.last_login, dba_users.account_status
 		FROM cf_users
 			LEFT JOIN dba_users ON upper(cf_users.username) = dba_users.username
-		WHERE cf_users.last_login > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SESSION_HOURS#"> / 24
+		WHERE cf_users.last_login > sysdate - <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="2" value="#SESSION_HOURS#"> / 24
 		ORDER BY cf_users.last_login DESC
 	</cfquery>
 	<cfquery name="getSessions" datasource="uam_god" result="getSessions_result">
@@ -276,6 +280,19 @@ limitations under the License.
 		<cfset sessionCount = "">
 	</cfcatch>
 	</cftry>
+	<!--- counted by Application.cfc; absent until the first new session since the application started --->
+	<cfif structKeyExists(Application, "sessionStats")>
+		<cfset sessionsSince = Application.sessionStats.since>
+		<cfset sessionsStarted = Application.sessionStats.started.get()>
+		<cfset sessionsReturned = Application.sessionStats.returned.get()>
+	</cfif>
+	<!--- seconds this session may be idle before it ends; a method of ColdFusion's session scope object --->
+	<cftry>
+		<cfset sessionLifetime = session.getMaxInactiveInterval()>
+	<cfcatch>
+		<cfset sessionLifetime = "">
+	</cfcatch>
+	</cftry>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<ul class="mb-2">
@@ -283,6 +300,17 @@ limitations under the License.
 					(#listLen(valueList(getLogins.account_status))# with an Oracle account).</li>
 				<li>ColdFusion sessions on this server:
 					<cfif len(sessionCount) GT 0>#sessionCount#<cfelse>not available</cfif>.</li>
+				<li>New ColdFusion sessions
+					<cfif len(sessionsStarted) GT 0>
+						since #dateTimeFormat(sessionsSince, "yyyy-mm-dd HH:nn")#: #sessionsStarted#,
+						of which #sessionsReturned# were used again after their first request
+						(each browser is counted once, however many pages it visits or times it logs in).
+					<cfelse>
+						not yet counted.
+					</cfif>
+				</li>
+				<li>This session's lifetime (session.getMaxInactiveInterval()):
+					<cfif len(sessionLifetime) GT 0>#sessionLifetime# seconds (#round(sessionLifetime / 36) / 100# hours)<cfelse>not available</cfif>.</li>
 				<li>Login locks:
 					<cfif getLocks.recordcount EQ 0>none<cfelse><cfloop query="getLocks">#getLocks.locked# #encodeForHtml(getLocks.lock_kind)#<cfif getLocks.currentRow LT getLocks.recordcount>, </cfif></cfloop></cfif>
 					(<a href="/Admin/AdminUsers.cfm?action=list&state=locked">Locked Account search</a>).</li>

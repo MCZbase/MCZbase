@@ -22,6 +22,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/roles.cfc" runOnce="true">
 
 <!---
 	requirePanelViewer stop a widget method for anyone without the curatorial_associate or global_admin role.
@@ -535,6 +536,201 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</cfif>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn html>
+</cffunction>
+
+<!---
+	getVpdUsersHtml the Collection Panel widget listing the database accounts granted the collection's
+	role (institution acronym and collection code, e.g. MCZ_HERP), which gives access to the
+	collection's data through its VPD, and any roles it is granted to.  Global admins and curatorial
+	associates, who have access to every collection, are grouped separately from the accounts specific
+	to this one; an account holding both is grouped with the global admins.  Database accounts with
+	no MCZbase user are listed only for global admins.
+
+	@param collection_id the collection to report on.
+	@param show_roles true to list every role each account holds.
+	@return HTML for the widget body.
+--->
+<cffunction name="getVpdUsersHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfargument name="show_roles" type="boolean" required="no" default="false">
+	<cfset var html = "">
+	<cfset var collection = "">
+	<cfset var collection_result = "">
+	<cfset var holders = "">
+	<cfset var holders_result = "">
+	<cfset var viaRoles = "">
+	<cfset var viaRoles_result = "">
+	<cfset var heldRoles = "">
+	<cfset var heldRoles_result = "">
+	<cfset var collectionRole = "">
+	<cfset var broadAccess = "">
+	<cfset var broadAccess_result = "">
+	<cfset var groupOf = structNew()>
+	<cfset var groupCounts = { specific = 0, admins = 0, associates = 0 }>
+	<cfset var GROUP_LABELS = { specific = "Accounts for this collection", admins = "Global admins", associates = "Curatorial associates" }>
+	<cfset var rolesByAccount = structNew()>
+	<cfset var collectionRoles = "">
+	<cfset var showUnlinked = false>
+	<cfset var openCount = 0>
+	<cfset var group = "">
+	<cfset var name = "">
+	<cfset var role = "">
+	<cfset requirePanelViewer()>
+	<cfif listFindNoCase(session.roles, "global_admin") GT 0>
+		<cfset showUnlinked = true>
+	</cfif>
+	<cfquery name="collection" datasource="uam_god" result="collection_result">
+		SELECT institution_acronym, collection_cde
+		FROM collection
+		WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_id#">
+	</cfquery>
+	<cfif collection.recordcount EQ 0>
+		<cfreturn '<p class="text-danger mb-0">Unknown collection.</p>'>
+	</cfif>
+	<cfset collectionRole = ucase(collection.institution_acronym & "_" & collection.collection_cde)>
+	<cfquery name="holders" datasource="uam_god" result="holders_result">
+		SELECT
+			rp.grantee, rp.default_role, u.account_status,
+			cu.username AS mczbase_username, cu.last_login,
+			cud.first_name, cud.last_name
+		FROM dba_role_privs rp
+			JOIN dba_users u ON u.username = rp.grantee
+			LEFT JOIN cf_users cu ON upper(cu.username) = rp.grantee
+			LEFT JOIN cf_user_data cud ON cud.user_id = cu.user_id
+		WHERE rp.granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+			<cfif NOT showUnlinked>
+				AND cu.username IS NOT NULL
+			</cfif>
+		ORDER BY CASE WHEN u.account_status = 'OPEN' THEN 0 ELSE 1 END, rp.grantee
+	</cfquery>
+	<cfquery name="viaRoles" datasource="uam_god" result="viaRoles_result">
+		SELECT rp.grantee
+		FROM dba_role_privs rp
+			JOIN dba_roles r ON r.role = rp.grantee
+		WHERE rp.granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+		ORDER BY rp.grantee
+	</cfquery>
+	<cfquery name="broadAccess" datasource="uam_god" result="broadAccess_result">
+		SELECT grantee, granted_role
+		FROM dba_role_privs
+		WHERE granted_role IN ('GLOBAL_ADMIN', 'CURATORIAL_ASSOCIATE')
+	</cfquery>
+	<cfif arguments.show_roles>
+		<cfset collectionRoles = collectionRoleNames()>
+		<cfquery name="heldRoles" datasource="uam_god" result="heldRoles_result">
+			SELECT rp.grantee, rp.granted_role
+			FROM dba_role_privs rp
+			WHERE rp.grantee IN (
+				SELECT grantee
+				FROM dba_role_privs
+				WHERE granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+			)
+			ORDER BY rp.grantee, rp.granted_role
+		</cfquery>
+		<cfloop query="heldRoles">
+			<cfif NOT structKeyExists(rolesByAccount, heldRoles.grantee)>
+				<cfset rolesByAccount[heldRoles.grantee] = "">
+			</cfif>
+			<cfset rolesByAccount[heldRoles.grantee] = listAppend(rolesByAccount[heldRoles.grantee], heldRoles.granted_role)>
+		</cfloop>
+	</cfif>
+	<cfloop query="holders">
+		<cfset groupOf[holders.grantee] = "specific">
+	</cfloop>
+	<cfloop query="broadAccess">
+		<cfif structKeyExists(groupOf, broadAccess.grantee)>
+			<cfif broadAccess.granted_role EQ "GLOBAL_ADMIN">
+				<cfset groupOf[broadAccess.grantee] = "admins">
+			<cfelseif groupOf[broadAccess.grantee] EQ "specific">
+				<cfset groupOf[broadAccess.grantee] = "associates">
+			</cfif>
+		</cfif>
+	</cfloop>
+	<cfloop query="holders">
+		<cfif holders.account_status EQ "OPEN">
+			<cfset openCount = openCount + 1>
+		</cfif>
+		<cfset groupCounts[groupOf[holders.grantee]] = groupCounts[groupOf[holders.grantee]] + 1>
+	</cfloop>
+	<cfsavecontent variable="html">
+		<cfoutput>
+			<p class="mb-2">
+				#holders.recordcount# <cfif showUnlinked>database accounts<cfelse>MCZbase users</cfif> hold #encodeForHtml(lcase(collectionRole))#, which gives access to this collection's data; #openCount# of them are open.
+				<cfif viaRoles.recordcount GT 0>
+					It is also granted to the roles #encodeForHtml(lcase(valueList(viaRoles.grantee, ", ")))#, so their holders have access too.
+				</cfif>
+			</p>
+			<cfif arguments.show_roles>
+				<p class="small mb-2">
+					Roles, coloured as on the Database Access Report:
+					<span class="badge badge-danger font-weight-normal">dba, global_admin</span>
+					<span class="badge badge-warning font-weight-normal">admin_ roles</span>
+					<span class="badge badge-primary font-weight-normal">curatorial_associate</span>
+					<span class="badge badge-info font-weight-normal">manage_collection</span>
+					<span class="badge badge-success font-weight-normal">collection roles</span>
+					<span class="badge badge-dark font-weight-normal">connect</span>
+					<span class="badge badge-light border font-weight-normal">other roles</span>
+				</p>
+			</cfif>
+			<cfloop list="specific,admins,associates" index="group">
+				<cfif groupCounts[group] EQ 0>
+					<cfcontinue>
+				</cfif>
+				<cfif group EQ "specific">
+					<h3 class="h5">#GROUP_LABELS[group]# (#groupCounts[group]#)</h3>
+				<cfelse>
+					<details class="mt-2">
+					<summary><strong>#GROUP_LABELS[group]#</strong> (#groupCounts[group]#), who have access to every collection</summary>
+				</cfif>
+				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Account</th>
+							<th scope="col">Name</th>
+							<th scope="col">Status</th>
+							<th scope="col">Last login</th>
+							<cfif arguments.show_roles><th scope="col">Roles</th></cfif>
+						</tr>
+					</thead>
+					<tbody>
+						<cfloop query="holders">
+							<cfif groupOf[holders.grantee] EQ group>
+								<cfset name = trim(holders.first_name & " " & holders.last_name)>
+								<tr>
+									<td>
+										#encodeForHtml(holders.grantee)#
+										<cfif holders.default_role NEQ "YES"><span class="badge badge-warning font-weight-normal" title="Granted, but not a default role, so the account does not use it">not default</span></cfif>
+									</td>
+									<td>
+										<cfif len(holders.mczbase_username) EQ 0>
+											<span class="text-secondary">no MCZbase user</span>
+										<cfelse>
+											#encodeForHtml(name)#
+										</cfif>
+									</td>
+									<td><cfif holders.account_status EQ "OPEN">open<cfelse><span class="text-secondary">#encodeForHtml(lcase(holders.account_status))#</span></cfif></td>
+									<td><cfif isDate(holders.last_login)>#dateFormat(holders.last_login, "yyyy-mm-dd")#<cfelseif len(holders.mczbase_username) GT 0>never</cfif></td>
+									<cfif arguments.show_roles>
+										<td>
+											<cfif structKeyExists(rolesByAccount, holders.grantee)>
+												<cfloop list="#rolesByAccount[holders.grantee]#" index="role">
+													<span class="badge #roleBadgeClass(role, collectionRoles)# font-weight-normal mr-1">#encodeForHtml(lcase(role))#</span>
+												</cfloop>
+											</cfif>
+										</td>
+									</cfif>
+								</tr>
+							</cfif>
+						</cfloop>
+					</tbody>
+				</table>
+				<cfif group NEQ "specific">
+					</details>
+				</cfif>
+			</cfloop>
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>

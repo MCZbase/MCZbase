@@ -4,7 +4,7 @@ localities/viewCollectingEvent.cfm
 
 Form for displaying collecting event details
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ limitations under the License.
 <!--- TODO: Remove when edit collecting event is ready for production --->
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfset gitBranch = trim(fileRead("#Application.webDirectory#/.git/HEAD"))>
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
