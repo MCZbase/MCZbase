@@ -450,7 +450,9 @@ limitations under the License.
 	--->
 	<cffunction name="refuseRequest" access="private" output="true" returntype="void">
 		<cfset var refusalPage = "/errors/forbidden.cfm">
-		<!--- the header's rolecheck would otherwise check the refused page and refuse with its own message --->
+		<!--- The header's rolecheck would otherwise check the refused page and refuse with its own message.
+			Deliberately passed in the request scope: rolecheck is a custom tag the header calls without
+			attributes, so there is no argument to pass it in. --->
 		<cfset request.rolecheckPath = refusalPage>
 		<cftry>
 			<cfinclude template="#refusalPage#">
@@ -552,7 +554,6 @@ limitations under the License.
 		<cfif currentPath contains "/CustomTags/" OR
 			currentPath contains "/binary_stuff/" OR
 			currentPath contains "/log/">
-			<cfset url.ref=replace(currentPath,application.webDirectory,"") />
 			<cfset refuseRequest()>
 		</cfif>
 		<!--- Scheduled tasks run only for the ColdFusion scheduler, which calls them from this server, or for a

@@ -24,7 +24,8 @@ limitations under the License.
 	<cflocation url="/users/changePassword.cfm">
 </cfif>
 <cfset filePath = replace('#cgi.script_name#','//','/') >
-<!--- Application.cfc refuseRequest includes /errors/forbidden.cfm into a refused request, so check the page shown --->
+<!--- Application.cfc refuseRequest includes /errors/forbidden.cfm into a refused request, so check the page shown;
+	set in the request scope, as this tag is called without attributes --->
 <cfif structKeyExists(request, "rolecheckPath")>
 	<cfset filePath = request.rolecheckPath>
 </cfif>

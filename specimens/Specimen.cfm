@@ -166,9 +166,10 @@ limitations under the License.
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <!--- Ahead of the header, so a record the user may not see shows its error page in this request: a forward
 	to it would start a second session for a client without a session cookie. --->
-<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#", pageShowsRefusal = true)>
-<cfif structKeyExists(request, "specimenRefusalPage")>
-	<cfinclude template="#request.specimenRefusalPage#">
+<cfset variables.specimenRefusal = { page = "" }>
+<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#", refusal = variables.specimenRefusal)>
+<cfif len(variables.specimenRefusal.page) GT 0>
+	<cfinclude template="#variables.specimenRefusal.page#">
 	<cfabort>
 </cfif>
 
