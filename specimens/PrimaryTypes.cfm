@@ -37,24 +37,23 @@ Report on primary types, by department.
 </cfif>	
 
 <cfoutput>
-	<div id="overlaycontainer" style="position: relative;"> 
+	<div id="overlaycontainer" class="position-relative">
 		<main id="content" class="container py-3">
-			<section class="row">
+			<section class="row" role="search">
 				<div class="col-12">
 					<form name="searchForm" id="searchForm">
 						<input type="hidden" name="method" value="getTypes" class="keeponclear excludeFromLink">
 						<input type="hidden" name="kind" value="Primary" class="keeponclear excludeFromLink">
 						<h1 class="h2">Primary Types By Department</h1>
-						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getcounts_result">
-							select count(collection_object_id) ct, collection_cde, collection
-							from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-							where flat.toptypestatuskind = 'Primary'
-							group by collection_cde, collection
+						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#">
+							SELECT count(collection_object_id) ct, collection_cde, collection
+							FROM <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+							WHERE flat.toptypestatuskind = 'Primary'
+							GROUP BY collection_cde, collection
 						</cfquery>
 						<div class="form-row mb-2">
 							<div class="col-12">
 								<ul class="list-inline">
-									<cfset accumulate_shared = 0>
 									<cfif getcounts.recordcount EQ 0>
 										<li class="py-1 list-inline-item">None.  No Types</li>
 									<cfelse>
@@ -78,39 +77,42 @@ Report on primary types, by department.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="phylorder" class="data-entry-label align-left-center">Order 
+								<span class="data-entry-label align-left-center">
+									<label for="phylorder">Order</label>
 									<span class="small">
-										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=</button>,
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
 										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 										NULL, NOT NULL)
 									</span>
-								</label>
+								</span>
 								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#encodeForHtml(url.phylorder)#" placeholder="order">
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="family" class="data-entry-label align-left-center">Family 
+								<span class="data-entry-label align-left-center">
+									<label for="family">Family</label>
 									<span class="small">
-										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=</button>,
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
 										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 										NULL, NOT NULL)
 									</span>
-								</label>
+								</span>
 								<input type="text" class="data-entry-input" id="family" name="family" value="#encodeForHtml(url.family)#" placeholder="family">
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="author_text" class="data-entry-label align-left-center">Authorship 
+								<span class="data-entry-label align-left-center">
+									<label for="author_text">Authorship</label>
 									<span class="small">
-										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=</button>,
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
 										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 										NULL, NOT NULL)
 									</span>
-								</label>
-								<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#encodeForHtml(url.author_text)#" placeholder="author_text">
+								</span>
+								<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#encodeForHtml(url.author_text)#" placeholder="authorship">
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
-								<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for type specimens by collection">Search<span class="fa fa-search pl-1"></span></button>
+								<button class="btn btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit">Search<span class="fa fa-search pl-1" aria-hidden="true"></span></button>
 							</div>
 						</div>
 						<script>
@@ -129,7 +131,7 @@ Report on primary types, by department.
 					<div class="col-12">
 						<div class="mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h1 class="h4">Results: </h1>
+								<h2 class="h4">Results: </h2>
 								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 								<div id="columnPickDialog">
 									<div id="columnPick" class="px-1"></div>
@@ -138,6 +140,9 @@ Report on primary types, by department.
 								<div id="resultDownloadButtonContainer"></div>
 								<div id="selectModeContainer" class="ml-3" style="display: none;" >
 									<script>
+										/** Set the grid's selection mode from the Grid Select control, allowing browser
+										 *  text selection only in Text mode.
+										 */
 										function changeSelectMode(){
 											var selmode = $("##selectMode").val();
 											$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
@@ -173,21 +178,44 @@ Report on primary types, by department.
 				</div>
 			</section>
 		</main>
-		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
-			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
-				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
-				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>
+		<div id="overlay">
+			<div class="jqx-rc-all jqx-fill-state-normal overlay-message">
+				<div class="jqx-grid-load"></div>
+				<div class="overlay-message-text">Searching...</div>
 			</div>
 		</div>
 		<cfset cellRenderClasses = "ml-1">
 		<script>
-			// cell renderer to link out to specimen details page by guid, when value is guid.
+			/** Cell renderer linking a guid to its specimen record.
+			 *  @param row the row index.
+			 *  @param columnfield the column's datafield.
+			 *  @param value the cell value.
+			 *  @param defaulthtml the html jqxGrid would render.
+			 *  @param columnproperties the column's properties, for its alignment.
+			 *  @return html for the cell.
+			 */
 			var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 			};
+			/** Cell renderer linking a scientific name to its taxonomy record.
+			 *  @param row the row index.
+			 *  @param columnfield the column's datafield.
+			 *  @param value the cell value.
+			 *  @param defaulthtml the html jqxGrid would render.
+			 *  @param columnproperties the column's properties, for its alignment.
+			 *  @return html for the cell.
+			 */
 			var linkNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/' + encodeURIComponent(value) + '" aria-label="specimen details">'+value+'</a></span>';
 			};
+			/** Cell renderer linking a value that is a web address, and showing other values as text.
+			 *  @param row the row index.
+			 *  @param columnfield the column's datafield.
+			 *  @param value the cell value.
+			 *  @param defaulthtml the html jqxGrid would render.
+			 *  @param columnproperties the column's properties, for its alignment.
+			 *  @return html for the cell.
+			 */
 			var linkPubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var result = "";
 				if (value && value.toString().startsWith('http')) {
@@ -197,7 +225,16 @@ Report on primary types, by department.
 					}
 				return result; 
 			};
+			/** Cell renderer linking a page number to the row's citation_page_uri, when it has one.
+			 *  @param row the row index.
+			 *  @param columnfield the column's datafield.
+			 *  @param value the cell value.
+			 *  @param defaulthtml the html jqxGrid would render.
+			 *  @param columnproperties the column's properties, for its alignment.
+			 *  @return html for the cell.
+			 */
 			var linkPageCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var result = "";
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var citation_page_uri = rowData['citation_page_uri'];
 				if (citation_page_uri && citation_page_uri.toString().startsWith('http') && value && value.toString().length > 0) {
@@ -302,30 +339,30 @@ Report on primary types, by department.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'GUID', datafield: 'guid', width: 150, hidable: true, hidden: getColHidProp('guid', false), cellsrenderer: linkGuidCellRenderer },
-							{text: 'Catalog Number', datafield: 'cat_num', width: 100, hidable: true, hidden: getColHidProp('cat_num', true) },
-							{text: 'Category', datafield: 'toptypestatuskind', width: 130, hidable: true, hidden: getColHidProp('toptypestatuskind', true) },
-							{text: 'Type Status', datafield: 'toptypestatus', width: 130, hidable: true, hidden: getColHidProp('toptypestatus', false) },
-							{text: 'Order', datafield: 'phylorder', width: 120, hidable: true, hidden: getColHidProp('family', true) },
-							{text: 'Family', datafield: 'family', width: 100, hidable: true, hidden: getColHidProp('family', true) },
-							{text: 'Type Name Genus', datafield: 'typegenus', width: 130, hidable: true, hidden: getColHidProp('typegenus', false) },
-							{text: 'Type Name Species', datafield: 'typespecies', width: 130, hidable: true, hidden: getColHidProp('typespecies', false) },
-							{text: 'Type Name Subspecies', datafield: 'typesubspecies', width: 130, hidable: true, hidden: getColHidProp('typesubspecies', false) },
-							{text: 'Type Name', datafield: 'typename', width: 130, hidable: true, hidden: getColHidProp('typename', true), cellsrenderer: linkNameCellRenderer },
-							{text: 'Type Authorship', datafield: 'typeauthorship', width: 130, hidable: true, hidden: getColHidProp('typeauthorship', false) },
-							{text: 'Type Publication Authorship', datafield: 'pubauthorship', width: 130, hidable: true, hidden: getColHidProp('pubauthorship', true) },
-							{text: 'Type Epithet', datafield: 'typeepithet', width: 130, hidable: true, hidden: getColHidProp('typeepithet', true) },
-							{text: 'Types Of', datafield: 'typestatusplain', width: 130, hidable: true, hidden: getColHidProp('typestatusplain', true) },
-							{text: 'Current Name', datafield: 'currentname', width: 130, hidable: true, hidden: getColHidProp('currentname', false), cellsrenderer: linkNameCellRenderer },
-							{text: 'Current Author', datafield: 'currentauthorship', width: 130, hidable: true, hidden: getColHidProp('currentauthorship', false) },
-							{text: 'Country', datafield: 'country', width: 100, hidable: true, hidden: getColHidProp('country', true) },
-							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hidable: true, hidden: getColHidProp('spec_locality', true) },
-							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hidable: true, hidden: getColHidProp('associatedgrant', true) },
-							{text: 'Named Groups', datafield: 'named_groups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
-							{text: 'Page Number', datafield: 'page_number', width: 50, hidable: true, hidden: getColHidProp('page_number', false), cellsrenderer: linkPageCellRenderer },
-							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hidable: true, hidden: getColHidProp('citation_page_uri', true), cellsrenderer: linkPubCellRenderer },
-							{text: 'PublicationID', datafield: 'publication_id', width: 40, hidable: true, hidden: getColHidProp('publication_id', true) },
-							{text: 'Citation', datafield: 'citation', hidable: true, hidden: getColHidProp('citation', false) }
+							{text: 'GUID', datafield: 'guid', width: 150, hideable: true, hidden: getColHidProp('guid', false), cellsrenderer: linkGuidCellRenderer },
+							{text: 'Catalog Number', datafield: 'cat_num', width: 100, hideable: true, hidden: getColHidProp('cat_num', true) },
+							{text: 'Category', datafield: 'toptypestatuskind', width: 130, hideable: true, hidden: getColHidProp('toptypestatuskind', true) },
+							{text: 'Type Status', datafield: 'toptypestatus', width: 130, hideable: true, hidden: getColHidProp('toptypestatus', false) },
+							{text: 'Order', datafield: 'phylorder', width: 120, hideable: true, hidden: getColHidProp('phylorder', true) },
+							{text: 'Family', datafield: 'family', width: 100, hideable: true, hidden: getColHidProp('family', true) },
+							{text: 'Type Name Genus', datafield: 'typegenus', width: 130, hideable: true, hidden: getColHidProp('typegenus', false) },
+							{text: 'Type Name Species', datafield: 'typespecies', width: 130, hideable: true, hidden: getColHidProp('typespecies', false) },
+							{text: 'Type Name Subspecies', datafield: 'typesubspecies', width: 130, hideable: true, hidden: getColHidProp('typesubspecies', false) },
+							{text: 'Type Name', datafield: 'typename', width: 130, hideable: true, hidden: getColHidProp('typename', true), cellsrenderer: linkNameCellRenderer },
+							{text: 'Type Authorship', datafield: 'typeauthorship', width: 130, hideable: true, hidden: getColHidProp('typeauthorship', false) },
+							{text: 'Type Publication Authorship', datafield: 'pubauthorship', width: 130, hideable: true, hidden: getColHidProp('pubauthorship', true) },
+							{text: 'Type Epithet', datafield: 'typeepithet', width: 130, hideable: true, hidden: getColHidProp('typeepithet', true) },
+							{text: 'Types Of', datafield: 'typestatusplain', width: 130, hideable: true, hidden: getColHidProp('typestatusplain', true) },
+							{text: 'Current Name', datafield: 'currentname', width: 130, hideable: true, hidden: getColHidProp('currentname', false), cellsrenderer: linkNameCellRenderer },
+							{text: 'Current Author', datafield: 'currentauthorship', width: 130, hideable: true, hidden: getColHidProp('currentauthorship', false) },
+							{text: 'Country', datafield: 'country', width: 100, hideable: true, hidden: getColHidProp('country', true) },
+							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hideable: true, hidden: getColHidProp('spec_locality', true) },
+							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hideable: true, hidden: getColHidProp('associatedgrant', true) },
+							{text: 'Named Groups', datafield: 'namedgroups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
+							{text: 'Page Number', datafield: 'page_number', width: 50, hideable: true, hidden: getColHidProp('page_number', false), cellsrenderer: linkPageCellRenderer },
+							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hideable: true, hidden: getColHidProp('citation_page_uri', true), cellsrenderer: linkPubCellRenderer },
+							{text: 'PublicationID', datafield: 'publication_id', width: 40, hideable: true, hidden: getColHidProp('publication_id', true) },
+							{text: 'Citation', datafield: 'citation', hideable: true, hidden: getColHidProp('citation', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -336,7 +373,7 @@ Report on primary types, by department.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/specimens/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/specimens/PrimaryTypes.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','cataloged item');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -361,6 +398,11 @@ Report on primary types, by department.
 				</cfif>
 			}); /* End document.ready */
 	
+			/** Finish setting up the results grid once its data is bound: hide the overlay, show the
+			 *  result count, set page sizes, and add the column picker and CSV export.
+			 *  @param gridId the id of the grid, without a leading #.
+			 *  @param searchType the singular name of a result row, for the count and file name.
+			 */
 			function gridLoaded(gridId, searchType) { 
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
