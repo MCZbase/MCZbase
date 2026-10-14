@@ -57,21 +57,14 @@ function mczPreventSelectRangeNativeSelection(table) {
 }
 
 /**
- * mczClearStaleRangeSelectionClass removes the "tabulator-ranges" CSS class from a
- * table's container element.
+ * mczClearStaleRangeSelectionClass removes the "tabulator-ranges" class from a table's
+ * container.
  *
- * Root cause of a real bug (confirmed against source, not a guess): Tabulator's
- * SelectRange module adds "tabulator-ranges" to the container element the first time
- * cell/range selection initializes (`classList.add("tabulator-ranges")`), and nothing
- * in the library ever removes it again -- not on destroy(), not on tableDestroyed().
- * The bundled theme CSS has `.tabulator.tabulator-ranges .tabulator-cell:not(.tabulator-
- * editing){user-select:none}`, at higher specificity than this app's own
- * `.mcz-text-select-mode .tabulator-cell{user-select:text}` override (see
- * tabulator_overrides.css). So once a container has ever hosted a range-selection-mode
- * table, native text selection stays impossible for every table rebuilt into that same
- * container afterward, including plain "text" mode ones, until a full page reload
- * clears the DOM. Call this right after destroy()ing the old instance and before
- * constructing the next one on the same container.
+ * SelectRange adds that class and never removes it, not even on destroy(). The theme
+ * CSS then turns off text selection in the container, overriding
+ * .mcz-text-select-mode (tabulator_overrides.css), so any table later rebuilt there
+ * cannot have its text selected. Call this after destroy() and before building the
+ * next table in the same container.
  *
  * @param container a DOM element, or a jQuery/CSS selector string for one.
  */
@@ -98,21 +91,15 @@ function mczRedrawAllTabulatorInstances() {
 }
 
 /**
- * mczFetchColumnVisibility retrieves persisted column-visibility settings for a page
- * from /shared/component/functions.cfc's getGridColumnHiddenSettings method -- the
- * same backend Taxa.cfm/Agents.cfm's jqxGrid column choosers already persist to, keyed
- * by page_file_path + username + label, so a Tabulator page's settings live in the same
- * place and under the same key shape ({field: hiddenBoolean}) those pages use.
- *
- * Returns a Promise rather than writing to a global (contrast the older jqxGrid pages'
- * window.columnHiddenSettings), so a caller can build a table's columns with the
- * correct initial visibility already applied instead of building with defaults and
- * correcting after the fact.
+ * mczFetchColumnVisibility gets a page's saved column visibility from
+ * getGridColumnHiddenSettings in /shared/component/functions.cfc, the same storage
+ * the jqxGrid pages (Taxa.cfm, Agents.cfm) use. It returns a Promise so the caller
+ * can build columns with the saved visibility instead of correcting it afterwards.
  *
  * @param pageFilePath the page path settings are stored under (e.g. cgi.script_name).
  * @param label settings label; the app-wide convention is "Default".
- * @return a Promise resolving to a {field: hiddenBoolean} object, or {} if nothing has
- *   been saved yet or the lookup fails.
+ * @return a Promise resolving to {field: hidden}, or {} if nothing is saved or the
+ *   lookup fails.
  */
 function mczFetchColumnVisibility(pageFilePath, label) {
 	return jQuery.ajax({
@@ -142,31 +129,13 @@ function mczFetchColumnVisibility(pageFilePath, label) {
 }
 
 /**
- * mczEnableClipboardCopy wires a single, page-wide Ctrl/Cmd+C keydown handler so a
- * user's own copy keystroke actually copies the current selection in any registered
- * Tabulator instance.
+ * mczEnableClipboardCopy makes Ctrl/Cmd+C copy the selection in any registered
+ * Tabulator table.
  *
- * This is necessary because Tabulator's own clipboard-on-copy-event listener (enabled
- * via the `clipboard: "copy"` table option) only ever runs when triggered through the
- * table's `copyToClipboard()` function -- a plain browser Ctrl+C never reaches it, and
- * instead falls through to whatever native text selection happens to exist (confirmed
- * against source: the listener's own logic is gated on a `blocked` flag that only
- * `copyToClipboard()` clears).
- *
- * Row selection (SelectRow) and cell/range selection (SelectRange) also aren't handled
- * by the same code path -- SelectRange's active ranges are never fed into the
- * clipboard module's export at all, only row-level "selected"/"active" ranges are -- so
- * this checks which one is active and handles each directly: row selection goes through
- * table.copyToClipboard("selected") (Tabulator's own formatted row export); range
- * selection is built from table.getRangesData() and written via the Clipboard Web API,
- * since Tabulator has no built-in path for it.
- *
- * Listens on `document`, not a specific table's element, and iterates the shared
- * mczTabulatorInstances registry rather than taking a table argument -- a table's own
- * element (or which descendant of it currently holds focus) isn't reliable to attach
- * to, since a rebuilt table is a new element each time and different selection modes
- * move focus differently. Safe to call more than once; only attaches the listener the
- * first time.
+ * With `clipboard: "copy"`, Tabulator copies only when copyToClipboard() is called; a
+ * plain Ctrl+C never reaches it. The listener is on document, not a table, because a
+ * rebuilt table is a new element and the selection modes move focus differently. Safe
+ * to call more than once; the listener is attached only the first time.
  */
 var mczClipboardCopyListenerAttached = false;
 function mczEnableClipboardCopy() {
@@ -187,11 +156,12 @@ function mczEnableClipboardCopy() {
 }
 
 /**
- * mczCopySelectedFromAllInstances copies the current selection (rows or a cell range)
- * from every registered, still-attached Tabulator instance to the clipboard -- the
- * logic mczEnableClipboardCopy's keydown handler uses, factored out so a plain button
- * (for anyone not using Ctrl/Cmd+C, or where a browser's own context menu doesn't offer
- * a "Copy" item for a non-native selection) can trigger the same behavior directly.
+ * mczCopySelectedFromAllInstances copies the selected rows or cell range from every
+ * registered table still on the page. Used by the Ctrl+C handler and by a Copy button.
+ *
+ * Selected rows go through copyToClipboard("selected"). Tabulator's clipboard ignores
+ * cell ranges, so a range is built from getRangesData() and written with the browser's
+ * Clipboard API.
  *
  * @return true if a selection was found and copied in any instance, false otherwise.
  */
@@ -224,13 +194,9 @@ function mczCopySelectedFromAllInstances() {
 }
 
 /**
- * mczSafeTextFormatter is a Tabulator cell formatter for plain text values.
- *
- * Tabulator's default cell rendering (no formatter set) assigns the raw value to the
- * cell's innerHTML directly, without escaping it; a formatter that returns a plain
- * string is rendered the same unescaped way. This formatter instead returns a <span>
- * element with the value set via textContent, so values are always displayed as
- * literal text, never parsed as markup.
+ * mczSafeTextFormatter is a Tabulator cell formatter that shows a value as text.
+ * Tabulator's default rendering, and a formatter returning a string, put the value into
+ * innerHTML unescaped; this sets textContent instead.
  *
  * @param cell the Tabulator cell component passed into a column's formatter.
  * @return a <span> Node with the cell's value set via textContent.
@@ -242,10 +208,8 @@ function mczSafeTextFormatter(cell) {
 }
 
 /**
- * mczSafeLinkFormatter returns a Tabulator column formatter rendering an <a> element
- * whose visible text is set via textContent -- safe for the same reason described on
- * mczSafeTextFormatter above -- and whose href is built from the row's data by a
- * caller-supplied function.
+ * mczSafeLinkFormatter returns a Tabulator formatter that renders a link, with its text
+ * set as textContent (see mczSafeTextFormatter) and its href built from the row data.
  *
  * @param textField field name on the row's data to use as the link's visible text.
  * @param hrefFn function(rowData) returning the href for a given row.
@@ -266,27 +230,20 @@ function mczSafeLinkFormatter(textField, hrefFn, className) {
 }
 
 /**
- * mczAddPageJumpControl replaces a Tabulator grid's native numbered page buttons with a
- * single <select> listing every page, matching the pull-down page selector this app's
- * other (jqxGrid-based) search grids use. The native buttons only ever show a small
- * sliding window around the current page (5 by default), with no way to jump straight to
- * a distant page in a large result set -- there is no documented option to disable just
- * that piece of the built-in pager, so the numbered buttons are hidden via a scoped CSS
- * rule instead (see tabulator_overrides.css) and this control is inserted in their place.
+ * mczAddPageJumpControl adds a select listing every page in place of Tabulator's
+ * numbered page buttons, which show only about 5 pages around the current one. The
+ * jqxGrid pages have the same page select. The buttons are hidden in
+ * tabulator_overrides.css, since Tabulator has no option to turn them off.
  *
  * @param table the Tabulator instance to add the control to.
- * @param selectId id to give the <select> (without a leading # selector) -- passed in
- *   rather than hardcoded, since a page with more than one Tabulator grid would otherwise
- *   end up with duplicate ids.
+ * @param selectId id (no leading #) to give the select; unique per grid on the page.
  */
 function mczAddPageJumpControl(table, selectId) {
 	var wrapper = document.createElement("span");
 	wrapper.className = "tabulator-page-jump-wrapper";
 	var label = document.createElement("label");
 	label.setAttribute("for", selectId);
-	/* The app's own weight utility (560), matching the "Page Size" label beside it --
-	   that one is built by Tabulator with no class to hook, so it is set in
-	   tabulator_overrides.css instead. */
+	/* Matches the "Page Size" label beside it, which is styled in tabulator_overrides.css. */
 	label.className = "font-weight-lessbold";
 	label.textContent = "Page:";
 	var select = document.createElement("select");
@@ -298,10 +255,8 @@ function mczAddPageJumpControl(table, selectId) {
 	wrapper.appendChild(label);
 	wrapper.appendChild(select);
 
-	/* Tried on every call below, not just once on "tableBuilt" -- exactly when the
-	   pager's own DOM (.tabulator-pages) exists relative to "tableBuilt" firing wasn't
-	   reliable in testing, so this keeps retrying (cheaply; a no-op once inserted)
-	   rather than depending on one specific event ordering. */
+	/* Tried on every refresh: the pager is not reliably in the page by "tableBuilt".
+	   Does nothing once inserted. */
 	function ensureInserted() {
 		if (wrapper.parentNode) {
 			return;
@@ -324,25 +279,16 @@ function mczAddPageJumpControl(table, selectId) {
 	}
 
 	table.on("tableBuilt", refresh);
-	/* Fires on every completed load in remote pagination mode -- the initial one, a
-	   page/size/sort change, and a fresh search's setPage(1) call alike (confirmed
-	   against source) -- so this single handler keeps the option list and selected
-	   value correct in every case, not just an actual page-number change. */
+	/* With remote paging this fires after every load: page, size or sort change, or a
+	   new search. */
 	table.on("pageLoaded", refresh);
 }
 
 /**
- * mczToNativePromise wraps a jqXHR (or any jQuery Deferred/promise) in a native
- * Promise, for use as the return value of a Tabulator `ajaxRequestFunc`.
- *
- * Tabulator chains .finally() onto whatever ajaxRequestFunc returns (confirmed against
- * source: DataLoader.load() ends in `.finally(...)`, and the table's own initial load
- * ends in `.finally(...)` before dispatching "tableBuilt"). jQuery 3.x Deferreds have
- * then()/catch() but no finally(), so returning a bare $.ajax() result throws a
- * TypeError partway through Tabulator's setup: the rows still render (they are drawn
- * from an earlier then()), but "tableBuilt" never fires, and anything hung off it
- * (e.g. a column chooser) silently never runs. Always return
- * mczToNativePromise($.ajax(...)) from an ajaxRequestFunc instead.
+ * mczToNativePromise wraps a jQuery promise (such as $.ajax()) in a native Promise.
+ * An ajaxRequestFunc must return one: Tabulator calls .finally() on the result, which
+ * jQuery promises lack. With a bare $.ajax() the rows still show, but "tableBuilt"
+ * never fires, so nothing attached to it runs.
  *
  * @param jqPromise a jqXHR or other jQuery promise.
  * @return a native Promise that settles the same way.
@@ -352,15 +298,14 @@ function mczToNativePromise(jqPromise) {
 }
 
 /**
- * mczFetchColumnOrder retrieves a page's persisted column order from
- * /shared/component/functions.cfc's getGridColumnOrder method -- the same backend and
- * storage format the jqxGrid pages (Taxa.cfm, Agents.cfm, Specimens.cfm) use via
- * saveColumnOrder()/loadColumnOrder(): a JSON array of [field, position] pairs.
+ * mczFetchColumnOrder gets a page's saved column order from getGridColumnOrder in
+ * /shared/component/functions.cfc, stored as the jqxGrid pages store it: a JSON array
+ * of [field, position] pairs.
  *
  * @param pageFilePath the page path settings are stored under (e.g. cgi.script_name).
  * @param label settings label; the app-wide convention is "Default".
- * @return a Promise resolving to a {field: position} object, or {} if nothing has been
- *   saved yet or the lookup fails.
+ * @return a Promise resolving to {field: position}, or {} if nothing is saved or the
+ *   lookup fails.
  */
 function mczFetchColumnOrder(pageFilePath, label) {
 	return mczToNativePromise(jQuery.ajax({
@@ -395,13 +340,10 @@ function mczFetchColumnOrder(pageFilePath, label) {
 }
 
 /**
- * mczApplyColumnOrder reorders an array of Tabulator column definitions (in place, and
- * also returned) to match a saved {field: position} order from mczFetchColumnOrder.
- * Columns with no saved position keep their original position relative to each other,
- * placed by their original index. Any column definition marked `frozen: true` is kept
- * ahead of every unfrozen one: Tabulator treats a frozen column that follows an
- * unfrozen one as frozen to the right edge instead of the left, and logs a warning
- * when range selection is on and the first column isn't the frozen one.
+ * mczApplyColumnOrder reorders column definitions, in place, to a saved order from
+ * mczFetchColumnOrder. Columns with no saved position keep their original index.
+ * Frozen columns stay ahead of the rest: Tabulator freezes a frozen column that
+ * follows an unfrozen one to the right edge.
  *
  * @param columns array of column definition objects (each with a `field`).
  * @param order {field: position} object; {} leaves the array unchanged.
@@ -425,9 +367,8 @@ function mczApplyColumnOrder(columns, order) {
 }
 
 /**
- * mczSaveTableColumnOrder persists a table's current column order through the shared
- * saveColumnOrder() function in /shared/js/shared-scripts.js, in the same
- * [field, position] format the jqxGrid pages write.
+ * mczSaveTableColumnOrder saves a table's column order with saveColumnOrder() in
+ * /shared/js/shared-scripts.js, as the jqxGrid pages do.
  *
  * @param table the Tabulator instance.
  * @param pageFilePath the page path settings are stored under (e.g. cgi.script_name).
@@ -437,8 +378,7 @@ function mczApplyColumnOrder(columns, order) {
 function mczSaveTableColumnOrder(table, pageFilePath, label, feedbackDiv) {
 	var columnMap = new Map();
 	var position = 0;
-	/* Count only columns with a field, so a checkbox row-selection column (which has
-	   none) doesn't shift the saved positions. */
+	/* Skip columns without a field, such as the row-selection checkboxes. */
 	table.getColumns().forEach(function (column) {
 		var field = column.getField();
 		if (field) {
@@ -450,10 +390,9 @@ function mczSaveTableColumnOrder(table, pageFilePath, label, feedbackDiv) {
 }
 
 /**
- * mczExportColumns returns the columns an export includes, in their current order.
- * Columns without a field, or with `download: false`, are always left out. Hidden
- * columns are included when includeHidden is true, matching the jqxGrid pages'
- * exportGridToCSV(), which exports hidden columns too.
+ * mczExportColumns returns the columns an export includes, in their current order:
+ * every column with a field and without `download: false`, and hidden columns only
+ * when includeHidden is true.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param includeHidden true to include hidden columns.
@@ -467,8 +406,8 @@ function mczExportColumns(table, includeHidden) {
 }
 
 /**
- * mczExportValue returns one row's value for one column as an export writes it: passed
- * through the column's accessorDownload, if it has one, with null and undefined as "".
+ * mczExportValue returns one row's value for one column, passed through the column's
+ * accessorDownload if it has one, with null and undefined as "".
  *
  * @param column the ColumnComponent.
  * @param row the row data object, keyed by field.
@@ -484,13 +423,10 @@ function mczExportValue(column, row) {
 }
 
 /**
- * mczBuildExportRows turns an array of row data objects into an array of arrays (a
- * header row, then one array per data row) using a Tabulator table's column
- * definitions for the header text, column order, and any per-column accessorDownload
- * -- so a caller can export rows fetched separately from the server (e.g. every
- * matching row, in remote pagination mode, where table.download() would only see the
- * one page currently loaded), or the table's own selected rows. See mczExportColumns
- * for which columns are included.
+ * mczBuildExportRows turns row data into a header row followed by one array per row,
+ * using the table's columns for titles, order and values. Unlike table.download(),
+ * which sees only the loaded page under remote paging, it can export rows fetched
+ * separately from the server.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -512,10 +448,8 @@ function mczBuildExportRows(table, rows, includeHidden) {
 }
 
 /**
- * mczBuildJson builds JSON text from an array of row data objects: an array of
- * objects keyed by field name (the database field names, not the column titles, so
- * the file is usable by a script without a lookup). Takes the same inputs as
- * mczBuildCsv, and includes the same columns and values.
+ * mczBuildJson builds JSON text: an array of records keyed by field name rather than
+ * column title, with the same columns and values as mczBuildCsv.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -534,9 +468,8 @@ function mczBuildJson(table, rows, includeHidden) {
 }
 
 /**
- * mczBuildHtmlDocument builds a standalone HTML document holding the rows as a table,
- * for opening in a browser or a word processor. Every title and value is escaped, since
- * they are row data. Takes the same inputs as mczBuildCsv, plus a document title.
+ * mczBuildHtmlDocument builds a standalone HTML page holding the rows as a table, with
+ * every title and value escaped.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -591,8 +524,7 @@ function mczDownloadBlob(blob, filename) {
 }
 
 /**
- * mczBuildCsv builds CSV text from an array of row data objects; see
- * mczBuildExportRows for which columns are included and how values are taken.
+ * mczBuildCsv builds CSV text from row data; see mczBuildExportRows.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -613,9 +545,8 @@ function mczBuildCsv(table, rows, includeHidden) {
 }
 
 /**
- * mczLoadScriptOnce loads a script by adding a <script> element, at most once per src,
- * so a large library only a few users need (e.g. ExcelJS for Excel export) is fetched
- * on first use instead of on every page load.
+ * mczLoadScriptOnce loads a script the first time it is needed, at most once per src,
+ * so a large library such as ExcelJS is not fetched on every page load.
  *
  * @param src the script URL.
  * @return a Promise resolved once the script has loaded.
@@ -641,10 +572,8 @@ function mczLoadScriptOnce(src) {
 var mczExcelJsSrc = "/lib/ExcelJS/exceljs_ver4.4.0/exceljs.min.js";
 
 /**
- * mczExportRowsToExcel downloads rows as an .xlsx workbook with one worksheet, using
- * ExcelJS (loaded on first use). Takes the same inputs as mczBuildCsv. Values are
- * written as text, as they appear in the grid, so identifiers such as catalog
- * numbers keep leading zeros instead of being converted to numbers by Excel.
+ * mczExportRowsToExcel downloads rows as a one-sheet .xlsx file using ExcelJS. Values
+ * are written as text so identifiers such as catalog numbers keep leading zeros.
  *
  * @param table the Tabulator instance whose columns describe the export.
  * @param rows array of row data objects, keyed by field.
@@ -682,27 +611,21 @@ function mczExportFilename(searchType, extension) {
 }
 
 /**
- * mczAttachSelectionStore keeps a grid's row selection in a caller-owned Map, so it
- * survives paging, sorting and header filtering. Tabulator's own selection cannot under
- * paginationMode "remote": setData discards its selected rows on every page change.
- *
- * The Map holds each row's whole data, so an export can include rows from pages the
- * browser no longer has loaded. In memory only; a reload clears it. Requires the table's
- * `index` option to name idField.
+ * mczAttachSelectionStore keeps a grid's selected rows in a Map, so the selection
+ * survives paging, sorting and filtering; with remote paging Tabulator drops it on every
+ * page load. The Map holds each row's data, so an export can include rows from other
+ * pages. In memory only. The table's `index` option must be idField.
  *
  * @param table the Tabulator instance.
  * @param selectionMap a Map owned and read by the caller, keyed by the idField value.
  * @param idField row field holding a stable unique id (the table's index field).
- * @param persistAcrossPages true to gather a selection across pages; false to scope it
- *   to the rows currently loaded. Pass false for a single-row selection mode: Tabulator
- *   enforces selectableRows: 1 only among the rows it has loaded, so across pages such a
- *   mode would otherwise accumulate rows and report a count its own name contradicts.
- * @param onChange optional; called with the Map after every change, e.g. to update a
- *   count the user can see when the selected rows themselves are on another page.
+ * @param persistAcrossPages true to keep the selection across pages; false to keep only
+ *   the loaded page. Use false for single-row selection, which Tabulator enforces only
+ *   within the loaded page.
+ * @param onChange optional; called with the Map after every change.
  */
 function mczAttachSelectionStore(table, selectionMap, idField, persistAcrossPages, onChange) {
-	/* Re-ticking rows below re-enters rowSelected, which is harmless in itself but
-	   would fire onChange once per row; suppress it and report once at the end. */
+	/* Re-ticking rows fires rowSelected per row; report once instead. */
 	var reapplying = false;
 
 	function changed() {
@@ -720,12 +643,10 @@ function mczAttachSelectionStore(table, selectionMap, idField, persistAcrossPage
 		selectionMap.delete(String(row.getData()[idField]));
 		changed();
 	});
-	/* dataProcessed fires after every completed load, which is when the checkboxes need
-	   re-ticking. */
+	/* Fires after every load, when the checkboxes need re-ticking. */
 	table.on("dataProcessed", function () {
 		if (!persistAcrossPages) {
-			/* Scoped to what is on screen: setData has already dropped Tabulator's own
-			   selection for the page just replaced. */
+			/* Tabulator has already dropped the previous page's selection. */
 			selectionMap.clear();
 			changed();
 			return;
@@ -744,10 +665,8 @@ function mczAttachSelectionStore(table, selectionMap, idField, persistAcrossPage
 }
 
 /**
- * mczClearSelectionStore empties a selection store and deselects whatever rows are
- * loaded, so the Map and the visible checkboxes cannot drift apart. Call it when the
- * result set changes underneath the selection -- a new search -- since a selection
- * held over from different results is how an export ends up with the wrong rows.
+ * mczClearSelectionStore empties a selection store and deselects the loaded rows. Call
+ * it on a new search, so an export cannot include rows from earlier results.
  *
  * @param table the Tabulator instance, or null if it no longer exists.
  * @param selectionMap the Map passed to mczAttachSelectionStore.
@@ -764,8 +683,8 @@ function mczClearSelectionStore(table, selectionMap, onChange) {
 }
 
 /**
- * mczRefreshSelectionCount reports how many rows are selected, as text. Without this
- * a selection is invisible whenever its rows are on another page.
+ * mczRefreshSelectionCount shows how many rows are selected, including rows on other
+ * pages.
  *
  * @param selectionMap the Map passed to mczAttachSelectionStore.
  * @param elementId id (no leading #) of the element to write the count into.
@@ -776,10 +695,9 @@ function mczRefreshSelectionCount(selectionMap, elementId) {
 }
 
 /**
- * mczIsDataColumn reports whether a column definition describes a column holding row
- * data rather than a control. Control columns are marked by a field name beginning
- * "_mcz"; a Tabulator column definition cannot carry a custom property for this without
- * a console warning on every build.
+ * mczIsDataColumn reports whether a column holds row data rather than a control.
+ * Control columns have fields starting "_mcz"; a custom column property would make
+ * Tabulator log a warning.
  *
  * @param definition a Tabulator column definition, as column.getDefinition() returns.
  * @return true if the column holds row data.
@@ -791,10 +709,7 @@ function mczIsDataColumn(definition) {
 
 /**
  * mczHideableColumns returns the columns a user can show or hide: the data columns,
- * which is what the Select Columns chooser lists and therefore what a "show hidden
- * columns" control has to be able to bring back. Control columns are excluded -- the
- * pinned Details and Edit columns carry a title and would otherwise be offered for
- * hiding, and hiding a frozen column is not something the chooser should be able to do.
+ * not control columns such as Details and Edit.
  *
  * @param table the Tabulator instance.
  * @return an array of ColumnComponents.
@@ -806,9 +721,8 @@ function mczHideableColumns(table) {
 }
 
 /**
- * mczShowAllColumns makes every hidden column visible again. Needed because "Hide
- * column" in a header menu removes the header that menu lives in, leaving no way back
- * from the control that did the hiding.
+ * mczShowAllColumns makes every hidden column visible again. A column hidden from its
+ * header menu takes that menu with it, so this is the way back.
  *
  * @param table the Tabulator instance.
  * @return the number of columns made visible.
@@ -825,10 +739,8 @@ function mczShowAllColumns(table) {
 }
 
 /**
- * mczRefreshShowHiddenColumnsButton matches a "show hidden columns" button to the
- * table's current state: hidden when nothing is hidden, otherwise shown and labelled
- * with the count, so the button states what it will actually do. Set as text, never
- * markup.
+ * mczRefreshShowHiddenColumnsButton hides the "show hidden columns" button when no
+ * column is hidden, and otherwise shows it with the count in its label.
  *
  * @param table the Tabulator instance.
  * @param buttonId id (no leading #) of the button element.
@@ -847,10 +759,9 @@ function mczRefreshShowHiddenColumnsButton(table, buttonId) {
 }
 
 /**
- * mczShowRowDetailsDialog opens a jQuery UI dialog listing every column's title and
- * value for one row, including hidden columns -- the Tabulator counterpart of
- * createRowDetailsDialog() in shared-scripts.js used by the jqxGrid pages' row
- * details. Values are inserted as text, never as markup.
+ * mczShowRowDetailsDialog opens a dialog listing every column's title and value for
+ * one row, including hidden columns, like createRowDetailsDialog() on the jqxGrid
+ * pages. Values are inserted as text.
  *
  * @param table the Tabulator instance.
  * @param row the RowComponent to show.
@@ -891,8 +802,8 @@ function mczShowRowDetailsDialog(table, row, title) {
 }
 
 /**
- * mczDetailsButtonColumn returns a column definition for a narrow, unsortable,
- * non-exported column holding a button that opens mczShowRowDetailsDialog for its row.
+ * mczDetailsButtonColumn returns a column with a button that opens
+ * mczShowRowDetailsDialog for its row; not sortable or exported.
  *
  * @param dialogTitle optional title for the details dialog.
  * @return a column definition object.
@@ -908,12 +819,10 @@ function mczDetailsButtonColumn(dialogTitle) {
 		formatter: function () {
 			var button = document.createElement("button");
 			button.type = "button";
-			/* btn-outline-primary: the style the developer's guide gives buttons inside a
-			   results grid cell. */
+			/* The developer's guide style for buttons in a results grid. */
 			button.className = "btn btn-xs btn-outline-primary py-0";
 			button.setAttribute("aria-label", "Show all values for this row");
-			/* fa-list-ul: the dialog lists the row's fields. Avoid fa-eye, which the
-			   hide-search-form toggle uses. */
+			/* Not fa-eye, which the hide-search-form toggle uses. */
 			button.innerHTML = '<i class="fas fa-list-ul" aria-hidden="true"></i>';
 			return button;
 		},
@@ -941,9 +850,8 @@ function mczColumnTitle(table, field) {
 }
 
 /**
- * mczGroupHeaderElement builds a group header reading "Column: value (n)". Returns an
- * element, not a string: Tabulator appends an element but assigns a string to
- * innerHTML (confirmed against source), and the grouped value is row data.
+ * mczGroupHeaderElement builds a group header reading "Column: value (n)". It returns
+ * elements, not a string, because Tabulator puts a string into innerHTML unescaped.
  *
  * @param table the Tabulator instance.
  * @param group the GroupComponent Tabulator passes to groupHeader.
@@ -998,9 +906,8 @@ function mczPopulateGroupByPicker(table, selectId, currentField) {
 }
 
 /**
- * mczRenderGroupChip shows a removable chip naming the active grouping, or empties its
- * container when nothing is grouped. Mirrors the groups bar of the jqxGrid this
- * replaces, where the chip's x is how a user ends the grouping.
+ * mczRenderGroupChip shows a removable chip naming the active grouping, as jqxGrid's
+ * groups bar did, or empties its container when nothing is grouped.
  *
  * @param containerId id (no leading #) of the element holding the chip.
  * @param label column title to name in the chip, or a falsy value to clear it.
@@ -1033,9 +940,9 @@ function mczRenderGroupChip(containerId, label, onRemove) {
 }
 
 /**
- * mczStandardHeaderMenu returns a Tabulator `headerMenu` (a function, so the items
- * reflect the column's state each time the menu opens) offering: sort ascending,
- * sort descending, hide this column, and "Select Columns...".
+ * mczStandardHeaderMenu returns a headerMenu offering sort ascending, sort descending,
+ * hide column and "Select Columns...". It is a function so the items are built each
+ * time the menu opens.
  *
  * @param options object with optional callbacks:
  *   onColumnHidden(column) -- called after "Hide column" (e.g. to persist visibility);
@@ -1075,11 +982,9 @@ function mczStandardHeaderMenu(options) {
 }
 
 /**
- * mczHeaderFilterParams converts Tabulator's remote-mode filter list
- * ([{field, type, value}], sent when filterMode is "remote") into flat request
- * parameters named {prefix}{field}, keeping only fields in allowedFields -- flat
- * name/value pairs are what a ColdFusion cfargument can read, unlike the nested
- * filter[0][field]=... form jQuery would otherwise serialize the array into.
+ * mczHeaderFilterParams turns Tabulator's remote filter list ([{field, type, value}])
+ * into flat {prefix}{field} parameters that a cfargument can read, keeping only fields
+ * in allowedFields.
  *
  * @param filters the `filter` array from Tabulator's request params (may be undefined).
  * @param allowedFields array of field names the backing search method accepts.
@@ -1097,10 +1002,8 @@ function mczHeaderFilterParams(filters, allowedFields, prefix) {
 }
 
 /**
- * mczHeaderFilterLabel returns the standard headerFilterParams for a column's header
- * filter input: an accessible name ("Filter {title}"), since the input has only a
- * placeholder otherwise, and data-entry-input so it matches the search form. Tabulator
- * writes the input's padding and width as inline styles, which the class cannot override.
+ * mczHeaderFilterLabel returns headerFilterParams giving a header filter input an
+ * accessible name ("Filter {title}") and the data-entry-input class.
  *
  * @param columnTitle the column's title as shown in its header.
  * @return an object usable as a column's headerFilterParams.
@@ -1115,20 +1018,12 @@ function mczHeaderFilterLabel(columnTitle) {
 }
 
 /**
- * mczUseTableRoles marks a read-only results grid up as a data table for screen readers:
- * role="table" instead of Tabulator's role="grid", and role="cell" instead of
- * "gridcell" (gridcell is not valid inside a table). Rows and column headers keep their
- * roles. Call on "tableBuilt".
+ * mczUseTableRoles changes a read-only grid's roles from grid/gridcell to table/cell, so
+ * screen readers treat it as a data table. With role="grid", NVDA could not find or
+ * navigate the table. Call on "tableBuilt".
  *
- * Why (NVDA 2026 + Chrome, Projects.cfm, Oct 2026): with role="grid", NVDA's T found no
- * table at all, table navigation (Ctrl+Alt+arrows) would not start from the header row
- * ("not in a table cell"), and focus on a header control switched NVDA to focus mode.
- * role="grid" promises an application-style widget with arrow-key cell navigation, which
- * Tabulator does not provide for a read-only grid.
- *
- * Tabulator creates cells, with role="gridcell", each time it renders rows -- paging,
- * sorting, filtering, scrolling -- so a MutationObserver relabels them as they appear.
- * One observer per element: a page that rebuilds its table in the same element reuses it.
+ * Tabulator creates new cells whenever it renders rows, so a MutationObserver relabels
+ * them. A table rebuilt in the same element reuses the observer.
  *
  * @param table the Tabulator instance.
  */
@@ -1168,13 +1063,10 @@ function mczUseTableRoles(table) {
 }
 
 /**
- * mczMakeHeaderMenuButtonsAccessible makes each column's header menu button (the ⋮
- * that headerMenu adds, which Tabulator renders as a plain <span>) reachable and
- * operable from the keyboard, and gives it an accessible name. Call on "tableBuilt",
- * and again after anything that rebuilds a column header (e.g. updateDefinition).
- *
- * The menu the ⋮ opens is finished by mczSetUpOpenMenu: it opens below the ⋮, focus
- * moves into it, it works from the keyboard, and focus returns to the ⋮ when it closes.
+ * mczMakeHeaderMenuButtonsAccessible makes each column's ⋮ menu button, a plain span
+ * in Tabulator, keyboard-operable and gives it an accessible name. Call on
+ * "tableBuilt" and after anything that rebuilds a header (e.g. updateDefinition).
+ * mczSetUpOpenMenu handles the menu itself.
  *
  * @param table the Tabulator instance.
  */
@@ -1193,17 +1085,14 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 			if (!opener) {
 				return;
 			}
-			/* After the chosen action has run: leave focus alone if the action moved it
-			   (e.g. opened the Select Columns dialog); otherwise it was on a menu item that
-			   is now gone, so return it to the ⋮ -- or to the grid, if the action hid that
-			   column and took its ⋮ with it. */
+			/* Unless the action moved focus (e.g. opened a dialog), return it to the ⋮,
+			   or to the grid if the action hid that column. */
 			setTimeout(function () {
 				var active = document.activeElement;
 				if (active && active !== document.body && document.body.contains(active)) {
 					return;
 				}
-				/* getClientRects is empty once hidden: a hidden column keeps its ⋮ in the
-				   page, but it can no longer take focus. */
+				/* A hidden column's ⋮ is still in the page but cannot take focus. */
 				if (document.body.contains(opener) && opener.getClientRects().length) {
 					opener.focus();
 				} else {
@@ -1233,9 +1122,8 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 				button.click();
 			}
 		});
-		/* Remember which ⋮ opened the menu, for menuOpened/menuClosed above. Capture
-		   phase, at the header, because Tabulator's own click listener on the ⋮ stops the
-		   click going any further. Nothing is changed about the click itself. */
+		/* Remember which ⋮ opened the menu. Capture phase, because Tabulator stops the
+		   click at the ⋮. */
 		column.getElement().addEventListener("click", function (e) {
 			if (button.contains(e.target)) {
 				table.mczMenuOpener = button;
@@ -1245,17 +1133,14 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 }
 
 /**
- * mczSetUpOpenMenu finishes the Tabulator menu a ⋮ has just opened.
+ * mczSetUpOpenMenu fixes the menu a ⋮ has just opened.
  *
- * Position: Tabulator places the menu at the click's coordinates. A click from the
- * keyboard, or from a screen reader, has none, so the menu opened at the page's top left.
- * It is moved to just below the ⋮ whatever opened it, which for a mouse click is where it
- * already was.
+ * Position: Tabulator places the menu at the click's coordinates, which a keyboard or
+ * screen-reader click lacks, so it is moved to just below the ⋮.
  *
- * Keyboard (WAI-ARIA APG menu pattern): Tabulator renders the menu as plain divs that
- * cannot take focus, and its own Escape check compares e.key to 27, so never matches.
- * Focus starts on the first item; Up/Down (wrapping) and Home/End move; Enter or Space
- * chooses; Escape or Tab closes, and focus goes back to the ⋮.
+ * Keyboard (WAI-ARIA menu pattern): Tabulator's menu items cannot take focus, and its
+ * Escape check never matches. Focus starts on the first item; Up/Down (wrapping) and
+ * Home/End move; Enter or Space chooses; Escape or Tab closes.
  *
  * @param button the ⋮ that opened the menu.
  */
@@ -1311,8 +1196,7 @@ function mczSetUpOpenMenu(button) {
 			case "Tab":
 				e.preventDefault();
 				e.stopPropagation();
-				/* Tabulator closes the menu on a click on the menu itself -- at once, unlike
-				   its outside-click close, which only starts listening 100ms after opening. */
+				/* A click on the menu closes it at once. */
 				menu.click();
 				return;
 			default:
