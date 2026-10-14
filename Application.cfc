@@ -30,12 +30,14 @@ limitations under the License.
 	<cfset variables.NEW_SESSION_SECONDS = 300>
 	<cfset variables.SESSION_SECONDS = round(This.sessionTimeout * 86400)>
 	<!--- Pages that only forward to another page.  The forwarded request can't find a session these
-		start, as its cookie hasn't reached the browser, and starts a second one; so these start none. --->
+		start, as its cookie hasn't reached the browser, and starts a second one; so these start none.
+		Each page says so, as code added to one can't use the session. --->
 	<cfset variables.FORWARD_ONLY_PAGES = "/index.cfm,/agents/index.cfm,/dataquality/index.cfm,/localities/index.cfm,/media/index.cfm,/metrics/index.cfm,/metrics/datafiles/index.cfm,/shared/images/index.cfm,/specimens/index.cfm,/transactions/index.cfm,/users/index.cfm,/vocabularies/index.cfm">
 	<!--- The load balancer's health check never returns a session, so it gets none, and onRequestStart
 		answers it without running the page.  Anything else sending this user agent gets only that answer. --->
+	<cfset variables.HEALTH_CHECK_AGENT = "ELB-HealthChecker">
 	<cfset variables.isHealthCheck = false>
-	<cfif left(cgi.http_user_agent, 17) EQ "ELB-HealthChecker">
+	<cfif left(cgi.http_user_agent, len(variables.HEALTH_CHECK_AGENT)) EQ variables.HEALTH_CHECK_AGENT>
 		<cfset variables.isHealthCheck = true>
 	</cfif>
 	<!--- Client management is off too, as it would still set CFID, CFTOKEN and CFGLOBALS cookies. --->
@@ -443,15 +445,16 @@ limitations under the License.
 	<!---
 		refuseRequest shows /errors/forbidden.cfm within this request, as a forward or redirect to it would
 		start a second session for a client without a session cookie, and ends the request.  The page's
-		Access_Violation is passed to onError here, as thrown out of onRequestStart ColdFusion would wrap it
-		as an event handler exception, losing its message and the 403.
+		exception (its Access_Violation, or anything else that fails) is passed to onError here, as thrown out
+		of onRequestStart ColdFusion would wrap it as an event handler exception, losing its message and the 403.
 	--->
 	<cffunction name="refuseRequest" access="private" output="true" returntype="void">
+		<cfset var refusalPage = "/errors/forbidden.cfm">
 		<!--- the header's rolecheck would otherwise check the refused page and refuse with its own message --->
-		<cfset request.rolecheckPath = "/errors/forbidden.cfm">
+		<cfset request.rolecheckPath = refusalPage>
 		<cftry>
-			<cfinclude template="/errors/forbidden.cfm">
-		<cfcatch type="Access_Violation">
+			<cfinclude template="#refusalPage#">
+		<cfcatch type="any">
 			<cfset onError(cfcatch, "onRequestStart")>
 		</cfcatch>
 		</cftry>
