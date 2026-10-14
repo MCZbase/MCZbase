@@ -531,7 +531,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 						      also moves focus here (mczHandleProjectsSearchResponse) so the count is
 						      read without going to look for it. "Link to this search" is a control,
 						      not part of the heading's text, so it sits in the controls beside it. --->
-						<h2 id="resultsHeading" class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
+						<h2 id="resultsHeading" class="h4 ml-2 ml-md-1 my-0 px-1" tabindex="0">
 							<span>Results: </span>
 							<span id="resultsMeta" style="display:none;">
 								<span class="pr-2 font-weight-normal" id="resultCount"></span>
@@ -1168,7 +1168,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		var searchUrl = "/Projects.cfm?execute=true&" +
 			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
 				.not(".excludeFromLink").serialize();
-		$("##resultLink").html('<a href="' + searchUrl + '">Link to this search</a>');
+		/* d-inline-block px-1: the same padding as the Results heading beside it, on both
+		   sides, so their focus rings match. */
+		$("##resultLink").html('<a class="d-inline-block px-1" href="' + searchUrl + '">Link to this search</a>');
 		/* A new search also becomes the page's own address, without reloading: leaving for
 		   another page (e.g. Edit) and pressing Back then returns to this search rerun,
 		   rather than an empty form. Results load by AJAX after the page, so a page Chrome

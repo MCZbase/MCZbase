@@ -188,6 +188,22 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 - Every input needs exactly **one** accessible name mechanism -- a `<label for>`, `aria-labelledby`, `title`, or `aria-label`. **Never stack more than one** on the same field; a screen reader will read the name redundantly for each mechanism present.
 - Prefer a real `<label for>` over ARIA attributes where possible; only reach for `aria-label`/`aria-labelledby` when there's no visible label.
 - The "skip to main content" link in `/shared/_header.cfm` targets `id="content"` -- every page including that header MUST carry `id="content"` on its `<main>`.
+- Focus is shown by one site-wide `:focus-visible` rule in `bootstrap_override.css` (2px `#3e6f7d` outline, offset 2px; white on the dark header bands). Don't add `outline: 0` or a `box-shadow` focus ring to new rules. Where a container clips the outline (`overflow: hidden`), draw it inside with `outline-offset: -2px` in that same block rather than removing it.
+- Skip links use `sr-only sr-only-focusable`, so they appear when focused; `sr-only` alone leaves a focused link invisible.
+
+### Results grids (Tabulator)
+
+Tested with NVDA in Chrome, Firefox and Edge on Projects.cfm, Oct 2026.
+
+- On `tableBuilt`, call `mczUseTableRoles(table)` and `mczMakeHeaderMenuButtonsAccessible(table)` from `tabulator-common.js`. The first relabels Tabulator's `role="grid"` as `table`: as a grid, NVDA's T found no table, table navigation failed from the header row, header controls switched NVDA to focus mode, and cells were read with the ⋮ label in the column name. The second makes the ⋮ a named button and the column menu keyboard-operable (Tabulator's menu can't take focus, its Escape never matches, and it opens at the page's top left for keyboard and screen-reader clicks).
+- Don't make column headers Tab stops, don't put an `aria-label` on them, and don't move the ⋮ or filter boxes out of the header with `aria-owns` -- all were tried, and each broke NVDA table navigation or was ignored.
+- Name each row-selection checkbox after its row in `rowFormatter` ("Select " + the row's main identifier); Tabulator's default is "Select Row" for every row.
+- After a new search, move focus to the results heading (which holds the count) so a screen reader reads it -- an `aria-live` region was held back by NVDA until focus moved -- and `history.replaceState` the address to the search's "Link to this search" URL, so Back from an edit page reruns the search.
+- Remember a followed Edit link in `sessionStorage` and focus it again on a Back visit; Chrome and Edge restore the page themselves, Firefox reloads it.
+- Put a `sr-only sr-only-focusable` "Skip past results" link before the grid, targeting a `tabindex="-1"` element after it.
+- Row controls must be real links or buttons; don't attach actions to bare cells.
+- NVDA's "clickable" before each row comes from Tabulator's row-click selection; it is expected and was left on purpose.
+- Truncated-cell tooltips (`mczOverflowTooltip`) are mouse-only; the full text stays available to screen readers and through Details.
 
 ## Buttons -- color/semantic conventions
 
