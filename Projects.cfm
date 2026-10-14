@@ -359,7 +359,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														<label for="end_year" class="sr-only">Active to year</label>
 														<input type="text" id="end_year" name="end_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
 													</div>
-													<p id="yearRangeError" class="text-danger small mb-0"></p>
+													<p id="yearRangeError" class="text-danger small mb-0 px-2"></p>
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="project_status" class="data-entry-label">Status</label>
