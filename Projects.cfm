@@ -1531,7 +1531,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * mczValidateYearRange checks the "Active between" year boxes before a search. Each
 	 * must be empty or a 4-digit year: search.cfc skips anything else, so a typed date
 	 * such as 2022-08-26 used to be dropped silently and every project came back. A bad
-	 * box is marked aria-invalid, the message appears in #yearRangeError (each box's
+	 * box is marked aria-invalid, the message appears in the yearRangeError element (each box's
 	 * aria-describedby, so a screen reader reads it with the box), and focus moves to it.
 	 *
 	 * @return true if the years are usable and the search can run.
