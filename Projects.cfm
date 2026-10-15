@@ -35,7 +35,6 @@ Search-with-results page for Projects.
 <cfparam name="url.year" default="">
 <cfparam name="url.start_year" default="">
 <cfparam name="url.end_year" default="">
-<cfparam name="url.project_status" default="">
 <cfparam name="url.descr_len" default="">
 <cfparam name="url.project_description" default="">
 <cfparam name="url.project_remarks" default="">
@@ -60,16 +59,6 @@ Search-with-results page for Projects.
 <cfset variables.year = url.year>
 <cfset variables.start_year = url.start_year>
 <cfset variables.end_year = url.end_year>
-<cfset variables.project_status = url.project_status>
-<!--- Active/Finished used to be typed into End Year as NULL / NOT NULL; links and saved
-      searches carrying those now set Status instead, leaving the year empty. --->
-<cfif variables.end_year EQ "NULL">
-	<cfset variables.project_status = "active">
-	<cfset variables.end_year = "">
-<cfelseif variables.end_year EQ "NOT NULL">
-	<cfset variables.project_status = "finished">
-	<cfset variables.end_year = "">
-</cfif>
 <cfset variables.descr_len = url.descr_len>
 <cfset variables.project_description = url.project_description>
 <cfset variables.project_remarks = url.project_remarks>
@@ -339,28 +328,23 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 													</div>
 												</cfif>
 												<!--- Start Year matches the year a project started; End Year the year it
-												      ended, or earlier (see search.cfc). Years only: anything else is caught by
+												      ended, or earlier (see search.cfc). Active and Finished put NULL / NOT NULL
+												      into End Year. Anything else that isn't a 4-digit year is caught by
 												      mczValidateYearRange before searching, rather than silently ignored by the
-												      server. Status (formerly NULL / NOT NULL typed into End Year) is its own
-												      control; Active excludes End Year, as an active project has no end date, so
-												      End Year is disabled while Active is chosen (mczSyncEndYearWithStatus). --->
-												<div class="col-12 col-md-4">
-													<label for="start_year" class="data-entry-label">Start Year</label>
-													<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
-												</div>
-												<div class="col-12 col-md-4">
-													<label for="end_year" class="data-entry-label">End Year (or earlier)</label>
-													<input type="text" id="end_year" name="end_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
-												</div>
-												<div class="col-12 col-md-4">
-													<label for="project_status" class="data-entry-label">Status</label>
-													<select id="project_status" name="project_status" class="data-entry-select" onchange="mczSyncEndYearWithStatus();">
-														<option value="" <cfif variables.project_status EQ "">selected</cfif>>Any</option>
-														<option value="active" <cfif variables.project_status EQ "active">selected</cfif>>Active (no end date)</option>
-														<option value="finished" <cfif variables.project_status EQ "finished">selected</cfif>>Finished (has an end date)</option>
-													</select>
-												</div>
+												      server. End Year has no maxlength, as NOT NULL is longer than a year. --->
 												<div class="col-12">
+													<div class="d-flex align-items-end">
+														<span class="flex-fill">
+															<label for="start_year" class="data-entry-label mb-0">Start Year</label>
+															<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
+														</span>
+														<span class="text-secondary px-1 pb-1">&ndash;</span>
+														<span class="flex-fill">
+															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year (or earlier)</label>
+															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
+															<input type="text" id="end_year" name="end_year" class="data-entry-input" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
+														</span>
+													</div>
 													<p id="yearRangeError" class="text-danger small mb-0 px-2"></p>
 												</div>
 												<cfif oneOfUs EQ 1>
@@ -1527,19 +1511,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
-	 * mczSyncEndYearWithStatus disables End Year while Status is Active: an active project
-	 * has no end date, so the two together could match nothing. A disabled box is left out
-	 * of the search and read by screen readers as unavailable. Its value is kept, so it
-	 * comes back if Status changes again.
-	 */
-	function mczSyncEndYearWithStatus() {
-		var active = $("##project_status").val() === "active";
-		$("##end_year").prop("disabled", active);
-	}
-
-	/**
 	 * mczValidateYearRange checks the Start Year and End Year boxes before a search. Each
-	 * must be empty or a 4-digit year: search.cfc skips anything else, so a typed date
+	 * must be empty or a 4-digit year (End Year may also be NULL or NOT NULL, which the
+	 * Active and Finished buttons fill in): search.cfc skips anything else, so a typed date
 	 * such as 2022-08-26 used to be dropped silently and every project came back. A bad
 	 * box is marked aria-invalid, the message appears in the yearRangeError element (each box's
 	 * aria-describedby, so a screen reader reads it with the box), and focus moves to it.
@@ -1551,7 +1525,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		["start_year", "end_year"].forEach(function (id) {
 			var input = $("##" + id);
 			var value = $.trim(input.val());
-			var ok = value === "" || /^\d{4}$/.test(value);
+			var ok = value === "" || /^\d{4}$/.test(value) ||
+				(id === "end_year" && (value === "NULL" || value === "NOT NULL"));
 			input.attr("aria-invalid", ok ? null : "true");
 			if (!ok && !firstBad) {
 				firstBad = input;
@@ -1590,12 +1565,6 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
-		/* Status may arrive set from a link or saved search. Reset changes it without a
-		   change event, so sync after the reset has applied. */
-		mczSyncEndYearWithStatus();
-		$("##searchForm").on("reset", function () {
-			setTimeout(mczSyncEndYearWithStatus, 0);
-		});
 
 		$("##showhide").html(
 			/* btn btn-xs btn-secondary, like every other control in this toolbar -- the

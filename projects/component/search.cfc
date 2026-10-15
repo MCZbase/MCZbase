@@ -117,11 +117,9 @@ the caller. Returns one row per matching project, ordered by project_name.
 	still work: finds projects running at some point in that year.
 @param start_year 4-digit year; the project must have started in that year.
 @param end_year 4-digit year; the project must have ended in that year or earlier (so
-	ongoing projects, with no end_date, are excluded). "NOT NULL" and
-	"NULL" are still accepted, from saved
-	searches made before project_status, as project_status "finished" and "active".
-@param project_status "active" for projects with no end_date (ongoing), "finished" for
-	projects with one; blank for either.
+	ongoing projects, with no end_date, are excluded). "NOT NULL" instead restricts to
+	projects with a defined end_date (finished), "NULL" to projects with no end_date
+	(active); the form's Active and Finished buttons fill these in.
 @param descr_len minimum length, in characters, of project_description.
 @param project_description substring to match against project_description.
 @param project_remarks substring to match against project_remarks.
@@ -188,7 +186,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 	<cfargument name="year" type="string" required="no" default="">
 	<cfargument name="start_year" type="string" required="no" default="">
 	<cfargument name="end_year" type="string" required="no" default="">
-	<cfargument name="project_status" type="string" required="no" default="">
 	<cfargument name="descr_len" type="string" required="no" default="">
 	<cfargument name="project_description" type="string" required="no" default="">
 	<cfargument name="project_remarks" type="string" required="no" default="">
@@ -393,7 +390,8 @@ the caller. Returns one row per matching project, ordered by project_name.
 				</cfif>
 				<!--- start_year and end_year match the project's own dates: it started in
 				      start_year, and ended in end_year or earlier. A project with no end_date
-				      hasn't ended, so end_year excludes it (Status: Active finds those). --->
+				      hasn't ended, so end_year excludes it (end_year "NULL", the form's Active
+				      button, finds those). --->
 				<cfif len(arguments.start_year) GT 0 AND isnumeric(arguments.start_year)>
 					AND TO_NUMBER(TO_CHAR(project.start_date,'YYYY'))
 						= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
@@ -416,11 +414,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
 					AND NVL(TO_NUMBER(TO_CHAR(project.end_date,'YYYY')), 9999)
 						>= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
-				</cfif>
-				<cfif arguments.project_status EQ "active">
-					AND project.end_date IS NULL
-				<cfelseif arguments.project_status EQ "finished">
-					AND project.end_date IS NOT NULL
 				</cfif>
 				<cfif len(arguments.publication_id) GT 0 AND isnumeric(arguments.publication_id)>
 					AND project.project_id IN (
