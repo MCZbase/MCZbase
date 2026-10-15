@@ -341,7 +341,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														<span class="text-secondary px-1 pb-1">&ndash;</span>
 														<span class="flex-fill">
 															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year (or earlier)</label>
-															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
+															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';mczCheckYearField('end_year');" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';mczCheckYearField('end_year');" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
 															<input type="text" id="end_year" name="end_year" class="data-entry-input" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
 														</span>
 													</div>
@@ -1511,32 +1511,42 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
-	 * mczValidateYearRange checks the Start Year and End Year boxes before a search. Each
-	 * must be empty or a 4-digit year (End Year may also be NULL or NOT NULL, which the
-	 * Active and Finished buttons fill in): search.cfc skips anything else, so a typed date
-	 * such as 2022-08-26 used to be dropped silently and every project came back. A bad
-	 * box is marked aria-invalid, the message appears in the yearRangeError element (each box's
-	 * aria-describedby, so a screen reader reads it with the box), and focus moves to it.
+	 * mczCheckYearField checks one year box: it must be empty or a 4-digit year (End Year
+	 * may also be NULL or NOT NULL, which the Active and Finished buttons fill in).
+	 * search.cfc skips anything else, so a typed date such as 2022-08-26 used to be
+	 * dropped silently and every project came back. Marks the box aria-invalid or not,
+	 * and shows or clears the message in the yearRangeError element (each box's
+	 * aria-describedby, so a screen reader reads it with the box).
+	 *
+	 * @param id id (no leading ##) of the year box.
+	 * @return true if the box's value is usable.
+	 */
+	function mczCheckYearField(id) {
+		var input = $("##" + id);
+		var value = $.trim(input.val());
+		var ok = value === "" || /^\d{4}$/.test(value) ||
+			(id === "end_year" && (value === "NULL" || value === "NOT NULL"));
+		input.attr("aria-invalid", ok ? null : "true");
+		var anyBad = $("##start_year").attr("aria-invalid") === "true" || $("##end_year").attr("aria-invalid") === "true";
+		$("##yearRangeError").text(anyBad ? "Enter a 4-digit year, such as 2022." : "");
+		return ok;
+	}
+
+	/**
+	 * mczValidateYearRange checks both year boxes before a search, as a backstop to the
+	 * check each box gets when focus leaves it, and moves focus to the first bad one.
 	 *
 	 * @return true if the years are usable and the search can run.
 	 */
 	function mczValidateYearRange() {
-		var firstBad = null;
-		["start_year", "end_year"].forEach(function (id) {
-			var input = $("##" + id);
-			var value = $.trim(input.val());
-			var ok = value === "" || /^\d{4}$/.test(value) ||
-				(id === "end_year" && (value === "NULL" || value === "NOT NULL"));
-			input.attr("aria-invalid", ok ? null : "true");
-			if (!ok && !firstBad) {
-				firstBad = input;
-			}
-		});
-		$("##yearRangeError").text(firstBad ? "Enter a 4-digit year, such as 2022." : "");
-		if (firstBad) {
-			firstBad.trigger("focus");
+		var startOk = mczCheckYearField("start_year");
+		var endOk = mczCheckYearField("end_year");
+		if (!startOk) {
+			$("##start_year").trigger("focus");
+		} else if (!endOk) {
+			$("##end_year").trigger("focus");
 		}
-		return !firstBad;
+		return startOk && endOk;
 	}
 
 	/**
@@ -1565,6 +1575,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
+		/* Check each year box as focus leaves it, so the message shows before Search. */
+		$("##start_year, ##end_year").on("blur", function () {
+			mczCheckYearField(this.id);
+		});
 
 		$("##showhide").html(
 			/* btn btn-xs btn-secondary, like every other control in this toolbar -- the
