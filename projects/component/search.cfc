@@ -114,11 +114,11 @@ the caller. Returns one row per matching project, ordered by project_name.
 	linked publication), "accn" (contributes specimens), "both" (uses and contributes),
 	"neither" (neither uses nor contributes).
 @param year retired from the search form; accepted so existing saved searches and links
-	still work, and mapped to a one-year range (start_year = end_year = year).
-@param start_year with end_year, a range of years the project must overlap: it must still
-	have been running in or after start_year.
-@param end_year with start_year, a range of years the project must overlap: it must have
-	started in or before end_year. "NOT NULL" and "NULL" are still accepted, from saved
+	still work: finds projects running at some point in that year.
+@param start_year 4-digit year; the project must have started in that year.
+@param end_year 4-digit year; the project must have ended in that year or earlier (so
+	ongoing projects, with no end_date, are excluded). "NOT NULL" and
+	"NULL" are still accepted, from saved
 	searches made before project_status, as project_status "finished" and "active".
 @param project_status "active" for projects with no end_date (ongoing), "finished" for
 	projects with one; blank for either.
@@ -271,17 +271,6 @@ the caller. Returns one row per matching project, ordered by project_name.
 			<cfset arguments.accn_transaction_id = "NOT NULL">
 		</cfif>
 
-		<!--- year is retired from the form; a saved search or link carrying it is treated as
-		      a one-year range. --->
-		<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
-			<cfif len(arguments.start_year) EQ 0>
-				<cfset arguments.start_year = arguments.year>
-			</cfif>
-			<cfif len(arguments.end_year) EQ 0>
-				<cfset arguments.end_year = arguments.year>
-			</cfif>
-		</cfif>
-
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT
 				project.project_id,
@@ -402,24 +391,31 @@ the caller. Returns one row per matching project, ordered by project_name.
 							SELECT project_publication.project_id FROM project_publication)
 					</cfif>
 				</cfif>
-				<!--- start_year and end_year are two ends of one range, and a project matches if
-				      it OVERLAPS that range rather than sitting inside it, so the comparisons are
-				      crossed: the range's start bounds the project's END, the range's end bounds
-				      the project's START. NVL covers the open cases -- no end_date means still
-				      running, so it counts as running through the end of any range; no start_date
-				      counts as always started. The BETWEEN this replaces evaluated to NULL when
-				      end_date was NULL, silently excluding every ongoing project. --->
+				<!--- start_year and end_year match the project's own dates: it started in
+				      start_year, and ended in end_year or earlier. A project with no end_date
+				      hasn't ended, so end_year excludes it (Status: Active finds those). --->
 				<cfif len(arguments.start_year) GT 0 AND isnumeric(arguments.start_year)>
-					AND NVL(TO_NUMBER(TO_CHAR(project.end_date,'YYYY')), 9999)
-						>= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
+					AND TO_NUMBER(TO_CHAR(project.start_date,'YYYY'))
+						= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.start_year#">
 				</cfif>
 				<cfif arguments.end_year EQ "NOT NULL">
 					AND project.end_date IS NOT NULL
 				<cfelseif arguments.end_year EQ "NULL">
 					AND project.end_date IS NULL
 				<cfelseif len(arguments.end_year) GT 0 AND isnumeric(arguments.end_year)>
-					AND NVL(TO_NUMBER(TO_CHAR(project.start_date,'YYYY')), 0)
+					AND TO_NUMBER(TO_CHAR(project.end_date,'YYYY'))
 						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.end_year#">
+				</cfif>
+				<!--- year is retired from the form ("Active in Year"); saved searches and links
+				      carrying it still find projects running in that year. NVL covers the open
+				      cases: no end_date means still running, no start_date counts as always
+				      started. (The original BETWEEN evaluated to NULL when end_date was NULL,
+				      silently excluding every ongoing project.) --->
+				<cfif len(arguments.year) GT 0 AND isnumeric(arguments.year)>
+					AND NVL(TO_NUMBER(TO_CHAR(project.start_date,'YYYY')), 0)
+						<= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
+					AND NVL(TO_NUMBER(TO_CHAR(project.end_date,'YYYY')), 9999)
+						>= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.year#">
 				</cfif>
 				<cfif arguments.project_status EQ "active">
 					AND project.end_date IS NULL

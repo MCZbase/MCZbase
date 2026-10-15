@@ -338,36 +338,30 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 													</div>
 												</cfif>
-												<!--- One group, so the grid cannot separate the two ends of the range. "Active in
-												      Year" was removed from here: it asked whether a project was running in a given
-												      year, which is the same question as a range whose two ends are that year, so
-												      the range subsumes it. Its BETWEEN was also broken -- see the year clauses in
-												      projects/component/search.cfc. The year argument is still accepted there, so
-												      saved searches carrying it keep working. --->
-												<!--- "Active between": the two years are one range, and a project matches if it
-												      was running at any point in it (see search.cfc). Labelled as a range, not
-												      "Start Year" / "End Year", which read as the project's own dates. Years only;
-												      anything else is caught by mczValidateYearRange before searching, rather than
-												      silently ignored by the server. Status (formerly NULL / NOT NULL typed into
-												      End Year) is its own control. --->
-												<div class="col-12 col-md-8" role="group" aria-labelledby="activeBetweenLabel">
-													<span id="activeBetweenLabel" class="data-entry-label mb-0">Active between</span>
-													<div class="d-flex align-items-center">
-														<label for="start_year" class="sr-only">Active from year</label>
-														<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
-														<span class="text-secondary px-2">and</span>
-														<label for="end_year" class="sr-only">Active to year</label>
-														<input type="text" id="end_year" name="end_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
-													</div>
-													<p id="yearRangeError" class="text-danger small mb-0 px-2"></p>
+												<!--- Start Year matches the year a project started; End Year the year it
+												      ended, or earlier (see search.cfc). Years only: anything else is caught by
+												      mczValidateYearRange before searching, rather than silently ignored by the
+												      server. Status (formerly NULL / NOT NULL typed into End Year) is its own
+												      control; Active excludes End Year, as an active project has no end date, so
+												      End Year is disabled while Active is chosen (mczSyncEndYearWithStatus). --->
+												<div class="col-12 col-md-4">
+													<label for="start_year" class="data-entry-label">Start Year</label>
+													<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
+												</div>
+												<div class="col-12 col-md-4">
+													<label for="end_year" class="data-entry-label">End Year (or earlier)</label>
+													<input type="text" id="end_year" name="end_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
 												</div>
 												<div class="col-12 col-md-4">
 													<label for="project_status" class="data-entry-label">Status</label>
-													<select id="project_status" name="project_status" class="data-entry-select">
+													<select id="project_status" name="project_status" class="data-entry-select" onchange="mczSyncEndYearWithStatus();">
 														<option value="" <cfif variables.project_status EQ "">selected</cfif>>Any</option>
 														<option value="active" <cfif variables.project_status EQ "active">selected</cfif>>Active (no end date)</option>
 														<option value="finished" <cfif variables.project_status EQ "finished">selected</cfif>>Finished (has an end date)</option>
 													</select>
+												</div>
+												<div class="col-12">
+													<p id="yearRangeError" class="text-danger small mb-0 px-2"></p>
 												</div>
 												<cfif oneOfUs EQ 1>
 													<div class="col-12 col-md-9">
@@ -1533,7 +1527,18 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
-	 * mczValidateYearRange checks the "Active between" year boxes before a search. Each
+	 * mczSyncEndYearWithStatus disables End Year while Status is Active: an active project
+	 * has no end date, so the two together could match nothing. A disabled box is left out
+	 * of the search and read by screen readers as unavailable. Its value is kept, so it
+	 * comes back if Status changes again.
+	 */
+	function mczSyncEndYearWithStatus() {
+		var active = $("##project_status").val() === "active";
+		$("##end_year").prop("disabled", active);
+	}
+
+	/**
+	 * mczValidateYearRange checks the Start Year and End Year boxes before a search. Each
 	 * must be empty or a 4-digit year: search.cfc skips anything else, so a typed date
 	 * such as 2022-08-26 used to be dropped silently and every project came back. A bad
 	 * box is marked aria-invalid, the message appears in the yearRangeError element (each box's
@@ -1585,6 +1590,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
+		/* Status may arrive set from a link or saved search. Reset changes it without a
+		   change event, so sync after the reset has applied. */
+		mczSyncEndYearWithStatus();
+		$("##searchForm").on("reset", function () {
+			setTimeout(mczSyncEndYearWithStatus, 0);
+		});
 
 		$("##showhide").html(
 			/* btn btn-xs btn-secondary, like every other control in this toolbar -- the
