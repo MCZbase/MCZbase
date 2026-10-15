@@ -540,7 +540,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 						<h2 id="resultsHeading" class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
 							<span>Results: </span>
 							<span id="resultsMeta" style="display:none;">
-								<span class="pr-2 font-weight-normal" id="resultCount"></span>
+								<span class="font-weight-normal" id="resultCount"></span>
 							</span>
 						</h2>
 						<!--- Line one, beside the heading: the search-form toggle, Save Search and the
