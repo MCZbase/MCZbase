@@ -59,9 +59,10 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 					<p>
 						This tool checks whether each name exactly matches an agent name in MCZbase, and whether it matches
 						exactly one agent.  Any columns other than AGENT_NAME are ignored, and repeated names are checked once.
-						For each match it reports the agent, the types of the matched name, and whether the name is the
-						<strong>author</strong>, <strong>second author</strong>, or <strong>taxon author</strong> form of the agent's
-						name, listing the agent's names of those types when the matched name is not one of them.
+						For a name that matches exactly one agent it reports the agent_id, the types of the matched name, and whether
+						the name is the <strong>author</strong>, <strong>second author</strong>, or <strong>taxon author</strong> form
+						of the agent's name, listing the agent's names of those types when the matched name is not one of them.
+						For a name that matches more than one agent it lists each agent's preferred name and agent_id.
 						The results can be returned as an HTML table or as a CSV file.  This tool does not alter the MCZbase database.
 					</p>
 					<p>
@@ -212,49 +213,58 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 								UPPER(agent_name) = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentName#">)
 							ORDER BY agent_name
 						</cfquery>
-						<cfset result = StructNew()>
-						<cfset result.agent_name = agentName>
+					</cfif>
+					<!--- author form columns are left blank unless the name matches exactly one agent --->
+					<cfset result = StructNew()>
+					<cfset result.agent_name = agentName>
+					<cfset result.match_count = getMatches.recordcount>
+					<cfset result.matched_agent_id = "">
+					<cfset result.agents = ArrayNew(1)>
+					<cfset result.agent_list = "">
+					<cfset result.agent_type = "">
+					<cfset result.name_types = "">
+					<cfset result.is_author = "">
+					<cfset result.author_names = "">
+					<cfset result.is_second_author = "">
+					<cfset result.second_author_names = "">
+					<cfset result.is_taxon_author = "">
+					<cfset result.taxon_author_names = "">
+					<cfset result.case_variants = "">
+					<cfif getMatches.recordcount EQ 0>
 						<cfset result.match = "Not Found">
-						<cfset result.match_count = 0>
-						<cfset result.agent_id = "">
-						<cfset result.agent_type = "">
-						<cfset result.preferred_agent_name = "">
-						<cfset result.name_types = "">
-						<cfset result.is_author = false>
-						<cfset result.author_names = "">
-						<cfset result.is_second_author = false>
-						<cfset result.second_author_names = "">
-						<cfset result.is_taxon_author = false>
-						<cfset result.taxon_author_names = "">
 						<cfset result.case_variants = ValueList(getCaseVariants.agent_name, "; ")>
-						<cfset ArrayAppend(results, result)>
 					<cfelse>
+						<cfset nameTypes = "">
+						<cfloop query="getMatches">
+							<cfset agentEntry = StructNew()>
+							<cfset agentEntry.agent_id = getMatches.agent_id>
+							<cfset agentEntry.preferred_agent_name = getMatches.preferred_agent_name>
+							<cfset ArrayAppend(result.agents, agentEntry)>
+							<cfset result.agent_list = ListAppend(result.agent_list, "#getMatches.preferred_agent_name# (#getMatches.agent_id#)", "|")>
+							<cfloop list="#getMatches.name_types#" delimiters="|" index="nameType">
+								<cfif ListFind(nameTypes, nameType, "|") EQ 0>
+									<cfset nameTypes = ListAppend(nameTypes, nameType, "|")>
+								</cfif>
+							</cfloop>
+						</cfloop>
+						<cfset result.name_types = replace(nameTypes, "|", "; ", "all")>
 						<cfif getMatches.recordcount EQ 1>
 							<cfset foundCount = foundCount + 1>
-							<cfset matchState = "Found">
+							<cfset result.match = "Found">
+							<cfset result.matched_agent_id = getMatches.agent_id>
+							<cfset result.agent_type = getMatches.agent_type>
+							<cfset result.is_author = YesNoFormat(ListFind(getMatches.name_types, AUTHOR_NAME_TYPE, "|") GT 0)>
+							<cfset result.author_names = getMatches.author_names>
+							<cfset result.is_second_author = YesNoFormat(ListFind(getMatches.name_types, SECOND_AUTHOR_NAME_TYPE, "|") GT 0)>
+							<cfset result.second_author_names = getMatches.second_author_names>
+							<cfset result.is_taxon_author = YesNoFormat(ListFind(getMatches.name_types, TAXON_AUTHOR_NAME_TYPE, "|") GT 0)>
+							<cfset result.taxon_author_names = getMatches.taxon_author_names>
 						<cfelse>
 							<cfset ambiguousCount = ambiguousCount + 1>
-							<cfset matchState = "Ambiguous">
+							<cfset result.match = "Ambiguous">
 						</cfif>
-						<cfloop query="getMatches">
-							<cfset result = StructNew()>
-							<cfset result.agent_name = agentName>
-							<cfset result.match = matchState>
-							<cfset result.match_count = getMatches.recordcount>
-							<cfset result.agent_id = getMatches.agent_id>
-							<cfset result.agent_type = getMatches.agent_type>
-							<cfset result.preferred_agent_name = getMatches.preferred_agent_name>
-							<cfset result.name_types = replace(getMatches.name_types, "|", "; ", "all")>
-							<cfset result.is_author = ListFind(getMatches.name_types, AUTHOR_NAME_TYPE, "|") GT 0>
-							<cfset result.author_names = getMatches.author_names>
-							<cfset result.is_second_author = ListFind(getMatches.name_types, SECOND_AUTHOR_NAME_TYPE, "|") GT 0>
-							<cfset result.second_author_names = getMatches.second_author_names>
-							<cfset result.is_taxon_author = ListFind(getMatches.name_types, TAXON_AUTHOR_NAME_TYPE, "|") GT 0>
-							<cfset result.taxon_author_names = getMatches.taxon_author_names>
-							<cfset result.case_variants = "">
-							<cfset ArrayAppend(results, result)>
-						</cfloop>
 					</cfif>
+					<cfset ArrayAppend(results, result)>
 				</cfif>
 			</cfloop>
 		<cfcatch type="any">
@@ -270,20 +280,20 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 			<cfheader name="Content-Disposition" value="attachment; filename=checkAgentsResults.csv">
 			<cfcontent type="text/csv; charset=utf-8" reset="true">
 			<cfset csvLines = ArrayNew(1)>
-			<cfset ArrayAppend(csvLines, "AGENT_NAME,MATCH,MATCH_COUNT,AGENT_ID,PREFERRED_AGENT_NAME,AGENT_TYPE,NAME_TYPES,IS_AUTHOR,AUTHOR_NAMES,IS_SECOND_AUTHOR,SECOND_AUTHOR_NAMES,IS_TAXON_AUTHOR,TAXON_AUTHOR_NAMES,CASE_VARIANTS")>
+			<cfset ArrayAppend(csvLines, "AGENT_NAME,MATCH,MATCH_COUNT,MATCHED_AGENT_ID,AGENT,AGENT_TYPE,NAME_TYPES,IS_AUTHOR,AUTHOR_NAMES,IS_SECOND_AUTHOR,SECOND_AUTHOR_NAMES,IS_TAXON_AUTHOR,TAXON_AUTHOR_NAMES,CASE_VARIANTS")>
 			<cfloop array="#results#" index="result">
 				<cfset line = csvField(result.agent_name)>
 				<cfset line = line & "," & csvField(result.match)>
 				<cfset line = line & "," & result.match_count>
-				<cfset line = line & "," & result.agent_id>
-				<cfset line = line & "," & csvField(result.preferred_agent_name)>
+				<cfset line = line & "," & result.matched_agent_id>
+				<cfset line = line & "," & csvField(result.agent_list)>
 				<cfset line = line & "," & csvField(result.agent_type)>
 				<cfset line = line & "," & csvField(result.name_types)>
-				<cfset line = line & "," & YesNoFormat(result.is_author)>
+				<cfset line = line & "," & result.is_author>
 				<cfset line = line & "," & csvField(result.author_names)>
-				<cfset line = line & "," & YesNoFormat(result.is_second_author)>
+				<cfset line = line & "," & result.is_second_author>
 				<cfset line = line & "," & csvField(result.second_author_names)>
-				<cfset line = line & "," & YesNoFormat(result.is_taxon_author)>
+				<cfset line = line & "," & result.is_taxon_author>
 				<cfset line = line & "," & csvField(result.taxon_author_names)>
 				<cfset line = line & "," & csvField(result.case_variants)>
 				<cfset ArrayAppend(csvLines, line)>
@@ -327,6 +337,7 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 									<tr>
 										<th>Agent Name</th>
 										<th>Match</th>
+										<th>Matched Agent ID</th>
 										<th>Agent</th>
 										<th>Types of This Name</th>
 										<th>Author</th>
@@ -353,17 +364,22 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 													<br>Differs only in case from: #encodeForHtml(result.case_variants)#
 												</cfif>
 											</td>
+											<td>#encodeForHtml(result.matched_agent_id)#</td>
 											<td>
-												<cfif len(result.agent_id) GT 0>
-													<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(result.agent_id)#" target="_blank">#encodeForHtml(result.preferred_agent_name)#</a>
-													<br>agent_id: #encodeForHtml(result.agent_id)# (#encodeForHtml(result.agent_type)#)
+												<cfset separator = "">
+												<cfloop array="#result.agents#" index="agentEntry">
+													#separator#<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(agentEntry.agent_id)#" target="_blank">#encodeForHtml(agentEntry.preferred_agent_name)# (#encodeForHtml(agentEntry.agent_id)#)</a>
+													<cfset separator = "|">
+												</cfloop>
+												<cfif len(result.agent_type) GT 0>
+													<br>#encodeForHtml(result.agent_type)#
 												</cfif>
 											</td>
 											<td>#encodeForHtml(result.name_types)#</td>
 											<cfloop list="author,second_author,taxon_author" index="nameForm">
 												<td>
-													<cfif len(result.agent_id) GT 0>
-														<cfif result["is_#nameForm#"]>
+													<cfif len(result.matched_agent_id) GT 0>
+														<cfif result["is_#nameForm#"] EQ "Yes">
 															<span class="text-success font-weight-bold">Yes</span>
 														<cfelse>
 															<span class="text-danger font-weight-bold">No</span>
