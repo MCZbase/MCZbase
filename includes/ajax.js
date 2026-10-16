@@ -293,10 +293,6 @@ function uncheckAllById(list) {
 		}
 	}
 }
-function goPickParts (collection_object_id,transaction_id) {
-	var url='/picks/internalAddLoanItemTwo.cfm?collection_object_id=' + collection_object_id +"&transaction_id=" + transaction_id;
-	mywin=windowOpener(url,'myWin','height=300,width=800,resizable,location,menubar ,scrollbars ,status ,titlebar,toolbar');
-}
 function hidePageLoad() {
 	$('#loading').hide();
 }
@@ -401,23 +397,61 @@ function changedisplayRows (tgt) {
 		}
 	);
 }
-jQuery(document).ready(function() {
-	jQuery(".helpLink").live('click', function(e){
-		var id=this.id;
-		removeHelpDiv();
-		var bgDiv = document.createElement('div');
-		bgDiv.id = 'bgDiv';
-		bgDiv.className = 'bgDiv';
-		bgDiv.setAttribute('onclick','removeHelpDiv()');
-		document.body.appendChild(bgDiv);
-		var theDiv = document.createElement('div');
-		theDiv.id = 'helpDiv';
-		theDiv.className = 'helpBox';
-		theDiv.innerHTML='<br>Loading...';
-		document.body.appendChild(theDiv);
-		jQuery("#helpDiv").css({position:"absolute", top: e.pageY, left: e.pageX});
-		jQuery(theDiv).load("/service/get_doc_rest.cfm",{fld: id, addCtl: 1});
+/** Animate a scroll so that an element comes into view, in a scrolling container or the page.
+ *  Replaces the old scrollTo plugin used by the TAG pages.
+ *  @param containerId the id of the scrolling element, without a leading # selector, or null to
+ *    scroll the page.
+ *  @param targetId the id of the element to bring into view, without a leading # selector.
+ *  @param duration the length of the animation in milliseconds.
+ */
+function scrollToElement(containerId, targetId, duration) {
+	var target = jQuery('#'+targetId);
+	if (target.length == 0) { return; }
+	if (containerId == null) {
+		jQuery('html, body').animate({ scrollTop: target.offset().top, scrollLeft: target.offset().left }, duration);
+	} else {
+		var container = jQuery('#'+containerId);
+		container.animate({
+			scrollTop: container.scrollTop() + target.offset().top - container.offset().top,
+			scrollLeft: container.scrollLeft() + target.offset().left - container.offset().left
+		}, duration);
+	}
+}
+/** Make a text input into a jQuery UI autocomplete backed by a page that returns one suggestion
+ *  per line for the parameter q, such as the pages in /ajax/.  Replaces the old jquery.autocomplete
+ *  plugin, which these pages were written for.
+ *  @param fieldId the id of the text input, without a leading # selector.
+ *  @param url the page returning suggestions.
+ *  @param params optional object of further parameters for the page.
+ *  @param maxItems optional maximum number of suggestions to show, default 50.
+ */
+function makeLineListAutocomplete(fieldId, url, params, maxItems) {
+	var limit = maxItems || 50;
+	jQuery('#'+fieldId).autocomplete({
+		minLength: 1,
+		source: function(request, response) {
+			jQuery.ajax({
+				url: url,
+				data: jQuery.extend({ q: request.term }, params || {}),
+				dataType: "text",
+				success: function(data) {
+					var items = [];
+					jQuery.each(data.split("\n"), function(i, line) {
+						var value = line.trim();
+						if (value.length > 0 && items.length < limit) {
+							items.push(value);
+						}
+					});
+					response(items);
+				},
+				error: function() {
+					response([]);
+				}
+			});
+		}
 	});
+}
+jQuery(document).ready(function() {
 	jQuery("#c_collection_cust").click(function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
@@ -486,14 +520,6 @@ function changecustomOtherIdentifier (tgt) {
 			}
 		}
 	);
-}
-function removeHelpDiv() {
-	if(document.getElementById('bgDiv')){
-		jQuery('#bgDiv').remove();
-	}
-	if (document.getElementById('helpDiv')) {
-		jQuery('#helpDiv').remove();
-	}
 }
 function changeshowObservations (tgt) {
 	jQuery.getJSON("/component/functions.cfc",
@@ -671,32 +697,10 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
 /** Bind a paired hidden id and text name control into a project picker, for use by the
  * generic related-record relationship picker (pickedRelationship).
  *
- * WORKAROUND, read before "modernizing" this: media.cfm (this function's only caller)
- * includes /includes/_header.cfm, which -- unless the including page sets a "jquery11"
- * variable before the include (agents/editAgent.cfm does this; media.cfm does not) --
- * falls into includes/alwaysInclude.cfm's <cfelse> branch. That branch loads jQuery 1.3.2
- * (not the 1.11.3 the rest of this codebase assumes) and ONLY a datepicker-only jQuery UI
- * build (jquery.ui.datepicker.min.js), not the full jquery-ui-1.11.4.custom bundle that
- * ships the autocomplete and dialog widgets. Two consequences, confirmed live on
- * media.cfm?action=edit:
- *   1. $(...).autocomplete(...) throws "is not a function" -- the widget code simply isn't
- *      loaded on this page. This is why this function does NOT follow the
- *      $(...).autocomplete()-based pattern used by every other modern picker in this app
- *      (e.g. transactions.js's makeAccessionAutocompleteMeta) -- that pattern would fail
- *      here the same way.
- *   2. messageDialog() (includes/js/messageDialogWorkaround.js, itself a workaround for a
- *      DIFFERENT missing-shared-scripts.js problem) calls .dialog(...) internally, which is
- *      equally unavailable here -- so this function uses plain alert() for its error path
- *      rather than messageDialog(), to avoid swapping one broken dependency for another.
- * Instead, this binds a native HTML <datalist> (needs no jQuery UI at all) to the existing
- * text field, and uses jQuery's bind()/unbind() rather than on()/off() (on() was only added
- * in jQuery 1.7, well after the 1.3.2 this page may actually be running).
- *
- * Setting jquery11=true on media.cfm (matching editAgent.cfm's precedent) would fix the
- * root cause and let this be rewritten using the standard autocomplete pattern -- but that
- * upgrades jQuery for the WHOLE page, a bigger blast radius than this function alone, and
- * was deliberately deferred pending a real redesign of media.cfm onto /shared/_header.cfm.
- * Replace this entire function with the standard $(...).autocomplete() pattern at that time.
+ * media.cfm, this function's only caller, was written for jQuery 1.3.2 with no jQuery UI, so this
+ * binds a native <datalist> rather than a jQuery UI autocomplete, and reports errors with alert().
+ * The legacy headers now load jQuery 3.5.1 and jQuery UI 1.12.1, so it can be replaced with the
+ * standard autocomplete pattern when media.cfm is redesigned.
  *
  * @param projIdFld the id of a hidden input to hold the picked project_id.
  * @param projNameFld the id of a text input to be the suggestion field.
@@ -770,14 +774,6 @@ function findCollEvent(collIdFld,formName,dispField){
 	var formName;
 	var covwin=url+"?collIdFld="+collIdFld+"&dispField="+dispField+"&formName="+formName;
 	ColPickwin=window.open(covwin,"","width=1000,height=600, resizable,scrollbars");
-}
-function pickCollEvent(collIdFld,formName,collObjId){
-	var url="/picks/pickCollEvent.cfm";
-	var collIdFld;
-	var collObjId;
-	var formName;
-	var covwin=url+"?collIdFld="+collIdFld+"&collection_object_id="+collObjId+"&formName="+formName;
-	ColPickwin=window.open(covwin,"","width=800,height=600, resizable,scrollbars");
 }
 function getPublication(pubStringFld,pubIdFld,publication_title,formName){
 	var url="/picks/findPublication.cfm";
@@ -856,15 +852,6 @@ function taxaPickOptional(taxonIdFld,taxonNameFld,formName,scientificName){
 	var scientificName;
 	var popurl=url+"?keepValue=1&taxonIdFld="+taxonIdFld+"&taxonNameFld="+taxonNameFld+"&formName="+formName+"&scientific_name="+scientificName;
 	taxapick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
-}
-function CatItemPick(collIdFld,catNumFld,formName,sciNameFld){
-	var url="/picks/CatalogedItemPick.cfm";
-	var collIdFld;
-	var catNumFld;
-	var formName;
-	var sciNameFld;
-	var popurl=url+"?collIdFld="+collIdFld+"&catNumFld="+catNumFld+"&formName="+formName+"&sciNameFld="+sciNameFld;
-	CatItemPick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
 function findAgentName(agentIdFld,agentNameFld,agentNameString){
 	var url="/picks/findAgentName.cfm";
@@ -1008,7 +995,7 @@ if (self != top) {
 			
 		}).each(function() {
 			var menuClasses = [c.menuClass];
-			if (sf.op.dropShadows  && !($.browser.msie && $.browser.version < 7)) menuClasses.push(c.shadowClass);
+			if (sf.op.dropShadows) menuClasses.push(c.shadowClass);
 			$(this).addClass(menuClasses.join(' '));
 		});
 	};
@@ -1016,11 +1003,8 @@ if (self != top) {
 	var sf = $.fn.superfish;
 	sf.o = [];
 	sf.op = {};
-	sf.IE7fix = function(){
-		var o = sf.op;
-		if ($.browser.msie && $.browser.version > 6 && o.dropShadows && o.animation.opacity!=undefined)
-			this.toggleClass(sf.c.shadowClass+'-off');
-		};
+	// Was a fix for Internet Explorer 7, which depended on $.browser (removed from jQuery).
+	sf.IE7fix = function(){};
 	sf.c = {
 		bcClass     : 'sf-breadcrumb',
 		menuClass   : 'sf-js-enabled',

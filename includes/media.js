@@ -1,4 +1,4 @@
-jQuery("#uploadMedia").live('click', function(e){
+jQuery(document).on('click', "#uploadMedia", function(e){
 	addBGDiv('removeUpload()');
 	var theDiv = document.createElement('iFrame');
 	theDiv.id = 'uploadDiv';

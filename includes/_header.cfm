@@ -16,9 +16,7 @@
 <style>
 	table td {border:none;}
 </style>
-<cfif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
-	<cfinclude template="/includes/feedReaderInclude.cfm">
-<cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
+<cfif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
 	<cfinclude template="/includes/DataEntryInclude.cfm">
 	<cfoutput>
 		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
