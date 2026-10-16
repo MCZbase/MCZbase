@@ -246,6 +246,7 @@
 									<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 									<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 									<a class="dropdown-item" href="/dataquality/check_names.cfm">Check CSV of Taxon Names</a>
+									<a class="dropdown-item" href="/dataquality/check_agents.cfm">Check CSV of Agent Names</a>
 								</div>
 							</li>
 						</ul>
