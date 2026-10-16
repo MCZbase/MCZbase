@@ -63,8 +63,6 @@ limitations under the License.
 <!--- Easy to overlook this shared function file; runOnce, as a page may include it ahead of the header --->
 <cfinclude template="/shared/functionLib.cfm" runOnce="true">
 <!--- switch out version of library files to use --->
-<!---<cfset jqwidgets_ver = "jqwidgets_ver14.0.0">
-<cfset jqwidgets_ver = "jqwidgets_ver12.1.2">--->
 <cfset jqwidgets_ver = "jqwidgets_ver20.0.0">
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
@@ -179,7 +177,6 @@ limitations under the License.
 </cfif>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
-		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	</cfif>
 </cfif>
@@ -458,6 +455,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 										<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 										<a class="dropdown-item" href="/dataquality/check_names.cfm">Check CSV of Taxon Names</a>
+										<a class="dropdown-item" href="/dataquality/check_agents.cfm">Check CSV of Agent Names</a>
 									</div>
 								</li>
 							</ul>

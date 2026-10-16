@@ -8,8 +8,6 @@
 <cfset title="Enter Data">
 <link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
 <!---
-<script type='text/javascript' src='/includes/jquery/suggest.js'></script>
-<script type='text/javascript' src='/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js'></script>
 --->
 <script type='text/javascript' src='/includes/DEAjax.js'></script>
 <script type='text/javascript' language="javascript" src='/includes/internalAjax.js'></script>
@@ -89,14 +87,14 @@ Some Totally Random String Data .....
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from cf_dataentry_settings where username='#session.username#'
+			SELECT * FROM cf_dataentry_settings WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif d.recordcount is not 1>
 			<cfquery name="seed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_dataentry_settings (
+				INSERT INTO cf_dataentry_settings (
 					username
-				) values (
-					'#session.username#'
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 			</cfquery>
 		</cfif>
@@ -144,7 +142,7 @@ Some Totally Random String Data .....
         <div class="basic_box">
 
         <div class="welcomeback" style="padding-top: 2em;margin-left:0;">
-		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
+		<h3>Welcome to the data entry (and edit) application, #encodeForHtml(session.username)#</h3>
             <br/>
 		<ul>
 			<li><span style="color:##9cca4b">Green Screen</span>: You are entering data to a new record.</li>
@@ -155,12 +153,22 @@ Some Totally Random String Data .....
             If you have data to enter in bulk, use the <a href="/Bulkloader/">bulkload</a> feature.
             </div>
     	<p><a href="/Bulkloader/cloneWithBarcodes.cfm">Clone records by Container Unique ID</a></p>
+		<cfif isdefined("session.roles") AND listFindNoCase(session.roles,"manage_specimens")>
+			<p>To clone a cataloged item into the bulkloader, for example to split a lot or to make a related record such as of a parasite:</p>
+			<ol>
+				<li>Open the cataloged item's record (its /guid/ page).</li>
+				<li>Click <strong>Catalog/Clone</strong> in the row of edit buttons at the top of the record (on smaller screens, <strong>Edit/Clone</strong> in the Cataloged Item heading).</li>
+				<li>In the dialog, under <strong>Clone into Bulkloader</strong>, click <strong>Show Instructions</strong> and then <strong>Clone into Bulkloader</strong>.</li>
+				<li>When it finishes, follow the <strong>View Clone In Bulkloader</strong> link to the new record here, in Data Entry. It is linked to the original as a child record.</li>
+				<li>Check the new record's specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
+			</ol>
+		</cfif>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				max(collection_object_id) theId,
 				collection_cde collnCde,
 				institution_acronym instAc
-			from bulkloader where enteredby = '#session.username#'
+			from bulkloader where enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			GROUP BY
 				collection_cde,
 				institution_acronym
@@ -531,6 +539,7 @@ Some Totally Random String Data .....
 								</cfif>
 								<span class="f11a">Accn</span>
 								<input type="text" name="accn" title="ACCN" value="#accn#" size="9" class="reqdClr" id="accn" onchange="isGoodAccn();">
+								<!--- TODO: the customize form link is hidden; bring /form/customizeDataEntry.cfm into the redesigned Data Entry page. --->
 								<!---span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>--->
                             <cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0><br></cfif> &nbsp;<input type="hidden" name="mask_record" value="0" />
                                      <span class="f11a">

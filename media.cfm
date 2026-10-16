@@ -4,15 +4,9 @@
 	<cf_rolecheck>
 <cfelse>
 	<cfset title="Manage Media">
-	<!--- This page does not set jquery11=true before this include, so
-	      includes/alwaysInclude.cfm loads jQuery 1.3.2 plus a datepicker-only jQuery UI
-	      build here, not the full jquery-ui-1.11.4.custom bundle (no autocomplete, no
-	      dialog widget). The "project" relationship picker below (pickedRelationship ->
-	      getProject(), includes/ajax.js) works around this with a plain <datalist> and
-	      jQuery 1.3.2-safe bind()/unbind() instead of the $(...).autocomplete() pattern
-	      used elsewhere in this app. Setting jquery11=true here would remove the need for
-	      that workaround, but upgrades jQuery for this whole page -- deferred pending a
-	      real redesign of this page onto /shared/_header.cfm. --->
+	<!--- The "project" relationship picker below (pickedRelationship -> getProject(),
+	      includes/ajax.js) uses a plain <datalist>, written when this page had jQuery 1.3.2
+	      and no jQuery UI autocomplete. --->
 	<cfinclude template="/includes/_header.cfm">
 	<script type='text/javascript' src='/includes/internalAjax.js'></script>
 	<script>
@@ -57,9 +51,9 @@
 <!----------------------------------------------------------------------------------------->
 
 <cfif #action# is "saveEdit">
-	<cfoutput> <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"> 
-	<!--- update media --->
-	<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+  <cfoutput> <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"> 
+    <!--- update media --->
+    <cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update media set
 		media_uri=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#" /> ,
 		mime_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#" /> ,
@@ -73,77 +67,77 @@
 		</cfif>
 		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" />
 	</cfquery>
-	<!--- relations --->
-	<cfloop from="1" to="#number_of_relations#" index="n">
-		<cfset failure=0>
-		<cftry>
-			<cfset thisRelationship = #evaluate("relationship__" & n)#>
-			<cfcatch>
-				<cfset failure=1>
-			</cfcatch>
-		</cftry>
-		<cftry>
-			<cfset thisRelatedId = #evaluate("related_id__" & n)#>
-			<cfcatch>
-				<cfset failure=1>
-			</cfcatch>
-		</cftry>
-		<cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
-		<cfif failure EQ 0>
-			<cfif isdefined("media_relations_id__#n#")>
-				<cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
-			<cfelse>
-				<cfset thisRelationID=-1>
-			</cfif>
-			<cfif thisRelationID is -1>
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						insert into media_relations (
-							media_id,media_relationship,related_primary_key
-						) values (
-						#media_id#,'#thisRelationship#',#thisRelatedId#)
-				</cfquery>
-			<cfelse>
-				<cfif #thisRelationship# is "delete">
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						delete from 
+    <!--- relations --->
+    <cfloop from="1" to="#number_of_relations#" index="n">
+      <cfset failure=0>
+      <cftry>
+      	<cfset thisRelationship = #evaluate("relationship__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cftry>
+      	<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
+      <cfif failure EQ 0>
+      <cfif isdefined("media_relations_id__#n#")>
+        <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
+        <cfelse>
+        <cfset thisRelationID=-1>
+      </cfif>
+      <cfif thisRelationID is -1>
+        <cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into media_relations (
+					media_id,media_relationship,related_primary_key
+				) values (
+					#media_id#,'#thisRelationship#',#thisRelatedId#)
+			</cfquery>
+        <cfelse>
+        <cfif #thisRelationship# is "delete">
+          <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					delete from 
 						media_relations
-						where media_relations_id=#thisRelationID#
-					</cfquery>
-					<cfelse>
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update 
-							media_relations
-						set
-							media_relationship='#thisRelationship#',
-							related_primary_key=#thisRelatedId#
-						where media_relations_id=#thisRelationID#
-					</cfquery>
-				</cfif><!--- delete or update relation --->
-			</cfif><!--- relation exists ---> 
-		</cfif><!--- Failure check --->
-	</cfloop>
-	<cfloop from="1" to="#number_of_labels#" index="n">
-		<cfset thisLabel = #evaluate("label__" & n)#>
-		<cfset thisLabelValue = #evaluate("label_value__" & n)#>
-		<cfif isdefined("media_label_id__#n#")>
-		<cfset thisLabelID=#evaluate("media_label_id__" & n)#>
-		<cfelse>
-		<cfset thisLabelID=-1>
-		</cfif>
-		<cfif thisLabelID is -1>
-			<cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					insert into media_labels (media_id,media_label,label_value)
-					values (#media_id#,'#thisLabel#','#thisLabelValue#')
+					where media_relations_id=#thisRelationID#
 				</cfquery>
-			<cfelse>
-			<cfif #thisLabel# is "delete">
-				<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+          <cfelse>
+          <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update 
+						media_relations
+					set
+						media_relationship='#thisRelationship#',
+						related_primary_key=#thisRelatedId#
+					where media_relations_id=#thisRelationID#
+				</cfquery>
+        </cfif><!--- delete or update relation --->
+      </cfif><!--- relation exists ---> 
+      </cfif><!--- Failure check --->
+    </cfloop>
+    <cfloop from="1" to="#number_of_labels#" index="n">
+      <cfset thisLabel = #evaluate("label__" & n)#>
+      <cfset thisLabelValue = #evaluate("label_value__" & n)#>
+      <cfif isdefined("media_label_id__#n#")>
+        <cfset thisLabelID=#evaluate("media_label_id__" & n)#>
+        <cfelse>
+        <cfset thisLabelID=-1>
+      </cfif>
+      <cfif thisLabelID is -1>
+        <cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				insert into media_labels (media_id,media_label,label_value)
+				values (#media_id#,'#thisLabel#','#thisLabelValue#')
+			</cfquery>
+        <cfelse>
+        <cfif #thisLabel# is "delete">
+          <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from 
 						media_labels
 					where media_label_id=#thisLabelID#
 				</cfquery>
-			<cfelse>
-				<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+          <cfelse>
+          <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update 
 						media_labels
 					set
@@ -151,15 +145,15 @@
 						label_value='#thisLabelValue#'
 					where media_label_id=#thisLabelID#
 				</cfquery>
-			</cfif>
-		</cfif>
-	</cfloop>
-		<cfif isdefined("headless") and headless EQ 'true'>
-			<h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
-		<cfelse>
-			<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
-		</cfif>
-	</cfoutput>
+        </cfif>
+      </cfif>
+    </cfloop>
+    <cfif isdefined("headless") and headless EQ 'true'>
+        <h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
+    <cfelse>
+        <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+    </cfif>
+  </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
@@ -185,11 +179,6 @@
 		SELECT
 			media_label,
 			label_value,
-			subject,
-			description,
-			width,
-			height,
-			made_date,
 			agent_name,
 			media_label_id
 		FROM
@@ -269,7 +258,7 @@
             <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
             <cfset d="">
             <!--- picking "shows project"/"documents project" here dispatches to
-                  getProject() (includes/ajax.js) -- see the jQuery-version note on this
+                  getProject() (includes/ajax.js) -- see the note on this
                   page's header include above. --->
             <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
               <option value="delete">delete</option>
@@ -442,186 +431,8 @@
 				</cfcatch>
 				</cftry>
 			</cfif>
-		</select>
-		<div style="background-color: AliceBlue;"><strong>Alternative text for vision impaired users:</strong> #media.alttag#</div>
-		<label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
-		<div id="relationships" class="graydot">
-			<cfset i=1>
-			<cfif relns.recordcount is 0>
-				<!--- seed --->
-				<div id="seedMedia" style="display:none">
-					<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
-					<cfset d="">
-					<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
-						<option value="delete">delete</option>
-						<cfloop query="ctmedia_relationship">
-							<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-						</cfloop>
-					</select>
-					:&nbsp;
-					<input type="text" name="related_value__0" id="related_value__0" size="80">
-					<input type="hidden" name="related_id__0" id="related_id__0">
-				</div>
-			</cfif>
-			<cfloop query="relns">
-				<cfset d=media_relationship>
-				<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-				<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
-					<option value="delete">delete</option>
-					<cfloop query="ctmedia_relationship">
-						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-					</cfloop>
-				</select>
-				:&nbsp;
-				<input type="text" name="related_value__#i#" id="related_value__#i#" size="90" value="#summary#">
-				<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-				<cfset i=i+1>
-				<br>
-			</cfloop>
-			<br>
-			<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 		</div>
-		<br>
-		<cfquery name="reverseRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT source_media.media_id source_media_id, 
-				source_media.auto_filename source_filename,
-				source_media.media_uri source_media_uri,
-				media_relations.media_relationship,
-				MCZBASE.get_media_descriptor(source_media.media_id) source_alt
-			FROM
-				media_relations
-				left join media source_media on media_relations.media_id = source_media.media_id
-			WHERE
-				related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				and media_relationship like '%media'
-		</cfquery>
-		<cfif reverseRelations.recordcount GT 0>
-			<label for="reverseRelationsList">Relationships from other Media Records</label>
-			<ul id="reverseRelationsList">
-				<cfloop query="reverseRelations">
-					<cfif len(reverseRelations.source_filename) GT 0><cfset sourceFilename=" (#reverseRelations.source_filename#)"><cfelse><cfset sourceFilename=""></cfif>
-					<li>
-						<a href="/media/#source_media_id#" title="#reverseRelations.source_alt#">
-							/media/#source_media_id##sourceFilename#
-						</a> 
-						is #media_relationship# for /media/#media_id#
-					</li>
-				</cfloop>
-			</ul>
-		</cfif>
-		<br>
-		<label for="labels">Media Labels</label> 
-		<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
-		<div id="labels" class="graydot">
-		<cfset i=1>
-		<cfif labels.recordcount is 0>
-			<!--- seed --->
-			<div id="seedLabel" style="display:none;">
-				<div id="labelsDiv__0">
-					<input type="hidden" id="media_label_id__0" name="media_label_id__0" size="90">
-					<cfset d="">
-					<select name="label__0" id="label__0" size="1">
-						<option value="delete">delete</option>
-						<cfloop query="ctmedia_label">
-							<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-						</cfloop>
-					</select>
-					:&nbsp;
-					<input type="text" name="label_value__0" id="label_value__0" size="90">
-				</div>
-			</div>
-		</cfif>
-		<cfloop query="labels">
-		<cfset d=media_label>
-		<div id="labelsDiv__#i#">
-		<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
-			<select name="label__#i#" id="label__#i#" size="1">
-				<option value="delete">delete</option>
-				<cfloop query="ctmedia_label">
-					<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-				</cfloop>
-			</select>
-			:&nbsp;
-			<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#stripQuotes(label_value)#">
-		</div>
-		<cfset i=i+1>
-	</cfloop>
-		<span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
-		<br>
-		<input type="submit" value="Save Edits" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
-	</form>
-		<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
-			<cftry>
-				<cfif media.mime_type EQ "image/jpeg">
-					<h3>EXIF Metadata</h3>
-					<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
-					<cfimage source="#targetFileName#" name="image">
-					<cfset metadata = ImageGetEXIFMetadata(image) >
-					<cfdump var="#metadata#">
-				<cfelseif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-					<h3>EXIF Metadata</h3>
-					<cfset fileProxy = CreateObject("java","java.io.File") >
-					<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
-					<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
-					<cfobject type="Java" class="javax.imageio.ImageIO" name="imageReaderClass">
-					<cfobject type="Java" class="javax.imageio.ImageReader" name="imageReader">
-					<cfobject type="Java" class="javax.imageio.metadata.IIOMetadata" name="metadata">
-					<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
-					<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
-					<cfset fileReader = fileReaderProxy.init(targetFile) >
-					<cfset imageReader = imageReaderClass.getImageReadersByMIMEType(JavaCast("string",media.mime_type)).next() >
-					<cfset imageReader.setInput(fileReader) >
-					<cfset metadata = imageReader.getImageMetadata(0)>
-					<cfset formatNames = metadata.getMetadataFormatNames()>
-					<cfobject type="Java" class="javax.imageio.metadata.IIOMetadataNode" name="metadataNode">
-					<cfobject type="Java" class="org.w3c.dom.NodeList" name="children">
-					<cfobject type="Java" class="org.w3c.dom.NodeList" name="children2">
-					<cfobject type="Java" class="org.w3c.dom.NamedNodeMap" name="attributeNodes">
-					<cfloop array="#formatNames#" index="format">
-						<cfset node = metadata.getAsTree('#format#')>
-						[#node.getNodeName()#][#node.getNodeValue()#][#node.getUserObject()#]
-						<cfset children = node.getChildNodes()>
-						<cfset childCount = children.getLength()>
-						[children=#childcount#]
-						<cfloop from="0" to="#childCount-1#" index="i">
-							[#children.item(i).getNodeName()#]
-							[#children.item(i).getNodeValue()#]
-							[#children.item(i).getUserObject()#]
-							<cfset attributeNodes = children.item(i).getAttributes() >
-							[#attributeNodes.getLength()#]
-							<cfloop from="0" to="#attributeNodes.getLength()-1#" index="j">
-								[#children.item(i).getAttributes().item(j).getNodeName()#]
-								[#children.item(i).getAttributes().item(j).getNodeValue()#]
-							</cfloop>
-							<cfset children2 = children.item(i).getChildNodes()>
-							[childrendepth2=#children2.getLength()#]
-							<cfloop from="0" to="#children2.getLength()-1#" index="k">
-								[#children2.item(k).getNodeName()#]
-								[#children2.item(k).getNodeValue()#]
-								[ 
-									<cftry>
-										#children2.item(k).getUserObject()#
-									<cfcatch>(data)</cfcatch>
-									</cftry>
-								]
-								[childrendepth3=#children2.item(k).getChildNodes().getLength()#]
-							</cfloop>
-						</cfloop>
-						<cset attributeNodes = node.getAttributes() >
-						<cfset attCount = attributeNodes.getLength()>
-						<cfloop from="0" to="#attCount-1#" index="j">
-							[#attributeNodes.item(j).getNodeName()#]
-							[#attributeNodes.item(j).getNodeValue()#]
-						</cfloop>
-					</cfloop>
-				</cfif>
-			<cfcatch>
-				[Unable to read EXIF metadata#cfcatch.message#]
-			</cfcatch>
-			</cftry>
-		</cfif>
-		</div>
-	</cfoutput>
+  </cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "newMedia">
@@ -769,7 +580,8 @@
 					<cfif len(media_license_id) gt 0>
 						,media_license_id
 					</cfif>
-				) values (
+				)
+            values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#escapeQuotes(media_uri)#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
@@ -785,12 +597,12 @@
 					</cfif>
 				)
 		</cfquery>
-		<cfloop from="1" to="#number_of_relations#" index="n">
-			<cfset thisRelationship = #evaluate("relationship__" & n)#>
-			<cfset thisRelatedId = #evaluate("related_id__" & n)#>
-			<cfset thisTableName=ListLast(thisRelationship," ")>
-			<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+      <cfloop from="1" to="#number_of_relations#" index="n">
+        <cfset thisRelationship = #evaluate("relationship__" & n)#>
+        <cfset thisRelatedId = #evaluate("related_id__" & n)#>
+        <cfset thisTableName=ListLast(thisRelationship," ")>
+        <cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+          <cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into 
 						media_relations (
 							media_id
@@ -802,13 +614,13 @@
 							,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">
 						)
 				</cfquery>
-			</cfif>
-		</cfloop>
-		<cfloop from="1" to="#number_of_labels#" index="n">
-			<cfset thisLabel = #evaluate("label__" & n)#>
-			<cfset thisLabelValue = #evaluate("label_value__" & n)#>
-			<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+        </cfif>
+      </cfloop>
+      <cfloop from="1" to="#number_of_labels#" index="n">
+        <cfset thisLabel = #evaluate("label__" & n)#>
+        <cfset thisLabelValue = #evaluate("label_value__" & n)#>
+        <cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
+          <cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					insert into media_labels (
 						media_id
 						,media_label
@@ -820,35 +632,35 @@
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">
 					)
 				</cfquery>
-			</cfif>
-		</cfloop>
-		<cfcatch>
-		<cftransaction action="rollback">
-			<h2>Error saving new media record</h2>
-			<p>#cfcatch.message#</p>
-			<p>#cfcatch.detail#</p> 
-			<cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
-				<h3>A media record for that resource already exists in MCZbase.</h3>
-			</cfif>
-			<cfset error=true>
-		</cfcatch>
-	</cftry>
-		</cftransaction>
-			<cfif not error>
-				<cfif isdefined("headless") and headless EQ 'true'>	
-				<h2>New Media Record Saved</h2>
-						<div id='savedLinkDiv'><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
-						<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
-							<div>Created with relationship: #thisRelationship#</div>
-						</cfif>
-					<script language='javascript' type='text/javascript'>
-						 $('##savedLinkDiv').removeClass('ui-widget-content');
-						</script>
-				<cfelse>
-					<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
-				</cfif>
-			</cfif>
-	</cfoutput>
+        </cfif>
+      </cfloop>
+      <cfcatch>
+        <cftransaction action="rollback">
+        <h2>Error saving new media record</h2>
+        <p>#cfcatch.message#</p>
+        <p>#cfcatch.detail#</p> 
+        <cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
+           <h3>A media record for that resource already exists in MCZbase.</h3>
+        </cfif>
+        <cfset error=true>
+      </cfcatch>
+      </cftry>
+    </cftransaction>
+    <cfif not error>
+	    <cfif isdefined("headless") and headless EQ 'true'>	
+		<h2>New Media Record Saved</h2>
+                <div id='savedLinkDiv'><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
+                <cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+                    <div>Created with relationship: #thisRelationship#</div>
+                </cfif>
+        	<script language='javascript' type='text/javascript'>
+                 $('##savedLinkDiv').removeClass('ui-widget-content');
+                </script>
+	    <cfelse>
+		<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+	    </cfif>
+    </cfif>
+  </cfoutput>
 </cfif>
 
 <cfif isdefined("headless") and headless EQ 'true'>	

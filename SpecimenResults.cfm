@@ -4,7 +4,7 @@
 	A name that was not supplied is omitted, so the defaults below still apply. --->
 <cfset REQUEST_PARAMETERS = "accentInsensitive,action,customID,debug,detail_level,displayrows,goWhere,killrow,
 	killRowList,killRows,mapurl,oidOper,orderBy1,orderBy2,
-	page_record,result_sort,resultList,returnURL,searchParams,sciNameOper,transaction_id">
+	page_record,result_sort,resultList,returnURL,searchParams,sciNameOper">
 <cfset structAppend(variables,requestScopeValues(REQUEST_PARAMETERS),true)>
 <!--- These are read without an isdefined guard, so they need a value even when the
 	request omits them. --->
@@ -21,7 +21,7 @@
 <script type="text/javascript" language="javascript">
 jQuery( function($) {
 
-	$("##customizeButton").live('click', function(e){
+	$(document).on('click', "##customizeButton", function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
 		bgDiv.className = 'bgDiv';
@@ -41,7 +41,7 @@ jQuery( function($) {
 		});
 	});
 
-	$(".browseLink").live('click', function(e){
+	$(document).on('click', ".browseLink", function(e){
 		var bgDiv = document.createElement('div');
 		bgDiv.id = 'bgDiv';
 		bgDiv.className = 'bgDiv';
@@ -63,7 +63,7 @@ jQuery( function($) {
 		viewport.init("##browseDiv");
 		viewport.init("##bgDiv");
 	});
-	$("##sPrefs").live('click',function(e){
+	$(document).on('click', "##sPrefs",function(e){
 		var id=this.id;
 		var theDiv = document.createElement('div');
 		theDiv.id = 'helpDiv';
@@ -324,9 +324,6 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 	<input type="hidden" name="action" id="action" value="#action#">
 	<input type="hidden" name="mapURL" id="mapURL" value="#encodeForHtml(mapURL)#">
 	<cfset session.mapURL = mapURL>
-	<cfif isdefined("transaction_id")>
-			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	</cfif>
 </form>
 	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 		select distinct collection_object_id from #session.SpecSrchTab#
@@ -461,12 +458,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 			</cfif>
 		</p>
 <div class="topBlock" id="ssControl">
-<cfif isdefined("transaction_id") and #action# is "dispCollObj">
-	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
-	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Review Loan Items</a>
-<cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
-    <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Deaccession</a>
-</cfif>
 <table border="0">
 	<tr>
 		<td>

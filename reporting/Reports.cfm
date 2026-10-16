@@ -21,6 +21,9 @@ Landing pad page with lists of various self service reports.
 --->
 <cfset pageTitle = "Reports">
 <cfinclude template = "/shared/_header.cfm">
+<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"coldfusion_user")>
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 
 <cfoutput>
 	<main class="container py-3" id="content">

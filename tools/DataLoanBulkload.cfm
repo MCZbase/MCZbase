@@ -31,7 +31,6 @@ sho err
 <cfset title="Load Cataloged Item Loans">
 
 
-<script type='text/javascript' src='/includes/loadLoanPart.js'></script>
 
 
 		
