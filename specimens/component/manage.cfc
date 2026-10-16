@@ -86,6 +86,9 @@ limitations under the License.
 						</li>
 					</cfloop>
 					<cfif foundCount GT 0>
+						<li class="list-group-item">
+							<a href="/specimens/downloadGeospatialData.cfm?result_id=#encodeForUrl(variables.result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Map File (KML,GPX)</a>
+						</li>
 						<cfquery name="countGoodGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) ct 
 							FROM user_search_table
@@ -597,6 +600,72 @@ limitations under the License.
 	<cfreturn getPreservationsSummaryThread.output>
 </cffunction>
 
+<!--- obtain the georeferences of the cataloged items in a result set, the data for the map files of
+ /specimens/downloadGeospatialData.cfm.
+ @param result_id the guid for the result set.
+ @param acceptedOnly true for only accepted georeferences, false to include unaccepted ones.
+ @param mapByLocality true for every cataloged item at each locality in the result, not only those in it.
+ @return a query with a row for each cataloged item and georeference.
+--->
+<cffunction name="getResultGeoreferences" returntype="query" access="public" output="false">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="acceptedOnly" type="boolean" required="no" default="true">
+	<cfargument name="mapByLocality" type="boolean" required="no" default="false">
+
+	<cfset var useFlat = false>
+	<cfif ucase(session.flatTableName) EQ "FLAT">
+		<cfset useFlat = true>
+	</cfif>
+	<cfset var georeferences = "">
+	<cfset var georeferences_result = "">
+	<cfquery name="georeferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="georeferences_result" timeout="#Application.query_timeout#">
+		SELECT DISTINCT
+			flatTableName.collection_object_id,
+			flatTableName.guid,
+			flatTableName.institution_acronym,
+			flatTableName.collection_cde,
+			flatTableName.cat_num,
+			flatTableName.began_date,
+			flatTableName.ended_date,
+			flatTableName.scientific_name,
+			flatTableName.collection,
+			flatTableName.spec_locality,
+			flatTableName.locality_id,
+			lat_long.dec_lat,
+			lat_long.dec_long,
+			lat_long.accepted_lat_long_fg,
+			ROUND(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) error_in_meters,
+			lat_long.datum
+		FROM
+			<cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+			JOIN lat_long ON flatTableName.locality_id = lat_long.locality_id
+		WHERE
+			lat_long.dec_lat IS NOT NULL
+			AND lat_long.dec_long IS NOT NULL
+			<cfif arguments.acceptedOnly>
+				AND lat_long.accepted_lat_long_fg = 1
+			</cfif>
+			<cfif arguments.mapByLocality>
+				AND flatTableName.locality_id IN (
+					SELECT resultFlat.locality_id
+					FROM user_search_table
+						JOIN <cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> resultFlat
+							ON user_search_table.collection_object_id = resultFlat.collection_object_id
+					WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
+				)
+			<cfelse>
+				AND flatTableName.collection_object_id IN (
+					SELECT collection_object_id
+					FROM user_search_table
+					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
+				)
+			</cfif>
+		ORDER BY
+			flatTableName.collection, flatTableName.scientific_name, flatTableName.cat_num
+	</cfquery>
+	<cfreturn georeferences>
+</cffunction>
+
 <!--- obtain a KML document of the georeferenced cataloged items in a result set, with the options of
  the legacy /bnhmMaps/kml.cfm.  As there, error circles, unaccepted georeferences and all records at
  each locality are offered only when coloring by collection.
@@ -621,60 +690,17 @@ limitations under the License.
 	<cfif arguments.colorBy EQ "species">
 		<cfset bySpecies = true>
 	</cfif>
-	<cfset var useFlat = false>
-	<cfif ucase(session.flatTableName) EQ "FLAT">
-		<cfset useFlat = true>
-	</cfif>
 	<cfset var kmlData = "">
-	<cfset var kmlData_result = "">
 	<cfset var kmlSpecies = "">
 	<cfset var kmlSpeciesRecords = "">
 	<cfset var kmlCollections = "">
 	<cfset var kmlLocalities = "">
 	<cfset var kmlErrors = "">
-	<cfquery name="kmlData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="kmlData_result" timeout="#Application.query_timeout#">
-		SELECT DISTINCT
-			flatTableName.collection_object_id,
-			flatTableName.guid,
-			flatTableName.cat_num,
-			flatTableName.began_date,
-			flatTableName.ended_date,
-			flatTableName.scientific_name,
-			flatTableName.collection,
-			flatTableName.spec_locality,
-			flatTableName.locality_id,
-			lat_long.dec_lat,
-			lat_long.dec_long,
-			lat_long.accepted_lat_long_fg,
-			ROUND(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) error_in_meters,
-			lat_long.datum
-		FROM
-			<cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-			JOIN lat_long ON flatTableName.locality_id = lat_long.locality_id
-		WHERE
-			lat_long.dec_lat IS NOT NULL
-			AND lat_long.dec_long IS NOT NULL
-			<cfif bySpecies OR NOT arguments.showUnaccepted>
-				AND lat_long.accepted_lat_long_fg = 1
-			</cfif>
-			<cfif NOT bySpecies AND arguments.mapByLocality>
-				AND flatTableName.locality_id IN (
-					SELECT resultFlat.locality_id
-					FROM user_search_table
-						JOIN <cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> resultFlat
-							ON user_search_table.collection_object_id = resultFlat.collection_object_id
-					WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
-				)
-			<cfelse>
-				AND flatTableName.collection_object_id IN (
-					SELECT collection_object_id
-					FROM user_search_table
-					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
-				)
-			</cfif>
-		ORDER BY
-			flatTableName.collection, flatTableName.scientific_name, flatTableName.cat_num
-	</cfquery>
+	<cfif bySpecies>
+		<cfset kmlData = getResultGeoreferences(result_id = arguments.result_id)>
+	<cfelse>
+		<cfset kmlData = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
+	</cfif>
 
 	<cfset var kml = createObject("java", "java.lang.StringBuilder").init()>
 	<cfset var nl = chr(10)>
@@ -714,7 +740,7 @@ limitations under the License.
 					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlSpeciesRecords.began_date)#</begin><end>#xmlFormat(kmlSpeciesRecords.ended_date)#</end></TimeSpan>' & nl)>
 				</cfif>
 				<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##' & speciesStyle[kmlSpecies.scientific_name] & '</styleUrl>' & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#kmlSpeciesRecords.dec_long#,#kmlSpeciesRecords.dec_lat#,0</coordinates></Point>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlSpeciesRecords.dec_long)#,#getPlainNumber(kmlSpeciesRecords.dec_lat)#,0</coordinates></Point>' & nl)>
 				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
 			</cfloop>
 			<cfset kml.append(tab & tab & '</Folder>' & nl)>
@@ -772,7 +798,7 @@ limitations under the License.
 				<cfelse>
 					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##red-star</styleUrl>' & nl)>
 				</cfif>
-				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#kmlLocalities.dec_long#,#kmlLocalities.dec_lat#</coordinates></Point>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlLocalities.dec_long)#,#getPlainNumber(kmlLocalities.dec_lat)#</coordinates></Point>' & nl)>
 				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
 			</cfloop>
 			<cfset kml.append(tab & tab & '</Folder>' & nl)>
@@ -785,8 +811,14 @@ limitations under the License.
 				GROUP BY error_in_meters, dec_lat, dec_long
 			</cfquery>
 			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>Error Circles</name>' & nl)>
+			<cfset var circlePoint = "">
+			<cfset var circleCoordinates = "">
 			<cfloop query="kmlErrors">
-				<cfset kml.append(getKmlErrorCircle(kmlErrors.dec_lat, kmlErrors.dec_long, kmlErrors.error_in_meters))>
+				<cfset circleCoordinates = createObject("java", "java.lang.StringBuilder").init()>
+				<cfloop array="#getErrorCirclePoints(kmlErrors.dec_lat, kmlErrors.dec_long, kmlErrors.error_in_meters)#" index="circlePoint">
+					<cfset circleCoordinates.append(nl & circlePoint[1] & "," & circlePoint[2])>
+				</cfloop>
+				<cfset kml.append(tab & tab & tab & '<Placemark><name>Error</name><visibility>1</visibility><styleUrl>##error-line</styleUrl><LineString><coordinates>' & circleCoordinates.toString() & nl & '</coordinates></LineString></Placemark>' & nl)>
 			</cfloop>
 			<cfset kml.append(tab & tab & '</Folder>' & nl)>
 		</cfif>
@@ -795,13 +827,204 @@ limitations under the License.
 	<cfreturn kml.toString()>
 </cffunction>
 
-<!--- obtain a KML placemark drawing a circle around a point, for a georeference's error radius.
+<!--- obtain the Darwin Core terms for one row of getResultGeoreferences, shared by the GeoJSON and CSV
+ map files.
+ @param georeferences the query from getResultGeoreferences.
+ @param row the row of that query.
+ @return a struct of term values, all strings, empty when there is no value.
+--->
+<cffunction name="getGeoreferenceTerms" returntype="struct" access="public" output="false">
+	<cfargument name="georeferences" type="query" required="yes">
+	<cfargument name="row" type="numeric" required="yes">
+
+	<cfset var terms = structNew()>
+	<cfset var began = arguments.georeferences.began_date[arguments.row]>
+	<cfset var ended = arguments.georeferences.ended_date[arguments.row]>
+	<cfset terms["institutionCode"] = arguments.georeferences.institution_acronym[arguments.row]>
+	<cfset terms["collectionCode"] = arguments.georeferences.collection_cde[arguments.row]>
+	<cfset terms["catalogNumber"] = arguments.georeferences.cat_num[arguments.row]>
+	<cfset terms["scientificName"] = arguments.georeferences.scientific_name[arguments.row]>
+	<cfset terms["locality"] = arguments.georeferences.spec_locality[arguments.row]>
+	<cfset terms["locationID"] = arguments.georeferences.locality_id[arguments.row]>
+	<cfset terms["decimalLatitude"] = getPlainNumber(arguments.georeferences.dec_lat[arguments.row])>
+	<cfset terms["decimalLongitude"] = getPlainNumber(arguments.georeferences.dec_long[arguments.row])>
+	<cfset terms["geodeticDatum"] = arguments.georeferences.datum[arguments.row]>
+	<cfset terms["coordinateUncertaintyInMeters"] = arguments.georeferences.error_in_meters[arguments.row]>
+	<cfset terms["eventDate"] = began>
+	<cfif len(ended) GT 0 AND ended NEQ began>
+		<cfset terms["eventDate"] = "#began#/#ended#">
+	</cfif>
+	<cfset terms["georeferenceRemarks"] = "">
+	<cfif arguments.georeferences.accepted_lat_long_fg[arguments.row] NEQ 1>
+		<cfset terms["georeferenceRemarks"] = "not the accepted georeference">
+	</cfif>
+	<cfset terms["references"] = "#Application.serverRootUrl#/guid/#arguments.georeferences.guid[arguments.row]#">
+	<cfreturn terms>
+</cffunction>
+
+<!--- obtain a GeoJSON FeatureCollection of the georeferenced cataloged items in a result set, a Point
+ for each cataloged item and georeference with Darwin Core terms as properties.
+ @param result_id the guid for the result set.
+ @param showErrors true to add a Polygon of each distinct georeference's error radius.
+ @param mapByLocality true for every cataloged item at each locality in the result.
+ @param showUnaccepted true to include unaccepted georeferences.
+ @return the GeoJSON document.
+--->
+<cffunction name="getResultGeoJson" returntype="string" access="public" output="false">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="showErrors" type="boolean" required="no" default="false">
+	<cfargument name="mapByLocality" type="boolean" required="no" default="false">
+	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
+
+	<cfset var georeferences = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
+	<cfset var PROPERTY_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,locality,locationID,geodeticDatum,coordinateUncertaintyInMeters,eventDate,georeferenceRemarks,references">
+	<cfset var json = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset var terms = "">
+	<cfset var term = "">
+	<cfset var properties = "">
+	<cfset var separator = "">
+	<cfset var circlePoint = "">
+	<cfset var circleCoordinates = "">
+	<cfset var circlesDone = structNew()>
+	<cfset var circleKey = "">
+	<cfset json.append('{"type":"FeatureCollection","features":[')>
+	<cfloop query="georeferences">
+		<cfset terms = getGeoreferenceTerms(georeferences, georeferences.currentRow)>
+		<cfset properties = "">
+		<cfloop list="#PROPERTY_TERMS#" index="term">
+			<cfif len(properties) GT 0>
+				<cfset properties &= ",">
+			</cfif>
+			<cfif term EQ "coordinateUncertaintyInMeters" OR term EQ "locationID">
+				<!--- numbers, or null --->
+				<cfif len(terms[term]) GT 0>
+					<cfset properties &= '#getJsonString(term)#:#getPlainNumber(terms[term])#'>
+				<cfelse>
+					<cfset properties &= '#getJsonString(term)#:null'>
+				</cfif>
+			<cfelse>
+				<cfset properties &= '#getJsonString(term)#:#getJsonString(terms[term])#'>
+			</cfif>
+		</cfloop>
+		<cfset json.append(separator & chr(10) & '{"type":"Feature","geometry":{"type":"Point","coordinates":[#terms.decimalLongitude#,#terms.decimalLatitude#]},"properties":{#properties#}}')>
+		<cfset separator = ",">
+		<cfif arguments.showErrors AND val(georeferences.error_in_meters) GT 0>
+			<cfset circleKey = "#terms.decimalLatitude#|#terms.decimalLongitude#|#georeferences.error_in_meters#">
+			<cfif NOT structKeyExists(circlesDone, circleKey)>
+				<cfset circlesDone[circleKey] = true>
+				<cfset circleCoordinates = "">
+				<cfloop array="#getErrorCirclePoints(georeferences.dec_lat, georeferences.dec_long, georeferences.error_in_meters)#" index="circlePoint">
+					<cfif len(circleCoordinates) GT 0>
+						<cfset circleCoordinates &= ",">
+					</cfif>
+					<cfset circleCoordinates &= "[#circlePoint[1]#,#circlePoint[2]#]">
+				</cfloop>
+				<cfset json.append(separator & chr(10) & '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[#circleCoordinates#]]},"properties":{"featureType":"error circle","coordinateUncertaintyInMeters":#getPlainNumber(georeferences.error_in_meters)#}}')>
+			</cfif>
+		</cfif>
+	</cfloop>
+	<cfset json.append(chr(10) & ']}' & chr(10))>
+	<cfreturn json.toString()>
+</cffunction>
+
+<!--- obtain a GPX document with a waypoint for each distinct georeference of the cataloged items in a
+ result set, for handheld GPS units.
+ @param result_id the guid for the result set.
+ @param mapByLocality true for every cataloged item at each locality in the result.
+ @param showUnaccepted true to include unaccepted georeferences.
+ @return the GPX document.
+--->
+<cffunction name="getResultGpx" returntype="string" access="public" output="false">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="mapByLocality" type="boolean" required="no" default="false">
+	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
+
+	<cfset var georeferences = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
+	<!--- waypoints in the order first seen, each listing its cataloged items --->
+	<cfset var waypointKeys = arrayNew(1)>
+	<cfset var waypoints = structNew()>
+	<cfset var waypointKey = "">
+	<cfloop query="georeferences">
+		<cfset waypointKey = "#int(georeferences.locality_id)#|#getPlainNumber(georeferences.dec_lat)#|#getPlainNumber(georeferences.dec_long)#">
+		<cfif NOT structKeyExists(waypoints, waypointKey)>
+			<cfset arrayAppend(waypointKeys, waypointKey)>
+			<cfset waypoints[waypointKey] = {
+				latitude = getPlainNumber(georeferences.dec_lat),
+				longitude = getPlainNumber(georeferences.dec_long),
+				name = "#georeferences.spec_locality# (#georeferences.locality_id#)",
+				datum = georeferences.datum,
+				items = ""
+			}>
+		</cfif>
+		<cfif len(waypoints[waypointKey].items) GT 0>
+			<cfset waypoints[waypointKey].items &= "; ">
+		</cfif>
+		<cfset waypoints[waypointKey].items &= "#georeferences.guid# #georeferences.scientific_name#">
+	</cfloop>
+	<cfset var gpx = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset gpx.append('<?xml version="1.0" encoding="UTF-8"?>' & chr(10))>
+	<cfset gpx.append('<gpx version="1.1" creator="MCZbase" xmlns="http://www.topografix.com/GPX/1/1">' & chr(10))>
+	<cfloop array="#waypointKeys#" index="waypointKey">
+		<cfset gpx.append(chr(9) & '<wpt lat="#waypoints[waypointKey].latitude#" lon="#waypoints[waypointKey].longitude#">')>
+		<cfset gpx.append('<name>#xmlFormat(waypoints[waypointKey].name)#</name>')>
+		<cfset gpx.append('<desc>#xmlFormat("Datum: #waypoints[waypointKey].datum#. #waypoints[waypointKey].items#")#</desc>')>
+		<cfset gpx.append('</wpt>' & chr(10))>
+	</cfloop>
+	<cfset gpx.append('</gpx>' & chr(10))>
+	<cfreturn gpx.toString()>
+</cffunction>
+
+<!--- obtain a CSV file of the georeferenced cataloged items in a result set, a row for each cataloged
+ item and georeference, with Darwin Core terms as column names and the error radius as a footprintWKT
+ polygon.
+ @param result_id the guid for the result set.
+ @param mapByLocality true for every cataloged item at each locality in the result.
+ @param showUnaccepted true to include unaccepted georeferences.
+ @return the CSV file.
+--->
+<cffunction name="getResultDarwinCoreCsv" returntype="string" access="public" output="false">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="mapByLocality" type="boolean" required="no" default="false">
+	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
+
+	<cfset var georeferences = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
+	<cfset var CSV_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,locality,locationID,decimalLatitude,decimalLongitude,geodeticDatum,coordinateUncertaintyInMeters,footprintWKT,eventDate,georeferenceRemarks,references">
+	<cfset var csv = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset var terms = "">
+	<cfset var term = "">
+	<cfset var line = "">
+	<cfset var footprints = structNew()>
+	<cfset var footprintKey = "">
+	<cfset csv.append(CSV_TERMS & chr(13) & chr(10))>
+	<cfloop query="georeferences">
+		<cfset terms = getGeoreferenceTerms(georeferences, georeferences.currentRow)>
+		<cfset terms["footprintWKT"] = "">
+		<cfif val(georeferences.error_in_meters) GT 0>
+			<cfset footprintKey = "#terms.decimalLatitude#|#terms.decimalLongitude#|#georeferences.error_in_meters#">
+			<cfif NOT structKeyExists(footprints, footprintKey)>
+				<cfset footprints[footprintKey] = getWktErrorCircle(georeferences.dec_lat, georeferences.dec_long, georeferences.error_in_meters)>
+			</cfif>
+			<cfset terms["footprintWKT"] = footprints[footprintKey]>
+		</cfif>
+		<cfset line = "">
+		<cfloop list="#CSV_TERMS#" index="term">
+			<cfif len(line) GT 0>
+				<cfset line &= ",">
+			</cfif>
+			<cfset line &= getCsvField(terms[term])>
+		</cfloop>
+		<cfset csv.append(line & chr(13) & chr(10))>
+	</cfloop>
+	<cfreturn csv.toString()>
+</cffunction>
+
+<!--- obtain the points of a circle around a georeference, for its error radius.
  @param latitude the decimal latitude of the center.
  @param longitude the decimal longitude of the center.
  @param radius the radius in meters.
- @return a Placemark element with a LineString of 361 points, styled with error-line.
+ @return an array of 361 [longitude, latitude] pairs as plain decimal strings, the last the same as the first.
 --->
-<cffunction name="getKmlErrorCircle" returntype="string" access="public" output="false">
+<cffunction name="getErrorCirclePoints" returntype="array" access="public" output="false">
 	<cfargument name="latitude" type="numeric" required="yes">
 	<cfargument name="longitude" type="numeric" required="yes">
 	<cfargument name="radius" type="numeric" required="yes">
@@ -811,7 +1034,7 @@ limitations under the License.
 	<cfset var lon = arguments.longitude * pi() / 180>
 	<!--- the radius as an angle, on a sphere of the WGS84 equatorial radius --->
 	<cfset var angularRadius = arguments.radius / 6378137>
-	<cfset var coordinates = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset var points = arrayNew(1)>
 	<cfset var bearing = 0>
 	<cfset var pointLat = 0>
 	<cfset var pointLon = 0>
@@ -822,9 +1045,82 @@ limitations under the License.
 		<cfset pointLon = lon + math.atan2(javaCast("double", sin(bearing) * sin(angularRadius) * cos(lat)), javaCast("double", cos(angularRadius) - sin(lat) * sin(pointLat)))>
 		<!--- back into -180 to 180; MOD is integer only --->
 		<cfset pointLon = pointLon - 2 * pi() * int((pointLon + pi()) / (2 * pi()))>
-		<cfset coordinates.append(chr(10) & "#pointLon * 180 / pi()#,#pointLat * 180 / pi()#")>
+		<cfset arrayAppend(points, [getPlainNumber(pointLon * 180 / pi(), 7), getPlainNumber(pointLat * 180 / pi(), 7)])>
 	</cfloop>
-	<cfreturn chr(9) & chr(9) & chr(9) & '<Placemark><name>Error</name><visibility>1</visibility><styleUrl>##error-line</styleUrl><LineString><coordinates>' & coordinates.toString() & chr(10) & '</coordinates></LineString></Placemark>' & chr(10)>
+	<cfreturn points>
+</cffunction>
+
+<!--- obtain a georeference's error circle as a WKT polygon, for the Darwin Core footprintWKT.
+ @param latitude the decimal latitude of the center.
+ @param longitude the decimal longitude of the center.
+ @param radius the radius in meters.
+ @return the POLYGON, longitude before latitude as WKT orders them.
+--->
+<cffunction name="getWktErrorCircle" returntype="string" access="public" output="false">
+	<cfargument name="latitude" type="numeric" required="yes">
+	<cfargument name="longitude" type="numeric" required="yes">
+	<cfargument name="radius" type="numeric" required="yes">
+
+	<cfset var ring = "">
+	<cfset var circlePoint = "">
+	<cfloop array="#getErrorCirclePoints(arguments.latitude, arguments.longitude, arguments.radius)#" index="circlePoint">
+		<cfif len(ring) GT 0>
+			<cfset ring &= ", ">
+		</cfif>
+		<cfset ring &= "#circlePoint[1]# #circlePoint[2]#">
+	</cfloop>
+	<cfreturn "POLYGON ((#ring#))">
+</cffunction>
+
+<!--- obtain a number as a plain decimal string, as ColdFusion may print small or large numbers in
+ exponent form, which KML, GPX, GeoJSON and WKT don't accept.
+ @param value the number, or an empty string.
+ @param decimals the number of decimal places to round to, or -1 to keep the value's own.
+ @return the number without an exponent, or an empty string.
+--->
+<cffunction name="getPlainNumber" returntype="string" access="public" output="false">
+	<cfargument name="value" type="any" required="yes">
+	<cfargument name="decimals" type="numeric" required="no" default="-1">
+
+	<cfif NOT isNumeric(arguments.value)>
+		<cfreturn "">
+	</cfif>
+	<cfset var number = createObject("java", "java.math.BigDecimal").init(javaCast("string", arguments.value))>
+	<cfif arguments.decimals GTE 0>
+		<cfset number = number.setScale(javaCast("int", arguments.decimals), createObject("java", "java.math.RoundingMode").HALF_UP).stripTrailingZeros()>
+	</cfif>
+	<cfreturn number.toPlainString()>
+</cffunction>
+
+<!--- obtain a value as a JSON string literal.
+ @param value the text.
+ @return the text quoted, with quotes, backslashes and control characters escaped.
+--->
+<cffunction name="getJsonString" returntype="string" access="public" output="false">
+	<cfargument name="value" type="string" required="yes">
+
+	<cfset var escaped = replace(arguments.value, "\", "\\", "all")>
+	<cfset escaped = replace(escaped, '"', '\"', "all")>
+	<cfset escaped = replace(escaped, chr(10), "\n", "all")>
+	<cfset escaped = replace(escaped, chr(13), "\r", "all")>
+	<cfset escaped = replace(escaped, chr(9), "\t", "all")>
+	<cfset escaped = REReplace(escaped, "[\x00-\x1F]", " ", "all")>
+	<cfreturn '"#escaped#"'>
+</cffunction>
+
+<!--- obtain a value as a CSV field.
+ @param value the text.
+ @return the text in double quotes with its quotes doubled, prefixed with an apostrophe when it starts
+  with a character a spreadsheet would take as the start of a formula and isn't a number.
+--->
+<cffunction name="getCsvField" returntype="string" access="public" output="false">
+	<cfargument name="value" type="string" required="yes">
+
+	<cfset var field = arguments.value>
+	<cfif REFind("^[=+@\t\r-]", field) GT 0 AND NOT isNumeric(field)>
+		<cfset field = "'" & field>
+	</cfif>
+	<cfreturn '"' & replace(field, '"', '""', "all") & '"'>
 </cffunction>
 
 </cfcomponent>
