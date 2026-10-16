@@ -87,14 +87,14 @@ Some Totally Random String Data .....
     <div class="welcome">
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select * from cf_dataentry_settings where username='#session.username#'
+			SELECT * FROM cf_dataentry_settings WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif d.recordcount is not 1>
 			<cfquery name="seed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_dataentry_settings (
+				INSERT INTO cf_dataentry_settings (
 					username
-				) values (
-					'#session.username#'
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				)
 			</cfquery>
 		</cfif>
@@ -142,7 +142,7 @@ Some Totally Random String Data .....
         <div class="basic_box">
 
         <div class="welcomeback" style="padding-top: 2em;margin-left:0;">
-		<h3>Welcome to the data entry (and edit) application, #session.username#</h3>
+		<h3>Welcome to the data entry (and edit) application, #encodeForHtml(session.username)#</h3>
             <br/>
 		<ul>
 			<li><span style="color:##9cca4b">Green Screen</span>: You are entering data to a new record.</li>
@@ -158,7 +158,7 @@ Some Totally Random String Data .....
 				max(collection_object_id) theId,
 				collection_cde collnCde,
 				institution_acronym instAc
-			from bulkloader where enteredby = '#session.username#'
+			from bulkloader where enteredby = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			GROUP BY
 				collection_cde,
 				institution_acronym
@@ -529,6 +529,7 @@ Some Totally Random String Data .....
 								</cfif>
 								<span class="f11a">Accn</span>
 								<input type="text" name="accn" title="ACCN" value="#accn#" size="9" class="reqdClr" id="accn" onchange="isGoodAccn();">
+								<!--- TODO: the customize form link is hidden; bring /form/customizeDataEntry.cfm into the redesigned Data Entry page. --->
 								<!---span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>--->
                             <cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0><br></cfif> &nbsp;<input type="hidden" name="mask_record" value="0" />
                                      <span class="f11a">
