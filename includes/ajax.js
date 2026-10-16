@@ -699,7 +699,7 @@ function getAgent(agentIdFld,agentNameFld,formName,agentNameString,allowCreation
  *
  * media.cfm, this function's only caller, was written for jQuery 1.3.2 with no jQuery UI, so this
  * binds a native <datalist> rather than a jQuery UI autocomplete, and reports errors with alert().
- * The legacy headers now load jQuery 3.5.1 and jQuery UI 1.12.1, so it can be replaced with the
+ * The legacy headers now load jQuery 3 and jQuery UI, so it can be replaced with the
  * standard autocomplete pattern when media.cfm is redesigned.
  *
  * @param projIdFld the id of a hidden input to hold the picked project_id.
