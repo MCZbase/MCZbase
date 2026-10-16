@@ -18,6 +18,109 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/shared/component/functions.cfc">
 
+<!--- getArchiveSchemas find the archives of MCZbase, made each July after the end of a fiscal year,
+ that hold the data for an annual report.
+ Throws an exception of type MissingArchive if either archive has not been created.
+ @param beginDate start of the fiscal year, yyyy-mm-dd, the archive from July of its year is used.
+ @param endDate end of the fiscal year, yyyy-mm-dd, the archive from July of its year is used.
+ @return a struct with beginSchema and endSchema.
+ @see archiveUnavailableMessage
+--->
+<cffunction name="getArchiveSchemas" access="private" returntype="struct">
+	<cfargument name="beginDate" type="string" required="yes">
+	<cfargument name="endDate" type="string" required="yes">
+
+	<cfset var result = StructNew()>
+	<cfset var getEndSchema = "">
+	<cfset var getBeginSchema = "">
+	<!--- cached briefly, so that a newly created archive is picked up soon after it is made --->
+	<cfquery name="getEndSchema" datasource="uam_god" result="getEndSchema_result" cachedwithin="#createtimespan(0,1,0,0)#">
+		SELECT username
+		FROM dba_users
+		WHERE username LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(arguments.endDate,4)#07%">
+		ORDER BY username
+	</cfquery>
+	<cfquery name="getBeginSchema" datasource="uam_god" result="getBeginSchema_result" cachedwithin="#createtimespan(0,1,0,0)#">
+		SELECT username
+		FROM dba_users
+		WHERE username LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(arguments.beginDate,4)#07%">
+		ORDER BY username
+	</cfquery>
+	<cfif getEndSchema.recordcount EQ 0 OR getBeginSchema.recordcount EQ 0>
+		<cfthrow type="MissingArchive" message="No archive of MCZbase for the fiscal year ending #encodeForHtml(arguments.endDate)#.">
+	</cfif>
+	<cfset result.beginSchema = getBeginSchema.username>
+	<cfset result.endSchema = getEndSchema.username>
+	<cfreturn result>
+</cffunction>
+
+<!--- archiveUnavailableMessage explain that an annual report can't be produced because the archives
+ of MCZbase for its fiscal year have not been created, offering the most recent fiscal year that has them.
+ @param beginDate start of the requested fiscal year, yyyy-mm-dd.
+ @param endDate end of the requested fiscal year, yyyy-mm-dd.
+ @param returnAs csv for a plain text message, otherwise html.
+ @return the message.
+ @see getArchiveSchemas
+--->
+<cffunction name="archiveUnavailableMessage" access="private" returntype="string">
+	<cfargument name="beginDate" type="string" required="yes">
+	<cfargument name="endDate" type="string" required="yes">
+	<cfargument name="returnAs" type="string" required="no" default="html">
+
+	<cfset var message = "">
+	<cfset var fiscalYear = "FY#left(arguments.endDate,4)#">
+	<cfset var getLatestYear = "">
+	<!--- a year is offered only if it is in the fiscal year picklist (which comes from collections_reported_metrics)
+	 and has archives for both its start and its end --->
+	<cfquery name="getLatestYear" datasource="uam_god" result="getLatestYear_result" cachedwithin="#createtimespan(0,1,0,0)#">
+		SELECT max(to_number(substr(e.username, 9, 4))) latest_year
+		FROM dba_users e
+		WHERE
+			REGEXP_LIKE(e.username, '^ARCHIVE_[0-9]{4}07')
+			AND EXISTS (
+				SELECT 1
+				FROM dba_users b
+				WHERE b.username LIKE 'ARCHIVE_' || to_char(to_number(substr(e.username, 9, 4)) - 1) || '07%'
+			)
+			AND EXISTS (
+				SELECT 1
+				FROM MCZBASE.collections_reported_metrics rm
+				WHERE to_char(rm.reported_date, 'yyyy') = substr(e.username, 9, 4)
+			)
+	</cfquery>
+	<cfset var latestYear = getLatestYear.latest_year>
+	<cfif arguments.returnAs EQ "csv">
+		<cfset message = "Annual report figures for #fiscalYear# are not available: the archive of MCZbase made at the end of the fiscal year has not been created.">
+		<cfif len(latestYear) GT 0>
+			<cfset message = "#message# The most recent fiscal year with data is FY#latestYear#.">
+		</cfif>
+	<cfelse>
+		<cfsavecontent variable="message">
+			<cfoutput>
+				<section class="col-12 mt-2 px-0">
+					<h2 class="h3">Annual Report: #encodeForHtml(fiscalYear)# not available yet</h2>
+					<p>
+						Annual report figures for #encodeForHtml(fiscalYear)# (#encodeForHtml(arguments.beginDate)# to #encodeForHtml(arguments.endDate)#)
+						are counted from archives of MCZbase made each July at the end of the fiscal year, and the archive
+						for #encodeForHtml(fiscalYear)# has not been created.
+					</p>
+					<cfif len(latestYear) GT 0>
+						<cfset var latestBeginDate = "#latestYear - 1#-07-01">
+						<cfset var latestEndDate = "#latestYear#-06-30">
+						<p>
+							The most recent fiscal year with data is FY#latestYear#.
+							<button type="button" class="btn btn-xs btn-primary" onClick="selectFiscalYear('fiscalYear','beginDateFiscal','endDateFiscal','#latestBeginDate#','#latestEndDate#'); loadReportAnnual();">Show FY#latestYear#</button>
+						</p>
+					<cfelse>
+						<p>No fiscal year has the archives needed for an annual report.</p>
+					</cfif>
+				</section>
+			</cfoutput>
+		</cfsavecontent>
+	</cfif>
+	<cfreturn message>
+</cffunction>
+
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
  * to a file.
@@ -81,14 +184,9 @@ limitations under the License.
 		<cftry>
 			<!--- get correct schema for annual report or date range--->
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%"> 
-				</cfquery>
-				<cfset endschema = getendSchema.username> 
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-				</cfquery>
-				<cfset beginschema = getbeginSchema.username>
+				<cfset archiveSchemas = getArchiveSchemas(beginDate=beginDate, endDate=endDate)>
+				<cfset beginSchema = archiveSchemas.beginSchema>
+				<cfset endSchema = archiveSchemas.endSchema>
 			<cfelse>
 				<cfset beginSchema="MCZBASE">
 				<cfset endSchema="MCZBASE">
@@ -168,12 +266,20 @@ limitations under the License.
 										<td>The total number of cataloged item records that are secondary types with citations.</td>
 										<td>The number of individual specimens which are part of secondary type catalog item records with citations.</td>
 									</tr>
+									<cfset holdingsNotReported = "">
 									<cfloop query="totals">
 										<tr>
 											<td>#Collection#</td>
 											<cfif annualReport EQ "yes">
 												<td>#Holdings#</td>
-												<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>
+												<cfif NOT isNumeric(Holdings)>
+													<cfset holdingsNotReported = ListAppend(holdingsNotReported, Collection, "|")>
+												</cfif>
+												<cfif isNumeric(Holdings) AND Holdings GT 0 AND isNumeric(Cataloged_Items)>
+													<td>#NumberFormat((Cataloged_Items/Holdings)*100, '9.99')#%</td>
+												<cfelse>
+													<td></td>
+												</cfif>
 											</cfif>
 											<td>#Cataloged_Items#</td>
 											<td>#Specimens#</td>
@@ -187,6 +293,9 @@ limitations under the License.
 							</table>
 						</div>
 						<cfif annualReport EQ "yes">
+							<cfif len(holdingsNotReported) GT 0>
+								<p class="small">Total holdings for FY#encodeForHtml(left(endDate,4))# have not been reported for #encodeForHtml(Replace(holdingsNotReported, "|", ", ", "all"))#.</p>
+							</cfif>
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
@@ -195,6 +304,9 @@ limitations under the License.
 					</section>
 				</cfoutput>
 			</cfif>
+		<cfcatch type="MissingArchive">
+			<cfoutput>#archiveUnavailableMessage(beginDate=beginDate, endDate=endDate, returnAs=variables.returnAs)#</cfoutput>
+		</cfcatch>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -229,14 +341,9 @@ limitations under the License.
 	<cfthread name="getAcquisitionsThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
-				</cfquery>
-				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-				</cfquery>
-				<cfset beginschema = getbeginSchema.username>
+				<cfset archiveSchemas = getArchiveSchemas(beginDate=beginDate, endDate=endDate)>
+				<cfset beginSchema = archiveSchemas.beginSchema>
+				<cfset endSchema = archiveSchemas.endSchema>
 			<cfelse>
 				<cfset beginSchema="MCZBASE">
 				<cfset endSchema="MCZBASE">
@@ -398,6 +505,9 @@ limitations under the License.
 					</section>
 				</cfoutput>
 			</cfif>
+		<cfcatch type="MissingArchive">
+			<cfoutput>#archiveUnavailableMessage(beginDate=beginDate, endDate=endDate, returnAs=variables.returnAs)#</cfoutput>
+		</cfcatch>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -634,14 +744,9 @@ limitations under the License.
 	<cfthread name="getMediaNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
-				</cfquery>
-				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-				</cfquery>
-				<cfset beginschema = getbeginSchema.username>
+				<cfset archiveSchemas = getArchiveSchemas(beginDate=beginDate, endDate=endDate)>
+				<cfset beginSchema = archiveSchemas.beginSchema>
+				<cfset endSchema = archiveSchemas.endSchema>
 			<cfelse>
 				<cfset beginSchema="MCZBASE">
 				<cfset endSchema="MCZBASE">
@@ -794,6 +899,9 @@ limitations under the License.
 					</section>
 				</cfoutput>
 			</cfif>
+		<cfcatch type="MissingArchive">
+			<cfoutput>#archiveUnavailableMessage(beginDate=beginDate, endDate=endDate, returnAs=variables.returnAs)#</cfoutput>
+		</cfcatch>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -827,15 +935,10 @@ limitations under the License.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getCitationNumbersThread#tn#">
 		<cftry>
-			 <cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
-				</cfquery>
-				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-				</cfquery>
-				<cfset beginschema = getbeginSchema.username>
+			<cfif annualReport EQ 'yes'>
+				<cfset archiveSchemas = getArchiveSchemas(beginDate=beginDate, endDate=endDate)>
+				<cfset beginSchema = archiveSchemas.beginSchema>
+				<cfset endSchema = archiveSchemas.endSchema>
 			<cfelse>
 				<cfset beginSchema="MCZBASE">
 				<cfset endSchema="MCZBASE">
@@ -914,6 +1017,9 @@ limitations under the License.
 					</section>
 				</cfoutput>
 			</cfif>
+		<cfcatch type="MissingArchive">
+			<cfoutput>#archiveUnavailableMessage(beginDate=beginDate, endDate=endDate, returnAs=variables.returnAs)#</cfoutput>
+		</cfcatch>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -948,17 +1054,12 @@ limitations under the License.
 	<cfthread name="getGeorefNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-					<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-							select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
-					</cfquery>
-					<cfset endschema = getendSchema.username>
-					<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-							select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-					</cfquery>
-					<cfset beginschema = getbeginSchema.username>
+				<cfset archiveSchemas = getArchiveSchemas(beginDate=beginDate, endDate=endDate)>
+				<cfset beginSchema = archiveSchemas.beginSchema>
+				<cfset endSchema = archiveSchemas.endSchema>
 			<cfelse>
-					<cfset beginSchema="MCZBASE">
-					<cfset endSchema="MCZBASE">
+				<cfset beginSchema="MCZBASE">
+				<cfset endSchema="MCZBASE">
 			</cfif>
 			<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
@@ -1074,6 +1175,9 @@ limitations under the License.
 					</section>
 				</cfoutput>
 			</cfif>
+		<cfcatch type="MissingArchive">
+			<cfoutput>#archiveUnavailableMessage(beginDate=beginDate, endDate=endDate, returnAs=variables.returnAs)#</cfoutput>
+		</cfcatch>
 		<cfcatch>
 			<cfoutput>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1107,23 +1211,6 @@ limitations under the License.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getVisitorsMediaRequestsThread#tn#">
 		<cftry>
-			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username 
-					from dba_users 
-					where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
-				</cfquery>
-				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username 
-					from dba_users 
-					where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
-				</cfquery>
-					<cfset beginschema = getbeginSchema.username>
-			<cfelse>
-					<cfset beginSchema="MCZBASE">
-					<cfset endSchema="MCZBASE">
-			</cfif>
 			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.collection,

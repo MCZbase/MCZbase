@@ -1893,6 +1893,31 @@ input#readMore_check_id {
 	background: rgba(0, 0, 0, .5);
 	opacity: 0.99;
 	display: none;
+	z-index: 2;
+}
+.overlay-message {
+	position: absolute;
+	left: 50%;
+	top: 25%;
+	width: 10em;
+	height: 2.4em;
+	line-height: 2.4em;
+	padding: 5px;
+	margin-left: -5em;
+	color: #333333;
+	border-color: #898989;
+	border-style: solid;
+	opacity: 1;
+}
+.overlay-message .jqx-grid-load {
+	float: left;
+	overflow: hidden;
+	height: 32px;
+	width: 32px;
+}
+.overlay-message-text {
+	float: left;
+	margin-left: 1em;
 }
 .MediaAccordionHide {
 	display: block;
