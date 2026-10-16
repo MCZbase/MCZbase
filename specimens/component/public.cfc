@@ -2431,7 +2431,7 @@ limitations under the License.
 								left join (select media_id,label_value from media_labels where media_label='description') media_labels on media.media_id=media_labels.media_id 
 							WHERE 
 								media_relations.media_relationship like '% accn' and
-								media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+								media_relations.related_primary_key = <cfqueryparam value="#lookupAccn.accn_id#" cfsqltype="CF_SQL_DECIMAL"> and
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
 						<cfset hasContent = true>

@@ -2876,7 +2876,7 @@ limitations under the License.
 		content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
 		var accn_number = datarecord['accn_number'];
-		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
+		content = content + "<a href='/Specimens.cfm?action=fixedSearch&execute=true&accn_number=" + encodeURIComponent('=' + accn_number) + "' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
 		content = content + "<a href='/containers/Containers.cfm?transaction_id="+transaction_id+"&execute=true' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
 		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
@@ -3453,9 +3453,9 @@ $(document).ready(function() {
 	var catitemsCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var result = "";
-		var transaction_id = rowData['transaction_id'];
+		var accn_number = rowData['accn_number'];
 		if (value > 0) {
-			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/SpecimenResults.cfm?accn_trans_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number=' + encodeURIComponent('=' + accn_number) + '" target="_blank">'+value+'</a></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}
