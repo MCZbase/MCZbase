@@ -252,6 +252,8 @@ Quote a value as one field of a csv line, doubling any embedded quotes.
 							<cfset foundCount = foundCount + 1>
 							<cfset result.match = "Found">
 							<cfset result.matched_agent_id = getMatches.agent_id>
+							<!--- the agent_id is already in its own column --->
+							<cfset result.agent_list = getMatches.preferred_agent_name>
 							<cfset result.agent_type = getMatches.agent_type>
 							<cfset result.is_author = YesNoFormat(ListFind(getMatches.name_types, AUTHOR_NAME_TYPE, "|") GT 0)>
 							<cfset result.author_names = getMatches.author_names>
