@@ -1,5 +1,5 @@
 <!---
-specimens/downloadKml.cfm
+specimens/downloadGeospatialData.cfm
 
 Copyright 2026 President and Fellows of Harvard College
 
@@ -133,7 +133,7 @@ limitations under the License.
 					<div class="alert alert-warning" role="alert">This search result has no georeferenced cataloged items to put in a KML file.</div>
 				</cfif>
 				<p class="text-danger">The horizontal datum is not transformed: points with a datum other than WGS84 will be misplaced.</p>
-				<form name="kmlForm" id="kmlForm" method="post" action="/specimens/downloadKml.cfm">
+				<form name="kmlForm" id="kmlForm" method="post" action="/specimens/downloadGeospatialData.cfm">
 					<input type="hidden" name="action" value="makeKml">
 					<input type="hidden" name="result_id" value="#encodeForHtml(variables.result_id)#">
 					<div class="form-row mb-2">
