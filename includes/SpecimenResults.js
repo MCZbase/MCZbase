@@ -98,231 +98,6 @@ function insertMedia(idList) {
 		}
 	);
 }
-function addPartToLoan(partID) {
-	var rs = "item_remark_" + partID;
-	var is = "item_instructions_" + partID;
-	var ss = "subsample_" + partID;
-	var remark=document.getElementById(rs).value;
-	var instructions=document.getElementById(is).value;
-	var subsample=document.getElementById(ss).checked;
-	if (subsample==true) {
-		subsample=1;
-	} else {
-		subsample=0;
-	}
-	var transaction_id=document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "addPartToLoan",
-			transaction_id : transaction_id,
-			partID : partID,
-			remark : remark,
-			instructions : instructions,
-			subsample : subsample,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			var rar = result.split("|");
-			var status=rar[0];
-			if (status==1){
-				var b = "theButton_" + rar[1];
-				var theBtn = document.getElementById(b);
-				theBtn.value="In Loan";
-				theBtn.onclick="";
-			}else{
-				var msg = rar[1];
-				alert('An error occured!\n' + msg);
-			}
-		}
-	);
-}
-function addPartToDeacc(partID) {
-	var rs = "item_remark_" + partID;
-	var is = "item_instructions_" + partID;
-	var ss = "subsample_" + partID;
-	var remark=document.getElementById(rs).value;
-	var instructions=document.getElementById(is).value;
-	var subsample=document.getElementById(ss).checked;
-	if (subsample==true) {
-		subsample=1;
-	} else {
-		subsample=0;
-	}
-	var transaction_id=document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "addPartToDeacc",
-			transaction_id : transaction_id,
-			partID : partID,
-			remark : remark,
-			instructions : instructions,
-			subsample : subsample,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			var rar = result.split("|");
-			var status=rar[0];
-			if (status==1){
-				var b = "theButton_" + rar[1];
-				var theBtn = document.getElementById(b);
-				theBtn.value="In Deaccession";
-				theBtn.onclick="";
-			}else{
-				var msg = rar[1];
-				alert('An error occured!\n' + msg);
-			}
-		}
-	);
-}
-function success_makePartThingy(r){
-	result=r.DATA;
-	var lastID;
-	var theTable;
-	for (i=0; i<r.ROWCOUNT; ++i) {
-		var cid = 'partCell_' + result.COLLECTION_OBJECT_ID[i];
-		if (document.getElementById(cid)){
-			var theCell = document.getElementById(cid);
-			theCell.innerHTML='Fetching loan data....';
-			if (lastID == result.COLLECTION_OBJECT_ID[i]) {
-				theTable += "<tr>";
-			} else {
-				theTable = '<table border width="100%"><tr>';
-			}
-			theTable += '<td nowrap="nowrap" class="specResultPartCell">';
-			theTable += '<i>' + result.PART_NAME[i];
-			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
-				theTable += '&nbsp;sample';
-			}
-         theTable += '(' + result.PRESERVE_METHOD[i] + ')';
-         theTable += '[' + result.LOT_COUNT[i] + ']';
-			theTable += "&nbsp;(" + result.COLL_OBJ_DISPOSITION[i] + ")</i> [" + result.BARCODE[i] + "]";
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Instr.:&nbsp;<input type="text" name="item_instructions" size="10" id="item_instructions_' + result.PARTID[i] + '">';
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += '<input type="button" id="theButton_' + result.PARTID[i] + '"';
-			theTable += ' class="insBtn"';
-			if (result.TRANSACTION_ID[i] > 0) {
-				theTable += ' onclick="" value="In Loan">';
-			} else {
-				theTable += ' value="Add" onclick="addPartToLoan(';
-				theTable += result.PARTID[i] + ');">';
-			}
-			if (result.ENCUMBRANCE_ACTION[i]!==null) {
-				theTable += '<br><i>Encumbrances:&nbsp;' + result.ENCUMBRANCE_ACTION[i] + '</i>';
-			}
-			theTable +="</td>";
-			if (result.COLLECTION_OBJECT_ID[i+1] && result.COLLECTION_OBJECT_ID[i+1] == result.COLLECTION_OBJECT_ID[i]) {
-				theTable += "</tr>";
-			} else {
-				theTable += "</tr></table>";
-				theCell.innerHTML = theTable;
-			}
-			lastID = result.COLLECTION_OBJECT_ID[i];
-		}
-	}
-}
-function makePartThingy() {
-	var transaction_id = document.getElementById("transaction_id").value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "getLoanPartResults",
-			transaction_id : transaction_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_makePartThingy
-	);
-}
-
-function cordFormat(str) {
-	var rStr;
-	if (str==null) {
-		rStr='';
-	} else {
-		rStr = str;
-		var rExp = /s/gi;
-		rStr = rStr.replace(rExp,"\'\'");
-		rExp = /d/gi;
-		rStr = rStr.replace(rExp,'<sup>o</sup>');
-		rExp = /m/gi;
-		rStr = rStr.replace(rExp,"\'");
-		rExp = / /gi;
-		rStr = rStr.replace(rExp,'&nbsp;');
-	}
-	return rStr;
-}
-function success_makePartDeaccThingy(r){
-	result=r.DATA;
-	var lastID;
-	var theTable;
-	for (i=0; i<r.ROWCOUNT; ++i) {
-		var cid = 'partCell_' + result.COLLECTION_OBJECT_ID[i];
-		if (document.getElementById(cid)){
-			var theCell = document.getElementById(cid);
-			theCell.innerHTML='Fetching deaccession data....';
-			if (lastID == result.COLLECTION_OBJECT_ID[i]) {
-				theTable += "<tr>";
-			} else {
-				theTable = '<table border width="100%"><tr>';
-			}
-			theTable += '<td nowrap="nowrap" class="specResultPartCell">';
-			theTable += '<i>' + result.PART_NAME[i];
-			theTable += '(' + result.PRESERVE_METHOD[i] + ')';
-			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
-				theTable += '&nbsp;sample';
-			}
-			theTable += "&nbsp;(" + result.COLL_OBJ_DISPOSITION[i] + ")</i> [" + result.BARCODE[i] + "]";
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += 'Instr.:&nbsp;<input type="text" name="item_instructions" size="10" id="item_instructions_' + result.PARTID[i] + '">';
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
-			   theTable += 'Is a subsample<input type="hidden" name="subsample" id="subsample_' + result.PARTID[i] + '" value="0">';
-			} else {
-			   theTable += 'Subsample?:&nbsp;<input type="checkbox" name="subsample" id="subsample_' + result.PARTID[i] + '">';
-			}
-			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
-			theTable += '<input type="button" id="theButton_' + result.PARTID[i] + '"';
-			theTable += ' class="insBtn"';
-			if (result.TRANSACTION_ID[i] > 0) {
-				theTable += ' onclick="" value="In Deaccession">';
-			} else {
-				theTable += ' value="Add" onclick="addPartToDeacc(';
-				theTable += result.PARTID[i] + ');">';
-			}
-			if (result.ENCUMBRANCE_ACTION[i]!==null) {
-				theTable += '<br><i>Encumbrances:&nbsp;' + result.ENCUMBRANCE_ACTION[i] + '</i>';
-			}
-			theTable +="</td>";
-			if (result.COLLECTION_OBJECT_ID[i+1] && result.COLLECTION_OBJECT_ID[i+1] == result.COLLECTION_OBJECT_ID[i]) {
-				theTable += "</tr>";
-			} else {
-				theTable += "</tr></table>";
-				theCell.innerHTML = theTable;
-			}
-			lastID = result.COLLECTION_OBJECT_ID[i];
-		}
-	}
-}
-function makePartDeaccThingy() {
-	var transaction_id = document.getElementById("transaction_id").value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "getDeaccPartResults",
-			transaction_id : transaction_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_makePartDeaccThingy
-	);
-}
 function cordFormat(str) {
 	var rStr;
 	if (str==null) {
@@ -486,21 +261,6 @@ function success_getSpecResultsData(result){
 		} else {
 			var killrow = 0;
 		}
-		if (document.getElementById('action') && document.getElementById('action').value.length>0){
-			var action = document.getElementById('action').value;
-		} else {
-			var action='';
-		}
-		if (document.getElementById('transaction_id') && document.getElementById('transaction_id').value.length>0){
-			var transaction_id = document.getElementById('transaction_id').value;
-		} else {
-			var transaction_id='';
-		}
-		if (document.getElementById('deacc_request_coll_id') && document.getElementById('deacc_request_coll_id').value.length>0){
-			var deacc_request_coll_id = document.getElementById('deacc_request_coll_id').value;
-		} else {
-			var deacc_request_coll_id='';
-		}
 		if (document.getElementById('mapURL') && document.getElementById('mapURL').value.length>0){
 			var mapURL = document.getElementById('mapURL').value;
 		} else {
@@ -511,15 +271,6 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Remove</th>';
 			}
 			theInnerHtml += '<th>Cat&nbsp;Num</th>';
-			if (action == 'dispCollObj'){
-				theInnerHtml +='<th>Loan</th>';
-			}
-				if (deacc_request_coll_id.length > 0){
-				theInnerHtml +='<th>Request</th>';
-			}
-			if (action == 'dispCollObjDeacc'){
-				theInnerHtml +='<th>Deaccession</th>';
-			}
 			if (data.COLUMNLIST[0].indexOf('CUSTOMID')> -1) {
 				theInnerHtml += '<th>';
 					theInnerHtml += data.MYCUSTOMIDTYPE[0];
@@ -794,9 +545,6 @@ function success_getSpecResultsData(result){
 					theInnerHtml += '<div class="showType">' + typestatus + '</div>';
 				}
 				theInnerHtml += '</td>';
-				if (action == 'dispCollObj' || action == 'dispCollObjDeacc'){
-					theInnerHtml +='<td id="partCell_' + data.COLLECTION_OBJECT_ID[i] + '"></td>';
-				}
 				if (data.COLUMNLIST[0].indexOf('CUSTOMID')> -1) {
 					theInnerHtml += '<td>' + data.CUSTOMID[i] + '</td>';
 				}
@@ -1046,12 +794,6 @@ function success_getSpecResultsData(result){
 
 
 		tgt.innerHTML = theInnerHtml;
-		if (action == 'dispCollObj'){
-			makePartThingy();
-		}
-		if (action == 'dispCollObjDeacc'){
-			makePartDeaccThingy();
-		}
 		insertMedia(orderedCollObjIdList);
 		// insertTypes(orderedCollObjIdList);
 	}

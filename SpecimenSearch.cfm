@@ -61,11 +61,7 @@
 		</cfif>
 		<td class="horiz_padding">
 			<span style="color:red;">
-				<cfif #action# is "dispCollObj">
-					<p>You are searching for items to add to a loan.</p>
-                <cfelseif #action# is "dispCollObjDeacc">
-					<p>You are searching for items to add to a deaccession.</p>
-				<cfelseif #action# is "encumber">
+				<cfif #action# is "encumber">
 					<p>You are searching for items to encumber.</p>
 				<cfelseif #action# is "collEvent">
 					<p>You are searching for items to change collecting event.</p>
@@ -1552,9 +1548,6 @@
 		</td>
 	</tr>
 </table>
-<cfif isdefined("transaction_id") and len(transaction_id) gt 0>
-	<input type="hidden" name="transaction_id" value="#transaction_id#">
-</cfif>
 <input type="hidden" name="newQuery" value="1"><!--- pass this to the next form so we clear the cache and run the proper queries--->
 </form>
 <script>
