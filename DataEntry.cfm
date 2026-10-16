@@ -153,6 +153,15 @@ Some Totally Random String Data .....
             If you have data to enter in bulk, use the <a href="/Bulkloader/">bulkload</a> feature.
             </div>
     	<p><a href="/Bulkloader/cloneWithBarcodes.cfm">Clone records by Container Unique ID</a></p>
+		<p>To clone a cataloged item into the bulkloader, for example to split a lot or to make a related record such as of a parasite
+			(needs the manage_specimens role):</p>
+		<ol>
+			<li>Open the cataloged item's record (its /guid/ page).</li>
+			<li>Click <strong>Catalog/Clone</strong> in the row of edit buttons at the top of the record (on smaller screens, <strong>Edit/Clone</strong> in the Cataloged Item heading).</li>
+			<li>In the dialog, under <strong>Clone into Bulkloader</strong>, click <strong>Show Instructions</strong> and then <strong>Clone into Bulkloader</strong>.</li>
+			<li>When it finishes, follow the <strong>View Clone In Bulkloader</strong> link to the new record here, in Data Entry. It is linked to the original as a child record.</li>
+			<li>Check the new record's specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
+		</ol>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select
 				max(collection_object_id) theId,
