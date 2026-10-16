@@ -720,13 +720,13 @@ limitations under the License.
 		<cfset var speciesColor = "">
 		<cfloop query="kmlSpecies">
 			<cfset speciesStyle[kmlSpecies.scientific_name] = "species#kmlSpecies.currentRow#">
-			<cfset speciesColor = right("00000" & formatBaseN(randRange(0, 16777215), 16), 6)>
-			<cfset kml.append(tab & tab & '<Style id="species#kmlSpecies.currentRow#"><IconStyle><color>ff#speciesColor#</color><scale>1.1</scale>')>
+			<cfset speciesColor = getKmlColor(kmlSpecies.currentRow)>
+			<cfset kml.append(tab & tab & '<Style id="species#kmlSpecies.currentRow#"><IconStyle><color>#speciesColor#</color><scale>1.1</scale>')>
 			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
 		</cfloop>
 		<cfloop query="kmlSpecies">
 			<cfquery name="kmlSpeciesRecords" dbtype="query">
-				SELECT collection, cat_num, scientific_name, dec_lat, dec_long, error_in_meters, datum, began_date, ended_date
+				SELECT collection, guid, cat_num, scientific_name, dec_lat, dec_long, error_in_meters, datum, began_date, ended_date
 				FROM kmlData
 				WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kmlSpecies.scientific_name#">
 			</cfquery>
@@ -735,18 +735,24 @@ limitations under the License.
 				<cfset kml.append(tab & tab & tab & '<Placemark>' & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlSpeciesRecords.collection# #kmlSpeciesRecords.cat_num# (#kmlSpeciesRecords.scientific_name#)")#</name>' & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<visibility>1</visibility>' & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlSpeciesRecords.datum)#<br/>Error: #encodeForHtml(kmlSpeciesRecords.error_in_meters)# m<br/>]]></description>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlSpeciesRecords.datum)#<br/>Error: #getKmlErrorText(kmlSpeciesRecords.error_in_meters)#<br/>]]></description>' & nl)>
 				<cfif arguments.includeTimeSpan>
 					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlSpeciesRecords.began_date)#</begin><end>#xmlFormat(kmlSpeciesRecords.ended_date)#</end></TimeSpan>' & nl)>
 				</cfif>
 				<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##' & speciesStyle[kmlSpecies.scientific_name] & '</styleUrl>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & getKmlExtendedData({
+					"collection" = kmlSpeciesRecords.collection,
+					"catalogNumber" = kmlSpeciesRecords.guid,
+					"scientificName" = kmlSpeciesRecords.scientific_name,
+					"geodeticDatum" = kmlSpeciesRecords.datum,
+					"coordinateUncertaintyInMeters" = kmlSpeciesRecords.error_in_meters
+				}) & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlSpeciesRecords.dec_long)#,#getPlainNumber(kmlSpeciesRecords.dec_lat)#,0</coordinates></Point>' & nl)>
 				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
 			</cfloop>
 			<cfset kml.append(tab & tab & '</Folder>' & nl)>
 		</cfloop>
 	<cfelse>
-		<cfset kml.append(tab & tab & '<Style id="green-star"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href></Icon></IconStyle></Style>' & nl)>
 		<cfset kml.append(tab & tab & '<Style id="red-star"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-stars.png</href></Icon></IconStyle></Style>' & nl)>
 		<cfset kml.append(tab & tab & '<Style id="error-line"><LineStyle><color>ff0000ff</color><width>1</width></LineStyle></Style>' & nl)>
 		<!--- the cataloged items at each locality, gathered once rather than queried for each placemark --->
@@ -765,12 +771,18 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 		<cfset var localityLink = "">
+		<cfset var acceptedText = "">
 		<cfquery name="kmlCollections" dbtype="query">
 			SELECT collection
 			FROM kmlData
 			GROUP BY collection
 			ORDER BY collection
 		</cfquery>
+		<!--- a color for each collection; unaccepted georeferences keep the red star --->
+		<cfloop query="kmlCollections">
+			<cfset kml.append(tab & tab & '<Style id="collection#kmlCollections.currentRow#"><IconStyle><color>#getKmlColor(kmlCollections.currentRow)#</color><scale>1.1</scale>')>
+			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
+		</cfloop>
 		<cfloop query="kmlCollections">
 			<cfquery name="kmlLocalities" dbtype="query">
 				SELECT dec_lat, dec_long, accepted_lat_long_fg, error_in_meters, datum, spec_locality, locality_id, began_date, ended_date
@@ -789,15 +801,25 @@ limitations under the License.
 				<cfset kml.append(tab & tab & tab & '<Placemark>' & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlLocalities.spec_locality# (#kmlLocalities.locality_id#)")#</name>' & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<visibility>1</visibility>' & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlLocalities.datum)#<br/>Error: #encodeForHtml(kmlLocalities.error_in_meters)# m<br/>#localityLink##localityItems[int(kmlLocalities.locality_id)]#]]></description>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlLocalities.datum)#<br/>Error: #getKmlErrorText(kmlLocalities.error_in_meters)#<br/>#localityLink##localityItems[int(kmlLocalities.locality_id)]#]]></description>' & nl)>
 				<cfif arguments.includeTimeSpan>
 					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlLocalities.began_date)#</begin><end>#xmlFormat(kmlLocalities.ended_date)#</end></TimeSpan>' & nl)>
 				</cfif>
+				<cfset acceptedText = "no">
 				<cfif kmlLocalities.accepted_lat_long_fg EQ 1>
-					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##green-star</styleUrl>' & nl)>
+					<cfset acceptedText = "yes">
+					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##collection#kmlCollections.currentRow#</styleUrl>' & nl)>
 				<cfelse>
 					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##red-star</styleUrl>' & nl)>
 				</cfif>
+				<cfset kml.append(tab & tab & tab & tab & getKmlExtendedData({
+					"collection" = kmlCollections.collection,
+					"locationID" = kmlLocalities.locality_id,
+					"locality" = kmlLocalities.spec_locality,
+					"acceptedGeoreference" = acceptedText,
+					"geodeticDatum" = kmlLocalities.datum,
+					"coordinateUncertaintyInMeters" = kmlLocalities.error_in_meters
+				}) & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlLocalities.dec_long)#,#getPlainNumber(kmlLocalities.dec_lat)#</coordinates></Point>' & nl)>
 				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
 			</cfloop>
@@ -825,6 +847,61 @@ limitations under the License.
 	</cfif>
 	<cfset kml.append(tab & '</Document>' & nl & '</kml>' & nl)>
 	<cfreturn kml.toString()>
+</cffunction>
+
+<!--- obtain a KML color for the nth folder of a map file, hues spaced by the golden ratio so that
+ neighboring folders differ however many there are.
+ @param index the one based position of the folder.
+ @return the color as KML writes it, alpha, blue, green, red in hexadecimal.
+--->
+<cffunction name="getKmlColor" returntype="string" access="public" output="false">
+	<cfargument name="index" type="numeric" required="yes">
+
+	<cfset var hue = (arguments.index * 0.618033988749895) - int(arguments.index * 0.618033988749895)>
+	<!--- saturation 0.75 and value 0.9, converted from HSV --->
+	<cfset var sector = int(hue * 6)>
+	<cfset var fraction = hue * 6 - sector>
+	<cfset var high = 0.9>
+	<cfset var low = 0.9 * (1 - 0.75)>
+	<cfset var falling = 0.9 * (1 - 0.75 * fraction)>
+	<cfset var rising = 0.9 * (1 - 0.75 * (1 - fraction))>
+	<cfset var sectorColors = [[high, rising, low], [falling, high, low], [low, high, rising], [low, falling, high], [rising, low, high], [high, low, falling]]>
+	<cfset var rgb = sectorColors[sector + 1]>
+	<cfset var color = "ff">
+	<cfset var channel = 0>
+	<cfloop index="channel" list="3,2,1">
+		<cfset color &= right("0" & formatBaseN(round(rgb[channel] * 255), 16), 2)>
+	</cfloop>
+	<cfreturn color>
+</cffunction>
+
+<!--- obtain a georeference's error radius for a KML description.
+ @param errorInMeters the radius in meters, or an empty string.
+ @return the radius with its unit, or "not recorded".
+--->
+<cffunction name="getKmlErrorText" returntype="string" access="public" output="false">
+	<cfargument name="errorInMeters" type="string" required="yes">
+
+	<cfif len(arguments.errorInMeters) EQ 0>
+		<cfreturn "not recorded">
+	</cfif>
+	<cfreturn "#encodeForHtml(arguments.errorInMeters)# m">
+</cffunction>
+
+<!--- obtain a KML ExtendedData element, which GIS software reads as the placemark's attributes, so that
+ it can color by them where it doesn't use the KML styles.
+ @param values a struct of attribute names and values; names keep the case they are given in.
+ @return the ExtendedData element.
+--->
+<cffunction name="getKmlExtendedData" returntype="string" access="public" output="false">
+	<cfargument name="values" type="struct" required="yes">
+
+	<cfset var extendedData = "<ExtendedData>">
+	<cfset var valueName = "">
+	<cfloop collection="#arguments.values#" item="valueName">
+		<cfset extendedData &= '<Data name="#xmlFormat(valueName)#"><value>#xmlFormat(arguments.values[valueName])#</value></Data>'>
+	</cfloop>
+	<cfreturn extendedData & "</ExtendedData>">
 </cffunction>
 
 <!--- obtain the Darwin Core terms for one row of getResultGeoreferences, shared by the GeoJSON and CSV

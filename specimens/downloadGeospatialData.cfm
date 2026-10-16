@@ -166,7 +166,7 @@ limitations under the License.
 	<cfset variables.speciesSelected = "selected">
 </cfif>
 <cfset variables.formatLabels = {
-	kml = "KML, for Google Earth",
+	kml = "KML, for GIS and Google Earth",
 	kmz = "KMZ, zipped KML",
 	kmlLink = "KML link file, Google Earth loads the data from MCZbase",
 	geojson = "GeoJSON, for GIS and web maps",
