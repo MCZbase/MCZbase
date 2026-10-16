@@ -42,15 +42,18 @@ limitations under the License.
 <cfif listFind(FORMATS, form.format) GT 0>
 	<cfset variables.format = form.format>
 </cfif>
+<!--- checked against getKmlGroupings in getResultKml, which falls back to collection --->
 <cfset variables.colorBy = "collection">
-<cfif form.colorBy EQ "species">
-	<cfset variables.colorBy = "species">
+<cfif REFind("^[a-z_]+$", form.colorBy) GT 0>
+	<cfset variables.colorBy = form.colorBy>
 </cfif>
 <!--- names only the downloaded file, so anything but a plain name is replaced --->
 <cfset variables.fileName = REReplace(REReplaceNoCase(trim(form.fileName), "\.(kml|kmz|geojson|json|gpx|csv)$", ""), "[^A-Za-z0-9._-]", "_", "all")>
 <cfif len(variables.fileName) EQ 0>
 	<cfset variables.fileName = "MCZbaseLocalities">
 </cfif>
+<!--- the downloaded file's name, with when it was made, so repeated downloads don't overwrite each other --->
+<cfset variables.stampedName = "#variables.fileName#_#dateTimeFormat(now(), 'yyyymmdd_HHnnss')#">
 <cfset variables.showErrors = false>
 <cfif form.showErrors EQ "1">
 	<cfset variables.showErrors = true>
@@ -82,7 +85,7 @@ limitations under the License.
 					mapByLocality = variables.mapByLocality,
 					showUnaccepted = variables.showUnaccepted)>
 				<cfset variables.contentType = "application/geo+json; charset=utf-8">
-				<cfset variables.downloadName = "#variables.fileName#.geojson">
+				<cfset variables.downloadName = "#variables.stampedName#.geojson">
 			</cfcase>
 			<cfcase value="gpx">
 				<cfset variables.content = getResultGpx(
@@ -90,7 +93,7 @@ limitations under the License.
 					mapByLocality = variables.mapByLocality,
 					showUnaccepted = variables.showUnaccepted)>
 				<cfset variables.contentType = "application/gpx+xml; charset=utf-8">
-				<cfset variables.downloadName = "#variables.fileName#.gpx">
+				<cfset variables.downloadName = "#variables.stampedName#.gpx">
 			</cfcase>
 			<cfcase value="csv">
 				<!--- with a byte order mark, so spreadsheets read it as UTF-8 --->
@@ -99,7 +102,7 @@ limitations under the License.
 					mapByLocality = variables.mapByLocality,
 					showUnaccepted = variables.showUnaccepted)>
 				<cfset variables.contentType = "text/csv; charset=utf-8">
-				<cfset variables.downloadName = "#variables.fileName#.csv">
+				<cfset variables.downloadName = "#variables.stampedName#.csv">
 			</cfcase>
 			<cfdefaultcase>
 				<cfset variables.content = getResultKml(
@@ -110,7 +113,7 @@ limitations under the License.
 					showUnaccepted = variables.showUnaccepted,
 					includeTimeSpan = variables.includeTimeSpan)>
 				<cfset variables.contentType = "application/vnd.google-earth.kml+xml; charset=utf-8">
-				<cfset variables.downloadName = "#variables.fileName#.kml">
+				<cfset variables.downloadName = "#variables.stampedName#.kml">
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif variables.format EQ "kmlLink">
@@ -127,9 +130,9 @@ limitations under the License.
 				chr(9) & chr(9) & '<Link><href>#xmlFormat(Application.serverRootUrl)#/bnhmMaps/tabfiles/#variables.storedName#</href></Link>' & chr(10) &
 				chr(9) & '</NetworkLink>' & chr(10) &
 				'</kml>' & chr(10)>
-			<cfset variables.downloadName = "link_#variables.fileName#.kml">
+			<cfset variables.downloadName = "link_#variables.stampedName#.kml">
 		<cfelseif variables.format EQ "kmz">
-			<cfset variables.downloadName = "#variables.fileName#.kmz">
+			<cfset variables.downloadName = "#variables.stampedName#.kmz">
 		</cfif>
 		<cfheader name="Content-Disposition" value="#attachmentDisposition(variables.downloadName)#">
 		<cfif variables.format EQ "kmz">
@@ -160,10 +163,6 @@ limitations under the License.
 <cfset variables.formDisabled = "">
 <cfif variables.georefCount EQ 0>
 	<cfset variables.formDisabled = "disabled">
-</cfif>
-<cfset variables.speciesSelected = "">
-<cfif variables.colorBy EQ "species">
-	<cfset variables.speciesSelected = "selected">
 </cfif>
 <cfset variables.formatLabels = {
 	kml = "KML, for GIS and Google Earth",
@@ -204,12 +203,17 @@ limitations under the License.
 							<div class="col-12 col-md-4">
 								<label for="colorBy" class="data-entry-label">Color by (KML and KMZ)</label>
 								<select name="colorBy" id="colorBy" class="data-entry-select" onchange="updateGeospatialOptions('format','colorBy');">
-									<option value="collection">Collection</option>
-									<option value="species" #variables.speciesSelected#>Species</option>
+									<cfloop array="#getKmlGroupings()#" index="grouping">
+										<cfset variables.selected = "">
+										<cfif grouping.value EQ variables.colorBy>
+											<cfset variables.selected = "selected">
+										</cfif>
+										<option value="#grouping.value#" #variables.selected#>#encodeForHtml(grouping.label)#</option>
+									</cfloop>
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="fileName" class="data-entry-label">File name</label>
+								<label for="fileName" class="data-entry-label">File name (the date and time are added)</label>
 								<input type="text" name="fileName" id="fileName" class="data-entry-input" value="#encodeForHtml(variables.fileName)#">
 							</div>
 						</div>
@@ -217,7 +221,7 @@ limitations under the License.
 						<cfif variables.showErrors><cfset variables.checked = "checked"></cfif>
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" name="showErrors" id="showErrors" value="1" #variables.checked#>
-							<label class="form-check-label" for="showErrors">Show error circles (KML and KMZ by collection, and GeoJSON; makes large files; the CSV always has them as footprintWKT)</label>
+							<label class="form-check-label" for="showErrors">Show error circles (KML and KMZ, except by scientific name, and GeoJSON; makes large files; the CSV always has them as footprintWKT)</label>
 						</div>
 						<cfset variables.checked = "">
 						<cfif variables.mapByLocality><cfset variables.checked = "checked"></cfif>
@@ -241,6 +245,27 @@ limitations under the License.
 					</fieldset>
 				</form>
 				<script>
+					/** Make a checkbox available or not.  An unavailable one is shown unchecked, as it has no
+					 * effect, and its choice comes back when it is available again.
+					 *
+					 * @param checkboxId the id of the checkbox.
+					 * @param available true to enable it, false to disable it.
+					 */
+					function setOptionAvailable(checkboxId, available) {
+						var checkbox = $("##" + checkboxId);
+						if (available) {
+							if (checkbox.prop("disabled") && checkbox.data("wasChecked")) {
+								checkbox.prop("checked", true);
+							}
+							checkbox.prop("disabled", false);
+						} else if (!checkbox.prop("disabled")) {
+							checkbox.data("wasChecked", checkbox.prop("checked"));
+							checkbox.prop("checked", false);
+							checkbox.prop("disabled", true);
+						}
+						$("label[for='" + checkboxId + "']").toggleClass("text-muted", !available);
+					}
+
 					/** Enable only the options that apply to the chosen format and coloring.
 					 *
 					 * @param formatId the id of the format select.
@@ -251,10 +276,11 @@ limitations under the License.
 						var isKml = (format == "kml" || format == "kmz" || format == "kmlLink");
 						var bySpecies = isKml && $("##" + colorById).val() == "species";
 						$("##" + colorById).prop("disabled", !isKml);
-						$("##showErrors").prop("disabled", !((isKml && !bySpecies) || format == "geojson"));
-						$("##mapByLocality").prop("disabled", bySpecies);
-						$("##showUnaccepted").prop("disabled", bySpecies);
-						$("##includeTimeSpan").prop("disabled", !isKml);
+						$("label[for='" + colorById + "']").toggleClass("text-muted", !isKml);
+						setOptionAvailable("showErrors", (isKml && !bySpecies) || format == "geojson");
+						setOptionAvailable("mapByLocality", !bySpecies);
+						setOptionAvailable("showUnaccepted", !bySpecies);
+						setOptionAvailable("includeTimeSpan", isKml);
 					}
 					$(document).ready(function() {
 						updateGeospatialOptions("format", "colorBy");

@@ -87,7 +87,7 @@ limitations under the License.
 					</cfloop>
 					<cfif foundCount GT 0>
 						<li class="list-group-item">
-							<a href="/specimens/downloadGeospatialData.cfm?result_id=#encodeForUrl(variables.result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Map File (KML,GPX)</a>
+							<a href="/specimens/downloadGeospatialData.cfm?result_id=#encodeForUrl(variables.result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Map File (KML,GPX,etc.)</a>
 						</li>
 						<cfquery name="countGoodGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT count(*) ct 
@@ -631,11 +631,21 @@ limitations under the License.
 			flatTableName.collection,
 			flatTableName.spec_locality,
 			flatTableName.locality_id,
+			flatTableName.phylclass,
+			flatTableName.phylorder,
+			flatTableName.family,
+			flatTableName.toptypestatus,
+			flatTableName.continent_ocean,
+			flatTableName.country,
+			flatTableName.state_prov,
 			lat_long.dec_lat,
 			lat_long.dec_long,
 			lat_long.accepted_lat_long_fg,
 			ROUND(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) error_in_meters,
-			lat_long.datum
+			lat_long.datum,
+			lat_long.verificationstatus,
+			lat_long.georefmethod,
+			lat_long.orig_lat_long_units
 		FROM
 			<cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 			JOIN lat_long ON flatTableName.locality_id = lat_long.locality_id
@@ -666,12 +676,98 @@ limitations under the License.
 	<cfreturn georeferences>
 </cffunction>
 
-<!--- obtain a KML document of the georeferenced cataloged items in a result set, with the options of
- the legacy /bnhmMaps/kml.cfm.  As there, error circles, unaccepted georeferences and all records at
- each locality are offered only when coloring by collection.
+<!--- obtain the ways a KML map file can be colored, for the form on /specimens/downloadGeospatialData.cfm
+ and to check the choice made there.
+ @return an array of structs with value, the colorBy value, and label, its description; species first
+  after collection, as those two are the legacy /bnhmMaps/kml.cfm options.
+--->
+<cffunction name="getKmlGroupings" returntype="array" access="public" output="false">
+	<cfreturn [
+		{ value = "collection", label = "Collection" },
+		{ value = "species", label = "Scientific name, a placemark for each cataloged item" },
+		{ value = "phylclass", label = "Class" },
+		{ value = "phylorder", label = "Order" },
+		{ value = "family", label = "Family" },
+		{ value = "toptypestatus", label = "Type status" },
+		{ value = "decade", label = "Decade collected" },
+		{ value = "continent_ocean", label = "Continent or ocean" },
+		{ value = "country", label = "Country" },
+		{ value = "state_prov", label = "State or province" },
+		{ value = "datum", label = "Datum (quality control)" },
+		{ value = "uncertainty", label = "Coordinate uncertainty (quality control)" },
+		{ value = "verificationstatus", label = "Georeference verification status (quality control)" },
+		{ value = "georefmethod", label = "Georeference method (quality control)" },
+		{ value = "orig_lat_long_units", label = "Original coordinate format (quality control)" }
+	]>
+</cffunction>
+
+<!--- the coordinate uncertainty ranges for coloring by uncertainty, in the order their folders appear --->
+<cfset UNCERTAINTY_RANGES = "up to 10 m,10 to 100 m,100 m to 1 km,1 to 10 km,over 10 km,not recorded">
+
+<!--- obtain the folder a row of getResultGeoreferences belongs in when coloring a KML map file.
+ @param georeferences the query from getResultGeoreferences.
+ @param row the row of that query.
+ @param colorBy a value from getKmlGroupings, other than species.
+ @return the folder name; "not recorded" when the row has no value.
+--->
+<cffunction name="getKmlGroupValue" returntype="string" access="public" output="false">
+	<cfargument name="georeferences" type="query" required="yes">
+	<cfargument name="row" type="numeric" required="yes">
+	<cfargument name="colorBy" type="string" required="yes">
+
+	<cfset var value = "">
+	<cfset var meters = "">
+	<cfset var began = "">
+	<cfswitch expression="#arguments.colorBy#">
+		<cfcase value="decade">
+			<cfset began = arguments.georeferences.began_date[arguments.row]>
+			<cfif len(began) GTE 4 AND isNumeric(left(began, 4))>
+				<cfset value = "#left(began, 3)#0s">
+			</cfif>
+		</cfcase>
+		<cfcase value="uncertainty">
+			<cfset meters = arguments.georeferences.error_in_meters[arguments.row]>
+			<cfif NOT isNumeric(meters)>
+				<cfset value = "not recorded">
+			<cfelseif meters LTE 10>
+				<cfset value = "up to 10 m">
+			<cfelseif meters LTE 100>
+				<cfset value = "10 to 100 m">
+			<cfelseif meters LTE 1000>
+				<cfset value = "100 m to 1 km">
+			<cfelseif meters LTE 10000>
+				<cfset value = "1 to 10 km">
+			<cfelse>
+				<cfset value = "over 10 km">
+			</cfif>
+		</cfcase>
+		<cfcase value="toptypestatus">
+			<cfset value = arguments.georeferences.toptypestatus[arguments.row]>
+			<cfif len(value) EQ 0>
+				<cfset value = "not a type">
+			</cfif>
+		</cfcase>
+		<cfcase value="phylclass,phylorder,family,continent_ocean,country,state_prov,datum,verificationstatus,georefmethod,orig_lat_long_units">
+			<cfset value = arguments.georeferences[arguments.colorBy][arguments.row]>
+		</cfcase>
+		<cfdefaultcase>
+			<cfset value = arguments.georeferences.collection[arguments.row]>
+		</cfdefaultcase>
+	</cfswitch>
+	<cfif len(trim(value)) EQ 0>
+		<cfset value = "not recorded">
+	</cfif>
+	<cfreturn value>
+</cffunction>
+
+<!--- obtain a KML document of the georeferenced cataloged items in a result set.  Coloring by scientific
+ name gives, as the legacy /bnhmMaps/kml.cfm's species option did, a folder of cataloged items for each
+ name, with only accepted georeferences.  Every other coloring gives a folder for each value, each with
+ its own color, holding a placemark for each locality that lists the folder's cataloged items there,
+ with error circles, unaccepted georeferences and all records at each locality available, as the
+ legacy collection option did.
  @param result_id the guid for the result set to map.
- @param colorBy collection for a folder of localities for each collection, species for a folder of
-  cataloged items for each scientific name.
+ @param colorBy a value from getKmlGroupings; collection if it is not one.
  @param showErrors true to draw a circle of each georeference's error radius.
  @param mapByLocality true to list every cataloged item at each locality, not only those in the result.
  @param showUnaccepted true to include unaccepted georeferences, which get a red marker.
@@ -686,17 +782,20 @@ limitations under the License.
 	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
 	<cfargument name="includeTimeSpan" type="boolean" required="no" default="false">
 
-	<cfset var bySpecies = false>
-	<cfif arguments.colorBy EQ "species">
-		<cfset bySpecies = true>
-	</cfif>
+	<cfset var chosenColorBy = "collection">
+	<cfset var grouping = "">
+	<cfset var groupingLabel = "Collection">
+	<cfloop array="#getKmlGroupings()#" index="grouping">
+		<cfif grouping.value EQ arguments.colorBy>
+			<cfset chosenColorBy = grouping.value>
+			<cfset groupingLabel = grouping.label>
+		</cfif>
+	</cfloop>
 	<cfset var kmlData = "">
 	<cfset var kmlSpecies = "">
 	<cfset var kmlSpeciesRecords = "">
-	<cfset var kmlCollections = "">
-	<cfset var kmlLocalities = "">
 	<cfset var kmlErrors = "">
-	<cfif bySpecies>
+	<cfif chosenColorBy EQ "species">
 		<cfset kmlData = getResultGeoreferences(result_id = arguments.result_id)>
 	<cfelse>
 		<cfset kmlData = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
@@ -707,8 +806,8 @@ limitations under the License.
 	<cfset var tab = chr(9)>
 	<cfset kml.append('<?xml version="1.0" encoding="UTF-8"?>' & nl)>
 	<cfset kml.append('<kml xmlns="http://www.opengis.net/kml/2.2">' & nl)>
-	<cfset kml.append(tab & '<Document>' & nl & tab & tab & '<name>MCZbase Localities</name>' & nl & tab & tab & '<open>1</open>' & nl)>
-	<cfif bySpecies>
+	<cfset kml.append(tab & '<Document>' & nl & tab & tab & '<name>MCZbase Localities by #xmlFormat(groupingLabel)#</name>' & nl & tab & tab & '<open>1</open>' & nl)>
+	<cfif chosenColorBy EQ "species">
 		<cfquery name="kmlSpecies" dbtype="query">
 			SELECT scientific_name
 			FROM kmlData
@@ -717,11 +816,9 @@ limitations under the License.
 		</cfquery>
 		<!--- style ids by position, as scientific names aren't valid XML ids --->
 		<cfset var speciesStyle = structNew()>
-		<cfset var speciesColor = "">
 		<cfloop query="kmlSpecies">
 			<cfset speciesStyle[kmlSpecies.scientific_name] = "species#kmlSpecies.currentRow#">
-			<cfset speciesColor = getKmlColor(kmlSpecies.currentRow)>
-			<cfset kml.append(tab & tab & '<Style id="species#kmlSpecies.currentRow#"><IconStyle><color>#speciesColor#</color><scale>1.1</scale>')>
+			<cfset kml.append(tab & tab & '<Style id="species#kmlSpecies.currentRow#"><IconStyle><color>#getKmlColor(kmlSpecies.currentRow)#</color><scale>1.1</scale>')>
 			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
 		</cfloop>
 		<cfloop query="kmlSpecies">
@@ -755,72 +852,99 @@ limitations under the License.
 	<cfelse>
 		<cfset kml.append(tab & tab & '<Style id="red-star"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-stars.png</href></Icon></IconStyle></Style>' & nl)>
 		<cfset kml.append(tab & tab & '<Style id="error-line"><LineStyle><color>ff0000ff</color><width>1</width></LineStyle></Style>' & nl)>
-		<!--- the cataloged items at each locality, gathered once rather than queried for each placemark --->
-		<cfset var localityItems = structNew()>
-		<cfset var itemsSeen = structNew()>
-		<!--- keyed by the integer, as the database and query of queries values may print differently --->
+		<!--- One pass gathers, for each folder, its placemarks (a row for each locality and georeference,
+			and collecting dates when they are shown) and the cataloged items at each of its localities.
+			Locality ids are keyed as integers, as database values may print differently. --->
+		<cfset var groups = structNew()>
+		<cfset var groupItems = structNew()>
+		<cfset var seen = structNew()>
+		<cfset var groupValue = "">
 		<cfset var localityKey = "">
+		<cfset var placemarkKey = "">
+		<cfset var itemKey = "">
 		<cfloop query="kmlData">
+			<cfset groupValue = getKmlGroupValue(kmlData, kmlData.currentRow, chosenColorBy)>
 			<cfset localityKey = int(kmlData.locality_id)>
-			<cfif NOT structKeyExists(itemsSeen, "#localityKey#|#kmlData.collection_object_id#")>
-				<cfset itemsSeen["#localityKey#|#kmlData.collection_object_id#"] = true>
-				<cfif NOT structKeyExists(localityItems, localityKey)>
-					<cfset localityItems[localityKey] = "">
-				</cfif>
-				<cfset localityItems[localityKey] &= '<a href="#encodeForHtml(Application.serverRootUrl)#/guid/#encodeForHtml(kmlData.guid)#">#encodeForHtml(kmlData.collection)# #encodeForHtml(kmlData.cat_num)# (<em>#encodeForHtml(kmlData.scientific_name)#</em>)</a><br/>'>
+			<cfif NOT structKeyExists(groups, groupValue)>
+				<cfset groups[groupValue] = arrayNew(1)>
 			</cfif>
+			<cfset placemarkKey = "#groupValue#|#localityKey#|#kmlData.dec_lat#|#kmlData.dec_long#|#kmlData.accepted_lat_long_fg#|#kmlData.error_in_meters#|#kmlData.datum#">
+			<cfif arguments.includeTimeSpan>
+				<cfset placemarkKey &= "|#kmlData.began_date#|#kmlData.ended_date#">
+			</cfif>
+			<cfif NOT structKeyExists(seen, placemarkKey)>
+				<cfset seen[placemarkKey] = true>
+				<cfset arrayAppend(groups[groupValue], kmlData.currentRow)>
+			</cfif>
+			<cfset itemKey = "#groupValue#|#localityKey#|#kmlData.collection_object_id#">
+			<cfif NOT structKeyExists(seen, itemKey)>
+				<cfset seen[itemKey] = true>
+				<cfif NOT structKeyExists(groupItems, "#groupValue#|#localityKey#")>
+					<cfset groupItems["#groupValue#|#localityKey#"] = "">
+				</cfif>
+				<cfset groupItems["#groupValue#|#localityKey#"] &= '<a href="#encodeForHtml(Application.serverRootUrl)#/guid/#encodeForHtml(kmlData.guid)#">#encodeForHtml(kmlData.collection)# #encodeForHtml(kmlData.cat_num)# (<em>#encodeForHtml(kmlData.scientific_name)#</em>)</a><br/>'>
+			</cfif>
+		</cfloop>
+		<!--- folders in name order, uncertainty ranges in size order, without a value last --->
+		<cfset var groupNames = structKeyArray(groups)>
+		<cfset arraySort(groupNames, function(first, second) {
+			if (chosenColorBy EQ "uncertainty") {
+				return listFind(UNCERTAINTY_RANGES, first) - listFind(UNCERTAINTY_RANGES, second);
+			}
+			var firstMissing = (first EQ "not recorded");
+			var secondMissing = (second EQ "not recorded");
+			if (firstMissing NEQ secondMissing) {
+				return firstMissing ? 1 : -1;
+			}
+			return compareNoCase(first, second);
+		})>
+		<cfset var groupIndex = 0>
+		<cfloop from="1" to="#arrayLen(groupNames)#" index="groupIndex">
+			<cfset kml.append(tab & tab & '<Style id="group#groupIndex#"><IconStyle><color>#getKmlColor(groupIndex)#</color><scale>1.1</scale>')>
+			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
 		</cfloop>
 		<cfset var localityLink = "">
 		<cfset var acceptedText = "">
-		<cfquery name="kmlCollections" dbtype="query">
-			SELECT collection
-			FROM kmlData
-			GROUP BY collection
-			ORDER BY collection
-		</cfquery>
-		<!--- a color for each collection; unaccepted georeferences keep the red star --->
-		<cfloop query="kmlCollections">
-			<cfset kml.append(tab & tab & '<Style id="collection#kmlCollections.currentRow#"><IconStyle><color>#getKmlColor(kmlCollections.currentRow)#</color><scale>1.1</scale>')>
-			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
-		</cfloop>
-		<cfloop query="kmlCollections">
-			<cfquery name="kmlLocalities" dbtype="query">
-				SELECT dec_lat, dec_long, accepted_lat_long_fg, error_in_meters, datum, spec_locality, locality_id, began_date, ended_date
-				FROM kmlData
-				WHERE collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kmlCollections.collection#">
-				GROUP BY dec_lat, dec_long, accepted_lat_long_fg, error_in_meters, datum, spec_locality, locality_id, began_date, ended_date
-			</cfquery>
-			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>#xmlFormat(kmlCollections.collection)#</name>' & nl & tab & tab & tab & '<visibility>1</visibility>' & nl)>
-			<cfloop query="kmlLocalities">
+		<cfset var r = 0>
+		<cfset var localityItemsHtml = "">
+		<cfloop from="1" to="#arrayLen(groupNames)#" index="groupIndex">
+			<cfset groupValue = groupNames[groupIndex]>
+			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>#xmlFormat(groupValue)#</name>' & nl & tab & tab & tab & '<visibility>1</visibility>' & nl)>
+			<cfloop array="#groups[groupValue]#" index="r">
+				<cfset localityKey = int(kmlData.locality_id[r])>
 				<cfset localityLink = "">
 				<cfif isdefined("session.roles") AND listFindNoCase(session.roles,"manage_locality")>
-					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/Locality.cfm?locality_id=#encodeForUrl(kmlLocalities.locality_id)#">Edit Locality</a></p>'>
+					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/Locality.cfm?locality_id=#localityKey#">Edit Locality</a></p>'>
 				<cfelseif isdefined("session.roles") AND listFindNoCase(session.roles,"coldfusion_user")>
-					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/viewLocality.cfm?locality_id=#encodeForUrl(kmlLocalities.locality_id)#">Locality Details</a></p>'>
+					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/viewLocality.cfm?locality_id=#localityKey#">Locality Details</a></p>'>
 				</cfif>
+				<cfset localityItemsHtml = groupItems[groupValue & "|" & localityKey]>
 				<cfset kml.append(tab & tab & tab & '<Placemark>' & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlLocalities.spec_locality# (#kmlLocalities.locality_id#)")#</name>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlData.spec_locality[r]# (#localityKey#)")#</name>' & nl)>
 				<cfset kml.append(tab & tab & tab & tab & '<visibility>1</visibility>' & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlLocalities.datum)#<br/>Error: #getKmlErrorText(kmlLocalities.error_in_meters)#<br/>#localityLink##localityItems[int(kmlLocalities.locality_id)]#]]></description>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[#encodeForHtml(groupingLabel)#: #encodeForHtml(groupValue)#<br/>Datum: #encodeForHtml(kmlData.datum[r])#<br/>Error: #getKmlErrorText(kmlData.error_in_meters[r])#<br/>#localityLink##localityItemsHtml#]]></description>' & nl)>
 				<cfif arguments.includeTimeSpan>
-					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlLocalities.began_date)#</begin><end>#xmlFormat(kmlLocalities.ended_date)#</end></TimeSpan>' & nl)>
+					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlData.began_date[r])#</begin><end>#xmlFormat(kmlData.ended_date[r])#</end></TimeSpan>' & nl)>
 				</cfif>
 				<cfset acceptedText = "no">
-				<cfif kmlLocalities.accepted_lat_long_fg EQ 1>
+				<cfif kmlData.accepted_lat_long_fg[r] EQ 1>
 					<cfset acceptedText = "yes">
-					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##collection#kmlCollections.currentRow#</styleUrl>' & nl)>
+					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##group#groupIndex#</styleUrl>' & nl)>
 				<cfelse>
 					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##red-star</styleUrl>' & nl)>
 				</cfif>
 				<cfset kml.append(tab & tab & tab & tab & getKmlExtendedData({
-					"collection" = kmlCollections.collection,
-					"locationID" = kmlLocalities.locality_id,
-					"locality" = kmlLocalities.spec_locality,
+					"colorGroup" = groupValue,
+					"collection" = kmlData.collection[r],
+					"locationID" = localityKey,
+					"locality" = kmlData.spec_locality[r],
+					"country" = kmlData.country[r],
+					"stateProvince" = kmlData.state_prov[r],
 					"acceptedGeoreference" = acceptedText,
-					"geodeticDatum" = kmlLocalities.datum,
-					"coordinateUncertaintyInMeters" = kmlLocalities.error_in_meters
+					"geodeticDatum" = kmlData.datum[r],
+					"coordinateUncertaintyInMeters" = kmlData.error_in_meters[r]
 				}) & nl)>
-				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlLocalities.dec_long)#,#getPlainNumber(kmlLocalities.dec_lat)#</coordinates></Point>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#getPlainNumber(kmlData.dec_long[r])#,#getPlainNumber(kmlData.dec_lat[r])#</coordinates></Point>' & nl)>
 				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
 			</cfloop>
 			<cfset kml.append(tab & tab & '</Folder>' & nl)>
@@ -921,12 +1045,22 @@ limitations under the License.
 	<cfset terms["collectionCode"] = arguments.georeferences.collection_cde[arguments.row]>
 	<cfset terms["catalogNumber"] = arguments.georeferences.cat_num[arguments.row]>
 	<cfset terms["scientificName"] = arguments.georeferences.scientific_name[arguments.row]>
+	<cfset terms["class"] = arguments.georeferences.phylclass[arguments.row]>
+	<cfset terms["order"] = arguments.georeferences.phylorder[arguments.row]>
+	<cfset terms["family"] = arguments.georeferences.family[arguments.row]>
+	<cfset terms["typeStatus"] = arguments.georeferences.toptypestatus[arguments.row]>
+	<cfset terms["continent"] = arguments.georeferences.continent_ocean[arguments.row]>
+	<cfset terms["country"] = arguments.georeferences.country[arguments.row]>
+	<cfset terms["stateProvince"] = arguments.georeferences.state_prov[arguments.row]>
 	<cfset terms["locality"] = arguments.georeferences.spec_locality[arguments.row]>
 	<cfset terms["locationID"] = arguments.georeferences.locality_id[arguments.row]>
 	<cfset terms["decimalLatitude"] = getPlainNumber(arguments.georeferences.dec_lat[arguments.row])>
 	<cfset terms["decimalLongitude"] = getPlainNumber(arguments.georeferences.dec_long[arguments.row])>
 	<cfset terms["geodeticDatum"] = arguments.georeferences.datum[arguments.row]>
 	<cfset terms["coordinateUncertaintyInMeters"] = arguments.georeferences.error_in_meters[arguments.row]>
+	<cfset terms["verbatimCoordinateSystem"] = arguments.georeferences.orig_lat_long_units[arguments.row]>
+	<cfset terms["georeferenceProtocol"] = arguments.georeferences.georefmethod[arguments.row]>
+	<cfset terms["georeferenceVerificationStatus"] = arguments.georeferences.verificationstatus[arguments.row]>
 	<cfset terms["eventDate"] = began>
 	<cfif len(ended) GT 0 AND ended NEQ began>
 		<cfset terms["eventDate"] = "#began#/#ended#">
@@ -954,7 +1088,7 @@ limitations under the License.
 	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
 
 	<cfset var georeferences = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
-	<cfset var PROPERTY_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,locality,locationID,geodeticDatum,coordinateUncertaintyInMeters,eventDate,georeferenceRemarks,references">
+	<cfset var PROPERTY_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,class,order,family,typeStatus,continent,country,stateProvince,locality,locationID,geodeticDatum,coordinateUncertaintyInMeters,verbatimCoordinateSystem,georeferenceProtocol,georeferenceVerificationStatus,eventDate,georeferenceRemarks,references">
 	<cfset var json = createObject("java", "java.lang.StringBuilder").init()>
 	<cfset var terms = "">
 	<cfset var term = "">
@@ -1065,7 +1199,7 @@ limitations under the License.
 	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
 
 	<cfset var georeferences = getResultGeoreferences(result_id = arguments.result_id, acceptedOnly = NOT arguments.showUnaccepted, mapByLocality = arguments.mapByLocality)>
-	<cfset var CSV_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,locality,locationID,decimalLatitude,decimalLongitude,geodeticDatum,coordinateUncertaintyInMeters,footprintWKT,eventDate,georeferenceRemarks,references">
+	<cfset var CSV_TERMS = "institutionCode,collectionCode,catalogNumber,scientificName,class,order,family,typeStatus,continent,country,stateProvince,locality,locationID,decimalLatitude,decimalLongitude,geodeticDatum,coordinateUncertaintyInMeters,verbatimCoordinateSystem,georeferenceProtocol,georeferenceVerificationStatus,footprintWKT,eventDate,georeferenceRemarks,references">
 	<cfset var csv = createObject("java", "java.lang.StringBuilder").init()>
 	<cfset var terms = "">
 	<cfset var term = "">
