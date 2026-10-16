@@ -597,4 +597,234 @@ limitations under the License.
 	<cfreturn getPreservationsSummaryThread.output>
 </cffunction>
 
+<!--- obtain a KML document of the georeferenced cataloged items in a result set, with the options of
+ the legacy /bnhmMaps/kml.cfm.  As there, error circles, unaccepted georeferences and all records at
+ each locality are offered only when coloring by collection.
+ @param result_id the guid for the result set to map.
+ @param colorBy collection for a folder of localities for each collection, species for a folder of
+  cataloged items for each scientific name.
+ @param showErrors true to draw a circle of each georeference's error radius.
+ @param mapByLocality true to list every cataloged item at each locality, not only those in the result.
+ @param showUnaccepted true to include unaccepted georeferences, which get a red marker.
+ @param includeTimeSpan true to give each placemark its collecting dates as a KML TimeSpan.
+ @return the KML document.
+--->
+<cffunction name="getResultKml" returntype="string" access="public" output="false">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="colorBy" type="string" required="yes">
+	<cfargument name="showErrors" type="boolean" required="no" default="false">
+	<cfargument name="mapByLocality" type="boolean" required="no" default="false">
+	<cfargument name="showUnaccepted" type="boolean" required="no" default="false">
+	<cfargument name="includeTimeSpan" type="boolean" required="no" default="false">
+
+	<cfset var bySpecies = false>
+	<cfif arguments.colorBy EQ "species">
+		<cfset bySpecies = true>
+	</cfif>
+	<cfset var useFlat = false>
+	<cfif ucase(session.flatTableName) EQ "FLAT">
+		<cfset useFlat = true>
+	</cfif>
+	<cfset var kmlData = "">
+	<cfset var kmlData_result = "">
+	<cfset var kmlSpecies = "">
+	<cfset var kmlSpeciesRecords = "">
+	<cfset var kmlCollections = "">
+	<cfset var kmlLocalities = "">
+	<cfset var kmlErrors = "">
+	<cfquery name="kmlData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="kmlData_result" timeout="#Application.query_timeout#">
+		SELECT DISTINCT
+			flatTableName.collection_object_id,
+			flatTableName.guid,
+			flatTableName.cat_num,
+			flatTableName.began_date,
+			flatTableName.ended_date,
+			flatTableName.scientific_name,
+			flatTableName.collection,
+			flatTableName.spec_locality,
+			flatTableName.locality_id,
+			lat_long.dec_lat,
+			lat_long.dec_long,
+			lat_long.accepted_lat_long_fg,
+			ROUND(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) error_in_meters,
+			lat_long.datum
+		FROM
+			<cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+			JOIN lat_long ON flatTableName.locality_id = lat_long.locality_id
+		WHERE
+			lat_long.dec_lat IS NOT NULL
+			AND lat_long.dec_long IS NOT NULL
+			<cfif bySpecies OR NOT arguments.showUnaccepted>
+				AND lat_long.accepted_lat_long_fg = 1
+			</cfif>
+			<cfif NOT bySpecies AND arguments.mapByLocality>
+				AND flatTableName.locality_id IN (
+					SELECT resultFlat.locality_id
+					FROM user_search_table
+						JOIN <cfif useFlat>FLAT<cfelse>FILTERED_FLAT</cfif> resultFlat
+							ON user_search_table.collection_object_id = resultFlat.collection_object_id
+					WHERE user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
+				)
+			<cfelse>
+				AND flatTableName.collection_object_id IN (
+					SELECT collection_object_id
+					FROM user_search_table
+					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.result_id#">
+				)
+			</cfif>
+		ORDER BY
+			flatTableName.collection, flatTableName.scientific_name, flatTableName.cat_num
+	</cfquery>
+
+	<cfset var kml = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset var nl = chr(10)>
+	<cfset var tab = chr(9)>
+	<cfset kml.append('<?xml version="1.0" encoding="UTF-8"?>' & nl)>
+	<cfset kml.append('<kml xmlns="http://www.opengis.net/kml/2.2">' & nl)>
+	<cfset kml.append(tab & '<Document>' & nl & tab & tab & '<name>MCZbase Localities</name>' & nl & tab & tab & '<open>1</open>' & nl)>
+	<cfif bySpecies>
+		<cfquery name="kmlSpecies" dbtype="query">
+			SELECT scientific_name
+			FROM kmlData
+			GROUP BY scientific_name
+			ORDER BY scientific_name
+		</cfquery>
+		<!--- style ids by position, as scientific names aren't valid XML ids --->
+		<cfset var speciesStyle = structNew()>
+		<cfset var speciesColor = "">
+		<cfloop query="kmlSpecies">
+			<cfset speciesStyle[kmlSpecies.scientific_name] = "species#kmlSpecies.currentRow#">
+			<cfset speciesColor = right("00000" & formatBaseN(randRange(0, 16777215), 16), 6)>
+			<cfset kml.append(tab & tab & '<Style id="species#kmlSpecies.currentRow#"><IconStyle><color>ff#speciesColor#</color><scale>1.1</scale>')>
+			<cfset kml.append('<Icon><href>#xmlFormat(Application.serverRootUrl)#/images/whiteBalloon.png</href></Icon></IconStyle></Style>' & nl)>
+		</cfloop>
+		<cfloop query="kmlSpecies">
+			<cfquery name="kmlSpeciesRecords" dbtype="query">
+				SELECT collection, cat_num, scientific_name, dec_lat, dec_long, error_in_meters, datum, began_date, ended_date
+				FROM kmlData
+				WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kmlSpecies.scientific_name#">
+			</cfquery>
+			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>#xmlFormat(kmlSpecies.scientific_name)#</name>' & nl & tab & tab & tab & '<visibility>1</visibility>' & nl)>
+			<cfloop query="kmlSpeciesRecords">
+				<cfset kml.append(tab & tab & tab & '<Placemark>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlSpeciesRecords.collection# #kmlSpeciesRecords.cat_num# (#kmlSpeciesRecords.scientific_name#)")#</name>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<visibility>1</visibility>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlSpeciesRecords.datum)#<br/>Error: #encodeForHtml(kmlSpeciesRecords.error_in_meters)# m<br/>]]></description>' & nl)>
+				<cfif arguments.includeTimeSpan>
+					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlSpeciesRecords.began_date)#</begin><end>#xmlFormat(kmlSpeciesRecords.ended_date)#</end></TimeSpan>' & nl)>
+				</cfif>
+				<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##' & speciesStyle[kmlSpecies.scientific_name] & '</styleUrl>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#kmlSpeciesRecords.dec_long#,#kmlSpeciesRecords.dec_lat#,0</coordinates></Point>' & nl)>
+				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
+			</cfloop>
+			<cfset kml.append(tab & tab & '</Folder>' & nl)>
+		</cfloop>
+	<cfelse>
+		<cfset kml.append(tab & tab & '<Style id="green-star"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href></Icon></IconStyle></Style>' & nl)>
+		<cfset kml.append(tab & tab & '<Style id="red-star"><IconStyle><Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-stars.png</href></Icon></IconStyle></Style>' & nl)>
+		<cfset kml.append(tab & tab & '<Style id="error-line"><LineStyle><color>ff0000ff</color><width>1</width></LineStyle></Style>' & nl)>
+		<!--- the cataloged items at each locality, gathered once rather than queried for each placemark --->
+		<cfset var localityItems = structNew()>
+		<cfset var itemsSeen = structNew()>
+		<!--- keyed by the integer, as the database and query of queries values may print differently --->
+		<cfset var localityKey = "">
+		<cfloop query="kmlData">
+			<cfset localityKey = int(kmlData.locality_id)>
+			<cfif NOT structKeyExists(itemsSeen, "#localityKey#|#kmlData.collection_object_id#")>
+				<cfset itemsSeen["#localityKey#|#kmlData.collection_object_id#"] = true>
+				<cfif NOT structKeyExists(localityItems, localityKey)>
+					<cfset localityItems[localityKey] = "">
+				</cfif>
+				<cfset localityItems[localityKey] &= '<a href="#encodeForHtml(Application.serverRootUrl)#/guid/#encodeForHtml(kmlData.guid)#">#encodeForHtml(kmlData.collection)# #encodeForHtml(kmlData.cat_num)# (<em>#encodeForHtml(kmlData.scientific_name)#</em>)</a><br/>'>
+			</cfif>
+		</cfloop>
+		<cfset var localityLink = "">
+		<cfquery name="kmlCollections" dbtype="query">
+			SELECT collection
+			FROM kmlData
+			GROUP BY collection
+			ORDER BY collection
+		</cfquery>
+		<cfloop query="kmlCollections">
+			<cfquery name="kmlLocalities" dbtype="query">
+				SELECT dec_lat, dec_long, accepted_lat_long_fg, error_in_meters, datum, spec_locality, locality_id, began_date, ended_date
+				FROM kmlData
+				WHERE collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kmlCollections.collection#">
+				GROUP BY dec_lat, dec_long, accepted_lat_long_fg, error_in_meters, datum, spec_locality, locality_id, began_date, ended_date
+			</cfquery>
+			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>#xmlFormat(kmlCollections.collection)#</name>' & nl & tab & tab & tab & '<visibility>1</visibility>' & nl)>
+			<cfloop query="kmlLocalities">
+				<cfset localityLink = "">
+				<cfif isdefined("session.roles") AND listFindNoCase(session.roles,"manage_locality")>
+					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/Locality.cfm?locality_id=#encodeForUrl(kmlLocalities.locality_id)#">Edit Locality</a></p>'>
+				<cfelseif isdefined("session.roles") AND listFindNoCase(session.roles,"coldfusion_user")>
+					<cfset localityLink = '<p><a href="#encodeForHtml(Application.serverRootUrl)#/localities/viewLocality.cfm?locality_id=#encodeForUrl(kmlLocalities.locality_id)#">Locality Details</a></p>'>
+				</cfif>
+				<cfset kml.append(tab & tab & tab & '<Placemark>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<name>#xmlFormat("#kmlLocalities.spec_locality# (#kmlLocalities.locality_id#)")#</name>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<visibility>1</visibility>' & nl)>
+				<cfset kml.append(tab & tab & tab & tab & '<description><![CDATA[Datum: #encodeForHtml(kmlLocalities.datum)#<br/>Error: #encodeForHtml(kmlLocalities.error_in_meters)# m<br/>#localityLink##localityItems[int(kmlLocalities.locality_id)]#]]></description>' & nl)>
+				<cfif arguments.includeTimeSpan>
+					<cfset kml.append(tab & tab & tab & tab & '<TimeSpan><begin>#xmlFormat(kmlLocalities.began_date)#</begin><end>#xmlFormat(kmlLocalities.ended_date)#</end></TimeSpan>' & nl)>
+				</cfif>
+				<cfif kmlLocalities.accepted_lat_long_fg EQ 1>
+					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##green-star</styleUrl>' & nl)>
+				<cfelse>
+					<cfset kml.append(tab & tab & tab & tab & '<styleUrl>##red-star</styleUrl>' & nl)>
+				</cfif>
+				<cfset kml.append(tab & tab & tab & tab & '<Point><coordinates>#kmlLocalities.dec_long#,#kmlLocalities.dec_lat#</coordinates></Point>' & nl)>
+				<cfset kml.append(tab & tab & tab & '</Placemark>' & nl)>
+			</cfloop>
+			<cfset kml.append(tab & tab & '</Folder>' & nl)>
+		</cfloop>
+		<cfif arguments.showErrors>
+			<cfquery name="kmlErrors" dbtype="query">
+				SELECT error_in_meters, dec_lat, dec_long
+				FROM kmlData
+				WHERE error_in_meters > 0
+				GROUP BY error_in_meters, dec_lat, dec_long
+			</cfquery>
+			<cfset kml.append(tab & tab & '<Folder>' & nl & tab & tab & tab & '<name>Error Circles</name>' & nl)>
+			<cfloop query="kmlErrors">
+				<cfset kml.append(getKmlErrorCircle(kmlErrors.dec_lat, kmlErrors.dec_long, kmlErrors.error_in_meters))>
+			</cfloop>
+			<cfset kml.append(tab & tab & '</Folder>' & nl)>
+		</cfif>
+	</cfif>
+	<cfset kml.append(tab & '</Document>' & nl & '</kml>' & nl)>
+	<cfreturn kml.toString()>
+</cffunction>
+
+<!--- obtain a KML placemark drawing a circle around a point, for a georeference's error radius.
+ @param latitude the decimal latitude of the center.
+ @param longitude the decimal longitude of the center.
+ @param radius the radius in meters.
+ @return a Placemark element with a LineString of 361 points, styled with error-line.
+--->
+<cffunction name="getKmlErrorCircle" returntype="string" access="public" output="false">
+	<cfargument name="latitude" type="numeric" required="yes">
+	<cfargument name="longitude" type="numeric" required="yes">
+	<cfargument name="radius" type="numeric" required="yes">
+
+	<cfset var math = createObject("java", "java.lang.Math")>
+	<cfset var lat = arguments.latitude * pi() / 180>
+	<cfset var lon = arguments.longitude * pi() / 180>
+	<!--- the radius as an angle, on a sphere of the WGS84 equatorial radius --->
+	<cfset var angularRadius = arguments.radius / 6378137>
+	<cfset var coordinates = createObject("java", "java.lang.StringBuilder").init()>
+	<cfset var bearing = 0>
+	<cfset var pointLat = 0>
+	<cfset var pointLon = 0>
+	<cfset var i = 0>
+	<cfloop from="0" to="360" index="i">
+		<cfset bearing = i * pi() / 180>
+		<cfset pointLat = math.asin(javaCast("double", sin(lat) * cos(angularRadius) + cos(lat) * sin(angularRadius) * cos(bearing)))>
+		<cfset pointLon = lon + math.atan2(javaCast("double", sin(bearing) * sin(angularRadius) * cos(lat)), javaCast("double", cos(angularRadius) - sin(lat) * sin(pointLat)))>
+		<!--- back into -180 to 180; MOD is integer only --->
+		<cfset pointLon = pointLon - 2 * pi() * int((pointLon + pi()) / (2 * pi()))>
+		<cfset coordinates.append(chr(10) & "#pointLon * 180 / pi()#,#pointLat * 180 / pi()#")>
+	</cfloop>
+	<cfreturn chr(9) & chr(9) & chr(9) & '<Placemark><name>Error</name><visibility>1</visibility><styleUrl>##error-line</styleUrl><LineString><coordinates>' & coordinates.toString() & chr(10) & '</coordinates></LineString></Placemark>' & chr(10)>
+</cffunction>
+
 </cfcomponent>

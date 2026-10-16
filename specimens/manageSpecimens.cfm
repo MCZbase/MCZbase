@@ -121,6 +121,9 @@ limitations under the License.
 									<a href="/bnhmMaps/SpecimensByLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs">Map Localities</a>
 								</li>
 								<li class="nav-item mb-1">
+									<a href="/specimens/downloadKml.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">KML for Google Earth</a>
+								</li>
+								<li class="nav-item mb-1">
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
 								</li>
 								<li class="nav-item mb-1">
