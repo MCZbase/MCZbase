@@ -1313,7 +1313,10 @@ limitations under the License.
 				join collection on trans.collection_id=collection.collection_id
 				left join project_trans on trans.transaction_id = project_trans.transaction_id
 				left join project on project_trans.project_id = project.project_id
-				<cfif ( isdefined("permit_id") and len(#permit_id#) gt 0 ) OR ( isdefined("permit_type") and len(#permit_type#) gt 0 ) OR ( isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0 ) OR ( isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0 ) OR ( isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0 ) >
+				<cfif ( isdefined("permit_id") and len(#permit_id#) gt 0 ) OR ( isdefined("permit_type") and len(#permit_type#) gt 0 ) OR ( isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0 ) OR ( isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0 ) OR ( isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0 )
+					OR ( isdefined("issued_by_id") and len(#issued_by_id#) gt 0 ) OR ( isdefined("issued_to_id") and len(#issued_to_id#) gt 0 ) OR ( isdefined("permit_contact_id") and len(#permit_contact_id#) gt 0 )
+					OR ( isdefined("restriction_summary") and len(#restriction_summary#) gt 0 ) OR ( isdefined("benefits_summary") and len(#benefits_summary#) gt 0 ) OR ( isdefined("internal_benefits_summary") and len(#internal_benefits_summary#) gt 0 )
+					OR ( isdefined("benefits_provided") and len(#benefits_provided#) gt 0 ) OR ( isdefined("permit_remarks") and len(#permit_remarks#) gt 0 ) >
 					left join permit_trans on trans.transaction_id = permit_trans.transaction_id
 					left join permit on permit_trans.permit_id = permit.permit_id
 				</cfif>
