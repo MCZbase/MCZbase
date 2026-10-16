@@ -9,6 +9,10 @@ create or replace public synonym cf_dataentry_settings for cf_dataentry_settings
 grant all on cf_dataentry_settings to data_entry;
 
 ---->
+<!--- loaded into Data Entry without a header, so cf_rolecheck doesn't run --->
+<cfif NOT isdefined("session.roles") OR NOT listFindNoCase(session.roles,"data_entry")>
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 <cfinclude template="/includes/alwaysInclude.cfm">
 
 
