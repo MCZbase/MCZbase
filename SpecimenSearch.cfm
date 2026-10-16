@@ -1,5 +1,4 @@
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <cfset title="Specimen Search">
 <cfset metaDesc="Search for museum specimens and observations by taxonomy, identifications, specimen attributes, and usage history.">
 <cfoutput>
@@ -62,11 +61,7 @@
 		</cfif>
 		<td class="horiz_padding">
 			<span style="color:red;">
-				<cfif #action# is "dispCollObj">
-					<p>You are searching for items to add to a loan.</p>
-                <cfelseif #action# is "dispCollObjDeacc">
-					<p>You are searching for items to add to a deaccession.</p>
-				<cfelseif #action# is "encumber">
+				<cfif #action# is "encumber">
 					<p>You are searching for items to encumber.</p>
 				<cfelseif #action# is "collEvent">
 					<p>You are searching for items to change collecting event.</p>
@@ -396,17 +391,7 @@
 
          <script type="text/javascript" language="javascript">
          	jQuery(document).ready(function() {
-         		jQuery("##phylclass").autocomplete("/ajax/phylclass.cfm", {
-         			width: 320,
-         			max: 50,
-         			autofill: false,
-         			multiple: false,
-         			scroll: true,
-         			scrollHeight: 300,
-         			matchContains: true,
-         			minChars: 1,
-         			selectFirst:false
-         		});
+         		makeLineListAutocomplete("phylclass", "/ajax/phylclass.cfm");
          	});
 
          </script>
@@ -553,15 +538,7 @@
 
        <script type="text/javascript" language="javascript">
        	jQuery(document).ready(function() {
-       		jQuery("##geology_attribute_value").autocomplete("/ajax/tData.cfm?action=suggestGeologyAttVal", {
-       			width: 320,
-       			max: 20,
-       			autofill: true,
-       			highlight: false,
-       			multiple: false,
-       			scroll: true,
-       			scrollHeight: 300
-       		});
+       		makeLineListAutocomplete("geology_attribute_value", "/ajax/tData.cfm", { action: "suggestGeologyAttVal" }, 20);
        	});
        </script>
        <cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -1123,7 +1100,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_1" id="attribute_type_1" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
@@ -1148,7 +1124,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_2" id="attribute_type_2" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
@@ -1173,7 +1148,6 @@
           	</tr>
           	<tr>
           		<td class="lbl">
-          			<span class="helpLink infoLink" id="attribute_type">Help</span>
           			<select name="attribute_type_3" id="attribute_type_3" size="1">
           				<option selected value="">[ pick an attribute ]</option>
           					<cfloop query="ctAttributeType">
@@ -1247,28 +1221,8 @@
          </cfquery>
          <script type="text/javascript" language="javascript">
          	jQuery(document).ready(function() {
-         		jQuery("##project_name").autocomplete("/ajax/project.cfm", {
-         			width: 320,
-         			max: 50,
-         			autofill: false,
-         			multiple: false,
-         			scroll: true,
-         			scrollHeight: 300,
-         			matchContains: true,
-         			minChars: 1,
-         			selectFirst:false
-         		});
-         		jQuery("##loan_project_name").autocomplete("/ajax/project.cfm", {
-         			width: 320,
-         			max: 50,
-         			autofill: false,
-         			multiple: false,
-         			scroll: true,
-         			scrollHeight: 300,
-         			matchContains: true,
-         			minChars: 1,
-         			selectFirst:false
-         		});
+         		makeLineListAutocomplete("project_name", "/ajax/project.cfm");
+         		makeLineListAutocomplete("loan_project_name", "/ajax/project.cfm");
          	});
          </script>
          <table id="t_identifiers" class="ssrch">
@@ -1594,9 +1548,6 @@
 		</td>
 	</tr>
 </table>
-<cfif isdefined("transaction_id") and len(transaction_id) gt 0>
-	<input type="hidden" name="transaction_id" value="#transaction_id#">
-</cfif>
 <input type="hidden" name="newQuery" value="1"><!--- pass this to the next form so we clear the cache and run the proper queries--->
 </form>
 <script>
@@ -1659,17 +1610,7 @@ $(function() {
                      );
                 });
 	});
-	jQuery("##partname").autocomplete("/ajax/part_name.cfm", {
-		width: 320,
-		max: 50,
-		autofill: false,
-		multiple: false,
-		scroll: true,
-		scrollHeight: 300,
-		matchContains: true,
-		minChars: 1,
-		selectFirst:false
-	});
+	makeLineListAutocomplete("partname", "/ajax/part_name.cfm");
 
         function setupSpecSrchPref() {
                 // Set all show fewer/more options to show fewer.

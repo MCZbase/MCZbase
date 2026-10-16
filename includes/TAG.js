@@ -1,4 +1,4 @@
-jQuery("#newRefBtn").live('click', function(e){
+jQuery(document).on('click', "#newRefBtn", function(e){
 	if ($("#t_new").val().length==0 || $("#l_new").val().length==0 || $("#h_new").val().length==0 || $("#w_new").val().length==0) {
 		alert('You must have a TAG.');
 		return false;
@@ -161,8 +161,8 @@ function saveTagEdit(id){
 			    });
 				$("div .highlight").removeClass("highlight").addClass("refDiv");
 				$("div .refPane_highlight").removeClass("refPane_highlight");
-				$("div .editing").draggable("destroy");
-				$("div .editing").resizable("destroy");
+				$("div .editing").filter(".ui-draggable").draggable("destroy");
+				$("div .editing").filter(".ui-resizable").resizable("destroy");
 				$("div .editing").removeClass("editing").addClass("refDiv");
 				$("div .refPane_editing").removeClass("refPane_editing");
 				$("#info").text('');
@@ -173,7 +173,7 @@ function saveTagEdit(id){
 	);
 }
 
-jQuery("span[id^='editRefClk_']").live('click', function(e){
+jQuery(document).on('click', "span[id^='editRefClk_']", function(e){
 	$.each($("div[id^='refControl_']"), function() {
 	      $("#" + this.id).hide();
     });
@@ -229,18 +229,18 @@ jQuery("span[id^='editRefClk_']").live('click', function(e){
 	$('#tagDetails_' + tagID).html(d);
 	modArea(tagID);
 });
-$("span[id^='scrollToTag_']").live('click', function(e){
+$(document).on('click', "span[id^='scrollToTag_']", function(e){
 	var tagID=this.id.replace('scrollToTag_','');
 	scrollToTag(tagID);
 });
 
 
 
-jQuery("div .refDiv").live('click', function(e){
+jQuery(document).on('click', "div .refDiv", function(e){
 	var tagID=this.id.replace('refDiv_','');
 	scrollToLabel(tagID);
 });
-$("span[id^='killRefClk_']").live('click', function(e){
+$(document).on('click', "span[id^='killRefClk_']", function(e){
 	var tagID=this.id.replace('killRefClk_','');
 	var str = confirm("Are you sure you want to delete this TAG?");
 	if (str) {
@@ -313,7 +313,7 @@ function scrollToLabel(id) {
 	$("div .refPane_highlight").removeClass("refPane_highlight");
 	$("#" + divID).removeClass("refDiv").addClass("highlight");
 	$("#" + paneID).addClass('refPane_highlight');
-	$('#navDiv').scrollTo( $('#' + paneID), 800 );
+	scrollToElement('navDiv', paneID, 800);
 }
 	
 function scrollToTag(id) {
@@ -323,7 +323,7 @@ function scrollToTag(id) {
 	$("div .refPane_highlight").removeClass("refPane_highlight");
 	$("#" + divID).removeClass("refDiv").addClass("highlight");
 	$("#" + paneID).addClass('refPane_highlight');
-	$(document).scrollTo( $('#' + divID), 800 );
+	scrollToElement(null, divID, 800);
 }
 	
 	
@@ -332,8 +332,8 @@ function modArea(id) {
 	var paneID='refPane_' + id;
 	$("div .highlight").removeClass("highlight").addClass("refDiv");
 	$("div .refPane_highlight").removeClass("refPane_highlight");
-	$("div .editing").draggable("destroy");
-	$("div .editing").resizable("destroy");
+	$("div .editing").filter(".ui-draggable").draggable("destroy");
+	$("div .editing").filter(".ui-resizable").resizable("destroy");
 	$("div .editing").removeClass("editing").addClass("refDiv");
 	$("div .refPane_editing").removeClass("refPane_editing");
 	$("#" + divID).removeClass("refDiv").addClass("editing");
@@ -346,7 +346,7 @@ function modArea(id) {
 		containment: 'parent',
 		stop: function(event,ui){showDim(id,event, ui);}
 	});
-	$('#navDiv').scrollTo( $('#' + paneID), 800 );
+	scrollToElement('navDiv', paneID, 800);
 }
 function addRefPane(id,reftype,refStr,refId,remark,reflink,t,l,h,w) {
 	if (refStr==null){refStr='';}

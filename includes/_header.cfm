@@ -16,9 +16,7 @@
 <style>
 	table td {border:none;}
 </style>
-<cfif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
-	<cfinclude template="/includes/feedReaderInclude.cfm">
-<cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
+<cfif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
 	<cfinclude template="/includes/DataEntryInclude.cfm">
 	<cfoutput>
 		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
@@ -246,6 +244,7 @@
 									<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 									<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 									<a class="dropdown-item" href="/dataquality/check_names.cfm">Check CSV of Taxon Names</a>
+									<a class="dropdown-item" href="/dataquality/check_agents.cfm">Check CSV of Agent Names</a>
 								</div>
 							</li>
 						</ul>
