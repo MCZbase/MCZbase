@@ -474,10 +474,6 @@ document.getElementById('saveme').submit();
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
 		</form>
 		</cfif>
-<cfif #Action# is "dispCollObj">
-	<br><a href="/transactions/Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
-	<a href="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">Review Loan Items</a>
-</cfif>
 
 <form name="browse" action="SpecimenResultsHTML.cfm" method="post">
 				#searchparams#
@@ -944,10 +940,6 @@ document.getElementById('saveme').submit();
 </cfoutput>
 </form>
 
-<cfif #Action# is "dispCollObj">
-	<td><strong>Pick Parts</strong></td>
-	<td><strong>Encumbrances</strong></td>
-</cfif>
 </tr>
 <cfset i=1>
 <cfquery name="colls" dbtype="query">
@@ -1165,83 +1157,6 @@ document.getElementById('saveme').submit();
 			#coll_obj_disposition#
 		</td>
 	</cfif>
-<!----------------------------------------------------------------------------------------------------->
-  <!--- The following bits add items to a loan --->
-  <!----------------------------------------------------------------------------------------------------->
-  <cfif #Action# is "dispCollObj">
-
-	<!----
-	<cfquery name="getParts" dbtype="query">
-	    select part_name, partID, coll_obj_disposition
-		  from getBasic where collection_object_id = #collection_object_id# group by part_name, partID,coll_obj_disposition
-	  </cfquery>
-	  ---->
-	<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	    select
-			part_name,
-			specimen_part.collection_object_id partID,
-			coll_obj_disposition,
-			encumbrance_action
-		  from
-		 	specimen_part,
-			coll_object,
-			coll_object_encumbrance,
-			encumbrance
-		where
-			specimen_part.collection_object_id = coll_object.collection_object_id AND
-			specimen_part.collection_object_id = coll_object_encumbrance.collection_object_id (+) AND
-			coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-			specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		group by part_name, specimen_part.collection_object_id,coll_obj_disposition,encumbrance_action
-	  </cfquery>
-	    <td nowrap>
-	  <cfset i=1>
-
-	  <cfloop query="getParts">
-	  	#part_name#
-		  <cfif len (#getParts.partID#) gt 0 AND isdefined("transaction_id")>
-			    <!--- they are trying to add a loan item to a loan as a curatorial user --->
-			    <!--- check for rights ---->
-			    <!----and give them a button to click --->
-	  <cfset thisName = "p#getParts.partID#">
-	  <form name="parts#getParts.partID#">
-		  <input type="button" value="Add #getParts.part_name# (details)" class="lnkBtn"
-   onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-   onClick="window.open('/picks/internalAddLoanItem.cfm?collection_object_id=#getParts.partID#&transaction_id=#transaction_id#&item=#getParts.part_name#','_AddLoanItem','width=500,height=400');parts#getParts.partID#.#thisName#.checked=1;">
-
-		<br>
-		   <input type="button" value="Add whole" class="insBtn"
-   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
-    onClick="window.open('/picks/internalAddLoanItem.cfm?collection_object_id=#getParts.partID#&transaction_id=#transaction_id#&item=#getParts.part_name#&Action=AddItem&selfClose=y&isSubsample=n','_AddLoanItem');parts#getParts.partID#.#thisName#.checked=1;">
-
-   <input type="button" value="Add subsample" class="insBtn"
-   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"
-		onClick="window.open('/picks/internalAddLoanItem.cfm?collection_object_id=#getParts.partID#&transaction_id=#transaction_id#&item=#getParts.part_name#&Action=AddItem&selfClose=y&isSubsample=y','_AddLoanItem');parts#getParts.partID#.#thisName#.checked=1;">
-
-
-				<br>(#coll_obj_disposition#)&nbsp;&nbsp;Added? <input type="checkbox" name="#thisName#">
-			  </form>
-  <hr>
-		  <cfelse>
-			  You don't seem to have the proper rights to be here!
-			  <cfabort>
-		  </cfif>
-	  <cfset i=#i#+1>
-	  </cfloop>
-	  </td>
-
-
-  <td>
-	  <cfif len(#getParts.encumbrance_action#) gt 0>
-		 #getParts.encumbrance_action#<br>
-	  <cfelse>
-		  None
-	  </cfif>
-  </td>
-  </cfif>
-  <!-----------------------------------------------------------------------------------------
-					End loan items bit
----------------------------------------------------------------------->
   </tr>
 
   <cfset i=#I#+1>

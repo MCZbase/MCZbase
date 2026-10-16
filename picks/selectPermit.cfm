@@ -15,7 +15,7 @@ Returns:
 	permit_num:
 		the number of the permit.
 Based on:
-	PermitPick.cfm.
+	the former picks/PermitPick.cfm.
 Dependencies:
 Notes:
 	uses window.opener.document to "return" values.
