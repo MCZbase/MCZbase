@@ -28,7 +28,7 @@ limitations under the License.
 <cfsetting requesttimeout="300">
 
 <!--- Libraries, generated files and media, and directories Application.cfc refuses outright. --->
-<cfset variables.EXCLUDED_DIRECTORIES = "lib,.git,CFIDE,WEB-INF,META-INF,cfdocs,temp,download,tempImages,mediaUploads,specimen_images,cache,CustomTags,binary_stuff,log,node_modules,bower_components">
+<cfset variables.EXCLUDED_DIRECTORIES = "lib,.git,CFIDE,WEB-INF,META-INF,cfdocs,temp,download,mediaUploads,specimen_images,cache,CustomTags,binary_stuff,log,node_modules,bower_components">
 <cfset variables.BROAD_ROLES = "public,coldfusion_user">
 <cfset variables.STAFF_DIRECTORIES = "/Admin/,/tools/,/ScheduledTasks/,/Bulkloader/">
 <cfset variables.HEADER_PATTERN = "<cfinclude[^>]+template\s*=\s*[""']\s*(\.\./|/)*(shared/_header|includes/_header|includes/_pickHeader|includes/_frameHeader)\.cfm">

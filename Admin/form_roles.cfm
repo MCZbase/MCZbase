@@ -31,7 +31,7 @@ limitations under the License.
 <cfset variables.filter = trim(url.filter)>
 
 <!--- Same exclusions as /tools/uncontrolledPages.cfm. --->
-<cfset variables.EXCLUDED_DIRECTORIES = "lib,.git,CFIDE,WEB-INF,META-INF,cfdocs,temp,download,tempImages,mediaUploads,specimen_images,cache,CustomTags,binary_stuff,log,node_modules,bower_components">
+<cfset variables.EXCLUDED_DIRECTORIES = "lib,.git,CFIDE,WEB-INF,META-INF,cfdocs,temp,download,mediaUploads,specimen_images,cache,CustomTags,binary_stuff,log,node_modules,bower_components">
 <cfset variables.MAX_FILES = 300>
 
 <cfset variables.matches = arrayNew(1)>
