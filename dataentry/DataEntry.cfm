@@ -2,7 +2,7 @@
 <!---
 DataEntry.cfm
 
-Work in progress redesign of the Data Entry form.
+Work in progress redesign of a new record wizard Data Entry form.
 
 Copyright 2019-2026 President and Fellows of Harvard College
 
