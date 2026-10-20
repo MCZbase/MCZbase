@@ -6094,3 +6094,33 @@ li.listgroupitem {
 }
 
 /* above dialog popup for placement of containers in part row; */
+
+/* picks/findPermit.cfm results: a row for each permit, the number standing out from its details */
+table.permitPickTable {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: .85rem;
+}
+table.permitPickTable th {
+	text-align: left;
+	background-color: #e9ecef;
+	border-bottom: 2px solid #adb5bd;
+	padding: 4px 6px;
+}
+table.permitPickTable td {
+	vertical-align: top;
+	border-bottom: 1px solid #dee2e6;
+	padding: 6px;
+}
+table.permitPickTable tbody tr:nth-child(even) {
+	background-color: #f8f9fa;
+}
+table.permitPickTable .permitNumber {
+	display: block;
+	font-weight: bold;
+	margin-top: 3px;
+}
+table.permitPickTable .permitDetail {
+	color: #495057;
+	font-size: .8rem;
+}
