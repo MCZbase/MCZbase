@@ -64,21 +64,6 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 
-<cfoutput>
-	<script>
-		$(document).ready(function() {
-			$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-		});
-		function toggleRow() {
-			const cells = document.querySelectorAll('.toggle1');
-			cells.forEach(function(cell) {
-				cell.classList.toggle('hidden');
-			});
-		}
-	</script>
-</cfoutput>
-
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
@@ -163,6 +148,20 @@ limitations under the License.
 		<cfset pageTitle="Metrics Dashboard">
 		<cfinclude template="/shared/_header.cfm">
 		<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
+		<cfoutput>
+			<script>
+				$(document).ready(function() {
+					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+				});
+				function toggleRow() {
+					const cells = document.querySelectorAll('.toggle1');
+					cells.forEach(function(cell) {
+						cell.classList.toggle('hidden');
+					});
+				}
+			</script>
+		</cfoutput>
 		<meta name="theme-color" content="#563d7c">
 		<cfoutput>
 			<div class="container-fluid" id="content" aria-label="Select report type and dates">
