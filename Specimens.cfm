@@ -332,7 +332,7 @@
 							<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
 								<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria# data-wiki-page="Basic Specimen Search">Basic Search</button>
 								<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# data-wiki-page="Keyword Search">Keyword Search</button>
-								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab" data-wiki-page="Search Builder">Search Builder</button>
+								<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# data-wiki-page="Search Builder">Search Builder</button>
 							</div>
 							<div id="searchFormDiv" class="tab-content mt-0 px-0 pb-0">
 								<!---Fixed Search tab panel--->
@@ -503,7 +503,7 @@
 																<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																	<div class="col-12 col-md-4 mb-1">
 																		<label for="debug1">Debug JSON</label>
-																		<select title="debug" name="debug" id="debug1">
+																		<select name="debug" id="debug1">
 																			<option value=""></option>
 																			<cfif isdefined("debug") AND len(debug) GT 0>
 																				<cfset selected=" selected ">
@@ -557,7 +557,7 @@
 														<div class="col-9 col-md-9 col-xl-3 mb-1">
 															<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 															<label for="any_taxa_term">Any Taxonomic Element</label>
-															<input type="text" id="any_taxa_term" name="any_taxa_term" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+															<input type="text" id="any_taxa_term" name="any_taxa_term" value="#encodeForHtml(any_taxa_term)#">
 														</div>
 														<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 															<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
@@ -723,7 +723,7 @@
 																<div class="col-12 col-md-4 col-xl-2 mb-1">
 																	<label for="nature_of_id">Nature of ID</label>
 																	<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-																	<select title="nature of id" name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
+																	<select name="nature_of_id" id="nature_of_id" class="col-sm-12 pl-2">
 																		<!--- style="color: rgba(0, 0, 0, .5);font-size:.75rem;padding:1px;"--->  
 																		<option value=""></option>
 																		<cfset nid = nature_of_id>
@@ -837,7 +837,7 @@
 																<div class="col-12 col-md-3 mb-1">
 																	<label for="state_prov">State/Province</label>
 																	<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-																	<input type="text" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
+																	<input type="text" id="state_prov" name="state_prov" value="#encodeForHtml(state_prov)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makeGeogSearchAutocomplete('state_prov','state_prov');
@@ -847,7 +847,7 @@
 																<div class="col-12 col-md-3 mb-1">
 																	<label for="county">County/Shire/Parish</label>
 																	<cfif not isdefined("county")><cfset county=""></cfif>
-																	<input type="text" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
+																	<input type="text" id="county" name="county" value="#encodeForHtml(county)#">
 																	<script>
 																		jQuery(document).ready(function() {
 																			makeGeogSearchAutocomplete('county','county');
@@ -1381,7 +1381,7 @@
 																	<div class="col-12 col-md-4 col-xl-2 mb-1">
 																		<label for="root_container_type">In Container of Type</label>
 																		<cfif not isdefined("root_container_type")><cfset root_container_type=""></cfif>
-																		<select title="root_container_type" name="root_container_type" id="root_container_type" class="col-sm-12 pl-2">
+																		<select name="root_container_type" id="root_container_type" class="col-sm-12 pl-2">
 																			<option value=""></option>
 																			<cfset nid = root_container_type>
 																			<cfloop query="ctcontainer_type">
@@ -1418,7 +1418,6 @@
 																id="coll_object_entered_date" 
 																placeholder="yyyy-mm-dd/yyyy-mm-dd" 
 																value="#encodeForHtml(coll_object_entered_date)#"
-																aria-label="Enter begin and end date"
 																aria-describedby="dateEntered_help">
 																<span id="dateEntered_help" class="sr-only">Enter the begin and end date for the collection of the object. Enter one date if they are the same date. Example: yyyy-mm-dd/yyyy-mm-dd.</span>
 														</div>
@@ -1456,8 +1455,7 @@
 																id="last_edit_date" 
 																placeholder="yyyy-mm-dd/yyyy-mm-dd" 
 																value="#encodeForHtml(last_edit_date)#"
-																aria-describedby="lastEdit_help"
-																aria-label="Example: yyyy-mm-dd/yyyy-mm-dd">
+																aria-describedby="lastEdit_help">
 															<small id="lastEdit_help" class="sr-only">
 																Enter the begin and end date for the last update of the specimen. Enter one date if they are the same date. Example: yyyy-mm-dd/yyyy-mm-dd.
 															</small>
@@ -1564,8 +1562,7 @@
 																<label for="accn_number">Accession ##</label>
 																<input type="text" name="accn_number" id="accn_number" 
 																	placeholder="nnnnn" 
-																	value="#encodeForHtml(accn_number)#"
-																	aria-label="nnnnn">
+																	value="#encodeForHtml(accn_number)#">
 															</div>
 															<div class="col-12 col-md-2 col-xl-2 mb-1">
 																<cfif not isdefined("received_date")><cfset received_date=""></cfif>
@@ -1575,8 +1572,7 @@
 																	id="received_date" 
 																	placeholder="yyyy-mm-dd/yyyy-mm-dd" 
 																	value="#encodeForHtml(received_date)#"
-																	aria-describedby="dateReceived_help"
-																	aria-label="yyyy-mm-dd/yyyy-mm-dd">
+																	aria-describedby="dateReceived_help">
 																<small id="dateReceived_help" class="sr-only">Enter the begin and end date for the date the museum received the specimen. Enter one date if they are the same date. Example: yyyy-mm-dd/yyyy-mm-dd.</small>
 															</div>
 															<div class="col-12 col-md-2 col-xl-2 mb-1">
@@ -2134,12 +2130,12 @@
 													</cfif>
 													<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
 														<label for="searchText">Keyword(s)</label>
-														<input id="searchText" type="text" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
+														<input id="searchText" type="text" name="searchText" placeholder="Search term" value="#encodeForHtml(searchText)#">
 													</div>
 													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 col-sm-2 col-md-2 col-xl-2 px-md-0 mt-1 mt-sm-0">
 															<label for="debug2">Debug</label>
-															<select title="debug" name="debug" id="debug2" style="height: 22px !important;">>
+															<select name="debug" id="debug2" style="height: 22px !important;">>
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -2403,7 +2399,7 @@
 															</script>
 															<label for="field1">Search Field</label>
 															<cfif not isDefined("field1")><cfset field1=""></cfif>
-															<select title="Select Field to search..." name="field1" id="field1" style="height: 22px !important;" required>
+															<select name="field1" id="field1" style="height: 22px !important;" required>
 																<cfif len(field1) EQ 0>
 																	<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
 																</cfif>
@@ -2485,7 +2481,7 @@
 														<div class="col-12 col-md-1">
 															<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 																<label for="debug3">Debug</label>
-																<select title="debug" name="debug" id="debug3">
+																<select name="debug" id="debug3">
 																	<option value=""></option>
 																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																	<option value="true" #selected#>Debug JSON</option>
