@@ -878,15 +878,6 @@ function LocalityPick(localityIdFld,speclocFld,formName,fireEvent){
 	var popurl=url+"?localityIdFld="+localityIdFld+"&speclocFld="+speclocFld+"&formName="+formName+"&fireEvent="+fireEvent;
 	localitypick=window.open(popurl,"","width=800,height=600,resizable,scrollbars,");
 }
-function findJournal(journalIdFld,journalNameFld,formName,journalNameString){
-	var url="/picks/findJournal.cfm";
-	var journalIdFld;
-	var journalNameFld;
-	var formName;
-	var journalNameString;
-	var popurl=url+"?journalIdFld="+journalIdFld+"&journalNameFld="+journalNameFld+"&formName="+formName+"&journalName="+journalNameString;;
-	journalpick=window.open(popurl,"","width=400,height=338, toolbar,location,status,menubar,resizable,scrollbars,");
-}
 function deleteEncumbrance(encumbranceId,collectionObjectId){
 	var url="/picks/DeleteEncumbrance.cfm";
 	var encumbranceId;
