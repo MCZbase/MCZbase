@@ -67,13 +67,9 @@ limitations under the License.
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.6.2-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.14.1/jquery-ui.min.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality; also used by the multiselect widget --->
+<link rel="stylesheet" href="/lib/jquery-ui-1.14.1/jquery-ui.min.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!--- NOTE, use either the fontawesome css implementation or the js implementation, not both.  CSS is substantially smaller, JS is minimum 1 MB --->
-<!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
-<!--- TODO: Replace with jqx multiselect instead of using additional library --->
-<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />
-<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />
 
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
@@ -152,10 +148,6 @@ limitations under the License.
 	<script type="text/javascript" src="/annotations/js/annotations.js"></script>
 </cfif>
 
-<!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
-<!--- TODO: Replace with jqx multiselect instead of using additional library --->
-<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
-<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
 
 <!--- media zoom on hover library --->
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>

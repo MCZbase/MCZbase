@@ -6015,17 +6015,7 @@ span.uncertaintyDisplay {
 
 
 /* BEGIN over-ride some annoying jquery-ui stuff */
-	/* multiselect outgroup labels are flippin tiny */
-	.ui-multiselect-optgroup-label a {
-		font-size:1.4em
-	}
-	
-	/* Carla doesn't like linunder */
-	.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label {
-    	border-top: 1px solid !important;
-    	border-bottom: none !important;
-	}
-	/* visited links in multiselect are strange, so override them */
+	/* visited links in jQuery UI widgets are strange, so override them */
 	
 	.ui-helper-reset a, ui-helper-reset a:visited {
 		color:blue !important;
