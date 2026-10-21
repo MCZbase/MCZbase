@@ -1,4 +1,4 @@
-<!--
+<!---
 
 * /hello/World.cfm
 
@@ -18,11 +18,13 @@ limitations under the License.
 
 * Demonstration of ajax patterns in MCZbase.
 
--->
+--->
 <cfset pageTitle="Ajax Demonstration">
 <cfinclude template="/shared/_header.cfm">
 
-<!--- Script includes are normally in shared/_header.cfm, but in one-off non-reused, can be in the page --->
+<!--- Script includes that are reused are normally in shared/_header.cfm, 
+ but when used within a set of related pages may be in a /concept/js/ 
+ directory, in one-off non-reused cases like callbacks can be in the page --->
 <script type="text/javascript" src="/hello/js/hello.js"></script>
 
 <!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->

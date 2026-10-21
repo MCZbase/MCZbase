@@ -819,7 +819,7 @@ p {
 	z-index: 9998;
 }
 .fancybox-close {
-	background: url("/images/fancybox.png") repeat scroll -40px 0 transparent;
+	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
 	cursor: pointer;
 	height: 30px;
 	position: absolute;
@@ -6015,17 +6015,7 @@ span.uncertaintyDisplay {
 
 
 /* BEGIN over-ride some annoying jquery-ui stuff */
-	/* multiselect outgroup labels are flippin tiny */
-	.ui-multiselect-optgroup-label a {
-		font-size:1.4em
-	}
-	
-	/* Carla doesn't like linunder */
-	.ui-multiselect-checkboxes li.ui-multiselect-optgroup-label {
-    	border-top: 1px solid !important;
-    	border-bottom: none !important;
-	}
-	/* visited links in multiselect are strange, so override them */
+	/* visited links in jQuery UI widgets are strange, so override them */
 	
 	.ui-helper-reset a, ui-helper-reset a:visited {
 		color:blue !important;
@@ -6094,3 +6084,33 @@ li.listgroupitem {
 }
 
 /* above dialog popup for placement of containers in part row; */
+
+/* picks/findPermit.cfm results: a row for each permit, the number standing out from its details */
+table.permitPickTable {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: .85rem;
+}
+table.permitPickTable th {
+	text-align: left;
+	background-color: #e9ecef;
+	border-bottom: 2px solid #adb5bd;
+	padding: 4px 6px;
+}
+table.permitPickTable td {
+	vertical-align: top;
+	border-bottom: 1px solid #dee2e6;
+	padding: 6px;
+}
+table.permitPickTable tbody tr:nth-child(even) {
+	background-color: #f8f9fa;
+}
+table.permitPickTable .permitNumber {
+	display: block;
+	font-weight: bold;
+	margin-top: 3px;
+}
+table.permitPickTable .permitDetail {
+	color: #495057;
+	font-size: .8rem;
+}
