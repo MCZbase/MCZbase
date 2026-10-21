@@ -236,7 +236,8 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="media_id">Media ID</label>
-												<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
+												<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" pattern="[0-9,]+" aria-describedby="media_id_help">
+												<span id="media_id_help" class="sr-only">media_id is the numeric primary key for the media record.</span>
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<label for="media_type">Media Type</label>
@@ -296,7 +297,7 @@ limitations under the License.
 										<div class="form-row">
 											<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 											<div class="col-12 col-md-1">
-												<label for="keywords">Protocol</label>
+												<label for="protocol">Protocol</label>
 												<select id="protocol" name="protocol" class="data-entry-select">
 													<option></option>
 													<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
@@ -623,13 +624,13 @@ limitations under the License.
 											<div class="col-12 col-md-4 col-xl-3">
 												<div class="form-row mx-0">
 												<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-													<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+													<span id="created_by_agent_view" class="h5 d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 												</label>
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 													</div>
-													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+													<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="w-auto h-auto form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(created_by_agent_name)#">
 													<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
 												</div>
 												</div>
@@ -711,13 +712,12 @@ limitations under the License.
 													<label class="w-100 px-1" for="made_date">Made Date <span class="text-secondary">(yyyy or yyyy-mm-dd)</span></label>
 													<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 px-1 py-0" 
 														placeholder="start date" 
-														value="#encodeForHtml(made_date)#" 
-														aria-label="start date">
+														value="#encodeForHtml(made_date)#">
 													
 													<div class=" text-center px-3 px-xl-2"><small>to</small></div>
-													<label for="to_made_date" class="sr-only">Made Date</label>	
+													<label for="to_made_date" class="sr-only">Made Date, end</label>
 													<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" 
-														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date" aria-label="end date"> 
+														class="datetimeinput col-4 w-100 px-1 py-0" placeholder="end date"> 
 												</div>
 											</div>
 											
