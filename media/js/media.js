@@ -219,6 +219,11 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 				makeBorrowAutocompleteMeta(valueControl, idControl);
 			}
 			break;
+		case "container":
+			if (typeof makeContainerAutocompleteMeta === "function") {
+				makeContainerAutocompleteMeta(valueControl, idControl);
+			}
+			break;
 		default:
 			messageDialog("Unknown or not implemented media relationship target, unable to add a picker, only NULL and NOT NULL values are supported, enter one or the other in the text input","Error: Unknown");		
 	}
