@@ -65,25 +65,20 @@ limitations under the License.
 <!--- switch out version of library files to use --->
 <cfset jqwidgets_ver = "jqwidgets_ver20.0.0">
 <!--- include stylesheets and javascript library files --->
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.6.2-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/jquery-ui-1.14.1/jquery-ui.min.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!--- NOTE, use either the fontawesome css implementation or the js implementation, not both.  CSS is substantially smaller, JS is minimum 1 MB --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" /><!--- Library supporting a multiselect widget based on jquery-ui.  --->
-<!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
-<!--- TODO: Replace with jqx multiselect instead of using additional library --->
-<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.css" />
-<link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />
 
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
 <link rel="stylesheet" href="/shared/css/bootstrap_override.css">
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
-<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script> 
-<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
+<script type="text/javascript" src="/lib/jquery/jquery-3.7.1.min.js"></script> 
+<script type="text/javascript" src="/lib/jquery-ui-1.14.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>---> 
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle---> 
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle---> 
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>---> 
 <cfif isdefined("minimal") AND minimal IS 'true'>
 	<!--- faster load (for login page), don't include jqxwidgets library --->
@@ -153,10 +148,6 @@ limitations under the License.
 	<script type="text/javascript" src="/annotations/js/annotations.js"></script>
 </cfif>
 
-<!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
-<!--- TODO: Replace with jqx multiselect instead of using additional library --->
-<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
-<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
 
 <!--- media zoom on hover library --->
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
