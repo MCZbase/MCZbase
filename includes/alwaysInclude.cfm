@@ -7,9 +7,9 @@
 <cfinclude template="/includes/functionLib.cfm">
 
 <!--- The same jQuery and jQuery UI as /shared/_header.cfm. --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css">
-<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="/lib/jquery-ui-1.14.1/jquery-ui.min.css">
+<script type="text/javascript" src="/lib/jquery/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="/lib/jquery-ui-1.14.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	// The date pickers on the legacy pages were written for these defaults.
 	$.datepicker.setDefaults({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, yearRange: "1800:+0", constrainInput: false });

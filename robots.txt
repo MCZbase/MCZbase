@@ -64,7 +64,6 @@ Disallow: /specimens/
 Disallow: /taxonomy/component/
 Disallow: /taxonomy/js/
 Disallow: /temp/
-Disallow: /tempImages/
 Disallow: /tests/
 Disallow: /tools/
 Disallow: /transactions/
