@@ -948,10 +948,6 @@ and on day add a 0 to the front if it is one digit only--->
 			Permit Number: <input type='text' readonly='readonly' name='permitNum' size='25' id='permit_num' value='#permit_num#'/>
 			Issued to: <input type='text' readonly='readonly' name='issuedToAgent' size='40' id='issuedToAgent' value='#IssuedToAgent#'/>
 			Issued by: <input type='text' readonly='readonly' name='issuedByAgent' size='40' id='issuedByAgent' value='#IssuedByAgent#'/>
-			<!---<input type='button' name='permitValues' id='permitValues' value='Select Permit' className='picBtn'
-	onmouseover="this.className='picBtn btnhov'" onmouseout="this.className='picBtn'"
-   onClick="javascript: var theWin=window.open('../picks/selectPermit.cfm?id=permitValues', 'SelectPermit', 
-'resizable,scrollbars=yes,width=600,height=600'); "/>--->
 		</div>
 		</cfloop>
 		</td>
