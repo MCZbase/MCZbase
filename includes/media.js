@@ -1,14 +1,3 @@
-jQuery(document).on('click', "#uploadMedia", function(e){
-	addBGDiv('removeUpload()');
-	var theDiv = document.createElement('iFrame');
-	theDiv.id = 'uploadDiv';
-	theDiv.className = 'uploadMediaDiv';
-	theDiv.innerHTML='<br>Loading...';
-	document.body.appendChild(theDiv);
-	var ptl="/info/upMedia.cfm";
-	theDiv.src=ptl;
-	viewport.init("#uploadDiv");
-});
 window.onload = function() {
     var cookie = readCookie('mediaPref');
     if (cookie) {
@@ -16,17 +5,6 @@ window.onload = function() {
         toggle_visibility(pref[0], pref[1]);
     }
 } 
-function removeUpload() {
-	if(document.getElementById('uploadDiv')){
-		jQuery('#uploadDiv').remove();
-	}
-	removeBgDiv();
-}
-function closeUpload(media_uri,preview_uri) {
-	document.getElementById('media_uri').value=media_uri;
-	document.getElementById('preview_uri').value=preview_uri;
-	removeUpload();
-}
 function generateMD5() {
 	var theImageFile=document.getElementById('media_uri').value;
 	jQuery.getJSON("/component/functions.cfc",
@@ -49,21 +27,6 @@ function success_generateMD5(result){
 	var nlv=document.getElementById(lvid);
 	nl.value='md5hash';
 	nlv.value=result;
-}
-function closePreviewUpload(preview_uri) {
-	var theDiv = document.getElementById('uploadDiv');
-	document.body.removeChild(theDiv);
-	document.getElementById('preview_uri').value=preview_uri;
-}
-
-function clickUploadPreview(){
-	var theDiv = document.createElement('iFrame');
-	theDiv.id = 'uploadDiv';
-	theDiv.name = 'uploadDiv';
-	theDiv.className = 'uploadMediaDiv';
-	document.body.appendChild(theDiv);
-	var guts = "/info/upMediaPreview.cfm";
-	theDiv.src=guts;
 }
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;

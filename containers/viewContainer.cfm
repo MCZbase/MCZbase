@@ -392,6 +392,11 @@ limitations under the License.
 		</section>
 	</cfif>
 
+	<section class="mb-3" aria-labelledby="containerMediaHeading">
+		<h2 class="h4" id="containerMediaHeading">Media</h2>
+		<div id="containerMedia">#getContainerMediaHtml(container_id=val(getContainer.container_id))#</div>
+	</section>
+
 	<cfif variables.canEditContainers>
 		<!--- read-only here -- logging a new check is only offered on the edit page
 			(Container.cfm), which this shares getContainerCheckHistoryHtml/

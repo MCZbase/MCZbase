@@ -386,6 +386,13 @@
 			</cfif>
 			<cfset columnArr = ListToArray(columnList)>
 
+			<cfif table is "ctcontainer_type">
+				<figure class="my-2">
+					<a href="/documentation/ContainerTypes.png" target="_blank" rel="noopener noreferrer">
+						<img src="/documentation/ContainerTypes.png" class="img-fluid border rounded" alt="Diagram of container types grouped by role (structural, leaf-bearer, proxy), showing the expected parent types for each type and which types hold collection objects">
+					</a>
+				</figure>
+			</cfif>
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
