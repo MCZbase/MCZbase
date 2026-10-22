@@ -184,32 +184,39 @@
 
 </cfif>
 <!-------------------------------------------------------------->
-<cfif #action# is "loadTemplate">
-    <cffile action="upload"
-    	destination="#Application.webDirectory#/Reports/templates/"
-      	nameConflict="overwrite"
-      	fileField="Form.FiletoUpload" mode="777">
-	<cfset fileName=#cffile.serverfile#>
-	<cfset dotPos=find(".",fileName)>
-	<cfset name=left(fileName,dotPos-1)>
-	<cfset extension=right(fileName,len(fileName)-dotPos+1)>
-	<cfif REFind("[^A-Za-z0-9_]",name,1) gt 0>
-		<font color="##FF0000" size="+2">The filename (<strong>#fileName#</strong>) you entered contains characters that are not alphanumeric.
-		Please rename your file and try again.</font>
-		<a href="javascript:back()">Go Back</a>
-		<cffile action="delete"
-	    	file="#Application.webDirectory#/Reports/templates/#fileName#">
-        <cfabort>
+<cfif isDefined("form.action") AND form.action EQ "loadTemplate">
+	<!--- a .cfr template holds expressions ColdFusion evaluates when the report runs, so uploading one is uploading code --->
+	<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+		<cfheader statuscode="403" statustext="Forbidden">
+		Only global_admin may upload report templates.
+		<cfabort>
 	</cfif>
-	<cfset ext=right(extension,len(extension)-1)>
-	<cfif ext is not "cfr">
+	<!--- checked in the temporary directory, outside the webroot, so a rejected file is never reachable --->
+	<cftry>
+		<cffile action="upload" destination="#getTempDirectory()#" nameConflict="makeunique" fileField="form.FiletoUpload" allowedExtensions=".cfr" result="templateUpload">
+	<cfcatch>
 		Only .cfr files are accepted.
-		<cffile action="delete"
-	    	file="#Application.webDirectory#/Reports/templates/#fileName#">
-        <cfabort>
+		<a href="/Reports/reporter.cfm">Go Back</a>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfset variables.uploadedPath = "#templateUpload.serverDirectory#/#templateUpload.serverFile#">
+	<cfif NOT REFind("^[A-Za-z0-9_]+\.cfr$", templateUpload.clientFile)>
+		<cffile action="delete" file="#variables.uploadedPath#">
+		<font color="##FF0000" size="+2">The filename (<strong>#encodeForHtml(templateUpload.clientFile)#</strong>) must contain only letters, numbers and underscores, with a .cfr extension.
+		Please rename your file and try again.</font>
+		<a href="/Reports/reporter.cfm">Go Back</a>
+		<cfabort>
 	</cfif>
-	<cflocation url="reporter.cfm">
-
+	<cfset variables.templatePath = "#Application.webDirectory#/Reports/templates/#templateUpload.clientFile#">
+	<cfif fileExists(variables.templatePath)>
+		<!--- templates checked out by git are read-only to ColdFusion, which cffile delete refuses; removing a file needs only the directory to be writable --->
+		<cfif NOT createObject("java","java.io.File").init(variables.templatePath).delete()>
+			<cfthrow message="Unable to replace the existing report template #encodeForHtml(templateUpload.clientFile)#.">
+		</cfif>
+	</cfif>
+	<cffile action="move" source="#variables.uploadedPath#" destination="#variables.templatePath#">
+	<cflocation url="reporter.cfm" addtoken="false">
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "nothing">
@@ -225,13 +232,16 @@
 		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlerss" filter="*.cfm" name="reportHandlerList" sort="name ASC">
 		<p>Reports may use a .cfr report template produced by the (deprecated, unsupported) ColdFusion report builder application, or may reference .cfm handlers.  The .cfr report templates can be uploaded from here.  The .cfr report handlers must be committed as other code, and can only be referenced when editing a report.</p>
 
-		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
-		<!--- .cfm handlers in /Reports/handlers/ are not uploaded through the UI --->
-		<form name="n" method="post" enctype="multipart/form-data" action="/Reports/reporter.cfm">
-			<input type="hidden" name="action" value="loadTemplate">
-			<input type="file" name="FiletoUpload" id="FiletoUpload" size="45" accept=".cfr">
-			<input type="submit" class="savBtn" value="Upload File">
-		</form>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+			<p>Load a new template (will overwrite old templates). .cfr files only.</p>
+			<!--- .cfm handlers in /Reports/handlers/ are not uploaded through the UI --->
+			<form name="n" method="post" enctype="multipart/form-data" action="/Reports/reporter.cfm">
+				<input type="hidden" name="action" value="loadTemplate">
+				<label for="FiletoUpload">Template file</label>
+				<input type="file" name="FiletoUpload" id="FiletoUpload" size="45" accept=".cfr">
+				<input type="submit" class="savBtn" value="Upload File">
+			</form>
+		</cfif>
 
       <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
 		<table border>
