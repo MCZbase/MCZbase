@@ -1,7 +1,7 @@
 <!---
 containers/component/public.cfc
 
-Copyright 2023-2025 President and Fellows of Harvard College
+Copyright 2023-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
 
 <!---
 Function getContainerHistoryHTML. Renders an HTML fragment for a container: a heading with its
@@ -1753,6 +1754,56 @@ so it lives here alongside getContainerDetailsHtml rather than in functions.cfc.
 		<cfset local.function_called = "#GetFunctionCalledName()#">
 		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
 		<cfsavecontent variable="local.html"><p class="text-danger">Unable to load check history.</p></cfsavecontent>
+		<cfreturn local.html>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!---
+Function getContainerMediaHtml. Returns an HTML fragment of media widgets for the media linked
+to a container by any "% container" media relationship, omitting encumbered media.
+@param container_id the container whose related media to return.
+@return an HTML fragment: a media widget for each related media record, otherwise a "no media" message.
+--->
+<cffunction name="getContainerMediaHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="container_id" type="numeric" required="yes">
+
+	<cftry>
+		<cfquery name="local.containerMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.containerMedia_result" timeout="#Application.query_timeout#">
+			SELECT DISTINCT
+				media_id
+			FROM
+				media_relations
+			WHERE
+				media_relationship like '% container'
+				AND related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+				AND MCZBASE.is_media_encumbered(media_id) < 1
+			ORDER BY
+				media_id
+		</cfquery>
+		<cfsavecontent variable="local.html">
+			<cfoutput>
+				<cfif local.containerMedia.recordcount EQ 0>
+					<p class="text-muted mb-0">No media linked to this container.</p>
+				<cfelse>
+					<div class="row mx-0">
+						<cfloop query="local.containerMedia">
+							<div class="col-6 col-sm-4 col-lg-3 col-xl-2 px-1 mb-1 pt-1">
+								<div id="containerMediaBlock#local.containerMedia.media_id#">
+									<cfset local.mediaBlock = getMediaBlockHtmlUnthreaded(media_id="#local.containerMedia.media_id#",size="350",captionAs="textShort")>
+								</div>
+							</div>
+						</cfloop>
+					</div>
+				</cfif>
+			</cfoutput>
+		</cfsavecontent>
+		<cfreturn local.html>
+	<cfcatch>
+		<cfset local.error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset local.function_called = "#GetFunctionCalledName()#">
+		<cfscript>reportError(function_called="#local.function_called#", error_message="#local.error_message#");</cfscript>
+		<cfsavecontent variable="local.html"><p class="text-danger">Unable to load media.</p></cfsavecontent>
 		<cfreturn local.html>
 	</cfcatch>
 	</cftry>

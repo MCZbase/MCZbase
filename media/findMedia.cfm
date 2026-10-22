@@ -19,6 +19,10 @@ limitations under the License.
 
 --->
 <cfset pageTitle = "Search Media">
+<!--- containers.js supplies the picker for the shows container relationship, its backing search.cfc is limited to the roles that can search containers --->
+<cfif isdefined("session.roles") AND ( listcontainsnocase(session.roles,"manage_specimens") OR listcontainsnocase(session.roles,"manage_container") )>
+	<cfset pageHasContainers = "true">
+</cfif>
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
