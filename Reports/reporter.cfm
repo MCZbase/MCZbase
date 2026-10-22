@@ -196,7 +196,7 @@
 		<cffile action="upload" destination="#getTempDirectory()#" nameConflict="makeunique" fileField="form.FiletoUpload" allowedExtensions=".cfr" result="templateUpload">
 	<cfcatch>
 		Only .cfr files are accepted.
-		<a href="javascript:back()">Go Back</a>
+		<a href="/Reports/reporter.cfm">Go Back</a>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -205,7 +205,7 @@
 		<cffile action="delete" file="#variables.uploadedPath#">
 		<font color="##FF0000" size="+2">The filename (<strong>#encodeForHtml(templateUpload.clientFile)#</strong>) must contain only letters, numbers and underscores, with a .cfr extension.
 		Please rename your file and try again.</font>
-		<a href="javascript:back()">Go Back</a>
+		<a href="/Reports/reporter.cfm">Go Back</a>
 		<cfabort>
 	</cfif>
 	<cfset variables.templatePath = "#Application.webDirectory#/Reports/templates/#templateUpload.clientFile#">
