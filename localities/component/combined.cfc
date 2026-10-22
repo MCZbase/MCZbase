@@ -114,6 +114,17 @@ limitations under the License.
 	<cftry>
 		<!--- Check user permissions first --->
 		<cfset checkUserPermissions()>
+		<cfset refusal = checkRecordsBelongTogether(
+			action=arguments.action,
+			collection_object_id=arguments.collection_object_id,
+			collecting_event_id=isDefined("arguments.collecting_event_id") ? arguments.collecting_event_id : "",
+			locality_id=arguments.locality_id,
+			lat_long_id=arguments.lat_long_id,
+			geology_data=arguments.geology_data,
+			geology_attributes_to_delete=arguments.geology_attributes_to_delete,
+			coll_event_numbers_data=arguments.coll_event_numbers_data,
+			coll_event_numbers_to_delete=arguments.coll_event_numbers_to_delete
+		)>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
@@ -121,6 +132,14 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
+	<cfif len(refusal) GT 0>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "blocked">
+		<cfset row["id"] = "#arguments.collection_object_id#">
+		<cfset row["message"] = refusal>
+		<cfset data[1] = row>
+		<cfreturn #serializeJSON(data)#>
+	</cfif>
 
 	<cftransaction>
 		<cftry>
@@ -398,6 +417,139 @@ limitations under the License.
 	<cfif getCollectingPriv.ct EQ 0>
 		<cfthrow message="You do not have permission to edit collecting event records.">
 	</cfif>
+</cffunction>
+
+<!---
+ checkRecordsBelongTogether confirms that the records a combined edit will change are those of the cataloged
+ item being edited: its collecting event and locality, and that locality's georeference and geology attributes and
+ that collecting event's numbers.  Checked through uam_god, as the writes are, so that localities shared with
+ collections outside the user's VPD remain editable.
+
+ @param action splitAndSave or saveCurrent.
+ @param collection_object_id the cataloged item being edited.
+ @param collecting_event_id the collecting event of that cataloged item.
+ @param locality_id the locality of that collecting event.
+ @param lat_long_id the georeference being edited, if any.
+ @param geology_data url encoded JSON array of geology attributes, as submitted.
+ @param geology_attributes_to_delete list of geology_attribute_id values to delete.
+ @param coll_event_numbers_data url encoded JSON array of collecting event numbers, as submitted.
+ @param coll_event_numbers_to_delete list of coll_event_number_id values to delete.
+ @return an empty string if the edit may proceed, otherwise a message explaining why it may not.
+--->
+<cffunction name="checkRecordsBelongTogether" access="private" returntype="string">
+	<cfargument name="action" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="lat_long_id" type="string" required="yes">
+	<cfargument name="geology_data" type="string" required="yes">
+	<cfargument name="geology_attributes_to_delete" type="string" required="yes">
+	<cfargument name="coll_event_numbers_data" type="string" required="yes">
+	<cfargument name="coll_event_numbers_to_delete" type="string" required="yes">
+
+	<cfset var RELOAD_MESSAGE = "Reload the record and try again.">
+	<cfset var geologyIds = "">
+	<cfset var collEventNumberIds = "">
+	<cfset var submittedRows = "">
+	<cfset var submittedRow = "">
+	<cfset var idToDelete = "">
+
+	<cfif arguments.action EQ "splitAndSave">
+		<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens") )>
+			<cfreturn "Split and save moves this cataloged item to a new collecting event, which requires the manage_specimens role.">
+		</cfif>
+	</cfif>
+	<cfif len(arguments.collecting_event_id) EQ 0>
+		<cfreturn "No collecting event was given for this cataloged item. #RELOAD_MESSAGE#">
+	</cfif>
+
+	<cfquery name="checkItemEventLocality" datasource="uam_god" result="checkItemEventLocality_result">
+		SELECT count(*) ct
+		FROM cataloged_item
+			JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+		WHERE
+			cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			AND cataloged_item.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
+			AND collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+	</cfquery>
+	<cfif checkItemEventLocality.ct NEQ 1>
+		<cfreturn "The collecting event and locality submitted are not those of this cataloged item. #RELOAD_MESSAGE#">
+	</cfif>
+
+	<cfif len(arguments.lat_long_id) GT 0>
+		<cfquery name="checkLatLong" datasource="uam_god" result="checkLatLong_result">
+			SELECT count(*) ct
+			FROM lat_long
+			WHERE
+				lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lat_long_id#">
+				AND locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+		</cfquery>
+		<cfif checkLatLong.ct NEQ 1>
+			<cfreturn "The georeference submitted is not one of this locality's georeferences. #RELOAD_MESSAGE#">
+		</cfif>
+	</cfif>
+
+	<!--- split and save inserts geology attributes and collecting event numbers as new rows, so only save current names existing ones --->
+	<cfif arguments.action EQ "saveCurrent">
+		<cfif len(arguments.geology_data) GT 0>
+			<cfset submittedRows = deserializeJSON(urlDecode(arguments.geology_data))>
+			<cfif isArray(submittedRows)>
+				<cfloop array="#submittedRows#" index="submittedRow">
+					<cfif isStruct(submittedRow) AND structKeyExists(submittedRow,"geology_attribute_id") AND len(submittedRow.geology_attribute_id) GT 0>
+						<cfset geologyIds = listAppend(geologyIds, submittedRow.geology_attribute_id)>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfif>
+		<cfloop list="#arguments.geology_attributes_to_delete#" index="idToDelete">
+			<cfif len(trim(idToDelete)) GT 0>
+				<cfset geologyIds = listAppend(geologyIds, trim(idToDelete))>
+			</cfif>
+		</cfloop>
+		<cfset geologyIds = listRemoveDuplicates(geologyIds)>
+		<cfif listLen(geologyIds) GT 0>
+			<cfquery name="checkGeologyAttributes" datasource="uam_god" result="checkGeologyAttributes_result">
+				SELECT count(*) ct
+				FROM geology_attributes
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+					AND geology_attribute_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geologyIds#" list="yes">)
+			</cfquery>
+			<cfif checkGeologyAttributes.ct NEQ listLen(geologyIds)>
+				<cfreturn "One or more geology attributes submitted are not this locality's. #RELOAD_MESSAGE#">
+			</cfif>
+		</cfif>
+
+		<cfif len(arguments.coll_event_numbers_data) GT 0>
+			<cfset submittedRows = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+			<cfif isArray(submittedRows)>
+				<cfloop array="#submittedRows#" index="submittedRow">
+					<cfif isStruct(submittedRow) AND structKeyExists(submittedRow,"coll_event_number_id") AND len(submittedRow.coll_event_number_id) GT 0>
+						<cfset collEventNumberIds = listAppend(collEventNumberIds, submittedRow.coll_event_number_id)>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfif>
+		<cfloop list="#arguments.coll_event_numbers_to_delete#" index="idToDelete">
+			<cfif len(trim(idToDelete)) GT 0>
+				<cfset collEventNumberIds = listAppend(collEventNumberIds, trim(idToDelete))>
+			</cfif>
+		</cfloop>
+		<cfset collEventNumberIds = listRemoveDuplicates(collEventNumberIds)>
+		<cfif listLen(collEventNumberIds) GT 0>
+			<cfquery name="checkCollEventNumbers" datasource="uam_god" result="checkCollEventNumbers_result">
+				SELECT count(*) ct
+				FROM coll_event_number
+				WHERE
+					collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
+					AND coll_event_number_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNumberIds#" list="yes">)
+			</cfquery>
+			<cfif checkCollEventNumbers.ct NEQ listLen(collEventNumberIds)>
+				<cfreturn "One or more collecting event numbers submitted are not this collecting event's. #RELOAD_MESSAGE#">
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfreturn "">
 </cffunction>
 
 <!--- Helper function to get record counts --->

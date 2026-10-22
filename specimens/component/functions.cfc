@@ -7251,6 +7251,9 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 										reloadLocality();
 									} else {
 										setFeedbackControlState("locFormOutput","error")
+										if (response[0].status === "blocked") {
+											messageDialog(response[0].message, "Locality not saved");
+										}
 									}
 								},
 								error: function(xhr, status, error) {
