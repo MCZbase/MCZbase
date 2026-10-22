@@ -210,7 +210,10 @@
 	</cfif>
 	<cfset variables.templatePath = "#Application.webDirectory#/Reports/templates/#templateUpload.clientFile#">
 	<cfif fileExists(variables.templatePath)>
-		<cffile action="delete" file="#variables.templatePath#">
+		<!--- templates checked out by git are read-only to ColdFusion, which cffile delete refuses; removing a file needs only the directory to be writable --->
+		<cfif NOT createObject("java","java.io.File").init(variables.templatePath).delete()>
+			<cfthrow message="Unable to replace the existing report template #encodeForHtml(templateUpload.clientFile)#.">
+		</cfif>
 	</cfif>
 	<cffile action="move" source="#variables.uploadedPath#" destination="#variables.templatePath#">
 	<cflocation url="reporter.cfm" addtoken="false">
