@@ -225,13 +225,7 @@ limitations under the License.
 					left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 					</cfif>
 					<cfif isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
-					left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
-					</cfif>
-					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
-					left join media_relations media_relations_rt on media.media_id=media_relations_rt.media_id
-					</cfif>
-					<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0 AND isdefined("media_relationship_id_1") AND len(media_relationship_id_1) GT 0 >
-					left join media_relations media_relations_rt_1 on media.media_id=media_relations_rt_1.media_id
+					left join underscore_relation on media_relations_ci.related_primary_key = underscore_relation.collection_object_id
 					</cfif>
 				</cfif>
 			WHERE
@@ -746,29 +740,40 @@ limitations under the License.
 							AND underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						</cfif>
 					</cfif>
+					<!--- subqueries rather than joins, so a broad NOT NULL match is not multiplied by the per row functions before the distinct --->
 					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
-						<cfif media_relationship_type CONTAINS 'ANY'>
-							AND media_relations_rt.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#replace(media_relationship_type,'ANY','%')#">
-						<cfelse>
-							AND media_relations_rt.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type#">
-						</cfif>
-						<cfif media_relationship_value IS 'NOT NULL'>
-							AND media_relations_rt.related_primary_key IS NOT NULL
-						<cfelse>
-							AND media_relations_rt.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id#" list="yes"> )
-						</cfif>
+						AND media.media_id IN (
+							SELECT media_relations_rt.media_id
+							FROM media_relations media_relations_rt
+							WHERE
+								<cfif media_relationship_type CONTAINS 'ANY'>
+									media_relations_rt.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#replace(media_relationship_type,'ANY','%')#">
+								<cfelse>
+									media_relations_rt.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type#">
+								</cfif>
+								<cfif media_relationship_value IS 'NOT NULL'>
+									AND media_relations_rt.related_primary_key IS NOT NULL
+								<cfelse>
+									AND media_relations_rt.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id#" list="yes"> )
+								</cfif>
+						)
 					</cfif>
 					<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0 AND isdefined("media_relationship_id_1") AND len(media_relationship_id_1) GT 0 >
-						<cfif media_relationship_type_1 CONTAINS 'ANY'>
-							AND media_relations_rt_1.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#replace(media_relationship_type_1,'ANY','%')#">
-						<cfelse>
-							AND media_relations_rt_1.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type_1#">
-						</cfif>
-						<cfif media_relationship_value IS 'NOT NULL'>
-							AND media_relations_rt_1.related_primary_key IS NOT NULL
-						<cfelse>
-							AND media_relations_rt_1.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id_1#" list="yes"> )
-						</cfif>
+						AND media.media_id IN (
+							SELECT media_relations_rt_1.media_id
+							FROM media_relations media_relations_rt_1
+							WHERE
+								<cfif media_relationship_type_1 CONTAINS 'ANY'>
+									media_relations_rt_1.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#replace(media_relationship_type_1,'ANY','%')#">
+								<cfelse>
+									media_relations_rt_1.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type_1#">
+								</cfif>
+								<cfif media_relationship_value_1 IS 'NOT NULL'>
+									AND media_relations_rt_1.related_primary_key IS NOT NULL
+								<cfelse>
+									AND media_relations_rt_1.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id_1#" list="yes"> )
+								</cfif>
+						)
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri

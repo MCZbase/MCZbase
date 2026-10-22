@@ -4309,6 +4309,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											data : $('##editGeorefForm').serialize(),
 											success : function (data) {
 												console.log(data);
+												if (data[0].status === "blocked") {
+													$('##georefEditFeedback').html('Not saved.');
+													$('##georefEditFeedback').addClass('text-danger');
+													$('##georefEditFeedback').removeClass('text-success');
+													$('##georefEditFeedback').removeClass('text-warning');
+													messageDialog(data[0].message, "Georeference not saved");
+													return;
+												}
 												$('##georefEditFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 												$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 												$('##georefEditFeedback').addClass('text-success');
@@ -4458,8 +4466,25 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfelse>
 		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
 	</cfif>
-	
+
 	<cfset data = ArrayNew(1)>
+	<!--- only change a georeference of the locality being edited --->
+	<cfquery name="checkLatLongLocality" datasource="uam_god" result="checkLatLongLocality_result">
+		SELECT count(*) ct
+		FROM lat_long
+		WHERE
+			lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lat_long_id#">
+			AND locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+	</cfquery>
+	<cfif checkLatLongLocality.ct NEQ 1>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "blocked">
+		<cfset row["id"] = "#arguments.lat_long_id#">
+		<cfset row["values"] = "">
+		<cfset row["message"] = "This georeference is not one of this locality's georeferences, so it was not changed. Reload the locality and try again.">
+		<cfset data[1] = row>
+		<cfreturn #serializeJSON(data)#>
+	</cfif>
 	<cftransaction>
 		<cfset triggerState = "on">
 		<cftry>
