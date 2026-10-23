@@ -313,7 +313,7 @@ function mczAddPageJumpControl(table, selectId) {
 		if (wrapper.parentNode) {
 			return;
 		}
-		var pagesElement = table.element.querySelector(".tabulator-pages");
+		var pagesElement = mczFooterRoot(table).querySelector(".tabulator-pages");
 		if (pagesElement && pagesElement.parentNode) {
 			pagesElement.parentNode.insertBefore(wrapper, pagesElement);
 		}
@@ -1179,36 +1179,41 @@ function mczUseTableRoles(table) {
 }
 
 /**
+ * mczFooterRoot returns the element holding a table's pagination: the external footer
+ * named by the table's footerElement option (see mczKeepControlsOutOfTable), or else the
+ * table's own element.
+ *
+ * @param table the Tabulator instance.
+ * @return the element to search for footer controls.
+ */
+function mczFooterRoot(table) {
+	var selector = table.options.footerElement;
+	if (typeof selector === "string" && selector.charAt(0) !== "<") {
+		return document.querySelector(selector) || table.element;
+	}
+	return table.element;
+}
+
+/**
  * mczKeepControlsOutOfTable keeps a grid relabelled by mczUseTableRoles a valid table,
- * which may hold only rows and row groups: it moves the pagination footer to a wrapper
- * just after the grid, and takes the scrollable body (.tabulator-tableholder) out of the
- * Tab order, as every row's own controls already reach and scroll it.  It also drops the
- * page size select's title, which repeats its aria-label.  Call on "tableBuilt", after
- * mczUseTableRoles.
+ * which may hold only rows and row groups.  The pagination footer must be outside it: give
+ * the table footerElement: "#{id}", naming the tabulator-footer-contents element in this
+ * markup just after the grid (Tabulator then fills it, and leaves it out of the grid's
+ * height):
+ *   <div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer">
+ *     <div id="{id}" class="tabulator-footer-contents"></div></div></div>
+ * This function takes the scrollable body (.tabulator-tableholder) out of the Tab order, as
+ * every row's own controls already reach and scroll it, and drops the page size select's
+ * title, which repeats its aria-label.  Call on "tableBuilt", after mczUseTableRoles.
  *
  * @param table the Tabulator instance.
  */
 function mczKeepControlsOutOfTable(table) {
-	var element = table.element;
-	var holder = element.querySelector(".tabulator-tableholder");
+	var holder = table.element.querySelector(".tabulator-tableholder");
 	if (holder) {
 		holder.removeAttribute("tabindex");
 	}
-	var footer = element.querySelector(":scope > .tabulator-footer");
-	if (!footer) {
-		return;
-	}
-	/* The wrapper carries the tabulator class so the theme's footer styles still apply.
-	   A table rebuilt in the same element reuses it, replacing the old footer. */
-	var wrapper = element.mczFooterWrapper;
-	if (!wrapper || !document.body.contains(wrapper)) {
-		wrapper = document.createElement("div");
-		wrapper.className = "tabulator mcz-tabulator-footer-wrapper";
-		element.parentNode.insertBefore(wrapper, element.nextSibling);
-		element.mczFooterWrapper = wrapper;
-	}
-	wrapper.replaceChildren(footer);
-	footer.querySelectorAll("select.tabulator-page-size[aria-label][title]").forEach(function (select) {
+	mczFooterRoot(table).querySelectorAll("select.tabulator-page-size[aria-label][title]").forEach(function (select) {
 		select.removeAttribute("title");
 	});
 }

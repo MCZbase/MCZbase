@@ -632,7 +632,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					      that stays invisible when focused gives a sighted keyboard user nothing to see. --->
 					<a href="#afterResultsGrid" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Skip past results</a>
 					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
-					<div id="projectsGridDiv" class="blueFocus"></div>
+					<!--- aria-labelledby: the grid, a table to screen readers, is named by the results heading and count. --->
+					<div id="projectsGridDiv" class="blueFocus" aria-labelledby="resultsHeading"></div>
+					<!--- Tabulator puts the pagination here (footerElement), outside the grid: a table may hold only rows. --->
+					<div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer"><div id="projectsGridFooter" class="tabulator-footer-contents"></div></div></div>
 					<div id="afterResultsGrid" tabindex="-1"></div>
 				</div>
 			</div>
@@ -761,6 +764,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			projectsTable.destroy();
 			projectsTable = null;
 		}
+		/* The external footer outlives the table; the new one fills it afresh. */
+		$("##projectsGridFooter").empty();
 		/* A mode change builds a new instance, and the modes disagree about what a selection
 		   means, so a carried-over count would describe rows nothing can show. */
 		mczClearSelectionStore(null, projectsSelection, function (map) {
@@ -926,6 +931,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			/* "Showing 1-50 of 173 rows", as Tabulator's own "rows" counter, which shows
 			   "1-1" when the page size is All (see mczPaginationRowsCounter). */
 			paginationCounter: mczPaginationRowsCounter,
+			/* Pagination outside the grid (see mczKeepControlsOutOfTable); Tabulator then
+			   leaves it out of the grid's height. */
+			footerElement: "##projectsGridFooter",
 			/* No Tabulator "Loading" box: the page's own "Searching..." overlay shows for
 			   every load (mczProjectsAjaxRequest), and Tabulator's box sat dimmed beneath it
 			   -- the grid is its own stacking context, so no z-index can lift the box above
@@ -1587,7 +1595,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			   size, noticeably taller than its neighbours. */
 			'<button type="button" class="btn btn-xs btn-secondary mx-1 my-0" title="hide search form" ' +
 			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +
-			'<i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>'
+			'<i id="searchFormToggleIcon" class="fas fa-eye-slash" aria-hidden="true"></i></button>'
 		);
 
 		$("##columnChooserDialog").dialog({

@@ -121,10 +121,15 @@ tabulator_bootstrap4.min.css so these rules win.
 	cursor: pointer;
 }
 
-/* The pagination footer, moved just after the grid by mczKeepControlsOutOfTable in
-   tabulator-common.js: one box with the grid, whose bottom border it shares. */
+/* The pagination footer, outside the grid (footerElement; see mczKeepControlsOutOfTable in
+   tabulator-common.js): one box with the grid, whose bottom border it shares, and hidden
+   until Tabulator fills it. */
 .mcz-tabulator-footer-wrapper {
 	border-top: 0;
+}
+
+.mcz-tabulator-footer-wrapper:has(.tabulator-footer-contents:empty) {
+	display: none;
 }
 
 .mcz-tabulator-footer-wrapper .tabulator-footer {
