@@ -306,6 +306,21 @@ function mczPaginationLangs() {
 }
 
 /**
+ * mczStylePaginationButtons gives Tabulator's First, Prev, Next and Last buttons the app's
+ * grid-footer button classes (btn btn-xs btn-secondary).  Tabulator's own class,
+ * tabulator-page, is removed rather than overridden: the theme's rule for it outranks
+ * .btn-xs, and Tabulator only sets the class, never reads it.  Call on "tableBuilt".
+ *
+ * @param table the Tabulator instance.
+ */
+function mczStylePaginationButtons(table) {
+	mczFooterRoot(table).querySelectorAll(".tabulator-paginator > button[data-page]").forEach(function (button) {
+		button.classList.remove("tabulator-page");
+		button.classList.add("btn", "btn-xs", "btn-secondary", "mx-1");
+	});
+}
+
+/**
  * mczAddPageJumpControl adds a select listing every page in place of Tabulator's
  * numbered page buttons, which show only about 5 pages around the current one. The
  * jqxGrid pages have the same page select. The buttons are hidden in

@@ -1046,6 +1046,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			mczMakeHeaderMenuButtonsAccessible(projectsTable);
 			mczUseTableRoles(projectsTable);
 			mczKeepControlsOutOfTable(projectsTable);
+			mczStylePaginationButtons(projectsTable);
 		});
 		projectsTable.on("pageSizeChanged", function (size) {
 			if (projectsIgnoreNextPageSizeChange) {
