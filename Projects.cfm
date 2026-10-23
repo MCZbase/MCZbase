@@ -941,6 +941,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			   (see mczKeepControlsOutOfTable).  Given here, Tabulator also leaves the footer
 			   out of the grid's height; moving it after the build hid the last rows. */
 			footerElement: "##projectsGridFooter",
+			langs: mczPaginationLangs(),
 			/* No Tabulator "Loading" box: the page's own "Searching..." overlay shows for
 			   every load (mczProjectsAjaxRequest), and Tabulator's box sat dimmed beneath it
 			   -- the grid is its own stacking context, so no z-index can lift the box above

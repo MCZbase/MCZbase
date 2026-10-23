@@ -282,6 +282,30 @@ function mczPaginationRowsCounter(pageSize, currentRow, currentPage, totalRows, 
 }
 
 /**
+ * mczPaginationLangs returns a Tabulator langs option that adds arrow icons to the
+ * First, Prev, Next and Last buttons.  Tabulator sets these labels as HTML; the buttons
+ * keep their names from Tabulator's aria-label ("First Page" and so on), so the icons
+ * are aria-hidden.
+ *
+ * @return an object usable as a table's langs option.
+ */
+function mczPaginationLangs() {
+	function icon(name) {
+		return '<i class="fas ' + name + '" aria-hidden="true"></i>';
+	}
+	return {
+		"default": {
+			pagination: {
+				first: icon("fa-angle-double-left") + " First",
+				prev: icon("fa-angle-left") + " Prev",
+				next: "Next " + icon("fa-angle-right"),
+				last: "Last " + icon("fa-angle-double-right")
+			}
+		}
+	};
+}
+
+/**
  * mczAddPageJumpControl adds a select listing every page in place of Tabulator's
  * numbered page buttons, which show only about 5 pages around the current one. The
  * jqxGrid pages have the same page select. The buttons are hidden in
