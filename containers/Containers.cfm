@@ -411,7 +411,7 @@ editing behavior consistent across the application.
 	</cftry>
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-1">
-			<div class="search-box col-12 mt-2 px-0">
+			<div class="search-box col-12 mb-3 px-0 mt-4">
 				<div class="search-box-header">
 					<h1 class="h3 text-white">Find Containers</h1>
 				</div>
@@ -705,8 +705,8 @@ editing behavior consistent across the application.
 								<input type="hidden" id="transaction_id" name="transaction_id" value="#encodeForHtml(variables.transaction_id)#">
 							</div>
 						</fieldset>
-						<div class="form-row">
-							<div class="col-12 mb-1 mt-1 d-flex flex-wrap align-items-center">
+						<div class="form-row mx-0">
+							<div class="col-12 mb-1 mt-3 d-flex flex-wrap align-items-center">
 								<div>
 									<button type="submit" class="btn btn-xs btn-primary">Search</button>
 									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
