@@ -306,17 +306,24 @@ function mczPaginationLangs() {
 }
 
 /**
- * mczStylePaginationButtons gives Tabulator's First, Prev, Next and Last buttons the app's
- * grid-footer button classes (btn btn-xs btn-secondary).  Tabulator's own class,
- * tabulator-page, is removed rather than overridden: the theme's rule for it outranks
- * .btn-xs, and Tabulator only sets the class, never reads it.  Call on "tableBuilt".
+ * mczStylePaginationControls gives Tabulator's pagination controls the app's classes, so
+ * they match the toolbar above the grid: btn btn-xs btn-secondary on the First, Prev, Next
+ * and Last buttons, data-entry-select on the page size select.  Tabulator's own classes
+ * (tabulator-page, tabulator-page-size) are removed rather than overridden: the theme's
+ * rules for them outrank the app's, and Tabulator only sets them, never reads them.  The
+ * page size select keeps mcz-page-size for finding it.  Call on "tableBuilt".
  *
  * @param table the Tabulator instance.
  */
-function mczStylePaginationButtons(table) {
-	mczFooterRoot(table).querySelectorAll(".tabulator-paginator > button[data-page]").forEach(function (button) {
+function mczStylePaginationControls(table) {
+	var root = mczFooterRoot(table);
+	root.querySelectorAll(".tabulator-paginator > button[data-page]").forEach(function (button) {
 		button.classList.remove("tabulator-page");
 		button.classList.add("btn", "btn-xs", "btn-secondary", "mx-1");
+	});
+	root.querySelectorAll("select.tabulator-page-size").forEach(function (select) {
+		select.classList.remove("tabulator-page-size");
+		select.classList.add("mcz-page-size", "data-entry-select", "d-inline", "w-auto", "mx-1");
 	});
 }
 
@@ -339,7 +346,8 @@ function mczAddPageJumpControl(table, selectId) {
 	label.textContent = "Page:";
 	var select = document.createElement("select");
 	select.id = selectId;
-	select.className = "tabulator-page-jump";
+	/* The toolbar's select classes, as the page size select gets in mczStylePaginationControls. */
+	select.className = "data-entry-select d-inline w-auto";
 	select.addEventListener("change", function () {
 		table.setPage(parseInt(select.value, 10));
 	});
@@ -1260,7 +1268,7 @@ function mczKeepControlsOutOfTable(table) {
 	if (holder) {
 		holder.removeAttribute("tabindex");
 	}
-	mczFooterRoot(table).querySelectorAll("select.tabulator-page-size[aria-label][title]").forEach(function (select) {
+	mczFooterRoot(table).querySelectorAll(".tabulator-paginator select[aria-label][title]").forEach(function (select) {
 		select.removeAttribute("title");
 	});
 }

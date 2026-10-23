@@ -220,13 +220,6 @@ tabulator_bootstrap4.min.css so these rules win.
 	font-weight: 560;
 }
 
-/* Matches .tabulator-page-size's own look, so the two selects sit consistently. */
-.tabulator-page-jump {
-	border: 1px solid #dee2e6;
-	border-radius: 3px;
-	padding: 2px 5px;
-}
-
 /* Group chip: names the column the grid is grouped by, with an x to end the grouping.
    Styled to match the groups bar of the jqxGrid this replaces. */
 .mcz-group-chip {
