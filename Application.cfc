@@ -22,8 +22,8 @@ limitations under the License.
 
 	<cfset This.name = "MCZbase" />
 	<cfset This.SessionManagement="True" />
-	<cfset This.ClientManagement="true" />
-	<cfset This.ClientStorage="Cookie" />
+	<!--- Nothing uses the client scope; what persists between sessions is kept in the database. --->
+	<cfset This.ClientManagement="false" />
 	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
 	<!--- A new session lasts five minutes, until the client comes back with it (onRequestStart), so a
 		crawler that keeps no cookies leaves only a short lived session behind. --->
@@ -40,10 +40,8 @@ limitations under the License.
 	<cfif left(cgi.http_user_agent, len(variables.HEALTH_CHECK_AGENT)) EQ variables.HEALTH_CHECK_AGENT>
 		<cfset variables.isHealthCheck = true>
 	</cfif>
-	<!--- Client management is off too, as it would still set CFID, CFTOKEN and CFGLOBALS cookies. --->
 	<cfif variables.isHealthCheck OR listFindNoCase(variables.FORWARD_ONLY_PAGES, cgi.script_name) GT 0>
 		<cfset This.SessionManagement="False" />
-		<cfset This.ClientManagement="False" />
 	</cfif>
 	<!--- SameSite=Lax keeps the session cookies off posts from other sites (cross-site request
 		forgery); links from other sites and email still arrive logged in.  Secure requires every
