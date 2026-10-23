@@ -1544,11 +1544,11 @@ details of a container for use in dialogs and page components.
 					<cfif val(getContainerDetail.locked_position) EQ 1>
 						<cfset lockedPositionText = "Yes">
 					</cfif>
-					<section class="mb-3" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
+					<section class="mb-0" aria-labelledby="#encodeForHtmlAttribute(contextHeadingId)#">
 						<div class="row">
 							<cfif safeDisplayMode EQ "dialog">
 								<div class="col-12">
-									<div class="row">
+									<div class="row mb-0">
 										<div class="col-12 col-lg-6 mb-2 mb-lg-0">
 											<cfset name = "Container"> 
 											<cfif len(getContainerDetail.label) GT 0>
