@@ -837,6 +837,6 @@ $(document).ready(function() {
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
-<cfset targetWikiPage = "Containers#Managing_Containers">
+<cfset targetWikiPage = "Containers">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
