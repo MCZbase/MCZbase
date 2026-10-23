@@ -312,7 +312,7 @@ include this function and use it.
 					</cfif>
 					<!--- A preview_uri without a scheme (e.g. www.morphosource.org/...) would load as a
 					      relative url under this site; show the placeholder instead. --->
-					<cfif len(preview_uri) GT 0 AND NOT REFindNoCase("^(https?://|/)", preview_uri)>
+					<cfif len(trim(preview_uri)) GT 0 AND NOT REFindNoCase("^(https?://|/)", trim(preview_uri))>
 						<cfset preview_uri = "">
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
