@@ -73,7 +73,13 @@ limitations under the License.
 
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
-<link rel="stylesheet" href="/shared/css/bootstrap_override.css">
+<!--- Versioned by last-modified time, as tabulator-common.js is below, so browsers fetch the new copy when it changes. --->
+<cfset variables.bootstrapOverrideVersion = "">
+<cfset variables.bootstrapOverridePath = expandPath("/shared/css/bootstrap_override.css")>
+<cfif fileExists(variables.bootstrapOverridePath)>
+	<cfset variables.bootstrapOverrideVersion = dateTimeFormat(getFileInfo(variables.bootstrapOverridePath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<link rel="stylesheet" href="/shared/css/bootstrap_override.css?v=#encodeForUrl(variables.bootstrapOverrideVersion)#">
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
 <script type="text/javascript" src="/lib/jquery/jquery-3.7.1.min.js"></script> 
 <script type="text/javascript" src="/lib/jquery-ui-1.14.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
@@ -138,6 +144,18 @@ limitations under the License.
 </cfif>
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+<!--- Pages with a Tabulator grid; only these load tabulator-common.js. --->
+<cfset variables.TABULATOR_PAGES = "/Projects.cfm">
+<cfif listFindNoCase(variables.TABULATOR_PAGES, CGI.script_name) GT 0>
+	<!--- Version tabulator-common.js by its last-modified time so browsers fetch the new copy when it changes;
+		pages such as Projects.cfm call functions only present in the current file, and a stale cached copy breaks their grids. --->
+	<cfset variables.tabulatorCommonVersion = "">
+	<cfset variables.tabulatorCommonPath = expandPath("/shared/js/tabulator-common.js")>
+	<cfif fileExists(variables.tabulatorCommonPath)>
+		<cfset variables.tabulatorCommonVersion = dateTimeFormat(getFileInfo(variables.tabulatorCommonPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/shared/js/tabulator-common.js?v=#encodeForUrl(variables.tabulatorCommonVersion)#"></script>
+</cfif>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
@@ -269,7 +287,7 @@ limitations under the License.
 	<cfset session.institutionlinkcolor = Application.institutionlinkcolor>
 </cfif>
 <header id="header" class="border-bottom">
-	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="Harvard University HARVARD.EDU">

@@ -29,12 +29,32 @@ tabulator_bootstrap4.min.css so these rules win.
 	font-size: 0.875em;
 }
 
+/* The theme sets font-weight: 700, which the column titles inherit; 600 lightens them.
+   Same selector and specificity as the theme's rule, and this file loads after it. */
 .tabulator .tabulator-header {
 	background-color: #deebec;
+	font-weight: 600;
 }
 
 .tabulator .tabulator-col {
 	border-right: 1px solid #dee2e6;
+}
+
+/* tabulator_bootstrap4.min.css removes the base theme's outer border and its cell
+   right borders, leaving the body separated only by row striping. Both restored at
+   #dee2e6, the same value as the theme's own row bottom-border. */
+.tabulator {
+	border: 1px solid #dee2e6;
+}
+
+.tabulator-row .tabulator-cell {
+	border-right: 1px solid #dee2e6;
+}
+
+/* The last column's rule would double against the grid's own right edge. Lower
+   specificity than the .tabulator-frozen rules below. */
+.tabulator-row .tabulator-cell:last-child {
+	border-right: none;
 }
 
 .tabulator-row.tabulator-row-even {
@@ -63,7 +83,16 @@ tabulator_bootstrap4.min.css so these rules win.
 	background-color: #caeaad;
 }
 
-.tabulator .tabulator-cell.tabulator-frozen {
+/* Closes the pinned group. A page puts cssClass: "mcz-pin-edge" on its last pinned
+   column; other pinned columns keep the ordinary 1px cell border. Requiring
+   .tabulator-frozen too means the divider goes when that column is unpinned. */
+.tabulator .tabulator-cell.tabulator-frozen.mcz-pin-edge {
+	border-right: 2px solid #adb5bd;
+}
+
+/* The row-selection gutter, in teal. Both class names are needed: this must outrank
+   the rule above and the theme's own row-header border, which tie on specificity. */
+.tabulator .tabulator-cell.tabulator-frozen.tabulator-row-header {
 	border-right: 2px solid #3e6f7d;
 }
 
@@ -176,9 +205,56 @@ tabulator_bootstrap4.min.css so these rules win.
 	margin: 0 3px 0 0;
 }
 
+/* Tabulator appends a bare <label> straight into the paginator for the page-size
+   select, with no class to hang the app's .font-weight-lessbold utility on, so its 560
+   is set here instead. The direct-child selector deliberately spares the "Page:" label,
+   which sits inside .tabulator-page-jump-wrapper and carries the class itself. */
+.tabulator .tabulator-paginator > label {
+	font-weight: 560;
+}
+
 /* Matches .tabulator-page-size's own look, so the two selects sit consistently. */
 .tabulator-page-jump {
 	border: 1px solid #dee2e6;
 	border-radius: 3px;
 	padding: 2px 5px;
+}
+
+/* Group chip: names the column the grid is grouped by, with an x to end the grouping.
+   Styled to match the groups bar of the jqxGrid this replaces. */
+.mcz-group-chip {
+	display: inline-flex;
+	align-items: center;
+	background-color: #deebec;
+	border: 1px solid #adb5bd;
+	border-radius: .2rem;
+	padding: .1rem .25rem .1rem .5rem;
+	font-size: .875rem;
+	font-weight: 500;
+}
+
+.mcz-group-chip-remove {
+	background: none;
+	border: 0;
+	padding: 0 .25rem;
+	margin-left: .35rem;
+	color: #495057;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.mcz-group-chip-remove:hover,
+.mcz-group-chip-remove:focus {
+	color: #a8412b;
+}
+
+/* The bootstrap4 theme pads every header cell 5px all round and adds 2px above the
+   filter input. The header is chrome shown once, so tightening it buys rows; !important
+   and the extra class are both needed to outrank the theme's own !important rule. */
+.tabulator .tabulator-col-content {
+	padding: 3px !important;
+}
+
+.tabulator .tabulator-header-filter {
+	margin-top: 1px;
 }
