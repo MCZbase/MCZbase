@@ -649,7 +649,6 @@ limitations under the License.
 				<div id="containerCheckHistory"><div class="my-2 text-center"><img src="/shared/images/indicator.gif"> Loading...</div></div>
 			</div>
 		</section>
-		<cfoutput>#renderWikiButtons()#</cfoutput>
 	</cfif>
 </cfoutput>
 
