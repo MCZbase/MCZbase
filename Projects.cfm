@@ -389,7 +389,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 													</div>
 													<script>
 														$(document).ready(function () {
-															makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#variables.participant_agent_id#", "project_agent", false);
+															makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#encodeForJavaScript(variables.participant_agent_id)#", "project_agent", false);
 														});
 													</script>
 												</div>
@@ -408,7 +408,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 													</div>
 													<script>
 														$(document).ready(function () {
-															makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#variables.sponsor_agent_id#", "project_sponsor", false);
+															makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#encodeForJavaScript(variables.sponsor_agent_id)#", "project_sponsor", false);
 														});
 													</script>
 												</div>
@@ -428,7 +428,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														</div>
 														<script>
 															$(document).ready(function () {
-																makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#variables.transaction_agent_id#", "transaction_agent", false);
+																makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#encodeForJavaScript(variables.transaction_agent_id)#", "transaction_agent", false);
 															});
 														</script>
 													</div>
