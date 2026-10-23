@@ -407,7 +407,9 @@ editing behavior consistent across the application.
 <main id="content" class="container-fluid position-relative">
 	<cftry>
 		<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-		<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+	<cfcatch>
+		<cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput>
+	</cfcatch>
 	</cftry>
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-1">
@@ -838,8 +840,7 @@ $(document).ready(function() {
 </script>
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset action = "search">
-
-<cfset targetWikiPage = "Containers">
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
+<cfset variables.wikiDrawerAction = "search">
+<cfset variables.targetWikiPage = "Containers">
+<cfoutput>#renderWikiDrawer(variables.wikiDrawerAction, variables.targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

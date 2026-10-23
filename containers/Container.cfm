@@ -801,7 +801,7 @@ limitations under the License.
 <script src="/shared/js/wikiDrawer.js"></script>
 <!--- the wiki API takes only a page title, so the Editing_Containers heading is reached by scrolling the drawer
 	after the article loads, rather than by a "Containers#Editing_Containers" page name --->
-<cfset targetWikiPage = "Containers">
+<cfset variables.targetWikiPage = "Containers">
 <cfif variables.action EQ "edit">
 	<script>
 		/** Hook called by showWiki in wikiDrawer.js after an article is placed in the drawer; scrolls
@@ -828,5 +828,5 @@ limitations under the License.
 		}
 	</script>
 </cfif>
-<cfoutput>#renderWikiDrawer(variables.action, targetWikiPage)#</cfoutput>
+<cfoutput>#renderWikiDrawer(variables.action, variables.targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
