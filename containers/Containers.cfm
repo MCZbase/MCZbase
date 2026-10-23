@@ -250,6 +250,7 @@ editing behavior consistent across the application.
 <cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 
 <cfset pageTitle = "Containers">
+<cfset page = "Containers">
 <cfset pageHasContainers = true>
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
@@ -838,6 +839,7 @@ $(document).ready(function() {
 </cfoutput>
 <script src="/shared/js/wikiDrawer.js"></script>
 <cfset action = "search">
+
 <cfset targetWikiPage = "Containers">
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
