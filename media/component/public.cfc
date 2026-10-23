@@ -310,6 +310,11 @@ include this function and use it.
 							<cfset preview_uri = "">
 						</cfif>
 					</cfif>
+					<!--- A preview_uri without a scheme (e.g. www.morphosource.org/...) would load as a
+					      relative url under this site; show the placeholder instead. --->
+					<cfif len(preview_uri) GT 0 AND NOT REFindNoCase("^(https?://|/)", preview_uri)>
+						<cfset preview_uri = "">
+					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 					<cfset hw = 'height="auto"'>
 					<cfif isDisplayable>
