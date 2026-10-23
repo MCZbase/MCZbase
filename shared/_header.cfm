@@ -144,14 +144,18 @@ limitations under the License.
 </cfif>
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
-<!--- Version tabulator-common.js by its last-modified time so browsers fetch the new copy when it changes;
-	pages such as Projects.cfm call functions only present in the current file, and a stale cached copy breaks their grids. --->
-<cfset variables.tabulatorCommonVersion = "">
-<cfset variables.tabulatorCommonPath = expandPath("/shared/js/tabulator-common.js")>
-<cfif fileExists(variables.tabulatorCommonPath)>
-	<cfset variables.tabulatorCommonVersion = dateTimeFormat(getFileInfo(variables.tabulatorCommonPath).lastModified, "yyyymmddHHnnss")>
+<!--- Pages with a Tabulator grid; only these load tabulator-common.js. --->
+<cfset variables.TABULATOR_PAGES = "/Projects.cfm">
+<cfif listFindNoCase(variables.TABULATOR_PAGES, CGI.script_name) GT 0>
+	<!--- Version tabulator-common.js by its last-modified time so browsers fetch the new copy when it changes;
+		pages such as Projects.cfm call functions only present in the current file, and a stale cached copy breaks their grids. --->
+	<cfset variables.tabulatorCommonVersion = "">
+	<cfset variables.tabulatorCommonPath = expandPath("/shared/js/tabulator-common.js")>
+	<cfif fileExists(variables.tabulatorCommonPath)>
+		<cfset variables.tabulatorCommonVersion = dateTimeFormat(getFileInfo(variables.tabulatorCommonPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/shared/js/tabulator-common.js?v=#encodeForUrl(variables.tabulatorCommonVersion)#"></script>
 </cfif>
-<script type="text/javascript" src="/shared/js/tabulator-common.js?v=#encodeForUrl(variables.tabulatorCommonVersion)#"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>

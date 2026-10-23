@@ -383,7 +383,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="participant_agent_name" id="participant_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
+															<input type="text" name="participant_agent_name" id="participant_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.participant_agent_name)#">
 															<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
 														</div>
 													</div>
@@ -402,7 +402,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
+															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.sponsor_agent_name)#">
 															<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
 														</div>
 													</div>
@@ -422,7 +422,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 																<div class="input-group-prepend">
 																	<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 																</div>
-																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
+																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.transaction_agent_name)#">
 																<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
 															</div>
 														</div>
