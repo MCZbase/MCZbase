@@ -403,6 +403,10 @@ editing behavior consistent across the application.
 	</cfif>
 </cfif>
 <main id="content" class="container-fluid">
+	<cftry>
+		<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+		<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
+	</cftry>
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-1">
 			<div class="search-box col-12 mt-2 px-0">
@@ -831,5 +835,8 @@ $(document).ready(function() {
 });
 </script>
 </cfoutput>
-
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset action = "search">
+<cfset targetWikiPage = "Containers#Managing_Containers">
+<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

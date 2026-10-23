@@ -286,10 +286,6 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
 <main id="content" class="container py-3">
-		<cftry>
-			<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
-			<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
-		</cftry>
 
 <!--- mirrors the inline-styled #overlay pattern search pages like /Taxa.cfm already use (see
 	developer's guide, Search-Pages) -- this isn't a search page, so it doesn't use that pattern's
@@ -796,8 +792,4 @@ limitations under the License.
 </script>
 
 </main>
-<script src="/shared/js/wikiDrawer.js"></script>
-<cfset action = "search">
-<cfset targetWikiPage = "Containers#Managing_Containers">
-<cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
