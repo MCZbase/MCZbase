@@ -35,6 +35,8 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 <cfset variables.QUERY_STATS_ROLES = "collops,curatorial_associate,global_admin">
 <!--- The table of individual queries is limited to this many rows, the most recent first. --->
 <cfset variables.MAX_QUERY_ROWS = 5000>
+<!--- query_type values recorded in uam_query.query_stats; the first is the default. --->
+<cfset variables.QUERY_TYPES = "specimen,taxa">
 <cfset variables.canSeeQueryStats = false>
 <cfif isdefined("session.roles")>
 	<cfloop list="#variables.QUERY_STATS_ROLES#" index="allowedRole">
@@ -55,6 +57,9 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 <cfparam name="form.edate" default="">
 <cfset variables.action = form.action>
 <cfset variables.query_type = form.query_type>
+<cfif NOT listFind(variables.QUERY_TYPES, variables.query_type)>
+	<cfset variables.query_type = listFirst(variables.QUERY_TYPES)>
+</cfif>
 <cfset variables.collection_id = form.collection_id>
 <cfset variables.bdate = form.bdate>
 <cfset variables.edate = form.edate>
@@ -93,9 +98,8 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 							<div class="form-row">
 								<div class="col-12 col-md-2">
 									<label for="query_type" class="data-entry-label">Type</label>
-									<select name="query_type" id="query_type" class="data-entry-select">
-										<option value=""></option>
-										<option value="specimen">specimen</option>
+									<select name="query_type" id="query_type" class="data-entry-select reqdClr" required>
+										<option value="specimen" selected>specimen</option>
 										<option value="taxa">taxonomy</option>
 									</select>
 								</div>
@@ -147,9 +151,7 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 				LEFT JOIN collection ON uam_query.query_stats_coll.collection_id = collection.collection_id
 			WHERE
 				1 = 1
-				<cfif len(variables.query_type) GT 0>
-					AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
-				</cfif>
+				AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
 				<cfif len(variables.collection_id) GT 0>
 					AND uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
 				</cfif>
@@ -176,9 +178,7 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 					LEFT JOIN collection ON uam_query.query_stats_coll.collection_id = collection.collection_id
 				WHERE
 					1 = 1
-					<cfif len(variables.query_type) GT 0>
-						AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
-					</cfif>
+					AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
 					<cfif len(variables.collection_id) GT 0>
 						AND uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
 					</cfif>
@@ -195,7 +195,7 @@ uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 				<h1 class="h2">Query Statistics</h1>
 				<a href="/info/queryStats.cfm" class="btn btn-xs btn-warning">Back to the search form</a>
 				<p class="mt-2 mb-0">
-					<cfif len(variables.query_type) GT 0>Type: #encodeForHtml(variables.query_type)#.<cfelse>All types.</cfif>
+					Type: #encodeForHtml(variables.query_type)#.
 					<cfif len(variables.collection_id) GT 0>Selected collections only.<cfelse>All collections.</cfif>
 					<cfif isDate(variables.bdate) AND isDate(variables.edate)>
 						From #dateformat(variables.bdate,'yyyy-mm-dd')# to #dateformat(variables.edate,'yyyy-mm-dd')#.
