@@ -23,6 +23,10 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 
+<!--- Every account's contact details, roles and lock status are for administrators only. --->
+<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 <cfset local.canEditUsers = isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin")>
 
 <cfif NOT isDefined("usernameLoginLockedUntil")>
