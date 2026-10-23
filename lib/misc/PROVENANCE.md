@@ -28,23 +28,5 @@ the differences are MCZbase's own changes, recorded in this repository's history
 - Loaded by `/shared/_header.cfm` when a page sets `addheaderresource` to `feedreader`.  It
   requests only the feed URL the page gives it.
 
-## multizoom/
-
-- Original: Multi-Zoom (John Davenport Scheuer, 2012) with Dynamic Drive's Featured Image Zoomer,
-  from https://www.dynamicdrive.com/dynamicindex4/multizoom.js.  That site is gone (the domain is
-  parked).  The first copy, committed as `includes/js/multizoom/` in 77a7317306 (2015-06-29):
-  - `multizoom.js` is identical (apart from line endings) to the Internet Archive's snapshots of
-    the original from 2015-08-13 and 2017-08-03 (and later ones checked), so it was the
-    current release when copied.
-  - `spinningred.gif` is identical to the 2015-09-19 snapshot.
-  - `multizoom.css` started from the original (2013-03-14 snapshot) and has MCZbase's sizing and
-    class-name changes (c21187c1d6 onward).
-- MCZbase changes since: jQuery 3 compatibility (2023-03-09) and the `executeMultizoom` switch
-  (0cea7e77bb).
-- SHA-256 now: multizoom.js `c884c9757d5960f93201e0439d09049ed2056df3870a49e6d981a9bd9f50fba7`,
-  multizoom.css `c3e4d4a7c9d9b0bc7d4a061b912859d22d819a4780edb2d8af3b9099b5b13b1b`,
-  spinningred.gif `13ba8183b164cd9dfac87ba272700552f0efb110f3b627dc1e3bc6071a99f31b`
-- Licence: not an open-source licence.  The script's notice "must remain for legal use", and
-  Dynamic Drive's terms of use (revision of 2015-07-07, as archived) allow free use and
-  modification on any site, but not redistributing the scripts for download.
-- Loaded on every page by `/shared/_header.cfm`.  It requests only the images a page gives it.
+multizoom (Dynamic Drive's Featured Image Zoomer), formerly here, was replaced in 2026-10 by
+`/shared/js/media-zoom.js`, as its terms of use don't allow redistribution.

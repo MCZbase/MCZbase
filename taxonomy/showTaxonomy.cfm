@@ -1048,34 +1048,6 @@ limitations under the License.
 		</div><!--- col-12 --->
 	</section>
 
-	<!--- Reposition addimagezoom trackers when Bootstrap collapse panels open or close.
-		  Uses MutationObserver on each collapse element's class attribute so this works
-		  regardless of whether Bootstrap 4 collapse events bubble to document. --->
-	<script type="text/javascript">
-		$(function() {
-			function pushTrackersOffscreen() {
-				$('.zoomtracker, .cursorshade').css({ left: -10000, top: -10000 });
-			}
-			function repositionTrackers() {
-				$(window).trigger('resize');
-			}
-			function watchPanel(id) {
-				var el = document.getElementById(id);
-				if (!el) { return; }
-				var lastShown = el.classList.contains('show');
-				new MutationObserver(function() {
-					var hasShow = el.classList.contains('show');
-					var isTransitioning = el.classList.contains('collapsing');
-					if (!isTransitioning && hasShow !== lastShown) {
-						lastShown = hasShow;
-						if (hasShow) { repositionTrackers(); } else { pushTrackersOffscreen(); }
-					}
-				}).observe(el, { attributes: true, attributeFilter: ['class'] });
-			}
-			['mediaCardBodyWrap', 'taxonAnnotationsCardBodyWrap',
-			 'collapseRelatedTaxa', 'collapseSpecies'].forEach(watchPanel);
-		});
-	</script>
 
 	</cfoutput>
 </main><!--- class="container" --->

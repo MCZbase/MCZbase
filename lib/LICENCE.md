@@ -20,6 +20,4 @@ sorttable (lib/misc): MIT http://www.kryogenix.org/code/browser/sorttable/
 
 jFeed (lib/misc): MIT or GPL (dual licensed) https://github.com/jfhovinne/jFeed
 
-multizoom (lib/misc): Dynamic Drive terms of use, not an open source licence; see lib/misc/PROVENANCE.md
-
 Each library's source, checksums and review are in a PROVENANCE.md beside it, where one has been written.

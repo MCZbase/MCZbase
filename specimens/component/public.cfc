@@ -545,7 +545,7 @@ limitations under the License.
 						</cfif>
 						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
-							<!--- note, size=350 will set minimum zoom on multizoom to 2, not 4, making small zoom on desktop --->
+							<!--- note, size=350 makes the hover preview twice the image size, not four times (see data-mcz-zoom-scale in media/component/public.cfc) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textShort")>
 							</div>
