@@ -26,6 +26,19 @@ test-uam> desc uam_query.query_stats_coll
 ---->
 
 <cfinclude template="/includes/_header.cfm">
+<!--- Each query is listed with the username that ran it, so this is for collection operations and administrators only. --->
+<cfset variables.QUERY_STATS_ROLES = "collops,curatorial_associate,global_admin">
+<cfset variables.canSeeQueryStats = false>
+<cfif isdefined("session.roles")>
+	<cfloop list="#variables.QUERY_STATS_ROLES#" index="allowedRole">
+		<cfif listfindnocase(session.roles, allowedRole)>
+			<cfset variables.canSeeQueryStats = true>
+		</cfif>
+	</cfloop>
+</cfif>
+<cfif NOT variables.canSeeQueryStats>
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
 <!--- The form posts to this page, and every value it sends was read from implicit scope, which is
 	also why a first request with no parameters failed on an undefined action. --->
 <cfparam name="form.action" default="nothing">
@@ -65,7 +78,7 @@ test-uam> desc uam_query.query_stats_coll
 	<select name="collection_id" id="collection_id" multiple="multiple">
 		<option value=""></option>
 		<cfloop query="ctcollection">
-			<option value="#collection_id#">#collection#</option>
+			<option value="#encodeForHtmlAttribute(collection_id)#">#encodeForHtml(collection)#</option>
 		</cfloop>
 	</select>
 	<label for="bdate">Begin Date</label>
@@ -163,7 +176,7 @@ test-uam> desc uam_query.query_stats_coll
 			</tr>
 			<cfloop query="smrc">
 				<tr>
-					<td>#collection#</td>
+					<td>#encodeForHtml(collection)#</td>
 					<td>#c#</td>
 					<td>#tot#</td>
 					<td>#round(avrg)#</td>
@@ -282,7 +295,7 @@ test-uam> desc uam_query.query_stats_coll
 				from
 					lcl
 				where
-					collection='#collection#'
+					collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dcol.collection#">
 				group by
 					myr,
 					yr,
@@ -361,11 +374,11 @@ test-uam> desc uam_query.query_stats_coll
 		<cfloop query="d">
 			<tr>
 				<td>#query_id#</td>
-				<td>#username#</td>
-				<td>#QUERY_TYPE#</td>
+				<td>#encodeForHtml(username)#</td>
+				<td>#encodeForHtml(QUERY_TYPE)#</td>
 				<td>#dateformat(CREATE_DATE,"dd mmm yyyy")#</td>
 				<td>#SUM_COUNT#</td>
-				<td>#collection#</td>
+				<td>#encodeForHtml(collection)#</td>
 				<td>#REC_COUNT#</td>
 			</tr>
 		</cfloop>
