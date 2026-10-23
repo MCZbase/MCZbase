@@ -1,7 +1,7 @@
 /**  tabulator-common.js
- * Shared helpers for pages using the Tabulator grid. Included on every page from
- * /shared/_header.cfm; defining these functions has no effect on pages that don't
- * call them (the Tabulator library itself is loaded only by pages that use it).
+ * Shared helpers for pages using the Tabulator grid. Included from /shared/_header.cfm
+ * on the pages listed in TABULATOR_PAGES there (the Tabulator library itself is loaded
+ * by each of those pages).
 
 Copyright 2026 President and Fellows of Harvard College
 
