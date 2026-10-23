@@ -616,7 +616,9 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
-										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
+										<cfif isdefined("session.roles") and ( listfindnocase(session.roles,"collops") or listfindnocase(session.roles,"curatorial_associate") or listfindnocase(session.roles,"global_admin") )>
+											<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
+										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 											<a class="dropdown-item" href="/metrics/Dashboard.cfm">Reporting Metrics</a>
 											<a class="dropdown-item" href="/metrics/AgentRoles.cfm">Visualize Data</a>

@@ -1,33 +1,55 @@
-<!----
+<!---
+info/queryStats.cfm
 
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+<!--- Historical counts of specimen and taxonomy searches, from uam_query.query_stats, which
+	sys.SP_GET_QUERYSTATS filled from the legacy searches' result tables; it is no longer filled,
+	so the page shows how current the numbers are. --->
+<!----
 create unique index u_query_stats_q_id on uam_query.query_stats (QUERY_ID) tablespace uam_idx_1;
 create index query_stats_coll_q_id on uam_query.query_stats_coll (QUERY_ID) tablespace uam_idx_1;
 create index query_stats_coll_coll_id on uam_query.query_stats_coll (collection_id) tablespace uam_idx_1;
 create index query_stats_coll_c_date on uam_query.query_stats (create_date) tablespace uam_idx_1;
-analyze table uam_query.query_stats_coll compute statistics;
-analyze table uam_query.query_stats compute statistics;
 
-test-uam> desc ;
- Name										     Null?    Type
- ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
- 										      NUMBER
- QUERY_TYPE										      VARCHAR2(10)
- CREATE_DATE										      DATE
- SUM_COUNT										      NUMBER
-
-test-uam> desc uam_query.query_stats_coll
- Name										     Null?    Type
- ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
- QUERY_ID										      NUMBER
- REC_COUNT										      NUMBER
- COLLECTION_ID		
-
-
+uam_query.query_stats: QUERY_ID, QUERY_TYPE VARCHAR2(10), CREATE_DATE, SUM_COUNT, USERNAME
+uam_query.query_stats_coll: QUERY_ID, REC_COUNT, COLLECTION_ID
 ---->
-
-<cfinclude template="/includes/_header.cfm">
-<!--- The form posts to this page, and every value it sends was read from implicit scope, which is
-	also why a first request with no parameters failed on an undefined action. --->
+<cfset pageTitle = "Query Statistics">
+<cfinclude template="/shared/_header.cfm">
+<!--- Each query is listed with the username that ran it, so this is for collection operations and administrators only. --->
+<cfset variables.QUERY_STATS_ROLES = "collops,curatorial_associate,global_admin">
+<!--- The table of individual queries is limited to this many rows, the most recent first. --->
+<cfset variables.MAX_QUERY_ROWS = 5000>
+<!--- query_type values recorded in uam_query.query_stats; the first is the default. --->
+<cfset variables.QUERY_TYPES = "specimen,taxa">
+<cfset variables.canSeeQueryStats = false>
+<cfif isdefined("session.roles")>
+	<cfloop list="#variables.QUERY_STATS_ROLES#" index="allowedRole">
+		<cfif listfindnocase(session.roles, allowedRole)>
+			<cfset variables.canSeeQueryStats = true>
+		</cfif>
+	</cfloop>
+</cfif>
+<cfif NOT variables.canSeeQueryStats>
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
+<!--- The search form posts to this page, as before this minimal redesign, rather than offering the GET
+	parameters with execute=true that redesigned search pages take. --->
 <cfparam name="form.action" default="nothing">
 <cfparam name="form.query_type" default="">
 <cfparam name="form.collection_id" default="">
@@ -35,342 +57,251 @@ test-uam> desc uam_query.query_stats_coll
 <cfparam name="form.edate" default="">
 <cfset variables.action = form.action>
 <cfset variables.query_type = form.query_type>
+<cfif NOT listFind(variables.QUERY_TYPES, variables.query_type)>
+	<cfset variables.query_type = listFirst(variables.QUERY_TYPES)>
+</cfif>
 <cfset variables.collection_id = form.collection_id>
 <cfset variables.bdate = form.bdate>
 <cfset variables.edate = form.edate>
-    <div style="width: 100%;">
-        <div style="width: 50em; margin: 0 auto;padding: 0 0 3em 0;">
-<script src="/lib/misc/sorttable.js"></script>
-<script language="javascript" type="text/javascript">
-	jQuery(document).ready(function() {
-		$("#bdate").datepicker();
-		$("#edate").datepicker();
-	});
-</script>
-<cfif variables.action is "nothing">
-<cfoutput>
-	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_id,collection from collection order by collection
-	</cfquery>
-<h2>Query Statistics</h2>
-<form method="post" name="f" action="#cgi.script_name#">
-	<input type="hidden" name="action" value="show">
-	<label for="query_type">Type</label>
-	<select name="query_type" id="query_type">
-		<option value=""></option>
-		<option value="specimen">specimen</option>
-		<option value="taxa">taxonomy</option>
-	</select>
-	<label for="collection_id">Collection</label>
-	<select name="collection_id" id="collection_id" multiple="multiple">
-		<option value=""></option>
-		<cfloop query="ctcollection">
-			<option value="#collection_id#">#collection#</option>
-		</cfloop>
-	</select>
-	<label for="bdate">Begin Date</label>
-		<input type="text" name="bdate" id="bdate">
-		
-		<label for="edate">Ended Date</label>
-		<input type="text" name="edate" id="edate">
-	<br><input type="button" class="lnkBtn" value="Table" onclick="f.action.value='showTable';f.submit();">
-	<br><input type="button" class="lnkBtn" value="Graph" onclick="f.action.value='showSummary';f.submit();">
-</form>
-</cfoutput>
+<cfif len(variables.bdate) GT 0 AND len(variables.edate) EQ 0>
+	<cfset variables.edate = variables.bdate>
 </cfif>
-<cfif variables.action is "showSummary">
-	<cfoutput>
-		<cfif len(variables.bdate) gt 0 and len(variables.edate) is 0>
-			<cfset variables.edate=variables.bdate>
-		</cfif>
-		<cfquery name="total" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
-			select
-				uam_query.query_stats.query_id,
-				collection,
-				QUERY_TYPE,
-				CREATE_DATE,
-				SUM_COUNT,
-				REC_COUNT,
-				username
-			from
-				uam_query.query_stats,
-				uam_query.query_stats_coll,
-				collection
-			where
-				uam_query.query_stats.QUERY_ID=uam_query.query_stats_coll.QUERY_ID (+) and
-				uam_query.query_stats_coll.collection_id=collection.collection_id (+)
-			<cfif len(variables.query_type) gt 0>
-				and query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
-			</cfif>
-			<cfif len(variables.collection_id) gt 0>
-				and uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
-			</cfif>
-			<cfif isDate(variables.bdate) AND isDate(variables.edate)>
-				AND (
-					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
-					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
-				)
-			</cfif>
-		</cfquery>
-		<cfquery name="smr" dbtype="query">
-			select 
-				count(*) c,
-				sum(SUM_COUNT) tot,
-				avg(sum_count) avrg,
-				min(sum_count) minrec,
-				max(sum_count) maxrec
-			from 
-				total
-		</cfquery>
-		Overall Summary
-		<table border="1">
-			<tr>
-				<th>Queries</th>
-				<th>Total records</th>
-				<th>Mean records/query</th>
-				<th>Minimum records/query</th>
-				<th>Maximum records/query</th>
-			</tr>
-			<tr>
-				<td>#smr.c#</td>
-				<td>#smr.tot#</td>
-				<td>#round(smr.avrg)#</td>
-				<td>#smr.minrec#</td>
-				<td>#smr.maxrec#</td>
-			</tr>
-		</table>
-		<cfquery name="smrc" dbtype="query">
-			select 
-				collection,
-				count(*) c,
-				sum(SUM_COUNT) tot,
-				avg(sum_count) avrg,
-				min(sum_count) minrec,
-				max(sum_count) maxrec
-			from 
-				total
-			group by collection
-		</cfquery>
-		Collection Summary
-		<table border="1" class="sortable">
-			<tr>
-				<th>Collection</th>
-				<th>Queries</th>
-				<th>Total records</th>
-				<th>Mean records/query</th>
-				<th>Minimum records/query</th>
-				<th>Maximum records/query</th>
-			</tr>
-			<cfloop query="smrc">
-				<tr>
-					<td>#collection#</td>
-					<td>#c#</td>
-					<td>#tot#</td>
-					<td>#round(avrg)#</td>
-					<td>#minrec#</td>
-					<td>#maxrec#</td>
-				</tr>
-			</cfloop>
-		</table>
-		<cfquery name="lcl" dbtype="query">
-			select * from total
-		</cfquery>
-		<cfset mon=arraynew(1)>
-		<cfset yr=arraynew(1)>
-		<cfset myr=arraynew(1)>
-		<cfset i=1>
-		<cfloop query="lcl">
-			<cfset mon[i]=dateformat(create_date,"mm")>
-			<cfset yr[i]=dateformat(create_date,"yyyy")>
-			<cfset myr[i]=dateformat(create_date,"Mmm-yyyy")>
-			<cfset i=i+1>
-		</cfloop>
-		
-		<cfset nColumnNumber = QueryAddColumn(lcl, "mm", "Integer",mon)>
-		<cfset nColumnNumber = QueryAddColumn(lcl, "yr", "Integer",yr)>
-		<cfset nColumnNumber = QueryAddColumn(lcl, "myr", "VarChar",myr)>
-		
-		<cfquery name="sbd" dbtype="query">
-			select
-				collection,
-				myr,
-				count(*) c,
-				sum(SUM_COUNT) tot,
-				avg(sum_count) avrg,
-				min(sum_count) minrec,
-				max(sum_count) maxrec,
-				yr,
-				mm			
-			from
-				lcl
-			group by
-				collection,
-				myr,
-				yr,
-				mm	
-			order by
-				collection,
-				yr,
-				mm
-		</cfquery>
-		<cfquery name="allc" dbtype="query">
-			select
-				myr,
-				yr,
-				mm,
-				sum(SUM_COUNT) tot		
-			from
-				lcl
-			group by
-				myr,
-				yr,
-				mm
-			order by
-				yr,
-				mm
-		</cfquery>
-		<cfchart 
-			style="slanty"
-			chartHeight="600"
-			chartWidth="600"
-			format="png" 
-		    xaxistitle="Month" 
-		    yaxistitle="Number records accessed"> 
-			<cfchartseries type="bar" 
-			    query="allc" 
-			    itemcolumn="myr" 
-			    valuecolumn="tot"
-				dataLabelStyle="value">
-			</cfchartseries>
-		</cfchart>
-		
-		<cfquery name="cbt" dbtype="query">
-			select
-				collection,
-				sum(SUM_COUNT) tot					
-			from
-				total
-			group by
-				collection
-			order by
-				collection
-		</cfquery>
-		<cfchart format="png" 
-		   style="slanty"
-		   	 chartHeight="600"
-			chartWidth="1200"
-				xaxistitle="Collection" 
-		    yaxistitle="Number records accessed"> 
-			<cfchartseries type="bar" 
-			    query="cbt" 
-			    itemcolumn="collection" 
-			    valuecolumn="tot"
-				dataLabelStyle="value">
-			</cfchartseries>
-		</cfchart>
-		
-		<cfquery name="dcol" dbtype="query">
-			select collection from total where collection is not null group by collection
-		</cfquery>
-		<cfloop query="dcol">
-			<cfquery name="q" dbtype="query">
-				select
-					myr,
-					yr,
-					mm,
-					count(*) c					
-				from
-					lcl
-				where
-					collection='#collection#'
-				group by
-					myr,
-					yr,
-					mm
-				order by
-					yr,
-					mm
-			</cfquery>
-			<cfchart 
-				style="slanty"
-				chartHeight="600"
-				chartWidth="600"
-				format="png" 
-			    xaxistitle="Month" 
-			    yaxistitle="Number #collection# records accessed"> 
-				<cfchartseries type="bar" 
-				    query="q" 
-				    itemcolumn="myr" 
-				    valuecolumn="c"
-					dataLabelStyle="value">
-				</cfchartseries>
-			</cfchart>
-		</cfloop>
-	</cfoutput>
-</cfif>
-<cfif variables.action is "showTable">
+
+<cfquery name="dataRange" datasource="uam_god" result="dataRange_result">
+	SELECT
+		query_type,
+		MIN(create_date) first_query,
+		MAX(create_date) last_query,
+		COUNT(*) query_count
+	FROM uam_query.query_stats
+	GROUP BY query_type
+	ORDER BY query_type
+</cfquery>
+
 <cfoutput>
-	This form will return no more than 5000 rows.
-	<cfif len(variables.bdate) gt 0 and len(variables.edate) is 0>
-		<cfset variables.edate=variables.bdate>
+<main class="container-fluid" id="content">
+	<cfif variables.action NEQ "showTable">
+		<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="ctcollection_result">
+			SELECT collection_id, collection
+			FROM collection
+			ORDER BY collection
+		</cfquery>
+		<section role="search">
+			<div class="row mx-0 mb-2">
+				<div class="search-box col-12 px-0">
+					<div class="search-box-header">
+						<h1 class="h3 text-white">Query Statistics</h1>
+					</div>
+					<div class="col-12 my-2">
+						<form name="queryStatsForm" id="queryStatsForm" method="post" action="/info/queryStats.cfm">
+							<input type="hidden" name="action" value="showTable">
+							<div class="form-row">
+								<div class="col-12 col-md-2">
+									<label for="query_type" class="data-entry-label">Type</label>
+									<select name="query_type" id="query_type" class="data-entry-select reqdClr" required>
+										<option value="specimen" selected>specimen</option>
+										<option value="taxa">taxonomy</option>
+									</select>
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="collection_id" class="data-entry-label">Collection</label>
+									<select name="collection_id" id="collection_id" class="data-entry-select" multiple="multiple" size="5">
+										<cfloop query="ctcollection">
+											<option value="#encodeForHtmlAttribute(ctcollection.collection_id)#">#encodeForHtml(ctcollection.collection)#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="bdate" class="data-entry-label">Begin Date</label>
+									<input type="text" name="bdate" id="bdate" class="data-entry-input" placeholder="yyyy-mm-dd">
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="edate" class="data-entry-label">End Date</label>
+									<input type="text" name="edate" id="edate" class="data-entry-input" placeholder="yyyy-mm-dd">
+								</div>
+							</div>
+							<div class="pt-2">
+								<button type="submit" class="btn btn-xs btn-primary">Search</button>
+								<button type="reset" class="btn btn-xs btn-warning">Reset</button>
+							</div>
+						</form>
+						<script>
+							$(document).ready(function() {
+								$("##bdate").datepicker({ dateFormat: "yy-mm-dd" });
+								$("##edate").datepicker({ dateFormat: "yy-mm-dd" });
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+		</section>
+	<cfelse>
+		<cfquery name="summary" datasource="uam_god" result="summary_result">
+			SELECT
+				GROUPING(collection.collection) is_total,
+				collection.collection,
+				COUNT(*) query_count,
+				SUM(uam_query.query_stats.sum_count) total_records,
+				AVG(uam_query.query_stats.sum_count) mean_records,
+				MIN(uam_query.query_stats.sum_count) min_records,
+				MAX(uam_query.query_stats.sum_count) max_records
+			FROM
+				uam_query.query_stats
+				LEFT JOIN uam_query.query_stats_coll ON uam_query.query_stats.query_id = uam_query.query_stats_coll.query_id
+				LEFT JOIN collection ON uam_query.query_stats_coll.collection_id = collection.collection_id
+			WHERE
+				1 = 1
+				AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
+				<cfif len(variables.collection_id) GT 0>
+					AND uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
+				</cfif>
+				<cfif isDate(variables.bdate) AND isDate(variables.edate)>
+					AND uam_query.query_stats.create_date >= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
+					AND uam_query.query_stats.create_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd') + 1
+				</cfif>
+			GROUP BY ROLLUP(collection.collection)
+			ORDER BY GROUPING(collection.collection) DESC, collection.collection
+		</cfquery>
+		<cfquery name="queries" datasource="uam_god" result="queries_result">
+			SELECT * FROM (
+				SELECT
+					uam_query.query_stats.query_id,
+					uam_query.query_stats.username,
+					uam_query.query_stats.query_type,
+					uam_query.query_stats.create_date,
+					uam_query.query_stats.sum_count,
+					collection.collection,
+					uam_query.query_stats_coll.rec_count
+				FROM
+					uam_query.query_stats
+					LEFT JOIN uam_query.query_stats_coll ON uam_query.query_stats.query_id = uam_query.query_stats_coll.query_id
+					LEFT JOIN collection ON uam_query.query_stats_coll.collection_id = collection.collection_id
+				WHERE
+					1 = 1
+					AND uam_query.query_stats.query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
+					<cfif len(variables.collection_id) GT 0>
+						AND uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
+					</cfif>
+					<cfif isDate(variables.bdate) AND isDate(variables.edate)>
+						AND uam_query.query_stats.create_date >= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
+						AND uam_query.query_stats.create_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd') + 1
+					</cfif>
+				ORDER BY uam_query.query_stats.create_date DESC, uam_query.query_stats.query_id DESC
+			)
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.MAX_QUERY_ROWS#">
+		</cfquery>
+		<section class="row mx-0 my-2">
+			<div class="col-12">
+				<h1 class="h2">Query Statistics</h1>
+				<a href="/info/queryStats.cfm" class="btn btn-xs btn-warning">Back to the search form</a>
+				<p class="mt-2 mb-0">
+					Type: #encodeForHtml(variables.query_type)#.
+					<cfif len(variables.collection_id) GT 0>Selected collections only.<cfelse>All collections.</cfif>
+					<cfif isDate(variables.bdate) AND isDate(variables.edate)>
+						From #dateformat(variables.bdate,'yyyy-mm-dd')# to #dateformat(variables.edate,'yyyy-mm-dd')#.
+					<cfelse>
+						All dates.
+					</cfif>
+				</p>
+			</div>
+		</section>
+		<section class="row mx-0 my-2">
+			<div class="col-12">
+				<h2 class="h3">Summary</h2>
+				<p class="small mb-1">A query searching more than one collection is counted once for each collection.</p>
+				<table class="sortable table table-responsive d-xl-table table-striped">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Collection</th>
+							<th scope="col">Queries</th>
+							<th scope="col">Total records</th>
+							<th scope="col">Mean records/query</th>
+							<th scope="col">Minimum records/query</th>
+							<th scope="col">Maximum records/query</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfloop query="summary">
+							<cfif summary.is_total EQ 1>
+								<cfset variables.collectionLabel = "All">
+							<cfelseif len(summary.collection) EQ 0>
+								<cfset variables.collectionLabel = "(no collection)">
+							<cfelse>
+								<cfset variables.collectionLabel = summary.collection>
+							</cfif>
+							<tr>
+								<td>#encodeForHtml(variables.collectionLabel)#</td>
+								<td>#numberFormat(summary.query_count)#</td>
+								<td>#numberFormat(val(summary.total_records))#</td>
+								<td>#numberFormat(round(val(summary.mean_records)))#</td>
+								<td>#numberFormat(val(summary.min_records))#</td>
+								<td>#numberFormat(val(summary.max_records))#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<section class="row mx-0 my-2">
+			<div class="col-12">
+				<h2 class="h3">Queries</h2>
+				<p class="small mb-1">The #numberFormat(variables.MAX_QUERY_ROWS)# most recent rows at most; #numberFormat(queries.recordcount)# shown.</p>
+				<table class="sortable table table-responsive d-xl-table table-striped">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Username</th>
+							<th scope="col">Type</th>
+							<th scope="col">Date</th>
+							<th scope="col">Total</th>
+							<th scope="col">Collection</th>
+							<th scope="col">Collection Count</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfloop query="queries">
+							<tr>
+								<td>#encodeForHtml(queries.query_id)#</td>
+								<td>#encodeForHtml(queries.username)#</td>
+								<td>#encodeForHtml(queries.query_type)#</td>
+								<td>#dateformat(queries.create_date,"yyyy-mm-dd")#</td>
+								<td>#encodeForHtml(queries.sum_count)#</td>
+								<td>#encodeForHtml(queries.collection)#</td>
+								<td>#encodeForHtml(queries.rec_count)#</td>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
+			</div>
+		</section>
 	</cfif>
-	<cfquery name="d" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
-		select * from (	
-			select
-				uam_query.query_stats.query_id,
-				collection,
-				QUERY_TYPE,
-				CREATE_DATE,
-				SUM_COUNT,
-				REC_COUNT,
-				username
-			from
-				uam_query.query_stats,
-				uam_query.query_stats_coll,
-				collection
-			where
-				uam_query.query_stats.QUERY_ID=uam_query.query_stats_coll.QUERY_ID (+) and
-				uam_query.query_stats_coll.collection_id=collection.collection_id (+)
-			<cfif len(variables.query_type) gt 0>
-				and query_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.query_type#">
-			</cfif>
-			<!--- IN rather than the = this had: collection_id comes from a multiple select, so
-				more than one selection made this compare a column to a comma separated list and
-				match nothing.  The summary above always used IN. --->
-			<cfif len(variables.collection_id) gt 0>
-				and uam_query.query_stats_coll.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#" list="yes">)
-			</cfif>
-			<cfif isDate(variables.bdate) AND isDate(variables.edate)>
-				AND (
-					to_date(to_char(CREATE_DATE,'yyyy-mm-dd')) between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.bdate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
-					and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(variables.edate,'yyyy-mm-dd')#">,'yyyy-mm-dd')
-				)
-			</cfif>
-		) where rownum <= 5000
-	</cfquery>
-	<table border="1" id="tbl"  class="sortable">
-		<tr>
-			<th>ID</th>
-			<th>Username</th>
-			<th>Type</th>
-			<th>Date</th>
-			<th>Total</th>
-			<th>Collection</th>
-			<th>Colln. Cnt.</th>
-		</tr>
-		<cfloop query="d">
-			<tr>
-				<td>#query_id#</td>
-				<td>#username#</td>
-				<td>#QUERY_TYPE#</td>
-				<td>#dateformat(CREATE_DATE,"dd mmm yyyy")#</td>
-				<td>#SUM_COUNT#</td>
-				<td>#collection#</td>
-				<td>#REC_COUNT#</td>
-			</tr>
-		</cfloop>
-	</table>
+	<section class="row mx-0 mt-2 mb-4">
+		<div class="col-12">
+			<h2 class="h3">Data Available</h2>
+			<p class="small mb-1">Query statistics are no longer being recorded; these are the dates of the first and last recorded queries.</p>
+			<table class="table table-responsive d-xl-table">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Type</th>
+						<th scope="col">First Query</th>
+						<th scope="col">Last Query</th>
+						<th scope="col">Queries</th>
+					</tr>
+				</thead>
+				<tbody>
+					<cfloop query="dataRange">
+						<tr>
+							<td>#encodeForHtml(dataRange.query_type)#</td>
+							<td>#dateformat(dataRange.first_query,"yyyy-mm-dd")#</td>
+							<td>#dateformat(dataRange.last_query,"yyyy-mm-dd")#</td>
+							<td>#numberFormat(dataRange.query_count)#</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</main>
+<script src="/lib/misc/sorttable.js"></script>
 </cfoutput>
-</cfif>
-    </div></div>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
