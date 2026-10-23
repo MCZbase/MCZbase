@@ -798,6 +798,6 @@ limitations under the License.
 
 </main>
 <script src="/shared/js/wikiDrawer.js"></script>
-<cfset targetWikiPage = (action EQ "edit" ? "Edit_Container" : "Container")>
+<cfset targetWikiPage = (action EQ "edit" ? "Editing_Containers" : "Container")>
 <cfoutput>#renderWikiDrawer(action, targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
