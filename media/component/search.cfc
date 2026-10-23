@@ -851,12 +851,12 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 
 	<cftry>
-		<cfset variables.isStaff = false>
+		<cfset local.isStaff = false>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfset variables.isStaff = true>
+			<cfset local.isStaff = true>
 		</cfif>
 		<!--- Internal remarks are for staff only; others get no suggestions. --->
-		<cfif NOT variables.isStaff AND trim(arguments.media_label) EQ "internal remarks">
+		<cfif NOT local.isStaff AND trim(arguments.media_label) EQ "internal remarks">
 			<cfreturn serializeJSON(data)>
 		</cfif>
 		<cfset rows = 0>
@@ -872,7 +872,7 @@ limitations under the License.
 				AND upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.term)#%">
 				<!--- Only labels of media this user may see, as in the media search. --->
 				AND MCZBASE.is_media_encumbered(media.media_id) < 1
-				<cfif NOT variables.isStaff>
+				<cfif NOT local.isStaff>
 					AND NVL(media.mask_media_fg, 0) = 0
 				</cfif>
 			group by label_value
