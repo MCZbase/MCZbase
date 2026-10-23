@@ -402,7 +402,8 @@ editing behavior consistent across the application.
 		<cfset variables.transactionSummaryText = "Unknown transaction">
 	</cfif>
 </cfif>
-<main id="content" class="container-fluid">
+
+<main id="content" class="container-fluid position-relative">
 	<cftry>
 		<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
 		<cfcatch><cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput></cfcatch>
