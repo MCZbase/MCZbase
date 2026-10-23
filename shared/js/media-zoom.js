@@ -30,8 +30,8 @@ var mczMediaZoom = (function () {
 	var MAX_PIXEL_SCALE = 2;
 	var WHEEL_STEP = 1.25;
 	var KEY_PAN_STEP = 0.1;
-	var MOUSE_HINT = "Scroll to zoom \u00b7 Esc to close";
-	var KEYBOARD_HINT = "+ / \u2212 to zoom \u00b7 arrow keys to move \u00b7 Esc to close";
+	var MOUSE_HINT = "Scroll or + / \u2212 to zoom \u00b7 Esc to close";
+	var KEYBOARD_HINT = "+ / \u2212 to zoom \u00b7 Esc to close";
 
 	var enabled = true;
 	/* Large images by url: {state: "loading"|"loaded"|"error", width, height}. */
@@ -185,7 +185,7 @@ var mczMediaZoom = (function () {
 			lens.style.display = "none";
 		}
 		if (current.zoomed) {
-			panelHint.textContent = "Zoom \u00d7" + (Math.round(zoom * 10) / 10) + " \u00b7 Esc to close";
+			panelHint.textContent = "Zoom \u00d7" + (Math.round(zoom * 10) / 10) + " \u00b7 arrow keys to move \u00b7 Esc to close";
 		} else {
 			panelHint.textContent = current.viaKeyboard ? KEYBOARD_HINT : MOUSE_HINT;
 		}
@@ -235,20 +235,33 @@ var mczMediaZoom = (function () {
 		zoomBy(e.deltaY < 0 ? WHEEL_STEP : 1 / WHEEL_STEP);
 	}
 
-	/* Escape dismisses the panel until the pointer leaves or focus moves (WCAG 1.4.13). */
+	/**
+	 * isEditable tells whether a key went to a place that takes typing, which the zoom keys
+	 * must not take over.
+	 * @param target the event's target.
+	 * @return true for a text field, select or editable content.
+	 */
+	function isEditable(target) {
+		return !!target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+	}
+
+	/* While a view is shown, however it was opened: + and - zoom, the arrow keys pan once
+	   zoomed, and Escape dismisses it until the pointer leaves or focus moves (WCAG 1.4.13).
+	   Modified keys are left alone, as Ctrl + and Ctrl - zoom the browser. */
 	function onDocumentKeyDown(e) {
-		if (e.key === "Escape" && current) {
+		if (!current || panel.style.display !== "block" || e.ctrlKey || e.metaKey || e.altKey) {
+			return;
+		}
+		if (e.key === "Escape") {
 			var image = current.image;
 			hide();
 			image.mczZoomDismissed = true;
 			image.addEventListener("pointerleave", function () {
 				image.mczZoomDismissed = false;
 			}, { once: true });
+			return;
 		}
-	}
-
-	function onLinkKeyDown(e) {
-		if (!current || !current.viaKeyboard) {
+		if (isEditable(e.target)) {
 			return;
 		}
 		var handled = true;
@@ -318,7 +331,6 @@ var mczMediaZoom = (function () {
 		var scale = parseFloat(image.getAttribute("data-mcz-zoom-scale"));
 		current = {
 			image: image,
-			link: image.closest("a"),
 			url: url,
 			scale: (scale > 0) ? scale : 2,
 			zoom: 1,
@@ -331,9 +343,6 @@ var mczMediaZoom = (function () {
 		image.addEventListener("pointermove", onPointerMove);
 		image.addEventListener("pointerleave", onPointerLeave);
 		image.addEventListener("wheel", onWheel, { passive: false });
-		if (current.link) {
-			current.link.addEventListener("keydown", onLinkKeyDown);
-		}
 		document.addEventListener("keydown", onDocumentKeyDown);
 		/* Capture, so scrolling inside any container moves the panel with the image. */
 		window.addEventListener("scroll", refresh, true);
@@ -363,9 +372,6 @@ var mczMediaZoom = (function () {
 		image.removeEventListener("pointermove", onPointerMove);
 		image.removeEventListener("pointerleave", onPointerLeave);
 		image.removeEventListener("wheel", onWheel);
-		if (current.link) {
-			current.link.removeEventListener("keydown", onLinkKeyDown);
-		}
 		document.removeEventListener("keydown", onDocumentKeyDown);
 		window.removeEventListener("scroll", refresh, true);
 		window.removeEventListener("resize", refresh);

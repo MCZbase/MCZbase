@@ -156,9 +156,10 @@ limitations under the License.
 				<h2 class="h4">Enlarged view (hover and keyboard)</h2>
 				<p>
 					Hover over an image: an enlarged view appears beside it, on the right when there is room, otherwise on the left.
-					Scroll the mouse wheel over the image to zoom in; a lens on the image marks the part shown, and moving the mouse pans.
+					Scroll the mouse wheel over the image, or press + and &minus;, to zoom; a lens on the image marks the part shown, and moving the mouse or the arrow keys pan.
 					Escape closes the view until the mouse leaves the image.
-					Tab to an image's link: the view appears; + and &minus; zoom, the arrow keys pan once zoomed, Escape closes it.
+					Tab to an image's link: the view appears, and the same keys work.
+					The keys don't act while typing in a field, and Ctrl + and Ctrl &minus; still zoom the browser.
 					On a touch screen the image is a plain link.
 				</p>
 				<cfif len(zoomMediaId) EQ 0>
