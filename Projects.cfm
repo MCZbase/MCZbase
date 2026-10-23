@@ -634,7 +634,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
 					<!--- aria-labelledby: the grid, a table to screen readers, is named by the results heading and count. --->
 					<div id="projectsGridDiv" class="blueFocus" aria-labelledby="resultsHeading"></div>
-					<!--- Tabulator puts the pagination here (footerElement), outside the grid: a table may hold only rows. --->
+					<!--- Pagination container, outside the grid on purpose (the pattern for every Tabulator page).
+					      Tabulator would put its pagination footer inside the grid, but the grid is relabelled
+					      role="table" for screen readers (mczUseTableRoles), and a table may hold only rows:
+					      controls inside it are invalid and may be read as table content.  The footerElement
+					      option below has Tabulator fill this container instead and leave it out of the grid's
+					      height.  See mczKeepControlsOutOfTable in /shared/js/tabulator-common.js. --->
 					<div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer"><div id="projectsGridFooter" class="tabulator-footer-contents"></div></div></div>
 					<div id="afterResultsGrid" tabindex="-1"></div>
 				</div>
@@ -931,8 +936,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			/* "Showing 1-50 of 173 rows", as Tabulator's own "rows" counter, which shows
 			   "1-1" when the page size is All (see mczPaginationRowsCounter). */
 			paginationCounter: mczPaginationRowsCounter,
-			/* Pagination outside the grid (see mczKeepControlsOutOfTable); Tabulator then
-			   leaves it out of the grid's height. */
+			/* Pagination in the container after the grid, not Tabulator's default place
+			   inside it: the grid is a table to screen readers, which may hold only rows
+			   (see mczKeepControlsOutOfTable).  Given here, Tabulator also leaves the footer
+			   out of the grid's height; moving it after the build hid the last rows. */
 			footerElement: "##projectsGridFooter",
 			/* No Tabulator "Loading" box: the page's own "Searching..." overlay shows for
 			   every load (mczProjectsAjaxRequest), and Tabulator's box sat dimmed beneath it

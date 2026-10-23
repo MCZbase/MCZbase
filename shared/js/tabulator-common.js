@@ -1196,10 +1196,18 @@ function mczFooterRoot(table) {
 
 /**
  * mczKeepControlsOutOfTable keeps a grid relabelled by mczUseTableRoles a valid table,
- * which may hold only rows and row groups.  The pagination footer must be outside it: give
- * the table footerElement: "#{id}", naming the tabulator-footer-contents element in this
- * markup just after the grid (Tabulator then fills it, and leaves it out of the grid's
- * height):
+ * which may hold only rows and row groups.
+ *
+ * Pagination goes outside the grid, against Tabulator's default.  Tabulator puts its
+ * footer (page buttons, page size select) inside the grid's element, which is fine for its
+ * own role="grid".  But mczUseTableRoles makes that element role="table" for screen readers,
+ * and controls inside a table but in no row are invalid (axe-core: aria-required-children,
+ * critical): screen readers may count them as table content.  So every grid page uses
+ * Tabulator's footerElement option instead: give the table footerElement: "#{id}", naming
+ * the tabulator-footer-contents element in this markup just after the grid.  Tabulator then
+ * fills it and leaves it out of the grid's height.  Don't move Tabulator's footer out after
+ * the build instead: Tabulator still subtracts its height from the rows' area, and the
+ * last rows end up hidden behind the pagination.
  *   <div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer">
  *     <div id="{id}" class="tabulator-footer-contents"></div></div></div>
  * This function takes the scrollable body (.tabulator-tableholder) out of the Tab order, as
