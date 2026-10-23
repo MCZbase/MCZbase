@@ -278,8 +278,12 @@ limitations under the License.
 
 <cfif variables.action EQ "edit">
 	<cfset pageTitle = "Edit Container">
+	<!---This page is needed for the wiki drawer--->
+	<cfset page = "Edit Container">
 <cfelse>
 	<cfset pageTitle = "Create Container">
+	<!---This page is needed for the wiki drawer--->
+	<cfset page = "Create Container">
 </cfif>
 
 <cfset pageHasContainers = true>
