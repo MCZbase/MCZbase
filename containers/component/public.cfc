@@ -1548,7 +1548,7 @@ details of a container for use in dialogs and page components.
 						<div class="row">
 							<cfif safeDisplayMode EQ "dialog">
 								<div class="col-12">
-									<div class="row">
+									<div class="row mb-0">
 										<div class="col-12 col-lg-6 mb-2 mb-lg-0">
 											<cfset name = "Container"> 
 											<cfif len(getContainerDetail.label) GT 0>
