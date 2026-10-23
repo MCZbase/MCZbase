@@ -851,21 +851,30 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 
 	<cftry>
+		<cfset variables.isStaff = false>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfif media_label IS 'internal remarks'>
-				<cfthrow message="Insufficent Access Rights">
-			</cfif>
+			<cfset variables.isStaff = true>
+		</cfif>
+		<!--- Internal remarks are for staff only; others get no suggestions. --->
+		<cfif NOT variables.isStaff AND trim(arguments.media_label) EQ "internal remarks">
+			<cfreturn serializeJSON(data)>
 		</cfif>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
-			select 
+			select
 				count(*) ct,
 				label_value
-			from 
+			from
 				media_labels
-			where 
-				media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label#"> 
-				AND upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				join media on media_labels.media_id = media.media_id
+			where
+				media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.media_label#">
+				AND upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.term)#%">
+				<!--- Only labels of media this user may see, as in the media search. --->
+				AND MCZBASE.is_media_encumbered(media.media_id) < 1
+				<cfif NOT variables.isStaff>
+					AND NVL(media.mask_media_fg, 0) = 0
+				</cfif>
 			group by label_value
 			order by label_value
 		</cfquery>
