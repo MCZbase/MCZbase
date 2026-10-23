@@ -121,12 +121,14 @@ tabulator_bootstrap4.min.css so these rules win.
 	cursor: pointer;
 }
 
-/* The scrollable table body (.tabulator-tableholder) always carries tabindex="0" --
-   Tabulator ships no visible focus style for it, so tabbing into the grid is otherwise
-   invisible. */
-.tabulator-tableholder:focus {
-	outline: 2px solid #3e6f7d;
-	outline-offset: -2px;
+/* The pagination footer, moved just after the grid by mczKeepControlsOutOfTable in
+   tabulator-common.js: one box with the grid, whose bottom border it shares. */
+.mcz-tabulator-footer-wrapper {
+	border-top: 0;
+}
+
+.mcz-tabulator-footer-wrapper .tabulator-footer {
+	border-top: 0;
 }
 
 /* Restores normal text selection in "text" selection mode. Scoped to a marker class

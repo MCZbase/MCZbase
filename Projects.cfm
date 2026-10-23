@@ -612,7 +612,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 									</span>
 									<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
 										<label for="selectionMode" class="mb-0 mr-1 small90">Grid Select:</label>
-										<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
+										<select id="selectionMode" class="data-entry-select d-inline w-auto" aria-describedby="selectionModeHelp">
 											<option value="text">Text</option>
 											<option value="cell">Cell(s)</option>
 											<option value="singlerow" selected>Single Row</option>
@@ -792,7 +792,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
-				}, "text-primary"),
+				}),
 				/* CSV export gets the plain project name, not the rendered <a> markup. */
 				accessorDownload: function (value, data) {
 					return data.project_name;
@@ -1029,6 +1029,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		projectsTable.on("tableBuilt", function () {
 			mczMakeHeaderMenuButtonsAccessible(projectsTable);
 			mczUseTableRoles(projectsTable);
+			mczKeepControlsOutOfTable(projectsTable);
 		});
 		projectsTable.on("pageSizeChanged", function (size) {
 			if (projectsIgnoreNextPageSizeChange) {

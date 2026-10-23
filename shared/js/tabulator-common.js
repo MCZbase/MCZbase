@@ -1179,6 +1179,41 @@ function mczUseTableRoles(table) {
 }
 
 /**
+ * mczKeepControlsOutOfTable keeps a grid relabelled by mczUseTableRoles a valid table,
+ * which may hold only rows and row groups: it moves the pagination footer to a wrapper
+ * just after the grid, and takes the scrollable body (.tabulator-tableholder) out of the
+ * Tab order, as every row's own controls already reach and scroll it.  It also drops the
+ * page size select's title, which repeats its aria-label.  Call on "tableBuilt", after
+ * mczUseTableRoles.
+ *
+ * @param table the Tabulator instance.
+ */
+function mczKeepControlsOutOfTable(table) {
+	var element = table.element;
+	var holder = element.querySelector(".tabulator-tableholder");
+	if (holder) {
+		holder.removeAttribute("tabindex");
+	}
+	var footer = element.querySelector(":scope > .tabulator-footer");
+	if (!footer) {
+		return;
+	}
+	/* The wrapper carries the tabulator class so the theme's footer styles still apply.
+	   A table rebuilt in the same element reuses it, replacing the old footer. */
+	var wrapper = element.mczFooterWrapper;
+	if (!wrapper || !document.body.contains(wrapper)) {
+		wrapper = document.createElement("div");
+		wrapper.className = "tabulator mcz-tabulator-footer-wrapper";
+		element.parentNode.insertBefore(wrapper, element.nextSibling);
+		element.mczFooterWrapper = wrapper;
+	}
+	wrapper.replaceChildren(footer);
+	footer.querySelectorAll("select.tabulator-page-size[aria-label][title]").forEach(function (select) {
+		select.removeAttribute("title");
+	});
+}
+
+/**
  * mczMakeHeaderMenuButtonsAccessible makes each column's ⋮ menu button, a plain span
  * in Tabulator, keyboard-operable and gives it an accessible name. Call on
  * "tableBuilt" and after anything that rebuilds a header (e.g. updateDefinition).
@@ -1212,10 +1247,9 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 				if (document.body.contains(opener) && opener.getClientRects().length) {
 					opener.focus();
 				} else {
-					var holder = table.element.querySelector(".tabulator-tableholder");
-					if (holder) {
-						holder.focus();
-					}
+					/* tabindex -1: focusable from script only, not a Tab stop. */
+					table.element.setAttribute("tabindex", "-1");
+					table.element.focus();
 				}
 			}, 0);
 		});
