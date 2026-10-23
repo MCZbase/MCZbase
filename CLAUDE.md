@@ -82,6 +82,7 @@ types: search-with-results, details ("show..."), and edit/create.
 - `.cfc` custom tag files MUST be in `/CustomTags/`.
 - Widely reused ColdFusion/JS/CSS files SHOULD be in `/shared/`, `/shared/js/`, `/shared/css/`.
 - Included libraries (jQuery, etc.) MUST be in `/lib/`, loaded from local copies -- MUST NOT load libraries from external URLs.
+- Before adding or updating a library in `/lib/`, check its provenance and known vulnerabilities (OWASP Top 10:2025 A03 Software Supply Chain Failures): confirm the file matches the official release (checksum against the registry or project download), check OSV (https://osv.dev) for the library and the dependencies bundled into the file, check that it makes no requests to external sources at runtime, and note how recently upstream has been maintained. Record the results in a `PROVENANCE.md` beside the file -- see `/lib/ExcelJS/exceljs_ver4.4.0/PROVENANCE.md`. Keep that note to facts about the library; MCZbase's own unfixed weaknesses don't belong in it, since this repository is public.
 - A JS function used **outside its own concept** -> put it in `/shared/js/` and include it from `/shared/_header.cfm`.
 - A JS function used **only within its own concept** -> put it in `/{concept}/js/`, include from `/shared/_header.cfm` gated on a check for that `/concept/` path.
 
