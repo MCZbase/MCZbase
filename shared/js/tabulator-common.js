@@ -586,6 +586,10 @@ function mczDownloadBlob(blob, filename) {
 function mczBuildCsv(table, rows, includeHidden) {
 	function escapeCsv(value) {
 		var text = String(value);
+		/* A leading ' keeps spreadsheets from running a value as a formula (CSV injection). */
+		if (/^[=+\-@\t\r]/.test(text)) {
+			text = "'" + text;
+		}
 		if (/[",\r\n]/.test(text)) {
 			text = '"' + text.replace(/"/g, '""') + '"';
 		}
