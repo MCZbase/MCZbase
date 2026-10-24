@@ -1317,7 +1317,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * later selection-mode change -- which rebuilds the table from scratch -- doesn't
 	 * silently revert the choice.  The button's label names what the next click does.
 	 *
-	 * @param buttonId id of the pin button, without a leading #.
+	 * @param buttonId id of the pin button, without a leading ##.
 	 */
 	function togglePinProjectColumn(buttonId) {
 		projectColumnPinned = !projectColumnPinned;
