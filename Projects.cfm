@@ -1341,7 +1341,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   whole column list as it goes. Re-apply the header menu buttons' keyboard access
 		   once at the end, since the rebuilds discard it. */
 		var pinning = Promise.resolve();
-		projectsPinnedFields.forEach(function (field) {
+		/* Pin left to right, unpin right to left, so the columns still frozen always form
+		   one block at the left edge.  Unpinning left to right left a replaced column in
+		   Tabulator's list of frozen columns, and with three pinned (Details, Edit,
+		   Project) the next update failed on it (TypeError in the resize module), leaving
+		   Project frozen and the grid misdrawn. */
+		var pinOrder = projectColumnPinned ? projectsPinnedFields.slice() : projectsPinnedFields.slice().reverse();
+		pinOrder.forEach(function (field) {
 			pinning = pinning.then(function () {
 				return projectsTable.getColumn(field).updateDefinition({ frozen: projectColumnPinned });
 			});
