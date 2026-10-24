@@ -578,7 +578,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											<div id="columnChooserList"></div>
 										</fieldset>
 									</div>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+									<button type="button" id="pinProjectColumnButton" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn('pinProjectColumnButton');">Unpin Project Column</button>
 									<!--- Hidden until a column actually is hidden; mczRefreshShowHiddenColumnsButton
 									      sets the label and reveals it. btn-warning to match Clear Column Filters,
 									      the other reset-style control here. --->
@@ -1315,10 +1315,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * table (via updateDefinition, which re-runs Tabulator's column initialization so
 	 * the frozen-columns module picks the change up) and in projectColumnPinned, so a
 	 * later selection-mode change -- which rebuilds the table from scratch -- doesn't
-	 * silently revert the choice.
+	 * silently revert the choice.  The button's label names what the next click does.
+	 *
+	 * @param buttonId id of the pin button, without a leading #.
 	 */
-	function togglePinProjectColumn() {
+	function togglePinProjectColumn(buttonId) {
 		projectColumnPinned = !projectColumnPinned;
+		$("##" + buttonId).text(projectColumnPinned ? "Unpin Project Column" : "Pin Project Column");
 		/* Details and Project pin together. Once unpinned, Project can be dragged elsewhere,
 		   and a frozen column that follows an unfrozen one freezes to the right edge rather
 		   than the left -- so both have to be back at the left, Details first, before either
