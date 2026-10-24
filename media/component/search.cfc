@@ -328,9 +328,14 @@ limitations under the License.
 							AND media.media_id in ( select media_id from media_labels where media_label = 'internal remarks' )
 						<cfelse>
 							AND media.media_id in (
-								select media_id 
-								from media_labels 
-								where media_label = 'internal_remarks' and label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_remarks)#%">
+								select media_id
+								from media_labels
+								where media_label = 'internal remarks' and
+									<cfif left(internal_remarks,1) is "=">
+										label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(internal_remarks,len(internal_remarks)-1)#">
+									<cfelse>
+										upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_remarks)#%">
+									</cfif>
 							)
 						</cfif>
 					</cfif>
