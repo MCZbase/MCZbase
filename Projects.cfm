@@ -794,10 +794,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   is also the order they must keep. */
 		var detailsColumn = mczDetailsButtonColumn("Project Details", "project_name");
 
-		/* Every column has a default width, as on the jqxGrid pages.  A column hidden when the
-		   grid is built has no width yet, and when it is shown Tabulator sizes a column
-		   without one to its longest value; with fitColumns, columns with a width keep it and
-		   the grid scrolls sideways when they don't fit. */
+		/* Every column has a default width, as on the jqxGrid pages, except the last, which
+		   fills the rest of the grid (its minWidth keeps it from being squeezed).  A column
+		   hidden when the grid is built has no width yet, and when it is shown Tabulator sizes
+		   a column without one to its longest value; with fitColumns, columns with a width
+		   keep it and the grid scrolls sideways when they don't fit. */
 		var columns = [
 			detailsColumn,
 			{
@@ -820,7 +821,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			{ title: "Participants", field: "participants", width: 260, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
 			{ title: "Sponsors", field: "sponsors", width: 260, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsors"), headerMenu: projectsHeaderMenu },
 			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
-			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
+			{ title: "End Date", field: "end_date", minWidth: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
 		];
 
 		if (canManageProjects) {
