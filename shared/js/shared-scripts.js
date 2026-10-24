@@ -2105,7 +2105,7 @@ function setColumnVisibilities(fieldHiddenValues,targetGridId) {
  */
 function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv) { 
 	if (typeof feedbackDiv !== 'undefined') { 
-		$('#'+feedbackDiv).html('Saving...');
+		$('#'+feedbackDiv).html('<span class="text-muted">Saving...</span>');
 	}
 	if (typeof fieldHiddenValues === 'undefined') { 
 		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ","Error: saving column visibilities.");
@@ -2131,7 +2131,7 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
 		},
 		error: function (jqXHR, status, message) {
 			if (typeof feedbackDiv !== 'undefined') { 
-				$('#'+feedbackDiv).html('Error.');
+				$('#'+feedbackDiv).html('<span class="text-danger">Error.</span>');
 			}
 			messageDialog("Error saving column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
@@ -2139,7 +2139,7 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
 			if (typeof feedbackDiv === 'undefined') { 
 				console.log(result.DATA.MESSAGE[0]);
 			} else { 
-				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+				$('#'+feedbackDiv).html('<span class="text-success">' + result.DATA.MESSAGE[0] + '</span>');
 			}
 		}
 	});
@@ -2196,7 +2196,7 @@ function getColHidProp(columnName, defaultValue) {
  */
 function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) { 
 	if (typeof feedbackDiv !== 'undefined') { 
-		$('#'+feedbackDiv).html('Saving...');
+		$('#'+feedbackDiv).html('<span class="text-muted">Saving...</span>');
 	}
 	var settings;
 	if (columnOrderMap) { 
@@ -2222,7 +2222,7 @@ function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) {
 		},
 		error: function (jqXHR, status, message) {
 			if (typeof feedbackDiv !== 'undefined') { 
-				$('#'+feedbackDiv).html('Error.');
+				$('#'+feedbackDiv).html('<span class="text-danger">Error.</span>');
 			}
 			messageDialog("Error saving column order: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
@@ -2230,7 +2230,7 @@ function saveColumnOrder(pageFilePath,columnOrderMap,label,feedbackDiv) {
 			if (typeof feedbackDiv === 'undefined') { 
 				console.log(result.DATA.MESSAGE[0]);
 			} else { 
-				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+				$('#'+feedbackDiv).html('<span class="text-success">' + result.DATA.MESSAGE[0] + '</span>');
 			}
 		}
 	});

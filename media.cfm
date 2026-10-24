@@ -94,23 +94,23 @@
 				insert into media_relations (
 					media_id,media_relationship,related_primary_key
 				) values (
-					#media_id#,'#thisRelationship#',#thisRelatedId#)
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">)
 			</cfquery>
         <cfelse>
         <cfif #thisRelationship# is "delete">
           <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from 
 						media_relations
-					where media_relations_id=#thisRelationID#
+					where media_relations_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelationID#">
 				</cfquery>
           <cfelse>
           <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update 
 						media_relations
 					set
-						media_relationship='#thisRelationship#',
-						related_primary_key=#thisRelatedId#
-					where media_relations_id=#thisRelationID#
+						media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">,
+						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">
+					where media_relations_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelationID#">
 				</cfquery>
         </cfif><!--- delete or update relation --->
       </cfif><!--- relation exists ---> 
@@ -127,23 +127,23 @@
       <cfif thisLabelID is -1>
         <cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				insert into media_labels (media_id,media_label,label_value)
-				values (#media_id#,'#thisLabel#','#thisLabelValue#')
+				values (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">)
 			</cfquery>
         <cfelse>
         <cfif #thisLabel# is "delete">
           <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					delete from 
 						media_labels
-					where media_label_id=#thisLabelID#
+					where media_label_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLabelID#">
 				</cfquery>
           <cfelse>
           <cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update 
 						media_labels
 					set
-						media_label='#thisLabel#',
-						label_value='#thisLabelValue#'
-					where media_label_id=#thisLabelID#
+						media_label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">,
+						label_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">
+					where media_label_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLabelID#">
 				</cfquery>
         </cfif>
       </cfif>

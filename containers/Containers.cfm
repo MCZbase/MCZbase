@@ -250,6 +250,7 @@ editing behavior consistent across the application.
 <cfset variables.CONTAINS_RESULT_ID_DISPLAY_THRESHOLD = 25>
 
 <cfset pageTitle = "Containers">
+<cfset page = "Containers">
 <cfset pageHasContainers = true>
 <cfinclude template="/shared/_header.cfm">
 <link rel="stylesheet" href="/containers/css/containers.css">
@@ -402,10 +403,17 @@ editing behavior consistent across the application.
 		<cfset variables.transactionSummaryText = "Unknown transaction">
 	</cfif>
 </cfif>
-<main id="content" class="container-fluid">
+
+<main id="content" class="container-fluid position-relative">
+	<cftry>
+		<cfoutput>#renderWikiButtons(buttonClass="btn btn-xs btn-dark help-btnSp-SearchWiki btnSp-shim mr-4 border-0")#</cfoutput>
+	<cfcatch>
+		<cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput>
+	</cfcatch>
+	</cftry>
 	<section class="container-fluid" role="search">
 		<div class="row mx-0 mb-1">
-			<div class="search-box col-12 mt-2 px-0">
+			<div class="search-box col-12 mb-3 px-0 mt-4">
 				<div class="search-box-header">
 					<h1 class="h3 text-white">Find Containers</h1>
 				</div>
@@ -699,8 +707,8 @@ editing behavior consistent across the application.
 								<input type="hidden" id="transaction_id" name="transaction_id" value="#encodeForHtml(variables.transaction_id)#">
 							</div>
 						</fieldset>
-						<div class="form-row">
-							<div class="col-12 mb-1 mt-1 d-flex flex-wrap align-items-center">
+						<div class="form-row mx-0">
+							<div class="col-12 mb-1 mt-3 d-flex flex-wrap align-items-center">
 								<div>
 									<button type="submit" class="btn btn-xs btn-primary">Search</button>
 									<a href="Containers.cfm" class="btn btn-xs btn-warning">New Search</a>
@@ -831,5 +839,8 @@ $(document).ready(function() {
 });
 </script>
 </cfoutput>
-
+<script src="/shared/js/wikiDrawer.js"></script>
+<cfset variables.wikiDrawerAction = "search">
+<cfset variables.targetWikiPage = "Containers">
+<cfoutput>#renderWikiDrawer(variables.wikiDrawerAction, variables.targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

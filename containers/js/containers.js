@@ -1704,10 +1704,11 @@ function buildSpecimenPreservationCell(row) {
  */
 function buildPagedNav(currentPage, totalPages, className, pageClass) {
 	var nav = $('<nav></nav>').attr('aria-label', 'Page navigation').addClass('d-flex flex-wrap' + (className ? ' ' + className : ''));
-	var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1">« First</button>').attr('type', 'button');
-	var prevBtn = $('<button class="btn btn-xs btn-secondary mr-1">‹ Prev</button>').attr('type', 'button');
-	var nextBtn = $('<button class="btn btn-xs btn-secondary mr-1">Next ›</button>').attr('type', 'button');
-	var lastBtn = $('<button class="btn btn-xs btn-secondary">Last »</button>').attr('type', 'button');
+	// Icons as in the Tabulator grids' pagination (mczPaginationLangs); aria-hidden, so the button is named by its text alone.
+	var firstBtn = $('<button class="btn btn-xs btn-secondary mr-1"><i class="fas fa-angle-double-left" aria-hidden="true"></i> First</button>').attr('type', 'button');
+	var prevBtn = $('<button class="btn btn-xs btn-secondary mr-1"><i class="fas fa-angle-left" aria-hidden="true"></i> Prev</button>').attr('type', 'button');
+	var nextBtn = $('<button class="btn btn-xs btn-secondary mr-1">Next <i class="fas fa-angle-right" aria-hidden="true"></i></button>').attr('type', 'button');
+	var lastBtn = $('<button class="btn btn-xs btn-secondary">Last <i class="fas fa-angle-double-right" aria-hidden="true"></i></button>').attr('type', 'button');
 	if (currentPage <= 1) {
 		firstBtn.prop('disabled', true);
 		prevBtn.prop('disabled', true);
