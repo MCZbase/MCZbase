@@ -329,6 +329,10 @@ limitations under the License.
 				<cfset media_id = listgetat(rdurl,gPos+1,"/")>
 				<cfset action="search">
 			</cfif>
+			<!--- Anything but a whole number, such as a relative link a browser resolved under /media/, is not a media record. --->
+			<cfif NOT isDefined("media_id") OR NOT REFind("^[0-9]+$", media_id)>
+				<cfthrow message="Not a media_id." type="MCZbase.MEDIA_NOT_FOUND">
+			</cfif>
 			<!--- This is the redirect for /media/{media_id} which MUST go to the media details page for one media object.  --->
 			<cfinclude template="/media/showMedia.cfm">
 			<!--- Note: production still uses old MediaSearch for lists of media_ids e.g. /MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#"  --->

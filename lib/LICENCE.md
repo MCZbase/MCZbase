@@ -11,3 +11,13 @@ jquery-ui: Public Domain (CC0 grant)
 jqwidgets: CC-BY-NC, explicit grant to "A public school, university or a non-profit organization."
 
 deck.gl: MIT https://github.com/visgl/deck.gl
+
+Tabulator: MIT https://github.com/olifolkerd/tabulator
+
+ExcelJS: MIT https://github.com/exceljs/exceljs
+
+sorttable (lib/misc): MIT http://www.kryogenix.org/code/browser/sorttable/
+
+jFeed (lib/misc): MIT or GPL (dual licensed) https://github.com/jfhovinne/jFeed
+
+Each library's source, checksums and review are in a PROVENANCE.md beside it, where one has been written.

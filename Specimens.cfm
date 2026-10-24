@@ -368,7 +368,7 @@
 													<!---IDENTIFIER SECTION--->	
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-															<h3 class="h2 small font-weight-bold mx-0 mb-0 mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h3>
+															<h2 class="h2 small font-weight-bold mx-0 mb-0 mt-0 px-3 mx-xl-0 px-xl-2 d-block bg-teal border-default">Identifiers</h2>
 															<cfif findNoCase("redesign",gitBranch) GT 0 OR findNoCase("test", gitBranch) OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 																<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 															</cfif>
@@ -549,7 +549,7 @@
 													</cfif>
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-0 pt-0 px-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h3>
+															<h2 class="h2 small font-weight-bold m-0 px-3 px-xl-2 d-block border-default bg-teal">Taxonomy</h2>
 															<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 														</div>
 													</div>
@@ -562,7 +562,7 @@
 														<div class="col-3 col-md-3 col-xl-1 pl-0 mb-1">
 															<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 															<label for="current_id_only" class="pl-0">Search</label>
-															<select id="current_id_only" name="current_id_only" style="color: rgba(0, 0, 0, .5);font-size:.78rem;padding:1px;">
+															<select id="current_id_only" name="current_id_only" style="font-size:.78rem;padding:1px;">
 																<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 																<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
 																<option value="any" #any_selected#>Any Id</option>
@@ -785,7 +785,7 @@
 													<!---GEOGRAPHY SECTION--->
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left pl-xl-0 pr-xl-1">
 														<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Geography</h3>
+															<h2 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Geography</h2>
 															<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></span></button>
 														</div>
 													</div>
@@ -999,7 +999,7 @@
 													</cfif> 
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="p-0 font-weight-bold d-inline-block-md text-xl-right w-100 text-left text-md-left text-dark mb-1 mb-md-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Coll. Event</h3>
+															<h2 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Coll. Event</h2>
 															<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 text-right btn smaller btn-link" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i></button>
 														</div>
 													</div>				
@@ -1152,7 +1152,7 @@
 													</cfif> 
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
 														<div class="d-inline-block-md text-xl-right p-0 w-100 text-left text-md-left text-dark mb-1 mb-md-0">
-															<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Specimen</h3>
+															<h2 class="h2 small font-weight-bold m-0 px-3 px-xl-2 border-default d-block bg-teal">Specimen</h2>
 															<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 px-0 mb-0 btn-link text-right btn smaller btn-link" onclick="toggleSpecDetail(#toggleTo#);">
 																show more <i class="fas fa-caret-right" style="vertical-align: middle;"></i>
 															</button>
@@ -1400,9 +1400,9 @@
 												<!---GENERAL SECTION---> 
 												<div class="col-12 form-row mx-0 search-form-basic-even pb-1 pb-xl-0 px-0 pl-xl-0 pr-xl-1">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-0 float-left">
-														<h3 class="h2 small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
+														<h2 class="h2 small font-weight-bold m-0 px-3 px-xl-2 text-left text-xl-right border-default bg-teal">
 															General
-														</h3>
+														</h2>
 													</div>
 													<div class="form-row col-12 col-xxl-11 mx-0 pt-0 mb-0">
 														<div class="col-12 col-md-3 col-xl-2 mb-1">

@@ -791,5 +791,42 @@ limitations under the License.
 	});
 </script>
 
+<cftry>
+	<cfoutput>#renderWikiButtons()#</cfoutput>
+<cfcatch>
+	<cfoutput>Error calling renderWikiButtons: #cfcatch.message#</cfoutput>
+</cfcatch>
+</cftry>
 </main>
+<script src="/shared/js/wikiDrawer.js"></script>
+<!--- the wiki API takes only a page title, so the Editing_Containers heading is reached by scrolling the drawer
+	after the article loads, rather than by a "Containers#Editing_Containers" page name --->
+<cfset variables.targetWikiPage = "Containers">
+<cfif variables.action EQ "edit">
+	<script>
+		/** Hook called by showWiki in wikiDrawer.js after an article is placed in the drawer; scrolls
+		 * the drawer so the Editing Containers section of the Containers article is at the top.
+		 *
+		 * @param $wikiContent jQuery object for the div holding the loaded article.
+		 */
+		function processWikiContent($wikiContent) {
+			scrollWikiDrawerToHeading($wikiContent, "wikiDrawer", "Editing_Containers");
+		}
+
+		/** Scroll a wiki drawer so that a heading in the loaded article is at its top.
+		 *
+		 * @param $wikiContent jQuery object for the div holding the loaded article.
+		 * @param drawerId the id of the scrolling drawer element, without a leading # selector.
+		 * @param headingId the MediaWiki id of the heading (the anchor in a wiki link), without a leading #.
+		 */
+		function scrollWikiDrawerToHeading($wikiContent, drawerId, headingId) {
+			var $drawer = $("#" + drawerId);
+			var $heading = $wikiContent.find('[id="' + headingId + '"]').first();
+			if ($heading.length) {
+				$drawer.scrollTop($heading.offset().top - $drawer.offset().top + $drawer.scrollTop());
+			}
+		}
+	</script>
+</cfif>
+<cfoutput>#renderWikiDrawer(variables.action, variables.targetWikiPage)#</cfoutput>
 <cfinclude template="/shared/_footer.cfm">

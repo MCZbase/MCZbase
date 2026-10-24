@@ -610,6 +610,11 @@ limitations under the License.
 														Any
 													</button><span class="text-secondary small">)</span>
 													<input type="text" id="internal_remarks" name="internal_remarks" value="#encodeForHtml(internal_remarks)#">
+													<script>
+														$(document).ready(function() {
+															makeMediaLabelAutocomplete("internal_remarks","internal remarks");
+														});
+													</script>
 												</div>
 											</cfif>
 										</div>

@@ -82,6 +82,7 @@ types: search-with-results, details ("show..."), and edit/create.
 - `.cfc` custom tag files MUST be in `/CustomTags/`.
 - Widely reused ColdFusion/JS/CSS files SHOULD be in `/shared/`, `/shared/js/`, `/shared/css/`.
 - Included libraries (jQuery, etc.) MUST be in `/lib/`, loaded from local copies -- MUST NOT load libraries from external URLs.
+- Before adding or updating a library in `/lib/`, check its provenance and known vulnerabilities (OWASP Top 10:2025 A03 Software Supply Chain Failures): confirm the file matches the official release (checksum against the registry or project download), check OSV (https://osv.dev) for the library and the dependencies bundled into the file, check that it makes no requests to external sources at runtime, and note how recently upstream has been maintained. Record the results in a `PROVENANCE.md` beside the file -- see `/lib/ExcelJS/exceljs_ver4.4.0/PROVENANCE.md`. Keep that note to facts about the library; MCZbase's own unfixed weaknesses don't belong in it, since this repository is public.
 - A JS function used **outside its own concept** -> put it in `/shared/js/` and include it from `/shared/_header.cfm`.
 - A JS function used **only within its own concept** -> put it in `/{concept}/js/`, include from `/shared/_header.cfm` gated on a check for that `/concept/` path.
 
@@ -188,6 +189,26 @@ Scopes -- **all of these must be explicit**, no implicit scope resolution:
 - Every input needs exactly **one** accessible name mechanism -- a `<label for>`, `aria-labelledby`, `title`, or `aria-label`. **Never stack more than one** on the same field; a screen reader will read the name redundantly for each mechanism present.
 - Prefer a real `<label for>` over ARIA attributes where possible; only reach for `aria-label`/`aria-labelledby` when there's no visible label.
 - The "skip to main content" link in `/shared/_header.cfm` targets `id="content"` -- every page including that header MUST carry `id="content"` on its `<main>`.
+- Focus is shown by one site-wide `:focus-visible` rule in `bootstrap_override.css` (2px `#3e6f7d` outline, offset 2px; white on the dark header bands). Don't add `outline: 0` or a `box-shadow` focus ring to new rules. Where a container clips the outline (`overflow: hidden`), draw it inside with `outline-offset: -2px` in that same block rather than removing it.
+- Skip links use `sr-only sr-only-focusable`, so they appear when focused; `sr-only` alone leaves a focused link invisible.
+
+### Results grids (Tabulator)
+
+Tested with NVDA in Chrome, Firefox and Edge on Projects.cfm, Oct 2026.
+
+- Add each page with a Tabulator grid to `TABULATOR_PAGES` in `/shared/_header.cfm`; only those pages load `tabulator-common.js`.
+- On `tableBuilt`, call `mczUseTableRoles(table)`, `mczKeepControlsOutOfTable(table)` and `mczMakeHeaderMenuButtonsAccessible(table)` from `tabulator-common.js`. The first relabels Tabulator's `role="grid"` as `table`: as a grid, NVDA's T found no table, table navigation failed from the header row, header controls switched NVDA to focus mode, and cells were read with the ⋮ label in the column name. The second keeps the relabelled table valid (a table may hold only rows and row groups): it takes the scrollable body out of the Tab order. The pagination footer must also be outside the grid: give the table `footerElement: "#{id}"` and put the footer markup shown in that function's comment just after the grid, so Tabulator fills it and leaves it out of the grid's height (moving the footer after the build made Tabulator subtract it from the rows' area, hiding the last rows). Name the grid with `aria-labelledby` pointing at the results heading. Give the table `langs: mczPaginationLangs()` and call `mczStylePaginationControls(table)` on `tableBuilt`, so First/Prev/Next/Last carry arrow icons and the app's `btn btn-xs btn-secondary` classes, and the page size select `data-entry-select`. The third makes the ⋮ a named button and the column menu keyboard-operable (Tabulator's menu can't take focus, its Escape never matches, and it opens at the page's top left for keyboard and screen-reader clicks).
+- Don't make column headers Tab stops, don't put an `aria-label` on them, and don't move the ⋮ or filter boxes out of the header with `aria-owns` -- all were tried, and each broke NVDA table navigation or was ignored.
+- Name each row control after its row, so a screen reader's list of controls isn't the same word repeated: row-selection checkboxes in `rowFormatter` ("Select " + the row's main identifier; Tabulator's default is "Select Row" for every row), Edit links with an `aria-label` starting with the visible "Edit", and Details buttons by passing the name field to `mczDetailsButtonColumn(title, nameField)`.
+- Use `mczStandardHeaderMenu` for column menus: besides sort, hide and Select Columns, it offers Move left / Move right, the keyboard alternative to dragging a header. Use `mczGroupHeaderElement` for `groupHeader`: it makes each group header a button with `aria-expanded`, since Tabulator's own toggle arrow only takes a click.
+- Set `aria-busy` on the grid element while results load.
+- After a new search, move focus to the results heading (which holds the count) so a screen reader reads it -- an `aria-live` region was held back by NVDA until focus moved -- and `history.replaceState` the address to the search's "Link to this search" URL, so Back from an edit page reruns the search.
+- Remember a followed Edit link in `sessionStorage` and focus it again on a Back visit; Chrome and Edge restore the page themselves, Firefox reloads it.
+- Put a `sr-only sr-only-focusable` "Skip past results" link before the grid, targeting a `tabindex="-1"` element after it.
+- Row controls must be real links or buttons; don't attach actions to bare cells.
+- NVDA's "clickable" before each row comes from Tabulator's row-click selection; it is expected and was left on purpose.
+- Truncated-cell tooltips (`mczOverflowTooltip`) are mouse-only; the full text stays available to screen readers and through Details. `tabulator-common.js` makes Escape close them (Tabulator's own Escape check never matches), as WCAG 1.4.13 requires.
+- Version shared CSS and JS includes by last-modified time (`?v=` from `getFileInfo().lastModified`), as `_header.cfm` does for `bootstrap_override.css` and `tabulator-common.js`; otherwise browsers keep a stale copy after a deploy.
 
 ## Buttons -- color/semantic conventions
 
