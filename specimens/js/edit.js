@@ -837,9 +837,8 @@ function closeInPage(callback=null) {
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
 	$("#InPageEditorDiv").removeClass("border-bottom");
-	if (typeof executeMultizoom !== 'undefined') {
-		executeMultizoom = true;
-		$(".zoomtracker").show();
+	if (typeof mczMediaZoom !== 'undefined') {
+		mczMediaZoom.setEnabled(true);
 	}
 	if (callback instanceof Function) {
 		callback();
@@ -847,9 +846,8 @@ function closeInPage(callback=null) {
 }
 
 function startInPage() { 
-	if (typeof executeMultizoom !== 'undefined') {
-		executeMultizoom = false;
-		$(".zoomtracker").hide();
+	if (typeof mczMediaZoom !== 'undefined') {
+		mczMediaZoom.setEnabled(false);
 	}
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();

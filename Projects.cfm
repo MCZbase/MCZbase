@@ -208,7 +208,13 @@ links do) redisplays correctly.
 </cfquery>
 
 <link rel="stylesheet" href="/lib/Tabulator/tabulator_ver6.5.2/css/tabulator_bootstrap4.min.css">
-<link rel="stylesheet" href="/shared/css/tabulator_overrides.css">
+<!--- Versioned by last-modified time, as tabulator-common.js is in the header, so browsers fetch the new copy when it changes. --->
+<cfset variables.tabulatorOverridesVersion = "">
+<cfset variables.tabulatorOverridesPath = expandPath("/shared/css/tabulator_overrides.css")>
+<cfif fileExists(variables.tabulatorOverridesPath)>
+	<cfset variables.tabulatorOverridesVersion = dateTimeFormat(getFileInfo(variables.tabulatorOverridesPath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<cfoutput><link rel="stylesheet" href="/shared/css/tabulator_overrides.css?v=#encodeForUrl(variables.tabulatorOverridesVersion)#"></cfoutput>
 <!---
 Results-toolbar layout, scoped to .mcz-results-toolbar. Inline rather than in
 shared/css/ -- a styleguide deviation -- while the arrangement is still being settled on
@@ -225,6 +231,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		display: inline-flex;
 		align-items: center;
 		flex-wrap: wrap;
+		margin-top: 3px;
+		margin-bottom: 3px;
 	}
 
 	/* row-gap applies between wrapped flex lines and nowhere else, so controls that fall
@@ -238,6 +246,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		margin-left: .5rem;
 		padding-left: .75rem;
 		border-left: 1px solid rgba(0, 0, 0, .18);
+	}
+
+	/* Slightly under .h4's 1rem, so the heading and the grid controls share one line at
+	   100% zoom on a ~1600px window. Outranks .h4 by the added scope. */
+	.mcz-results-toolbar h2,
+	.mcz-results-toolbar .mcz-results-link {
+		font-size: .95rem;
 	}
 
 	/* Below xl (Bootstrap's 1200px), give each group its own full-width line, so the row
@@ -273,7 +288,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				<div class="search-box mt-4">
 					<div class="search-box-header">
 						<cfoutput>
-							<h1 class="h3 text-white" tabindex="0">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+							<h1 class="h3 text-white">Search Projects <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</cfoutput>
 					</div>
 					<div id="searchFormDiv">
@@ -312,25 +327,25 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 														<input type="text" id="descr_len" name="descr_len" class="data-entry-input" value="#encodeForHtml(variables.descr_len)#">
 													</div>
 												</cfif>
-												<!--- One group, so the grid cannot separate the two ends of the range. "Active in
-												      Year" was removed from here: it asked whether a project was running in a given
-												      year, which is the same question as a range whose two ends are that year, so
-												      the range subsumes it. Its BETWEEN was also broken -- see the year clauses in
-												      projects/component/search.cfc. The year argument is still accepted there, so
-												      saved searches carrying it keep working. --->
+												<!--- Start Year matches the year a project started; End Year the year it
+												      ended, or earlier (see search.cfc). Active and Finished put NULL / NOT NULL
+												      into End Year. Anything else that isn't a 4-digit year is caught by
+												      mczValidateYearRange before searching, rather than silently ignored by the
+												      server. End Year has no maxlength, as NOT NULL is longer than a year. --->
 												<div class="col-12">
 													<div class="d-flex align-items-end">
 														<span class="flex-fill">
 															<label for="start_year" class="data-entry-label mb-0">Start Year</label>
-															<input type="text" id="start_year" name="start_year" class="data-entry-input" value="#encodeForHtml(variables.start_year)#">
+															<input type="text" id="start_year" name="start_year" class="data-entry-input" inputmode="numeric" maxlength="4" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.start_year)#">
 														</span>
 														<span class="text-secondary px-1 pb-1">&ndash;</span>
 														<span class="flex-fill">
-															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year</label>
-															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
-															<input type="text" id="end_year" name="end_year" class="data-entry-input" value="#encodeForHtml(variables.end_year)#">
+															<label for="end_year" class="data-entry-label d-inline w-auto mb-0">End Year (or earlier)</label>
+															<span class="text-secondary small">(</span><button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NULL';mczCheckYearField('end_year');" aria-label="set end year to NULL to find active projects with no end date">Active</button>, <button type="button" class="rules bg-transparent" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';mczCheckYearField('end_year');" aria-label="set end year to NOT NULL to find finished projects with a defined end date">Finished</button><span class="text-secondary small">)</span>
+															<input type="text" id="end_year" name="end_year" class="data-entry-input" placeholder="yyyy" aria-describedby="yearRangeError" value="#encodeForHtml(variables.end_year)#">
 														</span>
 													</div>
+													<p id="yearRangeError" class="text-danger small mb-0 px-2"></p>
 												</div>
 												<cfif oneOfUs EQ 1>
 													<div class="col-12 col-md-9">
@@ -368,13 +383,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="participant_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="participant_agent_name" id="participant_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Participant agent name" value="#encodeForHtml(variables.participant_agent_name)#">
+															<input type="text" name="participant_agent_name" id="participant_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.participant_agent_name)#">
 															<input type="hidden" name="participant_agent_id" id="participant_agent_id" value="#encodeForHtml(variables.participant_agent_id)#">
 														</div>
 													</div>
 													<script>
 														$(document).ready(function () {
-															makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#variables.participant_agent_id#", "project_agent", false);
+															makeConstrainedRichAgentPickerConfig("participant_agent_name", "participant_agent_id", "participant_agent_name_icon", "participant_agent_view", "#encodeForJavaScript(variables.participant_agent_id)#", "project_agent", false);
 														});
 													</script>
 												</div>
@@ -387,13 +402,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 															<div class="input-group-prepend">
 																<span class="input-group-text smaller bg-lightgreen" id="sponsor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 															</div>
-															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Sponsor agent name" value="#encodeForHtml(variables.sponsor_agent_name)#">
+															<input type="text" name="sponsor_agent_name" id="sponsor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.sponsor_agent_name)#">
 															<input type="hidden" name="sponsor_agent_id" id="sponsor_agent_id" value="#encodeForHtml(variables.sponsor_agent_id)#">
 														</div>
 													</div>
 													<script>
 														$(document).ready(function () {
-															makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#variables.sponsor_agent_id#", "project_sponsor", false);
+															makeConstrainedRichAgentPickerConfig("sponsor_agent_name", "sponsor_agent_id", "sponsor_agent_name_icon", "sponsor_agent_view", "#encodeForJavaScript(variables.sponsor_agent_id)#", "project_sponsor", false);
 														});
 													</script>
 												</div>
@@ -407,13 +422,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 																<div class="input-group-prepend">
 																	<span class="input-group-text smaller bg-lightgreen" id="transaction_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span>
 																</div>
-																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Transaction agent name" value="#encodeForHtml(variables.transaction_agent_name)#">
+																<input type="text" name="transaction_agent_name" id="transaction_agent_name" class="form-control rounded-right data-entry-input form-control-sm" value="#encodeForHtml(variables.transaction_agent_name)#">
 																<input type="hidden" name="transaction_agent_id" id="transaction_agent_id" value="#encodeForHtml(variables.transaction_agent_id)#">
 															</div>
 														</div>
 														<script>
 															$(document).ready(function () {
-																makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#variables.transaction_agent_id#", "transaction_agent", false);
+																makeConstrainedRichAgentPickerConfig("transaction_agent_name", "transaction_agent_id", "transaction_agent_name_icon", "transaction_agent_view", "#encodeForJavaScript(variables.transaction_agent_id)#", "transaction_agent", false);
 															});
 														</script>
 													</div>
@@ -517,13 +532,17 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					<div class="row mt-1 mb-0 border px-2 py-1 mx-0 align-items-center mcz-results-toolbar" style="background-color:#deebec;">
 						<!--- my-0: the bar's padding sets the vertical space; a margin here would add
 						      height and pull the heading off the centre line. --->
-						<h1 class="h4 ml-2 ml-md-1 my-0 px-2">
-							<span tabindex="0">Results: </span>
+						<!--- h2: "Search Projects" is the page's h1. tabindex on the heading, not on
+						      "Results:" alone, so a screen reader reads the count with it; a new search
+						      also moves focus here (mczHandleProjectsSearchResponse) so the count is
+						      read without going to look for it. "Link to this search" is a control,
+						      not part of the heading's text, so it sits in the controls beside it. --->
+						<h2 id="resultsHeading" class="h4 ml-2 ml-md-1 my-0 px-2" tabindex="0">
+							<span>Results: </span>
 							<span id="resultsMeta" style="display:none;">
-								<span class="pr-2 font-weight-normal" id="resultCount"></span>
-								<span id="resultLink" class="pr-2 font-weight-normal"></span>
+								<span class="font-weight-normal" id="resultCount"></span>
 							</span>
-						</h1>
+						</h2>
 						<!--- Line one, beside the heading: the search-form toggle, Save Search and the
 						      feedback Save Search writes. These belong with "Found N records" and "Link to
 						      this search" rather than with the grid's own controls below. --->
@@ -534,9 +553,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							<!--- The flex class sits on this inner div, never on the hide/show wrapper above:
 							      Bootstrap's d-flex is !important and would beat a plain inline display:none. --->
 							<div class="d-flex flex-wrap align-items-center">
+								<span id="resultLink" class="mcz-results-link"></span>
 								<div id="showhide"></div>
 								<cfif oneOfUs EQ 1>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
+									<button type="button" class="btn btn-xs btn-secondary m-1" onclick="populateSaveSearchDialog(); $('#saveSearchDialog').dialog('open');">Save Search</button>
 									<div id="saveSearchDialog" title="Save Search" style="display:none;"></div>
 								</cfif>
 								<output id="actionFeedback" class="ml-1 my-0 small text-nowrap"></output>
@@ -551,7 +571,12 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								<span class="mcz-toolbar-group">
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="openProjectsColumnChooser('columnChooserDialog');">Select Columns</button>
 									<div id="columnChooserDialog" title="Show/Hide Columns" style="display:none;">
-										<div id="columnChooserList" class="px-1"></div>
+										<!--- A fieldset names the checkboxes as a group, so a screen reader says
+										      "Columns to show, grouping" when focus enters the list. --->
+										<fieldset class="px-1">
+											<legend class="w-auto font-weight-bold mb-2">Columns to show</legend>
+											<div id="columnChooserList"></div>
+										</fieldset>
 									</div>
 									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
 									<!--- Hidden until a column actually is hidden; mczRefreshShowHiddenColumnsButton
@@ -567,8 +592,16 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 								</span>
 								<!--- Rows: selecting them, and getting them out. --->
 								<span class="mcz-toolbar-group">
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('csv', 'exportSelectedOnly', 'overlay');">Export to CSV</button>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="exportProjects('xlsx', 'exportSelectedOnly', 'overlay');">Export to Excel</button>
+									<div class="d-inline-flex align-items-center flex-wrap mx-1">
+										<label for="exportFormat" class="mb-0 mr-1 small90">Export as:</label>
+										<select id="exportFormat" class="data-entry-select d-inline w-auto">
+											<option value="csv" selected>CSV</option>
+											<option value="xlsx">Excel (.xlsx)</option>
+											<option value="json">JSON</option>
+											<option value="html">HTML</option>
+										</select>
+										<button type="button" class="btn btn-xs btn-secondary ml-1" onclick="exportProjects('exportFormat', 'exportSelectedOnly', 'overlay');">Export</button>
+									</div>
 									<!--- Outer span carries the show/hide; the flex class sits on the inner one
 									      (d-inline-flex is !important and would beat display:none). --->
 									<span id="exportSelectedOnlyContainer" style="display:none;">
@@ -579,7 +612,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 									</span>
 									<div class="d-inline-flex align-items-center flex-wrap ml-3 mr-1">
 										<label for="selectionMode" class="mb-0 mr-1 small90">Grid Select:</label>
-										<select id="selectionMode" class="data-entry-select d-inline w-auto" title="In Multiple Rows mode, hold Shift while clicking and dragging to select a range of rows." aria-describedby="selectionModeHelp">
+										<select id="selectionMode" class="data-entry-select d-inline w-auto" aria-describedby="selectionModeHelp">
 											<option value="text">Text</option>
 											<option value="cell">Cell(s)</option>
 											<option value="singlerow" selected>Single Row</option>
@@ -595,8 +628,20 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 							</div>
 						</div>
 					</div>
+					<!--- A 25-row page is ~100 tab stops. sr-only-focusable, not sr-only: a skip link
+					      that stays invisible when focused gives a sighted keyboard user nothing to see. --->
+					<a href="#afterResultsGrid" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Skip past results</a>
 					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
-					<div id="projectsGridDiv"></div>
+					<!--- aria-labelledby: the grid, a table to screen readers, is named by the results heading and count. --->
+					<div id="projectsGridDiv" class="blueFocus" aria-labelledby="resultsHeading"></div>
+					<!--- Pagination container, outside the grid on purpose (the pattern for every Tabulator page).
+					      Tabulator would put its pagination footer inside the grid, but the grid is relabelled
+					      role="table" for screen readers (mczUseTableRoles), and a table may hold only rows:
+					      controls inside it are invalid and may be read as table content.  The footerElement
+					      option below has Tabulator fill this container instead and leave it out of the grid's
+					      height.  See mczKeepControlsOutOfTable in /shared/js/tabulator-common.js. --->
+					<div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer"><div id="projectsGridFooter" class="tabulator-footer-contents"></div></div></div>
+					<div id="afterResultsGrid" tabindex="-1"></div>
 				</div>
 			</div>
 		</section>
@@ -647,6 +692,36 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	   switching to All fires pageSizeChanged, which would overwrite it with true. */
 	var projectsSizeBeforeGrouping = null;
 	var projectsTotalRows = 0;
+	/* Set by searchProjects so only a new search moves focus to the results heading --
+	   not every page, size or sort change, which go through the same response handler. */
+	var projectsFocusResults = false;
+	/* The project whose Edit link was followed, kept for this tab (sessionStorage) so that
+	   coming Back puts focus on that Edit link again. Chrome and Edge restore the page as
+	   it was, focus included; Firefox reloads it, and the search reruns from the address
+	   (see mczHandleProjectsSearchResponse). Only a Back or Forward visit uses it; any
+	   other load drops it, so a new search still focuses the results heading. */
+	var PROJECTS_RETURN_EDIT_KEY = "mczProjectsReturnToEdit";
+	var projectsReturnToEdit = null;
+	try {
+		var projectsNavigation = performance.getEntriesByType("navigation")[0];
+		if (projectsNavigation && projectsNavigation.type === "back_forward") {
+			projectsReturnToEdit = sessionStorage.getItem(PROJECTS_RETURN_EDIT_KEY);
+		}
+		sessionStorage.removeItem(PROJECTS_RETURN_EDIT_KEY);
+	} catch (e) {
+		/* No sessionStorage (e.g. blocked site data): Back lands on the heading instead. */
+	}
+	/* A page Chrome or Edge restores as it was runs none of the above, so drop the note
+	   here too; otherwise a later Back could send focus to an older Edit link. */
+	window.addEventListener("pageshow", function (e) {
+		if (e.persisted) {
+			try {
+				sessionStorage.removeItem(PROJECTS_RETURN_EDIT_KEY);
+			} catch (err) {
+				/* Nothing to drop. */
+			}
+		}
+	});
 	/* Set around a programmatic setPageSize so pageSizeChanged does not read it as the
 	   user's own choice. */
 	var projectsIgnoreNextPageSizeChange = false;
@@ -694,6 +769,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			projectsTable.destroy();
 			projectsTable = null;
 		}
+		/* The external footer outlives the table; the new one fills it afresh. */
+		$("##projectsGridFooter").empty();
 		/* A mode change builds a new instance, and the modes disagree about what a selection
 		   means, so a carried-over count would describe rows nothing can show. */
 		mczClearSelectionStore(null, projectsSelection, function (map) {
@@ -715,7 +792,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   freezes and unfreezes with Project so the two travel together under Pin Project
 		   Column. Frozen columns have to be contiguous at the left edge, so their order here
 		   is also the order they must keep. */
-		var detailsColumn = mczDetailsButtonColumn("Project Details");
+		var detailsColumn = mczDetailsButtonColumn("Project Details", "project_name");
 
 		var columns = [
 			detailsColumn,
@@ -725,18 +802,19 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				widthGrow: 3,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
-				}, "text-primary"),
+				}),
 				/* CSV export gets the plain project name, not the rendered <a> markup. */
 				accessorDownload: function (value, data) {
 					return data.project_name;
 				},
+				tooltip: mczOverflowTooltip,
 				headerFilter: "input",
 				headerFilterPlaceholder: "filter...",
 				headerFilterParams: mczHeaderFilterLabel("Project"),
 				headerMenu: projectsHeaderMenu
 			},
-			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
-			{ title: "Sponsor(s)", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsor(s)"), headerMenu: projectsHeaderMenu },
+			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
+			{ title: "Sponsors", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsors"), headerMenu: projectsHeaderMenu },
 			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
 			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
 		];
@@ -761,6 +839,18 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					a.className = "btn-xs btn-outline-primary";
 					a.href = "/projects/Project.cfm?action=edit&project_id=" + encodeURIComponent(d.project_id);
 					a.textContent = "Edit";
+					/* Named after the project, so a screen reader's links list isn't 25
+					   identical "Edit"s. Starts with the visible word, as WCAG 2.5.3 asks. */
+					a.setAttribute("aria-label", "Edit " + d.project_name);
+					/* Remembered for coming Back to this link: see PROJECTS_RETURN_EDIT_KEY. */
+					a.setAttribute("data-project-id", d.project_id);
+					a.addEventListener("click", function () {
+						try {
+							sessionStorage.setItem(PROJECTS_RETURN_EDIT_KEY, String(d.project_id));
+						} catch (e) {
+							/* No sessionStorage: Back lands on the results heading instead. */
+						}
+					});
 					return a;
 				}
 			});
@@ -843,10 +933,20 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			   back on All, or its counts would describe one page of preferredPageSize. */
 			paginationSize: projectsGroupField ? true : preferredPageSize,
 			paginationSizeSelector: PROJECTS_PAGE_SIZE_BASE_OPTIONS.concat([true]),
-			/* Tabulator's own built-in "rows" counter preset ("Showing 1-50 of 173
-			   rows"), rather than a custom one -- this app has no existing convention of
-			   its own to match here. */
-			paginationCounter: "rows",
+			/* "Showing 1-50 of 173 rows", as Tabulator's own "rows" counter, which shows
+			   "1-1" when the page size is All (see mczPaginationRowsCounter). */
+			paginationCounter: mczPaginationRowsCounter,
+			/* Pagination in the container after the grid, not Tabulator's default place
+			   inside it: the grid is a table to screen readers, which may hold only rows
+			   (see mczKeepControlsOutOfTable).  Given here, Tabulator also leaves the footer
+			   out of the grid's height; moving it after the build hid the last rows. */
+			footerElement: "##projectsGridFooter",
+			langs: mczPaginationLangs(),
+			/* No Tabulator "Loading" box: the page's own "Searching..." overlay shows for
+			   every load (mczProjectsAjaxRequest), and Tabulator's box sat dimmed beneath it
+			   -- the grid is its own stacking context, so no z-index can lift the box above
+			   the overlay without lifting the whole grid. aria-busy still marks loading. */
+			dataLoader: false,
 			/* Groups start closed: the reason to group is to read the counts, and 2000
 			   rows expanded is not a view anyone wants first. */
 			groupStartOpen: false,
@@ -889,6 +989,17 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				hozAlign: "center",
 				headerHozAlign: "center",
 				download: false
+			};
+			/* Tabulator names every row's checkbox "Select Row"; name it after the project,
+			   so Tabbing through the checkboxes with a screen reader reads as a list of
+			   projects. rowFormatter runs each time a row is drawn (paging, sorting,
+			   scrolling), so the name follows the row. setAttribute takes the name as plain
+			   text, as the Project column shows it. */
+			options.rowFormatter = function (row) {
+				var checkbox = row.getElement().querySelector('input[type="checkbox"]');
+				if (checkbox) {
+					checkbox.setAttribute("aria-label", "Select " + row.getData().project_name);
+				}
 			};
 			if (mode === "multiplerows") {
 				/* Select-all / deselect-all for the rows on the current page. */
@@ -933,6 +1044,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		});
 		projectsTable.on("tableBuilt", function () {
 			mczMakeHeaderMenuButtonsAccessible(projectsTable);
+			mczUseTableRoles(projectsTable);
+			mczKeepControlsOutOfTable(projectsTable);
+			mczStylePaginationControls(projectsTable);
 		});
 		projectsTable.on("pageSizeChanged", function (size) {
 			if (projectsIgnoreNextPageSizeChange) {
@@ -943,7 +1057,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			/* Grouping outside All would count one page while presenting a whole-result-set
 			   total, so moving off All ends the grouping rather than quietly misreporting. */
 			if (projectsGroupField && size !== true) {
-				clearProjectsGrouping("Grouping removed: it needs every row loaded.");
+				clearProjectsGrouping("Grouping removed: it needs every row loaded.", true);
 			}
 		});
 		projectsTable.on("columnMoved", function () {
@@ -995,7 +1109,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * @param message optional note for the feedback output, for a grouping this page
 	 *   removed on the user's behalf rather than at their request.
 	 */
-	function clearProjectsGrouping(message) {
+	function clearProjectsGrouping(message, keepPageSize) {
 		projectsGroupField = null;
 		mczRenderGroupChip("groupChipBar", null, null);
 		$("##groupByColumn").val("");
@@ -1003,7 +1117,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			return;
 		}
 		projectsTable.setGroupBy(false);
-		if (projectsSizeBeforeGrouping !== null && projectsTable.getPageSize() !== projectsSizeBeforeGrouping) {
+		/* keepPageSize: the user reached here by picking a size themselves, so restoring the
+		   pre-grouping one would discard the choice that triggered this. */
+		if (!keepPageSize && projectsSizeBeforeGrouping !== null && projectsTable.getPageSize() !== projectsSizeBeforeGrouping) {
 			projectsIgnoreNextPageSizeChange = true;
 			projectsTable.setPageSize(projectsSizeBeforeGrouping);
 		}
@@ -1050,7 +1166,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function mczProjectsAjaxRequest(url, config, params) {
 		$("##overlay").show();
-		$("##actionFeedback").html("");
+		/* aria-busy while rows load, so a screen reader doesn't read a half-replaced grid. */
+		$("##projectsGridDiv").attr("aria-busy", "true");
 		var sorter = (params.sort && params.sort[0]) || {};
 		var requestData = $.extend({}, params, {
 			sort_field: sorter.field || "",
@@ -1069,9 +1186,11 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			dataType: "json"
 		}).done(function (response) {
 			$("##overlay").hide();
+			$("##projectsGridDiv").attr("aria-busy", "false");
 			mczHandleProjectsSearchResponse(response);
 		}).fail(function (jqXHR, status, error) {
 			$("##overlay").hide();
+			$("##projectsGridDiv").attr("aria-busy", "false");
 			handleFail(jqXHR, status, error, "searching for projects");
 		}));
 	}
@@ -1086,15 +1205,41 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	function mczHandleProjectsSearchResponse(response) {
 		var totalRows = response.last_row || 0;
 		$("##resultCount").text("Found " + totalRows + " project record" + (totalRows === 1 ? "" : "s") + ".");
-		$("##resultLink").html('<a href="/Projects.cfm?execute=true&' +
+		var searchUrl = "/Projects.cfm?execute=true&" +
 			$("##searchForm :input").filter(function (index, element) { return $(element).val() != ""; })
-				.not(".excludeFromLink").serialize() + '">Link to this search</a>');
+				.not(".excludeFromLink").serialize();
+		/* d-inline-block px-2: the same padding as the Results heading beside it, on both
+		   sides, so their focus rings match. */
+		$("##resultLink").html('<a class="d-inline-block px-2" href="' + searchUrl + '">Link to this search</a>');
+		/* A new search also becomes the page's own address, without reloading: leaving for
+		   another page (e.g. Edit) and pressing Back then returns to this search rerun,
+		   rather than an empty form. Results load by AJAX after the page, so a page Chrome
+		   reloads on Back otherwise comes back without them. replaceState, not pushState,
+		   so each search does not add a Back step of its own. */
+		if (projectsFocusResults && window.history && window.history.replaceState) {
+			window.history.replaceState(window.history.state, "", searchUrl);
+		}
 		/* First successful search: reveal the toolbar controls and the results
 		   count/link, none of which should be visible before this point. Calling show()
 		   again on every later response is harmless. */
 		$("##resultsMeta").show();
 		$("##resultsHeadingControls").show();
 		$("##resultsToolbarControls").show();
+		/* A new search: put focus on the heading so a screen reader reads "Results: Found
+		   N project records." straight away. An aria-live region was tried first; NVDA held
+		   it back until focus moved. setTimeout lets Tabulator finish rendering the rows
+		   first, so nothing it does on render takes focus back. */
+		if (projectsFocusResults) {
+			projectsFocusResults = false;
+			var returnTo = projectsReturnToEdit;
+			projectsReturnToEdit = null;
+			setTimeout(function () {
+				/* Back from an Edit page: that project's Edit link, if it is on this page of
+				   the rerun search; otherwise the heading, as for any new search. */
+				var editLink = /^\d+$/.test(returnTo || "") ? $('##projectsGridDiv a[data-project-id="' + returnTo + '"]') : $();
+				(editLink.length ? editLink : $("##resultsHeading")).first().trigger("focus");
+			}, 0);
+		}
 		projectsTotalRows = totalRows;
 		if (projectsGroupField && totalRows > PROJECTS_GROUP_MAX_ROWS) {
 			clearProjectsGrouping("Grouping removed: " + totalRows + " rows is too many to group.");
@@ -1206,7 +1351,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
-	 * exportProjects downloads the current search as CSV or Excel.
+	 * exportProjects downloads the current search as CSV, Excel, JSON or HTML.
 	 *
 	 * Exports every project matching the current search, not just the page on screen:
 	 * in remote pagination mode the table only holds the current page, so
@@ -1218,14 +1363,16 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * When "Selected rows only" is checked (offered in the row selection modes), exports
 	 * just the selected rows instead, with no server request.
 	 *
-	 * @param format "csv" or "xlsx".
+	 * @param formatSelectId id (no leading ##) of the format select; its value is "csv",
+	 *   "xlsx", "json" or "html".
 	 * @param selectedOnlyCheckboxId id (no leading ##) of the "Selected rows only" checkbox.
 	 * @param overlayId id (no leading ##) of the loading overlay to show while working.
 	 */
-	function exportProjects(format, selectedOnlyCheckboxId, overlayId) {
+	function exportProjects(formatSelectId, selectedOnlyCheckboxId, overlayId) {
 		if (!projectsTable) {
 			return;
 		}
+		var format = $("##" + formatSelectId).val() || "csv";
 		var filename = mczExportFilename("project", format);
 		function writeRows(rows) {
 			if (format === "xlsx") {
@@ -1236,6 +1383,14 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 					$("##" + overlayId).hide();
 					messageDialog("Could not create the Excel file: " + error.message, "Export to Excel");
 				});
+			}
+			if (format === "json") {
+				mczDownloadBlob(new Blob([mczBuildJson(projectsTable, rows, true)], { type: "application/json;charset=utf-8" }), filename);
+				return;
+			}
+			if (format === "html") {
+				mczDownloadBlob(new Blob([mczBuildHtmlDocument(projectsTable, rows, true, "MCZbase Projects")], { type: "text/html;charset=utf-8" }), filename);
+				return;
 			}
 			exportToCSV(mczBuildCsv(projectsTable, rows, true), filename);
 		}
@@ -1374,6 +1529,45 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	}
 
 	/**
+	 * mczCheckYearField checks one year box: it must be empty or a 4-digit year (End Year
+	 * may also be NULL or NOT NULL, which the Active and Finished buttons fill in).
+	 * search.cfc skips anything else, so a typed date such as 2022-08-26 used to be
+	 * dropped silently and every project came back. Marks the box aria-invalid or not,
+	 * and shows or clears the message in the yearRangeError element (each box's
+	 * aria-describedby, so a screen reader reads it with the box).
+	 *
+	 * @param id id (no leading ##) of the year box.
+	 * @return true if the box's value is usable.
+	 */
+	function mczCheckYearField(id) {
+		var input = $("##" + id);
+		var value = $.trim(input.val());
+		var ok = value === "" || /^\d{4}$/.test(value) ||
+			(id === "end_year" && (value === "NULL" || value === "NOT NULL"));
+		input.attr("aria-invalid", ok ? null : "true");
+		var anyBad = $("##start_year").attr("aria-invalid") === "true" || $("##end_year").attr("aria-invalid") === "true";
+		$("##yearRangeError").text(anyBad ? "Enter a 4-digit year, such as 2022." : "");
+		return ok;
+	}
+
+	/**
+	 * mczValidateYearRange checks both year boxes before a search, as a backstop to the
+	 * check each box gets when focus leaves it, and moves focus to the first bad one.
+	 *
+	 * @return true if the years are usable and the search can run.
+	 */
+	function mczValidateYearRange() {
+		var startOk = mczCheckYearField("start_year");
+		var endOk = mczCheckYearField("end_year");
+		if (!startOk) {
+			$("##start_year").trigger("focus");
+		} else if (!endOk) {
+			$("##end_year").trigger("focus");
+		}
+		return startOk && endOk;
+	}
+
+	/**
 	 * searchProjects starts a new search (as opposed to a page/size/sort change, which
 	 * Tabulator triggers on its own): builds the grid if this is the very first search
 	 * (which fetches page 1 itself, on construction, through mczProjectsAjaxRequest --
@@ -1382,6 +1576,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 */
 	function searchProjects() {
 		var tableAlreadyExisted = !!projectsTable;
+		/* Cleared here rather than per request: Tabulator reloads on its own for paging,
+		   sizing and sorting, and those wiped messages written moments earlier. */
+		$("##actionFeedback").html("");
+		projectsFocusResults = true;
 		/* New results, so any held selection described the old ones. */
 		mczClearSelectionStore(projectsTable, projectsSelection, function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
@@ -1395,6 +1593,10 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 
 	$(document).ready(function () {
 		mczEnableClipboardCopy();
+		/* Check each year box as focus leaves it, so the message shows before Search. */
+		$("##start_year, ##end_year").on("blur", function () {
+			mczCheckYearField(this.id);
+		});
 
 		$("##showhide").html(
 			/* btn btn-xs btn-secondary, like every other control in this toolbar -- the
@@ -1402,7 +1604,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			   size, noticeably taller than its neighbours. */
 			'<button type="button" class="btn btn-xs btn-secondary mx-1 my-0" title="hide search form" ' +
 			'onclick="toggleAnySearchForm(\'searchFormDiv\',\'searchFormToggleIcon\');">' +
-			'<i id="searchFormToggleIcon" class="fas fa-eye-slash"></i></button>'
+			'<i id="searchFormToggleIcon" class="fas fa-eye-slash" aria-hidden="true"></i></button>'
 		);
 
 		$("##columnChooserDialog").dialog({
@@ -1479,7 +1681,9 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		});
 		$("##searchForm").on("submit", function (e) {
 			e.preventDefault();
-			searchProjects();
+			if (mczValidateYearRange()) {
+				searchProjects();
+			}
 		});
 
 		<cfif len(url.execute) GT 0>

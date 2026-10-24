@@ -25,6 +25,32 @@ a:focus {
 	text-decoration: underline;
 	text-decoration: underline dotted #aaa;
 }
+/* Site-wide keyboard focus ring: same look on every control and in every browser.
+   Browsers each draw their own default, and older rules here suppress it (outline: 0) and
+   substitute a pale 25-40% blue box-shadow that fails 3:1 (WCAG 1.4.11). !important is
+   deliberate: it lets this one rule override the ~30 competing :focus rules in our CSS
+   and Bootstrap's .btn:focus / .form-control:focus without editing each one.
+   #3e6f7d: 5.6:1 on white, 4.7:1 on even Tabulator rows, 3.5:1 on row hover. */
+:focus-visible {
+	outline: 2px solid #3e6f7d !important;
+	outline-offset: 2px !important;
+	box-shadow: none !important;
+}
+/* Dark header bands: #3e6f7d is 1.3:1 on Harvard crimson, so use white there. */
+.harvard_banner :focus-visible,
+nav.navbar-harvard :focus-visible,
+.branding-container :focus-visible,
+.bg-black :focus-visible {
+	outline-color: #fff !important;
+}
+/* Tabulator clips anything drawn outside these -- the scroll body, the title box
+   (overflow: hidden) around each header's column-options button, and the scrolling menu
+   that button opens -- so draw the ring inside them. */
+.tabulator-tableholder:focus-visible,
+.tabulator-header-popup-button:focus-visible,
+.tabulator-menu-item:focus-visible {
+	outline-offset: -2px !important;
+}
 a:active {
 	color: #0460c1;
 }
@@ -85,8 +111,11 @@ input.goodPick, select.goodPick, textarea.goodPick {
 table#t {
 	cursor: pointer;
 }
+/* Opt-in focus ring for links inside a container -- links otherwise fall through to
+   a:focus, which is only a colour change and a dotted underline. 40% matches the ring
+   buttons and inputs already get, so a grid holding both looks consistent. */
 .blueFocus a:focus {
-	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
+	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 40%);
 }
 /** Styling of external links out, shared with production **/
 .external:after {

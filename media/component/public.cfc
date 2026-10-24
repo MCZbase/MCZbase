@@ -310,6 +310,11 @@ include this function and use it.
 							<cfset preview_uri = "">
 						</cfif>
 					</cfif>
+					<!--- A preview_uri without a scheme (e.g. www.morphosource.org/...) would load as a
+					      relative url under this site; show the placeholder instead. --->
+					<cfif len(trim(preview_uri)) GT 0 AND NOT REFindNoCase("^(https?://|/)", trim(preview_uri))>
+						<cfset preview_uri = "">
+					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 					<cfset hw = 'height="auto"'>
 					<cfif isDisplayable>
@@ -423,35 +428,34 @@ include this function and use it.
 					</cfif>
 					<cfset unique = REReplace(CreateUUID(), "[-]", "", "all") >
 					<cfset elementID = "MID_#media.media_id#_#unique#">
-					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="#elementID#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
-					<cfset output='#output#</a>'>
-					<!--- multizoom library for zoom on hover ' --->
+					<!--- Enlarged view on hover or keyboard focus, by /shared/js/media-zoom.js:
+					      data-mcz-zoom is the large image, data-mcz-zoom-scale the preview's size
+					      as a multiple of this image's, larger for smaller images. --->
+					<cfset zoomAttributes = "">
+					<cfset zoomLinkHandler = "">
 					<cfif isDisplayable>
 						<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
-							<cfset displayTarget = iiifFull>
-							<cfset squareDisplayTarget = iiifSquare>
+							<cfif displayAs EQ "fixedSmallThumb">
+								<cfset zoomTarget = iiifSquare>
+							<cfelse>
+								<cfset zoomTarget = iiifFull>
+							</cfif>
 						<cfelse>
-							<cfset displayTarget = "#media.media_uri#">
-							<cfset squareDisplayTarget = "#media.media_uri#">
+							<cfset zoomTarget = media.media_uri>
 						</cfif>
-						<cfset minzoom="2">
-						<cfif displayAs EQ "thumb">
-							<!--- probably uses default size value of 600, but want larger zoom --->
-							<cfset minzoom="4">
-						</cfif>
-						<cfif size LT 155>
-							<cfset minzoom="4">
+						<cfset zoomScale = "2">
+						<cfif displayAs EQ "thumb" OR size LT 155>
+							<cfset zoomScale = "4">
 						</cfif>
 						<cfif size LT 105>
-							<cfset minzoom="5">
+							<cfset zoomScale = "5">
 						</cfif>
-						<cfif #displayAs# EQ "fixedSmallThumb">
-							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#squareDisplayTarget#"})})</script>'>
-						<cfelse>
-							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#displayTarget#"})})</script>'>
-						</cfif>
+						<cfset zoomAttributes = ' data-mcz-zoom="#encodeForHTMLAttribute(zoomTarget)#" data-mcz-zoom-scale="#zoomScale#" onpointerenter="mczMediaZoom.pointerEnter(this, event)"'>
+						<cfset zoomLinkHandler = ' onfocus="mczMediaZoom.focusLink(this)"'>
 					</cfif>
+					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media"#zoomLinkHandler#>'>
+					<cfset output='#output#<img id="#elementID#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image"#zoomAttributes#>'>
+					<cfset output='#output#</a>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">

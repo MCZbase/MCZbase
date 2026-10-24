@@ -289,7 +289,7 @@ limitations under the License.
 														<!---Loops through only getRelatedThings query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
 														<cfif getRelatedThings.rel contains 'media'>
 															<cfset hasMedia = true>
-															<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
+															<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left thumbs">
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#getRelatedThings.pk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
@@ -312,7 +312,7 @@ limitations under the License.
 															<cfset i = 1>
 															<cfloop query="getMediaForRelated">
 																<cfset hasMedia = true>
-																<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
+																<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left thumbs">
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#getMediaForRelated.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>

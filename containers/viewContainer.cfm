@@ -169,7 +169,7 @@ limitations under the License.
 <main id="content" class="container-fluid">
 
 <cfoutput>
-	<div class="d-flex justify-content-between align-items-center flex-wrap">
+	<div class="d-flex justify-content-between align-items-center mt-4 flex-wrap">
 		<h1 class="h2 mt-1">Container: #encodeForHtml(variables.pageTitleDisplay)#</h1>
 		<cfset variables.isProxyOrLeafType = listFindNoCase("proxy,leaf", getContainer.container_role) GT 0>
 		<cfset variables.isProxyOrBearerType = listFindNoCase("proxy,leafbearer", getContainer.container_role) GT 0>
