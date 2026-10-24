@@ -578,7 +578,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 											<div id="columnChooserList"></div>
 										</fieldset>
 									</div>
-									<button type="button" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn();">Pin Project Column</button>
+									<button type="button" id="pinProjectColumnButton" class="btn btn-xs btn-secondary mx-1" onclick="togglePinProjectColumn('pinProjectColumnButton');">Unpin Project Column</button>
 									<!--- Hidden until a column actually is hidden; mczRefreshShowHiddenColumnsButton
 									      sets the label and reveals it. btn-warning to match Clear Column Filters,
 									      the other reset-style control here. --->
@@ -794,12 +794,17 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   is also the order they must keep. */
 		var detailsColumn = mczDetailsButtonColumn("Project Details", "project_name");
 
+		/* Every column has a default width, as on the jqxGrid pages: a column hidden when the
+		   grid is built has no width yet, and when it is shown Tabulator sizes a column
+		   without one to its longest value.  Columns keep their widths and the grid scrolls
+		   sideways when they don't fit; mczFillLastColumn stretches whichever column the
+		   user has last to fill any space at the right. */
 		var columns = [
 			detailsColumn,
 			{
 				title: "Project",
 				field: "project_name",
-				widthGrow: 3,
+				width: 400,
 				formatter: mczSafeLinkFormatter("project_name", function (d) {
 					return "/projects/showProject.cfm?project_id=" + encodeURIComponent(d.project_id);
 				}),
@@ -813,8 +818,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				headerFilterParams: mczHeaderFilterLabel("Project"),
 				headerMenu: projectsHeaderMenu
 			},
-			{ title: "Participants", field: "participants", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
-			{ title: "Sponsors", field: "sponsors", widthGrow: 2, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsors"), headerMenu: projectsHeaderMenu },
+			{ title: "Participants", field: "participants", width: 260, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Participants"), headerMenu: projectsHeaderMenu },
+			{ title: "Sponsors", field: "sponsors", width: 260, formatter: mczSafeTextFormatter, tooltip: mczOverflowTooltip, headerFilter: "input", headerFilterPlaceholder: "filter...", headerFilterParams: mczHeaderFilterLabel("Sponsors"), headerMenu: projectsHeaderMenu },
 			{ title: "Start Date", field: "start_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("Start Date"), headerMenu: projectsHeaderMenu },
 			{ title: "End Date", field: "end_date", width: 130, formatter: mczSafeTextFormatter, headerFilter: "input", headerFilterPlaceholder: "yyyy-mm-dd", headerFilterParams: mczHeaderFilterLabel("End Date"), headerMenu: projectsHeaderMenu }
 		];
@@ -830,7 +835,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				   second column claim a field it never displays; the formatter reads
 				   project_id from the row data itself. */
 				field: "_mczEdit",
-				width: 80,
+				/* As the Details column: room for the title and the button's focus ring. */
+				width: 56,
 				headerSort: false,
 				download: false,
 				formatter: function (cell) {
@@ -1031,6 +1037,7 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		mczAttachSelectionStore(projectsTable, projectsSelection, "project_id", mode === "multiplerows", function (map) {
 			mczRefreshSelectionCount(map, "selectionCount");
 		});
+		mczFillLastColumn(projectsTable);
 		projectsTable.on("tableBuilt", populateColumnChooser);
 		projectsTable.on("tableBuilt", function () {
 			mczPopulateGroupByPicker(projectsTable, "groupByColumn", projectsGroupField);
@@ -1314,10 +1321,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 	 * table (via updateDefinition, which re-runs Tabulator's column initialization so
 	 * the frozen-columns module picks the change up) and in projectColumnPinned, so a
 	 * later selection-mode change -- which rebuilds the table from scratch -- doesn't
-	 * silently revert the choice.
+	 * silently revert the choice.  The button's label names what the next click does.
+	 *
+	 * @param buttonId id of the pin button, without a leading ##.
 	 */
-	function togglePinProjectColumn() {
+	function togglePinProjectColumn(buttonId) {
 		projectColumnPinned = !projectColumnPinned;
+		$("##" + buttonId).text(projectColumnPinned ? "Unpin Project Column" : "Pin Project Column");
 		/* Details and Project pin together. Once unpinned, Project can be dragged elsewhere,
 		   and a frozen column that follows an unfrozen one freezes to the right edge rather
 		   than the left -- so both have to be back at the left, Details first, before either
@@ -1340,7 +1350,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 		   whole column list as it goes. Re-apply the header menu buttons' keyboard access
 		   once at the end, since the rebuilds discard it. */
 		var pinning = Promise.resolve();
-		projectsPinnedFields.forEach(function (field) {
+		/* Pin left to right, unpin right to left, so the columns still frozen always form
+		   one block at the left edge.  Unpinning left to right left a replaced column in
+		   Tabulator's list of frozen columns, and with three pinned (Details, Edit,
+		   Project) the next update failed on it (TypeError in the resize module), leaving
+		   Project frozen and the grid misdrawn. */
+		var pinOrder = projectColumnPinned ? projectsPinnedFields.slice() : projectsPinnedFields.slice().reverse();
+		pinOrder.forEach(function (field) {
 			pinning = pinning.then(function () {
 				return projectsTable.getColumn(field).updateDefinition({ frozen: projectColumnPinned });
 			});

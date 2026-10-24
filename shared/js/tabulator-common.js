@@ -842,6 +842,60 @@ function mczShowAllColumns(table) {
 }
 
 /**
+ * mczFillLastColumn stretches whichever column is last to fill any space at the grid's
+ * right edge, as the jqxGrid pages' last column does, but never below its default width;
+ * a column that was stretched and is no longer last goes back to its default.  Every
+ * column needs a width in its definition (see CLAUDE.md), so the stretched column follows
+ * the user's own order rather than one column chosen in the definitions.  Call once after
+ * creating the table.
+ *
+ * @param table the Tabulator instance.
+ */
+function mczFillLastColumn(table) {
+	var scheduled = false;
+	function fill() {
+		scheduled = false;
+		var holder = table.element.querySelector(".tabulator-tableholder");
+		var visible = table.getColumns().filter(function (column) {
+			return column.isVisible();
+		});
+		if (!holder || !holder.clientWidth || !visible.length) {
+			return;
+		}
+		var last = visible[visible.length - 1];
+		var stretched = table.mczStretchedColumn;
+		if (stretched && stretched !== last && stretched.getDefinition().width) {
+			stretched.setWidth(stretched.getDefinition().width);
+		}
+		var others = 0;
+		visible.slice(0, -1).forEach(function (column) {
+			others += column.getWidth();
+		});
+		var target = Math.max(last.getDefinition().width || 0, Math.floor(holder.clientWidth - others));
+		if (Math.abs(last.getWidth() - target) > 1) {
+			last.setWidth(target);
+		}
+		table.mczStretchedColumn = last;
+	}
+	/* Once per burst of events, e.g. "show all" showing several columns. */
+	function schedule() {
+		if (!scheduled) {
+			scheduled = true;
+			setTimeout(fill, 0);
+		}
+	}
+	["tableBuilt", "dataProcessed", "columnMoved", "columnVisibilityChanged", "columnResized"].forEach(function (eventName) {
+		table.on(eventName, schedule);
+	});
+	/* One window listener per grid element, replaced when the page rebuilds the table in it. */
+	if (table.element.mczFillResizeListener) {
+		window.removeEventListener("resize", table.element.mczFillResizeListener);
+	}
+	table.element.mczFillResizeListener = schedule;
+	window.addEventListener("resize", schedule);
+}
+
+/**
  * mczRefreshShowHiddenColumnsButton hides the "show hidden columns" button when no
  * column is hidden, and otherwise shows it with the count in its label.
  *
@@ -917,7 +971,8 @@ function mczDetailsButtonColumn(dialogTitle, nameField) {
 	return {
 		title: "Details",
 		field: "_mczDetails",
-		width: 80,
+		/* Room for the title and the button with its focus ring, which the cell would otherwise clip. */
+		width: 56,
 		headerSort: false,
 		download: false,
 		hozAlign: "center",
