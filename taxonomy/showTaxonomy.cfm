@@ -893,18 +893,19 @@ limitations under the License.
 						ORDER BY substr(identification.made_date,1,4) asc;
 					</cfquery>
 					<cfif getYears.recordcount GT 0>
-						<li>Specimens identified as #one.display_name# in:</li>
-						<ul>
-							<cfloop query="getYears">
-								<li>
-									<cfset targetYear = "#getYears.year#">
-									<cfif targetYear is "unknown date">
-										<cfset targetYear = "NULL">
-									</cfif>
-									<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#encodeForURL(targetYear)#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#encodeForURL(one.scientific_name)#&closeParens2=0">#encodeForHTML(getYears.year)# (#getYears.ct#)</a>
-								</li>
-							</cfloop>
-						</ul>
+						<li>Specimens identified as #one.display_name# in:
+							<ul>
+								<cfloop query="getYears">
+									<li>
+										<cfset targetYear = "#getYears.year#">
+										<cfif targetYear is "unknown date">
+											<cfset targetYear = "NULL">
+										</cfif>
+										<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&openParens1=0&field1=IDENTIFICATION%3AMADE_DATE&searchText1=#encodeForURL(targetYear)#&closeParens1=0&JoinOperator2=and&openParens2=0&field2=TAXONOMY%3AIDENTIFICATIONS_SCIENTIFIC_NAME&searchText2=#encodeForURL(one.scientific_name)#&closeParens2=0">#encodeForHTML(getYears.year)# (#getYears.ct#)</a>
+									</li>
+								</cfloop>
+							</ul>
+						</li>
 					</cfif>
 				<cfelse>
 					<li>No specimens use this name in Identifications.</li>
