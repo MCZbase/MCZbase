@@ -1360,13 +1360,13 @@ function mczSetUpOpenMenu(button) {
 	if (!menu || menu.getAttribute("role")) {
 		return;
 	}
-	var parent = menu.offsetParent || document.body;
+	/* Moved by the difference between where it is and where it belongs, both measured on
+	   screen, so no browser's idea of its offset parent or scroll position is involved:
+	   working from the offset parent counted the page scroll twice in Firefox. */
 	var buttonRect = button.getBoundingClientRect();
-	var parentRect = parent.getBoundingClientRect();
-	var scrollTop = parent === document.body ? 0 : parent.scrollTop;
-	var scrollLeft = parent === document.body ? 0 : parent.scrollLeft;
-	menu.style.top = (buttonRect.bottom - parentRect.top + scrollTop) + "px";
-	menu.style.left = (buttonRect.left - parentRect.left + scrollLeft) + "px";
+	var menuRect = menu.getBoundingClientRect();
+	menu.style.top = ((parseFloat(menu.style.top) || 0) + buttonRect.bottom - menuRect.top) + "px";
+	menu.style.left = ((parseFloat(menu.style.left) || 0) + buttonRect.left - menuRect.left) + "px";
 
 	menu.setAttribute("role", "menu");
 	menu.querySelectorAll(".tabulator-menu-separator").forEach(function (separator) {
