@@ -917,7 +917,8 @@ function mczDetailsButtonColumn(dialogTitle, nameField) {
 	return {
 		title: "Details",
 		field: "_mczDetails",
-		width: 80,
+		/* Room for the title and the button with its focus ring, which the cell would otherwise clip. */
+		width: 56,
 		headerSort: false,
 		download: false,
 		hozAlign: "center",

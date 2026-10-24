@@ -830,7 +830,8 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 				   second column claim a field it never displays; the formatter reads
 				   project_id from the row data itself. */
 				field: "_mczEdit",
-				width: 80,
+				/* As the Details column: room for the title and the button's focus ring. */
+				width: 56,
 				headerSort: false,
 				download: false,
 				formatter: function (cell) {
