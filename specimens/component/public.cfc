@@ -337,7 +337,12 @@ limitations under the License.
 												<cftry>
 													<cfobject type="Java" class="org.filteredpush.qc.date.util.DateUtils" name="dateUtils">
 													<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
-												<cfcatch>
+												<cfcatch type="any">
+													<cflog file="MCZbase" text="getSummaryHeaderHTML: date not formatted by event_date_qc: #cfcatch.message#">
+												</cfcatch>
+												<!--- a library missing a class it needs throws a java.lang.Error, which type any does not catch --->
+												<cfcatch type="java.lang.Error">
+													<cflog file="MCZbase" text="getSummaryHeaderHTML: date not formatted by event_date_qc: #cfcatch.message#">
 												</cfcatch>
 												</cftry>
 												<cfset date ="#summary.pretty_date#">
@@ -400,6 +405,11 @@ limitations under the License.
 		</cfif>
 		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
 		<cfabort>
+	</cfif>
+	<!--- an error the thread's cfcatch missed leaves its output cut off with unclosed tags, which breaks the page layout --->
+	<cfif structKeyExists(getSummaryHeaderThread, "error")>
+		<cflog file="MCZbase" text="getSummaryHeaderHTML: summary header thread failed: #getSummaryHeaderThread.error.message#">
+		<cfreturn "<div class='alert alert-danger' role='alert'>The summary for this record could not be shown.</div>">
 	</cfif>
 	<cfreturn getSummaryHeaderThread.output>
 </cffunction>
