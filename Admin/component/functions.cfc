@@ -943,8 +943,6 @@ limitations under the License.
 		{ name = "FFDQ annotations", usedBy = "data quality test descriptions (dataquality/)",
 			classes = [ "org.datakurator.ffdq.annotations.Mechanism", "org.datakurator.ffdq.annotations.Provides",
 				"org.datakurator.ffdq.annotations.Validation", "org.datakurator.ffdq.annotations.Amendment", "org.datakurator.ffdq.annotations.Issue" ] },
-		{ name = "Barbecue barcodes", usedBy = "barcode images (CustomTags/makeBarcode.cfm)",
-			classes = [ "net.sourceforge.barbecue.Barcode", "net.sourceforge.barbecue.BarcodeImageHandler", "net.sourceforge.barbecue.linear.code39.Code39Barcode" ] },
 		{ name = "Apache Commons CSV", usedBy = "CSV uploads to the bulkloaders (tools/component/csv.cfc)",
 			classes = [ "org.apache.commons.csv.CSVFormat", "org.apache.commons.csv.CSVParser", "org.apache.commons.csv.CSVRecord" ] }
 	]>
