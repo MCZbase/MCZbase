@@ -1,4 +1,21 @@
 
+/**
+ * function bdqEscapeHtml encodes a value for placement in html element content, as test labels,
+ * values, and comments from the QC libraries can contain text from the record under test.
+ *
+ * @param value the value to encode, null and undefined become an empty string.
+ * @return the value with html special characters replaced by character references.
+ */
+function bdqEscapeHtml(value) {
+	if (value === null || value === undefined) { return ""; }
+	return String(value)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
 /** 
  * function loadEventQC
  * 
@@ -24,6 +41,7 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 		$("#"+targetDivId).html("<div>Running Event Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
+		return;
 	}
 	$.ajax({
 		url: "/dataquality/component/functions.cfc",
@@ -35,15 +53,16 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 			target_id: target_id
 		}, 
 		success: function (datareturn) { 
-		data = JSON.parse(datareturn);
+			var data = JSON.parse(datareturn);
 		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Event",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + bdqEscapeHtml(data.ERROR) + "</div>");
 			}
 		}, 
-		fail: function (jqXHR, textStatus) { 
-			$("#" + targetDivId).html("Error:" + textStatus);
+		error: function (jqXHR, textStatus, error) {
+			$("#" + targetDivId).html("Error running event quality control tests.");
+			handleFail(jqXHR, textStatus, error, "running event quality control tests");
 		}
 	});
 }
@@ -62,8 +81,6 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
    var target_id = "";
    var target = "";
-   console.log(collection_object_id);
-   console.log(taxon_name_id);
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
@@ -74,6 +91,7 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 		$("#"+targetDivId).html("<div>Running Taxon Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
+		return;
 	}
 	$.ajax({
 		url: "/dataquality/component/functions.cfc",
@@ -85,15 +103,16 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 			target: target
 		}, 
 		success: function (datareturn) { 
-		data = JSON.parse(datareturn);
+			var data = JSON.parse(datareturn);
 		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Taxon Name",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + bdqEscapeHtml(data.ERROR) + "</div>");
 			}
 		}, 
-		fail: function (jqXHR, textStatus) { 
-			$("#" + targetDivId).html("Error:" + textStatus);
+		error: function (jqXHR, textStatus, error) {
+			$("#" + targetDivId).html("Error running taxon name quality control tests.");
+			handleFail(jqXHR, textStatus, error, "running taxon name quality control tests");
 		}
 	});
 }
@@ -124,6 +143,7 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 		$("#"+targetDivId).html("<div>Running Spatial Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a locality_id was provided." );
+		return;
 	}
 	$.ajax({
 		url: "/dataquality/component/functions.cfc",
@@ -135,15 +155,16 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 			target_id: target_id
 		}, 
 		success: function (datareturn) { 
-		data = JSON.parse(datareturn);
+			var data = JSON.parse(datareturn);
 		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Geospatial",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + bdqEscapeHtml(data.ERROR) + "</div>");
 			}
 		}, 
-		fail: function (jqXHR, textStatus) { 
-			$("#" + targetDivId).html("Error:" + textStatus);
+		error: function (jqXHR, textStatus, error) {
+			$("#" + targetDivId).html("Error running spatial quality control tests.");
+			handleFail(jqXHR, textStatus, error, "running spatial quality control tests");
 		}
 	});
 }
@@ -165,9 +186,9 @@ function displayQCResult(data,category,targetDivId) {
 	var amend = data.AMENDMENT;	 // extract amendments
 
 	// variables to assemble display output
-	var display = "<h2>QC " + category + " for " +data.GUID+"</h2>";   // output to display as the result of the invocation of this method
-	display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 " + category + "  related tests.</div>";
-	display = display + "<div>Tests run using (mechanism): " + data.MECHANISM + ".</div>";
+	var display = "<h2>QC " + bdqEscapeHtml(category) + " for " + bdqEscapeHtml(data.GUID) + "</h2>";   // output to display as the result of the invocation of this method
+	display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 " + bdqEscapeHtml(category) + "  related tests.</div>";
+	display = display + "<div>Tests run using (mechanism): " + bdqEscapeHtml(data.MECHANISM) + ".</div>";
 	var displayamendments = "";   // results of amendment test formatted for display
 	var displayprepost = "";  // results of pre- and post-amendment tests formatted for display
 	var displayprepostheader = "";  // table header for pre- and post-amendment results formatted for display
@@ -175,6 +196,7 @@ function displayQCResult(data,category,targetDivId) {
 	var status = "";  // to show or hide status from display
 	var cs = "";  // open tag styling of status/value 
 	var ce = "";  // close tag for styling of status/value
+	var rowstyle = "";
 	var counter = 0;
 
 	// variable for counting results
@@ -185,10 +207,11 @@ function displayQCResult(data,category,targetDivId) {
 	// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
 	// obtain the results to display pre/post together in tabular form.
 	for (var k in pre) { 
-		console.log(k);
 		counter ++;
 		if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 		var key = pre[k];
+		// a test run only before amendment has no post-amendment result
+		var postkey = post[k] || { STATUS: "", VALUE: "", COMMENT: "" };
 		if (key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "COMPLIANT") {
 			prepass = prepass + 1;
 			cs="<span style='color: green;'><strong>"; ce="</strong></span>";
@@ -205,9 +228,8 @@ function displayQCResult(data,category,targetDivId) {
 		if (key.TYPE == "VALIDATION") { 
 			validationcount = validationcount + 1; 
 			// pre-amendment results for this test.
-			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.LABEL + "</td><td>" + status + " " + cs + key.VALUE + ce  + "</td><td>" + key.COMMENT + "</td>";
-			// find matching post-amendment results for this test.
-			var postkey = post[k];
+			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + bdqEscapeHtml(key.LABEL) + "</td><td>" + bdqEscapeHtml(status) + " " + cs + bdqEscapeHtml(key.VALUE) + ce  + "</td><td>" + bdqEscapeHtml(key.COMMENT) + "</td>";
+			// matching post-amendment results for this test.
 			if (postkey.STATUS == "RUN_HAS_RESULT" && postkey.VALUE == "COMPLIANT") {
 				cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 				status = "";
@@ -217,16 +239,15 @@ function displayQCResult(data,category,targetDivId) {
 					status = "";
 				} else { 
 					cs=""; ce="";
-					status = key.STATUS;
+					status = postkey.STATUS;
 				}
 			}
-			displayprepost = displayprepost + "<td>" + status + " " + cs + postkey.VALUE + ce  + "</td><td> " + postkey.COMMENT + "</td></tr>";
+			displayprepost = displayprepost + "<td>" + bdqEscapeHtml(status) + " " + cs + bdqEscapeHtml(postkey.VALUE) + ce  + "</td><td> " + bdqEscapeHtml(postkey.COMMENT) + "</td></tr>";
 		} else { 
 			if (counter % 2 == 0) { rowstyle = "style='background-color: #ccffcc;'"; } else { rowstyle = "style='background-color: #e6ffe6;'"; }
 			// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
-			displaymeasure = displaymeasure + "<tr " + rowstyle+ "><td>" + key.LABEL + "</td><td>" + key.STATUS + " " + cs + key.VALUE + ce  + "</td><td>" + key.COMMENT + "</td>";
-			var postkey = post[k];
-			displaymeasure = displaymeasure + "<td>" + postkey.STATUS + " " + postkey.VALUE + "</td><td>" + postkey.COMMENT + "</td></tr>";
+			displaymeasure = displaymeasure + "<tr " + rowstyle+ "><td>" + bdqEscapeHtml(key.LABEL) + "</td><td>" + bdqEscapeHtml(key.STATUS) + " " + cs + bdqEscapeHtml(key.VALUE) + ce  + "</td><td>" + bdqEscapeHtml(key.COMMENT) + "</td>";
+			displaymeasure = displaymeasure + "<td>" + bdqEscapeHtml(postkey.STATUS) + " " + bdqEscapeHtml(postkey.VALUE) + "</td><td>" + bdqEscapeHtml(postkey.COMMENT) + "</td></tr>";
 		}
 	}
 
@@ -238,34 +259,36 @@ function displayQCResult(data,category,targetDivId) {
 		var spanClass = '';
 		if (key.STATUS == 'AMENDED' || key.STATUS=='FILLED_IN') {
 			spanClass="";
-			var commentbit = key.COMMENT;
-			commentbit = commentbit.toUpperCase();
-			if (key.STATUS == 'FILLED IN') {   		
-  					cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
-			} else { 		
-  					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
+			if (key.STATUS == 'FILLED_IN') {
+				cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
+			} else { 
+				cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 			}
 		} else { 
-  				cs=""; ce="";
-				spanClass=" class='text-muted' ";
+			cs=""; ce="";
+			spanClass=" class='text-muted' ";
 		}
-		displayamendments = displayamendments + "<li><span " + spanClass + ">" + key.LABEL + " " + key.STATUS + " " + cs + key.VALUE + ce + " " + key.COMMENT + "</span></li>";
+		displayamendments = displayamendments + "<li><span " + spanClass + ">" + bdqEscapeHtml(key.LABEL) + " " + bdqEscapeHtml(key.STATUS) + " " + cs + bdqEscapeHtml(key.VALUE) + ce + " " + bdqEscapeHtml(key.COMMENT) + "</span></li>";
 		amendmentCount++;
 	}
 	if (amendmentCount==0) { 
 		displayamendments = displayamendments + "<li><span>None</span></li>";
 	}
 
-	// Iterate through post-amendment tests to calculate postpass.
+	// Iterate through post-amendment validations to calculate postpass.
 	for (var k in post) { 
 		var key = post[k];
-		if (key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "COMPLIANT") { 
+		if (key.TYPE == "VALIDATION" && key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "COMPLIANT") { 
 			postpass = postpass + 1;
 		}
 	}
 	
 	// assemble and display the result
-	display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
+	if (validationcount > 0) { 
+		display = display + "<div>Compliant Results Pre-amendment: " + Math.round((prepass/validationcount)*100) + "%; Post-amendment: " + Math.round((postpass/validationcount)*100) + "% </div>";
+	} else { 
+		display = display + "<div>No validations were run.</div>";
+	}
 	displayprepostheader = "<tr style='background-color: #ccffff;'><th>Test</th><th>Pre-amendment Result</th><th>Comment</th><th>Post-Amendment Result</th><th>Comment</th></tr>";
 	display = display + "<table class='table table-responsive mb-0' style='border: 1px solid #ddd;' >" + displayprepostheader + displaymeasure + displayprepost + "</table>";
 	display = display + "<div class='bg-light border mb-2'><h3 class='bg-box-header-gray py-2 px-3'>Proposed Amendments</h3><div><ul>" + displayamendments + "</ul></div></div>";

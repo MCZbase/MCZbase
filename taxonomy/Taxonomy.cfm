@@ -1357,7 +1357,13 @@ limitations under the License.
 					</section>
 					<section class="mt-2 float-left col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+							<!--- versioned by last-modified time so browsers fetch the new copy when it changes --->
+							<cfset variables.bdqQualityControlVersion = "">
+							<cfset variables.bdqQualityControlPath = expandPath("/dataquality/js/bdq_quality_control.js")>
+							<cfif fileExists(variables.bdqQualityControlPath)>
+								<cfset variables.bdqQualityControlVersion = dateTimeFormat(getFileInfo(variables.bdqQualityControlPath).lastModified, "yyyymmddHHnnss")>
+							</cfif>
+							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 							<script>
 								function runTests() {
 									$("##NameDQDiv").html("Running tests....");
