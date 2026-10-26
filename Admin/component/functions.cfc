@@ -924,7 +924,7 @@ limitations under the License.
 		{ name = "reCAPTCHA validator", usedBy = "contact, bug and bad data reports, blocklist form (shared/component/captcha.cfc)",
 			classes = [ "edu.harvard.mcz.recaptchavalidate.RecaptchaValidate" ] },
 		{ name = "eDec builder", usedBy = "USFWS eDec for loans (edecView.cfm)",
-			classes = [ "edu.harvard.mcz.edec.mczbase.EDecBuilder" ] },
+			classes = [ "edu.harvard.mcz.edec.mczbase.EDecBuilder", "org.gbif.nameparser.NameParserGBIF" ] },
 		{ name = "QR code utility", usedBy = "exhibit labels (Reports/handlers/exhibit.cfm)",
 			classes = [ "edu.harvard.mcz.qrCodeUtility.QRCodeUtility" ] },
 		{ name = "Name tools", usedBy = "taxonomy and name checks (dataquality/, taxonomy/component/functions.cfc)",
