@@ -73,7 +73,7 @@ libraries found in github.com/filteredpush/ repositories.
                   accepted_lat_long.dec_long as decimal_longitude, 
                   decode(accepted_lat_long.datum,'WGS84','EPSG:4326',accepted_lat_long.datum) as geodeticDatum,
                   accepted_lat_long.datum as verbatimSRS,
-                  accepted_lat_long.utm_zone || ' ' accepted_lat_long.utm_ew || ' ' accepted_lat_long.utm_ns as verbatimCoordinates,
+						accepted_lat_long.utm_zone || ' ' || accepted_lat_long.utm_ew || ' ' || accepted_lat_long.utm_ns as verbatimCoordinates,
                   decode(accepted_lat_long.orig_lat_long_units,
                                 'decimal degrees','geographic',
                                 'deg. min. sec.', 'geographic',
