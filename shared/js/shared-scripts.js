@@ -2,6 +2,17 @@
  * Place scripts that should be available on all web pages for all users here.
 */
 
+/* Name the close button jQuery UI puts in every dialog's titlebar.  Our jQuery UI build
+   leaves it out of the button widget, so it renders as an empty <button> with the X drawn
+   in CSS: no text, no title, and nothing for a screen reader to announce but "button"
+   (axe button-name, WCAG 4.1.2).  The closeText option goes through that same missing
+   widget and has no effect, so the name is set here instead, once for every dialog in the
+   application.  aria-label rather than text: the X is already visible. */
+jQuery(document).on("dialogcreate", function (event) {
+	jQuery(event.target).dialog("widget").find(".ui-dialog-titlebar-close")
+		.attr("aria-label", "Close");
+});
+
 
 
 

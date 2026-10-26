@@ -896,6 +896,32 @@ function mczFillLastColumn(table) {
 }
 
 /**
+ * mczAnnounce sends a message to a screen reader without moving focus.
+ *
+ * For a change a sighted user sees but a screen reader user would not be told about --
+ * a control appearing, a count changing. One polite region is created on first use and
+ * reused: the region has to be in the document before its text changes, or there is
+ * nothing for the screen reader to have been watching.
+ *
+ * @param message the text to announce.
+ */
+function mczAnnounce(message) {
+	var region = document.getElementById("mczLiveRegion");
+	if (!region) {
+		region = document.createElement("div");
+		region.id = "mczLiveRegion";
+		region.className = "sr-only";
+		region.setAttribute("aria-live", "polite");
+		region.setAttribute("aria-atomic", "true");
+		document.body.appendChild(region);
+	}
+	/* Cleared first, then set on a later tick: an identical consecutive message written
+	   straight over the old one is not re-announced. */
+	region.textContent = "";
+	window.setTimeout(function () { region.textContent = message; }, 50);
+}
+
+/**
  * mczRefreshShowHiddenColumnsButton hides the "show hidden columns" button when no
  * column is hidden, and otherwise shows it with the count in its label.
  *
@@ -907,6 +933,17 @@ function mczRefreshShowHiddenColumnsButton(table, buttonId) {
 		return !column.isVisible();
 	}).length;
 	var button = jQuery("#" + buttonId);
+	/* Announce the change, not the state: this also runs on tableBuilt, where the count is
+	   what the user already has and saying it would be noise. The first call only records
+	   the count. Not written to the page's own feedback element, which is driven by the
+	   save and so stays empty for a user who cannot save grid properties. */
+	var previous = button.data("mczHiddenCount");
+	if (typeof previous === "number" && previous !== hidden) {
+		mczAnnounce(hidden === 0
+			? "All columns shown."
+			: hidden + " column" + (hidden === 1 ? "" : "s") + " hidden.");
+	}
+	button.data("mczHiddenCount", hidden);
 	if (hidden === 0) {
 		button.hide();
 		return;
@@ -1329,6 +1366,65 @@ function mczKeepControlsOutOfTable(table) {
 }
 
 /**
+ * mczSetTableRowCounts declares a paged table's true size to assistive technology.
+ *
+ * Only one page of rows is ever in the DOM, so a screen reader otherwise announces the
+ * page's size as the table's size -- "32 project records" followed by "8 rows" on the
+ * last page. aria-rowcount gives the whole result set and aria-rowindex each rendered
+ * row's place in it, so a row on page 2 reads as "row 27", not "row 2".
+ *
+ * The header row is row 1 and is counted, matching how a screen reader counts the rows
+ * it can see, so the count is the result total plus one.
+ *
+ * @param table the Tabulator instance.
+ * @param totalRows total matching rows across all pages (search()'s last_row).
+ */
+function mczSetTableRowCounts(table, totalRows) {
+	var element = table.element;
+	if (!element || typeof totalRows !== "number" || totalRows < 0) {
+		return;
+	}
+	element.setAttribute("aria-rowcount", String(totalRows + 1));
+	var headerRow = element.querySelector(".tabulator-header .tabulator-headers");
+	if (headerRow) {
+		headerRow.setAttribute("aria-rowindex", "1");
+	}
+	/* Page and size come from the table rather than the response: a size of "All" reports
+	   true, and getPage() returns false when pagination is off. */
+	var size = table.getPageSize();
+	var page = table.getPage();
+	var offset = (size === true || !page || typeof size !== "number") ? 0 : (page - 1) * size;
+	table.getRows("active").forEach(function (row, index) {
+		var rowElement = row.getElement();
+		if (rowElement) {
+			/* +2: the header is row 1, so the first data row of page 1 is row 2. */
+			rowElement.setAttribute("aria-rowindex", String(offset + index + 2));
+		}
+	});
+}
+
+/**
+ * mczColumnMenuButton returns a column's current header menu (⋮) button, found by field
+ * rather than held as a reference: Tabulator replaces the header element when it
+ * re-renders, so a reference taken before a sort points at a detached node.
+ *
+ * @param table the Tabulator instance.
+ * @param field the column's field name.
+ * @return the button element, or null if the column is gone or not visible.
+ */
+function mczColumnMenuButton(table, field) {
+	if (!field) {
+		return null;
+	}
+	var column = table.getColumn(field);
+	if (!column || !column.isVisible()) {
+		return null;
+	}
+	var button = column.getElement().querySelector(".tabulator-header-popup-button");
+	return (button && button.getClientRects().length) ? button : null;
+}
+
+/**
  * mczMakeHeaderMenuButtonsAccessible makes each column's ⋮ menu button, a plain span
  * in Tabulator, keyboard-operable and gives it an accessible name. Call on
  * "tableBuilt" and after anything that rebuilds a header (e.g. updateDefinition).
@@ -1347,7 +1443,9 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 		});
 		table.on("menuClosed", function () {
 			var opener = table.mczMenuOpener;
+			var field = table.mczMenuOpenerField;
 			table.mczMenuOpener = null;
+			table.mczMenuOpenerField = null;
 			if (!opener) {
 				return;
 			}
@@ -1358,11 +1456,20 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 				if (active && active !== document.body && document.body.contains(active)) {
 					return;
 				}
-				/* A hidden column's ⋮ is still in the page but cannot take focus. */
+				/* Sorting re-renders the header, so the ⋮ that opened the menu is detached
+				   and replaced. Look the column's current ⋮ up by field: focusing the table
+				   instead makes a screen reader re-read the whole page, as if a new search
+				   had run. */
+				var current = mczColumnMenuButton(table, field);
+				if (current) {
+					current.focus();
+					return;
+				}
 				if (document.body.contains(opener) && opener.getClientRects().length) {
 					opener.focus();
 				} else {
-					/* tabindex -1: focusable from script only, not a Tab stop. */
+					/* The column was hidden: its ⋮ is gone, so fall back to the grid.
+					   tabindex -1: focusable from script only, not a Tab stop. */
 					table.element.setAttribute("tabindex", "-1");
 					table.element.focus();
 				}
@@ -1371,7 +1478,17 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 	}
 	table.getColumns().forEach(function (column) {
 		var title = column.getDefinition().title;
-		var button = column.getElement().querySelector(".tabulator-header-popup-button");
+		var element = column.getElement();
+		/* Name the header explicitly. Otherwise its accessible name is computed from
+		   everything inside it -- the column options button, the title and the filter box --
+		   and a screen reader reads that whole string on every cell move ("Column options
+		   for Participants, column Participants, column 5"). Each control keeps its own
+		   name for when it takes focus. */
+		if (title && !element.getAttribute("data-mcz-named")) {
+			element.setAttribute("data-mcz-named", "true");
+			element.setAttribute("aria-label", title);
+		}
+		var button = element.querySelector(".tabulator-header-popup-button");
 		if (!button || !title || button.getAttribute("data-mcz-accessible")) {
 			return;
 		}
@@ -1392,6 +1509,7 @@ function mczMakeHeaderMenuButtonsAccessible(table) {
 		column.getElement().addEventListener("click", function (e) {
 			if (button.contains(e.target)) {
 				table.mczMenuOpener = button;
+				table.mczMenuOpenerField = column.getField();
 			}
 		}, true);
 	});
