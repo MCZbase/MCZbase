@@ -23,6 +23,8 @@ var BDQ_STANDARD_URL = "https://bdq.tdwg.org/draft/";
 // each test in the list of BDQ tests has an anchor of bdqtest_ followed by its guid
 var BDQ_TEST_LIST_URL = "https://bdq.tdwg.org/draft/docs/list/bdqtest/#bdqtest_";
 var BDQ_INTERNAL_PREREQUISITES_NOT_MET = "INTERNAL_PREREQUISITES_NOT_MET";
+// rule at the left of the columns of each phase, setting pre-amendment results apart from post-amendment
+var BDQ_PHASE_START_CLASS = "border-left border-dark";
 
 /**
  * function bdqEscapeHtml encodes a value for placement in html element content, as test labels,
@@ -225,7 +227,9 @@ function bdqSortedGuids(responses, tests) {
  *
  * @param headingId id for the heading that names the table.
  * @param heading text of the heading.
- * @param columns array of column header texts after the Test column.
+ * @param columns array of the columns after the Test column, each either a column header text or
+ *  a group { group: header text for the group, columns: array of column header texts }, groups are
+ *  set off by a rule at their left, which the rows' first cell in each group should repeat.
  * @param rows array of { html: tr content, hideable: boolean }.
  * @return html for the heading and table, empty if there are no rows.
  */
@@ -245,11 +249,40 @@ function bdqTableHtml(headingId, heading, columns, rows) {
 	if (hiddenCount == rows.length) {
 		html = html + "<p class='bdqHiddenNote small'>Only " + BDQ_INTERNAL_PREREQUISITES_NOT_MET + " responses (" + hiddenCount + "), shown with Show All Tests.</p>";
 	}
-	html = html + "<table class='table table-sm table-striped table-responsive d-xl-table border' aria-labelledby='" + headingId + "'><thead><tr><th scope='col'>Test</th>";
+	var grouped = false;
 	for (var j = 0; j < columns.length; j++) {
-		html = html + "<th scope='col'>" + bdqEscapeHtml(columns[j]) + "</th>";
+		if (columns[j].group) { grouped = true; }
 	}
-	return html + "</tr></thead><tbody>" + body + "</tbody></table>";
+	// with groups, a first header row names each group and a second names the columns within them
+	var groupRow = "";
+	var columnRow = "";
+	for (var k = 0; k < columns.length; k++) {
+		if (columns[k].group) {
+			groupRow = groupRow + "<th scope='colgroup' colspan='" + columns[k].columns.length + "' class='" + BDQ_PHASE_START_CLASS + "'>" + bdqEscapeHtml(columns[k].group) + "</th>";
+			for (var m = 0; m < columns[k].columns.length; m++) {
+				columnRow = columnRow + "<th scope='col'" + (m == 0 ? " class='" + BDQ_PHASE_START_CLASS + "'" : "") + ">" + bdqEscapeHtml(columns[k].columns[m]) + "</th>";
+			}
+		} else if (grouped) {
+			groupRow = groupRow + "<th scope='col' rowspan='2'>" + bdqEscapeHtml(columns[k]) + "</th>";
+		} else {
+			columnRow = columnRow + "<th scope='col'>" + bdqEscapeHtml(columns[k]) + "</th>";
+		}
+	}
+	html = html + "<table class='table table-sm table-striped table-responsive d-xl-table border' aria-labelledby='" + headingId + "'>";
+	if (grouped) {
+		// scope='colgroup' headers apply to the columns of a colgroup element
+		html = html + "<colgroup><col></colgroup>";
+		for (var n = 0; n < columns.length; n++) {
+			html = html + (columns[n].group ? "<colgroup span='" + columns[n].columns.length + "'></colgroup>" : "<colgroup><col></colgroup>");
+		}
+	}
+	html = html + "<thead>";
+	if (grouped) {
+		html = html + "<tr><th scope='col' rowspan='2'>Test</th>" + groupRow + "</tr><tr>" + columnRow + "</tr>";
+	} else {
+		html = html + "<tr><th scope='col'>Test</th>" + columnRow + "</tr>";
+	}
+	return html + "</thead><tbody>" + body + "</tbody></table>";
 }
 
 /**
@@ -326,8 +359,8 @@ function displayQCResult(data, category, targetDivId, focusOnLoad) {
 			afterComment = after.COMMENT == before.COMMENT ? "<span class='text-muted'>as before</span>" : bdqEscapeHtml(after.COMMENT);
 		}
 		var row = bdqTestHeaderHtml(guid, before, tests)
-			+ "<td>" + bdqResultHtml(before) + "</td><td class='small'>" + bdqEscapeHtml(before.COMMENT) + "</td>"
-			+ "<td>" + bdqResultHtml(after) + "</td><td class='small'>" + afterComment + "</td>";
+			+ "<td class='" + BDQ_PHASE_START_CLASS + "'>" + bdqResultHtml(before) + "</td><td class='small'>" + bdqEscapeHtml(before.COMMENT) + "</td>"
+			+ "<td class='" + BDQ_PHASE_START_CLASS + "'>" + bdqResultHtml(after) + "</td><td class='small'>" + afterComment + "</td>";
 		if (before.TYPE == "VALIDATION") {
 			validationRows.push({ html: row, hideable: hideable });
 		} else {
@@ -361,18 +394,24 @@ function displayQCResult(data, category, targetDivId, focusOnLoad) {
 	var display = "<section aria-labelledby='" + headingId + "'>";
 	display = display + "<h2 class='h3' id='" + headingId + "' tabindex='-1'>BDQ " + bdqEscapeHtml(category) + " Tests for " + bdqEscapeHtml(data.GUID) + "</h2>";
 	display = display + "<p class='small mb-1'>Tests from the <a href='" + BDQ_STANDARD_URL + "' target='_blank' rel='noopener'>TDWG Biodiversity Data Quality (BDQ) draft standard</a>, run with " + bdqEscapeHtml(data.MECHANISM) + ".</p>";
+	display = display + "<p class='small mb-1'>Pre-amendment phase: the tests run on the values in the record. "
+		+ "Amendment phase: changes proposed to those values. "
+		+ "Post-amendment phase: the same tests run again on the values with the proposed changes applied.</p>";
 	display = display + "<ul class='list-unstyled small mb-1'>" + bdqCountsHtml("Pre-amendment", pre) + bdqCountsHtml("Post-amendment", post) + "</ul>";
 	if (hiddenCount > 0) {
 		display = display + "<button type='button' class='btn btn-xs btn-secondary' id='" + buttonId + "' aria-pressed='false' onClick=\"bdqToggleAll('" + bdqEscapeHtml(targetDivId) + "','" + bdqEscapeHtml(buttonId) + "');\">Show All Tests</button>";
 		display = display + " <span class='small'>" + BDQ_INTERNAL_PREREQUISITES_NOT_MET + " responses hidden: " + hiddenCount + ".</span>";
 	}
-	var responseColumns = ["Pre-amendment Response", "Comment", "Post-amendment Response", "Comment"];
+	var responseColumns = [
+		{ group: "Pre-amendment phase", columns: ["Response", "Response.comment"] },
+		{ group: "Post-amendment phase", columns: ["Response", "Response.comment"] }
+	];
 	display = display + bdqTableHtml(targetDivId + "Validations", "Validations", responseColumns, validationRows);
 	display = display + bdqTableHtml(targetDivId + "MeasuresIssues", "Measures and Issues", responseColumns, otherRows);
 	if (amendmentRows.length > 0) {
-		display = display + bdqTableHtml(targetDivId + "Amendments", "Amendments", ["Response.status", "Proposed Values", "Comment"], amendmentRows);
+		display = display + bdqTableHtml(targetDivId + "Amendments", "Amendment Phase", ["Response.status", "Response.result (proposed values)", "Response.comment"], amendmentRows);
 	} else {
-		display = display + "<h3 class='h4 mt-3'>Amendments</h3><p>None proposed.</p>";
+		display = display + "<h3 class='h4 mt-3'>Amendment Phase</h3><p>No amendments proposed.</p>";
 	}
 	display = display + "</section>";
 
