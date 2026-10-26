@@ -191,8 +191,7 @@ limitations under the License.
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 							<script>
 								function runTests() {
-									$("##SpaceDQDiv").html("Running tests....");
-									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+									loadSpaceQC("", #locality_id#, "SpaceDQDiv", true);
 								}
 							</script>
 							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">

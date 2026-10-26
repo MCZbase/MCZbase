@@ -1283,7 +1283,7 @@ limitations under the License.
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 					<script>
 						function runTests() {
-							loadNameQC(#collection_object_id#, "", "NameDQDiv");
+							loadNameQC(#collection_object_id#, "", "NameDQDiv", true);
 							loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
 							loadEventQC(#collection_object_id#, "", "EventDQDiv");
 						}

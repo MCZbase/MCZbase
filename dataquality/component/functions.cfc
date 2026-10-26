@@ -1,7 +1,7 @@
 <!---
 /dataquality/component/functions.cfc
 
-Copyright 2022 President and Fellows of Harvard College
+Copyright 2022-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,13 +16,81 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Invocations of TDWG Biodiversity Data Quality Task Group 2 CORE
-test implementations in the event_date_qc, sci_name_qc, and geo_ref_qc
-libraries found in github.com/filteredpush/ repositories.
+test implementations in the event_date_qc, sci_name_qc, geo_ref_qc, and
+rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 
 --->
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+
+<!---
+	getBDQTestMetadata reads the BDQ test name, description, and type from the annotations on the
+	test methods of FilteredPush QC classes, so that reports can name each test as the standard does.
+
+	@param classNames array of fully qualified names of classes implementing BDQ tests.
+	@return struct keyed by test guid, each value a struct with NAME (e.g. VALIDATION_COUNTRY_NOTEMPTY),
+		DESCRIPTION, and TYPE (VALIDATION, AMENDMENT, MEASURE, or ISSUE).
+--->
+<cffunction name="getBDQTestMetadata" access="private" returntype="struct">
+	<cfargument name="classNames" type="array" required="yes">
+
+	<cfset var metadata = structNew()>
+	<cfset var annotationTypes = [
+		{ type = "VALIDATION", annotation = createObject("java", "org.datakurator.ffdq.annotations.Validation").getClass() },
+		{ type = "AMENDMENT", annotation = createObject("java", "org.datakurator.ffdq.annotations.Amendment").getClass() },
+		{ type = "MEASURE", annotation = createObject("java", "org.datakurator.ffdq.annotations.Measure").getClass() },
+		{ type = "ISSUE", annotation = createObject("java", "org.datakurator.ffdq.annotations.Issue").getClass() }
+	]>
+	<cfset var providesAnnotation = createObject("java", "org.datakurator.ffdq.annotations.Provides").getClass()>
+	<cfset var className = "">
+	<cfset var method = "">
+	<cfset var provides = "">
+	<cfset var annotationType = "">
+	<cfset var testAnnotation = "">
+	<cfloop array="#arguments.classNames#" index="className">
+		<cfloop array="#createObject("java", className).getClass().getMethods()#" index="method">
+			<!--- getAnnotation() returns null for methods without the annotation, which leaves the variable undefined --->
+			<cfset provides = method.getAnnotation(providesAnnotation)>
+			<cfif NOT isNull(provides) AND NOT structKeyExists(metadata, provides.value())>
+				<cfloop array="#annotationTypes#" index="annotationType">
+					<cfset testAnnotation = method.getAnnotation(annotationType.annotation)>
+					<cfif NOT isNull(testAnnotation)>
+						<cfset metadata[provides.value()] = { NAME = testAnnotation.label(), DESCRIPTION = testAnnotation.description(), TYPE = annotationType.type }>
+						<cfbreak>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfloop>
+	</cfloop>
+	<cfreturn metadata>
+</cffunction>
+
+<!---
+	getAmendmentValues copies the terms and values proposed by an amendment into a struct, keeping the
+	case of the term names (e.g. dwc:geodeticDatum) when serialized to JSON.
+
+	@param proposedValues the java.util.Map from the amendment response, dqResponse.getValue().getObject().
+	@return struct of term name to proposed value, with empty strings for null values.
+--->
+<cffunction name="getAmendmentValues" access="private" returntype="struct">
+	<cfargument name="proposedValues" type="any" required="yes">
+
+	<cfset var values = structNew()>
+	<cfset var iterator = arguments.proposedValues.keySet().iterator()>
+	<cfset var term = "">
+	<cfset var proposedValue = "">
+	<cfloop condition="iterator.hasNext()">
+		<cfset term = iterator.next()>
+		<cfset proposedValue = arguments.proposedValues.get(term)>
+		<cfif isNull(proposedValue)>
+			<cfset values[term] = "">
+		<cfelse>
+			<cfset values[term] = proposedValue>
+		</cfif>
+	</cfloop>
+	<cfreturn values>
+</cffunction>
 
 <!--- obtain QC report concerning Geospatial terms on a record from flat or from locality 
   @param target_id the collection_object_id or locality_id for which to run tests
@@ -493,6 +561,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset countryCode = dqResponse.getValue().getObject().get("dwc:countryCode") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -508,6 +577,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset countryCode = dqResponse.getValue().getObject().get("dwc:countryCode") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -525,6 +595,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset decimal_longitude  = dqResponse.getValue().getObject().get("dwc:decimalLongitude") >
 				<cfset geodeticDatum = dqResponse.getValue().getObject().get("dwc:geodeticDatum") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -541,6 +612,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset decimal_latitude = dqResponse.getValue().getObject().get("dwc:decimalLatitude") >
 				<cfset decimal_longitude = dqResponse.getValue().getObject().get("dwc:decimalLongitude") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -556,6 +628,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset geodeticDatum = dqResponse.getValue().getObject().get("dwc:geodeticDatum") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -577,6 +650,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset coordinateuncertaintyinmeters = dqResponse.getValue().getObject().get("dwc:coordinateUncertaintyInMeters") >
 				</cfif>
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -609,6 +683,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset min_depth_in_m = dqResponse.getValue().getObject().get("dwc:minimumDepthInMeters") >
 					<cfset max_depth_in_m = dqResponse.getValue().getObject().get("dwc:maximumDepthInMeters") >
 					<cfset r.value = dqResponse.getValue().getObject().toString() >
+					<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 				<cfelse>
 					<cfset r.value = "">
 				</cfif>
@@ -626,6 +701,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset min_elev_in_m = dqResponse.getValue().getObject().get("dwc:minimumElevationInMeters") >
 					<cfset max_elev_in_m = dqResponse.getValue().getObject().get("dwc:maximumElevationInMeters") >
 					<cfset r.value = dqResponse.getValue().getObject().toString() >
+					<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 				<cfelse>
 					<cfset r.value = "">
 				</cfif>
@@ -905,6 +981,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result["AMENDMENT"] = amendment >
 
 			<cfset result["POSTAMENDMENT"] = postamendment >
+
+			<cfset result["TESTS"] = getBDQTestMetadata(["org.filteredpush.qc.georeference.DwCGeoRefDQ", "org.filteredpush.qc.georeference.DwCGeoRefDQDefaults"]) >
 
 		<cfelse>
 			<cfset result.STATUS="fail">
@@ -1417,6 +1495,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset scientificnameid = dqResponse.getValue().getObject().get("dwc:scientificNameID") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -1435,6 +1514,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset rank = dqResponse.getValue().getObject().get("dwc:taxonRank") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -1454,6 +1534,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 					<cfset dwc_scientificName = dqResponse.getValue().getObject().get("dwc:scientificName") >
 					<cfset r.value = dqResponse.getValue().getObject().toString() >
+					<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 				<cfelse>
 					<cfset r.value = "">
 				</cfif>
@@ -1693,6 +1774,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result["AMENDMENT"] = amendment >
 
 			<cfset result["POSTAMENDMENT"] = postamendment >
+
+			<cfset result["TESTS"] = getBDQTestMetadata(["org.filteredpush.qc.sciname.DwCSciNameDQ", "org.filteredpush.qc.sciname.DwCSciNameDQDefaults"]) >
 
 		<cfelse>
 			<cfset result.STATUS="fail">
@@ -2001,6 +2084,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED">
 				<cfset dateIdentified = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2016,6 +2100,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED">
 				<cfset day = dqResponse.getValue().getObject().get("dwc:day") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2031,6 +2116,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED">
 				<cfset month = dqResponse.getValue().getObject().get("dwc:month") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2046,6 +2132,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status EQ "FILLED_IN">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2061,6 +2148,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2076,6 +2164,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status EQ "FILLED_IN">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2091,6 +2180,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "AMENDED">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2111,6 +2201,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfif dqResponse.getValue().getObject().get("dwc:startDayOfYear") NEQ '' ><cfset startDayOfYear = dqResponse.getValue().getObject().get("dwc:startDayOfYear") ></cfif>
 				<cfif dqResponse.getValue().getObject().get("dwc:endDayOfYear") NEQ '' ><cfset endDayOfYear = dqResponse.getValue().getObject().get("dwc:endDayOfYear") ></cfif>
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
@@ -2128,6 +2219,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 					<cfset basisOfRecord = dqResponse.getValue().getObject().get("dwc:basisOfRecord") >
 					<cfset r.value = dqResponse.getValue().getObject().toString() >
+					<cfset r.values = getAmendmentValues(dqResponse.getValue().getObject()) >
 				<cfelse>
 					<cfset r.value = "">
 				</cfif>
@@ -2327,6 +2419,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result["AMENDMENT"] = amendment >
 
 			<cfset result["POSTAMENDMENT"] = postamendment >
+
+			<cfset result["TESTS"] = getBDQTestMetadata(["org.filteredpush.qc.date.DwCEventDQ", "org.filteredpush.qc.date.DwCEventDQDefaults", "org.filteredpush.qc.date.DwCOtherDateDQ", "org.filteredpush.qc.date.DwCOtherDateDQDefaults", "org.filteredpush.qc.metadata.DwCMetadataDQ", "org.filteredpush.qc.metadata.DwCMetadataDQDefaults"]) >
 
 		<cfelse>
 			<cfset result.STATUS="fail">

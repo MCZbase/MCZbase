@@ -1366,8 +1366,7 @@ limitations under the License.
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 							<script>
 								function runTests() {
-									$("##NameDQDiv").html("Running tests....");
-									loadNameQC("", #getTaxa.taxon_name_id#, "NameDQDiv");
+									loadNameQC("", #getTaxa.taxon_name_id#, "NameDQDiv", true);
 								}
 							</script>
 							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
