@@ -48,12 +48,23 @@ libraries found in github.com/filteredpush/ repositories.
 						basisofrecord,
 						highergeographyid,
 						continent, country, countrycode,
+						state_prov as stateProvince,
+						county,
+						higher_geog as higherGeography,
 						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						coordinateuncertaintyinmeters,
 						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						verbatimsrs as verbatimSRS,
+						'' as verbatimCoordinates,
+						decode(orig_lat_long_units,
+							'decimal degrees','geographic',
+							'deg. min. sec.', 'geographic',
+							'UTM', 'UTM',
+							'degrees dec. minutes','geographic') as verbatimCoordinateSystem,
 						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
-						waterbody, island_group, island
+						waterbody, island_group, island,
+						scientific_name
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -68,6 +79,8 @@ libraries found in github.com/filteredpush/ repositories.
                   country, 
                   MCZBASE.get_countrycode(geog_auth_rec.country) countrycode,
 						state_prov as stateProvince,
+						county,
+						higher_geog as higherGeography,
                   spec_locality as locality,
                   accepted_lat_long.dec_lat as decimal_latitude, 
                   accepted_lat_long.dec_long as decimal_longitude, 
@@ -132,7 +145,8 @@ libraries found in github.com/filteredpush/ repositories.
                               ocean_subregion),
                            sea),
                          water_feature) as  waterbody,
-                 island_group, island
+                 island_group, island,
+						'' as scientific_name
                FROM locality
                     join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
                     left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
@@ -169,6 +183,16 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset min_depth_in_m = queryrow.min_depth_in_m>
 			<cfset max_elev_in_m = queryrow.max_elev_in_m>
 			<cfset min_elev_in_m = queryrow.min_elev_in_m>
+			<cfset county = queryrow.county>
+			<cfset higherGeography = queryrow.higherGeography>
+			<cfset highergeographyid = queryrow.highergeographyid>
+			<cfset continent = queryrow.continent>
+			<cfset waterbody = queryrow.waterbody>
+			<cfset island = queryrow.island>
+			<cfset island_group = queryrow.island_group>
+			<cfset locality = queryrow.locality>
+			<cfset verbatimlocality = queryrow.verbatimlocality>
+			<cfset scientificName = queryrow.scientific_name>
 
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQDefaults" name="dwcGeoRefDQDefaults">
@@ -176,6 +200,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Validation" name="Validation">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Amendment" name="AmendmentC">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Issue" name="IssueC">
 			<!--- Obtain mechanism from annotation on class --->
 			<cfset result.mechanism = dwcGeoRefDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 			<cfset aString = ""><!--- a String variable, for invocation of getClass() --->
@@ -191,6 +216,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset ArraySet(array5String,1,5,aString.getClass())>
 			<cfset array8String = ArrayNew(1)>
 			<cfset ArraySet(array8String,1,8,aString.getClass())>
+			<cfset array20String = ArrayNew(1)>
+			<cfset ArraySet(array20String,1,20,aString.getClass())>
 
 			<!--- pre-amendment phase --->
 
@@ -394,6 +421,68 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationLocationNotempty",array20String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationLocationNotempty(higherGeography, highergeographyid, continent, waterbody, island_group, island, country, countrycode, stateProvince, county, "", locality, "", verbatimlocality, verbatimCoordinates, verbatimlatitude, verbatimlongitude, javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), "") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationLocationNotempty",array20String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfif len(scientificName) GT 0>
+				<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesTerrestrialmarine",array3String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesTerrestrialmarine(javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), scientificName) >
+				<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesTerrestrialmarine",array3String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset preamendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMinelevationLessthanMaxelevation",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationMinelevationLessthanMaxelevation(javaCast("string",min_elev_in_m), javaCast("string",max_elev_in_m)) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMinelevationLessthanMaxelevation",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationStateprovinceFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationStateprovinceFound(stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationStateprovinceFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountrystateprovinceUnambiguous",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountrystateprovinceUnambiguous(country, stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountrystateprovinceUnambiguous",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("issueCoordinatesCenterofcountry",array4String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.issueCoordinatesCenterofcountry(javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), countrycode, javaCast("string",coordinateuncertaintyinmeters)) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("issueCoordinatesCenterofcountry",array4String).getAnnotation(IssueC.getClass()).description() >
+			<cfset r.type = "ISSUE" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<!--- amendment phase --->
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array4String).getAnnotation(Provides.getClass()).value() >
@@ -443,23 +532,99 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset amendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfquery name="verbatimDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT verbatimdepth
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("amendmentCoordinatesTransposed",array3String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.amendmentCoordinatesTransposed(javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), countrycode) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("amendmentCoordinatesTransposed",array3String).getAnnotation(AmendmentC.getClass()).description() >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+				<cfset decimal_latitude = dqResponse.getValue().getObject().get("dwc:decimalLatitude") >
+				<cfset decimal_longitude = dqResponse.getValue().getObject().get("dwc:decimalLongitude") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentGeodeticdatumStandardized",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.amendmentGeodeticdatumStandardized(geodeticDatum) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentGeodeticdatumStandardized",array1String).getAnnotation(AmendmentC.getClass()).description() >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+				<cfset geodeticDatum = dqResponse.getValue().getObject().get("dwc:geodeticDatum") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentGeodeticdatumAssumeddefault",array5String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.amendmentGeodeticdatumAssumeddefault(javaCast("string",coordinateuncertaintyinmeters), geodeticDatum, javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), "EPSG:4326") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentGeodeticdatumAssumeddefault",array5String).getAnnotation(AmendmentC.getClass()).description() >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+				<!--- filling in the datum may leave the uncertainty unchanged, and get() of a missing key would undefine the variable --->
+				<cfif dqResponse.getValue().getObject().containsKey("dwc:geodeticDatum")>
+					<cfset geodeticDatum = dqResponse.getValue().getObject().get("dwc:geodeticDatum") >
+				</cfif>
+				<cfif dqResponse.getValue().getObject().containsKey("dwc:coordinateUncertaintyInMeters")>
+					<cfset coordinateuncertaintyinmeters = dqResponse.getValue().getObject().get("dwc:coordinateUncertaintyInMeters") >
+				</cfif>
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- verbatim depth and elevation are held on the collecting events of the locality --->
+			<cfquery name="verbatimDepthElevation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="verbatimDepthElevation_result">
+				SELECT
+					MAX(collecting_event.verbatimdepth) verbatimdepth,
+					MAX(collecting_event.verbatimelevation) verbatimelevation
 				FROM collecting_event
-				WHERE locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
-					AND verbatimdepth IS NOT NULL
-			<cfquery>
-			<cfif verbatimDepth.recordcount GT 0 and len(min_depth_in_m) EQ 0 and len(max_depth_in_m) EQ 0>
-				<!--- get a non-empty verbatim depth value --->
-				<cfset verbatimDepth = verbatimDepth.verbatimdepth>
+				<cfif ucase(target) EQ "FLAT">
+					JOIN cataloged_item ON collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+				WHERE
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				<cfelse>
+				WHERE
+					collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfif>
+			</cfquery>
+			<cfif len(verbatimDepthElevation.verbatimdepth) GT 0 AND len(min_depth_in_m) EQ 0 AND len(max_depth_in_m) EQ 0>
 				<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentMindepthMaxdepthFromVerbatim",array3String).getAnnotation(Provides.getClass()).value() >
-				<cfset dqResponse= dwcGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth,max_depth_in_m,min_depth_in_m) >
+				<cfset dqResponse = dwcGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepthElevation.verbatimdepth, javaCast("string",max_depth_in_m), javaCast("string",min_depth_in_m)) >
 				<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentMindepthMaxdepthFromVerbatim",array3String).getAnnotation(AmendmentC.getClass()).description() >
 				<cfset r.type = "AMENDMENT" >
 				<cfset r.status = dqResponse.getResultState().getLabel() >
-				<cfif r.status EQ "FILLED_IN">
+				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 					<cfset min_depth_in_m = dqResponse.getValue().getObject().get("dwc:minimumDepthInMeters") >
-					<cfset max_depth_in_m  = dqResponse.getValue().getObject().get("dwc:maximumDepthInMeters") >
+					<cfset max_depth_in_m = dqResponse.getValue().getObject().get("dwc:maximumDepthInMeters") >
+					<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfelse>
+					<cfset r.value = "">
+				</cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset amendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
+			<cfif len(verbatimDepthElevation.verbatimelevation) GT 0 AND len(min_elev_in_m) EQ 0 AND len(max_elev_in_m) EQ 0>
+				<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentMinelevationMaxelevationFromVerbatim",array3String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcGeoRefDQ.amendmentMinelevationMaxelevationFromVerbatim(verbatimDepthElevation.verbatimelevation, javaCast("string",max_elev_in_m), javaCast("string",min_elev_in_m)) >
+				<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentMinelevationMaxelevationFromVerbatim",array3String).getAnnotation(AmendmentC.getClass()).description() >
+				<cfset r.type = "AMENDMENT" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+					<cfset min_elev_in_m = dqResponse.getValue().getObject().get("dwc:minimumElevationInMeters") >
+					<cfset max_elev_in_m = dqResponse.getValue().getObject().get("dwc:maximumElevationInMeters") >
 					<cfset r.value = dqResponse.getValue().getObject().toString() >
 				<cfelse>
 					<cfset r.value = "">
@@ -665,6 +830,68 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset dqResponse = dwcGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationLocationNotempty",array20String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationLocationNotempty(higherGeography, highergeographyid, continent, waterbody, island_group, island, country, countrycode, stateProvince, county, "", locality, "", verbatimlocality, verbatimCoordinates, verbatimlatitude, verbatimlongitude, javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), "") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationLocationNotempty",array20String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfif len(scientificName) GT 0>
+				<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesTerrestrialmarine",array3String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesTerrestrialmarine(javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), scientificName) >
+				<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesTerrestrialmarine",array3String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset postamendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMinelevationLessthanMaxelevation",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationMinelevationLessthanMaxelevation(javaCast("string",min_elev_in_m), javaCast("string",max_elev_in_m)) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMinelevationLessthanMaxelevation",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationStateprovinceFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationStateprovinceFound(stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationStateprovinceFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountrystateprovinceUnambiguous",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountrystateprovinceUnambiguous(country, stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountrystateprovinceUnambiguous",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("issueCoordinatesCenterofcountry",array4String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.issueCoordinatesCenterofcountry(javaCast("string",decimal_latitude), javaCast("string",decimal_longitude), countrycode, javaCast("string",coordinateuncertaintyinmeters)) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("issueCoordinatesCenterofcountry",array4String).getAnnotation(IssueC.getClass()).description() >
+			<cfset r.type = "ISSUE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
@@ -945,7 +1172,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset taxonObj.setScientificNameID(scientificnameid)>
 			<!--- 
 			 * #120	VALIDATION_SCIENTIFICNAMEID_NOTEMPTY 401bf207-9a55-4dff-88a5-abcd58ad97fa
- 			 * #121	VALIDATION_TAXONID_COMPLETE a82c7e3a-3a50-4438-906c-6d0fefa9e984
+ 			 * #212	VALIDATION_SCIENTIFICNAMEID_COMPLETE 6eeac3ed-f691-457f-a42e-eaa9c8a71ce8
+			 * #216	VALIDATION_KINGDOM_NOTEMPTY 36ed36c9-b1a7-40b2-b5e2-0d012e772098
+			 * #244	VALIDATION_SCIENTIFICNAMEAUTHORSHIP_NOTEMPTY 49f1d386-5bed-43ae-bd43-deabf7df64fc
  			 * #105	VALIDATION_TAXON_NOTEMPTY 06851339-843f-4a43-8422-4e61b9a00e75
 			 * #123	VALIDATION_CLASSIFICATION_CONSISTENT 2750c040-1d4a-4149-99fe-0512785f2d5f
  			 * #70	VALIDATION_TAXON_UNAMBIGUOUS 4c09f127-737b-4686-82a0-7c8e30841590
@@ -986,10 +1215,32 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("a82c7e3a-3a50-4438-906c-6d0fefa9e984") --->
-			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonidComplete(taxonid) >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<!--- @Provides("6eeac3ed-f691-457f-a42e-eaa9c8a71ce8") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationScientificnameidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameidComplete(scientificnameid) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationScientificnameidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("36ed36c9-b1a7-40b2-b5e2-0d012e772098") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationKingdomNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationKingdomNotempty(kingdom) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationKingdomNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("49f1d386-5bed-43ae-bd43-deabf7df64fc") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationScientificnameauthorshipNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameauthorshipNotempty(author_text) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationScientificnameauthorshipNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -1252,10 +1503,32 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("a82c7e3a-3a50-4438-906c-6d0fefa9e984") --->
-			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonidComplete(taxonid) >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<!--- @Provides("6eeac3ed-f691-457f-a42e-eaa9c8a71ce8") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationScientificnameidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameidComplete(scientificnameid) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationScientificnameidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("36ed36c9-b1a7-40b2-b5e2-0d012e772098") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationKingdomNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationKingdomNotempty(kingdom) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationKingdomNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("49f1d386-5bed-43ae-bd43-deabf7df64fc") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationScientificnameauthorshipNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameauthorshipNotempty(author_text) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationScientificnameauthorshipNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -1504,6 +1777,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset year=ToString(flatrow.year) >
 			<cfset month=ToString(flatrow.month) >
 			<cfset day=ToString(flatrow.day) >
+			<cfset basisOfRecord = flatrow.basisofrecord >
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQDefaults" name="dwcOtherDateQCDefaults">
@@ -1511,6 +1785,13 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQDefaults" name="dwcEventDQDefaults">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Validation" name="Validation">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Amendment" name="AmendmentC">
+			<cfobject type="Java" class="org.filteredpush.qc.metadata.DwCMetadataDQ" name="dwcMetadataDQ">
+			<cfobject type="Java" class="org.filteredpush.qc.metadata.DwCMetadataDQDefaults" name="dwcMetadataDQDefaults">
+			<cfset aString = ""><!--- a String variable, for invocation of getClass() --->
+			<cfset array1String = ArrayNew(1)>
+			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<!--- Obtain mechanism from annotation on class --->
 			<cfset result.mechanism = dwcEventDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 
@@ -1687,6 +1968,29 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["ad0c8855-de69-4843-a80c-a5387d20fbc8"] = r >
 			<cfset r=structNew()>
 
+			<!--- basisOfRecord is a property of the cataloged item, not of a collecting event --->
+			<cfif ucase(target) EQ "FLAT">
+				<cfset providesGuid = dwcMetadataDQ.getClass().getMethod("validationBasisofrecordNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcMetadataDQ.validationBasisofrecordNotempty(basisOfRecord) >
+				<cfset r.label = dwcMetadataDQ.getClass().getMethod("validationBasisofrecordNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset preamendment[providesGuid] = r >
+				<cfset r=structNew()>
+
+				<cfset providesGuid = dwcMetadataDQDefaults.getClass().getMethod("validationBasisofrecordStandard",array1String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcMetadataDQDefaults.validationBasisofrecordStandard(basisOfRecord) >
+				<cfset r.label = dwcMetadataDQDefaults.getClass().getMethod("validationBasisofrecordStandard",array1String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset preamendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
+
 			<!--- amendment phase --->
 
 			<!---  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
@@ -1814,6 +2118,23 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset amendment["710fe118-17e1-440f-b428-88ba3f547d6d"] = r >
 			<cfset r=structNew()>
 
+
+			<cfif ucase(target) EQ "FLAT">
+				<cfset providesGuid = dwcMetadataDQDefaults.getClass().getMethod("amendmentBasisofrecordStandardized",array1String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcMetadataDQDefaults.amendmentBasisofrecordStandardized(basisOfRecord) >
+				<cfset r.label = dwcMetadataDQDefaults.getClass().getMethod("amendmentBasisofrecordStandardized",array1String).getAnnotation(AmendmentC.getClass()).description() >
+				<cfset r.type = "AMENDMENT" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+					<cfset basisOfRecord = dqResponse.getValue().getObject().get("dwc:basisOfRecord") >
+					<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfelse>
+					<cfset r.value = "">
+				</cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset amendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
 
 			<!--- post-amendment phase --->
 
@@ -1975,6 +2296,29 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset r=structNew()>
+
+			<!--- basisOfRecord is a property of the cataloged item, not of a collecting event --->
+			<cfif ucase(target) EQ "FLAT">
+				<cfset providesGuid = dwcMetadataDQ.getClass().getMethod("validationBasisofrecordNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcMetadataDQ.validationBasisofrecordNotempty(basisOfRecord) >
+				<cfset r.label = dwcMetadataDQ.getClass().getMethod("validationBasisofrecordNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset postamendment[providesGuid] = r >
+				<cfset r=structNew()>
+
+				<cfset providesGuid = dwcMetadataDQDefaults.getClass().getMethod("validationBasisofrecordStandard",array1String).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcMetadataDQDefaults.validationBasisofrecordStandard(basisOfRecord) >
+				<cfset r.label = dwcMetadataDQDefaults.getClass().getMethod("validationBasisofrecordStandard",array1String).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "VALIDATION" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfset postamendment[providesGuid] = r >
+				<cfset r=structNew()>
+			</cfif>
 
 			<!--- Add results from phases to result to return --->
 
