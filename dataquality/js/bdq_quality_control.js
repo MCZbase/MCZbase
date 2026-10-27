@@ -62,14 +62,14 @@ function loadQC(method, target, target_id, category, targetDivId, focusOnLoad) {
 	$.ajax({
 		url: "/dataquality/component/functions.cfc",
 		type: "get",
+		dataType: "json",
 		data: {
 			method: method,
 			returnformat: "json",
 			target: target,
 			target_id: target_id
 		},
-		success: function (datareturn) {
-			var data = JSON.parse(datareturn);
+		success: function (data) {
 			if (data.STATUS == "success") {
 				displayQCResult(data, category, targetDivId, focusOnLoad);
 			} else {
