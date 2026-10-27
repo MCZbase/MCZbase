@@ -350,7 +350,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(decimal_latitude,decimal_longitude,stateProvince) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude),stateProvince) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -360,7 +360,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(javaCast("string",min_depth_in_m), javaCast("string",max_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -370,7 +370,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(min_elev_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(javaCast("string",min_elev_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -380,7 +380,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(max_elev_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(javaCast("string",max_elev_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -390,7 +390,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMindepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(min_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(javaCast("string",min_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -400,7 +400,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(max_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(javaCast("string",max_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -586,7 +586,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCoordinatesFromVerbatim",array8String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse= dwcGeoRefDQ.amendmentCoordinatesFromVerbatim(decimal_latitude,decimal_longitude,geodeticDatum,verbatimCoordinates,verbatimLatitude,verbatimLongitude,verbatimSRS,verbatimCoordinateSystem) >
+			<cfset dqResponse= dwcGeoRefDQ.amendmentCoordinatesFromVerbatim(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude),geodeticDatum,verbatimCoordinates,verbatimLatitude,verbatimLongitude,verbatimSRS,verbatimCoordinateSystem) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCoordinatesFromVerbatim",array8String).getAnnotation(AmendmentC.getClass()).description() >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -723,7 +723,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(decimal_latitude,decimal_longitude,stateProvince) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude),stateProvince) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -783,7 +783,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(javaCast("string",min_depth_in_m), javaCast("string",max_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -793,7 +793,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(min_elev_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(javaCast("string",min_elev_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -803,7 +803,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(max_elev_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(javaCast("string",max_elev_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -813,7 +813,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMindepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(min_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(javaCast("string",min_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -823,7 +823,7 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(max_depth_in_m) >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(javaCast("string",max_depth_in_m)) >
 			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
