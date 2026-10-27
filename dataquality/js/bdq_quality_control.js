@@ -23,8 +23,6 @@ var BDQ_STANDARD_URL = "https://bdq.tdwg.org/draft/";
 // each test in the list of BDQ tests has an anchor of bdqtest_ followed by its guid
 var BDQ_TEST_LIST_URL = "https://bdq.tdwg.org/draft/docs/list/bdqtest/#bdqtest_";
 var BDQ_INTERNAL_PREREQUISITES_NOT_MET = "INTERNAL_PREREQUISITES_NOT_MET";
-// rule at the left of the columns of each phase, setting pre-amendment results apart from post-amendment
-var BDQ_PHASE_START_CLASS = "border-left border-dark";
 
 /**
  * function bdqEscapeHtml encodes a value for placement in html element content, as test labels,
@@ -258,9 +256,9 @@ function bdqTableHtml(headingId, heading, columns, rows) {
 	var columnRow = "";
 	for (var k = 0; k < columns.length; k++) {
 		if (columns[k].group) {
-			groupRow = groupRow + "<th scope='colgroup' colspan='" + columns[k].columns.length + "' class='" + BDQ_PHASE_START_CLASS + "'>" + bdqEscapeHtml(columns[k].group) + "</th>";
+			groupRow = groupRow + "<th scope='colgroup' colspan='" + columns[k].columns.length + "'>" + bdqEscapeHtml(columns[k].group) + "</th>";
 			for (var m = 0; m < columns[k].columns.length; m++) {
-				columnRow = columnRow + "<th scope='col'" + (m == 0 ? " class='" + BDQ_PHASE_START_CLASS + "'" : "") + ">" + bdqEscapeHtml(columns[k].columns[m]) + "</th>";
+				columnRow = columnRow + "<th scope='col'>" + bdqEscapeHtml(columns[k].columns[m]) + "</th>";
 			}
 		} else if (grouped) {
 			groupRow = groupRow + "<th scope='col' rowspan='2'>" + bdqEscapeHtml(columns[k]) + "</th>";
@@ -268,7 +266,9 @@ function bdqTableHtml(headingId, heading, columns, rows) {
 			columnRow = columnRow + "<th scope='col'>" + bdqEscapeHtml(columns[k]) + "</th>";
 		}
 	}
-	html = html + "<table class='table table-sm table-striped table-responsive d-xl-table border' aria-labelledby='" + headingId + "'>";
+	// The results sit in boxes narrower than the window, so the wrapper scrolls a table wider than its box;
+	// table-responsive d-xl-table on the table itself stops scrolling on wide windows, letting the table spill out.
+	html = html + "<div class='table-responsive'><table class='table table-sm table-striped table-bordered' aria-labelledby='" + headingId + "'>";
 	if (grouped) {
 		// scope='colgroup' headers apply to the columns of a colgroup element
 		html = html + "<colgroup><col></colgroup>";
@@ -282,7 +282,7 @@ function bdqTableHtml(headingId, heading, columns, rows) {
 	} else {
 		html = html + "<tr><th scope='col'>Test</th>" + columnRow + "</tr>";
 	}
-	return html + "</thead><tbody>" + body + "</tbody></table>";
+	return html + "</thead><tbody>" + body + "</tbody></table></div>";
 }
 
 /**
@@ -359,8 +359,8 @@ function displayQCResult(data, category, targetDivId, focusOnLoad) {
 			afterComment = after.COMMENT == before.COMMENT ? "<span class='text-muted'>as before</span>" : bdqEscapeHtml(after.COMMENT);
 		}
 		var row = bdqTestHeaderHtml(guid, before, tests)
-			+ "<td class='" + BDQ_PHASE_START_CLASS + "'>" + bdqResultHtml(before) + "</td><td class='small'>" + bdqEscapeHtml(before.COMMENT) + "</td>"
-			+ "<td class='" + BDQ_PHASE_START_CLASS + "'>" + bdqResultHtml(after) + "</td><td class='small'>" + afterComment + "</td>";
+			+ "<td>" + bdqResultHtml(before) + "</td><td class='small text-break'>" + bdqEscapeHtml(before.COMMENT) + "</td>"
+			+ "<td>" + bdqResultHtml(after) + "</td><td class='small text-break'>" + afterComment + "</td>";
 		if (before.TYPE == "VALIDATION") {
 			validationRows.push({ html: row, hideable: hideable });
 		} else {
@@ -382,7 +382,7 @@ function displayQCResult(data, category, targetDivId, focusOnLoad) {
 			proposed = bdqEscapeHtml(amendment.VALUE);
 		}
 		amendmentRows.push({
-			html: bdqTestHeaderHtml(amendGuids[j], amendment, tests) + "<td>" + bdqResultHtml(amendment) + "</td><td>" + proposed + "</td><td class='small'>" + bdqEscapeHtml(amendment.COMMENT) + "</td>",
+			html: bdqTestHeaderHtml(amendGuids[j], amendment, tests) + "<td>" + bdqResultHtml(amendment) + "</td><td class='text-break'>" + proposed + "</td><td class='small text-break'>" + bdqEscapeHtml(amendment.COMMENT) + "</td>",
 			hideable: amendment.STATUS == BDQ_INTERNAL_PREREQUISITES_NOT_MET
 		});
 	}
