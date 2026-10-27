@@ -42,6 +42,18 @@ function bdqEscapeHtml(value) {
 }
 
 /**
+ * function bdqBreakableHtml encodes a value for html element content, allowing a line break after each
+ * underscore, so that test names and response words such as EXTERNAL_PREREQUISITES_NOT_MET can wrap in
+ * a narrow table column; wbr changes neither the text nor what a screen reader reads.
+ *
+ * @param value the value to encode.
+ * @return the encoded value with a wbr element after each underscore.
+ */
+function bdqBreakableHtml(value) {
+	return bdqEscapeHtml(value).replace(/_/g, "_<wbr>");
+}
+
+/**
  * function loadQC runs one of the QC reports on a record and displays the results.
  *
  * @param method the backing method in /dataquality/component/functions.cfc to invoke.
@@ -161,7 +173,7 @@ function bdqResultHtml(response) {
 	} else if (response.STATUS == "EXTERNAL_PREREQUISITES_NOT_MET" || response.STATUS == "AMENDED" || response.STATUS == "FILLED_IN") {
 		cssClass = "font-weight-bold";
 	}
-	return "<span class='" + cssClass + "'>" + bdqEscapeHtml(text) + "</span>";
+	return "<span class='" + cssClass + "'>" + bdqBreakableHtml(text) + "</span>";
 }
 
 /**
@@ -180,7 +192,7 @@ function bdqTestHeaderHtml(guid, response, tests) {
 	var description = test.DESCRIPTION || response.LABEL;
 	// the backing methods replace a generic source authority in the description with the one consulted
 	if (response.LABEL && /sourceAuthority/.test(description)) { description = response.LABEL; }
-	return "<th scope='row' class='font-weight-normal'><a href='" + BDQ_TEST_LIST_URL + encodeURIComponent(guid) + "' target='_blank' rel='noopener'>" + bdqEscapeHtml(name) + "</a>"
+	return "<th scope='row' class='font-weight-normal'><a href='" + BDQ_TEST_LIST_URL + encodeURIComponent(guid) + "' target='_blank' rel='noopener'>" + bdqBreakableHtml(name) + "</a>"
 		+ "<div class='small'>" + bdqEscapeHtml(description) + "</div></th>";
 }
 
