@@ -409,9 +409,9 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country,countryCode) >
-			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -832,9 +832,9 @@ rec_occur_qc libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country,countryCode) >
-			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
