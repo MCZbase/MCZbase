@@ -182,11 +182,16 @@ limitations under the License.
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
 							<cfoutput>#renderWikiButtons()#</cfoutput>
-							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+							<!--- versioned by last-modified time so browsers fetch the new copy when it changes --->
+							<cfset variables.bdqQualityControlVersion = "">
+							<cfset variables.bdqQualityControlPath = expandPath("/dataquality/js/bdq_quality_control.js")>
+							<cfif fileExists(variables.bdqQualityControlPath)>
+								<cfset variables.bdqQualityControlVersion = dateTimeFormat(getFileInfo(variables.bdqQualityControlPath).lastModified, "yyyymmddHHnnss")>
+							</cfif>
+							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 							<script>
 								function runTests() {
-									$("##SpaceDQDiv").html("Running tests....");
-									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+									loadSpaceQC("", #locality_id#, "SpaceDQDiv", true);
 								}
 							</script>
 							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">

@@ -50,7 +50,9 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="refusal" type="struct" required="no">
 	
-	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#">
+	<cfset var COLLECTING_DATE_MARKER = "%%collectingDate%%">
+	<cfset var dateText = "">
+	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#" dateMarker="#COLLECTING_DATE_MARKER#">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -334,20 +336,13 @@ limitations under the License.
 									<div class="float-left pr-md-0 my-1 mt-xl-2 #cols# ">
 										<div class="col-12 px-xl-0"><span class="small">Date Collected: </span>
 											<h2 class="h5 mb-1 d-inline-block">
-												<cftry>
-													<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
-													<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
-												<cfcatch>
-												</cfcatch>
-												</cftry>
-												<cfset date ="#summary.pretty_date#">
-											
-												<cfif isDefined("formatted_date") AND len(formatted_date) GT 0 >
-													<cfset date = "#formatted_date#">
-												<cfelseif summary.pretty_date EQ "[date unknown]" AND summary.began_date EQ "1700-01-01">
-													<cfset date = "#summary.pretty_date# prior to #summary.ended_date#">
+												<!--- the date is formatted by event_date_qc after this thread ends, see below --->
+												<cfset thread.prettyDate = summary.pretty_date>
+												<cfset thread.storedDate = summary.pretty_date>
+												<cfif summary.pretty_date EQ "[date unknown]" AND summary.began_date EQ "1700-01-01">
+													<cfset thread.storedDate = "#summary.pretty_date# prior to #summary.ended_date#">
 												</cfif>
-												<span class="text-dark font-weight-lessbold">#date#</span>
+												<span class="text-dark font-weight-lessbold">#attributes.dateMarker#</span>
 											</h2>
 										</div>
 										<div class="col-12 px-xl-0">
@@ -401,7 +396,27 @@ limitations under the License.
 		<cfset getPageContext().forward(getSummaryHeaderThread.forwardTo)>
 		<cfabort>
 	</cfif>
-	<cfreturn getSummaryHeaderThread.output>
+	<!--- an error the thread's cfcatch missed leaves its output cut off with unclosed tags, which breaks the page layout --->
+	<cfif structKeyExists(getSummaryHeaderThread, "error")>
+		<cflog file="MCZbase" text="getSummaryHeaderHTML: summary header thread failed: #getSummaryHeaderThread.error.message#">
+		<cfreturn "<div class='alert alert-danger' role='alert'>The summary for this record could not be shown.</div>">
+	</cfif>
+	<cfif structKeyExists(getSummaryHeaderThread, "storedDate")>
+		<cfset dateText = getSummaryHeaderThread.storedDate>
+		<!--- In its own thread because cfcatch does not catch the java.lang.Error a library throws when it is
+			missing a class it needs; the error is left on the thread instead, and the stored date is shown. --->
+		<cfthread name="getSummaryHeaderDateThread" prettyDate="#getSummaryHeaderThread.prettyDate#">
+			<cfobject type="Java" class="org.filteredpush.qc.date.util.DateUtils" name="dateUtils">
+			<cfset thread.formattedDate = dateUtils.extractDateFromVerbatimER(attributes.prettyDate).getResult()>
+		</cfthread>
+		<cfthread action="join" name="getSummaryHeaderDateThread" />
+		<cfif structKeyExists(getSummaryHeaderDateThread, "error")>
+			<cflog file="MCZbase" text="getSummaryHeaderHTML: date not formatted by event_date_qc: #getSummaryHeaderDateThread.error.message#">
+		<cfelseif structKeyExists(getSummaryHeaderDateThread, "formattedDate") AND len(getSummaryHeaderDateThread.formattedDate) GT 0>
+			<cfset dateText = getSummaryHeaderDateThread.formattedDate>
+		</cfif>
+	</cfif>
+	<cfreturn replace(getSummaryHeaderThread.output, COLLECTING_DATE_MARKER, encodeForHtml(dateText))>
 </cffunction>
 
 <!--- getMediaCount obtain a count of media related to a cataloged item
