@@ -36,7 +36,7 @@ it is unlinked; change both rows to data_entry if the page goes into production.
 					<li><strong>show</strong>: show the field, cleared after each record is saved.</li>
 					<li><strong>carry</strong>: show the field and carry its value over to the next record.</li>
 				</ul>
-				<p>Settings apply when the data entry screen changes to entering a new record, and after each new record is saved.</p>
+				<p>The data entry screen reads these settings when it changes to Enter New Record and after each new record is saved. If the data entry screen is already open in another tab, reload it or change it to Enter New Record to pick up settings saved here.</p>
 				<cfset settingsForm = getDataEntrySettingsFormHtml(feedbackId="saveFeedback")>
 				#settingsForm#
 				<div class="mb-4">
