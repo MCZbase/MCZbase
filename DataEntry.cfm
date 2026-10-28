@@ -790,8 +790,8 @@ Some Totally Random String Data .....
                         <td><input type="text" title="verbatimsrs" name="verbatimsrs" size="24" id="verbatimsrs" value="#verbatimsrs#"><span class="f11a">(e.g., WGS84, Clark 1866, etc.)</span></td>
                         </tr>
 						<tr>
-						<tr>
-							<td id="d_orig_elev_units" align="right">
+						<tr id="d_orig_elev_units">
+							<td align="right">
 
                                 <span class="f11a">Elevation between</span></td>
 								<td><input type="text" title="MINIMUM_ELEVATION" name="minimum_elevation" size="4" value="#minimum_elevation#" id="minimum_elevation">
@@ -811,8 +811,8 @@ Some Totally Random String Data .....
 						</tr>
 <!---Hide depth from this form for some departments (it is still accessible if needed on the grid views)--->
 						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
-						<tr>
-							<td id="d_depth_units" align="right">
+						<tr id="d_depth_units">
+							<td align="right">
 
                                 <span class="f11a">Depth between</span></td>
 								<td><input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
