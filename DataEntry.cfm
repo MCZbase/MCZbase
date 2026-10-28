@@ -539,8 +539,8 @@ Some Totally Random String Data .....
 								</cfif>
 								<span class="f11a">Accn</span>
 								<input type="text" name="accn" title="ACCN" value="#accn#" size="9" class="reqdClr" id="accn" onchange="isGoodAccn();">
-								<!--- TODO: the customize form link is hidden; bring /form/customizeDataEntry.cfm into the redesigned Data Entry page. --->
-								<!---span id="customizeForm" class="infoLink" onclick="customize()">[ customize form ]</span>--->
+								<!--- TODO: link /dataentry/customizeDataEntry.cfm here, with id customizeForm, which changeMode
+									shows only in entry mode, once that page is opened to data_entry. --->
                             <cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0><br></cfif> &nbsp;<input type="hidden" name="mask_record" value="0" />
                                      <span class="f11a">
                                     <input type="checkbox" style="vertical-align: bottom;" name="mask_record" value="1" <cfif #mask_record# EQ "1">checked</cfif>> mask record</input>

@@ -15,8 +15,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Edit the current user's Data Entry field settings: hide, show or carry each field.  Redesign of
-/form/customizeDataEntry.cfm, not yet linked from Data Entry.
+Edit the current user's Data Entry field settings: hide, show or carry each field.  Replaces
+/form/customizeDataEntry.cfm; not yet linked from Data Entry.
+
+TODO: cf_form_permissions limits this page and /dataentry/component/functions.cfc to global_admin while
+it is unlinked; change both rows to data_entry if the page goes into production.
 --->
 <cfset pageTitle = "Customize Data Entry">
 <cfinclude template="/shared/_header.cfm">

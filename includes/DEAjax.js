@@ -296,40 +296,6 @@ function setPagePrefs(){
 		}
 	);
 }
-function closeCust() {
-	$('#bgDiv').remove();
-	$('#bgDiv', window.parent.document).remove();
-	$('#popDiv').remove();
-	$('#popDiv', window.parent.document).remove();
-	$('#cDiv').remove();
-	$('#cDiv', window.parent.document).remove();
-	$('#theFrame').remove();
-	$('#theFrame', window.parent.document).remove();
-	setPagePrefs();
-}
-function customize(t) {
-	var bgDiv = document.createElement('div');
-	bgDiv.id = 'bgDiv';
-	bgDiv.className = 'bgDiv';
-	bgDiv.setAttribute('onclick','closeCust()');
-	document.body.appendChild(bgDiv);
-	var popDiv=document.createElement('div');
-	popDiv.id = 'popDiv';
-	popDiv.className = 'editAppBox';
-	document.body.appendChild(popDiv);	
-	var cDiv=document.createElement('div');
-	cDiv.className = 'fancybox-close';
-	cDiv.id='cDiv';
-	cDiv.setAttribute('onclick','closeCust()');
-	$("#popDiv").append(cDiv);
-	$("#popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
-	var theFrame = document.createElement('iFrame');
-	theFrame.id='theFrame';
-	theFrame.className = 'editFrame';
-	var ptl="/form/customizeDataEntry.cfm";
-	theFrame.src=ptl;
-	$("#popDiv").append(theFrame);
-}
 function msg(m,s){
 	if (s=='bad' || s=='wait'){
                 // add a styled bgDiv and animation for a wait state, if this stays up, it is bad.
