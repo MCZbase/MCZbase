@@ -775,8 +775,7 @@ function success_getSpecResultsData(result){
 				}
 				for (a=0; a<nAtt; a++) {
 					if (data.COLUMNLIST[0].indexOf(attAry[a].toUpperCase())> -1) {
-					var attStr='data.' + attAry[a].toUpperCase() + '[' + i + ']';
-						theInnerHtml += '<td>' + eval(attStr) + '</td>';
+						theInnerHtml += '<td>' + data[attAry[a].toUpperCase()][i] + '</td>';
 					}
 				}
 				if (data.COLUMNLIST[0].indexOf('DEC_LAT')> -1) {

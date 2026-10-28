@@ -44,16 +44,14 @@ function success_updateCondition (r) {
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
 	if (message == 'success') {
-		var ins = "document.getElementById('condition" + partID + "')";
-		var condition = eval(ins);
+		var condition = document.getElementById('condition' + partID);
 		condition.className = 'reqdClr';
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function updateDeaccItemRemarks ( partID ) {
-	var s = "document.getElementById('deacc_Item_Remarks" + partID + "').value";
-	var deacc_Item_Remarks = eval(s);
+	var deacc_Item_Remarks = document.getElementById('deacc_Item_Remarks' + partID).value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	jQuery.getJSON("/component/functions.cfc",
 		{
@@ -74,16 +72,14 @@ function success_updateDeaccItemRemarks (r) {
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
 	if (message == 'success') {
-		var ins = "document.getElementById('deacc_Item_Remarks" + partID + "')";
-		var deacc_Item_Remarks = eval(ins);
+		var deacc_Item_Remarks = document.getElementById('deacc_Item_Remarks' + partID);
 		deacc_Item_Remarks.className = '';
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function updateDeaccItemInstructions ( partID ) {
-	var s = "document.getElementById('item_instructions" + partID + "').value";
-	var deacc_Item_Instructions = eval(s);
+	var deacc_Item_Instructions = document.getElementById('item_instructions' + partID).value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	jQuery.getJSON("/component/functions.cfc",
 		{
@@ -104,19 +100,16 @@ function success_updateDeaccItemInstructions (r) {
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
 	if (message == 'success') {
-		var ins = "document.getElementById('item_instructions" + partID + "')";
-		var deacc_Item_Instructions = eval(ins);
+		var deacc_Item_Instructions = document.getElementById('item_instructions' + partID);
 		deacc_Item_Instructions.className = '';
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function remPartFromDeacc( partID, collObjectID ) {
-	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-	var dispnFld = eval(s);
+	var dispnFld = document.getElementById('coll_obj_disposition' + partID);
 	var thisDispn = dispnFld.value;
-	var isS = "document.getElementById('isSubsample" + partID + "')";
-	var isSslFld = eval(isS);
+	var isSslFld = document.getElementById('isSubsample' + partID);
 	varisSslVal = isSslFld.value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	if (varisSslVal > 0) {
@@ -162,16 +155,14 @@ function success_remPartFromDeacc (r) {
 	var partID = result.PART_ID;
 	var message = result.MESSAGE;
 	if (message == 'success') {
-		var tr = "document.getElementById('rowNum" + partID + "')";
-		var theRow = eval(tr);
+		var theRow = document.getElementById('rowNum' + partID);
 		theRow.style.display='none';
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
 	}
 }
 function updateDispn( partID ) {
-	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-	var dispnFld = eval(s);
+	var dispnFld = document.getElementById('coll_obj_disposition' + partID);
 	var thisDispn = dispnFld.value;
 	jQuery.getJSON("/component/functions.cfc",
 		{
@@ -192,8 +183,7 @@ function success_updateDispn (r) {
 	var status = result.STATUS;
 	var disposition = result.DISPOSITION;
 	if (status == 'success') {
-		var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-		var dispnFld = eval(s);
+		var dispnFld = document.getElementById('coll_obj_disposition' + partID);
 		dispnFld.className='';
 	} else {
 		messageDialog('An error occured: \n' + message,'Error');
@@ -276,4 +266,19 @@ function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
 			handleFail(jqXHR,textStatus,error,"removing deaccession item");
 		}
 	});
+}
+
+/** Save the inline edits of one deaccession item, reading the item's own fields.
+ *
+ * @param deacc_item_id the deacc_item_id of the item, the suffix of its field ids.
+ * @see updateDeaccItem in reviewDeaccItems.cfm
+ */
+function doDeaccItemUpdate(deacc_item_id) {
+	let deacc_item_remarks = $("#deacc_item_remarks_" + deacc_item_id).val();
+	let item_instructions = $("#item_instructions_" + deacc_item_id).val();
+	let condition = $("#condition_" + deacc_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + deacc_item_id).val();
+	// item description is not edited inline, and an empty value leaves it unchanged
+	let item_descr = "";
+	updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
 }

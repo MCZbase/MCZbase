@@ -276,7 +276,7 @@ function setPagePrefs(){
 			var columns=r.COLUMNS;
 			for (i=0;i<columns.length;i++) {
 				var cName=columns[i];
-				var cVal=eval("r.DATA." + columns[i]);
+				var cVal=r.DATA[columns[i]];
 				var eName=cName.toLowerCase();
 				if (cVal==0){
 					// clear and hide
@@ -586,7 +586,7 @@ function loadRecordEdit (collection_object_id) {
          var columns=r.COLUMNS;
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
-            var cVal=eval("r.DATA." + columns[i]);
+            var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }
@@ -622,7 +622,7 @@ function loadRecordEnter(collection_object_id){
          var columns=r.COLUMNS;
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
-            var cVal=eval("r.DATA." + columns[i]);
+            var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }

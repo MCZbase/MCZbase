@@ -3555,15 +3555,6 @@ STATE TRANSITION BEHAVIOR:
 									console.log(deacc_item_id);
 									openDeaccessionItemDialog(deacc_item_id,"deaccItemEditDialogDiv",name,refreshItems#catItemId#);
 								}
-								function doDeaccItemUpdate(deacc_item_id) {
-									console.log(deacc_item_id);
-									deacc_item_remarks = $("##deacc_item_remarks_#id#").val();
-									item_instructions = $("##item_instructions_#id#").val();
-									condition = $("##condition_#id#").val();
-									coll_obj_disposition = $("##coll_obj_disposition_#id#").val();
-									item_descr = ""; // not updating description here
-									updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
-								}
 								function refreshItems#catItemId#() { 
 									console.log("refresh items invoked for #catItemId#");
 									refreshDeaccCatItem("#catItemId#");
