@@ -267,3 +267,18 @@ function removePartFromDeacc(deacc_item_id,coll_obj_disposition,callback) {
 		}
 	});
 }
+
+/** Save the inline edits of one deaccession item, reading the item's own fields.
+ *
+ * @param deacc_item_id the deacc_item_id of the item, the suffix of its field ids.
+ * @see updateDeaccItem in reviewDeaccItems.cfm
+ */
+function doDeaccItemUpdate(deacc_item_id) {
+	let deacc_item_remarks = $("#deacc_item_remarks_" + deacc_item_id).val();
+	let item_instructions = $("#item_instructions_" + deacc_item_id).val();
+	let condition = $("#condition_" + deacc_item_id).val();
+	let coll_obj_disposition = $("#coll_obj_disposition_" + deacc_item_id).val();
+	// item description is not edited inline, and an empty value leaves it unchanged
+	let item_descr = "";
+	updateDeaccItem(deacc_item_id, item_instructions, deacc_item_remarks, coll_obj_disposition, condition, item_descr);
+}
