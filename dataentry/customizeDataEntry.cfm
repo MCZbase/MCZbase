@@ -32,7 +32,7 @@ it is unlinked; change both rows to data_entry if the page goes into production.
 				<h1 class="h2 mt-2">Customize Data Entry for #encodeForHtml(session.username)#</h1>
 				<p class="mb-1">Choose what each field does on the data entry screen when you enter new records:</p>
 				<ul>
-					<li><strong>hide</strong>: remove the field from the screen and clear it. Offered only for fields the screen can remove; hiding a coordinate, elevation or depth units field, a part name, a geology attribute or an identifier removes the fields that go with it. A record can still be saved with values in hidden fields, so hide with care.</li>
+					<li><strong>hide</strong>: remove the field from the screen and clear it. Offered only for fields the screen can remove, marked <i class="fas fa-eye-slash" aria-hidden="true"></i><span class="sr-only">with a crossed out eye</span>; hiding a coordinate, elevation or depth units field, a part name, a geology attribute or an identifier removes the fields that go with it. A record can still be saved with values in hidden fields, so hide with care.</li>
 					<li><strong>show</strong>: show the field, cleared after each record is saved.</li>
 					<li><strong>carry</strong>: show the field and carry its value over to the next record.</li>
 				</ul>

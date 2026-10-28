@@ -201,7 +201,12 @@ Backing methods for the Data Entry pages, role data_entry.
 										<cfset showSelected = "selected">
 									</cfif>
 									<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-1">
-										<label for="#fieldId#" class="data-entry-label">#encodeForHtml(replace(fieldId,"_"," ","all"))#</label>
+										<label for="#fieldId#" class="data-entry-label">
+											#encodeForHtml(replace(fieldId,"_"," ","all"))#
+											<cfif listFindNoCase(DATA_ENTRY_HIDEABLE_FIELDS, field) GT 0>
+												<i class="fas fa-eye-slash ml-1" aria-hidden="true"></i><span class="sr-only">(can be hidden)</span>
+											</cfif>
+										</label>
 										<select id="#fieldId#" name="#fieldId#" class="data-entry-select" onChange="setFeedbackControlState('#feedbackIdJs#','unsaved');">
 											<cfif listFindNoCase(DATA_ENTRY_HIDEABLE_FIELDS, field) GT 0>
 												<option value="#DATA_ENTRY_SETTING_HIDE#" #hideSelected#>hide</option>
