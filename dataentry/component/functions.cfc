@@ -140,6 +140,7 @@ Backing methods for the Data Entry pages, role data_entry.
 	<cfset var hideSelected = "">
 	<cfset var showSelected = "">
 	<cfset var carrySelected = "">
+	<cfset var feedbackIdJs = encodeForHtmlAttribute(encodeForJavaScript(arguments.feedbackId))>
 
 	<cfset requireDataEntry()>
 	<cfset settings = getUserDataEntrySettings()>
@@ -168,9 +169,9 @@ Backing methods for the Data Entry pages, role data_entry.
 				</ul>
 			</nav>
 			<div class="mb-2">
-				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_HIDE#,'#arguments.feedbackId#');">Hide all fields</button>
-				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_SHOW#,'#arguments.feedbackId#');">Show all fields</button>
-				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_CARRY#,'#arguments.feedbackId#');">Carry all fields</button>
+				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_HIDE#,'#feedbackIdJs#');">Hide all fields</button>
+				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_SHOW#,'#feedbackIdJs#');">Show all fields</button>
+				<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('dataEntrySettingsForm',#DATA_ENTRY_SETTING_CARRY#,'#feedbackIdJs#');">Carry all fields</button>
 			</div>
 			<form id="dataEntrySettingsForm" onSubmit="return false;">
 				<cfloop array="#sections#" index="section">
@@ -178,9 +179,9 @@ Backing methods for the Data Entry pages, role data_entry.
 						<section id="#section.id#" class="border rounded px-2 pb-2 mb-2">
 							<h2 class="h3 mt-2" id="#section.id#Heading">#encodeForHtml(section.title)#</h2>
 							<div class="mb-1">
-								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_HIDE#,'#arguments.feedbackId#');">Hide all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
-								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_SHOW#,'#arguments.feedbackId#');">Show all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
-								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_CARRY#,'#arguments.feedbackId#');">Carry all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
+								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_HIDE#,'#feedbackIdJs#');">Hide all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
+								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_SHOW#,'#feedbackIdJs#');">Show all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
+								<button type="button" class="btn btn-xs btn-secondary" onClick="setDataEntrySettings('#section.id#',#DATA_ENTRY_SETTING_CARRY#,'#feedbackIdJs#');">Carry all<span class="sr-only"> #encodeForHtml(section.title)# fields</span></button>
 							</div>
 							<div class="form-row">
 								<cfloop list="#sectionFields[section.id]#" index="field">
@@ -199,7 +200,7 @@ Backing methods for the Data Entry pages, role data_entry.
 									</cfif>
 									<div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-1">
 										<label for="#fieldId#" class="data-entry-label">#encodeForHtml(replace(fieldId,"_"," ","all"))#</label>
-										<select id="#fieldId#" name="#fieldId#" class="data-entry-select" onChange="setFeedbackControlState('#arguments.feedbackId#','unsaved');">
+										<select id="#fieldId#" name="#fieldId#" class="data-entry-select" onChange="setFeedbackControlState('#feedbackIdJs#','unsaved');">
 											<cfif listFindNoCase(DATA_ENTRY_HIDEABLE_FIELDS, field) GT 0>
 												<option value="#DATA_ENTRY_SETTING_HIDE#" #hideSelected#>hide</option>
 											</cfif>
