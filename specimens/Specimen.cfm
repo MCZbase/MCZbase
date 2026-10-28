@@ -1274,10 +1274,16 @@ limitations under the License.
 			<section class="row mx-0" id="QCSection">
 				<div class="col-12 my-3">
 					<!---  Include the TDWG BDQ TG2 test integration --->
-					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+					<!--- versioned by last-modified time so browsers fetch the new copy when it changes --->
+					<cfset variables.bdqQualityControlVersion = "">
+					<cfset variables.bdqQualityControlPath = expandPath("/dataquality/js/bdq_quality_control.js")>
+					<cfif fileExists(variables.bdqQualityControlPath)>
+						<cfset variables.bdqQualityControlVersion = dateTimeFormat(getFileInfo(variables.bdqQualityControlPath).lastModified, "yyyymmddHHnnss")>
+					</cfif>
+					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js?v=#encodeForUrl(variables.bdqQualityControlVersion)#'></script>
 					<script>
 						function runTests() {
-							loadNameQC(#collection_object_id#, "", "NameDQDiv");
+							loadNameQC(#collection_object_id#, "", "NameDQDiv", true);
 							loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
 							loadEventQC(#collection_object_id#, "", "EventDQDiv");
 						}

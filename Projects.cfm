@@ -629,19 +629,26 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 						</div>
 					</div>
 					<!--- A 25-row page is ~100 tab stops. sr-only-focusable, not sr-only: a skip link
-					      that stays invisible when focused gives a sighted keyboard user nothing to see. --->
-					<a href="#afterResultsGrid" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Skip past results</a>
+					      that stays invisible when focused gives a sighted keyboard user nothing to see.
+					      Aimed at the pager rather than at an empty anchor after it: a zero-height target has
+					      no name for a screen reader to announce, and it lands the reader one step past the
+					      pagination instead of on it. --->
+					<cfoutput><a href="##projectsGridFooter" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Skip past results</a></cfoutput>
 					<div id="groupChipBar" class="px-1 pb-1" style="display:none;"></div>
 					<!--- aria-labelledby: the grid, a table to screen readers, is named by the results heading and count. --->
-					<div id="projectsGridDiv" class="blueFocus" aria-labelledby="resultsHeading"></div>
+					<!--- tabindex -1: a focus target, not a tab stop -- it is where "Back to results" below
+					      returns to, and where menuClosed in tabulator-common.js falls back to. --->
+					<div id="projectsGridDiv" class="blueFocus" aria-labelledby="resultsHeading" tabindex="-1"></div>
 					<!--- Pagination container, outside the grid on purpose (the pattern for every Tabulator page).
 					      Tabulator would put its pagination footer inside the grid, but the grid is relabelled
 					      role="table" for screen readers (mczUseTableRoles), and a table may hold only rows:
 					      controls inside it are invalid and may be read as table content.  The footerElement
 					      option below has Tabulator fill this container instead and leave it out of the grid's
 					      height.  See mczKeepControlsOutOfTable in /shared/js/tabulator-common.js. --->
-					<div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer"><div id="projectsGridFooter" class="tabulator-footer-contents"></div></div></div>
-					<div id="afterResultsGrid" tabindex="-1"></div>
+					<div class="tabulator mcz-tabulator-footer-wrapper"><div class="tabulator-footer"><div id="projectsGridFooter" class="tabulator-footer-contents" tabindex="-1" role="group" aria-label="Results pagination"></div></div></div>
+					<!--- The return path for a keyboard or screen reader user who skipped the rows: tabbing on
+					      from the pager otherwise leaves the page content entirely. --->
+					<cfoutput><a href="##projectsGridDiv" class="sr-only sr-only-focusable btn-link d-inline-block px-2 py-1">Back to results</a></cfoutput>
 				</div>
 			</div>
 		</section>
@@ -1248,6 +1255,13 @@ heights are not here: see .mcz-app-controls in bootstrap_override.css.
 			}, 0);
 		}
 		projectsTotalRows = totalRows;
+		/* Deferred: Tabulator has not rendered this response's rows yet when the request
+		   function resolves, so the indexes would be set on the previous page's rows. */
+		setTimeout(function () {
+			if (projectsTable) {
+				mczSetTableRowCounts(projectsTable, totalRows);
+			}
+		}, 0);
 		if (projectsGroupField && totalRows > PROJECTS_GROUP_MAX_ROWS) {
 			clearProjectsGrouping("Grouping removed: " + totalRows + " rows is too many to group.");
 		}
