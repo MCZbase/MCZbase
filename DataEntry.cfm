@@ -812,7 +812,7 @@ Some Totally Random String Data .....
 <!---Hide depth from this form for some departments (it is still accessible if needed on the grid views)--->
 						<cfif collection_cde is not "VP" and collection_cde is not "IP" and collection_cde is not "Orn" and collection_cde is not "Model">
 						<tr>
-							<td id="d_orig_depth_units" align="right">
+							<td id="d_depth_units" align="right">
 
                                 <span class="f11a">Depth between</span></td>
 								<td><input type="text" name="min_depth" size="4" title="MIN_DEPTH" value="#min_depth#" id="min_depth">
