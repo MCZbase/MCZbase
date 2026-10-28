@@ -18,7 +18,7 @@ limitations under the License.
 Backing methods for the Data Entry pages, role data_entry.
 --->
 <cfcomponent>
-
+<cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- the values a Data Entry field setting may take --->
@@ -31,8 +31,8 @@ Backing methods for the Data Entry pages, role data_entry.
 	/form/customizeDataEntry.cfm until that page is retired. --->
 <cfset DATA_ENTRY_HIDEABLE_FIELDS = "COLLECTOR_AGENT_2,COLLECTOR_AGENT_3,COLLECTOR_AGENT_4,COLLECTOR_AGENT_5,COLLECTOR_AGENT_6,COLLECTOR_AGENT_7,COLLECTOR_AGENT_8,COLLECTOR_ROLE_2,COLLECTOR_ROLE_3,COLLECTOR_ROLE_4,COLLECTOR_ROLE_5,COLLECTOR_ROLE_6,COLLECTOR_ROLE_7,COLLECTOR_ROLE_8,OTHER_ID_NUM_1,OTHER_ID_NUM_2,OTHER_ID_NUM_3,OTHER_ID_NUM_4,IDENTIFICATION_REMARKS,HABITAT_DESC,ASSOCIATED_SPECIES,COLL_OBJECT_HABITAT,ORIG_ELEV_UNITS,DEPTH_UNITS,COLL_EVENT_REMARKS,LOCALITY_REMARKS,LOCALITY_ID,COLLECTING_EVENT_ID,ORIG_LAT_LONG_UNITS,LAT_LONG_REMARKS,GEOLOGY_ATTRIBUTE_1,GEOLOGY_ATTRIBUTE_2,GEOLOGY_ATTRIBUTE_3,GEOLOGY_ATTRIBUTE_4,GEOLOGY_ATTRIBUTE_5,GEOLOGY_ATTRIBUTE_6,RELATIONSHIP,COLL_OBJECT_REMARKS,FLAGS,PART_NAME_1,PART_NAME_2,PART_NAME_3,PART_NAME_4,PART_NAME_5,PART_NAME_6,PART_NAME_7,PART_NAME_8,PART_NAME_9,PART_NAME_10,PART_NAME_11,PART_NAME_12">
 
-<!--- requireDataEntry throws unless the session has the data_entry role; remote calls are not covered
-	by cf_form_permissions, so every method here calls it first. --->
+<!--- requireDataEntry throws unless the session has the data_entry role, which the database grants on
+	cf_dataentry_settings depend on, whatever roles cf_form_permissions lists for this component. --->
 <cffunction name="requireDataEntry" access="private" returntype="void">
 	<cfif NOT (isdefined("session.roles") AND listfindnocase(session.roles,"data_entry"))>
 		<cfthrow message="Not Authorized: data_entry role is required.">
