@@ -191,7 +191,7 @@
 						}
 						function checkList(list, v) {
 							//console.log('i am checklist');
-							var theList=eval('l_' + list);
+							var theList=window['l_' + list];
 							var a = theList.split(',');
 							for (i=0; i<a.length; ++i) {
 								//console.log('i: ' + i);
@@ -205,7 +205,7 @@
 									}
 								}
 							}
-							var cStr=eval('document.controls.' + list);
+							var cStr=document.controls[list];
 	
 							if (v=='1'){
 								cStr.checked=true;
@@ -232,7 +232,7 @@
 	
 						function checkList2(list, v) {
 							//console.log('i am checklist');
-							var theList=eval('l_' + list);
+							var theList=window['l_' + list];
 							var a = theList.split(',');
 							for (i=0; i<a.length; ++i) {
 								//console.log('i: ' + i);
@@ -246,7 +246,7 @@
 									}
 								}
 							}
-							var cStr=eval('document.controls.' + list);
+							var cStr=document.controls[list];
 	
 							if (v=='1'){
 								cStr.checked=true;

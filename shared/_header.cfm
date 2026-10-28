@@ -683,6 +683,21 @@ limitations under the License.
 											<div class="h5 dropdown-header px-4 mt-2 text-danger">User Activity</div>
 											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL Log</a>
 											<a class="dropdown-item" href="/Admin/download.cfm">User Download Statistics</a>
+											<cfif adminMenuGlobalAdmin>
+												<div class="h5 dropdown-header px-4 mt-2 text-danger">Users &amp; Access</div>
+												<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
+												<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
+												<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
+												<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
+												<a class="dropdown-item" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
+												<a class="dropdown-item" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
+												<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">User Loan Management</a>
+												</cfif>
+											</cfif>
 										</div>
 									</cfif>
 									<cfif adminMenuCodeTables or adminMenuGlobalAdmin or adminMenuCollops>
@@ -717,21 +732,6 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfif adminMenuGlobalAdmin>
-										<div>
-											<div class="h5 dropdown-header px-4 text-danger">Users &amp; Access</div>
-											<a class="dropdown-item" href="/Admin/AdminUsers.cfm">MCZbase User Access</a>
-											<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
-											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
-											<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
-											<a class="dropdown-item" href="/Admin/form_roles.cfm">Edit Form Permissions</a>
-											<a class="dropdown-item" href="/tools/uncontrolledPages.cfm">Audit Form Permissions</a>
-											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
-											</cfif>
-										</div>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
 											<a class="dropdown-item" href="/Admin/AdminPanel.cfm">Admin Panel</a>

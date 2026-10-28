@@ -276,7 +276,7 @@ function setPagePrefs(){
 			var columns=r.COLUMNS;
 			for (i=0;i<columns.length;i++) {
 				var cName=columns[i];
-				var cVal=eval("r.DATA." + columns[i]);
+				var cVal=r.DATA[columns[i]];
 				var eName=cName.toLowerCase();
 				if (cVal==0){
 					// clear and hide
@@ -295,40 +295,6 @@ function setPagePrefs(){
 			msg('page ready','good');
 		}
 	);
-}
-function closeCust() {
-	$('#bgDiv').remove();
-	$('#bgDiv', window.parent.document).remove();
-	$('#popDiv').remove();
-	$('#popDiv', window.parent.document).remove();
-	$('#cDiv').remove();
-	$('#cDiv', window.parent.document).remove();
-	$('#theFrame').remove();
-	$('#theFrame', window.parent.document).remove();
-	setPagePrefs();
-}
-function customize(t) {
-	var bgDiv = document.createElement('div');
-	bgDiv.id = 'bgDiv';
-	bgDiv.className = 'bgDiv';
-	bgDiv.setAttribute('onclick','closeCust()');
-	document.body.appendChild(bgDiv);
-	var popDiv=document.createElement('div');
-	popDiv.id = 'popDiv';
-	popDiv.className = 'editAppBox';
-	document.body.appendChild(popDiv);	
-	var cDiv=document.createElement('div');
-	cDiv.className = 'fancybox-close';
-	cDiv.id='cDiv';
-	cDiv.setAttribute('onclick','closeCust()');
-	$("#popDiv").append(cDiv);
-	$("#popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
-	var theFrame = document.createElement('iFrame');
-	theFrame.id='theFrame';
-	theFrame.className = 'editFrame';
-	var ptl="/form/customizeDataEntry.cfm";
-	theFrame.src=ptl;
-	$("#popDiv").append(theFrame);
 }
 function msg(m,s){
 	if (s=='bad' || s=='wait'){
@@ -586,7 +552,7 @@ function loadRecordEdit (collection_object_id) {
          var columns=r.COLUMNS;
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
-            var cVal=eval("r.DATA." + columns[i]);
+            var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }
@@ -622,7 +588,7 @@ function loadRecordEnter(collection_object_id){
          var columns=r.COLUMNS;
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
-            var cVal=eval("r.DATA." + columns[i]);
+            var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }

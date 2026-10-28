@@ -1,14 +1,4 @@
 <cfinclude template="../includes/_pickHeader.cfm">
-<script>
-	function fireEvent (fEvent) {
-		//alert('event thingy: ' + fEvent);
-		if (fEvent.length > 0 && fEvent != 'undefined') {
-			var fireThis = "opener." + fEvent + "()";
-			eval(fireThis);
-		}
-		self.close();
-	}
-</script>
 <cfset title = "Locality Pick Search">
 <cfif action is "nothing">
 <cfoutput>
