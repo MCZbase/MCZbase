@@ -334,7 +334,14 @@ function setPagePrefs(){
 		}
 	);
 }
-function msg(m,s){
+/** Shows a message in the status box at the foot of the page.
+ * @param m the message, shown as text.
+ * @param s its state, also its class: wait or bad cover the page while work is under way, good,
+ *   done or err clear that cover.
+ * @param closable optional, true to add a button that closes the box, for a message that stays
+ *   until the user has read it, such as the checks a record failed.
+ */
+function msg(m,s,closable){
 	if (s=='bad' || s=='wait'){
                 // add a styled bgDiv and animation for a wait state, if this stays up, it is bad.
 		if ($("#bgDiv").length==0){
@@ -348,7 +355,15 @@ function msg(m,s){
 		$("#bgDiv").remove();
 		$("#loadingAnimation").remove();
 	}
-	$("#msg").removeClass().addClass(s).html(m);
+	// as text: a record's failed checks quote values from the record
+	$("#msg").removeClass().addClass(s).text(m).show();
+	if (closable) {
+		var closeButton = $('<button type="button" class="msgClose" aria-label="Close">&times;</button>');
+		closeButton.on('click', function () {
+			$("#msg").hide();
+		});
+		$("#msg").prepend(closeButton);
+	}
 }
 function deleteThisRec () {
 	// should only available from edit mode
@@ -536,7 +551,7 @@ function loadedEditRecord(status){
 			}
 		}
 		
-		msg('record failed checks: ' + loadedMsg,'done');
+		msg('record failed checks: ' + loadedMsg,'done',true);
 	} else {
 		console.log('false loadedEditRecord+loadedMsg='+loadedMsg);
 		if ($("#selectbrowse").val()==$("#selectbrowse option:last").val()){
