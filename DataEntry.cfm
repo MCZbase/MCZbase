@@ -1988,9 +1988,10 @@ Some Totally Random String Data .....
 
 <cfset loadedMsg = replace(loadedMsg,"'","`","all")>
 <script language="javascript" type="text/javascript">
+	var MAXTEMPLATE = #MAXTEMPLATE#;
 	switchActive('#orig_lat_long_units#');
-	highlightErrors('#trim(loadedMsg)#');
-	changeMode('#pMode#');
+	highlightErrors('#encodeForJavaScript(trim(loadedMsg))#');
+	changeMode('#encodeForJavaScript(pMode)#', '#encodeForJavaScript(trim(loadedMsg))#');
 	pickedLocality();
 	setAttributeControls();
 </script>

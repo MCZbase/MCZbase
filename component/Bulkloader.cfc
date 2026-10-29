@@ -108,11 +108,18 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------->
 
+<!--- Function loadRecord returns a staged record for the data entry screen, with check_result, the
+	problems bulk_check_one finds in it now, or null if it passes, so the screen shows the record's
+	own status rather than one left from the record shown before. --->
 <cffunction name="loadRecord" access="remote">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfset assertCallerMayUseRecord(collection_object_id=arguments.collection_object_id,verb="see")>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from bulkloader where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="d_result">
+		<!--- Interpolated rather than bound in the function's argument list, as in saveEdits, and
+			safe because the argument is typed numeric. --->
+		SELECT b.*, bulk_check_one(#arguments.collection_object_id#) check_result
+		FROM bulkloader b
+		WHERE b.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 	</cfquery>
 	<cfreturn d>
 </cffunction>

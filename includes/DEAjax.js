@@ -205,22 +205,25 @@ function incCatNum() {
 		);
 	}
 }
-function changeMode (mode) {
-        console.log(mode);
-	var status=$.trim($("#loadedMsgDiv").text());
-        if (status=='null') { status = null; }  
-	if(status){
+/** Sets the form up for entering a new record or editing the one shown.
+ * @param mode enter or edit.
+ * @param status the problems bulk_check_one found in the record shown, or null, empty or
+ *   'waiting approval' when it passes or none applies; a record with problems is shown to be
+ *   fixed, in edit mode, with navigation hidden.
+ */
+function changeMode (mode, status) {
+	status = $.trim(status || '');
+	if (status == 'null' || status == 'waiting approval') {
+		status = '';
+	}
+	if (status) {
 		// got an error - force them to fix it
 		mode='edit';
-	} else { 
-	   status=$.trim($("#loaded").val());
-           if (status=='waiting approval') { status = null; }  
-           if (status!=null) { 
-	      $("#loadedMsgDiv").text(status);
-           }
-        }
-        console.log(status);
-        console.log(mode);
+		$("#loadedMsgDiv").text(status).show();
+	} else {
+		// passes, so no message left over from the last record shown
+		$("#loadedMsgDiv").text('').hide();
+	}
 	$(".hasProbs").removeClass();
 	if (mode == 'edit') {
 		$("#customizeForm").hide(); //Save This As A New Record
@@ -261,7 +264,7 @@ console.log('b');
 function createClone() {
 	yesChange = window.confirm('You will lose any unsaved changes. Continue?');
 	if (yesChange == true) {
-		changeMode('enter');
+		changeMode('enter', null);
 	}	
 }
 function setPagePrefs(){
@@ -381,9 +384,8 @@ function saveNewRecord () {
 				$("#collection_object_id").val(coid);
 				if (status){
 					msg(status,'err');
-					$("#loadedMsgDiv").text(status).show();
 					// dump the result into edit mode
-					loadedEditRecord();
+					loadedEditRecord(status);
 				} else {
 					msg('inserted ' + coid,'good');
 					var o='<option value="' + coid + '">' + coid + '</option>';
@@ -407,7 +409,7 @@ function saveNewRecord () {
 					}
 					// switch to enter mode
 					$("#action").val('editMode');
-					changeMode('edit');
+					changeMode('edit', null);
 					// reapple any customizations, etc.
 					setPagePrefs();
 				}
@@ -439,8 +441,7 @@ function saveEditedRecord () {
 				var status=r.DATA.RSLT[0];
 				console.log('saveEditedRecord back with msg ' + status);
 				msg(status,'done');
-				$("#loadedMsgDiv").text(status);
-				loadedEditRecord();
+				loadedEditRecord(status);
 			},
 			error: function( result, strError ){
 				alert('Error saving edits: ' + strError);
@@ -453,13 +454,15 @@ function saveEditedRecord () {
 	}
 }
 
-function loadedEditRecord(){
-        console.log('loadedEditRecord()');
+/** Shows a record just saved in edit mode, highlighting its problems, if any.  Not for enter mode.
+ * @param status the problems bulk_check_one found in the record, or null when it passes.
+ */
+function loadedEditRecord(status){
 	// show errors and set the form up to deal with them if necessary
-	// used by saveEditedRecord and loadRecordEdit
-	// this function is NOT suitable for enter mode calls
-	//console.log('loadedEditRecord');
-	if ($("#collection_object_id").val()< "#MAXTEMPLATE"){
+	// used by saveEditedRecord and saveNewRecord
+	var coid = $("#collection_object_id").val();
+	// MAXTEMPLATE comes from DataEntry.cfm; templates have collection_object_id up to it
+	if (coid !== '' && typeof MAXTEMPLATE !== 'undefined' && Number(coid) <= MAXTEMPLATE){
 		// one of the templates
 		//var loadedMsg='';
 		alert('edit template - bad');
@@ -467,7 +470,7 @@ function loadedEditRecord(){
 	} 
 	// make sure everything is on - override any user customizations	
 	$("div[id^='d_']").show();
-	var loadedMsg=$.trim($("#msg").text());
+	var loadedMsg=$.trim(status || '');
 	//console.log('loadedMsg='+loadedMsg);	
 	$(".hasProbs").removeClass();
 	//console.log('loadedMsg='+loadedMsg);
@@ -517,7 +520,7 @@ function loadedEditRecord(){
 		//$("#loadedMsgDiv").hide();
 		msg('record loaded - passed checks','good');
 	}
-        changeMode('edit');
+        changeMode('edit', loadedMsg);
 	console.log('collection_object_id='+$("#collection_object_id").val());
 	$("#selectbrowse").val($("#collection_object_id").val());
 	// force attribute check
@@ -567,8 +570,8 @@ function loadRecordEdit (collection_object_id) {
          if ($("#selectbrowse").val()==$("#selectbrowse option:first").val()){
             $("#pBrowse").hide();
          }
-         // turn some form stuff on/off as appropriate
-         changeMode('edit');
+         // turn some form stuff on/off as appropriate, for this record's own problems
+         changeMode('edit', r.DATA.CHECK_RESULT[0]);
          msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
       }
    );
@@ -610,7 +613,7 @@ function loadRecordEnter(collection_object_id){
          $("#other_id_num_type_5").val($("#sessioncustomotheridentifier").val());
          $("#loaded").val('waiting approval');
          // turn some form stuff on/off as appropriate
-         changeMode('enter');
+         changeMode('enter', null);
          msg('record ' + r.DATA.COLLECTION_OBJECT_ID[0] + ' loaded','good');
       }
    );
@@ -621,7 +624,6 @@ function editThis(){
 	if (yesChange == true) {
 		loadRecordEdit($("#collection_object_id").val());
 		$("#selectbrowse").val($("#collection_object_id").val());
-		changeMode('edit');
 	}
 }
 
@@ -1007,7 +1009,7 @@ function click_changeMode (mode,collobjid) {
 		if (mode == 'edit') {
 				document.location='DataEntry.cfm?collection_object_id=' + collobjid + '&pMode=edit&action=editEnterData';
 		} else {
-			changeMode(mode,collobjid);
+			changeMode(mode, null);
 			
 		}
 	}	
