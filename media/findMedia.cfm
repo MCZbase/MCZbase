@@ -576,6 +576,7 @@ limitations under the License.
 															<option value="#media_label#" #selected#>#media_label#</option>
 														</cfloop>
 													</select>
+													<label for="media_label_value" class="sr-only">Any Other Label value</label>
 													<input type="text" id="media_label_value" name="media_label_value" class="col-6" value="#encodeForHtml(media_label_value)#">
 													<script>
 														$(document).ready(function() {
@@ -790,6 +791,7 @@ limitations under the License.
 														<option value="#media_relationship#" #selected#>#media_relationship#</option>
 													</cfloop>
 												</select>
+												<label for="media_relationship_value" class="sr-only">Relationship value</label>
 												<input type="text" id="media_relationship_value" name="media_relationship_value" class="float-left d-inline col-6" value="#encodeForHtml(media_relationship_value)#">
 												<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
 												<script>
@@ -824,6 +826,7 @@ limitations under the License.
 														<option value="#media_relationship#" #selected#>#media_relationship#</option>
 													</cfloop>
 												</select>
+												<label for="media_relationship_value_1" class="sr-only">Second relationship value</label>
 												<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="col-6 float-left d-inline" value="#encodeForHtml(media_relationship_value_1)#">
 												<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
 												<script>
