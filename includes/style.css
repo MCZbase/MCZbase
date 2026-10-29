@@ -5163,6 +5163,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:11px;
 }
+/* data entry: the value and units controls of the flexible attribute rows, a fixed width whatever
+	the length of their code table terms, so long terms cannot push the other fields aside */
+#theTable .attributeValueControl {
+	width:100px;
+	box-sizing:border-box;
+}
+#theTable .attributeUnitsControl {
+	width:40px;
+	box-sizing:border-box;
+}
 /* data entry: an attribute value or units no longer in its code table, kept as stored */
 .notCurrentTerm {
 	background-color:#ffc107;

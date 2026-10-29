@@ -1719,13 +1719,7 @@ function success_getAttributeStuff (r, keep, attribute, keepValue, keepUnits) {
 			var theNewSelect = document.createElement('SELECT');
 			theNewSelect.name = theSelectName;
 			theNewSelect.id = theSelectName;
-			if (resType == 'units') {
-				var sWid = '60px;';
-			} else {
-				var sWid = '90px;';
-			}
-			theNewSelect.style.width=sWid;
-			theNewSelect.className = "";
+			theNewSelect.className = (resType == 'units') ? 'attributeUnitsControl' : 'attributeValueControl';
 			var a = document.createElement("option");
 			a.text = '';
     		a.value = '';
@@ -1780,7 +1774,7 @@ function selectKeptTerm (theSelect, term) {
 	a.text = term + ' (not a current term)';
 	theSelect.appendChild(a);
 	theSelect.value = term;
-	theSelect.className = 'notCurrentTerm';
+	$(theSelect).addClass('notCurrentTerm');
 	theSelect.onchange = function () {
 		$(this).toggleClass('notCurrentTerm', $(this).val() == term);
 	};
@@ -1795,8 +1789,7 @@ function attributeTextInput (name, value) {
 	theNewText.name = name;
 	theNewText.id = name;
 	theNewText.type = "text";
-	theNewText.style.width = '95px';
-	theNewText.className = "";
+	theNewText.className = (name.indexOf('attribute_units_') == 0) ? 'attributeUnitsControl' : 'attributeValueControl';
 	theNewText.value = value;
 	return theNewText;
 }
@@ -1825,9 +1818,11 @@ function resetAttributeControls () {
 		if (/^attribute_\d+$/.test(this.id)) {
 			var rowNumber = this.id.replace('attribute_', '');
 			$('#attribute_value_cell_' + rowNumber).html('<input type="text" title="ATTRIBUTE_VALUE_' + rowNumber
-				+ '" name="attribute_value_' + rowNumber + '" id="attribute_value_' + rowNumber + '" size="14">');
+				+ '" name="attribute_value_' + rowNumber + '" id="attribute_value_' + rowNumber
+				+ '" size="14" class="attributeValueControl">');
 			$('#attribute_units_cell_' + rowNumber).html('<input type="text" title="ATTRIBUTE_UNITS_' + rowNumber
-				+ '" name="attribute_units_' + rowNumber + '" id="attribute_units_' + rowNumber + '" size="4">');
+				+ '" name="attribute_units_' + rowNumber + '" id="attribute_units_' + rowNumber
+				+ '" size="4" class="attributeUnitsControl">');
 		}
 	});
 }

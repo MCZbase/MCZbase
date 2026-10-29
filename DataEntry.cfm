@@ -1616,13 +1616,13 @@ Some Totally Random String Data .....
 										<td>
 											<div id="attribute_value_cell_#i#">
 												<input type="text" title="ATTRIBUTE_VALUE_#i#" name="attribute_value_#i#" value="#evaluate("data.attribute_value_" & i)#"
-													id="attribute_value_#i#"size="14">
+													id="attribute_value_#i#" size="14" class="attributeValueControl">
 											</div>
 										</td>
 										<td>
 											<div id="attribute_units_cell_#i#">
 											<input type="text" title="ATTRIBUTE_UNITS_#i#" name="attribute_units_#i#"  value="#evaluate("data.attribute_units_" & i)#"
-												id="attribute_units_#i#" size="4">
+												id="attribute_units_#i#" size="4" class="attributeUnitsControl">
 											</div>
 										</td>
 										<td>
