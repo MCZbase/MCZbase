@@ -205,11 +205,13 @@ function incCatNum() {
 		);
 	}
 }
-/** Sets the form up for entering a new record or editing the one shown.
+/** Sets the form up for entering a new record or editing the one shown, and records which in the
+ * browser's address.
  * @param mode enter or edit.
  * @param status the problems bulk_check_one found in the record shown, or null, empty or
  *   'waiting approval' when it passes or none applies; a record with problems is shown to be
  *   fixed, in edit mode, with navigation hidden.
+ * @see showRecordInAddress
  */
 function changeMode (mode, status) {
 	status = $.trim(status || '');
@@ -260,6 +262,31 @@ console.log('b');
 	}
 	$("#splash").hide();
 	$("#theTable").show();	
+	showRecordInAddress(mode);
+}
+/** Puts the record shown and the mode in the browser's address, so that a reload shows them again
+ * rather than repeating the request that opened the page, often the post of a template from the
+ * start page, which would show that template in entry mode.  Carries the record set being
+ * navigated, which DataEntry.cfm also reads from the url.
+ * @param mode enter or edit.
+ */
+function showRecordInAddress (mode) {
+	var coid = $("#collection_object_id").val();
+	if (!coid || !window.history || !window.history.replaceState) {
+		return;
+	}
+	var address = '/DataEntry.cfm?action=editEnterData&pMode=' + encodeURIComponent(mode)
+		+ '&collection_object_id=' + encodeURIComponent(coid);
+	if ($("#showAllUsers").val() == 'true') {
+		address += '&showAllUsers=true';
+	}
+	$.each(['accn2', 'colln2', 'enteredby2'], function (i, field) {
+		var value = $("#" + field).val();
+		if (value) {
+			address += '&' + field + '=' + encodeURIComponent(value);
+		}
+	});
+	window.history.replaceState(null, '', address);
 }
 function createClone() {
 	yesChange = window.confirm('You will lose any unsaved changes. Continue?');
