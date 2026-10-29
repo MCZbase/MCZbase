@@ -143,7 +143,13 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxnumberinput.js"></script>
 </cfif>
 
-<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+<!--- Versioned by last-modified time, as tabulator-common.js is below; pages call functions such as mczMakeComboBoxAccessible that a stale cached copy lacks. --->
+<cfset variables.sharedScriptsVersion = "">
+<cfset variables.sharedScriptsPath = expandPath("/shared/js/shared-scripts.js")>
+<cfif fileExists(variables.sharedScriptsPath)>
+	<cfset variables.sharedScriptsVersion = dateTimeFormat(getFileInfo(variables.sharedScriptsPath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<script type="text/javascript" src="/shared/js/shared-scripts.js?v=#encodeForUrl(variables.sharedScriptsVersion)#"></script>
 <!--- Pages with a Tabulator grid; only these load tabulator-common.js. --->
 <cfset variables.TABULATOR_PAGES = "/Projects.cfm">
 <cfif listFindNoCase(variables.TABULATOR_PAGES, CGI.script_name) GT 0>

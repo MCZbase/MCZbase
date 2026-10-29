@@ -398,6 +398,7 @@
 																		</cfloop>
 																	];
 																	$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
+																	mczMakeComboBoxAccessible("fixedCollection", "Collection");
 																	setFixedCollectionValues();
 																});
 															</script> 
@@ -438,6 +439,7 @@
 																		</cfloop>
 																	];
 																	$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '20px', width: '100%' });
+																	mczMakeComboBoxAccessible("other_id_type", "Other ID Type");
 																	setOtherIdTypeValues();
 																});
 															</script> 
@@ -485,6 +487,7 @@
 																				</cfloop>
 																			];
 																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '20px', width: '100%' });
+																			mczMakeComboBoxAccessible("other_id_type_1", "Other ID Type");
 																			setOtherIdType_1_Values();
 																		});
 																	</script> 
@@ -2119,6 +2122,7 @@
 																	</cfloop>
 																];
 																$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
+																mczMakeComboBoxAccessible("keywordCollection", "Limit to Collection(s)");
 																setKeywordCollectionValues();
 															});
 														</script> 
@@ -2431,6 +2435,7 @@
 																		dropDownHeight: 400,
 																		height: '22px'
 																	});
+																	mczMakeComboBoxAccessible("field1", "Search Field");
 																	// bind an autocomplete, if one applies
 																	handleFieldSetup('field1',1);
 																	console.log("field1 setup");
@@ -2562,6 +2567,7 @@
 																					dropDownHeight: 400,
 																					height: '24px'
 																				});
+																				mczMakeComboBoxAccessible("field#row#", "Search Field #row#");
 																				// bind an autocomplete, if one applies.
 																				handleFieldSetup('field#row#',#row#);
 																				console.log("Setup #row#");
@@ -2745,6 +2751,7 @@
 															dropDownHeight: 400,
 															height: '20px'
 														});
+														mczMakeComboBoxAccessible("field" + row, "Search Field " + row);
 														$('##field'+row).on("change", function(event) { 
 															handleFieldSelection('field' + row, row);
 														});

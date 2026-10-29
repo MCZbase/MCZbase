@@ -275,6 +275,7 @@ limitations under the License.
 												<script>
 													$(document).ready(function () {
 														$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', height: '20px',enableBrowserBoundsDetection: true });  
+														mczMakeComboBoxAccessible("mime_type", "MIME Type");
 														<cfloop list="#selectedmimetypelist#" index="mt">
 															$("##mime_type").jqxComboBox('selectItem', '#mt#');
 														</cfloop>
@@ -362,6 +363,7 @@ limitations under the License.
 												<script>
 													$(document).ready(function () {
 														$("##extension").jqxComboBox({  multiSelect: true, height: '20px', width: '100%', enableBrowserBoundsDetection: true });  
+														mczMakeComboBoxAccessible("extension", "Extension");
 														<cfloop list="#selectedextensionlist#" index="ext">
 															$("##extension").jqxComboBox('selectItem', '#ext#');
 														</cfloop>

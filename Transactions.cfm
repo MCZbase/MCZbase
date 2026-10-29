@@ -1207,6 +1207,7 @@ limitations under the License.
 																	</cfloop>
 																];
 																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
+																mczMakeComboBoxAccessible("coll_obj_disposition", "Part Disposition");
 																setDispositionValues();
 															});
 														</script> 
@@ -1628,6 +1629,7 @@ limitations under the License.
 																	</cfloop>
 																];
 																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
+																mczMakeComboBoxAccessible("accn_coll_obj_disposition", "Part Disposition");
 																setAccnDispositionValues();
 															});
 														</script> 
@@ -2117,6 +2119,7 @@ limitations under the License.
 																	</cfloop>
 																];
 																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
+																mczMakeComboBoxAccessible("deacc_coll_obj_disposition", "Part Disposition");
 																setDeaccDispositionValues();
 															});
 														</script> 

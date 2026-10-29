@@ -489,6 +489,7 @@ limitations under the License.
 											</cfloop>
 											];
 											$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
+											mczMakeComboBoxAccessible("filterFamily", "Filter by Families");
 										});
 									</script> 
 								</div>
