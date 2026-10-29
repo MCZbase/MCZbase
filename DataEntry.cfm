@@ -1992,6 +1992,7 @@ Some Totally Random String Data .....
 	highlightErrors('#trim(loadedMsg)#');
 	changeMode('#pMode#');
 	pickedLocality();
+	setAttributeControls();
 </script>
 <cfif isdefined("session.rememberLastOtherId") and session.rememberLastOtherId is 1 and pMode is "enter">
 	<cftry>

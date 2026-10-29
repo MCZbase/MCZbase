@@ -5163,6 +5163,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:11px;
 }
+/* data entry: an attribute value or units no longer in its code table, kept as stored */
+.notCurrentTerm {
+	background-color:#ffc107;
+}
 #theTable .infoLink {
     color:blue;
     font-size: 11px;

@@ -550,12 +550,14 @@ function loadRecordEdit (collection_object_id) {
       },
       function(r) {
          var columns=r.COLUMNS;
+         resetAttributeControls();
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
             var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }
+         setAttributeControls();
          $("#selectbrowse").val(r.DATA.COLLECTION_OBJECT_ID[0]);
          $("#pBrowse").show();
          $("#nBrowse").show();
@@ -586,12 +588,14 @@ function loadRecordEnter(collection_object_id){
       },
       function(r) {
          var columns=r.COLUMNS;
+         resetAttributeControls();
          for (i=0;i<columns.length;i++) {
             var cName=columns[i];
             var cVal=r.DATA[columns[i]];
             var eName=cName.toLowerCase();
             $("#" + eName).val(cVal);
          }
+         setAttributeControls();
          $("#selectbrowse").val(r.DATA.COLLECTION_OBJECT_ID[0]);
          $("#pBrowse").show();
          $("#nBrowse").show();
@@ -1631,11 +1635,25 @@ function catNumSeq () {
 		);
 	}
 }
-function getAttributeStuff (attribute,element) {
+/** Sets a flexible attribute row's value and units controls for its attribute: a select of the
+ * code table terms where the attribute's value or units come from a code table, text inputs
+ * otherwise.
+ * @param attribute the attribute type chosen in the row.
+ * @param element the id of the row's attribute select, attribute_n.
+ * @param keepValue optional, the row's stored value, kept in the rebuilt controls; when omitted, as
+ *   when the user changes the attribute, the row's value and units are cleared.
+ * @param keepUnits optional, the row's stored units, kept as keepValue is.
+ * @see setAttributeControls
+ */
+function getAttributeStuff (attribute,element,keepValue,keepUnits) {
 	var isSomething = attribute.length;
+	var keep = (typeof keepValue !== 'undefined');
 	if (isSomething > 0) {
 		var optn = document.getElementById(element);
-		optn.style.backgroundColor='red';
+		if (!keep) {
+			// not when a record is shown, where every row would flash
+			optn.style.backgroundColor='red';
+		}
 		var thisCC = document.getElementById('collection_cde').value;
 		jQuery.getJSON("/component/DataEntry.cfc",
 			{
@@ -1646,16 +1664,31 @@ function getAttributeStuff (attribute,element) {
 				returnformat : "json",
 				queryformat : 'column'
 			},
-			success_getAttributeStuff
+			function (r) {
+				success_getAttributeStuff(r, keep, attribute, keepValue, keepUnits);
+			}
 		);
 	}
 }
-function success_getAttributeStuff (r) {
+/** Builds a row's value and units controls from the code table terms getAttCodeTbl returns.
+ * @param r the getAttCodeTbl result: the kind of control, the attribute select's id, the terms.
+ * @param keep whether to keep the row's stored value and units.
+ * @param attribute the attribute the terms were fetched for.
+ * @param keepValue the stored value to keep, if keep.
+ * @param keepUnits the stored units to keep, if keep.
+ */
+function success_getAttributeStuff (r, keep, attribute, keepValue, keepUnits) {
 	var result=r.DATA;
 	var resType=result.V[0];
 	var theEl=result.V[1];
 	var optn = document.getElementById(theEl);
 	optn.style.backgroundColor='';
+	// the user changed the attribute while its terms were fetched; leave the row to that change
+	if (keep && $("#" + theEl).val() != attribute) {
+		return;
+	}
+	keepValue = keepValue || '';
+	keepUnits = keepUnits || '';
 	var n=result.V.length;
 	var theNumber = theEl.replace("attribute_","");
 	if (resType == 'value') {
@@ -1677,9 +1710,12 @@ function success_getAttributeStuff (r) {
 	var theDiv = document.getElementById(theDivName);
 	var theText = document.getElementById(theTextDivName);
 	if (resType == 'value' || resType == 'units') {
+		// the stored term for the select, and the stored entry for the other control
+		var keptTerm = (resType == 'value') ? keepValue : keepUnits;
+		var keptText = (resType == 'value') ? keepUnits : keepValue;
 		theDiv.innerHTML = ''; // clear it out
 		theText.innerHTML = '';
-		if (n > 2) {
+		if (n > 2 || (keep && keptTerm != '')) {
 			var theNewSelect = document.createElement('SELECT');
 			theNewSelect.name = theSelectName;
 			theNewSelect.id = theSelectName;
@@ -1701,28 +1737,97 @@ function success_getAttributeStuff (r) {
 				a.value = theStr;
 				theNewSelect.appendChild(a);
 			}
-			theDiv.appendChild(theNewSelect);
-			if (resType == 'units') {
-				var theNewText = document.createElement('INPUT');
-				theNewText.name = theTextName;
-				theNewText.id = theTextName;	
-				theNewText.type="text";
-				theNewText.style.width='95px';
-				theNewText.className = "";
-				theText.appendChild(theNewText);
+			if (keep) {
+				selectKeptTerm(theNewSelect, keptTerm);
 			}
+			theDiv.appendChild(theNewSelect);
+		}
+		// a units code table leaves the value as text; stored units with a value code table are
+		// kept as text too, as nothing else would post them
+		if ((resType == 'units' && n > 2) || (keep && keptText != '')) {
+			theText.appendChild(attributeTextInput(theTextName, keptText));
 		}
 	} else if (resType == 'NONE') {
 		theDiv.innerHTML = '';
 		theText.innerHTML = '';
-		var theNewText = document.createElement('INPUT');
-		theNewText.name = theSelectName;
-		theNewText.id = theSelectName;	
-		theNewText.type="text";
-		theNewText.style.width='95px';
-		theNewText.className = "";
-		theDiv.appendChild(theNewText);
-	} else {
+		theDiv.appendChild(attributeTextInput(theSelectName, keep ? keepValue : ''));
+		// no code table and so no units control, but stored units are kept
+		if (keep && keepUnits != '') {
+			theText.appendChild(attributeTextInput(theTextName, keepUnits));
+		}
+	} else if (!keep) {
 		alert('Something bad happened! Try selecting nothing, then re-selecting an attribute or reloading this page');
 	}
+	// when a record is shown, an attribute without a usable code table keeps its text inputs
+}
+/** Selects a stored term in a code table select, adding it, marked as not a current term, when it
+ * is no longer in the code table, so that it is shown and saves unchanged.
+ * @param theSelect the select of code table terms.
+ * @param term the stored term, or an empty string.
+ */
+function selectKeptTerm (theSelect, term) {
+	if (term == '') {
+		return;
+	}
+	for (var i = 0; i < theSelect.options.length; i++) {
+		if (theSelect.options[i].value == term) {
+			theSelect.value = term;
+			return;
+		}
+	}
+	var a = document.createElement("option");
+	a.value = term;
+	a.text = term + ' (not a current term)';
+	theSelect.appendChild(a);
+	theSelect.value = term;
+	theSelect.className = 'notCurrentTerm';
+	theSelect.onchange = function () {
+		$(this).toggleClass('notCurrentTerm', $(this).val() == term);
+	};
+}
+/** A text input for an attribute value or units.
+ * @param name the name and id of the input.
+ * @param value the value to show.
+ * @return the input element.
+ */
+function attributeTextInput (name, value) {
+	var theNewText = document.createElement('INPUT');
+	theNewText.name = name;
+	theNewText.id = name;
+	theNewText.type = "text";
+	theNewText.style.width = '95px';
+	theNewText.className = "";
+	theNewText.value = value;
+	return theNewText;
+}
+/** Sets the value and units controls of each flexible attribute row for its attribute, keeping the
+ * row's stored value and units; called when a record is shown.  The flexible rows are found from
+ * the form: their attribute is a select with id attribute_n, where the fixed rows carry hidden
+ * inputs.
+ * @see getAttributeStuff
+ */
+function setAttributeControls () {
+	$('select[id^="attribute_"]').each(function () {
+		if (/^attribute_\d+$/.test(this.id) && $(this).val()) {
+			var rowNumber = this.id.replace('attribute_', '');
+			getAttributeStuff($(this).val(), this.id,
+				$('#attribute_value_' + rowNumber).val() || '',
+				$('#attribute_units_' + rowNumber).val() || '');
+		}
+	});
+}
+/** Puts each flexible attribute row's value and units back to text inputs, as DataEntry.cfm renders
+ * them, so that a record's values can be set with val() whatever controls the previous record left;
+ * setAttributeControls then sets the controls for the new record.
+ */
+function resetAttributeControls () {
+	$('select[id^="attribute_"]').each(function () {
+		if (/^attribute_\d+$/.test(this.id)) {
+			var rowNumber = this.id.replace('attribute_', '');
+			$('#attribute_value_cell_' + rowNumber).html('<input type="text" title="ATTRIBUTE_VALUE_' + rowNumber
+				+ '" name="attribute_value_' + rowNumber + '" id="attribute_value_' + rowNumber + '" size="14">');
+			$('#attribute_units_cell_' + rowNumber).html('<input type="text" title="ATTRIBUTE_UNITS_' + rowNumber
+				+ '" name="attribute_units_' + rowNumber + '" id="attribute_units_' + rowNumber + '" size="4">');
+		}
+	});
 }
