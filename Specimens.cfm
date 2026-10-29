@@ -2745,10 +2745,8 @@
 															dropDownHeight: 400,
 															height: '20px'
 														});
-														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 														$('##field'+row).on("change", function(event) { 
-															var handleSelect = new Function(handleSelectString);
-															handleSelect();
+															handleFieldSelection('field' + row, row);
 														});
 														$('##openParens'+row).on("change", function(event) { isNestingOk(); } )
 														$('##closeParens'+row).on("change", function(event) { isNestingOk(); } )
