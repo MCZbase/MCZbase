@@ -205,6 +205,14 @@ function incCatNum() {
 		);
 	}
 }
+/** A record's check result for display, without the separator bulk_check_one puts before its first
+ * problem.
+ * @param status the problems bulk_check_one found, or null.
+ * @return the problems as text, or an empty string.
+ */
+function checkResultText (status) {
+	return $.trim(status || '').replace(/^;\s*/, '');
+}
 /** Sets the form up for entering a new record or editing the one shown, and records which in the
  * browser's address.
  * @param mode enter or edit.
@@ -214,7 +222,7 @@ function incCatNum() {
  * @see showRecordInAddress
  */
 function changeMode (mode, status) {
-	status = $.trim(status || '');
+	status = checkResultText(status);
 	if (status == 'null' || status == 'waiting approval') {
 		status = '';
 	}
@@ -407,7 +415,7 @@ function saveNewRecord () {
 			success: function(r) {
 				var pmode= 'enter';
 				var coid=r.DATA.COLLECTION_OBJECT_ID[0];
-				var status=r.DATA.RSLT[0];
+				var status=checkResultText(r.DATA.RSLT[0]);
 				$("#collection_object_id").val(coid);
 				if (status){
 					msg(status,'err');
@@ -465,7 +473,7 @@ function saveEditedRecord () {
 			},
 			success: function( r ){
 				var coid=r.DATA.COLLECTION_OBJECT_ID[0];
-				var status=r.DATA.RSLT[0];
+				var status=checkResultText(r.DATA.RSLT[0]);
 				console.log('saveEditedRecord back with msg ' + status);
 				msg(status,'done');
 				loadedEditRecord(status);
@@ -497,7 +505,7 @@ function loadedEditRecord(status){
 	} 
 	// make sure everything is on - override any user customizations	
 	$("div[id^='d_']").show();
-	var loadedMsg=$.trim(status || '');
+	var loadedMsg=checkResultText(status);
 	//console.log('loadedMsg='+loadedMsg);	
 	$(".hasProbs").removeClass();
 	//console.log('loadedMsg='+loadedMsg);
