@@ -5163,6 +5163,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:11px;
 }
+/* data entry: the value and units controls of the flexible attribute rows, a fixed width whatever
+	the length of their code table terms, so long terms cannot push the other fields aside */
+#theTable .attributeValueControl {
+	width:100px;
+	box-sizing:border-box;
+}
+#theTable .attributeUnitsControl {
+	width:40px;
+	box-sizing:border-box;
+}
+/* data entry: an attribute value or units no longer in its code table, kept as stored */
+.notCurrentTerm {
+	background-color:#ffc107;
+}
 #theTable .infoLink {
     color:blue;
     font-size: 11px;
@@ -5299,6 +5313,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b58aa5', end
 	width:8%;
 	border:2px solid black;
 	background-color:white;
+}
+/* data entry status box: a long message, such as a record's failed checks, grows wider and scrolls
+	rather than wrapping into a column that runs off the screen; div, as contact.cfm has a textarea
+	with id msg */
+div#msg {
+	width:auto;
+	min-width:8%;
+	max-width:40%;
+	max-height:60vh;
+	overflow-y:auto;
+	overflow-wrap:anywhere;
+	text-align:left;
+}
+/* data entry status box: the button that closes a message which stays until read */
+div#msg .msgClose {
+	float:right;
+	margin-left:0.5em;
+	padding:0 0.25em;
+	border:none;
+	background:none;
+	font-size:24px;
+	line-height:1;
+	cursor:pointer;
 }
 .bad{
     color:red;

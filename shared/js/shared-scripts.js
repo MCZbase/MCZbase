@@ -13,6 +13,39 @@ jQuery(document).on("dialogcreate", function (event) {
 		.attr("aria-label", "Close");
 });
 
+/** Give a jqxComboBox the names and role its own markup leaves out.  The text box the
+ * widget creates inside its host is not the element a <label for> points at, so it has
+ * no accessible name (axe label, WCAG 4.1.2), and the drop down arrow is a role="button"
+ * div with no name (axe aria-command-name).  When the combobox is made from a <select>,
+ * the widget puts role="combobox" on the select it hides rather than on the div that
+ * takes the select's id, leaving that div with combobox aria- attributes and no role
+ * (axe aria-allowed-attr).  The text box is named by the visible label, through
+ * aria-labelledby, so the name read and the name a voice control user sees stay the same.
+ * Call immediately after the jqxComboBox is created, its inner elements don't exist before.
+ *
+ * @param comboBoxId the id of the element the jqxComboBox was created on, without a leading #.
+ * @param fallbackName the name to use when no label points at the combobox.
+ */
+function mczMakeComboBoxAccessible(comboBoxId, fallbackName) {
+	var host = $("#" + comboBoxId);
+	var label = $('label[for="' + comboBoxId + '"]');
+	var input = host.find("input.jqx-combobox-input");
+	var name = fallbackName;
+	if (!host.attr("role")) {
+		host.attr("role", "combobox");
+	}
+	if (label.length) {
+		name = $.trim(label.first().text());
+		if (!label.first().attr("id")) {
+			label.first().attr("id", comboBoxId + "Label");
+		}
+		input.attr("aria-labelledby", label.first().attr("id"));
+	} else {
+		input.attr("aria-label", name);
+	}
+	host.find('[id^="dropdownlistArrow"]').attr("aria-label", "Show " + name + " options");
+}
+
 
 
 

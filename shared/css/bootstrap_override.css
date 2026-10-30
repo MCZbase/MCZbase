@@ -459,10 +459,21 @@ button#showRelatedDataBtn.btn-xs {
 .btn-outline-primary {
 	background-color: white;
 }
+/** White on Bootstrap's #17a2b8 is about 3:1, short of the 4.5:1 WCAG 1.4.3 requires for button text;
+	#117a8b, Bootstrap's own darker info shade, is about 5:1, and its hover and pressed shade darker still. **/
 .btn-info {
 	color: #fff;
-	background-color: #17a2b8;
+	background-color: #117a8b;
 	border: 1px solid hsl(0, 0%, 62%);
+}
+.btn-info:hover, .btn-info:focus, .btn-info:not(:disabled):not(.disabled):active {
+	color: #fff;
+	background-color: #0f6674;
+}
+/** Bootstrap's #6c757d is under 4.5:1 on the light grey of search forms and fieldsets (#f5f5f5, #f8f9fa),
+	and it is used there for small hint text such as "(yyyy or yyyy-mm-dd)"; #5a6268 is about 5.7:1 on both. **/
+.text-secondary {
+	color: #5a6268 !important;
 }
 .btn-outline-success {
 	color: #18780b;
