@@ -143,7 +143,13 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxnumberinput.js"></script>
 </cfif>
 
-<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
+<!--- Versioned by last-modified time, as tabulator-common.js is below; pages call functions such as mczMakeComboBoxAccessible that a stale cached copy lacks. --->
+<cfset variables.sharedScriptsVersion = "">
+<cfset variables.sharedScriptsPath = expandPath("/shared/js/shared-scripts.js")>
+<cfif fileExists(variables.sharedScriptsPath)>
+	<cfset variables.sharedScriptsVersion = dateTimeFormat(getFileInfo(variables.sharedScriptsPath).lastModified, "yyyymmddHHnnss")>
+</cfif>
+<script type="text/javascript" src="/shared/js/shared-scripts.js?v=#encodeForUrl(variables.sharedScriptsVersion)#"></script>
 <!--- Pages with a Tabulator grid; only these load tabulator-common.js. --->
 <cfset variables.TABULATOR_PAGES = "/Projects.cfm">
 <cfif listFindNoCase(variables.TABULATOR_PAGES, CGI.script_name) GT 0>
@@ -335,8 +341,8 @@ limitations under the License.
 							<label for="username" class="sr-only"> Username:</label>
 							<input type="text" name="username" id="username" placeholder="username" autocomplete="username" class="loginButtons" style="width:100px;">
 							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="off" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
+							<input type="password" id="password" name="password" autocomplete="off" placeholder="password" class="loginButtons" style="width: 80px;">
+							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons">
 						</div>
 					</form>
 				</cfif>
@@ -846,11 +852,9 @@ limitations under the License.
 						<label for="username" class="sr-only"> Username:</label>
 						<input type="text" name="username" id="username" placeholder="username" class="loginfields d-inline loginButtons loginfld1">
 						<label for="password" class="mr-1 sr-only"> Password:</label>
-						<input type="password" id="password" name="password" autocomplete="off" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
-						<label for="login" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-						<label for="create_account" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
+						<input type="password" id="password" name="password" autocomplete="off" placeholder="password" class="loginButtons loginfields d-inline loginfld2">
+						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" onClick="logIn.action.value='signIn';submit();">
+						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();">
 					</div>
 				</form>
 			</cfif>
