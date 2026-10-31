@@ -24,10 +24,10 @@
 
 <cfif action is "cat_num">
 <cfquery name="what" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select collection from collection where collection_id=#collection_id#
+	select collection from collection where collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 </cfquery>
 <cfquery name="prefixes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select distinct nvl(cat_num_prefix,'[no prefix]') catnumprefix, cat_num_prefix from cataloged_item where collection_id=#collection_id# order by catnumprefix
+	select distinct nvl(cat_num_prefix,'[no prefix]') catnumprefix, cat_num_prefix from cataloged_item where collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> order by catnumprefix
 </cfquery>
 <cfoutput>
 <b>The following catalog number gaps exist in the #what.collection# collection.</b> <a href="./findGap.cfm">Reset</a>
@@ -62,7 +62,7 @@
 	 	FROM
 			cataloged_item
 		where
-			collection_id=#collection_id#
+			collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		<cfif isdefined("filterPrefix") and len(#filterPrefix#) GT 0>
 		AND
 		<cfif filterPrefix EQ "[no prefix]">

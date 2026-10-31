@@ -11,7 +11,7 @@
 			cataloged_item.collection_object_id,
 			collection,
 			cat_num,
-			concatSingleOtherId(cataloged_item.collection_object_id,'#session.customotheridentifier#') AS CustomID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customotheridentifier#">) AS CustomID,
 			concatencumbrances(cataloged_item.collection_object_id) encumbrances,
 			scientific_name,
 			RELATED_COLL_OBJECT_ID,
@@ -69,7 +69,7 @@
 					cataloged_item.collection_object_id,
 					collection,
 					cat_num,
-					concatSingleOtherId(cataloged_item.collection_object_id,'#session.customOtherIdentifier#') AS CustomID,
+					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customOtherIdentifier#">) AS CustomID,
 					concatencumbrances(cataloged_item.collection_object_id) encumbrances,
 					scientific_name,
 					flags,
@@ -105,10 +105,10 @@
 			coll_obj_cont_hist.container_id=thePart.container_id (+) and
 			thePart.parent_container_id = theSheet.container_id (+) and
 			theSheet.parent_container_id = theFolder.container_id (+) and
-			nvl(theSheet.barcode,'noSheet')='#sheetBarcode#' and
-			nvl(theFolder.barcode,'noFolder')='#folderBarcode#' and	
+			nvl(theSheet.barcode,'noSheet')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sheetBarcode#"> and
+			nvl(theFolder.barcode,'noFolder')=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#folderBarcode#"> and	
 			concatencumbrances(cataloged_item.collection_object_id) is null and
-					cataloged_item.collection_object_id = #RELATED_COLL_OBJECT_ID#
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RELATED_COLL_OBJECT_ID#">
 			</cfquery>
 			<tr>
 				<td><a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> (#session.customOtherIdentifier# #CustomID#) <em>#scientific_name#</em></td>
@@ -151,7 +151,7 @@
 	<cfoutput>
 	<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	insert into coll_object_encumbrance (ENCUMBRANCE_ID,COLLECTION_OBJECT_ID) 
-	values (1000025,#id2#)	
+	values (1000025,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">)	
 	</cfquery>
 	done
 	<cfif #autorun# is "yep">

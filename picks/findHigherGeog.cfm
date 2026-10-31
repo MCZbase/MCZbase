@@ -4,17 +4,15 @@
 	You must enter search criteria.
 	<cfabort>
 </cfif>
-<cfset hg = replace(geogString,"'","''","all")>
-	<cfset sql = "select 
+<cfquery name="getGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getGeog_result">
+	select 
 		GEOG_AUTH_REC_ID,
 		HIGHER_GEOG
-		from 
-		geog_auth_rec WHERE 
-		upper(HIGHER_GEOG) LIKE '%#ucase(hg)#%'
-		ORDER BY HIGHER_GEOG">
-	
-<cfquery name="getGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	#preservesinglequotes(sql)#
+	from 
+		geog_auth_rec
+	WHERE 
+		upper(HIGHER_GEOG) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geogString)#%">
+	ORDER BY HIGHER_GEOG
 </cfquery>
 <cfif #getGeog.recordcount# is 1>
 	<cfoutput>

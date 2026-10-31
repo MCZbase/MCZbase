@@ -65,7 +65,7 @@
 			If you are really sure about this, push the button.
 			<br />Otherwise, <a href="/Specimens.cfm">go somewhere safe</a>
 		</p>
-		<input type="button" value="Delete All These Records" onclick="document.location='deleteSpecByEncumbrance.cfm?action=goAway&encumbrance_id=#encumbrance_id#'" />
+		<input type="button" value="Delete All These Records" onclick="document.location='deleteSpecByEncumbrance.cfm?action=goAway&encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">'" />
 	</cfoutput>
 	<cfinclude template="/includes/_footer.cfm">
 </cfif>
@@ -78,7 +78,7 @@
 		from 
 			coll_object_encumbrance
 		where
-			encumbrance_id=#encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 	</cfquery>
 	<cfset catIdList = valuelist(CatCllobjIds.collection_object_id)>	
 	<cfif listlen(catIdList) gt 999>
@@ -90,28 +90,28 @@
 	delete from annotations where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="coll_obj_other_id_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	delete from coll_obj_other_id_num where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	delete from attributes where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="collector" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	delete from collector where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="spcolrem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
@@ -120,7 +120,7 @@
 		(
 			select collection_object_id FROM 
 			coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 	)
 </cfquery>
@@ -129,7 +129,7 @@
 		(
 			select collection_object_id FROM 
 			coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="identification_taxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -138,7 +138,7 @@
 			select identification_id FROM identification where collection_object_id IN 
 			(
 				select collection_object_id FROM coll_object_encumbrance WHERE
-				encumbrance_id = #encumbrance_id#
+				encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 			)
 		)
 </cfquery>
@@ -148,7 +148,7 @@
 			select identification_id FROM identification where collection_object_id IN 
 			(
 				select collection_object_id FROM coll_object_encumbrance WHERE
-				encumbrance_id = #encumbrance_id#
+				encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 			)
 		)
 </cfquery>
@@ -156,46 +156,46 @@
 	delete from identification where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="coll_object_remark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from coll_object_remark where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from BIOL_INDIV_RELATIONS where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="relations_related" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from BIOL_INDIV_RELATIONS where RELATED_COLL_OBJECT_ID IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 <cfquery name="cataloged_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from cataloged_item where collection_object_id IN 
 		(
 			select collection_object_id FROM coll_object_encumbrance WHERE
-			encumbrance_id = #encumbrance_id#
+			encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		)
 </cfquery>
 
 <cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from coll_object_encumbrance where collection_object_id IN 
-		(#catIdList#)
+		(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catIdList#" list="yes">)
 </cfquery>
 
 <cfquery name="coll_object" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	delete from coll_object where collection_object_id IN 
-		(#catIdList#)
+		(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#catIdList#" list="yes">)
 </cfquery>
 
 </cftransaction>

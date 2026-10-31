@@ -134,6 +134,10 @@
 <cfif not isdefined("stop")>
 	<cfset stop=100>
 </cfif>
+<cfif NOT isValid("integer", start) OR NOT isValid("integer", stop)>
+	<cfset start=1>
+	<cfset stop=100>
+</cfif>
 <cfif isdefined("int")>
 	<cfif int is "next">
 		<cfset start=start+100>
@@ -162,8 +166,8 @@
 					per1.person_id != per2.person_id  
 				order by
 					per1.first_name,per1.last_name
-			) a where rownum <= #stop#
-		) where rnum >= #start#
+			) a where rownum <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#stop#">
+		) where rnum >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#start#">
 	</cfquery>
 	#start# to #stop# Persons that share first and last name.
 </cfif>
@@ -190,8 +194,8 @@
 					b.agent_name
 				order by
 					a.agent_name
-			) a where rownum <= #stop#
-		) where rnum >= #start#
+			) a where rownum <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#stop#">
+		) where rnum >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#start#">
 	</cfquery>
         <h2>Duplicate Agents?</h2>
 	#start# to #stop# Agents that fully share a namestring (in orange).
@@ -237,7 +241,7 @@
 					</cfquery>
 					<cfquery name="np1" dbtype="query">
 						select * from one where agent_name_type!='preferred' and
-						agent_name != '#name1#'
+						agent_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name1#">
 						order by agent_name
 					</cfquery>
 					<div style="padding-left: 1.5em;font-weight: 562;">
@@ -414,7 +418,7 @@
 					</cfquery>
 					<cfquery name="np2" dbtype="query">
 						select * from two where agent_name_type!='preferred' and
-						agent_name != '#name2#'
+						agent_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name2#">
 						order by agent_name
 					</cfquery>
 					<div style="padding-left: 1.5em;">

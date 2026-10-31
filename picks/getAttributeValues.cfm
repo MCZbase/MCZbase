@@ -7,7 +7,7 @@ hi there, I'm an attribute picky thingy
 			UNITS_CODE_TABLE
 		FROM
 			ctattribute_code_tables
-		where ATTRIBUTE_TYPE='#attribute#'
+		where ATTRIBUTE_TYPE=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 	</cfquery>
 	<cfif #whatIsIt.recordcount# is 0>
 		<!--- not code table controlled --->

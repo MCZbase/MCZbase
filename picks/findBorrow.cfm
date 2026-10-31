@@ -39,9 +39,9 @@
 				borrow.transaction_id=trans.transaction_id and
 				trans.collection_id=collection.collection_id and
 				<cfif len(collection_id) gt 0>
-					collection.collection_id=#collection_id# and
+					collection.collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and
 				</cfif>
-				upper(borrow_number) like '%#ucase(borrow_number)#%'
+				upper(borrow_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(borrow_number)#%">
 			ORDER BY
 				collection,
 				borrow_number

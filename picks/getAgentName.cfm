@@ -14,7 +14,7 @@
 				agent_name searchNames
 			WHERE
 				searchNames.agent_id = dispNames.agent_id (+)
-				AND UPPER(searchNames.agent_name) LIKE '%#ucase(agentname)#%'
+				AND UPPER(searchNames.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agentname)#%">
 			GROUP BY
 				dispNames.agent_id,
 				dispNames.agent_name_id,

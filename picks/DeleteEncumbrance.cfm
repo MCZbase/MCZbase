@@ -9,7 +9,7 @@
 
 <cfoutput>
 	<cfquery name="deleItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	DELETE FROM coll_object_encumbrance WHERE encumbrance_id=#encumbrance_id# and collection_object_id = #collection_object_id#
+	DELETE FROM coll_object_encumbrance WHERE encumbrance_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#"> and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
 	<p>Click <a href="" onClick="parent.opener.location.reload();self.close();">here</a> to reload the encumbrance list and close this form.
 	<p>Depending on your browser, you may get a pop-up alert. Choose YES or OK to correctly reload the page.</p>
