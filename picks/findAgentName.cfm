@@ -44,9 +44,9 @@
 			agent_name searchNames
 		WHERE
 			searchNames.agent_id = dispNames.agent_id (+)
-			AND UPPER(searchNames.agent_name) LIKE '%#ucase(agentname)#%'
-			<cfif isdefined("agent_id") and agent_id gt 0>
-				and searchNames.agent_id=#agent_id#
+			AND UPPER(searchNames.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agentname)#%">
+			<cfif isdefined("agent_id") and isNumeric(agent_id) and agent_id gt 0>
+				and searchNames.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			</cfif>
 		GROUP BY
 			dispNames.agent_id,
@@ -209,19 +209,19 @@
 			VALUES
 				(#agentID.nextAgentId#
 				<cfif len(#prefix#) gt 0>
-					,'#prefix#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">
 				</cfif>
 				<cfif len(#LAST_NAME#) gt 0>
-					,'#LAST_NAME#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAST_NAME#">
 				</cfif>
 				<cfif len(#FIRST_NAME#) gt 0>
-					,'#FIRST_NAME#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">
 				</cfif>
 				<cfif len(#MIDDLE_NAME#) gt 0>
-					,'#MIDDLE_NAME#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MIDDLE_NAME#">
 				</cfif>
 				<cfif len(#SUFFIX#) gt 0>
-					,'#SUFFIX#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">
 				</cfif>
 				)
 		</cfquery>
@@ -246,7 +246,7 @@
 		</cfif>
 		<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select agent_id,agent_name from agent_name where upper(agent_name) like '%#ucase(pref_name)#%'
+				select agent_id,agent_name from agent_name where upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(pref_name)#%">
 			</cfquery>
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
@@ -282,7 +282,7 @@
 				#agentNameID.nextAgentNameId#,
 				#agentID.nextAgentId#,
 				'preferred',
-				'#pref_name#',
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">,
 				0
 				)
 		</cfquery>
@@ -309,16 +309,16 @@
 				)
 			VALUES (
 				#agentID.nextAgentId#,
-				'#agent_type#',
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,
 				#agentNameID.nextAgentNameId#
 				<cfif len(#agent_remarks#) gt 0>
-					,'#agent_remarks#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">
 				</cfif>
 				)
 		</cfquery>
 		<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select agent_id,agent_name from agent_name where upper(agent_name) like '%#ucase(agent_name)#%'
+				select agent_id,agent_name from agent_name where upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_name)#%">
 			</cfquery>
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
@@ -351,7 +351,7 @@
 				#agentNameID.nextAgentNameId#,
 				#agentID.nextAgentId#,
 				'preferred',
-				'#agent_name#',
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">,
 				0
 				)
 		</cfquery>
