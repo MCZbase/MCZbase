@@ -39,31 +39,10 @@ Based on:
 			<cfset attList = "#attList#,#ctAtt.attribute_type#">
 		</cfif>
 	</cfloop>
-	<!--- seleAttributes determines which additional attributes to select in the
-	following SQL query. Includes age, sex, etc. takes the concatentation, and
-	returns it as the attribute_type.--->
-	<cfset seleAttributes = "">
-	<cfloop query="ctAtt">
-		<cfset thisName = #ctAtt.attribute_type#>
-		<cfset thisName = #replace(thisName," ","_","all")#>
-		<cfset thisName = #replace(thisName,"-","_","all")#>
-		<cfset thisName = #left(thisName,20)#>
-		<cfif #thisName# is "size"><cfset thisName = "size_attr"></cfif><!--- reserved word --->
-		<cfif #thisName# is not "sex"><!--- already got it --->
-			<cfset seleAttributes = "#seleAttributes#,ConcatAttributeValue(cataloged_item.collection_object_id,'#ctAtt.attribute_type#')
-					as #thisName#">
-		</cfif>
-	</cfloop>
-	<!--- Determines how the data are ordered. --->
-	<cfif isdefined('data_order_by')>
-		<cfif len(data_order_by) gt 0>
-			<cfif data_order_by is "location">
-				<cfset data_order_by = "country, state_prov, county, island, spec_locality">
-			</cfif>
-			<cfset data_order_by="ORDER BY #data_order_by#">
-		</cfif>
-	<cfelse>
-		<cfset data_order_by = "">
+	<!--- Ordering is one of the options the form offers. --->
+	<cfset variables.dataOrderBy = "">
+	<cfif isdefined("data_order_by") AND listFind("cat_num,scientific_name,location", data_order_by) GT 0>
+		<cfset variables.dataOrderBy = data_order_by>
 	</cfif>
 	
 	<!--- 
@@ -84,7 +63,7 @@ Based on:
 	
 	--->
 	<!--- Ends determining how the data are ordered. --->
-	<cfset sql="
+	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="data_result">
 		select
 			distinct cataloged_item.collection_object_id,
 			collection_cde,
@@ -119,7 +98,14 @@ Based on:
 	
 			coll_object_remarks
 	
-			#seleAttributes#
+			<cfloop query="ctAtt">
+				<!--- the column alias comes from the attribute type; skip any that isn't a plain name --->
+				<cfset thisName = left(replace(replace(ctAtt.attribute_type," ","_","all"),"-","_","all"),20)>
+				<cfif thisName IS "size"><cfset thisName = "size_attr"></cfif><!--- reserved word --->
+				<cfif thisName IS NOT "sex" AND REFind("^[A-Za-z][A-Za-z0-9_]*$", thisName) GT 0>
+					,ConcatAttributeValue(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ctAtt.attribute_type#">) as #thisName#
+				</cfif>
+			</cfloop>
 		FROM
 			cataloged_item
 			INNER JOIN identification ON (cataloged_item.collection_object_id = identification.collection_object_id)
@@ -130,11 +116,14 @@ Based on:
 			LEFT OUTER JOIN coll_object_remark ON (coll_object_remark.collection_object_id = cataloged_item.collection_object_id)
 		WHERE
 			accepted_id_fg=1 AND
-			cataloged_item.collection_object_id IN (#collection_object_id#)
-		#data_order_by#
-	">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
+			cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+		<cfif variables.dataOrderBy IS "cat_num">
+			ORDER BY cat_num
+		<cfelseif variables.dataOrderBy IS "scientific_name">
+			ORDER BY scientific_name
+		<cfelseif variables.dataOrderBy IS "location">
+			ORDER BY country, state_prov, county, island, spec_locality
+		</cfif>
 	</cfquery>
 	
 	<!----------------------------------------------------------------->
@@ -328,7 +317,7 @@ Based on:
 	        <cfquery name="tCollNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	                select other_id_number from coll_obj_other_id_num where
 	                other_id_type='collector number'
-	                and collection_object_id=#collection_object_id#
+	                and collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.collection_object_id#">
 	        </cfquery>
 			<!--- Start data manipulation --->
 	        <cfset coordinates = "">
@@ -771,12 +760,10 @@ not by specimens. --->
 			findnocase(';',permit_num) gt 0>
 		Invalid permit_num<cfabort>
 	</cfif>
-	<cfset sql="
+	<cfquery name="getPermitID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPermitID_result">
 		select permit_num, permit_id
 		from permit
-		where permit_num = '#permit_num#'">
-	<cfquery name="getPermitID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
+		where permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_num#">
 	</cfquery>
 	<!--- debug code
 	<cfif isdefined("variables.permit_id")>
@@ -798,40 +785,40 @@ not by specimens. --->
 		">
 <!--- area to decide which of the specimens go into the permit report. --->
 <!--- validate order, permit_id --->
+<!--- order is a comma separated list of the sort terms the page's sort links offer, each a column
+	with an optional asc or desc; anything else falls back to the default order. --->
 <cfset defaultOrder = "collection_cde, cat_num">
 <cfif not isdefined('order')>
 	<cfset order=defaultOrder>
 </cfif>
-<cfif findnocase(";",order) gt 0>
-	Invalid ordering<cfabort>
-</cfif>
-<!--- Check to see if it is a date. If it is a date, then 
-make the order by part correct, as in year, then month, then day,
-and on day add a 0 to the front if it is one digit only--->
-<cfif find("date",order) is not 0>
-	<!---first extract asc or desc from it--->
-	<cfif find("asc",order) is not 0>
-		<cfset ascDesc = right(order,len("asc"))>
-		<cfset order = left(order,len(order)-len("asc"))>
+<cfset variables.orderSql = "">
+<cfloop list="#order#" index="orderTerm">
+	<cfset orderColumn = lcase(listFirst(trim(orderTerm), " "))>
+	<cfset orderDirection = "">
+	<cfif listLen(trim(orderTerm), " ") EQ 2>
+		<cfset orderDirection = lcase(listLast(trim(orderTerm), " "))>
 	</cfif>
-		
-	<cfif find("desc",order) is not 0>
-		<cfset ascDesc = right(order,len("desc"))>
-		<cfset order = left(order,len(order)-len("desc"))>
+	<cfif listLen(trim(orderTerm), " ") GT 2
+			OR listFind("collection_cde,cat_num,scientific_name,country,state_prov,county,island,verbatim_date", orderColumn) EQ 0
+			OR (len(orderDirection) GT 0 AND listFind("asc,desc", orderDirection) EQ 0)>
+		<cfset variables.orderSql = "">
+		<cfset order = defaultOrder>
+		<cfbreak>
 	</cfif>
-	
-	<!--- now remove any trailing spaces --->
-	<cfset order = Trim(order)>
-	<!--- now order by year, then month, then date --->
-	<cfset order = "to_date(#order#,'dd-mon-yy')  #ascDesc#">
-	
+	<!--- order dates by year, then month, then day --->
+	<cfif orderColumn IS "verbatim_date">
+		<cfset orderColumn = "to_date(verbatim_date,'dd-mon-yy')">
+	</cfif>
+	<cfset variables.orderSql = listAppend(variables.orderSql, trim("#orderColumn# #orderDirection#"))>
+</cfloop>
+<cfif len(variables.orderSql) EQ 0>
+	<cfset variables.orderSql = defaultOrder>
 </cfif>
-<!--- end date handling--->
 <cfif not isnumeric(permit_id)>
 	Permit_id must be numeric.<cfabort>
 </cfif>
 <!--- build query --->
-<cfset sql="          
+<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimens_result">          
              select * from (
                        select
 				cat_num,
@@ -858,7 +845,7 @@ and on day add a 0 to the front if it is one digit only--->
 				LEFT OUTER JOIN permit_trans on (permit_trans.transaction_id=accn.transaction_id)
 				LEFT OUTER JOIN permit on (permit.permit_id = permit_trans.permit_id)
 			where 
-				permit.permit_id=#permit_id# AND
+				permit.permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#"> AND
 				accepted_id_fg=1
                      union
                         select
@@ -888,13 +875,10 @@ and on day add a 0 to the front if it is one digit only--->
                                 left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
                                 LEFT OUTER JOIN permit on (permit.permit_id = permit_shipment.permit_id)
                         where 
-                                permit.permit_id=#permit_id# AND
+                                permit.permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#"> AND
                                 accepted_id_fg=1
 		) order by
-				#order#"
->
-<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	#preservesinglequotes(sql)#
+				#variables.orderSql#
 </cfquery>
 <cfset collection_object_id="">
 <cfif specimens.recordCount is 0>
@@ -927,7 +911,7 @@ and on day add a 0 to the front if it is one digit only--->
 	</tr>--->
 	<tr>
 		<td colspan='3'>
-		<cfset sql="
+		<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="permit_result">
 			select 
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent,
@@ -936,11 +920,9 @@ and on day add a 0 to the front if it is one digit only--->
 			from 
 				permit, preferred_agent_name issuedTo, preferred_agent_name issuedBy 
 			where 
-				permit_id = '#permit_id#' AND 
+				permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#"> AND 
 				permit.issued_by_agent_id = issuedBy.agent_id AND
-				permit.issued_to_agent_id = issuedTo.agent_id">
-		<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#
+				permit.issued_to_agent_id = issuedTo.agent_id
 		</cfquery>
 		<!--- here is where I add in the permit selection--->
 		<cfloop query='permit'>
