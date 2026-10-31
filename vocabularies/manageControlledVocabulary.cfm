@@ -234,6 +234,8 @@ What still requires file edits:
 			<cfthrow type="InvalidParameter" message="Not a column of this controlled vocabulary table.">
 		</cfif>
 	</cfloop>
+	<!--- The save, delete and new statements read fld from here, never from url, which is not checked. --->
+	<cfset variables.fld = form.fld>
 </cfif>
 <cfif not isdefined("action")><cfset action="listTables"></cfif>
 <cfif action is "entryPoint"><cfset action="listTables"></cfif>
@@ -2688,7 +2690,7 @@ What still requires file edits:
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			DELETE FROM #tbl# 
-			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			WHERE #variables.fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
 				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
 					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
@@ -2906,7 +2908,7 @@ What still requires file edits:
 		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE #tbl# SET #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisField#" />
+			UPDATE #tbl# SET #variables.fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisField#" />
 			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
 				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
 					,#variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['ec_' & variables.pkc]#" />
@@ -2923,7 +2925,7 @@ What still requires file edits:
 			<cfif isdefined("description")>
 				,description=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			</cfif>
-			WHERE #fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+			WHERE #variables.fld# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 			<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
 				<cfloop list="#form.pkExtraCols#" index="variables.pkc">
 					AND #variables.pkc# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form['origpk_' & variables.pkc]#" />
@@ -3206,7 +3208,7 @@ What still requires file edits:
 	<cfelse>
 		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO #tbl# 
-				(#fld#
+				(#variables.fld#
 				<cfif isdefined("form.pkExtraCols") and len(form.pkExtraCols) gt 0>
 					<cfloop list="#form.pkExtraCols#" index="variables.pkc">
 						,#variables.pkc#
