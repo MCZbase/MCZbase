@@ -1,8 +1,8 @@
 <!--- 
-  specimens/changeQueryPart.cfm manage parts in bulk.
+  Reports/report_printer.cfm choose and print label and transaction reports.
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2023 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -71,6 +71,19 @@ limitations under the License.
 
 <cfif not isdefined("sort")>
 	<cfset sort="">
+</cfif>
+<!--- These are written into the report SQL from cf_report_sql, which is run as a string: accept only
+	id lists, and a column name to sort on (an unknown sort is dropped, as a failing sort already is). --->
+<cfset collection_object_id = replace(collection_object_id, " ", "", "all")>
+<cfset transaction_id = replace(transaction_id, " ", "", "all")>
+<cfset container_id = replace(container_id, " ", "", "all")>
+<cfloop list="collection_object_id,transaction_id,container_id" index="idListName">
+	<cfif REFind("^([0-9]+(,[0-9]+)*)?$", variables[idListName]) EQ 0>
+		<cfthrow message="#idListName# must be a number, or a comma separated list of numbers.">
+	</cfif>
+</cfloop>
+<cfif REFind("^[A-Za-z_][A-Za-z0-9_]*$", sort) EQ 0>
+	<cfset sort = "">
 </cfif>
 <cfif not isdefined("show_all")>
 	<cfset show_all = "false" >
@@ -358,6 +371,44 @@ limitations under the License.
 					report_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#report_id#">
 			</cfquery>
 			<cfif len(e.sql_text) gt 0>
+				<!--- The limits and the other identifier type go inside quotes in the report SQL: accept
+					only values from their code tables, and double any quote in them. --->
+				<cfset variables.preserveLimitSql = "">
+				<cfif isdefined("preserve_limit") and len(preserve_limit) gt 0>
+					<cfquery name="checkPreserveLimit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkPreserveLimit_result">
+						SELECT count(*) ct
+						FROM ctspecimen_preserv_method
+						WHERE preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_limit#">
+					</cfquery>
+					<cfif checkPreserveLimit.ct EQ 0>
+						<cfthrow message="Unknown preservation method for the preservation type limit.">
+					</cfif>
+					<cfset variables.preserveLimitSql = replace(preserve_limit, "'", "''", "all")>
+				</cfif>
+				<cfset variables.partNameLimitSql = "">
+				<cfif isdefined("part_name_limit") and len(part_name_limit) gt 0>
+					<cfquery name="checkPartNameLimit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkPartNameLimit_result">
+						SELECT count(*) ct
+						FROM ctspecimen_part_name
+						WHERE part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name_limit#">
+					</cfquery>
+					<cfif checkPartNameLimit.ct EQ 0>
+						<cfthrow message="Unknown part name for the part name limit.">
+					</cfif>
+					<cfset variables.partNameLimitSql = replace(part_name_limit, "'", "''", "all")>
+				</cfif>
+				<cfset variables.otherIdentifierSql = "">
+				<cfif e.sql_text contains "##session.CustomOtherIdentifier##" AND isDefined("session.CustomOtherIdentifier") AND len(session.CustomOtherIdentifier) GT 0>
+					<cfquery name="checkOtherIdentifier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkOtherIdentifier_result">
+						SELECT count(*) ct
+						FROM ctcoll_other_id_type
+						WHERE other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">
+					</cfquery>
+					<cfif checkOtherIdentifier.ct EQ 0>
+						<cfthrow message="Your preferred other identifier type is not a known other identifier type; choose another in your profile.">
+					</cfif>
+					<cfset variables.otherIdentifierSql = replace(session.CustomOtherIdentifier, "'", "''", "all")>
+				</cfif>
 				<!--- The query to obtain the report data is in cf_report_sql.sql_text --->
 				<cfset sql=e.sql_text>
 				<cfif sql contains "##transaction_id##">
@@ -374,8 +425,8 @@ limitations under the License.
 					in the form "-- #limit_preserve_method#" as a where clause other than the last where clause in the query.
 				--->
 				<cfif sql contains "-- ##limit_preserve_method##">
-					<cfif isdefined("preserve_limit") and len(#preserve_limit#) gt 0>
-						<cfset sql=replace(sql,"-- ##limit_preserve_method##","specimen_part.preserve_method = '#preserve_limit#' AND ","All")>
+					<cfif len(variables.preserveLimitSql) gt 0>
+						<cfset sql=replace(sql,"-- ##limit_preserve_method##","specimen_part.preserve_method = '#variables.preserveLimitSql#' AND ","All")>
 					<cfelse>
 						<cfset sql=replace(sql,"-- ##limit_preserve_method##",'',"All")>
 					</cfif>
@@ -385,8 +436,8 @@ limitations under the License.
 						in the form "-- #limit_part_name#" as a where clause other than the last where clause in the query.
 				--->
 				<cfif sql contains "-- ##limit_part_name##">
-					<cfif isdefined("part_name_limit") and len(#part_name_limit#) gt 0>
-						<cfset sql=replace(sql,"-- ##limit_part_name##","specimen_part.part_name = '#part_name_limit#' AND ","All")>
+					<cfif len(variables.partNameLimitSql) gt 0>
+						<cfset sql=replace(sql,"-- ##limit_part_name##","specimen_part.part_name = '#variables.partNameLimitSql#' AND ","All")>
 					<cfelse>
 						<cfset sql=replace(sql,"-- ##limit_part_name##",'',"All")>
 					</cfif>
@@ -396,7 +447,7 @@ limitations under the License.
 				</cfif>
 		
 				<cfif sql contains "##session.CustomOtherIdentifier##">
-					<cfset sql=replace(sql,"##session.CustomOtherIdentifier##",#session.CustomOtherIdentifier#,"all")>
+					<cfset sql=replace(sql,"##session.CustomOtherIdentifier##",variables.otherIdentifierSql,"all")>
 				</cfif>
 				<cfif sql contains "##session.SpecSrchTab##">
 					<cfset sql=replace(sql,"##session.SpecSrchTab##",#session.SpecSrchTab#,"all")>
@@ -414,7 +465,7 @@ limitations under the License.
 				<cfelse>
 					<cfset ssql=sql>
 				</cfif>
-				<hr>#ssql#<hr>
+				<hr>#encodeForHtml(ssql)#<hr>
 			 	<cftry>
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						#preservesinglequotes(ssql)#
