@@ -39,6 +39,10 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 <!--- a missing number list is built from every number in the range, so the range is limited --->
 <cfset MAXMISSINGRANGE = 5000000>
 <cfset NRSBASE = "https://nrs.harvard.edu/">
+<!--- a jump is listed as a likely entry error, such as 999999999 for 999999, when it is wider than
+	the count of numbers below it and has no more than this many numbers above it --->
+<cfset SUSPECTMAXABOVE = 100>
+<cfset LARGESTJUMPCOUNT = 10>
 
 <!---
 	csvField quote a value for a CSV file, with a leading apostrophe on text a spreadsheet would
@@ -146,6 +150,60 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 				AND cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num_prefix#">
 			</cfif>
 	</cfquery>
+	<!--- The widest jumps in the whole series, with the counts of numbers below and above each. --->
+	<cfquery name="jumps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="jumps_result">
+		WITH numbers AS (
+			SELECT DISTINCT cat_num_integer AS num
+			FROM cataloged_item
+			WHERE
+				collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
+				<cfif len(variables.cat_num_prefix) EQ 0>
+					AND cat_num_prefix IS NULL
+				<cfelse>
+					AND cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num_prefix#">
+				</cfif>
+		),
+		steps AS (
+			SELECT
+				num AS below_num,
+				LEAD(num) OVER (ORDER BY num) AS above_num,
+				ROW_NUMBER() OVER (ORDER BY num) AS numbers_below,
+				count(*) OVER () AS number_total
+			FROM numbers
+		)
+		SELECT
+			below_num,
+			above_num,
+			above_num - below_num - 1 AS jump_size,
+			numbers_below,
+			number_total - numbers_below AS numbers_above
+		FROM steps
+		WHERE above_num - below_num > 1
+		ORDER BY jump_size DESC, below_num
+		FETCH FIRST <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#LARGESTJUMPCOUNT#"> ROWS ONLY
+	</cfquery>
+	<!--- the cataloged items above each likely entry error, to open and correct --->
+	<cfset variables.suspectItems = structNew()>
+	<cfloop query="jumps">
+		<cfif jumps.jump_size GT jumps.numbers_below AND jumps.numbers_above LTE SUSPECTMAXABOVE>
+			<cfquery name="itemsAbove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="itemsAbove_result">
+				SELECT cat_num, cat_num_integer
+				FROM cataloged_item
+				WHERE
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
+					<cfif len(variables.cat_num_prefix) EQ 0>
+						AND cat_num_prefix IS NULL
+					<cfelse>
+						AND cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num_prefix#">
+					</cfif>
+					AND cat_num_integer > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#jumps.below_num#">
+				ORDER BY cat_num_integer, cat_num
+				FETCH FIRST <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#SUSPECTMAXABOVE * 2#"> ROWS ONLY
+			</cfquery>
+			<cfset variables.suspectItems[jumps.below_num] = itemsAbove>
+		</cfif>
+	</cfloop>
+
 	<cfset variables.low = summary.lowest>
 	<cfset variables.high = summary.highest>
 	<cfif len(url.low) GT 0><cfset variables.low = int(url.low)></cfif>
@@ -361,6 +419,48 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 					<dt class="col-6 col-md-3 col-xl-2">Items with a suffix</dt><dd class="col-6 col-md-3 col-xl-2">#numberFormat(summary.suffix_count)#</dd>
 					<dt class="col-6 col-md-3 col-xl-2">Numbers on more than one item</dt><dd class="col-6 col-md-3 col-xl-2">#numberFormat(summary.shared_count)#</dd>
 				</dl>
+				<cfset variables.ledgerParam = "">
+				<cfif variables.showLedgers>
+					<cfset variables.ledgerParam = "&ledgers=true">
+				</cfif>
+				<cfif jumps.recordcount GT 0>
+					<h3 class="h4" id="jumpsHeading">Widest jumps in the series</h3>
+					<p class="small mb-1">A number entered with extra digits, such as 999999999 for 999999, shows as a jump wider than all the numbers below it, with few numbers above. Those are marked as likely entry errors and their cataloged items listed; until they are corrected, set the highest number below them to keep them out of the gaps and missing number counts.</p>
+					<table class="table table-responsive d-xl-table table-sm" aria-labelledby="jumpsHeading">
+						<thead>
+							<tr>
+								<th scope="col">Jump</th>
+								<th scope="col">Missing in it</th>
+								<th scope="col">Numbers below</th>
+								<th scope="col">Numbers above</th>
+								<th scope="col">Likely entry error</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="jumps">
+								<tr>
+									<td>#jumps.below_num# to #jumps.above_num#</td>
+									<td>#numberFormat(jumps.jump_size)#</td>
+									<td>#numberFormat(jumps.numbers_below)#</td>
+									<td>#numberFormat(jumps.numbers_above)#</td>
+									<td>
+										<cfif structKeyExists(variables.suspectItems, jumps.below_num)>
+											<cfset variables.itemsAbove = variables.suspectItems[jumps.below_num]>
+											<strong>Yes:</strong>
+											<cfloop query="variables.itemsAbove">
+												<a href="/guid/#encodeForUrl(variables.institution_acronym)#:#encodeForUrl(variables.collection_cde)#:#encodeForUrl(variables.itemsAbove.cat_num)#" target="_blank">#encodeForHtml(variables.itemsAbove.cat_num)#</a><cfif variables.itemsAbove.currentRow LT variables.itemsAbove.recordcount>,</cfif>
+											</cfloop>
+											<cfif variables.itemsAbove.recordcount EQ SUSPECTMAXABOVE * 2>and more</cfif>
+											<br><a href="/tools/findGap.cfm?collection_id=#encodeForUrl(variables.collection_id)#&cat_num_prefix=#encodeForUrl(variables.cat_num_prefix)#&low=#encodeForUrl(url.low)#&high=#jumps.below_num##variables.ledgerParam#">Find gaps up to #jumps.below_num# only</a>
+										<cfelse>
+											No
+										</cfif>
+									</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</cfif>
 				<p>
 					<a class="btn btn-xs btn-secondary" href="/tools/findGap.cfm?#variables.linkParams#&format=csv&download=gaps">Download Gaps (CSV)</a>
 					<a class="btn btn-xs btn-secondary" href="/tools/findGap.cfm?#variables.linkParams#&format=csv&download=missing">Download Every Missing Number (CSV)</a>
