@@ -269,7 +269,13 @@ notes to print against some or all of them.
 							END AS verbatim_longitude,
 							accepted_lat_long.datum,
 							concatColl(cataloged_item.collection_object_id) AS collectors,
-							MCZBASE.get_single_other_id_display(cataloged_item.collection_object_id, 'collector number') AS collector_number,
+							(
+								SELECT LISTAGG(coll_obj_other_id_num.display_value, '-') WITHIN GROUP (ORDER BY coll_obj_other_id_num.display_value)
+								FROM coll_obj_other_id_num
+								WHERE
+									coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id
+									AND coll_obj_other_id_num.other_id_type = 'collector number'
+							) AS collector_number,
 							concatAttributeValue(cataloged_item.collection_object_id, 'sex') AS sex,
 							concatAttributeValue(cataloged_item.collection_object_id, 'age') AS age,
 							concatOtherId(cataloged_item.collection_object_id) AS other_id_list,
