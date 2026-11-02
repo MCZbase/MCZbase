@@ -210,6 +210,20 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/publications/" >
 	<script type="text/javascript" src="/publications/js/publications.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/Reports/" >
+	<cfset variables.reportsScriptPath = expandPath("/Reports/js/reports.js")>
+	<cfset variables.reportsScriptVersion = "">
+	<cfif fileExists(variables.reportsScriptPath)>
+		<cfset variables.reportsScriptVersion = dateTimeFormat(getFileInfo(variables.reportsScriptPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<cfset variables.reportsStylePath = expandPath("/Reports/css/reports.css")>
+	<cfset variables.reportsStyleVersion = "">
+	<cfif fileExists(variables.reportsStylePath)>
+		<cfset variables.reportsStyleVersion = dateTimeFormat(getFileInfo(variables.reportsStylePath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/Reports/js/reports.js?v=#encodeForUrl(variables.reportsScriptVersion)#"></script>
+	<link rel="stylesheet" href="/Reports/css/reports.css?v=#encodeForUrl(variables.reportsStyleVersion)#">
+</cfif>
 <cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<!--- To enable transaction pickers on project search page for logged in users --->
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>

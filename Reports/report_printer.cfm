@@ -130,14 +130,14 @@ limitations under the License.
 						</div>
 					</cfif>
 				</cfif>
-				<!-- Obtain the list of reports -->
+				<!--- Obtain the list of reports --->
 				<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * 
 					FROM cf_report_sql 
 					WHERE report_name not like 'mcz_%' 
 					ORDER BY report_name
 				</cfquery>
-				<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
+				<!--- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for --->
 				<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT reportprefs 
 					FROM CF_USERS 
@@ -154,44 +154,49 @@ limitations under the License.
 					<h2 class="h3">You have no configured collections for reports, please file a bug report with the list of collections which you wish to see reports for by default here.</h2>
 				</cfif>
 			
+				<!--- Reports whose SQL carries the limit markers offer the preservation type and part name picklists. --->
+				<cfset preserveLimitReports = {}>
+				<cfloop query="preservationRewrite">
+					<cfset preserveLimitReports[preservationRewrite.report_name] = true>
+				</cfloop>
+				<cfset partNameLimitReports = {}>
+				<cfloop query="partnameRewrite">
+					<cfset partNameLimitReports[partnameRewrite.report_name] = true>
+				</cfloop>
+				<cfset reportsForUsersCollections = 0>
+				<cfset showAllChecked = "">
+				<cfif show_all IS "true">
+					<cfset showAllChecked = "checked">
+				</cfif>
 				<form name="print" id="print" method="post" action="report_printer.cfm">
 					<input type="hidden" name="action" value="print">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="container_id" value="#container_id#">
 					<cfif not isDefined("result_id")><cfset result_id = ""></cfif>
-					<input type="hidden" name="result_id" value="#result_id#">
+					<input type="hidden" name="result_id" value="#encodeForHtmlAttribute(result_id)#">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					<table border='0' class="table table-responsive w-100">
-						<tr>
-							<td>
-								<label for="report_id">Print....</label>
-								<!--- find how many reports there are to show in the picklist --->
-								<cfif show_all IS "true">
-									<!--- If show_all is set, then show all reports, so the size of the select box is the number of reports --->
-									<cfset selectSize = e.recordcount>
-								<cfelse>
-									<cfset selectSize = 0>
-									<!--- If show_all is not set then count report to show using same logic as shows them below --->
-									<cfloop query="e">
-										<!---
-										  Take the part of the report name after the double underscore,
-										  then explode the collection codes in it on underscores
-										--->
-										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
-										<cfif NOT ArrayIsEmpty(repBit)>
-											<cfset repList = listToArray(#repBit[1]#,"_",true)>
-											<!--- If the report name includes a collection code in the user's list, then count it. --->
-											<cfloop index="element" array="#repList#">
-												<cfloop index="cel" array="#collList#">
-											 		<cfif cel EQ element >
-														<cfset selectSize = selectSize + 1>
-													</cfif>
-												</cfloop>
-											</cfloop>
-										</cfif>
-									</cfloop>
-								</cfif>
-								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
+					<script>
+						var reportPickerTargets = {
+							heading: "selectedReportName",
+							description: "report_description_section",
+							printButton: "printReportButton",
+							preserveLimitSection: "preserve_limit_section",
+							partNameLimitSection: "part_name_limit_section"
+						};
+					</script>
+					<!--- align-items-start: the list column must not move when the details column changes height. --->
+					<div class="row align-items-start">
+						<div class="col-12 col-md-5 col-xl-4 mb-3">
+							<fieldset>
+								<legend class="h3">Report to print</legend>
+								<label for="reportFilter" class="data-entry-label">Filter reports by name</label>
+								<input type="text" id="reportFilter" class="data-entry-input" autocomplete="off" aria-describedby="reportFilterCount" oninput="filterReportList('reportFilter', 'showAllReports', 'reportList', 'reportFilterCount');">
+								<div class="form-check my-1">
+									<input type="checkbox" id="showAllReports" class="form-check-input" #showAllChecked# onchange="filterReportList('reportFilter', 'showAllReports', 'reportList', 'reportFilterCount');">
+									<label for="showAllReports" class="form-check-label">Include reports for other collections</label>
+								</div>
+								<output id="reportFilterCount" class="d-block small text-secondary mb-1"></output>
+								<div id="reportList" class="report-list border rounded bg-white">
 									<cfloop query="e">
 										<cfset show = 0 >
 										<!---
@@ -210,85 +215,41 @@ limitations under the License.
 												</cfloop>
 											</cfloop>
 										</cfif>
-										<!--- Show only reports for users collections, unless showAll is set --->
-										<cfif (#show# EQ 1) || (#show_all# is "true") >
-											<option value="#report_id#" style="padding: 3.75;">#report_name#</option>
+										<!--- All reports are listed; those for other collections are hidden until asked for, so looking at them keeps the report picked. --->
+										<cfset defaultShown = "false">
+										<cfset itemClass = "report-list-item">
+										<cfif show EQ 1>
+											<cfset defaultShown = "true">
+											<cfset reportsForUsersCollections = reportsForUsersCollections + 1>
+										<cfelseif show_all IS NOT "true">
+											<cfset itemClass = "report-list-item d-none">
 										</cfif>
+										<cfset hasPreserveLimit = "false">
+										<cfif structKeyExists(preserveLimitReports, e.report_name)>
+											<cfset hasPreserveLimit = "true">
+										</cfif>
+										<cfset hasPartNameLimit = "false">
+										<cfif structKeyExists(partNameLimitReports, e.report_name)>
+											<cfset hasPartNameLimit = "true">
+										</cfif>
+										<div class="#itemClass#" data-default-shown="#defaultShown#" data-report-name="#encodeForHtmlAttribute(lcase(e.report_name))#">
+											<input type="radio" name="report_id" id="report_id_#e.report_id#" value="#e.report_id#" class="mr-1" data-report-name-text="#encodeForHtmlAttribute(e.report_name)#" data-preserve-limit="#hasPreserveLimit#" data-part-name-limit="#hasPartNameLimit#" onchange="selectReport(this, reportPickerTargets);">
+											<label for="report_id_#e.report_id#" class="mb-0">#encodeForHtml(e.report_name)#</label>
+										</div>
 									</cfloop>
-								</select>
-								<!--- Compile a list of reports that cotain the limit_preserve_method marker, 
-									  for only those reports show the picklist of preservation types --->
-								<cfset reportsWithPreserveRewrite = "">
-								<cfset rwprSeparator = "">
-								<cfloop query="preservationRewrite">
-									<cfset reportsWithPreserveRewrite = "#reportsWithPreserveRewrite##rwprSeparator##preservationRewrite.report_name#" >
-									<cfset rwprSeparator = "|">
-								</cfloop>
-								<cfif len(#reportsWithPreserveRewrite#) GT 0>
-									<cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
+								</div>
+								<cfif reportsForUsersCollections EQ 0>
+									<p class="mt-2">No reports are configured for your collections; check Include reports for other collections to see them all.</p>
 								</cfif>
-								<!--- Compile a list of reports that cotain the limit_preserve_method marker, 
-									  for only those reports show the picklist of preservation types --->
-								<cfset reportsWithPartNameRewrite = "">
-								<cfset rwprSeparator = "">
-								<cfloop query="partnameRewrite">
-									<cfset reportsWithPartNameRewrite = "#reportsWithPartNameRewrite##rwprSeparator##partnameRewrite.report_name#" >
-									<cfset rwprSeparator = "|">
-								</cfloop>
-								<cfif len(#reportsWithPartNameRewrite#) GT 0>
-									<cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
-								</cfif>
-								<script>
-										$("##report_id").change( function () {
-											$("##printReportButton").prop('disabled', false); 
-											$("##printReportButton").removeClass('disabled'); 
-											var sel = $(this).find(":selected").text();
-											var match = sel.match(/^#reportsWithPreserveRewrite#$/);
-											if (match!=null && match.length>0) { 
-											  $("##preserve_limit_section").show();
-											} else { 
-											  $("##preserve_limit_section").hide();
-											}
-											var match = sel.match(/^#reportsWithPartNameRewrite#$/);
-											if (match!=null && match.length>0) { 
-											  $("##part_name_limit_section").show();
-											} else { 
-											  $("##part_name_limit_section").hide();
-											}
-				
-											$.getJSON("/component/functions.cfc",
-											{
-											  method : "getReportDescription",
-											  report_id : sel,
-											  returnformat : "json",
-											  queryformat : 'column'
-											},
-											function (r){
-												var result=r.DATA;
-												var description=result.DESCRIPTION;
-												if (description.length==0) {
-													description = 'No Description';
-												}
-												if (result!=null) { 
-												  $("##report_description_section").show();
-												  $("##report_description_section").html(' ' + description);
-												}
-											}
-											);
-										});
-								</script>
-								<script>
-									jQuery(document).ready(function() {
-										$("##preserve_limit_section").hide();
-										$("##part_name_limit_section").hide();
-									});
-								</script>
-							</td>
-							<td style='vertical-align: top;' class="w-100">
-								<input id="printReportButton" type="submit" value="Print Report" class="btn btn-xs btn-primary disabled" disabled>
-								<div id="preserve_limit_section">
+							</fieldset>
+						</div>
+						<div class="col-12 col-md-7 col-xl-8 mb-3">
+							<div class="report-detail">
+								<h2 class="h3" id="selectedReportName">No report selected</h2>
+								<div id="report_description_section" class="mb-2">Select a report from the list.</div>
+								<div id="preserve_limit_section" class="d-none mb-2">
 									<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-										<label for="preserve_limit">Limit to Preservation Type:</label>
+										<label for="preserve_limit" class="data-entry-label">Limit to Preservation Type:</label>
 										<cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) as ct, preserve_method 
 											FROM specimen_part
@@ -298,18 +259,21 @@ limitations under the License.
 												( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
 											GROUP BY preserve_method
 										</cfquery>
-										<select name="preserve_limit" id="preserve_limit">
+										<select name="preserve_limit" id="preserve_limit" class="data-entry-select w-auto">
 											<option value="">All</option>
 											<cfloop query="partsList">
-												<option value="#preserve_method#">#preserve_method# (#ct#)</option>
+												<option value="#encodeForHtmlAttribute(preserve_method)#">#encodeForHtml(preserve_method)# (#ct#)</option>
 											</cfloop>
 										</select>
 									</cfif>
-									<p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that is not normally included on that particular label report, for a Fluid label, you will get an empty report. </p><!--- ; --->
+									<details class="small mt-1">
+										<summary>About this limit</summary>
+										<p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that is not normally included on that particular label report, for a Fluid label, you will get an empty report.</p>
+									</details>
 								</div>
-								<div id="part_name_limit_section">
+								<div id="part_name_limit_section" class="d-none mb-2">
 									<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-										<label for="part_name_limit">Limit to Part Name:</label>
+										<label for="part_name_limit" class="data-entry-label">Limit to Part Name:</label>
 										<cfquery name="partNameList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT count(*) as ct, part_name
 											FROM specimen_part
@@ -319,36 +283,35 @@ limitations under the License.
 												( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
 											GROUP BY part_name 
 										</cfquery>
-										<select name="part_name_limit" id="part_name_limit">
+										<select name="part_name_limit" id="part_name_limit" class="data-entry-select w-auto">
 											<option value="">All</option>
 											<cfloop query="partNameList">
-												<option value="#part_name#">#part_name# (#ct#)</option>
+												<option value="#encodeForHtmlAttribute(part_name)#">#encodeForHtml(part_name)# (#ct#)</option>
 											</cfloop>
 										</select>
 									</cfif>
-									<p>In some cases, for reports that print one label per part, it is desirable to print reports for only one part name.  Reports that have been configured to also use this pick list can limit labels to a single part name (e.g whole animal).  If you pick "All", one label will be printed for each part.  If you pick a specific part name from the picklist, one label will be printed for each part (possibly also limited to a selected preservation type) that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report.</p>
+									<details class="small mt-1">
+										<summary>About this limit</summary>
+										<p>In some cases, for reports that print one label per part, it is desirable to print reports for only one part name.  Reports that have been configured to also use this pick list can limit labels to a single part name (e.g whole animal).  If you pick "All", one label will be printed for each part.  If you pick a specific part name from the picklist, one label will be printed for each part (possibly also limited to a selected preservation type) that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report.</p>
+									</details>
 								</div>
-								<div id="report_description_section">Select a report from the list.</div>
-							</td>
-						</tr>
-					</table>
+								<input id="printReportButton" type="submit" value="Print Report" class="btn btn-xs btn-primary disabled" disabled>
+							</div>
+						</div>
+					</div>
+					<script>
+						$(document).ready(function() {
+							filterReportList('reportFilter', 'showAllReports', 'reportList', 'reportFilterCount');
+							// a browser restoring the form on Back may bring back a checked report
+							var checkedReport = $("##reportList input[type=radio]:checked");
+							if (checkedReport.length > 0) {
+								selectReport(checkedReport[0], reportPickerTargets);
+							}
+						});
+					</script>
 				</form>
 				<div>
-					There are a total of #e.recordcount# reports for printing labels.
-					<cfif NOT show_all is "true">
-						Only reports relevant to collections you work with are shown<br/>
-						<cfif isDefined("result_id") AND len(result_id) GT 0>
-							<a href='report_printer.cfm?&show_all=true&result_id=#result_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show all Reports</a>
-						<cfelse>
-							<a href='report_printer.cfm?&show_all=true&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show all Reports</a>
-						</cfif>
-					<cfelse>
-						<cfif isDefined("result_id") AND len(result_id) GT 0>
-							<a href='report_printer.cfm?&show_all=false&result_id=#result_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
-						<cfelse>
-							<a href='report_printer.cfm?&show_all=false&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
-						</cfif>
-					</cfif>
+					There are a total of #e.recordcount# reports for printing labels, #reportsForUsersCollections# of them for the collections you work with.
 				</div>
 				<div>See the <a href="/Reports/listReports.cfm" target="_blank">summary of all reports</a> to see descriptions of all reports.</div>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
