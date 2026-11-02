@@ -78,7 +78,8 @@ limitations under the License.
 <cfset transaction_id = replace(transaction_id, " ", "", "all")>
 <cfset container_id = replace(container_id, " ", "", "all")>
 <cfloop list="collection_object_id,transaction_id,container_id" index="idListName">
-	<cfif REFind("^([0-9]+(,[0-9]+)*)?$", variables[idListName]) EQ 0>
+	<!--- REFind returns 0 for an empty string even where the pattern allows one, so empty is tested apart. --->
+	<cfif len(variables[idListName]) GT 0 AND REFind("^[0-9]+(,[0-9]+)*$", variables[idListName]) EQ 0>
 		<cfthrow message="#idListName# must be a number, or a comma separated list of numbers.">
 	</cfif>
 </cfloop>
