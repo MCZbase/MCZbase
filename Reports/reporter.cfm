@@ -176,7 +176,7 @@
     </cfif>
 
          <cfset sql=replace(test_sql,"##collection_object_id##",12)>
-		<cfset sql=replace(test_sql,"##container_id##",12)>
+		<cfset sql=replace(sql,"##container_id##",12)>
          <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              #preservesinglequotes(sql)#
          </cfquery>
