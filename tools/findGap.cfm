@@ -241,9 +241,9 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 				AND cat_num_integer BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.low#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.high#">
 			GROUP BY cat_num_integer
 			UNION ALL
-			SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.low - 1#">, NULL FROM dual
+			SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#int(variables.low - 1)#">, NULL FROM dual
 			UNION ALL
-			SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.high + 1#">, NULL FROM dual
+			SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#int(variables.high + 1)#">, NULL FROM dual
 		),
 		found_gaps AS (
 			SELECT
@@ -265,7 +265,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 		FROM
 			found_gaps
 			<cfif variables.showLedgers>
-				LEFT JOIN ledgerscans_master ledger ON
+				LEFT JOIN MCZBASE.ledgerscans_master ledger ON
 					ledger.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection_cde#">
 					<cfif len(variables.cat_num_prefix) EQ 0>
 						AND ledger.cat_num_prefix IS NULL
@@ -322,7 +322,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 			<cfquery name="missing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="missing_result">
 				SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.low#"> + LEVEL - 1 AS missing_number
 				FROM dual
-				CONNECT BY LEVEL <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.high - variables.low + 1#">
+				CONNECT BY LEVEL <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#int(variables.high - variables.low + 1)#">
 				MINUS
 				SELECT cat_num_integer
 				FROM cataloged_item
