@@ -135,6 +135,9 @@ limitations under the License.
 	<cfset var source = arguments.exception>
 	<cfset var contextSource = "">
 	<cfset var contextHolder = "">
+	<cfset var allFrames = "">
+	<cfset var codeFrames = "">
+	<cfset var frame = "">
 
 	<!--- onError wraps the original exception in rootCause. --->
 	<cfif isStruct(source) AND structKeyExists(source, "rootCause") AND isStruct(source.rootCause)>
@@ -162,10 +165,24 @@ limitations under the License.
 			<cfelse>
 				<cfset contextHolder = arguments.exception>
 			</cfif>
+			<!--- A database error's context starts with the JDBC driver's frames (|Oracle|...), so the
+				frames in MCZbase's own .cfm and .cfc files are kept first, the rest only if there are none. --->
 			<cfif len(frames) EQ 0 AND isArray(contextHolder.tagContext)>
-				<cfloop from="1" to="#min(arrayLen(contextHolder.tagContext), 10)#" index="i">
-					<cfset frames = listAppend(frames, "#replace(contextHolder.tagContext[i].template, expandPath('/'), '/')#:#contextHolder.tagContext[i].line#", chr(10))>
+				<cfset allFrames = "">
+				<cfset codeFrames = "">
+				<cfloop from="1" to="#arrayLen(contextHolder.tagContext)#" index="i">
+					<cfset frame = "#replace(contextHolder.tagContext[i].template, expandPath('/'), '/')#:#contextHolder.tagContext[i].line#">
+					<cfif listLen(allFrames, chr(10)) LT 10>
+						<cfset allFrames = listAppend(allFrames, frame, chr(10))>
+					</cfif>
+					<cfif listLen(codeFrames, chr(10)) LT 10 AND REFindNoCase("\.cf[cm]l?$", contextHolder.tagContext[i].template) GT 0>
+						<cfset codeFrames = listAppend(codeFrames, frame, chr(10))>
+					</cfif>
 				</cfloop>
+				<cfset frames = codeFrames>
+				<cfif len(frames) EQ 0>
+					<cfset frames = allFrames>
+				</cfif>
 			</cfif>
 		<cfcatch>
 		</cfcatch>
