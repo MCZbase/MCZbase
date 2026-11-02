@@ -65,7 +65,7 @@
 			If you are really sure about this, push the button.
 			<br />Otherwise, <a href="/Specimens.cfm">go somewhere safe</a>
 		</p>
-		<input type="button" value="Delete All These Records" onclick="document.location='deleteSpecByEncumbrance.cfm?action=goAway&encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">'" />
+		<input type="button" value="Delete All These Records" onclick="document.location='deleteSpecByEncumbrance.cfm?action=goAway&encumbrance_id=#encodeForUrl(encumbrance_id)#'" />
 	</cfoutput>
 	<cfinclude template="/includes/_footer.cfm">
 </cfif>
