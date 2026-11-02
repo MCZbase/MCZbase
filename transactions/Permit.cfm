@@ -1802,7 +1802,7 @@ limitations under the License.
 							<div class="col-12">
 								<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display/Download Detailed Report</button>
 								<a class="btn btn-xs btn-secondary ml-2" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
-								<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
+								<a class="btn btn-xs btn-info ml-2" href="/Reports/permit.cfm?permit_id=#encodeForUrl(permit_id)#">Permit Use Report PDF</a>
 							</div>
 						</div>
 					</cfloop>

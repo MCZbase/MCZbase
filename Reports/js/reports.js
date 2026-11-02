@@ -90,3 +90,100 @@ function selectReport(radio, targets) {
 		}
 	});
 }
+
+/** Show how many of the specimens in a report's specimen table are included.
+ *
+ * @param tableId the id of the table whose rows carry an include checkbox, without a leading # selector.
+ * @param countId the id of the output element for the count.
+ */
+function updateIncludedCount(tableId, countId) {
+	var boxes = $("#" + tableId + " tbody input[type=checkbox]");
+	$("#" + countId).text(boxes.filter(":checked").length + " of " + boxes.length + " specimens included");
+}
+
+/** Include or leave out every specimen in a report's specimen table.
+ *
+ * @param tableId the id of the specimen table, without a leading # selector.
+ * @param included true to include every specimen, false to leave every one out.
+ * @param countId the id of the output element for the count.
+ */
+function setAllIncluded(tableId, included, countId) {
+	$("#" + tableId + " tbody input[type=checkbox]").prop("checked", included);
+	updateIncludedCount(tableId, countId);
+}
+
+/** Include or leave out the specimens in a report's specimen table that share the value picked
+ * from a select, leaving the others as they are.
+ *
+ * @param tableId the id of the specimen table, without a leading # selector.
+ * @param attributeName the row attribute holding the value, e.g. data-scientific-name.
+ * @param selectId the id of the select holding the value to match.
+ * @param included true to include the matching specimens, false to leave them out.
+ * @param countId the id of the output element for the count.
+ */
+function setIncludedByValue(tableId, attributeName, selectId, included, countId) {
+	var value = $("#" + selectId).val();
+	// compared as text rather than built into a selector, as names and places can hold quotes
+	$("#" + tableId + " tbody tr").filter(function () {
+		return $(this).attr(attributeName) === value;
+	}).find("input[type=checkbox]").prop("checked", included);
+	updateIncludedCount(tableId, countId);
+}
+
+/** Sort the rows of a report table by a row attribute, ascending on the first press of a column's
+ * sort button and reversing on each further press, marking the column with aria-sort.
+ *
+ * @param tableId the id of the table, without a leading # selector.
+ * @param button the sort button in the column's header cell.
+ * @param attributeName the row attribute to sort by.
+ */
+function sortReportTable(tableId, button, attributeName) {
+	var header = $(button).closest("th");
+	var ascending = header.attr("aria-sort") !== "ascending";
+	$("#" + tableId + " thead th").removeAttr("aria-sort");
+	header.attr("aria-sort", ascending ? "ascending" : "descending");
+	var body = $("#" + tableId + " tbody");
+	var rows = body.children("tr").get();
+	rows.sort(function (a, b) {
+		var first = ($(a).attr(attributeName) || "").toLowerCase();
+		var second = ($(b).attr(attributeName) || "").toLowerCase();
+		var order = first < second ? -1 : (first > second ? 1 : 0);
+		return ascending ? order : -order;
+	});
+	body.append(rows);
+}
+
+/** Add a row for an annotation to a report form: the note's text, the catalog numbers it applies to,
+ * and a button to remove it.  Rows are numbered in the order added, and the numbers are not reused,
+ * so the form's annotationText{n} and annotationScope{n} fields stay paired.
+ *
+ * @param listId the id of the element holding the annotation rows, with a data-next-number attribute.
+ * @param text optional text for the annotation.
+ * @param scope optional catalog numbers for the annotation.
+ */
+function addAnnotation(listId, text, scope) {
+	var list = $("#" + listId);
+	var number = parseInt(list.attr("data-next-number"), 10) || 1;
+	list.attr("data-next-number", number + 1);
+	var textId = "annotationText" + number;
+	var scopeId = "annotationScope" + number;
+	var row = $("<div>").addClass("form-row align-items-end mb-1");
+	var textColumn = $("<div>").addClass("col-12 col-md-5");
+	textColumn.append($("<label>").addClass("data-entry-label").attr("for", textId).text("Annotation " + number));
+	textColumn.append($("<input>").attr({ type: "text", id: textId, name: textId }).addClass("data-entry-input").val(text || ""));
+	var scopeColumn = $("<div>").addClass("col-12 col-md-5");
+	scopeColumn.append($("<label>").addClass("data-entry-label").attr("for", scopeId).text("Catalog numbers for annotation " + number + " (blank for all)"));
+	scopeColumn.append($("<input>").attr({ type: "text", id: scopeId, name: scopeId }).addClass("data-entry-input").val(scope || ""));
+	var removeColumn = $("<div>").addClass("col-12 col-md-2");
+	var removeButton = $("<button>").attr("type", "button").addClass("btn btn-xs btn-warning").text("Remove annotation " + number);
+	removeButton.on("click", function () {
+		row.remove();
+		list.closest("section").find("button").last().trigger("focus");
+	});
+	removeColumn.append(removeButton);
+	row.append(textColumn, scopeColumn, removeColumn);
+	list.append(row);
+	if (typeof text === "undefined") {
+		$("#" + textId).trigger("focus");
+	}
+}
