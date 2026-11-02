@@ -120,13 +120,31 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 
 	<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="summary_result">
 		SELECT
-			count(*) AS item_count,
-			count(DISTINCT cat_num_integer) AS number_count,
-			min(cat_num_integer) AS lowest,
-			max(cat_num_integer) AS highest,
-			count(cat_num_suffix) AS suffix_count,
+			totals.item_count,
+			totals.number_count,
+			totals.lowest,
+			totals.highest,
+			totals.suffix_count,
+			shared.shared_count
+		FROM
 			(
-				SELECT count(*)
+				SELECT
+					count(*) AS item_count,
+					count(DISTINCT cat_num_integer) AS number_count,
+					min(cat_num_integer) AS lowest,
+					max(cat_num_integer) AS highest,
+					count(cat_num_suffix) AS suffix_count
+				FROM cataloged_item
+				WHERE
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
+					<cfif len(variables.cat_num_prefix) EQ 0>
+						AND cat_num_prefix IS NULL
+					<cfelse>
+						AND cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num_prefix#">
+					</cfif>
+			) totals
+			CROSS JOIN (
+				SELECT count(*) AS shared_count
 				FROM (
 					SELECT cat_num_integer
 					FROM cataloged_item
@@ -140,15 +158,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 					GROUP BY cat_num_integer
 					HAVING count(*) > 1
 				)
-			) AS shared_count
-		FROM cataloged_item
-		WHERE
-			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_id#">
-			<cfif len(variables.cat_num_prefix) EQ 0>
-				AND cat_num_prefix IS NULL
-			<cfelse>
-				AND cat_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num_prefix#">
-			</cfif>
+			) shared
 	</cfquery>
 	<!--- The widest jumps in the whole series, with the counts of numbers below and above each. --->
 	<cfquery name="jumps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="jumps_result">
