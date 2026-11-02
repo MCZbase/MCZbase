@@ -539,7 +539,7 @@ notes to print against some or all of them.
 					</section>
 
 					<section class="border rounded p-2 mb-4" aria-labelledby="specimensHeading">
-						<h2 class="h3" id="specimensHeading">Specimens (#specimens.recordcount#)</h2>
+						<h2 class="h3" id="specimensHeading">Filter Specimens (#specimens.recordcount#)</h2>
 						<!--- distinct values for including or leaving out every specimen sharing one --->
 						<cfset variables.valueChoices = [
 							{ key = "scientificName", attribute = "data-scientific-name", label = "Scientific name", values = structNew() },
