@@ -40,11 +40,43 @@ notes to print against some or all of them.
 <cfinclude template = "/shared/_header.cfm">
 
 <!---
+	parseCatalogNumber split a catalog number into the text before its last run of digits, that
+	number, and the text after it, e.g. A-12b into A-, 12 and b.
+
+	@param catalogNum the catalog number.
+	@return a structure of prefix, number and suffix, or an empty structure if it holds no digits.
+--->
+<cffunction name="parseCatalogNumber" returntype="struct" output="false">
+	<cfargument name="catalogNum" type="string" required="yes">
+
+	<cfset var text = trim(arguments.catalogNum)>
+	<cfset var parts = REFind("^(.*?)([0-9]+)([^0-9]*)$", text, 1, true)>
+	<cfset var result = structNew()>
+
+	<cfif parts.pos[1] GT 0>
+		<!--- an empty prefix or suffix may come back at position 0, which mid() refuses --->
+		<cfset result.prefix = "">
+		<cfif parts.len[2] GT 0>
+			<cfset result.prefix = mid(text, parts.pos[2], parts.len[2])>
+		</cfif>
+		<cfset result.number = val(mid(text, parts.pos[3], parts.len[3]))>
+		<cfset result.suffix = "">
+		<cfif parts.len[4] GT 0>
+			<cfset result.suffix = mid(text, parts.pos[4], parts.len[4])>
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
+<!---
 	withinScope test whether a report note applies to a catalog number.
 
 	@param catalogNum the catalog number.
 	@param scope blank or "all" for every catalog number, otherwise a comma separated list of
-		catalog numbers and ranges of catalog numbers written low-high.
+		catalog numbers and ranges written low-high, e.g. 12, A-7, 100-150, A-100-A-150 or A-100-150.
+		Catalog numbers can hold hyphens, so an item is first matched as a whole catalog number, then
+		as a range split at each hyphen in turn; a range covers the numbers between its ends that share
+		the low end's prefix (taken for the high end too when it has none).
 	@return true if the catalog number is in the scope.
 --->
 <cffunction name="withinScope" returntype="boolean" output="false">
@@ -52,22 +84,36 @@ notes to print against some or all of them.
 	<cfargument name="scope" type="string" required="yes">
 
 	<cfset var scopeItem = "">
-	<cfset var lowerValue = "">
-	<cfset var higherValue = "">
+	<cfset var hyphenPos = 0>
+	<cfset var lowEnd = "">
+	<cfset var highEnd = "">
+	<cfset var target = parseCatalogNumber(arguments.catalogNum)>
 
 	<cfif len(trim(arguments.scope)) EQ 0 OR trim(arguments.scope) EQ "all">
 		<cfreturn true>
 	</cfif>
 	<cfloop list="#arguments.scope#" index="scopeItem">
 		<cfset scopeItem = trim(scopeItem)>
-		<cfif listLen(scopeItem, "-") EQ 2>
-			<cfset lowerValue = trim(listFirst(scopeItem, "-"))>
-			<cfset higherValue = trim(listLast(scopeItem, "-"))>
-			<cfif arguments.catalogNum GTE lowerValue AND arguments.catalogNum LTE higherValue>
-				<cfreturn true>
-			</cfif>
-		<cfelseif scopeItem EQ arguments.catalogNum>
+		<cfif compareNoCase(scopeItem, trim(arguments.catalogNum)) EQ 0>
 			<cfreturn true>
+		</cfif>
+		<cfif NOT structIsEmpty(target)>
+			<cfset hyphenPos = find("-", scopeItem, 2)>
+			<cfloop condition="hyphenPos GT 0 AND hyphenPos LT len(scopeItem)">
+				<cfset lowEnd = parseCatalogNumber(left(scopeItem, hyphenPos - 1))>
+				<cfset highEnd = parseCatalogNumber(mid(scopeItem, hyphenPos + 1, len(scopeItem)))>
+				<cfif NOT structIsEmpty(lowEnd) AND NOT structIsEmpty(highEnd) AND len(trim(lowEnd.suffix)) EQ 0>
+					<cfif len(trim(highEnd.prefix)) EQ 0>
+						<cfset highEnd.prefix = lowEnd.prefix>
+					</cfif>
+					<cfif compareNoCase(trim(lowEnd.prefix), trim(highEnd.prefix)) EQ 0
+							AND compareNoCase(trim(target.prefix), trim(lowEnd.prefix)) EQ 0
+							AND target.number GTE lowEnd.number AND target.number LTE highEnd.number>
+						<cfreturn true>
+					</cfif>
+				</cfif>
+				<cfset hyphenPos = find("-", scopeItem, hyphenPos + 1)>
+			</cfloop>
 		</cfif>
 	</cfloop>
 	<cfreturn false>
@@ -487,7 +533,7 @@ notes to print against some or all of them.
 
 					<section class="border rounded p-2 mb-2" aria-labelledby="reportNotesHeading">
 						<h2 class="h3" id="reportNotesHeading">Report Notes</h2>
-						<p class="small mb-1">Notes are printed only in the PDF, under each specimen they apply to. They are not saved to the permit or the specimen records, and are kept only while you stay on this page to make the PDF again. List catalog numbers separated by commas, with ranges written low-high, or leave them blank for every specimen.</p>
+						<p class="small mb-1">Notes are printed only in the PDF, under each specimen they apply to. They are not saved to the permit or the specimen records, and are kept only while you stay on this page to make the PDF again. List catalog numbers separated by commas, with ranges written low-high (e.g. A-1, 100-150, A-100-150), or leave them blank for every specimen.</p>
 						<div id="reportNoteList" data-next-number="1"></div>
 						<button type="button" class="btn btn-xs btn-secondary" onclick="addReportNote('reportNoteList');">Add Note</button>
 					</section>
