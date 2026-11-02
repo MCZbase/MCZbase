@@ -40,7 +40,7 @@ notes to print against some or all of them.
 <cfinclude template = "/shared/_header.cfm">
 
 <!---
-	withinScope test whether an annotation applies to a catalog number.
+	withinScope test whether a report note applies to a catalog number.
 
 	@param catalogNum the catalog number.
 	@param scope blank or "all" for every catalog number, otherwise a comma separated list of
@@ -217,23 +217,23 @@ notes to print against some or all of them.
 				</cfif>
 			</cfloop>
 
-			<!--- Annotations are posted as annotationText{n} and annotationScope{n}, numbered in the order they were added. --->
-			<cfset variables.annotationNumbers = []>
+			<!--- Report notes are posted as reportNoteText{n} and reportNoteScope{n}, numbered in the order they were added. --->
+			<cfset variables.reportNoteNumbers = []>
 			<cfif form.action EQ "generatePdf">
 				<cfloop collection="#form#" item="variables.fieldName">
-					<cfif REFindNoCase("^annotationText[0-9]{1,4}$", variables.fieldName) GT 0>
-						<cfset arrayAppend(variables.annotationNumbers, int(mid(variables.fieldName, 15, 4)))>
+					<cfif REFindNoCase("^reportNoteText[0-9]{1,4}$", variables.fieldName) GT 0>
+						<cfset arrayAppend(variables.reportNoteNumbers, int(mid(variables.fieldName, 15, 4)))>
 					</cfif>
 				</cfloop>
-				<cfset arraySort(variables.annotationNumbers, "numeric")>
+				<cfset arraySort(variables.reportNoteNumbers, "numeric")>
 			</cfif>
-			<cfset variables.annotations = []>
-			<cfloop array="#variables.annotationNumbers#" index="variables.annotationNumber">
-				<cfset variables.annotationScope = "">
-				<cfif structKeyExists(form, "annotationScope#variables.annotationNumber#")>
-					<cfset variables.annotationScope = form["annotationScope#variables.annotationNumber#"]>
+			<cfset variables.reportNotes = []>
+			<cfloop array="#variables.reportNoteNumbers#" index="variables.reportNoteNumber">
+				<cfset variables.reportNoteScope = "">
+				<cfif structKeyExists(form, "reportNoteScope#variables.reportNoteNumber#")>
+					<cfset variables.reportNoteScope = form["reportNoteScope#variables.reportNoteNumber#"]>
 				</cfif>
-				<cfset arrayAppend(variables.annotations, { text = form["annotationText#variables.annotationNumber#"], scope = variables.annotationScope })>
+				<cfset arrayAppend(variables.reportNotes, { text = form["reportNoteText#variables.reportNoteNumber#"], scope = variables.reportNoteScope })>
 			</cfloop>
 
 			<!--- Write the PDF. --->
@@ -341,10 +341,10 @@ notes to print against some or all of them.
 								</cfif>
 							</cfloop>
 							<cfset variables.higherGeography = replace(variables.higherGeography, ";", "; ", "all")>
-							<cfset variables.annotation = "">
-							<cfloop array="#variables.annotations#" index="variables.annotationItem">
-								<cfif len(trim(variables.annotationItem.text)) GT 0 AND withinScope(data.cat_num, variables.annotationItem.scope)>
-									<cfset variables.annotation = "#variables.annotation# #variables.annotationItem.text#">
+							<cfset variables.reportNote = "">
+							<cfloop array="#variables.reportNotes#" index="variables.reportNoteItem">
+								<cfif len(trim(variables.reportNoteItem.text)) GT 0 AND withinScope(data.cat_num, variables.reportNoteItem.scope)>
+									<cfset variables.reportNote = "#variables.reportNote# #variables.reportNoteItem.text#">
 								</cfif>
 							</cfloop>
 							<cfset variables.curRow = variables.curRow + 1>
@@ -414,7 +414,7 @@ notes to print against some or all of them.
 									<tr>
 										<td colspan="4">
 											<div style="#variables.textStyle#">
-												<cfif len(variables.annotation) GT 0>Note: #encodeForHtml(trim(variables.annotation))#<cfelse>&nbsp;</cfif>
+												<cfif len(variables.reportNote) GT 0>Note: #encodeForHtml(trim(variables.reportNote))#<cfelse>&nbsp;</cfif>
 											</div>
 										</td>
 									</tr>
@@ -485,11 +485,11 @@ notes to print against some or all of them.
 						</div>
 					</section>
 
-					<section class="border rounded p-2 mb-2" aria-labelledby="annotationsHeading">
-						<h2 class="h3" id="annotationsHeading">Annotations</h2>
-						<p class="small mb-1">Each annotation is printed as a note under the specimens it applies to. List catalog numbers separated by commas, with ranges written low-high, or leave it blank for every specimen.</p>
-						<div id="annotationList" data-next-number="1"></div>
-						<button type="button" class="btn btn-xs btn-secondary" onclick="addAnnotation('annotationList');">Add Annotation</button>
+					<section class="border rounded p-2 mb-2" aria-labelledby="reportNotesHeading">
+						<h2 class="h3" id="reportNotesHeading">Report Notes</h2>
+						<p class="small mb-1">Notes are printed only in the PDF, under each specimen they apply to. They are not saved to the permit or the specimen records, and are kept only while you stay on this page to make the PDF again. List catalog numbers separated by commas, with ranges written low-high, or leave them blank for every specimen.</p>
+						<div id="reportNoteList" data-next-number="1"></div>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="addReportNote('reportNoteList');">Add Note</button>
 					</section>
 
 					<section class="border rounded p-2 mb-4" aria-labelledby="specimensHeading">
@@ -574,8 +574,8 @@ notes to print against some or all of them.
 				</form>
 				<script>
 					$(document).ready(function() {
-						<cfloop array="#variables.annotations#" index="variables.annotationItem">
-							addAnnotation('annotationList', '#encodeForJavaScript(variables.annotationItem.text)#', '#encodeForJavaScript(variables.annotationItem.scope)#');
+						<cfloop array="#variables.reportNotes#" index="variables.reportNoteItem">
+							addReportNote('reportNoteList', '#encodeForJavaScript(variables.reportNoteItem.text)#', '#encodeForJavaScript(variables.reportNoteItem.scope)#');
 						</cfloop>
 						updateIncludedCount('specimenTable', 'includedCount');
 					});

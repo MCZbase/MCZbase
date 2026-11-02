@@ -153,29 +153,29 @@ function sortReportTable(tableId, button, attributeName) {
 	body.append(rows);
 }
 
-/** Add a row for an annotation to a report form: the note's text, the catalog numbers it applies to,
+/** Add a row for a report note to a report form: the note's text, the catalog numbers it applies to,
  * and a button to remove it.  Rows are numbered in the order added, and the numbers are not reused,
- * so the form's annotationText{n} and annotationScope{n} fields stay paired.
+ * so the form's reportNoteText{n} and reportNoteScope{n} fields stay paired.
  *
- * @param listId the id of the element holding the annotation rows, with a data-next-number attribute.
- * @param text optional text for the annotation.
- * @param scope optional catalog numbers for the annotation.
+ * @param listId the id of the element holding the note rows, with a data-next-number attribute.
+ * @param text optional text for the note.
+ * @param scope optional catalog numbers for the note.
  */
-function addAnnotation(listId, text, scope) {
+function addReportNote(listId, text, scope) {
 	var list = $("#" + listId);
 	var number = parseInt(list.attr("data-next-number"), 10) || 1;
 	list.attr("data-next-number", number + 1);
-	var textId = "annotationText" + number;
-	var scopeId = "annotationScope" + number;
+	var textId = "reportNoteText" + number;
+	var scopeId = "reportNoteScope" + number;
 	var row = $("<div>").addClass("form-row align-items-end mb-1");
 	var textColumn = $("<div>").addClass("col-12 col-md-5");
-	textColumn.append($("<label>").addClass("data-entry-label").attr("for", textId).text("Annotation " + number));
+	textColumn.append($("<label>").addClass("data-entry-label").attr("for", textId).text("Note " + number));
 	textColumn.append($("<input>").attr({ type: "text", id: textId, name: textId }).addClass("data-entry-input").val(text || ""));
 	var scopeColumn = $("<div>").addClass("col-12 col-md-5");
-	scopeColumn.append($("<label>").addClass("data-entry-label").attr("for", scopeId).text("Catalog numbers for annotation " + number + " (blank for all)"));
+	scopeColumn.append($("<label>").addClass("data-entry-label").attr("for", scopeId).text("Catalog numbers for note " + number + " (blank for all)"));
 	scopeColumn.append($("<input>").attr({ type: "text", id: scopeId, name: scopeId }).addClass("data-entry-input").val(scope || ""));
 	var removeColumn = $("<div>").addClass("col-12 col-md-2");
-	var removeButton = $("<button>").attr("type", "button").addClass("btn btn-xs btn-warning").text("Remove annotation " + number);
+	var removeButton = $("<button>").attr("type", "button").addClass("btn btn-xs btn-warning").text("Remove note " + number);
 	removeButton.on("click", function () {
 		row.remove();
 		list.closest("section").find("button").last().trigger("focus");
