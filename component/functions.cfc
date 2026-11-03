@@ -1,6 +1,7 @@
 <cfcomponent>
 <cfinclude template = "../includes/functionLib.cfm">
 <cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
+<cfinclude template="/shared/component/codeTables.cfc" runOnce="true">
 <!--- Columns of cf_users that setSrchVal is allowed to toggle: the NUMBER(1,0) search criteria
 	flags.  Deliberately excludes KILLROW and APPROVED_TO_REQUEST_LOANS, which are not search
 	preferences and carry privilege, and SHOWOBSERVATIONS, FANCYCOID and BLOCK_SUGGEST, which have
@@ -956,10 +957,12 @@
 			<cfset controlBits = listToArray(res.control,'.')>
 			<cfif ArrayLen(controlBits) EQ 2>
 				<!--- support TABLE.FIELD structure for control as well as TABLE --->
+				<cfset requireCodeTable(controlBits[1], controlBits[2])>
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #controlBits[2]# from #controlBits[1]#
 				</cfquery>
 			<cfelse>
+				<cfset requireCodeTable(res.control)>
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from #res.control#
 				</cfquery>
