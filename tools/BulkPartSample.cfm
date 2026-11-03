@@ -47,6 +47,7 @@ CREATE OR REPLACE TRIGGER cf_temp_part_sample_key
 sho err
 ---->
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 <cfif #action# is "nothing">
 <cfoutput>
 	<cfquery name="template" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -93,32 +94,29 @@ Columns that begin with r$ are required; others are optional:
 <cfif #action# is "getFile">
 <cfoutput>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-
-	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 
- <cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	delete from cf_temp_part_sample
-</cfquery>
+	<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		delete from cf_temp_part_sample
+	</cfquery>
 
-<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
-				</cfif>
-			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_temp_part_sample (#colNames#) values (#preservesinglequotes(colVals)#)
+	<!--- only headers that are columns of the staging table are loaded; spreadsheets often carry
+		other columns, and those are ignored --->
+	<cfset variables.usable = usableHeaders(arrResult[1], "cf_temp_part_sample")>
+	<cfif arrayLen(variables.usable.columns) EQ 0>
+		No column of the file matches a column of the part sample staging table, so nothing was loaded.
+		<cfabort>
+	</cfif>
+	<cfloop from="2" to="#ArrayLen(arrResult)#" index="o">
+		<cfif NOT isBlankRow(arrResult[o])>
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="ins_result">
+				INSERT INTO cf_temp_part_sample (#columnNameList(variables.usable.columns)#)
+				VALUES (
+					<cfloop from="1" to="#arrayLen(variables.usable.columns)#" index="i">
+						<cfif i GT 1>,</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cellValue(arrResult[o], variables.usable.columns[i].position)#">
+					</cfloop>
+				)
 			</cfquery>
 		</cfif>
 	</cfloop>
@@ -135,19 +133,19 @@ Columns that begin with r$ are required; others are optional:
 	<cfloop query="d">
 		<cfset status="">
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select count(*) c from ctspecimen_part_name where part_name='#R$SAMPLE_NAME#' and collection_cde='#R$COLLECTION_CDE#'
+			select count(*) c from ctspecimen_part_name where part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$SAMPLE_NAME#"> and collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$COLLECTION_CDE#">
 		</cfquery>
 		<cfif bads.c is not 1>
 			<cfset status=listappend(status,'bad R$SAMPLE_NAME')>
 		</cfif>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select count(*) c from ctspecimen_part_name where part_name='#R$EXIST_PART_NAME#' and collection_cde='#R$COLLECTION_CDE#'
+			select count(*) c from ctspecimen_part_name where part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$EXIST_PART_NAME#"> and collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$COLLECTION_CDE#">
 		</cfquery>
 		<cfif bads.c is not 1>
 			<cfset status=listappend(status,'bad R$EXIST_PART_NAME')>
 		</cfif>
 		<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select count(*) c from CTCOLL_OBJ_DISP where COLL_OBJ_DISPOSITION='#R$SAMPLE_DISPOSITION#'
+			select count(*) c from CTCOLL_OBJ_DISP where COLL_OBJ_DISPOSITION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$SAMPLE_DISPOSITION#">
 		</cfquery>
 		<cfif bads.c is not 1>
 			<cfset status=listappend(status,'bad R$SAMPLE_DISPOSITION')>
@@ -162,9 +160,9 @@ Columns that begin with r$ are required; others are optional:
 					collection
 				WHERE
 					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#R$COLLECTION_CDE#' and
-					collection.institution_acronym = '#R$INSTITUTION_ACRONYM#' and
-					cat_num=#R$OTHER_ID_NUMBER#
+					collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$COLLECTION_CDE#"> and
+					collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$INSTITUTION_ACRONYM#"> and
+					cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$OTHER_ID_NUMBER#">
 			</cfquery>
 		<cfelse>
 			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -177,10 +175,10 @@ Columns that begin with r$ are required; others are optional:
 				WHERE
 					coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#R$COLLECTION_CDE#' and
-					collection.institution_acronym = '#R$INSTITUTION_ACRONYM#' and
-					other_id_type = '#R$OTHER_ID_TYPE#' and
-					display_value = '#R$OTHER_ID_NUMBER#'
+					collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$COLLECTION_CDE#"> and
+					collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$INSTITUTION_ACRONYM#"> and
+					other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$OTHER_ID_TYPE#"> and
+					display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$OTHER_ID_NUMBER#">
 			</cfquery>
 		</cfif>
 		<cfif collObj.recordcount is 1 and len(collObj.collection_object_id) gt 0>			
@@ -191,7 +189,7 @@ Columns that begin with r$ are required; others are optional:
 		</cfif>
 		<cfif len(R$SAMPLE_CONTAINER_TYPE) gt 0>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) c from ctcontainer_type where container_type='#R$SAMPLE_CONTAINER_TYPE#'
+				select count(*) c from ctcontainer_type where container_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$SAMPLE_CONTAINER_TYPE#">
 			</cfquery>
 			<cfif bads.c is not 1>
 				<cfset status=listappend(status,'bad R$SAMPLE_CONTAINER_TYPE')>
@@ -204,7 +202,7 @@ Columns that begin with r$ are required; others are optional:
 			<cfset status=listappend(status,'bad R$SAMPLE_CONDITION')>
 		</cfif>
 		<cfquery name="container" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select container_id from container where barcode='#R$SAMPLE_BARCODE#'
+			select container_id from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#R$SAMPLE_BARCODE#">
 		</cfquery>
 		<cfif container.recordcount is 1 and len(container.container_id) gt 0>
 			<cfset container_id=container.container_id>
@@ -217,8 +215,8 @@ Columns that begin with r$ are required; others are optional:
 			select min(collection_object_id)  collection_object_id
 			from 
 			specimen_part where
-			derived_from_cat_item=#cat_item_id# and
-			part_name='#r$exist_part_name#'
+			derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cat_item_id#"> and
+			part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$exist_part_name#">
 		</cfquery>
 		<cfif pPart.recordcount is 1 and len(pPart.collection_object_id) gt 0>
 			<cfset partID=pPart.collection_object_id>
@@ -228,11 +226,11 @@ Columns that begin with r$ are required; others are optional:
 		</cfif>
 		<cfquery name="status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			update cf_temp_part_sample set
-				i$validated_status='#status#',
-				i$collection_object_id=#cat_item_id#,
-				i$exist_part_id=#partID#,
-				i$container_id=#container_id#
-			where i$KEY = #i$KEY#
+				i$validated_status=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">,
+				i$collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cat_item_id#">,
+				i$exist_part_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
+				i$container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+			where i$KEY = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$KEY#">
 		</cfquery>
 	</cfloop>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -275,14 +273,14 @@ Columns that begin with r$ are required; others are optional:
 				coll_object
 			where
 				specimen_part.collection_object_id=coll_object.collection_object_id and
-				specimen_part.collection_object_id=#i$exist_part_id#
+				specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$exist_part_id#">
 		</cfquery>
 		<cfif pPart.lot_count lte 1>
 			I can't yet deal with parent lot count <= 1.
 			<cfabort>
 		<cfelse><!--- parent lot count check --->
 			<cfquery name="lot_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update coll_object set lot_count=lot_count-1 where collection_object_id=#i$exist_part_id#
+				update coll_object set lot_count=lot_count-1 where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$exist_part_id#">
 			</cfquery>
 			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO coll_object (
@@ -297,11 +295,11 @@ Columns that begin with r$ are required; others are optional:
 				VALUES (
 					sq_collection_object_id.nextval,
 					'SP',
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					sysdate,
-					'#r$sample_disposition#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$sample_disposition#">,
 					1,
-					'#r$sample_condition#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$sample_condition#">,
 					0
 				)		
 			</cfquery>
@@ -313,26 +311,26 @@ Columns that begin with r$ are required; others are optional:
 					SAMPLED_FROM_OBJ_ID)
 				VALUES (
 					sq_collection_object_id.currval,
-				  '#r$sample_name#'
-					,#i$collection_object_id#,
-					#i$exist_part_id#
+				  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$sample_name#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$exist_part_id#">
 				)
 			</cfquery>
 			<cfif len(#sample_remarks#) gt 0>
 				<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (sq_collection_object_id.currval, '#sample_remarks#')
+					VALUES (sq_collection_object_id.currval, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sample_remarks#">)
 				</cfquery>
 			</cfif>
 			<cfquery name="pCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select container_id from coll_obj_cont_hist where collection_object_id=#nextID.nextID#
+				select container_id from coll_obj_cont_hist where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">
 			</cfquery>
 			<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update container set parent_container_id=#i$container_id# where container_id=#pCont.container_id#
+				update container set parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$container_id#"> where container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pCont.container_id#">
 			</cfquery>
 			<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update container set label='#r$sample_label#',
-				container_type='#r$sample_container_type#' where container_id=#i$container_id#
+				update container set label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$sample_label#">,
+				container_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$sample_container_type#"> where container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i$container_id#">
 			</cfquery>	
 		</cfif><!--- parent lot count check --->
 	</cfloop>
