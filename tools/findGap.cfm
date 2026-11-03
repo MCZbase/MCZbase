@@ -439,7 +439,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 					<table class="table table-responsive d-xl-table table-sm" aria-labelledby="jumpsHeading">
 						<thead>
 							<tr>
-								<th scope="col" aria-sort="descending">Missing in it</th>
+								<th scope="col" aria-sort="descending">Count of Missing</th>
 								<th scope="col">Jump</th>
 								<th scope="col">Numbers below</th>
 								<th scope="col">Numbers above</th>
