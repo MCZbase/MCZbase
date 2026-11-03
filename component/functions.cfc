@@ -28,7 +28,7 @@
 			scientific_name,
 			concatEncumbrances(cataloged_item.collection_object_id) encumbrances,
 			specimen_part.collection_object_id as partID,
-			concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 			p1.barcode
 		 from
 			specimen_part,
@@ -1709,6 +1709,17 @@
 <cffunction name="changecustomOtherIdentifier" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>
+			<!--- the type is written into report and search queries, so only a type from the code table is kept --->
+			<cfif len(arguments.tgt) GT 0>
+				<cfquery name="knownType" datasource="uam_god" result="knownType_result">
+					SELECT other_id_type
+					FROM ctcoll_other_id_type
+					WHERE other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.tgt#">
+				</cfquery>
+				<cfif knownType.recordcount EQ 0>
+					<cfreturn "Unknown other identifier type.">
+				</cfif>
+			</cfif>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
 					customOtherIdentifier =
@@ -1720,7 +1731,7 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset session.customOtherIdentifier = "#tgt#">
+			<cfset session.customOtherIdentifier = arguments.tgt>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">

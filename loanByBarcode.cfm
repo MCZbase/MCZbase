@@ -132,7 +132,7 @@
 				 agent_name,
 				 loan_number,
 				 specimen_part.collection_object_id as partID,
-				concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+				concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 				p1.barcode	 			 
 			 from 
 				loan_item, 

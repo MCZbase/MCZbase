@@ -949,7 +949,7 @@ Number of rows to print per page:
 		cat_num,
 		cataloged_item.collection_object_id,
 		collection.collection,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+		concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 		concatattributevalue(cataloged_item.collection_object_id,'sex') as sex,
 		decode (sampled_from_obj_id,
 			null,part_name,
@@ -1390,7 +1390,7 @@ Number of rows to print per page:
 		 preserve_method,
 		condition,
 		loan_number,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+		concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID
 	 from
 		loan_item,
 		loan,
