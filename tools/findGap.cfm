@@ -38,7 +38,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 
 <!--- a missing number list is built from every number in the range, so the range is limited --->
 <cfset MAXMISSINGRANGE = 5000000>
-<cfset NRSBASE = "https://nrs.harvard.edu/">
+<cfset VIEWERBASE = "https://viewer.lib.harvard.edu/viewer/">
 <!--- a jump is listed as a likely entry error, such as 999999999 for 999999, when it is wider than
 	the count of numbers below it and has no more than this many numbers above it --->
 <cfset SUSPECTMAXABOVE = 100>
@@ -260,7 +260,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 			found_gaps.before_cat_num,
 			found_gaps.after_cat_num
 			<cfif variables.showLedgers>
-				, ledger.volumename, ledger.volumetype, ledger.volumepage, ledger.startnum, ledger.endnum, ledger.idsurn, ledger.filename
+				, ledger.volumename, ledger.volumetype, ledger.volumepage, ledger.startnum, ledger.endnum, ledger.idsurn, ledger.pdsurn, ledger.filename
 			</cfif>
 		FROM
 			found_gaps
@@ -302,13 +302,13 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 		<cfset variables.csvLines = []>
 		<cfset variables.headerLine = "GAP_START,GAP_END,MISSING_COUNT,LAST_BEFORE_GAP,FIRST_AFTER_GAP">
 		<cfif variables.showLedgers>
-			<cfset variables.headerLine = variables.headerLine & ",VOLUMENAME,VOLUMETYPE,VOLUMEPAGE,STARTNUM,ENDNUM,IDSURN,FILENAME">
+			<cfset variables.headerLine = variables.headerLine & ",VOLUMENAME,VOLUMETYPE,VOLUMEPAGE,STARTNUM,ENDNUM,IDSURN,PDSURN,FILENAME">
 		</cfif>
 		<cfset arrayAppend(variables.csvLines, variables.headerLine)>
 		<cfloop query="gaps">
 			<cfset variables.line = "#gaps.gap_start#,#gaps.gap_end#,#gaps.missing_count#,#csvField(gaps.before_cat_num)#,#csvField(gaps.after_cat_num)#">
 			<cfif variables.showLedgers>
-				<cfset variables.line = variables.line & ",#csvField(gaps.volumename)#,#csvField(gaps.volumetype)#,#gaps.volumepage#,#gaps.startnum#,#gaps.endnum#,#csvField(gaps.idsurn)#,#csvField(gaps.filename)#">
+				<cfset variables.line = variables.line & ",#csvField(gaps.volumename)#,#csvField(gaps.volumetype)#,#gaps.volumepage#,#gaps.startnum#,#gaps.endnum#,#csvField(gaps.idsurn)#,#csvField(gaps.pdsurn)#,#csvField(gaps.filename)#">
 			</cfif>
 			<cfset arrayAppend(variables.csvLines, variables.line)>
 		</cfloop>
@@ -520,9 +520,12 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 													<div>
 														#encodeForHtml(gaps.volumename)#<cfif len(gaps.volumepage) GT 0>, page #encodeForHtml(gaps.volumepage)#</cfif>
 														(#encodeForHtml(gaps.startnum)#&ndash;#encodeForHtml(gaps.endnum)#)
-														<!--- the scan is linked only when its identifier has the characters an NRS URN uses --->
+														<!--- linked only when an identifier has the characters a URN uses: IDS for the page image, PDS for the volume to page through --->
 														<cfif REFind("^[A-Za-z0-9:._\-]+$", gaps.idsurn) GT 0>
-															<a href="#NRSBASE##gaps.idsurn#?buttons=y" target="_blank">View scan<span class="sr-only"> of #encodeForHtml(gaps.volumename)# page #encodeForHtml(gaps.volumepage)#</span></a>
+															<a href="#VIEWERBASE##gaps.idsurn#" target="_blank">Page image<span class="sr-only"> of #encodeForHtml(gaps.volumename)# page #encodeForHtml(gaps.volumepage)#</span></a>
+														</cfif>
+														<cfif REFind("^[A-Za-z0-9:._\-]+$", gaps.pdsurn) GT 0>
+															<a class="ml-2" href="#VIEWERBASE##gaps.pdsurn#?buttons=y" target="_blank">Page through volume<span class="sr-only"> #encodeForHtml(gaps.volumename)#</span></a>
 														</cfif>
 													</div>
 												</cfif>
