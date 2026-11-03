@@ -1085,8 +1085,8 @@ limitations under the License.
 									<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE cf_temp_media
 										SET  
-											height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>,
-											width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
+											height = <cfif len(getTempMedia.height) gt 0><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.height#"><cfelse><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgInfo.height#"></cfif>,
+											width = <cfif len(getTempMedia.width) gt 0><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempMedia.width#"><cfelse><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#imgInfo.width#"></cfif>
 										WHERE 
 											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 											AND
@@ -1177,6 +1177,11 @@ limitations under the License.
 						<cfif getMediaRel.recordCount GT 0 >
 							<!---Find the table name "theTable" from the second part of the media_relationship--->
 							<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
+						<!--- the table name is written into statements below, so it must be a plain name; one that
+							is not finds no primary key and is reported as not found --->
+						<cfif REFind("^[A-Za-z][A-Za-z0-9_]*$", theTable) EQ 0>
+							<cfset theTable = "">
+						</cfif>
 							<!---based on the table, find the primary key--->
 							<cfquery name="tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner

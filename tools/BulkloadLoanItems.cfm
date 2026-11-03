@@ -799,9 +799,9 @@ limitations under the License.
 									FLAGS
 								) (
 									select
-										#thisPART_COLLECTION_OBJECT_ID#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
 										'SS',
-										#session.myAgentId#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 										sysdate,
 										NULL,
 										'on loan',
@@ -823,7 +823,7 @@ limitations under the License.
 									sampled_from_obj_id
 								) ( 
 									select
-										#thisPART_COLLECTION_OBJECT_ID#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
 										part_name,
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item,
