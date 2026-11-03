@@ -439,8 +439,8 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 					<table class="table table-responsive d-xl-table table-sm" aria-labelledby="jumpsHeading">
 						<thead>
 							<tr>
+								<th scope="col" aria-sort="descending">Missing in it</th>
 								<th scope="col">Jump</th>
-								<th scope="col">Missing in it</th>
 								<th scope="col">Numbers below</th>
 								<th scope="col">Numbers above</th>
 								<th scope="col">Likely entry error</th>
@@ -449,8 +449,8 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 						<tbody>
 							<cfloop query="jumps">
 								<tr>
+									<td><strong>#numberFormat(jumps.jump_size)#</strong></td>
 									<td>#jumps.below_num# to #jumps.above_num#</td>
-									<td>#numberFormat(jumps.jump_size)#</td>
 									<td>#numberFormat(jumps.numbers_below)#</td>
 									<td>#numberFormat(jumps.numbers_above)#</td>
 									<td>
