@@ -13,6 +13,73 @@
 <cfparam name="enteredby" default="">
 <cfparam name="accn" default="">
 <cfparam name="colln" default="">
+
+<!--- Column names cannot be bound, so each one a request names is checked against BULKLOADER's
+	columns in the data dictionary, and each operator against FILTEROPERATORS, before it is written
+	into a statement. --->
+<cfset FILTEROPERATORS = "=,like,in,between">
+<cfquery name="bulkloaderColumns" datasource="uam_god" result="bulkloaderColumns_result">
+	SELECT column_name
+	FROM all_tab_columns
+	WHERE owner = 'MCZBASE' AND table_name = 'BULKLOADER'
+</cfquery>
+<cfset BULKLOADERCOLUMNS = structNew()>
+<cfloop query="bulkloaderColumns">
+	<cfset BULKLOADERCOLUMNS[ucase(bulkloaderColumns.column_name)] = true>
+</cfloop>
+
+<!---
+	requestValue the value of a request parameter, from the form or else the url.
+
+	@param name the parameter name.
+	@return its value, or an empty string if neither scope has it.
+--->
+<cffunction name="requestValue" returntype="string" output="false">
+	<cfargument name="name" type="string" required="yes">
+	<cfif structKeyExists(form, arguments.name)>
+		<cfreturn form[arguments.name]>
+	<cfelseif structKeyExists(url, arguments.name)>
+		<cfreturn url[arguments.name]>
+	</cfif>
+	<cfreturn "">
+</cffunction>
+
+<!---
+	collectFilters the column, operator and value filters c1/op1/v1 to c3/op3/v3 of the bulk edit
+	forms, each with all three parts given, checked so that they can be written into a statement.
+
+	@return a structure of filters, an array of structures of column, op, value and, for between,
+		low and high; and problem, a message if a filter names an unknown column or operator or an
+		unusable range, otherwise empty.
+--->
+<cffunction name="collectFilters" returntype="struct" output="false">
+	<cfset var result = { filters = [], problem = "" }>
+	<cfset var n = 0>
+	<cfset var filter = "">
+	<cfset var dash = 0>
+	<cfloop from="1" to="3" index="n">
+		<cfset filter = { column = ucase(trim(requestValue("c#n#"))), op = lcase(trim(requestValue("op#n#"))), value = requestValue("v#n#") }>
+		<cfif len(filter.column) GT 0 AND len(filter.op) GT 0 AND len(filter.value) GT 0>
+			<cfif NOT structKeyExists(BULKLOADERCOLUMNS, filter.column)>
+				<cfset result.problem = "Filter #n# names a column the bulkloader does not have.">
+			<cfelseif listFind(FILTEROPERATORS, filter.op) EQ 0>
+				<cfset result.problem = "Filter #n# has an operator other than #FILTEROPERATORS#.">
+			<cfelse>
+				<cfif filter.op EQ "between">
+					<cfset dash = find("-", filter.value, 2)>
+					<cfif dash EQ 0 OR NOT isNumeric(trim(left(filter.value, dash - 1))) OR NOT isNumeric(trim(mid(filter.value, dash + 1, len(filter.value))))>
+						<cfset result.problem = "Filter #n# needs a numeric range written low-high for between.">
+						<cfcontinue>
+					</cfif>
+					<cfset filter.low = trim(left(filter.value, dash - 1))>
+					<cfset filter.high = trim(mid(filter.value, dash + 1, len(filter.value)))>
+				</cfif>
+				<cfset arrayAppend(result.filters, filter)>
+			</cfif>
+		</cfif>
+	</cfloop>
+	<cfreturn result>
+</cffunction>
 <style>
 .blTabDiv {
 	width: 100%;
@@ -103,7 +170,7 @@ table##t th {
 		<cfloop query="data">
 			<cfset oneLine = "">
 			<cfloop list="#ColNameList#" index="c">
-				<cfset thisData = #evaluate(c)#>
+				<cfset thisData = data[c][data.currentRow]>
 				<cfif len(oneLine) is 0>
 					<cfset oneLine = '"#thisData#"'>
 				<cfelse>
@@ -229,7 +296,7 @@ table##t th {
 								SELECT collection_object_id
 								FROM bulkloader
 								WHERE 
-									loaded like '%#loadedArray[i]#%'
+									loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
 									AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 									<cfif len(accn) gt 0>
 										AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
@@ -266,7 +333,7 @@ table##t th {
 									SELECT distinct #columnInError# value_error
 									FROM bulkloader
 									WHERE 
-										loaded like '%#errorCase#%'
+										loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#errorCase#%">
 										AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 										<cfif len(accn) gt 0>
 											AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
@@ -280,8 +347,8 @@ table##t th {
 										SELECT collection_object_id
 										FROM bulkloader
 										WHERE 
-											loaded like '%#loadedArray[i]#%'
-											AND #columnInError# = '#getErrorCases.value_error#'
+											loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
+											AND #columnInError# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getErrorCases.value_error#">
 											AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 											<cfif len(accn) gt 0>
 												AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
@@ -612,64 +679,44 @@ table##t th {
 		<cfif not isdefined("uc1") or not isdefined("uv1") or len(uc1) is 0 or len(uv1) is 0>
 			Not enough information. <cfabort>
 		</cfif>
-		<cfif uv1 is "NULL">
-			<cfset sql = "update bulkloader set #uc1# = NULL where enteredby IN (#enteredby#)">
-		<cfelse>
-		<cfset sql = "update bulkloader set #uc1# = '#uv1#' where enteredby IN (#enteredby#)">
+		<cfif NOT structKeyExists(BULKLOADERCOLUMNS, ucase(trim(uc1)))>
+			The column to update is not a bulkloader column. <cfabort>
 		</cfif>
-		<cfif isdefined("accn") and len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
+		<cfset variables.collected = collectFilters()>
+		<cfif len(variables.collected.problem) GT 0>
+			#encodeForHtml(variables.collected.problem)# <cfabort>
 		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-		</cfif>
-		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
-			<cfset sql = "#sql# AND #c1# #op1# ">
-			<cfif op1 is "=">
-				<cfset sql = "#sql# '#v1#'">
-			<cfelseif op1 is "like">
-				<cfset sql = "#sql# '%#v1#%'">
-			<cfelseif op1 is "in">
-				<cfset sql = "#sql# ('#replace(v1,",","','","all")#')">
-			<cfelseif op1 is "between">
-				<cfset dash = find("-",v1)>
-				<cfset f = left(v1,dash-1)>
-				<cfset t = mid(v1,dash+1,len(v1))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>		 
-		</cfif>
-		<cfif isdefined("c2") and len(c2) gt 0 and isdefined("op2") and len(op2) gt 0 and isdefined("v2") and len(v2) gt 0>
-			<cfset sql = "#sql# AND #c2# #op2# ">
-			<cfif op2 is "=">
-				<cfset sql = "#sql# '#v2#'">
-			<cfelseif op2 is "like">
-				<cfset sql = "#sql# '%#v2#%'">
-			<cfelseif op2 is "in">
-				<cfset sql = "#sql# ('#replace(v2,",","','","all")#')">
-			<cfelseif op2 is "between">
-				<cfset dash = find("-",v2)>
-				<cfset f = left(v2,dash-1)>
-				<cfset t = mid(v2,dash+1,len(v2))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>		 
-		</cfif>
-		<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
-			<cfset sql = "#sql# AND #c3# #op3# ">
-			<cfif #op3# is "=">
-				<cfset sql = "#sql# '#v3#'">
-			<cfelseif op3 is "like">
-				<cfset sql = "#sql# '%#v3#%'">
-			<cfelseif op3 is "in">
-				<cfset sql = "#sql# ('#replace(v3,",","','","all")#')">
-			<cfelseif op3 is "between">
-				<cfset dash = find("-",v3)>
-				<cfset f = left(v3,dash-1)>
-				<cfset t = mid(v3,dash+1,len(v3))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>	 
-		</cfif>
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#	
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="data_result">
+			UPDATE bulkloader
+			SET #ucase(trim(uc1))# =
+				<cfif uv1 is "NULL">
+					NULL
+				<cfelse>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uv1#">
+				</cfif>
+			WHERE
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+				<cfif len(accn) gt 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				</cfif>
+				<cfif len(colln) gt 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+				</cfif>
+				<cfloop array="#variables.collected.filters#" index="variables.filter">
+					AND #variables.filter.column#
+					<cfif variables.filter.op EQ "=">
+						= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.filter.value#">
+					<cfelseif variables.filter.op EQ "like">
+						LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.filter.value#%">
+					<cfelseif variables.filter.op EQ "in">
+						IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.filter.value#" list="yes">)
+					<cfelse>
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="10" value="#variables.filter.low#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="10" value="#variables.filter.high#">
+					</cfif>
+				</cfloop>
 		</cfquery>
 		<cfset rUrl="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#">
 		<cfif isdefined("accn") and len(accn) gt 0>
@@ -679,13 +726,13 @@ table##t th {
 			<cfset rUrl = "#rUrl#&colln=#colln#">
 		</cfif>
 		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
-			<cfset rUrl="#rUrl#&c1=#c1#&op1=#op1#&v1=#v1#"> 
+			<cfset rUrl="#rUrl#&c1=#encodeForUrl(c1)#&op1=#encodeForUrl(op1)#&v1=#encodeForUrl(v1)#"> 
 		</cfif>
 		<cfif isdefined("c2") and len(c2) gt 0 and isdefined("op2") and len(op2) gt 0 and isdefined("v2") and len(v2) gt 0>
-			<cfset rUrl="#rUrl#&c2=#c2#&op2=#op2#&v2=#v2#"> 
+			<cfset rUrl="#rUrl#&c2=#encodeForUrl(c2)#&op2=#encodeForUrl(op2)#&v2=#encodeForUrl(v2)#"> 
 		</cfif>
 		<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
-			<cfset rUrl="#rUrl#&c3=#c3#&op3=#op3#&v3=#v3#"> 
+			<cfset rUrl="#rUrl#&c3=#encodeForUrl(c3)#&op3=#encodeForUrl(op3)#&v3=#encodeForUrl(v3)#"> 
 		</cfif>
 		<cfif isdefined("showOnlyPopulated") and len(showOnlyPopulated) gt 0>
 			<cfset rUrl="#rUrl#&showOnlyPopulated=#showOnlyPopulated#"> 
@@ -717,76 +764,37 @@ table##t th {
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 			</cfif>
 		</cfquery>
-		<cfset hasFilter = false>
-		<!--- The statement below is assembled as text, so these three lists have to arrive in it
-			already quoted.  The pickers on this page send them that way, but the Edit my records in
-			Bulk button does not, and a bare value produced IN (mole) and ORA-00904.  Quoting is done
-			here from the cleaned values rather than relied on from the caller, so either form works;
-			the cleaned values have had their quotes stripped, so requoting cannot double them.
-			TODO: The rest of this statement, the column, operator and value triples below, is still
-			assembled as text. It is inside /Bulkloader/, which Application.cfc gates, so it is out of
-			scope for this issue; binding it is separate work. --->
-		<cfset enteredByQuoted = listqualify(enteredByCleaned,"'")>
-		<cfset accnQuoted = listqualify(accnCleaned,"'")>
-		<cfset collnQuoted = listqualify(collnCleaned,"'")>
-		<cfset sql = "select * from bulkloader where enteredby IN (#enteredByQuoted#)">
-		<cfif isdefined("accn") and len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accnQuoted#)">
+		<cfset variables.collected = collectFilters()>
+		<cfif len(variables.collected.problem) GT 0>
+			<div class="container-fluid"><p class="alert alert-warning mt-3">#encodeForHtml(variables.collected.problem)#</p></div>
+			<cfinclude template="/shared/_footer.cfm">
+			<cfabort>
 		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#collnQuoted#)">
-		</cfif>
-		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
-			<cfset hasFilter = true>
-			<cfset sql = "#sql# AND #c1# #op1# ">
-			<cfif #op1# is "=">
-				<cfset sql = "#sql# '#v1#'">
-			<cfelseif op1 is "like">
-				<cfset sql = "#sql# '%#v1#%'">
-			<cfelseif op1 is "in">
-				<cfset sql = "#sql# ('#replace(v1,",","','","all")#')">
-			<cfelseif op1 is "between">
-				<cfset dash = find("-",v1)>
-				<cfset f = left(v1,dash-1)>
-				<cfset t = mid(v1,dash+1,len(v1))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>		 
-		</cfif>
-		<cfif isdefined("c2") and len(c2) gt 0 and isdefined("op2") and len(op2) gt 0 and isdefined("v2") and len(v2) gt 0>
-			<cfset hasFilter = true>
-			<cfset sql = "#sql# AND #c2# #op2# ">
-			<cfif #op2# is "=">
-				<cfset sql = "#sql# '#v2#'">
-			<cfelseif op2 is "like">
-				<cfset sql = "#sql# '%#v2#%'">
-			<cfelseif op2 is "in">
-				<cfset sql = "#sql# ('#replace(v2,",","','","all")#')">
-			<cfelseif op2 is "between">
-				<cfset dash = find("-",v2)>
-				<cfset f = left(v2,dash-1)>
-				<cfset t = mid(v2,dash+1,len(v2))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>		 
-		</cfif>
-		<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
-			<cfset hasFilter = true>
-			<cfset sql = "#sql# AND #c3# #op3# ">
-			<cfif op3 is "=">
-				<cfset sql = "#sql# '#v3#'">
-			<cfelseif op3 is "like">
-				<cfset sql = "#sql# '%#v3#%'">
-			<cfelseif op3 is "in">
-				<cfset sql = "#sql# ('#replace(v3,",","','","all")#')">
-			<cfelseif op3 is "between">
-				<cfset dash = find("-",v3)>
-				<cfset f = left(v3,dash-1)>
-				<cfset t = mid(v3,dash+1,len(v3))>
-				<cfset sql = "#sql# #f# and #t# ">
-			</cfif>		 
-		</cfif>
-		<cfset sql="#sql# and rownum<=#MAX_BULK_ROWS#">
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-			#preservesinglequotes(sql)#	
+		<cfset hasFilter = (arrayLen(variables.collected.filters) GT 0)>
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#" result="data_result">
+			SELECT *
+			FROM bulkloader
+			WHERE
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+				<cfif len(accn) gt 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				</cfif>
+				<cfif len(colln) gt 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+				</cfif>
+				<cfloop array="#variables.collected.filters#" index="variables.filter">
+					AND #variables.filter.column#
+					<cfif variables.filter.op EQ "=">
+						= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.filter.value#">
+					<cfelseif variables.filter.op EQ "like">
+						LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#variables.filter.value#%">
+					<cfelseif variables.filter.op EQ "in">
+						IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.filter.value#" list="yes">)
+					<cfelse>
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="10" value="#variables.filter.low#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="10" value="#variables.filter.high#">
+					</cfif>
+				</cfloop>
+				AND rownum <= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#MAX_BULK_ROWS#">
 		</cfquery>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -1156,29 +1164,29 @@ table##t th {
 <!-------------------------->
 <cfif #action# is "saveGridUpdate">
 <cfoutput>
-<cfquery name="cNames" datasource="uam_god">
-	select column_name from user_tab_cols where table_name='BULKLOADER'
-</cfquery>
-<cfset ColNameList = valuelist(cNames.column_name)>
 <cfset GridName = "blGrid">
-<cfset numRows = #ArrayLen(form.blGrid.rowstatus.action)#>
+<cfset numRows = #ArrayLen(form[GridName].rowstatus.action)#>
 <h3>#numRows# rows updated</h3>
-<!--- loop for each record --->
+<!--- one update per grid row, setting only the columns whose values changed --->
 <cfloop from="1" to="#numRows#" index="i">
-	<!--- and for each column --->
-	<cfset thisCollObjId = evaluate("Form.#GridName#.collection_object_id[#i#]")>
-	<cfset sql ='update BULKLOADER SET collection_object_id = #thisCollObjId#'>
-	<cfloop index="ColName" list="#ColNameList#">
-		<cfset oldValue = evaluate("Form.#GridName#.original.#ColName#[#i#]")>
-		<cfset newValue = evaluate("Form.#GridName#.#ColName#[#i#]")>
-		<cfif #oldValue# neq #newValue#>
-			<cfset sql = "#sql#, #ColName# = '#newValue#'">
+	<cfset thisCollObjId = form[GridName]["collection_object_id"][i]>
+	<cfset variables.changed = structNew()>
+	<cfloop collection="#BULKLOADERCOLUMNS#" item="ColName">
+		<cfif ColName NEQ "COLLECTION_OBJECT_ID" AND structKeyExists(form[GridName], ColName) AND structKeyExists(form[GridName].original, ColName)>
+			<cfset oldValue = form[GridName].original[ColName][i]>
+			<cfset newValue = form[GridName][ColName][i]>
+			<cfif oldValue NEQ newValue>
+				<cfset variables.changed[ColName] = newValue>
+			</cfif>
 		</cfif>
 	</cfloop>
-	
-		<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
+	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="up_result">
+		UPDATE bulkloader
+		SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjId#">
+			<cfloop collection="#variables.changed#" item="ColName">
+				, #ColName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.changed[ColName]#">
+			</cfloop>
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjId#">
 	</cfquery>
 </cfloop>
 <cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#">
@@ -1190,31 +1198,34 @@ table##t th {
 <!--- unused action? --->
 <cfif #action# is "upBulk">
 <cfoutput>
+	<!--- the columns the viewTable form offers --->
+	<cfset UPBULKCOLUMNS = "SPEC_LOCALITY,HIGHER_GEOG,ENTEREDBY,LOADED,ACCN,OTHER_ID_NUM_5">
 	<cfif len(#loaded#) gt 0 and
 		len(#column_name#) gt 0 and
-		len(#tValue#) gt 0>	
-		<cfset sql="UPDATE bulkloader SET LOADED = ">
-		<cfif #loaded# is "NULL">
-			<cfset sql="#sql# NULL">
-		<cfelse>
-			<cfset sql="#sql# '#loaded#'">
+		len(#tValue#) gt 0>
+		<cfif listFindNoCase(UPBULKCOLUMNS, column_name) EQ 0 OR NOT structKeyExists(BULKLOADERCOLUMNS, ucase(column_name))>
+			The column to match is not one this form offers. <cfabort>
 		</cfif>
-		<cfset sql="#sql# WHERE #column_name#	=
-			'#trim(tValue)#' AND
-			enteredby IN (#enteredby#)">
-		<cfif len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
-		</cfif>		
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-		</cfif>
-			#preservesinglequotes(sql)#
-		<!---
-		
-		<cfabort>
-		--->
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)#
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
+		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upBulk_result">
+			UPDATE bulkloader
+			SET LOADED =
+				<cfif #loaded# is "NULL">
+					NULL
+				<cfelse>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loaded#">
+				</cfif>
+			WHERE
+				#ucase(column_name)# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tValue)#">
+				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+				<cfif len(accn) gt 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				</cfif>
+				<cfif isdefined("colln") and len(colln) gt 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+				</cfif>
 		</cfquery>
 	</cfif>
 
