@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 <cfset title="Bulkload Taxonomy">
     <div style="width: 56em;margin: 0 auto; padding: 2em 0 5em 0;">
 <!---- make the table
@@ -149,31 +150,24 @@ sho err
 	</cfquery>
 
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="windows-1252">
-
-
-
-	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-
-	<cfset numberOfColumns = arraylen(arrResult[1])>
-	<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif o is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
-				</cfif>
-			</cfloop>
-		<cfif o is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>
-		<cfif len(colVals) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_temp_taxonomy (#colNames#) values (#preservesinglequotes(colVals)#)
+	<!--- only headers that are columns of the staging table are loaded; spreadsheets often carry
+		other columns, and those are ignored --->
+	<cfset variables.usable = usableHeaders(arrResult[1], "cf_temp_taxonomy")>
+	<cfif arrayLen(variables.usable.columns) EQ 0>
+		No column of the file matches a column of the taxonomy staging table, so nothing was loaded.
+		<cfabort>
+	</cfif>
+	<cfloop from="2" to="#ArrayLen(arrResult)#" index="o">
+		<cfif NOT isBlankRow(arrResult[o])>
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="ins_result">
+				INSERT INTO cf_temp_taxonomy (#columnNameList(variables.usable.columns)#)
+				VALUES (
+					<cfloop from="1" to="#arrayLen(variables.usable.columns)#" index="i">
+						<cfif i GT 1>,</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cellValue(arrResult[o], variables.usable.columns[i].position)#">
+					</cfloop>
+				)
 			</cfquery>
 		</cfif>
 	</cfloop>
@@ -380,12 +374,12 @@ sho err
 				<input type='hidden' name="scientific_name_#key#" value="#scientific_name#">
 				<input type="hidden" name="key_#n#" value="#key#">
 				<cfquery name="current" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from taxonomy where scientific_name='#scientific_name#'
+					select * from taxonomy where scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 				</cfquery>
 					<tr>
 					<cfloop list="#colList#" index="i">
-						<cfset newTerm = evaluate("data." & i)>
-						<cfset existTerm = evaluate("current." & i)>
+						<cfset newTerm = data[i][data.currentRow]>
+						<cfset existTerm = current[i][1]>
 
 						<td <cfif len(newTerm) gt 0 and len(existTerm) gt 0 and newTerm is not existTerm> style="border:2px solid red;"</cfif>>
 							<cfif #newTerm# is not #existTerm#>
@@ -420,63 +414,49 @@ sho err
 	<cfoutput>
 		<cftransaction>
 			<cfloop from ="1" to="#numberOfRecords#" index="i">
-				<cfset key = evaluate("key_" & i)>
-				<cfset valid_catalog_term_fg = evaluate("valid_catalog_term_fg_" & key)>
-				<cfset source_authority = evaluate("source_authority_" & key)>
-				<cfset author_text = evaluate("author_text_" & key)>
-				<cfset tribe = evaluate("tribe_" & key)>
-				<cfset infraspecific_rank = evaluate("infraspecific_rank_" & key)>
-				<cfset phylclass = evaluate("phylclass_" & key)>
-				<cfset phylorder = evaluate("phylorder_" & key)>
-				<cfset suborder = evaluate("suborder_" & key)>
-				<cfset family = evaluate("family_" & key)>
-				<cfset subfamily = evaluate("subfamily_" & key)>
-				<cfset genus = evaluate("genus_" & key)>
-				<cfset subgenus = evaluate("subgenus_" & key)>
-				<cfset species = evaluate("species_" & key)>
-				<cfset subspecies = evaluate("subspecies_" & key)>
-				<cfset phylum = evaluate("phylum_" & key)>
-				<cfset taxon_remarks = evaluate("taxon_remarks_" & key)>
-				<cfset kingdom = evaluate("kingdom_" & key)>
-				<cfset nomenclatural_code = evaluate("nomenclatural_code_" & key)>
-				<cfset scientific_name = evaluate("scientific_name_" & key)>
-				<cfset infraspecific_author = evaluate("infraspecific_author_" & key)>
-				<cfset SUBCLASS = evaluate("SUBCLASS_" & key)>
-				<cfset SUPERFAMILY = evaluate("SUPERFAMILY_" & key)>
-				<cfset TAXON_STATUS = evaluate("TAXON_STATUS_" & key)>
-
-				<cfset sql="UPDATE taxonomy SET
-					valid_catalog_term_fg=#valid_catalog_term_fg#,
-					source_authority = '#escapeQuotes(source_authority)#',
-					author_text='#escapeQuotes(author_text)#',
-					tribe = '#tribe#',
-					infraspecific_rank = '#infraspecific_rank#',
-					phylclass = '#phylclass#',
-					phylorder = '#phylorder#',
-					suborder = '#suborder#',
-					family = '#family#',
-					subfamily = '#subfamily#',
-					genus = '#genus#',
-					subgenus = '#subgenus#',
-					species = '#species#',
-					subspecies = '#subspecies#',
-					phylum = '#phylum#',
-					taxon_remarks = '#escapeQuotes(taxon_remarks)#',
-					kingdom = '#kingdom#',
-					nomenclatural_code = '#nomenclatural_code#',
-					SUBCLASS = '#SUBCLASS#',
-					SUPERFAMILY = '#SUPERFAMILY#',
-					TAXON_STATUS = '#TAXON_STATUS#',
-					infraspecific_author = '#escapeQuotes(infraspecific_author)#'
-				WHERE scientific_name='#scientific_name#'">
-				<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#">
-					#preserveSingleQuotes(sql)#
+				<!--- each record's fields are posted named with its key, read from the form scope by name --->
+				<cfset key = form["key_#i#"]>
+				<cfif NOT isValid("integer", key)>
+					Record #i# has no usable key. <cfabort>
+				</cfif>
+				<cfset variables.posted = structNew()>
+				<cfloop list="valid_catalog_term_fg,source_authority,author_text,tribe,infraspecific_rank,phylclass,phylorder,suborder,family,subfamily,genus,subgenus,species,subspecies,phylum,taxon_remarks,kingdom,nomenclatural_code,scientific_name,infraspecific_author,SUBCLASS,SUPERFAMILY,TAXON_STATUS" index="variables.fieldName">
+					<cfset variables.posted[variables.fieldName] = "">
+					<cfif structKeyExists(form, "#variables.fieldName#_#key#")>
+						<cfset variables.posted[variables.fieldName] = form["#variables.fieldName#_#key#"]>
+					</cfif>
+				</cfloop>
+				<cfset scientific_name = variables.posted.scientific_name>
+				<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#" result="edTaxa_result">
+					UPDATE taxonomy SET
+						valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.posted.valid_catalog_term_fg#" null="#len(variables.posted.valid_catalog_term_fg) EQ 0#">,
+						source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.source_authority#">,
+						author_text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.author_text#">,
+						tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.tribe#">,
+						infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.infraspecific_rank#">,
+						phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.phylclass#">,
+						phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.phylorder#">,
+						suborder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.suborder#">,
+						family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.family#">,
+						subfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.subfamily#">,
+						genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.genus#">,
+						subgenus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.subgenus#">,
+						species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.species#">,
+						subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.subspecies#">,
+						phylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.phylum#">,
+						taxon_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.taxon_remarks#">,
+						kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.kingdom#">,
+						nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.nomenclatural_code#">,
+						infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.infraspecific_author#">,
+						SUBCLASS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.SUBCLASS#">,
+						SUPERFAMILY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.SUPERFAMILY#">,
+						TAXON_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.posted.TAXON_STATUS#">
+					WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 				</cfquery>
-				<cfquery name="killTemp" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#">
-					delete from cf_temp_taxonomy WHERE scientific_name='#scientific_name#'
+				<cfquery name="killTemp" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#" result="killTemp_result">
+					delete from cf_temp_taxonomy WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 				</cfquery>
-				<br>#sql#
-				<br><a href="/name/#scientific_name#">#scientific_name#</a> updated
+				<br><a href="/name/#encodeForUrl(scientific_name)#">#encodeForHtml(scientific_name)#</a> updated
 				<hr>
 
 
@@ -681,86 +661,86 @@ sho err
 				</cfif>
 				)
 			VALUES (
-				#nid.nid#
-				,#valid_catalog_term_fg#
-				,'#source_authority#'
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid.nid#">
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 				<cfif len(#author_text#) gt 0>
-					,'#author_text#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#">
 				</cfif>
 				<cfif len(#tribe#) gt 0>
-					,'#tribe#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tribe#">
 				</cfif>
 				<cfif len(#infraspecific_rank#) gt 0>
-					,'#infraspecific_rank#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#">
 				</cfif>
 				<cfif len(#phylclass#) gt 0>
-					,'#phylclass#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylclass#">
 				</cfif>
 				<cfif len(#subclass#) gt 0>
-					,'#subclass#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subclass#">
 				</cfif>
 				<cfif len(#infraclass#) gt 0>
-					,'#infraclass#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraclass#">
 				</cfif>
 				<cfif len(#superorder#) gt 0>
-					,'#superorder#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#superorder#">
 				</cfif>
 				<cfif len(#phylorder#) gt 0>
-					,'#phylorder#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylorder#">
 				</cfif>
 				<cfif len(#suborder#) gt 0>
-					,'#suborder#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suborder#">
 				</cfif>
 				<cfif len(#infraorder#) gt 0>
-					,'#infraorder#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraorder#">
 				</cfif>
 				<cfif len(#subsection#) gt 0>
-					,'#subsection#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subsection#">
 				</cfif>
 				<cfif len(#SUPERFAMILY#) gt 0>
-					,'#SUPERFAMILY#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUPERFAMILY#">
 				</cfif>
 				<cfif len(#family#) gt 0>
-					,'#family#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#family#">
 				</cfif>
 				<cfif len(#subfamily#) gt 0>
-					,'#subfamily#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subfamily#">
 				</cfif>
 				<cfif len(#genus#) gt 0>
-					,'#genus#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#genus#">
 				</cfif>
 				<cfif len(#subgenus#) gt 0>
-					,'#subgenus#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subgenus#">
 				</cfif>
 				<cfif len(#species#) gt 0>
-					,'#species#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species#">
 				</cfif>
 				<cfif len(#subspecies#) gt 0>
-					,'#subspecies#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subspecies#">
 				</cfif>
 				<cfif len(#taxon_remarks#) gt 0>
-					,'#taxon_remarks#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_remarks#">
 				</cfif>
 				<cfif len(#subphylum#) gt 0>
-					,'#subphylum#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subphylum#">
 				</cfif>
 				<cfif len(#phylum#) gt 0>
-					,'#phylum#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylum#">
 				</cfif>
 				<cfif len(#infraspecific_author#) gt 0>
-					,'#infraspecific_author#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_author#">
 				</cfif>
 				<cfif len(#kingdom#) gt 0>
-					,'#kingdom#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kingdom#">
 				</cfif>
 				<cfif len(#nomenclatural_code#) gt 0>
-					,'#nomenclatural_code#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
 				</cfif>
 				<cfif len(#TAXON_STATUS#) gt 0>
-					,'#TAXON_STATUS#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXON_STATUS#">
 				</cfif>
 				<cfif len(#DIVISION#) gt 0>
-					,'#DIVISION#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DIVISION#">
 				</cfif>
 					)
 		</cfquery>
