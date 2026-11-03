@@ -35,6 +35,8 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 <cfparam name="url.ledgers" default="">
 <cfparam name="url.format" default="">
 <cfparam name="url.download" default="">
+<cfset url.low = trim(url.low)>
+<cfset url.high = trim(url.high)>
 
 <!--- a missing number list is built from every number in the range, so the range is limited --->
 <cfset MAXMISSINGRANGE = 5000000>
