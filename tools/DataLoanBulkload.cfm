@@ -1,4 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 <!---
 create table cf_temp_data_loan_item (
  KEY                                                            NUMBER,
@@ -85,26 +86,24 @@ sho err
 		delete from cf_temp_data_loan_item
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />	
-	<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#trim(thisBit)#'">
-				</cfif>
-			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				insert into cf_temp_data_loan_item (#colNames#) values (#preservesinglequotes(colVals)#)
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+	<!--- only headers that are columns of the staging table are loaded; spreadsheets often carry
+		other columns, and those are ignored --->
+	<cfset variables.usable = usableHeaders(arrResult[1], "cf_temp_data_loan_item")>
+	<cfif arrayLen(variables.usable.columns) EQ 0>
+		No column of the file matches a column of the data loan staging table, so nothing was loaded.
+		<cfabort>
+	</cfif>
+	<cfloop from="2" to="#ArrayLen(arrResult)#" index="o">
+		<cfif NOT isBlankRow(arrResult[o])>
+			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="ins_result">
+				INSERT INTO cf_temp_data_loan_item (#columnNameList(variables.usable.columns)#)
+				VALUES (
+					<cfloop from="1" to="#arrayLen(variables.usable.columns)#" index="i">
+						<cfif i GT 1>,</cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(cellValue(arrResult[o], variables.usable.columns[i].position))#">
+					</cfloop>
+				)
 			</cfquery>
 		</cfif>
 	</cfloop>
@@ -153,9 +152,9 @@ sho err
 						collection
 					where
 						cataloged_item.collection_id = collection.collection_id and
-						collection.institution_acronym = '#institution_acronym#' and
-						collection.collection_cde = '#collection_cde#' and
-						cat_num = '#other_id_number#'
+						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+						cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -168,10 +167,10 @@ sho err
 					where
 						cataloged_item.collection_id = collection.collection_id and
 						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
-						collection.institution_acronym = '#institution_acronym#' and
-						collection.collection_cde = '#collection_cde#' and
-						display_value = '#other_id_number#' and
-						other_id_type = '#other_id_type#'
+						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#"> and
+						other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">
 				</cfquery>
 			</cfif>
 			<cfif collObj.recordcount is 1 and len(collObj.collection_object_id) gt 0>
@@ -181,9 +180,9 @@ sho err
 						cf_temp_data_loan_item
 					set
 						status='spiffy',
-						collection_object_id = #collObj.collection_object_id#
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
 					where
-						key=#key#
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 				<cfquery name="defDescr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update 
@@ -196,9 +195,9 @@ sho err
 							collection
 						where
 							cataloged_item.collection_id = collection.collection_id and
-							cataloged_item.collection_object_id=#collObj.collection_object_id#
+							cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
 					)
-					where ITEM_DESCRIPTION is null and key=#key#
+					where ITEM_DESCRIPTION is null and key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 			<cfelse>
 				no CI
@@ -208,7 +207,7 @@ sho err
 					set
 						status='no item'
 					where
-						key=#key#
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -246,11 +245,11 @@ sho err
 					item_descr
 					)
 				VALUES (
-					 #transaction_id#,
-					  #collection_object_id#,
-					  #session.myAgentId#,
+					 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+					  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
+					  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					  sysdate,
-					  '#ITEM_DESCRIPTION#'
+					  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCRIPTION#">
 					)
 			</cfquery>
 		</cfloop>
