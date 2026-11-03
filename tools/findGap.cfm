@@ -525,7 +525,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 															<a href="#VIEWERBASE##gaps.idsurn#" target="_blank">Page image<span class="sr-only"> of #encodeForHtml(gaps.volumename)# page #encodeForHtml(gaps.volumepage)#</span></a>
 														</cfif>
 														<cfif REFind("^[A-Za-z0-9:._\-]+$", gaps.pdsurn) GT 0>
-															<a class="ml-2" href="#VIEWERBASE##gaps.pdsurn#?buttons=y" target="_blank">Page through volume<span class="sr-only"> #encodeForHtml(gaps.volumename)#</span></a>
+															<a class="ml-2" href="#VIEWERBASE##gaps.pdsurn#?buttons=y" target="_blank">Page 1 of Page Turned Volume<span class="sr-only"> #encodeForHtml(gaps.volumename)#</span></a>
 														</cfif>
 													</div>
 												</cfif>
