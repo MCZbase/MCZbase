@@ -41,9 +41,12 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 <!--- a missing number list is built from every number in the range, so the range is limited --->
 <cfset MAXMISSINGRANGE = 5000000>
 <cfset VIEWERBASE = "https://viewer.lib.harvard.edu/viewer/">
-<!--- a jump is listed as a likely entry error, such as 999999999 for 999999, when it is wider than
-	the count of numbers below it and has no more than this many numbers above it --->
+<!--- a jump is listed as a likely entry error, such as 999999999 for 999999, when no more
+	than SUSPECTMAXABOVE numbers lie above it, and it is at least SUSPECTMINJUMP wide and
+	SUSPECTJUMPPERABOVE times wider than the count of numbers above it --->
 <cfset SUSPECTMAXABOVE = 100>
+<cfset SUSPECTMINJUMP = 1000>
+<cfset SUSPECTJUMPPERABOVE = 100>
 <cfset LARGESTJUMPCOUNT = 10>
 
 <!---
@@ -197,7 +200,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 	<!--- the cataloged items above each likely entry error, to open and correct --->
 	<cfset variables.suspectItems = structNew()>
 	<cfloop query="jumps">
-		<cfif jumps.jump_size GT jumps.numbers_below AND jumps.numbers_above LTE SUSPECTMAXABOVE>
+		<cfif jumps.numbers_above LTE SUSPECTMAXABOVE AND jumps.jump_size GTE SUSPECTMINJUMP AND jumps.jump_size GTE jumps.numbers_above * SUSPECTJUMPPERABOVE>
 			<cfquery name="itemsAbove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="itemsAbove_result">
 				SELECT cat_num, cat_num_integer
 				FROM cataloged_item
@@ -437,7 +440,7 @@ format=csv with download=gaps or download=missing returns a file instead of the 
 				</cfif>
 				<cfif jumps.recordcount GT 0>
 					<h3 class="h4" id="jumpsHeading">Widest jumps in the series</h3>
-					<p class="small mb-1">A number entered with extra digits, such as 999999999 for 999999, shows as a jump wider than all the numbers below it, with few numbers above. Those are marked as likely entry errors and their cataloged items listed; until they are corrected, set the highest number below them to keep them out of the gaps and missing number counts.</p>
+					<p class="small mb-1">A number entered with extra digits, such as 999999999 for 999999, shows as a wide jump with few numbers above it: no more than #SUSPECTMAXABOVE#, with the jump at least #numberFormat(SUSPECTMINJUMP)# wide and #SUSPECTJUMPPERABOVE# times wider than their count. Those are marked as likely entry errors and their cataloged items listed; until they are corrected, set the highest number below them to keep them out of the gaps and missing number counts.</p>
 					<table class="table table-responsive d-xl-table table-sm" aria-labelledby="jumpsHeading">
 						<thead>
 							<tr>
