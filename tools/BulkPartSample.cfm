@@ -1,5 +1,5 @@
 <!--- tools/BulkPartSample.cfm bulk create subsamples,
-   Decrements parent part lot count by one and creates a new part
+	Decrements parent part lot count by one and creates a new part
 	sampled from that parent.
 
 Copyright 2008-2017 Contributors to Arctos
@@ -54,14 +54,14 @@ alter table cf_temp_part_sample rename column sample_barcode to r$sample_barcode
 create or replace public synonym cf_temp_part_sample for cf_temp_part_sample;
 grant all on cf_temp_part_sample to manage_specimens;
 
-CREATE OR REPLACE TRIGGER cf_temp_part_sample_key                                         
- before insert  ON cf_temp_part_sample  
+CREATE OR REPLACE TRIGGER cf_temp_part_sample_key
+ before insert ON cf_temp_part_sample
  for each row 
-    begin     
-    	if :NEW.i$key is null then                                                                                      
-    		select somerandomsequence.nextval into :new.i$key from dual;
-    	end if;                                
-    end;                                                                                            
+	begin
+		if :NEW.i$key is null then
+			select somerandomsequence.nextval into :new.i$key from dual;
+		end if;
+	end;
 /
 sho err
 ---->
@@ -90,9 +90,14 @@ sho err
 				<cfloop query="template">
 					<cfif left(column_name,2) is not 'i$'>
 						<cfset cols=listappend(cols,column_name)>
-						<li <cfif left(column_name,2) is "r$">  style="color:red"</cfif>>#column_name#
+						<cfset styleVal ="">
+						<cfif left(column_name,2) is "r$">
+							<cfset styleVal='style="color:red"'>
+						</cfif>
+						<li #styleVal#>#column_name#
 							<cfif len(comments) gt 0>
-							<br><span style="padding-left:20px;font-size:small">#comments#</span></cfif>
+								<br><span style="padding-left:20px;font-size:small">#comments#</span>
+							</cfif>
 						</li>
 					</cfif>	
 				</cfloop>
@@ -241,7 +246,7 @@ sho err
 				</cfif>
 		
 				<cfquery name="pPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT min(collection_object_id)  collection_object_id
+					SELECT min(collection_object_id) collection_object_id
 					FROM specimen_part 
 					WHERE derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cat_item_id#"> and
 						part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#r$exist_part_name#">
