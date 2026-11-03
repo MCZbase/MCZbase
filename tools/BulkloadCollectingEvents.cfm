@@ -422,7 +422,7 @@ limitations under the License.
 			<cfloop list="#requiredfieldlist#" item="aField">
 				<cfquery name="warningMissingRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_COLLECTING_EVENT
-					SET status = concat(nvl2(status, status || '; ', ''),'#aField# is required')
+					SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#aField# is required">)
 					WHERE
 						( #aField# is null or trim(#aField#) is null )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -543,7 +543,7 @@ limitations under the License.
 					<cfelseif len(agentProblem) gt 0>
 						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
-							SET status = concat(nvl2(status, status || '; ', ''),'date_determined_by_agent not found #agentProblem#')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="date_determined_by_agent not found #agentProblem#">)
 							WHERE date_determined_by_agent is not null 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -564,14 +564,14 @@ limitations under the License.
 					<cfif NOT dateUtils.eventDateValid(#getTempData.BEGAN_DATE#)>
 						<cfquery name="checkBeganDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
-							SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE is in the correct format but is not a valid date "#began_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="BEGAN_DATE is in the correct format but is not a valid date ""#began_date#""">)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 						</cfquery>
 					<cfelseif DatePart("yyyy",parseDateTime(getTempData.BEGAN_DATE,pattern)) LT '1700'>
 						<cfquery name="checkBeganDate1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
-							SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE Year must be 1700 or later "#began_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="BEGAN_DATE Year must be 1700 or later ""#began_date#""">)
 							WHERE began_date is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -580,7 +580,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="checkBeganDate3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_collecting_event
-						SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE is not in the form yyyy, yyyy-mm, or yyyy-mm-dd "#began_date#"')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="BEGAN_DATE is not in the form yyyy, yyyy-mm, or yyyy-mm-dd ""#began_date#""">)
 						WHERE began_date is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -598,14 +598,14 @@ limitations under the License.
 					<cfif NOT dateUtils.eventDateValid(#getTempData.ENDED_DATE#)>
 						<cfquery name="checkEndedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
-							SET status = concat(nvl2(status, status || '; ', ''),'ENDED_DATE is in the correct format but is not a valid date "#ended_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ENDED_DATE is in the correct format but is not a valid date ""#ended_date#""">)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 						</cfquery>
 					<cfelseif DatePart("yyyy",parseDateTime(getTempData.ENDED_DATE,pattern)) LT '1700'>
 						<cfquery name="checkEndedDate1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
-							SET status = concat(nvl2(status, status || '; ', ''),'ENDED_DATE Year must be 1700 or later "#ended_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ENDED_DATE Year must be 1700 or later ""#ended_date#""">)
 							WHERE ended_date is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -614,7 +614,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="checkEndedDate3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_collecting_event
-						SET status = concat(nvl2(status, status || '; ', ''),'ENDED_DATE is not in the form yyyy, yyyy-mm, or yyyy-mm-dd "#ended_date#"')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ENDED_DATE is not in the form yyyy, yyyy-mm, or yyyy-mm-dd ""#ended_date#""">)
 						WHERE ended_date is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 

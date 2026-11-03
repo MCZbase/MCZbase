@@ -212,8 +212,8 @@ sho err
 
 		<cfif len(#problem#) gt 0>
 			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_taxonomy SET status = '#problem#' where
-				key = #key#
+				UPDATE cf_temp_taxonomy SET status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem#"> where
+				key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 		</cfif>
 	</cfloop>
@@ -468,97 +468,97 @@ sho err
 	<!----
 	<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#">
 	UPDATE taxonomy SET
-		valid_catalog_term_fg=#valid_catalog_term_fg#
-		,source_authority = '#source_authority#'
+		valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+		,source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 		<cfif len(#author_text#) gt 0>
-			,author_text='#author_text#'
+			,author_text=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#">
 		<cfelse>
 			,author_text=null
 		</cfif>
 		<cfif len(#tribe#) gt 0>
-			,tribe = '#tribe#'
+			,tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tribe#">
 		<cfelse>
 			,tribe = null
 		</cfif>
 		<cfif len(#infraspecific_rank#) gt 0>
-			,infraspecific_rank = '#infraspecific_rank#'
+			,infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#">
 		<cfelse>
 			,infraspecific_rank = null
 		</cfif>
 		<cfif len(#phylclass#) gt 0>
-			,phylclass = '#phylclass#'
+			,phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylclass#">
 		<cfelse>
 			,phylclass = null
 		</cfif>
 		<cfif len(#phylorder#) gt 0>
-			,phylorder = '#phylorder#'
+			,phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylorder#">
 		<cfelse>
 			,phylorder = null
 		</cfif>
 		<cfif len(#suborder#) gt 0>
-			,suborder = '#suborder#'
+			,suborder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suborder#">
 		<cfelse>
 			,suborder = null
 		</cfif>
 		<cfif len(#family#) gt 0>
-			,family = '#family#'
+			,family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#family#">
 		<cfelse>
 			,family = null
 		</cfif>
 		<cfif len(#subfamily#) gt 0>
-			,subfamily = '#subfamily#'
+			,subfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subfamily#">
 		<cfelse>
 			,subfamily = null
 		</cfif>
 		<cfif len(#genus#) gt 0>
-			,genus = '#genus#'
+			,genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#genus#">
 		<cfelse>
 			,genus = null
 		</cfif>
 		<cfif len(#subgenus#) gt 0>
-			,subgenus = '#subgenus#'
+			,subgenus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subgenus#">
 		<cfelse>
 			,subgenus = null
 		</cfif>
 		<cfif len(#species#) gt 0>
-			,species = '#species#'
+			,species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#species#">
 		<cfelse>
 			,species = null
 		</cfif>
 		<cfif len(#subspecies#) gt 0>
-			,subspecies = '#subspecies#'
+			,subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subspecies#">
 		<cfelse>
 			,subspecies = null
 		</cfif>
 		<cfif len(#phylum#) gt 0>
-			,phylum = '#phylum#'
+			,phylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylum#">
 		<cfelse>
 			,phylum = null
 		</cfif>
 		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks = '#taxon_remarks#'
+			,taxon_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_remarks#">
 		<cfelse>
 			,taxon_remarks = null
 		</cfif>
 		<cfif len(#kingdom#) gt 0>
-			,kingdom = '#kingdom#'
+			,kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kingdom#">
 		<cfelse>
 			,kingdom = null
 		</cfif>
 		<cfif len(#nomenclatural_code#) gt 0>
-			,nomenclatural_code = '#nomenclatural_code#'
+			,nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
 		<cfelse>
 			,nomenclatural_code = null
 		</cfif>
 		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author = '#infraspecific_author#'
+			,infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_author#">
 		<cfelse>
 			,infraspecific_author = null
 		</cfif>
-	WHERE scientific_name='#scientific_name#'
+	WHERE scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 	</cfquery>
 	<cfquery name="killTemp" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cookie.cfid)#">
-		delete from cf_temp_taxonomy WHERE scientific_name='#scientific_name#'
+		delete from cf_temp_taxonomy WHERE scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 	</cfquery>
 	<cflocation url="BulkloadTaxonomy.cfm?action=fixDups" addtoken="false">
 	---->

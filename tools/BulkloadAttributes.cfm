@@ -517,7 +517,7 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute_units not in controlled vocabulary #ctAttribute_code_tables.units_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="attribute_units not in controlled vocabulary #ctAttribute_code_tables.units_code_table#">)
 							WHERE 
 								attribute_units not in (
 									<cfif ctAttribute_code_tables.units_code_table EQ "CTLENGTH_UNITS">
@@ -550,7 +550,7 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute_value not in controlled vocabulary #ctAttribute_code_tables.value_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="attribute_value not in controlled vocabulary #ctAttribute_code_tables.value_code_table#">)
 							WHERE 
 								attribute_value not in (
 									<cfif ctAttribute_code_tables.value_code_table EQ "CTSEX_CDE">
@@ -580,7 +580,7 @@ limitations under the License.
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#requiredField# is missing">)
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>

@@ -117,7 +117,7 @@
 					from
 						raw
 					where
-						partID=#partID# and
+						partID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> and
 						loan_number is not null
 					group by
 						loan_number,
@@ -162,7 +162,7 @@
 			from
 				raw
 			where
-				partID=#partID# and
+				partID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> and
 				loan_number is not null
 			group by
 				loan_number,

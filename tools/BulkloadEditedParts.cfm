@@ -547,7 +547,7 @@ limitations under the License.
 						SET 
 							status = concat(
 								nvl2(status, status || '; ', ''),
-							'	#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="	#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.">
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
@@ -805,7 +805,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd "'||PART_ATT_MADEDATE_#i#||'"')
+					SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd """>||PART_ATT_MADEDATE_#i#||'"')
 					WHERE 
 						PART_ATT_NAME_#i# is not null 
 						AND PART_ATT_VAL_#i# <> 'DELETE'
@@ -872,7 +872,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
+					SET status = concat(nvl2(status,status ||  '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="PART_ATT_UNITS_#i# is not valid for attribute """>||PART_ATT_NAME_#i#||'"')
 					WHERE 
 						PART_ATT_VAL_#i# <> 'DELETE'
 						AND MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0

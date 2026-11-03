@@ -605,7 +605,7 @@ limitations under the License.
 							where
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id and
-						specimen_part.collection_object_id = '#getTempDataQC.PART_COLLECTION_OBJECT_ID#'
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.PART_COLLECTION_OBJECT_ID#">
 						)
 					where 
 						ITEM_DESCRIPTION IS NULL 
@@ -840,7 +840,7 @@ limitations under the License.
 								update coll_object set 
 									coll_obj_disposition = 'on loan'
 								where
-									collection_object_id ='#thisPART_COLLECTION_OBJECT_ID#'
+									collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPART_COLLECTION_OBJECT_ID#">
 							</cfquery>
 						</cfif>
 						<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan_result">

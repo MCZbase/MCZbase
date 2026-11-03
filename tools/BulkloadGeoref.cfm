@@ -422,7 +422,7 @@ limitations under the License.
 			<cfloop list="#requiredfieldlist#" item="aField">
 				<cfquery name="warningMissingRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE CF_TEMP_GEOREF
-					SET status = concat(nvl2(status, status || '; ', ''),'#aField# is required')
+					SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#aField# is required">)
 					WHERE
 						( #aField# is null or trim(#aField#) is null )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -898,7 +898,7 @@ limitations under the License.
 					<cfif findAgentDet.recordCount EQ 1 OR findAgentAnyDet.recordCount EQ 1>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
-							SET determined_by_agent_id = #relatedAgentID#
+							SET determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatedAgentID#">
 							WHERE determined_by_agent_ID is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -906,7 +906,7 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'Determiner is not found because #agentProblem1#')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Determiner is not found because #agentProblem1#">)
 							WHERE determined_by_agent is not null 
 								AND determined_by_agent not in (select agent_name from agent_name)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -937,7 +937,7 @@ limitations under the License.
 						<cfset relatedVerAgentID = findAgentVer.agent_id>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
-							SET verified_by_agent_id = #relatedVerAgentID#
+							SET verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatedVerAgentID#">
 							WHERE verified_by_agent_ID is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -953,7 +953,7 @@ limitations under the License.
 							<cfset relatedVerAgentID = findAgentAnyVer.agent_id>
 							<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef 
-								SET verified_by_agent_id = #relatedVerAgentID#
+								SET verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatedVerAgentID#">
 								WHERE verified_by_agent_ID is null
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -962,7 +962,7 @@ limitations under the License.
 							<cfset agentProblem2 = "no matches to any agent name">
 							<cfquery name="warningVerifNoMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef
-								SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found because there were #agentProblem2#')
+								SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Verified_by not found because there were #agentProblem2#">)
 								WHERE verified_by is not null 
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -971,7 +971,7 @@ limitations under the License.
 							<cfset agentProblem2 = "matches to multiple agent names, use agent_id">
 							<cfquery name="warningVerifNoMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef
-								SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found because there were #agentProblem2#')
+								SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Verified_by not found because there were #agentProblem2#">)
 								WHERE verified_by is not null 
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -981,7 +981,7 @@ limitations under the License.
 						<cfset agentProblem2 = "matches to multiple preferred agent names, use agent_id">
 						<cfquery name="warningVerifNoMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found because there were #agentProblem2#')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Verified_by not found because there were #agentProblem2#">)
 							WHERE verified_by is not null 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -993,7 +993,7 @@ limitations under the License.
 					<cfif len(verified_by) eq 0>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY not found--it is needed for VERIFICATIONSTATUS [#verificationstatus#]')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="VERIFIED_BY not found--it is needed for VERIFICATIONSTATUS [#verificationstatus#]">)
 							WHERE verified_by is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -1003,7 +1003,7 @@ limitations under the License.
 					<cfif len(verified_by) gt 0>
 						<cfquery name="warningExtraVerAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS [#verificationstatus#] should not have a VERIFIED_BY agent')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="VERIFICATIONSTATUS [#verificationstatus#] should not have a VERIFIED_BY agent">)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
@@ -1063,14 +1063,14 @@ limitations under the License.
 					<cfif NOT dateUtils.eventDateValid(#getTempData.DETERMINED_DATE#)>
 						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE is in the correct format but is not a valid date "#determined_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DETERMINED_DATE is in the correct format but is not a valid date ""#determined_date#""">)
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 						</cfquery>
 					<cfelseif DatePart("yyyy",parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd")) LT '1700'>
 						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE Year must be 1700 or later "#determined_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DETERMINED_DATE Year must be 1700 or later ""#determined_date#""">)
 							WHERE determined_date is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -1079,7 +1079,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE is not in the form yyyy-mm-dd "#determined_date#"')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DETERMINED_DATE is not in the form yyyy-mm-dd ""#determined_date#""">)
 						WHERE determined_date is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -1094,7 +1094,7 @@ limitations under the License.
 				<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DEC_LAT: #dec_lat# does not match precision #minLength#">)
 						WHERE coordinate_precision is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -1103,7 +1103,7 @@ limitations under the License.
 				<cfif len(#geoPrecision.dot_dec_long#) lt #minLength#>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DEC_LONG: #dec_long# does not match precision #minLength#">)
 						WHERE coordinate_precision is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 

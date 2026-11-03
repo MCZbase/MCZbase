@@ -1705,17 +1705,17 @@ limitations under the License.
 						,contact_agent_id
 					</cfif>)
 				VALUES (
-					#nextPermit.nextPermit#
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">
 					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
 					<cfif len(#ISSUED_DATE#) gt 0>
-						,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(ISSUED_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_to_agent_id#">
 					<cfif len(#RENEWED_DATE#) gt 0>
-						,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(RENEWED_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					<cfif len(#EXP_DATE#) gt 0>
-						,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(EXP_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					<cfif len(#PERMIT_NUM#) gt 0>
 						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">

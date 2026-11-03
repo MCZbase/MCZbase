@@ -631,7 +631,7 @@ limitations under the License.
 				<cfelseif #a1.recordcount# GT 1>
 					<cfquery name="a1notfound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_id
-						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 matched #a1.recordcount# records in the database')
+						SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="agent_1 matched #a1.recordcount# records in the database">)
 						WHERE agent_1 is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
@@ -662,7 +662,7 @@ limitations under the License.
 					<cfelseif #a2.recordcount# GT 1>
 						<cfquery name="agentError" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id
-							SET status = concat(nvl2(status, status || '; ', ''),'agent_2 matched #a2.recordcount# records in the database')
+							SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="agent_2 matched #a2.recordcount# records in the database">)
 							WHERE agent_2 is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
@@ -728,7 +728,7 @@ limitations under the License.
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#requiredField# is missing">)
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>

@@ -96,7 +96,7 @@ Change to: <select name="format">
 				   c2.label as position,
 				   c1.barcode as vial,
 				   corem.coll_object_remarks as part_remarks,
-				   '#NOT_SUBSAMPLE#' sampled_from_part_remarks
+				   <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NOT_SUBSAMPLE#"> sampled_from_part_remarks
 				from
 					loan_item
 					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
@@ -1438,7 +1438,7 @@ Number of rows to print per page:
         <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
                 select shipped_date 
 					from shipment 
-					where transaction_id = #transactioN_id#<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=">
+					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transactioN_id#">
         </cfquery>
    <b> #dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
    <br>

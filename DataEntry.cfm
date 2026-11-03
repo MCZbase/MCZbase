@@ -115,9 +115,9 @@ Some Totally Random String Data .....
 						collection_cde,
 						loaded) VALUES (
 						#collection_id#,
-						'#institution_acronym#',
-						'#collection_cde#',
-						'#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE')
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">)
 				</cfquery>
 			<cfelseif isBL.loaded is not "#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">
 			    <!--- it is not our template --->
@@ -133,9 +133,9 @@ Some Totally Random String Data .....
 						collection_cde,
 						loaded) VALUES (
 						#collection_id#,
-						'#institution_acronym#',
-						'#collection_cde#',
-						'#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE')
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">)
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -180,7 +180,7 @@ Some Totally Random String Data .....
 				<cfif #theirLast.recordcount# gt 0>
 					<cfloop query="theirLast">
 						<cfquery name="temp" dbtype="query">
-							select collection from c where institution_acronym='#instAc#' and collection_cde='#collnCde#'
+							select collection from c where institution_acronym=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instAc#"> and collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCde#">
 						</cfquery>
 						<option value="#theId#">Your Last #temp.collection#</option>
 					</cfloop>
@@ -333,7 +333,7 @@ Some Totally Random String Data .....
 			order by BIOL_INDIV_RELATIONSHIP
 	    </cfquery>
 	    <cfquery name="ctAge_class" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select age_class from ctAge_class where collection_cde = '#collection_cde#' order by age_class
+			select age_class from ctAge_class where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> order by age_class
 		</cfquery>
 		<cfquery name="ctLength_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select length_units from ctLength_Units order by length_units

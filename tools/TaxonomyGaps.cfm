@@ -441,7 +441,7 @@ limitations under the License.
 				</cfif>
 				WHERE
 					<cfloop query="ctINFRASPECIFIC_RANK">
-						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, ' #INFRASPECIFIC_RANK# ', ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
+						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" #INFRASPECIFIC_RANK# ">, ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
 					</cfloop>
 					regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, chr(50071), ''),'[a-z]-[a-z]',''), '[^A-Za-z ]')
 					<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>
@@ -474,7 +474,7 @@ limitations under the License.
 				</cfif>
 				WHERE
 					<cfloop query="ctINFRASPECIFIC_RANK">
-						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, ' #INFRASPECIFIC_RANK# ', ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
+						regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" #INFRASPECIFIC_RANK# ">, ''),'[a-z]-[a-z]',''), '[^A-Za-z ]') AND
 					</cfloop>
 					regexp_like(regexp_replace(regexp_replace(taxonomy.scientific_name, chr(50071), ''),'[a-z]-[a-z]',''), '[^A-Za-z ]')
 					<cfif len(variables.collection_id) GT 0 AND variables.collection_id GT 0>

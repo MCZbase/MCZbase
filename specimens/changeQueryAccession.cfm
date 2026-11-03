@@ -217,7 +217,7 @@
 			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
 				<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upAccn_result">
 					UPDATE cataloged_item 
-					SET accn_id = #accn.transaction_id# 
+					SET accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#"> 
 					WHERE collection_object_id  in (
 						SELECT collection_object_id 
 						FROM user_search_table

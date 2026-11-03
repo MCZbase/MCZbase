@@ -1951,15 +1951,15 @@
 					LOT_COUNT,
 					CONDITION)
 				VALUES
-					(#n.n#,
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'SS',
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					sysdate,
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					sysdate,
-					'#parentData.coll_obj_disposition#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.coll_obj_disposition#">,
 					1,
-					'#parentData.condition#')
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 			</cfquery>
 			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO specimen_part (
@@ -1969,9 +1969,9 @@
 					,SAMPLED_FROM_OBJ_ID
 					,DERIVED_FROM_CAT_ITEM)
 				VALUES (
-					#n.n#
-					,'#parentData.part_name#'
-					,'#parentData.preserve_method#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.preserve_method#">
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					,#parentData.derived_from_cat_item#)
 			</cfquery>
@@ -1994,12 +1994,12 @@
 			VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
-					#n.n#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 				<cfelse>
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
 				'in loan',
-				#session.myagentid#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">,
 				sysdate
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
@@ -2014,7 +2014,7 @@
 			UPDATE coll_object SET coll_obj_disposition = 'on loan'
 			where collection_object_id =
 		<cfif #subsample# is 1>
-				#n.n#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">
 			<cfelse>
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>
@@ -2048,7 +2048,7 @@
 			</cfif>
 			<cfloop list="#tableList#" index="tabl">
 				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select MCZBASE.getMediaBySpecimen('#tabl#',#cid#) midList from dual
+					select MCZBASE.getMediaBySpecimen(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tabl#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cid#">) midList from dual
 				</cfquery>
 				<cfif len(mid.midList) gt 0>
 					<cfset t = queryaddrow(theResult,1)>
@@ -2353,7 +2353,7 @@
 			 	,contact_agent_id
 			 </cfif>)
 		VALUES (
-			 #nextPermit.nextPermit#
+			 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">
 			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
 			 <cfif len(#ISSUED_DATE#) gt 0>
 			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">

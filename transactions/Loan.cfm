@@ -144,7 +144,7 @@ limitations under the License.
 								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
 								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									select
-									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(now(),'yyyy')#-"> || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="-#collection_cde#"> as nextNumber
 									from
 										loan,
 										trans,
@@ -153,7 +153,7 @@ limitations under the License.
 										loan.transaction_id=trans.transaction_id 
 										AND trans.collection_id=collection.collection_id
 										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
+										AND substr(loan_number, 1,4) =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(now(),'yyyy')#">
 								</cfquery>
 							<cfcatch>
 								<hr>
