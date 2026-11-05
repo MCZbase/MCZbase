@@ -33,6 +33,13 @@ limitations under the License.
 <cfset MAX_CLONES = 100>
 <!--- What becomes of parts after the first: kept on the first clone only, kept on every clone, or removed from every clone. --->
 <cfset OTHER_PARTS_CHOICES = "first,all,none">
+<!--- What each choice does to the other parts, shown on the record's summary. --->
+<cfset OTHER_PARTS_ACTIONS = {
+	"first" = "Kept on the first clone only, for the first container in the list; removed from the other clones.",
+	"all" = "Kept on every clone, in the same containers as the original.",
+	"none" = "Removed; no bulkloader record will have them, and they will not be loaded."
+}>
+<cfset OTHER_PARTS_NO_ACTION = "Choose below what becomes of them.">
 <!--- Bulkloader columns that describe a part after the first, as PART_NAME_2 or PART_2_ATT_NAME_1; the
 	part number is the first group of digits. --->
 <cfset OTHER_PART_COLUMN_PATTERN = "^(PART_NAME|PRESERV_METHOD|PART_CONDITION|PART_CONTAINER_UNIQUE_ID|PART_CONTAINER_NAME|PART_LOT_COUNT|PART_LOT_CNT_MOD|PART_DISPOSITION|PART_REMARK)_([0-9]+)$|^PART_([0-9]+)_ATT_">
@@ -589,8 +596,15 @@ limitations under the License.
 						<dt class="col-sm-3">Part 1 Container</dt>
 						<dd class="col-sm-9">#encodeForHtml(variables.record.part_container_unique_id_1)#&nbsp;</dd>
 						<cfif arrayLen(variables.otherParts) GT 0>
+							<cfset variables.otherPartsAction = OTHER_PARTS_NO_ACTION>
+							<cfif structKeyExists(OTHER_PARTS_ACTIONS, form.other_parts)>
+								<cfset variables.otherPartsAction = OTHER_PARTS_ACTIONS[form.other_parts]>
+							</cfif>
 							<dt class="col-sm-3">Other Parts</dt>
-							<dd class="col-sm-9">#encodeForHtml(trim(variables.otherPartsText))#</dd>
+							<dd class="col-sm-9">
+								#encodeForHtml(trim(variables.otherPartsText))#
+								<span id="otherPartsAction" class="d-block font-weight-bold bg-light border border-dark rounded px-2 py-1 mt-1" aria-live="polite">#encodeForHtml(variables.otherPartsAction)#</span>
+							</dd>
 						</cfif>
 						<dt class="col-sm-3">Accession</dt>
 						<dd class="col-sm-9">#encodeForHtml(variables.record.accn)#&nbsp;</dd>
@@ -845,7 +859,7 @@ limitations under the License.
 									<cfcase value="none"><cfset variables.choiceLabel = "Remove them; no bulkloader record will have them (each clone has only the first part)"></cfcase>
 								</cfswitch>
 								<div class="form-check">
-									<input type="radio" class="form-check-input" name="other_parts" id="other_parts_#variables.choice#" value="#variables.choice#" #variables.checked# required>
+									<input type="radio" class="form-check-input" name="other_parts" id="other_parts_#variables.choice#" value="#variables.choice#" #variables.checked# required data-action="#encodeForHtmlAttribute(OTHER_PARTS_ACTIONS[variables.choice])#" onChange="showOtherPartsAction(this, 'otherPartsAction');">
 									<label class="form-check-label" for="other_parts_#variables.choice#">#variables.choiceLabel#</label>
 								</div>
 							</cfloop>
@@ -868,6 +882,15 @@ limitations under the License.
 		// The container type roles from the code table, for the picker's check of a picked container.
 		loadContainerTypeMetadata();
 	});
+
+	/** Shows on the record's summary what the chosen Other parts option will do to the other parts.
+	 *
+	 * @param radio the option chosen, carrying the description in its data-action attribute.
+	 * @param targetId the id of the element for the description, without a leading ##.
+	 */
+	function showOtherPartsAction(radio, targetId) {
+		$('##' + targetId).text($(radio).data('action'));
+	}
 
 	/** Opens the container picker and adds the unique id of the container chosen to the end of a
 	 * comma separated list of container unique ids, unless the list already has it.
