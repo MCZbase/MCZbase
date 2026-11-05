@@ -541,26 +541,6 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<!--- Saved on each change, as the settings above are. --->
-										<cfset variables.reportCodes = reportCollectionCodes()>
-										<div class="form-row">
-											<fieldset class="col-12 mb-2" id="reportPrefsFieldset" aria-describedby="reportPrefsHelp">
-												<legend class="data-entry-label mb-0">Collections whose label reports are listed by default when printing labels</legend>
-												<small id="reportPrefsHelp" class="d-block text-secondary mb-1">Reports for all collections are always listed; the others stay one tick away under Include reports for other collections.  The number is how many label reports each has.</small>
-												<cfloop query="variables.reportCodes">
-													<cfset variables.checked = "">
-													<cfif listFindNoCase(getUserData.reportprefs, variables.reportCodes.code) GT 0>
-														<cfset variables.checked = "checked">
-													</cfif>
-													<div class="form-check form-check-inline">
-														<input type="checkbox" class="form-check-input" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked# onChange="changeReportPrefs('reportPrefsFieldset', 'changeFeedback');">
-														<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
-													</div>
-												</cfloop>
-											</fieldset>
-										</div>
-									</cfif>
 								</form>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
@@ -597,6 +577,29 @@ limitations under the License.
 												)
 											};
 										</script>
+									</div>
+									<!--- Saved on each change, as the MCZbase Settings are. --->
+									<cfset variables.reportCodes = reportCollectionCodes()>
+									<div class="form-row">
+										<div class="col-12 mb-2">
+											<div class="bg-light rounded border p-2">
+												<h3 class="h3" id="reportPrefsHeading">Collections whose label reports are listed by default when printing labels</h3>
+												<fieldset id="reportPrefsFieldset" aria-labelledby="reportPrefsHeading" aria-describedby="reportPrefsHelp">
+													<p id="reportPrefsHelp" class="small text-secondary mb-1">Reports for all collections are always listed; the others stay one tick away under Include reports for other collections.  The number is how many label reports each has.  Each change is saved at once.</p>
+													<cfloop query="variables.reportCodes">
+														<cfset variables.checked = "">
+														<cfif listFindNoCase(getUserData.reportprefs, variables.reportCodes.code) GT 0>
+															<cfset variables.checked = "checked">
+														</cfif>
+														<div class="form-check form-check-inline">
+															<input type="checkbox" class="form-check-input" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked# onChange="changeReportPrefs('reportPrefsFieldset', 'reportPrefsFeedback');">
+															<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
+														</div>
+													</cfloop>
+												</fieldset>
+												<output id="reportPrefsFeedback" class="d-block small" aria-live="polite"></output>
+											</div>
+										</div>
 									</div>
 									<div class="form-row">
 										<div class="col-12 mb-2">
