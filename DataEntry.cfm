@@ -146,7 +146,7 @@ Some Totally Random String Data .....
             <br/>
 		<ul>
 			<li><span style="color:##9cca4b">Green Screen</span>: You are entering data to a new record.</li>
-			<li><span style="color:##00CCCC">Teal Screen</span>: you are editing an unloaded record that you've previously entered.</li>
+			<li><span style="color:##00CCCC">Teal Screen</span>: you are editing an unloaded record that you have previously entered.</li>
 			<!---  TODO: Validate that the css sets this screen to red, not yellow --->
             <li><span style="color:##b58aa5">Mauve Screen</span>: A record has been saved but has errors that must be corrected. Fix and save to continue.</li>
 		</ul>
@@ -156,11 +156,11 @@ Some Totally Random String Data .....
 		<cfif isdefined("session.roles") AND listFindNoCase(session.roles,"manage_specimens")>
 			<p>To clone a cataloged item into the bulkloader, for example to split a lot or to make a related record such as of a parasite:</p>
 			<ol>
-				<li>Open the cataloged item's record (its /guid/ page).</li>
+				<li>Open the cataloged item&##39;s record (its /guid/ page).</li>
 				<li>Click <strong>Catalog/Clone</strong> in the row of edit buttons at the top of the record (on smaller screens, <strong>Edit/Clone</strong> in the Cataloged Item heading).</li>
 				<li>In the dialog, under <strong>Clone into Bulkloader</strong>, click <strong>Show Instructions</strong> and then <strong>Clone into Bulkloader</strong>.</li>
 				<li>When it finishes, follow the <strong>View Clone In Bulkloader</strong> link to the new record here, in Data Entry. It is linked to the original as a child record.</li>
-				<li>Check the new record's specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
+				<li>Check the new record#&#39;s specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
 			</ol>
 		</cfif>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
