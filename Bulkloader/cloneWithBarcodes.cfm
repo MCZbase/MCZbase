@@ -211,7 +211,7 @@ limitations under the License.
 					<li>
 						<strong>Enter the container unique ids</strong>, one for each copy you want.  Type them, separated by
 						commas, spaces or line breaks; scan them with a barcode scanner that ends each scan with a line break; or
-						use Pick a Container, as many times as needed, to find a container and add its unique id to the list.
+						use Pick and Add a Container, as many times as needed, to find a container and add its unique id to the list.
 						The three can be mixed.  Then Check Containers.
 					</li>
 					<li>
@@ -582,8 +582,8 @@ limitations under the License.
 					<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
 					<label for="unique_ids" class="data-entry-label">Container Unique IDs, one for each clone</label>
 					<textarea name="unique_ids" id="unique_ids" rows="2" class="data-entry-textarea autogrow w-100 mb-1" aria-describedby="uniqueIdsHelp" required>#encodeForHtml(form.unique_ids)#</textarea>
-					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas, spaces or line breaks, or add them with Pick a Container.  Nothing is changed until Create Clones.</small>
-					<button type="button" class="btn btn-xs btn-secondary mb-2" onClick="addPickedContainer('unique_ids', 'pickContainerFeedback');">Pick a Container</button>
+					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas, spaces or line breaks, or add them with Pick and Add a Container.  Nothing is changed until Create Clones.</small>
+					<button type="button" class="btn btn-xs btn-secondary mb-2" onClick="addPickedContainer('unique_ids', 'pickContainerFeedback');">Pick and Add a Container</button>
 					<button type="submit" class="btn btn-xs btn-primary mb-2">Check Containers</button>
 					<output id="pickContainerFeedback" class="d-block small" aria-live="polite"></output>
 				</form>
