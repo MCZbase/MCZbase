@@ -195,6 +195,14 @@ limitations under the License.
 					samples in several cryovials.  It replaces that one record with a copy for each container, so
 					that each container gets its own cataloged item when the records are loaded.
 				</p>
+				<p>
+					All of the work here is done in the bulkloader, the staging table that holds records entered in
+					Data Entry until they are loaded.  The record you clone, and the clones made from it, are staged
+					records, not cataloged items.  No cataloged item, part or container is created or changed by this
+					page; the containers you enter are only checked and written into the clones.  The specimens are
+					created, and each first part placed in its container, when the bulkloader loads the clones, as for
+					any other record from Data Entry.
+				</p>
 				<ol>
 					<li><strong>Find the record.</strong> Choose whose records to list, and optionally accessions, then List Records.</li>
 					<li><strong>Choose the record</strong> to clone from the list, with its Clone button.</li>
@@ -203,8 +211,8 @@ limitations under the License.
 						spaces or line breaks (a barcode scanner that ends each scan with a line break works), then Check Containers.
 					</li>
 					<li>
-						<strong>Create the clones.</strong> When every container passes the check, Create Clones makes the
-						copies and removes the original record.
+						<strong>Create the clones.</strong> When every container passes the check, Create Clones adds the
+						copies to the bulkloader and removes the original record from it.
 					</li>
 				</ol>
 				<p>What the clones contain:</p>
@@ -222,6 +230,11 @@ limitations under the License.
 					<li>
 						Clones keep the original's status.  If the original was marked to load, so are the clones; if it was
 						waiting for changes, so are they.
+					</li>
+					<li>
+						When the clones are loaded, each first part is placed in the container entered for that clone.  Until
+						then the containers are not changed, and nothing reserves them, so the bulkloader checks each one again
+						at loading.
 					</li>
 					<li>The original record is removed from the bulkloader when the clones are made.  This cannot be undone from this page.</li>
 				</ul>
