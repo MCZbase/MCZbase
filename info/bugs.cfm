@@ -81,7 +81,7 @@ limitations under the License.
 				</cfif>
 				<cfif url.access_removal EQ "user">
 					<cfset variables.complaintText = "Remove #variables.accountCount# #variables.accountWord# as MCZbase users" & chr(10) & chr(10)
-						& "Please remove these accounts as MCZbase users, locking their MCZbase logins and database accounts:" & chr(10)
+						& "Please remove these accounts as MCZbase users:" & chr(10)
 						& variables.accountLines>
 				<cfelse>
 					<cfset variables.collectionName = "">

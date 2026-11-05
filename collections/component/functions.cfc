@@ -772,13 +772,19 @@ limitations under the License.
 									<cfset otherVpdText = "">
 								<cfelseif listLen(otherVpdsOf[holders.grantee]) GTE otherCollectionCount>
 									<cfset otherVpdText = "All">
+								<cfelseif listLen(otherVpdsOf[holders.grantee]) GT 3>
+									<cfset otherVpdText = "Multiple (#listLen(otherVpdsOf[holders.grantee])#)">
 								<cfelse>
 									<cfset otherVpdText = replace(otherVpdsOf[holders.grantee], ",", ", ", "all")>
 								</cfif>
 								<tr>
 									<td>
-										<input type="checkbox" class="removalAccount" id="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" value="#encodeForHtmlAttribute(account)#">
-										<label for="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" class="sr-only">Select #encodeForHtml(account)# for a removal request</label>
+										<!--- Removal is asked for only for MCZbase users with access to this collection alone, not
+											global admins, curatorial associates or database accounts with no MCZbase user. --->
+										<cfif group EQ "specific" AND len(holders.mczbase_username) GT 0>
+											<input type="checkbox" class="removalAccount" id="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" value="#encodeForHtmlAttribute(account)#">
+											<label for="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" class="sr-only">Select #encodeForHtml(account)# for a removal request</label>
+										</cfif>
 									</td>
 									<td>
 										#encodeForHtml(holders.grantee)#
@@ -819,7 +825,7 @@ limitations under the License.
 					</details>
 				</cfif>
 			</cfloop>
-			<cfif holders.recordcount GT 0>
+			<cfif groupCounts.specific GT 0>
 				<fieldset class="border rounded px-2 pb-2 mt-3">
 					<legend class="h6 w-auto px-1 mb-1">Request removal</legend>
 					<p class="small mb-1">Tick accounts above, choose what to ask for, and draft a bug report to review and send.</p>
