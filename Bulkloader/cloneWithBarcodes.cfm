@@ -24,6 +24,7 @@ limitations under the License.
 <cfset pageHasContainers = "true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
+<cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement --->
 
 <!--- Bulkloader rows with ids up to this are the Data Entry templates, one per collection, as
 	MAXTEMPLATE in /DataEntry.cfm; they are never offered for cloning. --->
@@ -174,42 +175,80 @@ limitations under the License.
 
 <!---
 	checkUniqueIds check that each id is a container a part can be placed in, as the bulkloader will
-	when the clones are loaded, and that no id is entered twice.
+	when the clones are loaded, that no id is entered twice, and that the placement rules allow a
+	collection object in the container.
+
+	The part's own collection object container is made only when a clone is loaded, so, as in
+	tools/BulkloadNewParts.cfm, an existing collection object container of the record's institution
+	stands in for it when the placement rules are applied.  A placement the rules block is a problem;
+	placement warnings are shown and do not stop the clones.
 
 	@param uniqueIds an array of container unique ids.
-	@return a structure of results, an array of structures of unique_id, container_type and
-		problem (empty for a usable container); and problemCount.
+	@param institutionAcronym the institution of the record being cloned.
+	@return a structure of results, an array of structures of unique_id, container_type, problem
+		(empty for a usable container), placement (the placement rules' result, or an empty
+		structure where they were not applied) and placementJson (that result as JSON); and problemCount.
 --->
 <cffunction name="checkUniqueIds" returntype="struct" output="false">
 	<cfargument name="uniqueIds" type="array" required="yes">
+	<cfargument name="institutionAcronym" type="string" required="yes">
 
 	<cfset var result = { results = [], problemCount = 0 }>
 	<cfset var getContainers = "">
-	<cfset var containerTypes = structNew()>
+	<cfset var getStandIn = "">
+	<cfset var containers = structNew()>
 	<cfset var seen = structNew()>
 	<cfset var uniqueId = "">
 	<cfset var entry = "">
+	<cfset var placement = "">
 
 	<cfif arrayLen(arguments.uniqueIds) GT 0>
 		<cfquery name="getContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getContainers_result">
-			SELECT barcode, container_type
+			SELECT container_id, barcode, container_type
 			FROM container
 			WHERE barcode IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arrayToList(arguments.uniqueIds, chr(31))#" list="yes" separator="#chr(31)#">)
 		</cfquery>
 		<cfloop query="getContainers">
-			<cfset containerTypes[getContainers.barcode] = getContainers.container_type>
+			<cfset containers[getContainers.barcode] = { container_id = getContainers.container_id, container_type = getContainers.container_type }>
 		</cfloop>
+		<!--- Unlocked and without dimensions, as the new part's container will be, so that the stand in
+			brings no lock or fit problem of its own. --->
+		<cfquery name="getStandIn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getStandIn_result">
+			SELECT container_id
+			FROM container
+			WHERE
+				container_type = 'collection object'
+				AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.institutionAcronym#">
+				AND NVL(locked_position, 0) = 0
+				AND height IS NULL AND length IS NULL AND width IS NULL
+				AND ROWNUM = 1
+		</cfquery>
 	</cfif>
 	<cfloop array="#arguments.uniqueIds#" index="uniqueId">
-		<cfset entry = { unique_id = uniqueId, container_type = "", problem = "" }>
+		<cfset entry = { unique_id = uniqueId, container_type = "", problem = "", placement = structNew(), placementJson = "" }>
 		<cfif structKeyExists(seen, uniqueId)>
 			<cfset entry.problem = "Entered more than once.">
-		<cfelseif NOT structKeyExists(containerTypes, uniqueId)>
+		<cfelseif NOT structKeyExists(containers, uniqueId)>
 			<cfset entry.problem = "No container has this unique id.">
 		<cfelse>
-			<cfset entry.container_type = containerTypes[uniqueId]>
+			<cfset entry.container_type = containers[uniqueId].container_type>
 			<cfif findNoCase("label", entry.container_type) GT 0 AND entry.container_type NEQ ALLOWED_LABEL_TYPE>
 				<cfset entry.problem = "This container is a label, which a part cannot be placed in.">
+			<cfelseif entry.container_type NEQ ALLOWED_LABEL_TYPE AND getStandIn.recordcount GT 0>
+				<!--- The placement rules refuse every label, the cryovial label the bulkloader accepts
+					included, so they are not applied to that type. --->
+				<cfset placement = validateContainerPlacement(child_container_id=getStandIn.container_id, proposed_parent_container_id=containers[uniqueId].container_id)>
+				<!--- The JSON is kept as given for the badges, whose keys are lower case. --->
+				<cfif isSimpleValue(placement)>
+					<cfset entry.placementJson = placement>
+					<cfset placement = deserializeJSON(placement)>
+				<cfelse>
+					<cfset entry.placementJson = serializeJSON(placement)>
+				</cfif>
+				<cfset entry.placement = placement>
+				<cfif placement.severity EQ "block">
+					<cfset entry.problem = "The placement rules do not allow a part in this container: #arrayToList(placement.blocks, ' ')#">
+				</cfif>
 			</cfif>
 		</cfif>
 		<cfset seen[uniqueId] = true>
@@ -352,6 +391,7 @@ limitations under the License.
 					<li>
 						<strong>When the clone is checked</strong> before loading, the unique id must still belong to a container
 						that is not a label.  It is checked again because the container may have changed since the clone was made.
+						The placement rules shown by Check Containers are not checked again then.
 					</li>
 					<li>
 						<strong>When the clone is loaded</strong>, its first part is created and placed in that container, dated the
@@ -366,6 +406,16 @@ limitations under the License.
 					<li>
 						A container unique id must belong to a container already in MCZbase, and that container must not be a label
 						(cryovial labels excepted), the same check the bulkloader makes when the records are loaded.
+					</li>
+					<li>
+						Check Containers also applies the container placement rules used on the container pages to a part placed
+						in each container, and shows the result as a badge in the Placement column.  A placement the rules block,
+						such as into a collection object or a container of another institution, stops Create Clones.  A placement
+						warning, such as a container that is not expected to hold specimens directly, or a single specimen
+						container that already holds one, is for your information only; open the badge to read it.
+					</li>
+					<li>
+						The placement rules are not applied to cryovial labels, which they would refuse but the bulkloader accepts.
 					</li>
 					<li>You can clone your own records, and if you manage a collection, the records of its data entry users.</li>
 					<li>The Data Entry templates are not offered.</li>
@@ -574,7 +624,7 @@ limitations under the License.
 		<cfset variables.tooMany = arrayLen(variables.uniqueIds) GT MAX_CLONES>
 		<cfset variables.check = { results = [], problemCount = 0 }>
 		<cfif NOT variables.tooMany>
-			<cfset variables.check = checkUniqueIds(variables.uniqueIds)>
+			<cfset variables.check = checkUniqueIds(variables.uniqueIds, variables.record.institution_acronym)>
 		</cfif>
 		<!--- A record with more than one part needs a choice of what becomes of the others. --->
 		<cfset variables.otherPartsChoice = "all">
@@ -700,14 +750,23 @@ limitations under the License.
 								<tr>
 									<th scope="col">Container Unique ID</th>
 									<th scope="col">Container Type</th>
+									<th scope="col">Placement</th>
 									<th scope="col">Check</th>
 								</tr>
 							</thead>
 							<tbody>
-								<cfloop array="#variables.check.results#" index="variables.result">
+								<cfset variables.badges = []>
+								<cfloop from="1" to="#arrayLen(variables.check.results)#" index="variables.resultNumber">
+									<cfset variables.result = variables.check.results[variables.resultNumber]>
 									<tr>
 										<td>#encodeForHtml(variables.result.unique_id)#</td>
 										<td>#encodeForHtml(variables.result.container_type)#</td>
+										<td>
+											<cfif structKeyExists(variables.result.placement, "severity")>
+												<span id="placementBadge#variables.resultNumber#"></span>
+												<cfset arrayAppend(variables.badges, { id = "placementBadge#variables.resultNumber#", placementJson = variables.result.placementJson })>
+											</cfif>
+										</td>
 										<cfif len(variables.result.problem) EQ 0>
 											<td class="text-success">OK</td>
 										<cfelse>
@@ -717,6 +776,17 @@ limitations under the License.
 								</cfloop>
 							</tbody>
 						</table>
+						<cfif arrayLen(variables.badges) GT 0>
+							<p class="small text-secondary">Placement warnings are for your information; they do not stop the clones.</p>
+							<script>
+								// The same placement badges as the container pages, for results worked out on the server.
+								$(document).ready(function() {
+									<cfloop array="#variables.badges#" index="variables.badge">
+										renderPlacementWarningBadge(JSON.parse('#encodeForJavaScript(variables.badge.placementJson)#'), '#variables.badge.id#');
+									</cfloop>
+								});
+							</script>
+						</cfif>
 					</cfif>
 					<cfif variables.otherPartsChoiceMissing>
 						<div class="alert alert-warning" role="alert">Choose what becomes of the other parts.</div>
