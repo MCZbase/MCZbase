@@ -77,6 +77,10 @@ limitations under the License.
 	<cfset variables.colln = form.colln>
 	<cfset variables.collection_object_id = form.collection_object_id>
 </cfif>
+<!--- Drops the empty value of the All option, should it come with others. --->
+<cfset variables.enteredby = arrayToList(listToArray(variables.enteredby))>
+<cfset variables.accn = arrayToList(listToArray(variables.accn))>
+<cfset variables.colln = arrayToList(listToArray(variables.colln))>
 
 <!--- As on /DataEntry.cfm, a collection manager may work on the records of the data entry users in
 	the collections they manage, and anyone on their own. --->
@@ -465,38 +469,38 @@ limitations under the License.
 
 	<!------------------------------------------------------------------------------------------>
 	<cfif variables.action EQ "entryPoint">
-		<!--- Counts leave out the Data Entry templates, which are never offered. --->
-		<cfquery name="getUserCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getUserCounts_result">
-			SELECT enteredby, count(*) AS record_count
+		<!--- One row per combination of entered by, accession and collection, from which the page counts the
+			records each choice would list given the choices in the other lists.  Counts leave out the Data
+			Entry templates, which are never offered. --->
+		<cfquery name="getRecordGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRecordGroups_result">
+			SELECT enteredby, accn, institution_acronym, collection_cde, count(*) AS record_count
 			FROM bulkloader
 			WHERE
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
 				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
-			GROUP BY enteredby
+			GROUP BY enteredby, accn, institution_acronym, collection_cde
 		</cfquery>
 		<cfset variables.userRecordCounts = {}>
-		<cfloop query="getUserCounts">
-			<cfset variables.userRecordCounts[lcase(getUserCounts.enteredby)] = getUserCounts.record_count>
+		<cfset variables.accnRecordCounts = {}>
+		<cfset variables.collnRecordCounts = {}>
+		<cfloop query="getRecordGroups">
+			<cfset variables.groupUser = lcase(getRecordGroups.enteredby)>
+			<cfset variables.groupColln = "#getRecordGroups.institution_acronym#:#getRecordGroups.collection_cde#">
+			<cfif NOT structKeyExists(variables.userRecordCounts, variables.groupUser)>
+				<cfset variables.userRecordCounts[variables.groupUser] = 0>
+			</cfif>
+			<cfset variables.userRecordCounts[variables.groupUser] = variables.userRecordCounts[variables.groupUser] + getRecordGroups.record_count>
+			<cfif len(getRecordGroups.accn) GT 0>
+				<cfif NOT structKeyExists(variables.accnRecordCounts, getRecordGroups.accn)>
+					<cfset variables.accnRecordCounts[getRecordGroups.accn] = 0>
+				</cfif>
+				<cfset variables.accnRecordCounts[getRecordGroups.accn] = variables.accnRecordCounts[getRecordGroups.accn] + getRecordGroups.record_count>
+			</cfif>
+			<cfif NOT structKeyExists(variables.collnRecordCounts, variables.groupColln)>
+				<cfset variables.collnRecordCounts[variables.groupColln] = 0>
+			</cfif>
+			<cfset variables.collnRecordCounts[variables.groupColln] = variables.collnRecordCounts[variables.groupColln] + getRecordGroups.record_count>
 		</cfloop>
-		<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccessions_result">
-			SELECT accn, count(*) AS record_count
-			FROM bulkloader
-			WHERE
-				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
-				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
-				AND accn IS NOT NULL
-			GROUP BY accn
-			ORDER BY accn
-		</cfquery>
-		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
-			SELECT institution_acronym, collection_cde, count(*) AS record_count
-			FROM bulkloader
-			WHERE
-				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
-				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
-			GROUP BY institution_acronym, collection_cde
-			ORDER BY institution_acronym, collection_cde
-		</cfquery>
 		<!--- Every permitted user is listed, with 0 for those not in the counts. --->
 		<cfset variables.usersWithoutRecords = 0>
 		<cfset variables.sortedUsers = listSort(variables.permittedUsers, "textnocase")>
@@ -508,54 +512,93 @@ limitations under the License.
 				<cfset variables.usersWithoutRecords = variables.usersWithoutRecords + 1>
 			</cfif>
 		</cfloop>
+		<cfset variables.sortedAccns = listSort(structKeyList(variables.accnRecordCounts, chr(31)), "textnocase", "asc", chr(31))>
+		<cfset variables.sortedCollns = listSort(structKeyList(variables.collnRecordCounts, chr(31)), "textnocase", "asc", chr(31))>
+		<!--- Coming back from Change Search, the earlier choices are selected again. --->
+		<cfset variables.allUsersSelected = "">
+		<cfif len(variables.enteredby) EQ 0>
+			<cfset variables.allUsersSelected = "selected">
+		</cfif>
+		<cfset variables.allAccnsSelected = "">
+		<cfif len(variables.accn) EQ 0>
+			<cfset variables.allAccnsSelected = "selected">
+		</cfif>
+		<cfset variables.allCollnsSelected = "">
+		<cfif len(variables.colln) EQ 0>
+			<cfset variables.allCollnsSelected = "selected">
+		</cfif>
 		<section class="row mx-0" role="search" aria-labelledby="findHeading">
 			<div class="col-12 col-xl-10 border rounded px-3 py-2 mb-4">
 				<h2 class="h3" id="findHeading">1. Find the record to clone</h2>
-				<p class="mb-2">Pick any of entered by, accession or collection; each shows its number of records in the bulkloader.</p>
+				<p class="mb-2">
+					Pick any of entered by, accession or collection, or leave All.  Each shows how many records in the bulkloader
+					it would list with the choices made in the other two; hold Ctrl (or &##8984; on a Mac) to pick more than one.
+				</p>
 				<form name="findRecords" id="findRecords" method="get" action="/Bulkloader/cloneWithBarcodes.cfm">
 					<input type="hidden" name="action" value="listRecords">
 					<div class="form-row">
 						<div class="col-12 col-md-4 mb-2">
 							<label for="enteredby" class="data-entry-label">Entered By</label>
-							<select name="enteredby" id="enteredby" multiple size="10" class="data-entry-select" aria-describedby="enteredbyHelp">
+							<select name="enteredby" id="enteredby" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
+								<option value="" #variables.allUsersSelected#>All</option>
 								<cfloop list="#variables.sortedUsers#" index="variables.permittedUser">
-									<cfset variables.userRecordCount = variables.userRecordCounts[lcase(variables.permittedUser)]>
-									<option value="#encodeForHtml(variables.permittedUser)#" data-record-count="#variables.userRecordCount#">#encodeForHtml(variables.permittedUser)# (#variables.userRecordCount#)</option>
+									<cfset variables.selected = "">
+									<cfif listFindNoCase(variables.enteredby, variables.permittedUser) GT 0>
+										<cfset variables.selected = "selected">
+									</cfif>
+									<option value="#encodeForHtml(variables.permittedUser)#" data-match="#encodeForHtml(lcase(variables.permittedUser))#" data-label="#encodeForHtml(variables.permittedUser)#" data-record-count="#variables.userRecordCounts[lcase(variables.permittedUser)]#" #variables.selected#>#encodeForHtml(variables.permittedUser)# (#variables.userRecordCounts[lcase(variables.permittedUser)]#)</option>
 								</cfloop>
 							</select>
-							<small id="enteredbyHelp" class="text-secondary">None selected lists everyone shown.</small>
 							<cfif variables.usersWithoutRecords GT 0>
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#);">
+									<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateFindCounts('findCounts', 'listRecordsButton');">
 									<label for="showAllEnteredBy" class="form-check-label small">Show all users (#variables.usersWithoutRecords# with no records)</label>
 								</div>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4 mb-2">
 							<label for="accn" class="data-entry-label">Accession</label>
-							<select name="accn" id="accn" multiple size="10" class="data-entry-select" aria-describedby="accnHelp">
-								<cfloop query="getAccessions">
-									<option value="#encodeForHtml(getAccessions.accn)#">#encodeForHtml(getAccessions.accn)# (#getAccessions.record_count#)</option>
+							<select name="accn" id="accn" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
+								<option value="" #variables.allAccnsSelected#>All</option>
+								<cfloop list="#variables.sortedAccns#" index="variables.accnOption" delimiters="#chr(31)#">
+									<cfset variables.selected = "">
+									<cfif listFind(variables.accn, variables.accnOption) GT 0>
+										<cfset variables.selected = "selected">
+									</cfif>
+									<option value="#encodeForHtml(variables.accnOption)#" data-match="#encodeForHtml(variables.accnOption)#" data-label="#encodeForHtml(variables.accnOption)#" #variables.selected#>#encodeForHtml(variables.accnOption)# (#variables.accnRecordCounts[variables.accnOption]#)</option>
 								</cfloop>
 							</select>
-							<small id="accnHelp" class="text-secondary">None selected lists all accessions.</small>
 						</div>
 						<div class="col-12 col-md-4 mb-2">
 							<label for="colln" class="data-entry-label">Collection</label>
-							<select name="colln" id="colln" multiple size="10" class="data-entry-select" aria-describedby="collnHelp">
-								<cfloop query="getCollections">
-									<cfset variables.collectionOption = "#getCollections.institution_acronym#:#getCollections.collection_cde#">
-									<option value="#encodeForHtml(variables.collectionOption)#">#encodeForHtml(variables.collectionOption)# (#getCollections.record_count#)</option>
+							<select name="colln" id="colln" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
+								<option value="" #variables.allCollnsSelected#>All</option>
+								<cfloop list="#variables.sortedCollns#" index="variables.collnOption" delimiters="#chr(31)#">
+									<cfset variables.selected = "">
+									<cfif listFind(variables.colln, variables.collnOption) GT 0>
+										<cfset variables.selected = "selected">
+									</cfif>
+									<option value="#encodeForHtml(variables.collnOption)#" data-match="#encodeForHtml(variables.collnOption)#" data-label="#encodeForHtml(variables.collnOption)#" #variables.selected#>#encodeForHtml(variables.collnOption)# (#variables.collnRecordCounts[variables.collnOption]#)</option>
 								</cfloop>
 							</select>
-							<small id="collnHelp" class="text-secondary">None selected lists all collections.</small>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-xs btn-primary mb-2">List Records</button>
+					<button type="submit" id="listRecordsButton" class="btn btn-xs btn-primary mb-2">List Records</button>
+					<output id="findCounts" class="d-inline-block small ml-2" aria-live="polite"></output>
 				</form>
 				<script>
+					// Built here rather than with serializeJSON, which would turn accession numbers into numbers.
+					var findRecordGroups = [
+						<cfloop query="getRecordGroups">
+							{ enteredby: '#encodeForJavaScript(lcase(getRecordGroups.enteredby))#', accn: '#encodeForJavaScript(getRecordGroups.accn)#', colln: '#encodeForJavaScript(getRecordGroups.institution_acronym & ":" & getRecordGroups.collection_cde)#', count: #getRecordGroups.record_count# }<cfif getRecordGroups.currentRow LT getRecordGroups.recordcount>,</cfif>
+						</cfloop>
+					];
 					$(document).ready(function() {
 						showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
+						["enteredby", "accn", "colln"].forEach(function(selectId) {
+							selectAllOrSome($("##" + selectId)[0]);
+						});
+						updateFindCounts('findCounts', 'listRecordsButton');
 					});
 				</script>
 			</div>
@@ -585,6 +628,7 @@ limitations under the License.
 			<div class="col-12 mb-4">
 				<h2 class="h3" id="listHeading">2. Choose the record to clone (#min(getRecords.recordcount, MAX_LISTED_RECORDS)# records)</h2>
 				<p>
+					<a href="/Bulkloader/cloneWithBarcodes.cfm?#variables.filterParams#" class="btn btn-xs btn-secondary">Change Search</a>
 					<a href="/Bulkloader/cloneWithBarcodes.cfm" class="btn btn-xs btn-warning">New Search</a>
 				</p>
 				<cfif getRecords.recordcount GT MAX_LISTED_RECORDS>
@@ -970,6 +1014,79 @@ limitations under the License.
 	</cfif>
 </main>
 <script>
+	/** Keeps the All option of a multiple select exclusive: picking All clears the other choices,
+	 * picking another value clears All, and clearing every choice selects All again.
+	 *
+	 * @param select the select element, whose first option is All with an empty value.
+	 */
+	function selectAllOrSome(select) {
+		var allOption = $(select).find("option[value='']");
+		var others = $(select).find("option[value!='']:selected");
+		var allWasSelected = $(select).data("allWasSelected") === true;
+		if (allOption.prop("selected") && others.length > 0) {
+			if (allWasSelected) {
+				allOption.prop("selected", false);
+			} else {
+				others.prop("selected", false);
+			}
+		}
+		if ($(select).find("option:selected").length == 0) {
+			allOption.prop("selected", true);
+		}
+		$(select).data("allWasSelected", allOption.prop("selected"));
+	}
+
+	/** Shows, beside each option of Find the record to clone, how many records it would list with the
+	 * choices in the other two lists, and how many the choices made would list, holding back List
+	 * Records when that is none.  Counts come from findRecordGroups, one entry per combination of
+	 * entered by, accession and collection.
+	 *
+	 * @param outputId the id of the output for the number of matching records, without a leading ##.
+	 * @param buttonId the id of the List Records button, without a leading ##.
+	 */
+	function updateFindCounts(outputId, buttonId) {
+		var fields = ["enteredby", "accn", "colln"];
+		var chosen = {};
+		fields.forEach(function(field) {
+			var values = [];
+			$("##" + field + " option:selected").each(function() {
+				if ($(this).val() != "") {
+					values.push($(this).attr("data-match"));
+				}
+			});
+			chosen[field] = values;
+		});
+		var matches = function(group, field) {
+			return chosen[field].length == 0 || chosen[field].indexOf(group[field]) >= 0;
+		};
+		fields.forEach(function(field) {
+			var counts = {};
+			findRecordGroups.forEach(function(group) {
+				var inOthers = fields.every(function(other) { return other == field || matches(group, other); });
+				if (inOthers) {
+					counts[group[field]] = (counts[group[field]] || 0) + group.count;
+				}
+			});
+			$("##" + field + " option[data-match]").each(function() {
+				var count = counts[$(this).attr("data-match")] || 0;
+				$(this).text($(this).attr("data-label") + " (" + count + ")");
+			});
+		});
+		var total = 0;
+		findRecordGroups.forEach(function(group) {
+			if (fields.every(function(field) { return matches(group, field); })) {
+				total += group.count;
+			}
+		});
+		if (total == 0) {
+			$("##" + outputId).text("No records match these choices; change one of them.").addClass("text-danger");
+			$("##" + buttonId).prop("disabled", true);
+		} else {
+			$("##" + outputId).text(total + " records match.").removeClass("text-danger");
+			$("##" + buttonId).prop("disabled", false);
+		}
+	}
+
 	$(document).ready(function() {
 		// The list grows to show every id, whether typed, scanned, picked or brought back from a check.
 		$("textarea.autogrow").keyup(autogrow);
