@@ -595,8 +595,8 @@ limitations under the License.
 	/** Opens the container picker and adds the unique id of the container chosen to the end of a
 	 * list of container unique ids, on a line of its own, unless the list already has it.
 	 *
-	 * @param listControlId the id of the textarea holding the list, without a leading #.
-	 * @param feedbackId the id of an element for messages, without a leading #.
+	 * @param listControlId the id of the textarea holding the list, without a leading ##.
+	 * @param feedbackId the id of an element for messages, without a leading ##.
 	 */
 	function addPickedContainer(listControlId, feedbackId) {
 		var feedback = $('##' + feedbackId);
