@@ -21,14 +21,14 @@ limitations under the License.
 	columns in the data dictionary, and each operator against FILTEROPERATORS, before it is written
 	into a statement. --->
 <cfset FILTEROPERATORS = "=,like,in,between">
-<cfquery name="bulkloaderColumns" datasource="uam_god" result="bulkloaderColumns_result">
+<cfquery name="bulkloaderColumnQuery" datasource="uam_god" result="bulkloaderColumnQuery_result">
 	SELECT column_name
 	FROM all_tab_columns
 	WHERE owner = 'MCZBASE' AND table_name = 'BULKLOADER'
 </cfquery>
 <cfset BULKLOADERCOLUMNS = structNew()>
-<cfloop query="bulkloaderColumns">
-	<cfset BULKLOADERCOLUMNS[ucase(bulkloaderColumns.column_name)] = true>
+<cfloop query="bulkloaderColumnQuery">
+	<cfset BULKLOADERCOLUMNS[ucase(bulkloaderColumnQuery.column_name)] = true>
 </cfloop>
 
 <!---
