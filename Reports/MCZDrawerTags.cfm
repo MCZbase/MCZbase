@@ -564,16 +564,17 @@ limitations under the License.
 			<input type="hidden" name="action" value="itemLabels">
 			<input type="hidden" name="format" value="#encodeForHtmlAttribute(variables.format)#">
 			<input type="hidden" name="transaction_id" id="pickedTransactionId" value="">
+			<!--- The help is below the row, so the button lines up with the input rather than the help. --->
 			<div class="form-row align-items-end">
-				<div class="col-12 col-md-6 mb-2">
+				<div class="col-12 col-md-6">
 					<label for="pickLoanNumber" class="data-entry-label">Loan Number</label>
 					<input type="text" id="pickLoanNumber" class="data-entry-input" aria-describedby="pickLoanHelp" required onInput="$('##pickedTransactionId').val('');">
-					<small id="pickLoanHelp" class="text-secondary">Type at least three characters of the loan number, then pick the loan.</small>
 				</div>
-				<div class="col-12 col-md-6 mb-2">
+				<div class="col-12 col-md-6 mt-1 mt-md-0">
 					<button type="submit" class="btn btn-xs btn-primary">Show Drawer Tags</button>
 				</div>
 			</div>
+			<small id="pickLoanHelp" class="d-block text-secondary mb-2">Type at least three characters of the loan number, then pick the loan.</small>
 		</form>
 		<script>
 			$(document).ready(function() {
