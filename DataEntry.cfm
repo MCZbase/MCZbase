@@ -160,7 +160,7 @@ Some Totally Random String Data .....
 				<li>Click <strong>Catalog/Clone</strong> in the row of edit buttons at the top of the record (on smaller screens, <strong>Edit/Clone</strong> in the Cataloged Item heading).</li>
 				<li>In the dialog, under <strong>Clone into Bulkloader</strong>, click <strong>Show Instructions</strong> and then <strong>Clone into Bulkloader</strong>.</li>
 				<li>When it finishes, follow the <strong>View Clone In Bulkloader</strong> link to the new record here, in Data Entry. It is linked to the original as a child record.</li>
-				<li>Check the new record#&#39;s specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
+				<li>Check the new record&##39;s specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
 			</ol>
 		</cfif>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
