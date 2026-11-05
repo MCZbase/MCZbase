@@ -31,8 +31,6 @@ limitations under the License.
 <cfset MAXTEMPLATE = 14>
 <cfset MAX_LISTED_RECORDS = 500>
 <cfset MAX_CLONES = 100>
-<!--- The bulkloader's check rejects a part container whose type is a label, other than a cryovial label. --->
-<cfset ALLOWED_LABEL_TYPE = "cryovial label">
 <!--- What becomes of parts after the first: kept on the first clone only, kept on every clone, or removed from every clone. --->
 <cfset OTHER_PARTS_CHOICES = "first,all,none">
 <!--- Bulkloader columns that describe a part after the first, as PART_NAME_2 or PART_2_ATT_NAME_1; the
@@ -232,11 +230,11 @@ limitations under the License.
 			<cfset entry.problem = "No container has this unique id.">
 		<cfelse>
 			<cfset entry.container_type = containers[uniqueId].container_type>
-			<cfif findNoCase("label", entry.container_type) GT 0 AND entry.container_type NEQ ALLOWED_LABEL_TYPE>
+			<!--- Every label is refused, as the placement rules and the container move trigger refuse
+				them; a cryovial is identified by its own barcode, not by a label. --->
+			<cfif findNoCase("label", entry.container_type) GT 0>
 				<cfset entry.problem = "This container is a label, which a part cannot be placed in.">
-			<cfelseif entry.container_type NEQ ALLOWED_LABEL_TYPE AND getStandIn.recordcount GT 0>
-				<!--- The placement rules refuse every label, the cryovial label the bulkloader accepts
-					included, so they are not applied to that type. --->
+			<cfelseif getStandIn.recordcount GT 0>
 				<cfset placement = validateContainerPlacement(child_container_id=getStandIn.container_id, proposed_parent_container_id=containers[uniqueId].container_id)>
 				<!--- The JSON is kept as given for the badges, whose keys are lower case. --->
 				<cfif isSimpleValue(placement)>
@@ -404,8 +402,8 @@ limitations under the License.
 				<summary class="font-weight-bold">Which records and containers can be used</summary>
 				<ul class="mt-2">
 					<li>
-						A container unique id must belong to a container already in MCZbase, and that container must not be a label
-						(cryovial labels excepted), the same check the bulkloader makes when the records are loaded.
+						A container unique id must belong to a container already in MCZbase, and that container must not be a label.
+						For a cryovial, use the cryovial's own unique id, the barcode on the vial.
 					</li>
 					<li>
 						Check Containers also applies the container placement rules used on the container pages to a part placed
@@ -413,9 +411,6 @@ limitations under the License.
 						such as into a collection object or a container of another institution, stops Create Clones.  A placement
 						warning, such as a container that is not expected to hold specimens directly, or a single specimen
 						container that already holds one, is for your information only; open the badge to read it.
-					</li>
-					<li>
-						The placement rules are not applied to cryovial labels, which they would refuse but the bulkloader accepts.
 					</li>
 					<li>You can clone your own records, and if you manage a collection, the records of its data entry users.</li>
 					<li>The Data Entry templates are not offered.</li>
