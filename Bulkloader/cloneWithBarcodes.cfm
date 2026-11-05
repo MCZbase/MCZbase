@@ -31,6 +31,8 @@ limitations under the License.
 <cfset MAXTEMPLATE = 14>
 <cfset MAX_LISTED_RECORDS = 500>
 <cfset MAX_CLONES = 100>
+<!--- Entered By lists users with fewer records only when Show all users is ticked. --->
+<cfset ENTEREDBY_MIN_RECORDS = 1>
 <!--- What becomes of parts after the first: kept on the first clone only, kept on every clone, or removed from every clone. --->
 <cfset OTHER_PARTS_CHOICES = "first,all,none">
 <!--- What each choice does to the other parts, shown on the record's summary. --->
@@ -48,9 +50,11 @@ limitations under the License.
 <cfparam name="form.action" default="">
 <cfparam name="url.enteredby" default="">
 <cfparam name="url.accn" default="">
+<cfparam name="url.colln" default="">
 <cfparam name="url.collection_object_id" default="">
 <cfparam name="form.enteredby" default="">
 <cfparam name="form.accn" default="">
+<cfparam name="form.colln" default="">
 <cfparam name="form.collection_object_id" default="">
 <cfparam name="form.unique_ids" default="">
 <cfparam name="form.other_parts" default="">
@@ -65,10 +69,12 @@ limitations under the License.
 <!--- The record filters travel by url on the read only steps and by form on the posts. --->
 <cfset variables.enteredby = url.enteredby>
 <cfset variables.accn = url.accn>
+<cfset variables.colln = url.colln>
 <cfset variables.collection_object_id = url.collection_object_id>
 <cfif cgi.request_method EQ "POST">
 	<cfset variables.enteredby = form.enteredby>
 	<cfset variables.accn = form.accn>
+	<cfset variables.colln = form.colln>
 	<cfset variables.collection_object_id = form.collection_object_id>
 </cfif>
 
@@ -96,7 +102,7 @@ limitations under the License.
 <cfif len(variables.selectedUsers) EQ 0>
 	<cfset variables.selectedUsers = variables.permittedUsers>
 </cfif>
-<cfset variables.filterParams = "enteredby=#encodeForUrl(variables.enteredby)#&accn=#encodeForUrl(variables.accn)#">
+<cfset variables.filterParams = "enteredby=#encodeForUrl(variables.enteredby)#&accn=#encodeForUrl(variables.accn)#&colln=#encodeForUrl(variables.colln)#">
 
 <!---
 	getCloneableRecord the staged record to clone, if it is one the user may clone.
@@ -327,7 +333,7 @@ limitations under the License.
 					divided among several jars, or tissue samples in several cryovials.
 				</p>
 				<ol>
-					<li>Under Find the record to clone, choose whose records to list, and optionally accessions, then List Records.</li>
+					<li>Under Find the record to clone, choose whose records to list, and optionally accessions or collections, then List Records.</li>
 					<li>Choose the record from the list with its Clone button.</li>
 					<li>
 						Enter the container unique ids, one for each copy you want.  Type them, separated by commas or line
@@ -459,6 +465,19 @@ limitations under the License.
 
 	<!------------------------------------------------------------------------------------------>
 	<cfif variables.action EQ "entryPoint">
+		<!--- Counts leave out the Data Entry templates, which are never offered. --->
+		<cfquery name="getUserCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getUserCounts_result">
+			SELECT enteredby, count(*) AS record_count
+			FROM bulkloader
+			WHERE
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+			GROUP BY enteredby
+		</cfquery>
+		<cfset variables.userRecordCounts = {}>
+		<cfloop query="getUserCounts">
+			<cfset variables.userRecordCounts[lcase(getUserCounts.enteredby)] = getUserCounts.record_count>
+		</cfloop>
 		<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccessions_result">
 			SELECT accn, count(*) AS record_count
 			FROM bulkloader
@@ -469,33 +488,76 @@ limitations under the License.
 			GROUP BY accn
 			ORDER BY accn
 		</cfquery>
+		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
+			SELECT institution_acronym, collection_cde, count(*) AS record_count
+			FROM bulkloader
+			WHERE
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+			GROUP BY institution_acronym, collection_cde
+			ORDER BY institution_acronym, collection_cde
+		</cfquery>
+		<!--- Every permitted user is listed, with 0 for those not in the counts. --->
+		<cfset variables.usersWithoutRecords = 0>
+		<cfset variables.sortedUsers = listSort(variables.permittedUsers, "textnocase")>
+		<cfloop list="#variables.sortedUsers#" index="variables.permittedUser">
+			<cfif NOT structKeyExists(variables.userRecordCounts, lcase(variables.permittedUser))>
+				<cfset variables.userRecordCounts[lcase(variables.permittedUser)] = 0>
+			</cfif>
+			<cfif variables.userRecordCounts[lcase(variables.permittedUser)] LT ENTEREDBY_MIN_RECORDS>
+				<cfset variables.usersWithoutRecords = variables.usersWithoutRecords + 1>
+			</cfif>
+		</cfloop>
 		<section class="row mx-0" role="search" aria-labelledby="findHeading">
-			<div class="col-12 col-md-8 col-xl-6 border rounded px-3 py-2 mb-4">
+			<div class="col-12 col-xl-10 border rounded px-3 py-2 mb-4">
 				<h2 class="h3" id="findHeading">1. Find the record to clone</h2>
+				<p class="mb-2">Pick any of entered by, accession or collection; each shows its number of records in the bulkloader.</p>
 				<form name="findRecords" id="findRecords" method="get" action="/Bulkloader/cloneWithBarcodes.cfm">
 					<input type="hidden" name="action" value="listRecords">
 					<div class="form-row">
-						<div class="col-12 col-sm-6 mb-2">
+						<div class="col-12 col-md-4 mb-2">
 							<label for="enteredby" class="data-entry-label">Entered By</label>
-							<select name="enteredby" id="enteredby" multiple size="6" class="data-entry-select" aria-describedby="enteredbyHelp">
-								<cfloop list="#variables.permittedUsers#" index="variables.permittedUser">
-									<option value="#encodeForHtml(variables.permittedUser)#">#encodeForHtml(variables.permittedUser)#</option>
+							<select name="enteredby" id="enteredby" multiple size="10" class="data-entry-select" aria-describedby="enteredbyHelp">
+								<cfloop list="#variables.sortedUsers#" index="variables.permittedUser">
+									<cfset variables.userRecordCount = variables.userRecordCounts[lcase(variables.permittedUser)]>
+									<option value="#encodeForHtml(variables.permittedUser)#" data-record-count="#variables.userRecordCount#">#encodeForHtml(variables.permittedUser)# (#variables.userRecordCount#)</option>
 								</cfloop>
 							</select>
 							<small id="enteredbyHelp" class="text-secondary">None selected lists everyone shown.</small>
+							<cfif variables.usersWithoutRecords GT 0>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#);">
+									<label for="showAllEnteredBy" class="form-check-label small">Show all users (#variables.usersWithoutRecords# with no records)</label>
+								</div>
+							</cfif>
 						</div>
-						<div class="col-12 col-sm-6 mb-2">
+						<div class="col-12 col-md-4 mb-2">
 							<label for="accn" class="data-entry-label">Accession</label>
-							<select name="accn" id="accn" multiple size="6" class="data-entry-select" aria-describedby="accnHelp">
+							<select name="accn" id="accn" multiple size="10" class="data-entry-select" aria-describedby="accnHelp">
 								<cfloop query="getAccessions">
 									<option value="#encodeForHtml(getAccessions.accn)#">#encodeForHtml(getAccessions.accn)# (#getAccessions.record_count#)</option>
 								</cfloop>
 							</select>
 							<small id="accnHelp" class="text-secondary">None selected lists all accessions.</small>
 						</div>
+						<div class="col-12 col-md-4 mb-2">
+							<label for="colln" class="data-entry-label">Collection</label>
+							<select name="colln" id="colln" multiple size="10" class="data-entry-select" aria-describedby="collnHelp">
+								<cfloop query="getCollections">
+									<cfset variables.collectionOption = "#getCollections.institution_acronym#:#getCollections.collection_cde#">
+									<option value="#encodeForHtml(variables.collectionOption)#">#encodeForHtml(variables.collectionOption)# (#getCollections.record_count#)</option>
+								</cfloop>
+							</select>
+							<small id="collnHelp" class="text-secondary">None selected lists all collections.</small>
+						</div>
 					</div>
 					<button type="submit" class="btn btn-xs btn-primary mb-2">List Records</button>
 				</form>
+				<script>
+					$(document).ready(function() {
+						showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
+					});
+				</script>
 			</div>
 		</section>
 	</cfif>
@@ -514,6 +576,9 @@ limitations under the License.
 				<cfif len(variables.accn) GT 0>
 					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn#" list="yes">)
 				</cfif>
+				<cfif len(variables.colln) GT 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln#" list="yes">)
+				</cfif>
 			ORDER BY collection_object_id
 		</cfquery>
 		<section class="row mx-0" aria-labelledby="listHeading">
@@ -524,7 +589,7 @@ limitations under the License.
 				</p>
 				<cfif getRecords.recordcount GT MAX_LISTED_RECORDS>
 					<div class="alert alert-warning" role="alert">
-						Only the first #MAX_LISTED_RECORDS# matching records are shown; choose accessions or users to narrow the list.
+						Only the first #MAX_LISTED_RECORDS# matching records are shown; choose users, accessions or collections to narrow the list.
 					</div>
 				</cfif>
 				<cfif getRecords.recordcount EQ 0>
@@ -858,6 +923,7 @@ limitations under the License.
 							<input type="hidden" name="other_parts" id="checkedOtherParts" value="#encodeForHtmlAttribute(form.other_parts)#">
 							<input type="hidden" name="enteredby" value="#encodeForHtmlAttribute(variables.enteredby)#">
 							<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
+							<input type="hidden" name="colln" value="#encodeForHtmlAttribute(variables.colln)#">
 							<button type="submit" id="createClonesButton" class="btn btn-xs btn-primary">Create #arrayLen(variables.uniqueIds)# Clones</button>
 							<output id="createClonesNote" class="d-block small text-danger"></output>
 						</form>
@@ -871,6 +937,7 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#variables.record.collection_object_id#">
 					<input type="hidden" name="enteredby" value="#encodeForHtmlAttribute(variables.enteredby)#">
 					<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
+					<input type="hidden" name="colln" value="#encodeForHtmlAttribute(variables.colln)#">
 					<label for="unique_ids" class="data-entry-label">Container Unique IDs, one for each clone</label>
 					<textarea name="unique_ids" id="unique_ids" rows="2" class="data-entry-textarea autogrow w-100 mb-1" aria-describedby="uniqueIdsHelp" required>#encodeForHtml(form.unique_ids)#</textarea>
 					<cfif arrayLen(variables.otherParts) GT 0>

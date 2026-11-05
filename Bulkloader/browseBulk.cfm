@@ -2,6 +2,8 @@
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 <cfset MAX_BULK_ROWS = 450>
+<!--- Entered By lists users with fewer records only when Show all users is ticked. --->
+<cfset ENTEREDBY_MIN_RECORDS = 1>
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
@@ -491,6 +493,12 @@ table##t th {
 				cf_users.username
 			order by cf_users.username
 		</cfquery>
+		<cfset variables.usersWithoutRecords = 0>
+		<cfloop query="userList">
+			<cfif userList.ct LT ENTEREDBY_MIN_RECORDS>
+				<cfset variables.usersWithoutRecords = variables.usersWithoutRecords + 1>
+			</cfif>
+		</cfloop>
 		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				accn, 
@@ -569,9 +577,15 @@ table##t th {
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
 											<option value="#delimitedAdminForGroups#" selected="selected" class="p-1">All</option>
 											<cfloop query="#userList#">
-												<option value="'#username#'" class="p-1">#username# (#ct#)</option>
+												<option value="'#username#'" class="p-1" data-record-count="#ct#">#username# (#ct#)</option>
 											</cfloop>
 										</select>
+										<cfif variables.usersWithoutRecords GT 0>
+											<div class="form-check text-left">
+												<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#);">
+												<label for="showAllEnteredBy" class="form-check-label small">Show all users (#variables.usersWithoutRecords# with no records)</label>
+											</div>
+										</cfif>
 									</td>
 									<td align="center">
 										<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
@@ -600,6 +614,11 @@ table##t th {
 								</tr>
 							</table>
 						</form>
+						<script>
+							$(document).ready(function() {
+								showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
+							});
+						</script>
 						</cfif>
 					</div>
 
