@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<!--- Included by the bulk edit pages, Bulkloader/browseBulk.cfm and Bulkloader/cloneWithBarcodes.cfm. --->
+<!--- Included by the bulk edit page, Bulkloader/browseBulk.cfm. --->
 <!--- Column names cannot be bound, so each one a request names is checked against BULKLOADER's
 	columns in the data dictionary, and each operator against FILTEROPERATORS, before it is written
 	into a statement. --->
