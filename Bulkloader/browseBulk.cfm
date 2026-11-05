@@ -480,7 +480,6 @@ table##t th {
 			<cfset variables.mayBrowseOthers = true>
 		</cfif>
 		<cfif variables.mayBrowseOthers>
-		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
 		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				cf_users.username, 
@@ -507,6 +506,7 @@ table##t th {
 				bulkloader 
 			where 
 				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
+				and accn is not null
 			group by 
 				accn 
 			order by accn
@@ -522,6 +522,19 @@ table##t th {
 			group by 
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
+		</cfquery>
+		<!--- One row per combination of entered by, accession and collection, from which the page counts the
+			records each choice would list given the choices in the other lists. --->
+		<cfquery name="getRecordGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRecordGroups_result">
+			SELECT
+				lower(enteredby) AS enteredby,
+				accn,
+				institution_acronym || ':' || collection_cde AS colln,
+				count(*) AS record_count
+			FROM bulkloader
+			WHERE
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
+			GROUP BY lower(enteredby), accn, institution_acronym || ':' || collection_cde
 		</cfquery>
 		</cfif>
 		<div class="container-fluid">
@@ -539,7 +552,7 @@ table##t th {
 					</p>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
 						<cfif variables.mayBrowseOthers>
-							<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+							<p>Pick any of Entered By, Accession or Collection to edit and approve entered or loaded data.</p>
 						</cfif>
 							<ul>
 								<li>
@@ -568,55 +581,65 @@ table##t th {
 							</p>
 						</cfif>
 						<cfif variables.mayBrowseOthers>
-						<form name="f" method="post" action="browseBulk.cfm">
-							<table class="">
-								<tr>
-									<td align="center">
-										<input type="hidden" name="action" value="viewTable" />
-										<label for="enteredby" class="data-entry-label font-weight-bold">Entered By</label>
-										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
-											<option value="#delimitedAdminForGroups#" selected="selected" class="p-1">All</option>
-											<cfloop query="#userList#">
-												<option value="'#username#'" class="p-1" data-record-count="#ct#">#username# (#ct#)</option>
-											</cfloop>
-										</select>
-										<cfif variables.usersWithoutRecords GT 0>
-											<div class="form-check text-left">
-												<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#);">
-												<label for="showAllEnteredBy" class="form-check-label small">Show all users (#variables.usersWithoutRecords# with no records)</label>
-											</div>
-										</cfif>
-									</td>
-									<td align="center">
-										<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
-										<select name="accn" multiple="multiple" size="12" id="accn" class="">
-											<option value="" selected class="p-1">All</option>
-											<cfloop query="ctAccn">
-												<option value="'#accn#'" class="p-1">#accn# (#ct#)</option>
-											</cfloop>
-										</select>
-									</td>
-									<td align="center">
-										<label for="colln" class="data-entry-label font-weight-bold">Collection</label>
-										<select name="colln" multiple="multiple" size="12" id="colln" class="">
-											<option value="" selected class="p-1">All</option>
-											<cfloop query="ctColln">
-												<option value="'#colln#'" class="p-1">#colln# (#ct#)</option>
-											</cfloop>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<input type="button" value="Edit in Bulk" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
-										<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
-									</td>
-								</tr>
-							</table>
+						<form name="f" id="browseBulkForm" method="post" action="browseBulk.cfm">
+							<p class="small mb-2">
+								Leave All, or pick one or more in each list; hold Ctrl (or &##8984; on a Mac) to pick more than one.
+								Each shows how many records it would list with the choices in the other two.
+							</p>
+							<div class="form-row">
+								<div class="col-auto mb-2">
+									<label for="enteredby" class="data-entry-label font-weight-bold">Entered By</label>
+									<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+										<option value="#encodeForHtml(adminForUsers)#" data-all="true" selected="selected">All</option>
+										<cfloop query="userList">
+											<option value="#encodeForHtml(userList.username)#" data-match="#encodeForHtml(lcase(userList.username))#" data-label="#encodeForHtml(userList.username)#" data-record-count="#userList.ct#">#encodeForHtml(userList.username)# (#userList.ct#)</option>
+										</cfloop>
+									</select>
+									<cfif variables.usersWithoutRecords GT 0>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+											<label for="showAllEnteredBy" class="form-check-label small">Show all users<br>(#variables.usersWithoutRecords# with no records)</label>
+										</div>
+									</cfif>
+								</div>
+								<div class="col-auto mb-2">
+									<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
+									<select name="accn" multiple="multiple" size="12" id="accn" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+										<option value="" data-all="true" selected="selected">All</option>
+										<cfloop query="ctAccn">
+											<option value="#encodeForHtml(ctAccn.accn)#" data-match="#encodeForHtml(ctAccn.accn)#" data-label="#encodeForHtml(ctAccn.accn)#">#encodeForHtml(ctAccn.accn)# (#ctAccn.ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-auto mb-2">
+									<label for="colln" class="data-entry-label font-weight-bold">Collection</label>
+									<select name="colln" multiple="multiple" size="12" id="colln" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+										<option value="" data-all="true" selected="selected">All</option>
+										<cfloop query="ctColln">
+											<option value="#encodeForHtml(ctColln.colln)#" data-match="#encodeForHtml(ctColln.colln)#" data-label="#encodeForHtml(ctColln.colln)#">#encodeForHtml(ctColln.colln)# (#ctColln.ct#)</option>
+										</cfloop>
+									</select>
+								</div>
+							</div>
+							<button type="submit" name="action" value="sqlTab" id="editInBulkButton" class="btn btn-xs btn-primary">Edit in Bulk</button>
+							<button type="submit" name="action" value="ajaxGrid" id="ajaxGridButton" class="btn btn-xs btn-primary">AJAX Grid</button>
+							<output id="browseCounts" class="d-block small mt-1" aria-live="polite"></output>
 						</form>
 						<script>
+							var BROWSE_SELECTS = ["enteredby", "accn", "colln"];
+							var BROWSE_BUTTONS = ["editInBulkButton", "ajaxGridButton"];
+							// Built here rather than with serializeJSON, which would turn accession numbers into numbers.
+							var browseRecordGroups = [
+								<cfloop query="getRecordGroups">
+									{ enteredby: '#encodeForJavaScript(getRecordGroups.enteredby)#', accn: '#encodeForJavaScript(getRecordGroups.accn)#', colln: '#encodeForJavaScript(getRecordGroups.colln)#', count: #getRecordGroups.record_count# }<cfif getRecordGroups.currentRow LT getRecordGroups.recordcount>,</cfif>
+								</cfloop>
+							];
 							$(document).ready(function() {
 								showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
+								BROWSE_SELECTS.forEach(function(selectId) {
+									selectAllOrSome($("##" + selectId)[0]);
+								});
+								updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);
 							});
 						</script>
 						</cfif>

@@ -252,6 +252,14 @@ limitations under the License.
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
 	<script type="text/javascript" src="/containers/js/containers.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/Bulkloader/">
+	<cfset variables.bulkloaderScriptsVersion = "">
+	<cfset variables.bulkloaderScriptsPath = expandPath("/Bulkloader/js/bulkloader.js")>
+	<cfif fileExists(variables.bulkloaderScriptsPath)>
+		<cfset variables.bulkloaderScriptsVersion = dateTimeFormat(getFileInfo(variables.bulkloaderScriptsPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/Bulkloader/js/bulkloader.js?v=#encodeForUrl(variables.bulkloaderScriptsVersion)#"></script>
+</cfif>
 <cfif CGI.script_name IS "/containers/placePartInContainer.cfm">
 	<script type="text/javascript" src="/containers/js/placePartInContainer.js"></script>
 </cfif>

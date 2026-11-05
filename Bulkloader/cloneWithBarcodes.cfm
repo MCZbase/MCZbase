@@ -539,8 +539,8 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12 col-md-4 mb-2">
 							<label for="enteredby" class="data-entry-label">Entered By</label>
-							<select name="enteredby" id="enteredby" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
-								<option value="" #variables.allUsersSelected#>All</option>
+							<select name="enteredby" id="enteredby" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">
+								<option value="" data-all="true" #variables.allUsersSelected#>All</option>
 								<cfloop list="#variables.sortedUsers#" index="variables.permittedUser">
 									<cfset variables.selected = "">
 									<cfif listFindNoCase(variables.enteredby, variables.permittedUser) GT 0>
@@ -551,15 +551,15 @@ limitations under the License.
 							</select>
 							<cfif variables.usersWithoutRecords GT 0>
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateFindCounts('findCounts', 'listRecordsButton');">
+									<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">
 									<label for="showAllEnteredBy" class="form-check-label small">Show all users (#variables.usersWithoutRecords# with no records)</label>
 								</div>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4 mb-2">
 							<label for="accn" class="data-entry-label">Accession</label>
-							<select name="accn" id="accn" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
-								<option value="" #variables.allAccnsSelected#>All</option>
+							<select name="accn" id="accn" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">
+								<option value="" data-all="true" #variables.allAccnsSelected#>All</option>
 								<cfloop list="#variables.sortedAccns#" index="variables.accnOption" delimiters="#chr(31)#">
 									<cfset variables.selected = "">
 									<cfif listFind(variables.accn, variables.accnOption) GT 0>
@@ -571,8 +571,8 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4 mb-2">
 							<label for="colln" class="data-entry-label">Collection</label>
-							<select name="colln" id="colln" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateFindCounts('findCounts', 'listRecordsButton');">
-								<option value="" #variables.allCollnsSelected#>All</option>
+							<select name="colln" id="colln" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">
+								<option value="" data-all="true" #variables.allCollnsSelected#>All</option>
 								<cfloop list="#variables.sortedCollns#" index="variables.collnOption" delimiters="#chr(31)#">
 									<cfset variables.selected = "">
 									<cfif listFind(variables.colln, variables.collnOption) GT 0>
@@ -588,6 +588,7 @@ limitations under the License.
 				</form>
 				<script>
 					// Built here rather than with serializeJSON, which would turn accession numbers into numbers.
+					var FIND_SELECTS = ["enteredby", "accn", "colln"];
 					var findRecordGroups = [
 						<cfloop query="getRecordGroups">
 							{ enteredby: '#encodeForJavaScript(lcase(getRecordGroups.enteredby))#', accn: '#encodeForJavaScript(getRecordGroups.accn)#', colln: '#encodeForJavaScript(getRecordGroups.institution_acronym & ":" & getRecordGroups.collection_cde)#', count: #getRecordGroups.record_count# }<cfif getRecordGroups.currentRow LT getRecordGroups.recordcount>,</cfif>
@@ -595,10 +596,10 @@ limitations under the License.
 					];
 					$(document).ready(function() {
 						showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
-						["enteredby", "accn", "colln"].forEach(function(selectId) {
+						FIND_SELECTS.forEach(function(selectId) {
 							selectAllOrSome($("##" + selectId)[0]);
 						});
-						updateFindCounts('findCounts', 'listRecordsButton');
+						updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);
 					});
 				</script>
 			</div>
@@ -1014,79 +1015,6 @@ limitations under the License.
 	</cfif>
 </main>
 <script>
-	/** Keeps the All option of a multiple select exclusive: picking All clears the other choices,
-	 * picking another value clears All, and clearing every choice selects All again.
-	 *
-	 * @param select the select element, whose first option is All with an empty value.
-	 */
-	function selectAllOrSome(select) {
-		var allOption = $(select).find("option[value='']");
-		var others = $(select).find("option[value!='']:selected");
-		var allWasSelected = $(select).data("allWasSelected") === true;
-		if (allOption.prop("selected") && others.length > 0) {
-			if (allWasSelected) {
-				allOption.prop("selected", false);
-			} else {
-				others.prop("selected", false);
-			}
-		}
-		if ($(select).find("option:selected").length == 0) {
-			allOption.prop("selected", true);
-		}
-		$(select).data("allWasSelected", allOption.prop("selected"));
-	}
-
-	/** Shows, beside each option of Find the record to clone, how many records it would list with the
-	 * choices in the other two lists, and how many the choices made would list, holding back List
-	 * Records when that is none.  Counts come from findRecordGroups, one entry per combination of
-	 * entered by, accession and collection.
-	 *
-	 * @param outputId the id of the output for the number of matching records, without a leading ##.
-	 * @param buttonId the id of the List Records button, without a leading ##.
-	 */
-	function updateFindCounts(outputId, buttonId) {
-		var fields = ["enteredby", "accn", "colln"];
-		var chosen = {};
-		fields.forEach(function(field) {
-			var values = [];
-			$("##" + field + " option:selected").each(function() {
-				if ($(this).val() != "") {
-					values.push($(this).attr("data-match"));
-				}
-			});
-			chosen[field] = values;
-		});
-		var matches = function(group, field) {
-			return chosen[field].length == 0 || chosen[field].indexOf(group[field]) >= 0;
-		};
-		fields.forEach(function(field) {
-			var counts = {};
-			findRecordGroups.forEach(function(group) {
-				var inOthers = fields.every(function(other) { return other == field || matches(group, other); });
-				if (inOthers) {
-					counts[group[field]] = (counts[group[field]] || 0) + group.count;
-				}
-			});
-			$("##" + field + " option[data-match]").each(function() {
-				var count = counts[$(this).attr("data-match")] || 0;
-				$(this).text($(this).attr("data-label") + " (" + count + ")");
-			});
-		});
-		var total = 0;
-		findRecordGroups.forEach(function(group) {
-			if (fields.every(function(field) { return matches(group, field); })) {
-				total += group.count;
-			}
-		});
-		if (total == 0) {
-			$("##" + outputId).text("No records match these choices; change one of them.").addClass("text-danger");
-			$("##" + buttonId).prop("disabled", true);
-		} else {
-			$("##" + outputId).text(total + " records match.").removeClass("text-danger");
-			$("##" + buttonId).prop("disabled", false);
-		}
-	}
-
 	$(document).ready(function() {
 		// The list grows to show every id, whether typed, scanned, picked or brought back from a check.
 		$("textarea.autogrow").keyup(autogrow);
