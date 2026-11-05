@@ -152,7 +152,11 @@ limitations under the License.
 				<!--- Add the All code so that reports in the form __All will be shown to everyone.  --->
 				<cfset added = ArrayPrepend(collList,"All") >
 				<cfif usersColls.reportprefs EQ "">
-					<h2 class="h3">You have no configured collections for reports, please file a bug report with the list of collections which you wish to see reports for by default here.</h2>
+					<p class="alert alert-info">
+						You have not chosen the collections whose label reports are listed here by default.
+						Choose them under MCZbase Settings on <a href="/users/UserProfile.cfm" target="_blank">your profile</a>,
+						then reload this page; meanwhile, tick Include reports for other collections to see them all.
+					</p>
 				</cfif>
 			
 				<!--- Reports whose SQL carries the limit markers offer the preservation type and part name picklists. --->
