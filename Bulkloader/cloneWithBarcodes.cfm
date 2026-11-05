@@ -35,7 +35,7 @@ limitations under the License.
 <cfset OTHER_PARTS_CHOICES = "first,all,none">
 <!--- What each choice does to the other parts, shown on the record's summary. --->
 <cfset OTHER_PARTS_ACTIONS = {
-	"first" = "Kept on the first clone only, for the first container in the list; removed from the other clones.",
+	"first" = "Kept on the first clone only; removed from the other clones.",
 	"all" = "Kept on every clone, in the same containers as the original.",
 	"none" = "Removed; no bulkloader record will have them, and they will not be loaded."
 }>
@@ -143,6 +143,25 @@ limitations under the License.
 		</cfif>
 	</cfloop>
 	<cfreturn parts>
+</cffunction>
+
+<!---
+	otherPartsForClone what a clone does with the other parts under an Other parts choice.
+
+	@param choice the choice, one of OTHER_PARTS_CHOICES, or anything else for none made.
+	@param cloneNumber the clone's position in the list of containers.
+	@return Kept, Removed, or a note that a choice is needed.
+--->
+<cffunction name="otherPartsForClone" returntype="string" output="false">
+	<cfargument name="choice" type="string" required="yes">
+	<cfargument name="cloneNumber" type="numeric" required="yes">
+
+	<cfif arguments.choice EQ "all" OR (arguments.choice EQ "first" AND arguments.cloneNumber EQ 1)>
+		<cfreturn "Kept">
+	<cfelseif arguments.choice EQ "first" OR arguments.choice EQ "none">
+		<cfreturn "Removed">
+	</cfif>
+	<cfreturn "Choose an option">
 </cffunction>
 
 <!---
@@ -771,6 +790,9 @@ limitations under the License.
 									<th scope="col">Container Unique ID</th>
 									<th scope="col">Container Type</th>
 									<th scope="col">Placement</th>
+									<cfif arrayLen(variables.otherParts) GT 0>
+										<th scope="col">Other Parts</th>
+									</cfif>
 									<th scope="col">Check</th>
 								</tr>
 							</thead>
@@ -787,6 +809,10 @@ limitations under the License.
 												<cfset arrayAppend(variables.badges, { id = "placementBadge#variables.resultNumber#", placementJson = variables.result.placementJson })>
 											</cfif>
 										</td>
+										<cfif arrayLen(variables.otherParts) GT 0>
+											<!--- The row's number is its clone's, which decides what it keeps under "first". --->
+											<td class="otherPartsForClone" data-clone-number="#variables.resultNumber#">#otherPartsForClone(form.other_parts, variables.resultNumber)#</td>
+										</cfif>
 										<cfif len(variables.result.problem) EQ 0>
 											<td class="text-success">OK</td>
 										<cfelse>
@@ -828,10 +854,11 @@ limitations under the License.
 							<input type="hidden" name="action" value="createClones">
 							<input type="hidden" name="collection_object_id" value="#variables.record.collection_object_id#">
 							<input type="hidden" name="unique_ids" value="#encodeForHtmlAttribute(arrayToList(variables.uniqueIds, ', '))#">
-							<input type="hidden" name="other_parts" value="#encodeForHtmlAttribute(form.other_parts)#">
+							<input type="hidden" name="other_parts" id="checkedOtherParts" value="#encodeForHtmlAttribute(form.other_parts)#">
 							<input type="hidden" name="enteredby" value="#encodeForHtmlAttribute(variables.enteredby)#">
 							<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
-							<button type="submit" class="btn btn-xs btn-primary">Create #arrayLen(variables.uniqueIds)# Clones</button>
+							<button type="submit" id="createClonesButton" class="btn btn-xs btn-primary">Create #arrayLen(variables.uniqueIds)# Clones</button>
+							<output id="createClonesNote" class="d-block small text-danger"></output>
 						</form>
 						<p class="mb-1">Or change the list and check it again:</p>
 					<cfelseif arrayLen(variables.uniqueIds) GT 0>
@@ -859,7 +886,7 @@ limitations under the License.
 									<cfcase value="none"><cfset variables.choiceLabel = "Remove them; no bulkloader record will have them (each clone has only the first part)"></cfcase>
 								</cfswitch>
 								<div class="form-check">
-									<input type="radio" class="form-check-input" name="other_parts" id="other_parts_#variables.choice#" value="#variables.choice#" #variables.checked# required data-action="#encodeForHtmlAttribute(OTHER_PARTS_ACTIONS[variables.choice])#" onChange="showOtherPartsAction(this, 'otherPartsAction');">
+									<input type="radio" class="form-check-input" name="other_parts" id="other_parts_#variables.choice#" value="#variables.choice#" #variables.checked# required data-action="#encodeForHtmlAttribute(OTHER_PARTS_ACTIONS[variables.choice])#" onChange="showOtherPartsAction(this, 'otherPartsAction', 'otherPartsForClone', 'checkedOtherParts', 'createClonesButton', 'createClonesNote');">
 									<label class="form-check-label" for="other_parts_#variables.choice#">#variables.choiceLabel#</label>
 								</div>
 							</cfloop>
@@ -883,13 +910,31 @@ limitations under the License.
 		loadContainerTypeMetadata();
 	});
 
-	/** Shows on the record's summary what the chosen Other parts option will do to the other parts.
+	/** Shows what the chosen Other parts option will do: on the record's summary, and for each clone in
+	 * the check table.  A choice other than the one the containers were checked with holds back Create
+	 * Clones until they are checked again, so the clones are made as the page shows.
 	 *
 	 * @param radio the option chosen, carrying the description in its data-action attribute.
-	 * @param targetId the id of the element for the description, without a leading ##.
+	 * @param summaryId the id of the element for the description, without a leading ##.
+	 * @param cloneCellClass the class of the check table's Other Parts cells, each with data-clone-number.
+	 * @param checkedChoiceId the id of the hidden field holding the choice checked with.
+	 * @param createButtonId the id of the Create Clones button.
+	 * @param noteId the id of the element for a note beside Create Clones.
 	 */
-	function showOtherPartsAction(radio, targetId) {
-		$('##' + targetId).text($(radio).data('action'));
+	function showOtherPartsAction(radio, summaryId, cloneCellClass, checkedChoiceId, createButtonId, noteId) {
+		var choice = $(radio).val();
+		$('##' + summaryId).text($(radio).data('action'));
+		$('.' + cloneCellClass).each(function() {
+			var cloneNumber = parseInt($(this).data('clone-number'), 10);
+			var kept = (choice === 'all') || (choice === 'first' && cloneNumber === 1);
+			$(this).text(kept ? 'Kept' : 'Removed');
+		});
+		var checkedChoice = $('##' + checkedChoiceId);
+		if (checkedChoice.length) {
+			var changed = (checkedChoice.val() !== choice);
+			$('##' + createButtonId).prop('disabled', changed);
+			$('##' + noteId).text(changed ? 'The Other parts choice has changed; Check Containers again to create the clones with it.' : '');
+		}
 	}
 
 	/** Opens the container picker and adds the unique id of the container chosen to the end of a
