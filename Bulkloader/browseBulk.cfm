@@ -511,6 +511,53 @@ table##t th {
 				accn 
 			order by accn
 		</cfquery>
+		<!--- The collection of each accession, found as BULK_PKG finds it when loading: from a [MCZ:Mamm] or
+			Mamm- prefix on the number if there is one, otherwise from the record's collection, where an
+			accession of the museum as a whole (MCZ) also serves. --->
+		<cfquery name="getAccnCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccnCollections_result">
+			SELECT DISTINCT
+				staged.accn,
+				collection.institution_acronym || ':' || collection.collection_cde AS accn_colln
+			FROM
+				(
+					SELECT DISTINCT
+						accn,
+						CASE
+							WHEN accn LIKE '[%]%' THEN regexp_replace(accn, '^\[[^]]*\]', '')
+							WHEN regexp_like(accn, '^[A-Za-z\-]*-[0-9]*$') THEN regexp_substr(accn, '^([A-Za-z\-]*)-([0-9]*)$', 1, 1, 'i', 2)
+							ELSE accn
+						END AS accn_number,
+						CASE
+							WHEN accn LIKE '[%]%' THEN regexp_substr(accn, '^\[([^:]*):', 1, 1, 'i', 1)
+							ELSE institution_acronym
+						END AS accn_institution,
+						CASE
+							WHEN accn LIKE '[%]%' THEN regexp_substr(accn, '^\[[^:]*:([^]]*)\]', 1, 1, 'i', 1)
+							WHEN regexp_like(accn, '^[A-Za-z\-]*-[0-9]*$') THEN regexp_substr(accn, '^([A-Za-z\-]*)-([0-9]*)$', 1, 1, 'i', 1)
+							ELSE collection_cde
+						END AS accn_collection_cde
+					FROM bulkloader
+					WHERE
+						enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
+						AND accn IS NOT NULL
+				) staged
+				JOIN accn ON accn.accn_number = staged.accn_number
+				JOIN trans ON accn.transaction_id = trans.transaction_id
+				JOIN collection ON trans.collection_id = collection.collection_id
+			WHERE
+				collection.institution_acronym = staged.accn_institution
+				AND (collection.collection_cde = staged.accn_collection_cde OR collection.collection_cde = 'MCZ')
+			ORDER BY staged.accn, accn_colln
+		</cfquery>
+		<cfset variables.accnCollections = {}>
+		<cfloop query="getAccnCollections">
+			<cfif NOT structKeyExists(variables.accnCollections, getAccnCollections.accn)>
+				<cfset variables.accnCollections[getAccnCollections.accn] = "">
+			</cfif>
+			<cfif listFind(variables.accnCollections[getAccnCollections.accn], getAccnCollections.accn_colln) EQ 0>
+				<cfset variables.accnCollections[getAccnCollections.accn] = listAppend(variables.accnCollections[getAccnCollections.accn], getAccnCollections.accn_colln)>
+			</cfif>
+		</cfloop>
 		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select 
 				institution_acronym || ':' || collection_cde colln, 
@@ -550,101 +597,107 @@ table##t th {
 							<a class="btn btn-xs btn-primary" href="browseBulk.cfm?action=sqlTab&enteredby=#session.username#&accn=&colln=">Edit my records in Bulk</a>
 						</cfif>
 					</p>
-					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
-						<cfif variables.mayBrowseOthers>
-							<p>Pick any of Entered By, Accession or Collection to edit and approve entered or loaded data.</p>
-						</cfif>
-							<ul>
-								<li>
-									<h2 class="h3">Edit in Bulk</h2>
-									<p>
-										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of #MAX_BULK_ROWS# records.   
-										Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
-										Use Find ("control" + "F") to find column headers and data values in the table.  
-									</p>
-								</li>
-								<li class="mt-2">
-									<h2 class="h3">Edit in AJAX grid</h2>
-									<p>
-										Shows data in an editable table. Click on cells to edit individually.
-										Saves automatically on change. Use Browser&apos;s  Use Find "control" + "F" to find data values or column headers in the table.
-									</p>
-								</li>
-							</ul>
-					</div>
-					<div class="col-12 col-md-auto px-0 float-left">
-						<cfif NOT variables.mayBrowseOthers>
-							<p>
-								You can edit the records you entered yourself with the button above.
-								Choosing another person&apos;s records, or a whole accession or collection,
-								needs the manage collection role for that collection.
-							</p>
-						</cfif>
-						<cfif variables.mayBrowseOthers>
-						<form name="f" id="browseBulkForm" method="post" action="browseBulk.cfm">
-							<p class="small mb-2">
-								Leave All, or pick one or more in each list; hold Ctrl (or &##8984; on a Mac) to pick more than one.
-								Each shows how many records it would list with the choices in the other two.
-							</p>
-							<div class="form-row">
-								<div class="col-auto mb-2">
-									<label for="enteredby" class="data-entry-label font-weight-bold">Entered By</label>
-									<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
-										<option value="#encodeForHtml(adminForUsers)#" data-all="true" selected="selected">All</option>
-										<cfloop query="userList">
-											<option value="#encodeForHtml(userList.username)#" data-match="#encodeForHtml(lcase(userList.username))#" data-label="#encodeForHtml(userList.username)#" data-record-count="#userList.ct#">#encodeForHtml(userList.username)# (#userList.ct#)</option>
-										</cfloop>
-									</select>
-									<cfif variables.usersWithoutRecords GT 0>
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
-											<label for="showAllEnteredBy" class="form-check-label small">Show all users<br>(#variables.usersWithoutRecords# with no records)</label>
-										</div>
-									</cfif>
+					<!--- The explanation beside the lists on wide screens, above them on narrow ones. --->
+					<div class="row">
+						<div class="col-12 col-lg-5 pr-lg-3">
+							<cfif variables.mayBrowseOthers>
+								<p>Pick any of Entered By, Accession or Collection to edit and approve entered or loaded data.</p>
+							</cfif>
+								<ul>
+									<li>
+										<h2 class="h3">Edit in Bulk</h2>
+										<p>
+											Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of #MAX_BULK_ROWS# records.   
+											Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
+											Use Find ("control" + "F") to find column headers and data values in the table.  
+										</p>
+									</li>
+									<li class="mt-2">
+										<h2 class="h3">Edit in AJAX grid</h2>
+										<p>
+											Shows data in an editable table. Click on cells to edit individually.
+											Saves automatically on change. Use Browser&apos;s  Use Find "control" + "F" to find data values or column headers in the table.
+										</p>
+									</li>
+								</ul>
+						</div>
+						<div class="col-12 col-lg-7">
+							<cfif NOT variables.mayBrowseOthers>
+								<p>
+									You can edit the records you entered yourself with the button above.
+									Choosing another person&apos;s records, or a whole accession or collection,
+									needs the manage collection role for that collection.
+								</p>
+							</cfif>
+							<cfif variables.mayBrowseOthers>
+							<form name="f" id="browseBulkForm" method="post" action="browseBulk.cfm">
+								<p class="small mb-2">
+									Leave All, or pick one or more in each list; hold Ctrl (or &##8984; on a Mac) to pick more than one.
+									Each shows how many records it would list with the choices in the other two.
+								</p>
+								<div class="form-row">
+									<div class="col-auto mb-2">
+										<label for="enteredby" class="data-entry-label font-weight-bold">Entered By</label>
+										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+											<option value="#encodeForHtml(adminForUsers)#" data-all="true" selected="selected">All</option>
+											<cfloop query="userList">
+												<option value="#encodeForHtml(userList.username)#" data-match="#encodeForHtml(lcase(userList.username))#" data-label="#encodeForHtml(userList.username)#" data-record-count="#userList.ct#">#encodeForHtml(userList.username)# (#userList.ct#)</option>
+											</cfloop>
+										</select>
+										<cfif variables.usersWithoutRecords GT 0>
+											<div class="form-check">
+												<input type="checkbox" class="form-check-input" id="showAllEnteredBy" onChange="showOptionsByRecordCount('enteredby', this.checked, #ENTEREDBY_MIN_RECORDS#); selectAllOrSome($('##enteredby')[0]); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+												<label for="showAllEnteredBy" class="form-check-label small">Show all users<br>(#variables.usersWithoutRecords# with no records)</label>
+											</div>
+										</cfif>
+									</div>
+									<div class="col-auto mb-2">
+										<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
+										<select name="accn" multiple="multiple" size="12" id="accn" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+											<option value="" data-all="true" selected="selected">All</option>
+											<cfloop query="ctAccn">
+												<cfset variables.accnLabel = "#ctAccn.accn# [not found]">
+												<cfif structKeyExists(variables.accnCollections, ctAccn.accn)>
+													<cfset variables.accnLabel = "#ctAccn.accn# [#replace(variables.accnCollections[ctAccn.accn], ',', ', ', 'all')#]">
+												</cfif>
+												<option value="#encodeForHtml(ctAccn.accn)#" data-match="#encodeForHtml(ctAccn.accn)#" data-label="#encodeForHtml(variables.accnLabel)#">#encodeForHtml(variables.accnLabel)# (#ctAccn.ct#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-auto mb-2">
+										<label for="colln" class="data-entry-label font-weight-bold">Collection</label>
+										<select name="colln" multiple="multiple" size="12" id="colln" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
+											<option value="" data-all="true" selected="selected">All</option>
+											<cfloop query="ctColln">
+												<option value="#encodeForHtml(ctColln.colln)#" data-match="#encodeForHtml(ctColln.colln)#" data-label="#encodeForHtml(ctColln.colln)#">#encodeForHtml(ctColln.colln)# (#ctColln.ct#)</option>
+											</cfloop>
+										</select>
+									</div>
 								</div>
-								<div class="col-auto mb-2">
-									<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
-									<select name="accn" multiple="multiple" size="12" id="accn" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
-										<option value="" data-all="true" selected="selected">All</option>
-										<cfloop query="ctAccn">
-											<option value="#encodeForHtml(ctAccn.accn)#" data-match="#encodeForHtml(ctAccn.accn)#" data-label="#encodeForHtml(ctAccn.accn)#">#encodeForHtml(ctAccn.accn)# (#ctAccn.ct#)</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-auto mb-2">
-									<label for="colln" class="data-entry-label font-weight-bold">Collection</label>
-									<select name="colln" multiple="multiple" size="12" id="colln" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
-										<option value="" data-all="true" selected="selected">All</option>
-										<cfloop query="ctColln">
-											<option value="#encodeForHtml(ctColln.colln)#" data-match="#encodeForHtml(ctColln.colln)#" data-label="#encodeForHtml(ctColln.colln)#">#encodeForHtml(ctColln.colln)# (#ctColln.ct#)</option>
-										</cfloop>
-									</select>
-								</div>
-							</div>
-							<button type="submit" name="action" value="sqlTab" id="editInBulkButton" class="btn btn-xs btn-primary">Edit in Bulk</button>
-							<button type="submit" name="action" value="ajaxGrid" id="ajaxGridButton" class="btn btn-xs btn-primary">AJAX Grid</button>
-							<output id="browseCounts" class="d-block small mt-1" aria-live="polite"></output>
-						</form>
-						<script>
-							var BROWSE_SELECTS = ["enteredby", "accn", "colln"];
-							var BROWSE_BUTTONS = ["editInBulkButton", "ajaxGridButton"];
-							// Built here rather than with serializeJSON, which would turn accession numbers into numbers.
-							var browseRecordGroups = [
-								<cfloop query="getRecordGroups">
-									{ enteredby: '#encodeForJavaScript(getRecordGroups.enteredby)#', accn: '#encodeForJavaScript(getRecordGroups.accn)#', colln: '#encodeForJavaScript(getRecordGroups.colln)#', count: #getRecordGroups.record_count# }<cfif getRecordGroups.currentRow LT getRecordGroups.recordcount>,</cfif>
-								</cfloop>
-							];
-							$(document).ready(function() {
-								showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
-								BROWSE_SELECTS.forEach(function(selectId) {
-									selectAllOrSome($("##" + selectId)[0]);
+								<button type="submit" name="action" value="sqlTab" id="editInBulkButton" class="btn btn-xs btn-primary">Edit in Bulk</button>
+								<button type="submit" name="action" value="ajaxGrid" id="ajaxGridButton" class="btn btn-xs btn-primary">AJAX Grid</button>
+								<output id="browseCounts" class="d-block small mt-1" aria-live="polite"></output>
+							</form>
+							<script>
+								var BROWSE_SELECTS = ["enteredby", "accn", "colln"];
+								var BROWSE_BUTTONS = ["editInBulkButton", "ajaxGridButton"];
+								// Built here rather than with serializeJSON, which would turn accession numbers into numbers.
+								var browseRecordGroups = [
+									<cfloop query="getRecordGroups">
+										{ enteredby: '#encodeForJavaScript(getRecordGroups.enteredby)#', accn: '#encodeForJavaScript(getRecordGroups.accn)#', colln: '#encodeForJavaScript(getRecordGroups.colln)#', count: #getRecordGroups.record_count# }<cfif getRecordGroups.currentRow LT getRecordGroups.recordcount>,</cfif>
+									</cfloop>
+								];
+								$(document).ready(function() {
+									showOptionsByRecordCount('enteredby', false, #ENTEREDBY_MIN_RECORDS#);
+									BROWSE_SELECTS.forEach(function(selectId) {
+										selectAllOrSome($("##" + selectId)[0]);
+									});
+									updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);
 								});
-								updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);
-							});
-						</script>
-						</cfif>
+							</script>
+							</cfif>
+						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
