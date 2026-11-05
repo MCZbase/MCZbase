@@ -634,6 +634,7 @@ limitations under the License.
 						</div>
 					</div>
 					<button type="submit" id="listRecordsButton" class="btn btn-xs btn-primary mb-2">List Records</button>
+					<button type="button" class="btn btn-xs btn-warning mb-2" onClick="clearSelections(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">Clear All Selections</button>
 					<output id="findCounts" class="d-inline-block small ml-2" aria-live="polite"></output>
 				</form>
 				<script>

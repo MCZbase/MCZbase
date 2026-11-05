@@ -749,6 +749,7 @@ table##t th {
 								</div>
 								<button type="submit" name="action" value="sqlTab" id="editInBulkButton" class="btn btn-xs btn-primary">Edit in Bulk</button>
 								<button type="submit" name="action" value="ajaxGrid" id="ajaxGridButton" class="btn btn-xs btn-primary">AJAX Grid</button>
+								<button type="button" class="btn btn-xs btn-warning" onClick="clearSelections(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">Clear All Selections</button>
 								<output id="browseCounts" class="d-block small mt-1" aria-live="polite"></output>
 							</form>
 							<script>

@@ -91,3 +91,20 @@ function updateSelectionCounts(selectIds, groups, outputId, buttonIds) {
 		$("#" + buttonId).prop("disabled", total == 0);
 	});
 }
+
+/** Sets each of a set of multiple selects back to its All option, and updates the counts.
+ *
+ * @param selectIds the ids of the selects, without a leading #, each with an All option carrying data-all="true".
+ * @param groups the combinations of values counted, as for updateSelectionCounts.
+ * @param outputId the id of the output for the number of matching records, without a leading #.
+ * @param buttonIds the ids of the buttons to disable when no records match, without a leading #.
+ * @see updateSelectionCounts
+ */
+function clearSelections(selectIds, groups, outputId, buttonIds) {
+	selectIds.forEach(function(selectId) {
+		$("#" + selectId + " option").prop("selected", false);
+		$("#" + selectId + " option[data-all='true']").prop("selected", true);
+		$("#" + selectId).data("allWasSelected", true);
+	});
+	updateSelectionCounts(selectIds, groups, outputId, buttonIds);
+}
