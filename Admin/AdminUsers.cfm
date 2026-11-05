@@ -38,6 +38,8 @@ limitations under the License.
 	does not work (Redmine #837), so the Invite action shows instructions for creating the account
 	by hand instead.  Set to true to record invitations again. --->
 <cfset INVITATIONS_ENABLED = false>
+<!--- The page whose access decides whether a user is offered label report collections. --->
+<cfset REPORT_PRINTER_PATH = "/Reports/report_printer.cfm">
 
 <cfparam name="url.action" default="">
 <cfparam name="form.action" default="">
@@ -750,38 +752,69 @@ limitations under the License.
 			</div>
 		</cfif>
 	</section>
-	<cfset variables.reportCodes = reportCollectionCodes()>
-	<section class="row mx-0 mb-2">
-		<div class="col-12 px-0">
-			<div class="card mb-2 bg-light">
-				<div class="card-header py-0">
-					<h3 class="h4 my-1 mx-2 px-2">Label Report Collections</h3>
-				</div>
-				<div class="card-body py-2">
-					<form name="reportPrefsForm" id="reportPrefsForm" method="post" action="/Admin/AdminUsers.cfm">
-						<input type="hidden" name="action" value="setReportPrefs">
-						#csrfTokenInput()#
-						<input type="hidden" name="username" value="#encodeForHtmlAttribute(getUsers.username)#">
-						<fieldset class="mb-2" aria-describedby="reportPrefsHelp">
-							<legend class="data-entry-label mb-0">Collections whose label reports are listed by default when this user prints labels</legend>
-							<small id="reportPrefsHelp" class="d-block text-secondary mb-1">Reports for all collections are always listed.  The number is how many label reports each has.</small>
-							<cfloop query="variables.reportCodes">
-								<cfset variables.checked = "">
-								<cfif listFindNoCase(getUsers.reportprefs, variables.reportCodes.code) GT 0>
-									<cfset variables.checked = "checked">
-								</cfif>
-								<div class="form-check form-check-inline">
-									<input type="checkbox" class="form-check-input" name="reportprefs" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked#>
-									<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
-								</div>
-							</cfloop>
-						</fieldset>
-						<button type="submit" class="btn btn-xs btn-primary">Save</button>
-					</form>
+	<!--- Label report collections matter only to a user who can open the report printer, decided as
+		CustomTags/rolecheck.cfm decides it: every role cf_form_permissions lists for the page, or global_admin,
+		or a page listed only for public; a user without a database account has no roles. --->
+	<cfset variables.mayPrintLabels = false>
+	<cfif len(isDbUser.username) GT 0>
+		<cfquery name="getPrinterRoles" datasource="uam_god" result="getPrinterRoles_result">
+			SELECT DISTINCT upper(role_name) AS role_name
+			FROM cf_form_permissions
+			WHERE form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#REPORT_PRINTER_PATH#">
+		</cfquery>
+		<cfquery name="getGrantedRoles" datasource="uam_god" result="getGrantedRoles_result">
+			SELECT upper(granted_role) AS role_name
+			FROM dba_role_privs
+			WHERE upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(variables.username)#">
+		</cfquery>
+		<cfset variables.grantedRoles = valueList(getGrantedRoles.role_name)>
+		<cfif getPrinterRoles.recordcount GT 0>
+			<cfif valueList(getPrinterRoles.role_name) EQ "PUBLIC" OR listFind(variables.grantedRoles, "GLOBAL_ADMIN") GT 0>
+				<cfset variables.mayPrintLabels = true>
+			<cfelse>
+				<cfset variables.mayPrintLabels = true>
+				<cfloop query="getPrinterRoles">
+					<cfif listFind(variables.grantedRoles, getPrinterRoles.role_name) EQ 0>
+						<cfset variables.mayPrintLabels = false>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfif variables.mayPrintLabels>
+		<cfset variables.reportCodes = reportCollectionCodes()>
+		<section class="row mx-0 mb-2">
+			<div class="col-12 px-0">
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0">
+						<h3 class="h4 my-1 mx-2 px-2">Label Report Collections</h3>
+					</div>
+					<div class="card-body py-2">
+						<form name="reportPrefsForm" id="reportPrefsForm" method="post" action="/Admin/AdminUsers.cfm">
+							<input type="hidden" name="action" value="setReportPrefs">
+							#csrfTokenInput()#
+							<input type="hidden" name="username" value="#encodeForHtmlAttribute(getUsers.username)#">
+							<fieldset class="mb-2" aria-describedby="reportPrefsHelp">
+								<legend class="data-entry-label mb-0">Collections whose label reports are listed by default when this user prints labels</legend>
+								<small id="reportPrefsHelp" class="d-block text-secondary mb-1">Reports for all collections are always listed.  The number is how many label reports each has.</small>
+								<cfloop query="variables.reportCodes">
+									<cfset variables.checked = "">
+									<cfif listFindNoCase(getUsers.reportprefs, variables.reportCodes.code) GT 0>
+										<cfset variables.checked = "checked">
+									</cfif>
+									<div class="form-check form-check-inline">
+										<input type="checkbox" class="form-check-input" name="reportprefs" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked#>
+										<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
+									</div>
+								</cfloop>
+							</fieldset>
+							<button type="submit" class="btn btn-xs btn-primary">Save</button>
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</cfif>
 	<cfquery name="getDownloadsByPurpose" datasource="cf_dbuser" result="getDownloadsByPurpose_result">
 		SELECT
 			download_purpose,
