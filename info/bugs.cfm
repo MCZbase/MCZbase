@@ -40,6 +40,72 @@ limitations under the License.
 		<cfif REFind("^[0-9]{8}-[0-9A-F]{8}$", url.error_reference) GT 0>
 			<cfset variables.complaintText = "Error reference: #url.error_reference#" & chr(10) & "Error message: #left(url.error_message, 1000)#" & chr(10) & chr(10)>
 		</cfif>
+		<!--- The Collection Panel's Collection Access widget links here to ask for accounts' removal.  The
+			text is written here from the checked parts, not taken from the link, and only for those who
+			can see that widget. --->
+		<cfparam name="url.access_removal" default="">
+		<cfparam name="url.accounts" default="">
+		<cfparam name="url.collection_id" default="">
+		<cfif listFind("collection,user", url.access_removal) GT 0
+				AND isDefined("session.roles")
+				AND (listFindNoCase(session.roles, "curatorial_associate") GT 0 OR listFindNoCase(session.roles, "global_admin") GT 0)>
+			<cfset variables.removalAccounts = []>
+			<cfloop list="#url.accounts#" index="variables.removalAccount">
+				<cfif REFind("^[A-Za-z0-9_.@-]{1,60}$", trim(variables.removalAccount)) GT 0 AND arrayLen(variables.removalAccounts) LT 100>
+					<cfset arrayAppend(variables.removalAccounts, trim(variables.removalAccount))>
+				</cfif>
+			</cfloop>
+			<cfif arrayLen(variables.removalAccounts) GT 0>
+				<cfquery name="getRemovalNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRemovalNames_result">
+					SELECT upper(cf_users.username) AS account, trim(cf_user_data.first_name || ' ' || cf_user_data.last_name) AS name
+					FROM cf_users
+						JOIN cf_user_data ON cf_users.user_id = cf_user_data.user_id
+					WHERE upper(cf_users.username) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arrayToList(variables.removalAccounts))#" list="yes">)
+				</cfquery>
+				<cfset variables.removalNames = {}>
+				<cfloop query="getRemovalNames">
+					<cfset variables.removalNames[getRemovalNames.account] = getRemovalNames.name>
+				</cfloop>
+				<cfset variables.accountLines = "">
+				<cfloop array="#variables.removalAccounts#" index="variables.removalAccount">
+					<cfset variables.accountLine = "- #variables.removalAccount#">
+					<cfif structKeyExists(variables.removalNames, ucase(variables.removalAccount)) AND len(variables.removalNames[ucase(variables.removalAccount)]) GT 0>
+						<cfset variables.accountLine = "#variables.accountLine# (#variables.removalNames[ucase(variables.removalAccount)]#)">
+					</cfif>
+					<cfset variables.accountLines = variables.accountLines & variables.accountLine & chr(10)>
+				</cfloop>
+				<cfset variables.accountCount = arrayLen(variables.removalAccounts)>
+				<cfset variables.accountWord = "accounts">
+				<cfif variables.accountCount EQ 1>
+					<cfset variables.accountWord = "account">
+				</cfif>
+				<cfif url.access_removal EQ "user">
+					<cfset variables.complaintText = "Remove #variables.accountCount# #variables.accountWord# as MCZbase users" & chr(10) & chr(10)
+						& "Please remove these accounts as MCZbase users, locking their MCZbase logins and database accounts:" & chr(10)
+						& variables.accountLines>
+				<cfelse>
+					<cfset variables.collectionName = "">
+					<cfset variables.collectionRole = "">
+					<cfif isValid("integer", url.collection_id)>
+						<cfquery name="getRemovalCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRemovalCollection_result">
+							SELECT collection, lower(institution_acronym || '_' || collection_cde) AS collection_role
+							FROM collection
+							WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.collection_id#">
+						</cfquery>
+						<cfset variables.collectionName = getRemovalCollection.collection>
+						<cfset variables.collectionRole = getRemovalCollection.collection_role>
+					</cfif>
+					<cfif len(variables.collectionName) GT 0>
+						<cfset variables.complaintText = "Remove #variables.accountCount# #variables.accountWord# from #variables.collectionName#" & chr(10) & chr(10)
+							& "Please remove access to the #variables.collectionName# collection's data (role #variables.collectionRole#) for these accounts:" & chr(10)
+							& variables.accountLines>
+					</cfif>
+				</cfif>
+				<cfif len(variables.complaintText) GT 0>
+					<cfset variables.complaintText = variables.complaintText & chr(10) & "Requested from the Collection Panel." & chr(10)>
+				</cfif>
+			</cfif>
+		</cfif>
 		<cfoutput>
 			<cfset reportedName ="">
 			<cfset email = "">
