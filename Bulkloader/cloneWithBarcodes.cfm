@@ -20,6 +20,8 @@ limitations under the License.
 <!--- Replaces one record staged in the bulkloader with a copy for each of a list of containers,
 	each copy putting its first part in one of the containers. --->
 <cfset pageTitle = "Clone Records by Container">
+<!--- for the container picker in step 3 --->
+<cfset pageHasContainers = "true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 
@@ -196,9 +198,9 @@ limitations under the License.
 					that each container gets its own cataloged item when the records are loaded.
 				</p>
 				<p>
-					All of the work here is done in the bulkloader, the staging table that holds records entered in
-					Data Entry until they are loaded.  The record you clone, and the clones made from it, are staged
-					records, not cataloged items.  No cataloged item, part or container is created or changed by this
+					All of the work here is done in the bulkloader, where records entered in Data Entry wait until
+					they are loaded.  The record you clone, and the clones made from it, are records waiting
+					there, not cataloged items.  No cataloged item, part or container is created or changed by this
 					page; the containers you enter are only checked and written into the clones.  The specimens are
 					created, and each first part placed in its container, when the bulkloader loads the clones, as for
 					any other record from Data Entry.
@@ -207,8 +209,10 @@ limitations under the License.
 					<li><strong>Find the record.</strong> Choose whose records to list, and optionally accessions, then List Records.</li>
 					<li><strong>Choose the record</strong> to clone from the list, with its Clone button.</li>
 					<li>
-						<strong>Enter the container unique ids</strong>, one for each copy you want, separated by commas,
-						spaces or line breaks (a barcode scanner that ends each scan with a line break works), then Check Containers.
+						<strong>Enter the container unique ids</strong>, one for each copy you want.  Type them, separated by
+						commas, spaces or line breaks; scan them with a barcode scanner that ends each scan with a line break; or
+						use Pick a Container, as many times as needed, to find a container and add its unique id to the list.
+						The three can be mixed.  Then Check Containers.
 					</li>
 					<li>
 						<strong>Create the clones.</strong> When every container passes the check, Create Clones adds the
@@ -218,10 +222,13 @@ limitations under the License.
 				<p>What the clones contain:</p>
 				<ul>
 					<li>
-						Each clone is a copy of every field of the original record, with a new record id, except that the first
-						part's container unique id is set to one of the containers you entered and the first part's container
-						name is left empty.  Other parts are copied unchanged, so a clone of a record with several parts has
-						all of them.
+						Each clone is a copy of the original record, with its own record number, except for the Container
+						Unique ID of its first part (the first row of the Parts table in Data Entry), which is one of the
+						containers you entered.
+					</li>
+					<li>
+						Other parts are copied unchanged, containers included, so every clone puts those parts in the same
+						containers.  Only the first part is given a container of its own.
 					</li>
 					<li>
 						Clones keep the original's catalog number.  A catalog number can be used only once, so if the original
@@ -231,13 +238,25 @@ limitations under the License.
 						Clones keep the original's status.  If the original was marked to load, so are the clones; if it was
 						waiting for changes, so are they.
 					</li>
-					<li>
-						When the clones are loaded, each first part is placed in the container entered for that clone.  Until
-						then the containers are not changed, and nothing reserves them, so the bulkloader checks each one again
-						at loading.
-					</li>
 					<li>The original record is removed from the bulkloader when the clones are made.  This cannot be undone from this page.</li>
 				</ul>
+				<p>How a clone is linked to its container:</p>
+				<ol>
+					<li>
+						<strong>When the clones are made</strong>, each container's unique id is entered as the Container
+						Unique ID of its clone's first part, as if you had typed it in Data Entry.  Nothing is done to the
+						container itself, and nothing reserves it for the clone.
+					</li>
+					<li>
+						<strong>When the clone is checked</strong> before loading, the unique id must still belong to a
+						container that is not a label.  It is checked again because the container may have changed since the
+						clone was made.
+					</li>
+					<li>
+						<strong>When the clone is loaded</strong>, its first part is created and placed in that container,
+						dated the day it was loaded, just as for any part entered in Data Entry with a Container Unique ID.
+					</li>
+				</ol>
 				<p>
 					A container unique id must belong to a container already in MCZbase, and that container must not be a label
 					(cryovial labels excepted), the same check the bulkloader makes when the records are loaded.
@@ -319,7 +338,7 @@ limitations under the License.
 					</div>
 				</cfif>
 				<cfif getRecords.recordcount EQ 0>
-					<p>No staged records match.</p>
+					<p>No records in the bulkloader match.</p>
 				<cfelse>
 					<table class="table table-responsive d-xl-table table-sm table-striped">
 						<thead>
@@ -372,7 +391,7 @@ limitations under the License.
 				<div class="col-12 mb-4">
 					<h2 class="h3" id="notFoundHeading">Record not found</h2>
 					<p>
-						Record #encodeForHtml(variables.collection_object_id)# is not a staged record you can clone.
+						Record #encodeForHtml(variables.collection_object_id)# is not a record in the bulkloader that you can clone.
 						It may already have been cloned, loaded or removed.
 					</p>
 					<a href="/Bulkloader/cloneWithBarcodes.cfm?action=listRecords&#variables.filterParams#" class="btn btn-xs btn-secondary">Back to the list</a>
@@ -563,12 +582,48 @@ limitations under the License.
 					<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
 					<label for="unique_ids" class="data-entry-label">Container Unique IDs, one for each clone</label>
 					<textarea name="unique_ids" id="unique_ids" rows="8" class="data-entry-textarea w-100 mb-1" aria-describedby="uniqueIdsHelp" required>#encodeForHtml(form.unique_ids)#</textarea>
-					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Separate the ids with commas, spaces or line breaks.  Nothing is changed until Create Clones.</small>
+					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas, spaces or line breaks, or add them with Pick a Container.  Nothing is changed until Create Clones.</small>
+					<button type="button" class="btn btn-xs btn-secondary mb-2" onClick="addPickedContainer('unique_ids', 'pickContainerFeedback');">Pick a Container</button>
 					<button type="submit" class="btn btn-xs btn-primary mb-2">Check Containers</button>
+					<output id="pickContainerFeedback" class="d-block small" aria-live="polite"></output>
 				</form>
 			</div>
 		</section>
 	</cfif>
 </main>
+<script>
+	/** Opens the container picker and adds the unique id of the container chosen to the end of a
+	 * list of container unique ids, on a line of its own, unless the list already has it.
+	 *
+	 * @param listControlId the id of the textarea holding the list, without a leading #.
+	 * @param feedbackId the id of an element for messages, without a leading #.
+	 */
+	function addPickedContainer(listControlId, feedbackId) {
+		var feedback = $('##' + feedbackId);
+		feedback.text('');
+		openContainerPickerDialog({
+			mode: 'find',
+			dialogTitle: 'Pick a Container to Clone Into',
+			onSelect: function(selectedId, selectedLabel, wrapper, controls, selectedItem) {
+				wrapper.dialog('close');
+				var uniqueId = (selectedItem && selectedItem.barcode) ? $.trim(selectedItem.barcode) : '';
+				var list = $('##' + listControlId);
+				if (uniqueId === '') {
+					feedback.text('The container picked, ' + selectedLabel + ', has no unique id, so a part cannot be placed in it by the bulkloader.');
+				} else {
+					var entered = list.val().split(/[,\s]+/);
+					if (entered.indexOf(uniqueId) >= 0) {
+						feedback.text(uniqueId + ' is already in the list.');
+					} else {
+						var text = list.val().replace(/\s+$/, '');
+						list.val(text === '' ? uniqueId : text + '\n' + uniqueId);
+						feedback.text('Added ' + uniqueId + '.');
+					}
+				}
+				list.focus();
+			}
+		});
+	}
+</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
