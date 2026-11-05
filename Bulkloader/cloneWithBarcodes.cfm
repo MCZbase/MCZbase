@@ -330,7 +330,7 @@ limitations under the License.
 						bulkloader.  Make the part for the jar the first part of that record in Data Entry.
 					</li>
 					<li>Find and choose that record here, and enter a container for each specimen.</li>
-					<li>Under Other parts, choose Remove them from every clone, so each clone has only the specimen's part.</li>
+					<li>Under Other parts, choose Remove them; no bulkloader record will have them, so each clone has only the specimen's part.</li>
 					<li>Check Containers and Create Clones, then give each clone its own catalog number and count in Data Entry before loading.</li>
 				</ol>
 			</details>
@@ -354,8 +354,10 @@ limitations under the License.
 						Data Entry before the clones are loaded.
 					</li>
 					<li>
-						<strong>Remove them from every clone.</strong>  Each clone has only the first part.  Use this to take
-						specimens out of a jar that is one part of a cataloged item (see the section above).
+						<strong>Remove them; no bulkloader record will have them.</strong>  Each clone has only the first part,
+						and as the original is removed too, the other parts are left in no record in the bulkloader and are not
+						loaded.  Use this to take specimens out of a jar that is one part of a cataloged item (see the section
+						above), where the other parts are already cataloged.
 					</li>
 				</ul>
 			</details>
@@ -801,7 +803,7 @@ limitations under the License.
 							<cfswitch expression="#variables.otherPartsChoice#">
 								<cfcase value="first"><cfset variables.otherPartsSummary = "The other parts will be kept on the first clone only, for #variables.uniqueIds[1]#."></cfcase>
 								<cfcase value="all"><cfset variables.otherPartsSummary = "The other parts will be kept on every clone."></cfcase>
-								<cfcase value="none"><cfset variables.otherPartsSummary = "The other parts will be removed from every clone."></cfcase>
+								<cfcase value="none"><cfset variables.otherPartsSummary = "The other parts will be removed: no bulkloader record will have them, so they will not be loaded."></cfcase>
 							</cfswitch>
 						</cfif>
 						<p>
@@ -840,7 +842,7 @@ limitations under the License.
 								<cfswitch expression="#variables.choice#">
 									<cfcase value="first"><cfset variables.choiceLabel = "Keep them on the first clone only (the first container in the list); remove them from the others"></cfcase>
 									<cfcase value="all"><cfset variables.choiceLabel = "Keep them on every clone, in the same containers as the original"></cfcase>
-									<cfcase value="none"><cfset variables.choiceLabel = "Remove them from every clone"></cfcase>
+									<cfcase value="none"><cfset variables.choiceLabel = "Remove them; no bulkloader record will have them (each clone has only the first part)"></cfcase>
 								</cfswitch>
 								<div class="form-check">
 									<input type="radio" class="form-check-input" name="other_parts" id="other_parts_#variables.choice#" value="#variables.choice#" #variables.checked# required>
