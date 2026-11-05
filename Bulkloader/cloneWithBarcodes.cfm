@@ -161,14 +161,23 @@ limitations under the License.
 </cffunction>
 
 <!---
-	parseUniqueIds split the entered container unique ids, separated by commas, spaces or line breaks.
+	parseUniqueIds split the entered container unique ids, separated by commas or line breaks.  A unique
+	id may contain spaces, so spaces separate nothing; those around an id are trimmed.
 
 	@param text the text entered.
 	@return an array of the ids, in the order entered.
 --->
 <cffunction name="parseUniqueIds" returntype="array" output="false">
 	<cfargument name="text" type="string" required="yes">
-	<cfreturn REMatch("[^,\s]+", arguments.text)>
+
+	<cfset var ids = []>
+	<cfset var part = "">
+	<cfloop list="#arguments.text#" delimiters=",#chr(10)##chr(13)#" index="part">
+		<cfif len(trim(part)) GT 0>
+			<cfset arrayAppend(ids, trim(part))>
+		</cfif>
+	</cfloop>
+	<cfreturn ids>
 </cffunction>
 
 <!---
@@ -295,10 +304,10 @@ limitations under the License.
 					<li>Under Find the record to clone, choose whose records to list, and optionally accessions, then List Records.</li>
 					<li>Choose the record from the list with its Clone button.</li>
 					<li>
-						Enter the container unique ids, one for each copy you want.  Type them, separated by commas, spaces or line
-						breaks; scan them with a barcode scanner that ends each scan with a line break; or use Pick and Add a
-						Container, as many times as needed, to find a container and add its unique id to the list.  The three can
-						be mixed.
+						Enter the container unique ids, one for each copy you want.  Type them, separated by commas or line
+						breaks (a unique id can contain spaces); scan them with a barcode scanner that ends each scan with a
+						line break; or use Pick and Add a Container, as many times as needed, to find a container and add its
+						unique id to the list.  The three can be mixed.
 					</li>
 					<li>If the record has other parts, choose what becomes of them (see Records with more than one part).</li>
 					<li>Check Containers.  When every container passes, Create Clones.</li>
@@ -840,7 +849,7 @@ limitations under the License.
 							</cfloop>
 						</fieldset>
 					</cfif>
-					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas, spaces or line breaks, or add them with Pick and Add a Container.  Nothing is changed until Create Clones.</small>
+					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas or line breaks, or add them with Pick and Add a Container.  Nothing is changed until Create Clones.</small>
 					<button type="button" class="btn btn-xs btn-secondary mb-2" onClick="addPickedContainer('unique_ids', 'pickContainerFeedback');">Pick and Add a Container</button>
 					<button type="submit" class="btn btn-xs btn-primary mb-2">Check Containers</button>
 					<output id="pickContainerFeedback" class="d-block small" aria-live="polite"></output>
@@ -875,7 +884,8 @@ limitations under the License.
 				if (uniqueId === '') {
 					feedback.text('The container picked, ' + selectedLabel + ', has no unique id, so a part cannot be placed in it by the bulkloader.');
 				} else {
-					var entered = list.val().split(/[,\s]+/);
+					// Commas and line breaks separate the ids; a unique id can contain spaces.
+					var entered = $.map(list.val().split(/[,\r\n]+/), function(id) { return $.trim(id); });
 					if (entered.indexOf(uniqueId) >= 0) {
 						feedback.text(uniqueId + ' is already in the list.');
 					} else {
