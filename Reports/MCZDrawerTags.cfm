@@ -558,18 +558,54 @@ limitations under the License.
 <cfset pageTitle = "Loan Drawer Tags">
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
+	<!--- Offered when no loan, or no such loan, is given; picking a loan opens its drawer tags in the format asked for. --->
+	<cfsavecontent variable="variables.loanPicker">
+		<form name="pickLoan" id="pickLoan" method="get" action="/Reports/MCZDrawerTags.cfm" class="col-12 px-0" onSubmit="return loanIsPicked('pickedTransactionId');">
+			<input type="hidden" name="action" value="itemLabels">
+			<input type="hidden" name="format" value="#encodeForHtmlAttribute(variables.format)#">
+			<input type="hidden" name="transaction_id" id="pickedTransactionId" value="">
+			<div class="form-row align-items-end">
+				<div class="col-12 col-md-6 mb-2">
+					<label for="pickLoanNumber" class="data-entry-label">Loan Number</label>
+					<input type="text" id="pickLoanNumber" class="data-entry-input" aria-describedby="pickLoanHelp" required onInput="$('##pickedTransactionId').val('');">
+					<small id="pickLoanHelp" class="text-secondary">Type at least three characters of the loan number, then pick the loan.</small>
+				</div>
+				<div class="col-12 col-md-6 mb-2">
+					<button type="submit" class="btn btn-xs btn-primary">Show Drawer Tags</button>
+				</div>
+			</div>
+		</form>
+		<script>
+			$(document).ready(function() {
+				makeLoanPicker('pickLoanNumber', 'pickedTransactionId', function() { $('##pickLoan').submit(); });
+			});
+			/** Whether a loan has been picked from the list; typing after a pick clears it, so it must be picked again.
+			 * @param idControl the id of the hidden input for the picked transaction_id, without a leading ##.
+			 * @return true if a loan is picked, otherwise false, after saying to pick one.
+			 */
+			function loanIsPicked(idControl) {
+				if ($('##' + idControl).val() == '') {
+					messageDialog('Pick a loan from the list that appears as you type its number.', 'Pick a Loan');
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</cfsavecontent>
 	<main class="container py-3" id="content">
 		<cfif NOT isValid("integer", variables.transaction_id)>
 			<section class="row mx-0">
 				<h1 class="h2">Loan Drawer Tags</h1>
-				<p class="col-12 px-0">No loan was given.  Open MCZ Drawer Tags from the print menu of a loan.</p>
+				<p class="col-12 px-0">Pick the loan to print drawer tags for, or open MCZ Drawer Tags from the print menu of a loan.</p>
+				#variables.loanPicker#
 			</section>
 		<cfelse>
 			<cfset variables.loan = getLoanForTags(variables.transaction_id)>
 			<cfif variables.loan.recordcount EQ 0>
 				<section class="row mx-0">
 					<h1 class="h2">Loan Drawer Tags</h1>
-					<p class="col-12 px-0">There is no loan with transaction_id #encodeForHtml(variables.transaction_id)#.</p>
+					<p class="col-12 px-0">There is no loan with transaction_id #encodeForHtml(variables.transaction_id)#.  Pick the loan to print drawer tags for.</p>
+					#variables.loanPicker#
 				</section>
 			<cfelse>
 				<cfif variables.isCryoSheet>

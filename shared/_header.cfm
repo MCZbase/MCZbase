@@ -228,6 +228,10 @@ limitations under the License.
 	<!--- To enable transaction pickers on project search page for logged in users --->
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/Reports/MCZDrawerTags.cfm">
+	<!--- For the loan picker offered when no loan is given. --->
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
 <cfif CGI.script_name IS "/projects/Project.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
