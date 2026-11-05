@@ -622,7 +622,8 @@ limitations under the License.
 							<dt class="col-sm-3">Other Parts</dt>
 							<dd class="col-sm-9">
 								#encodeForHtml(trim(variables.otherPartsText))#
-								<span id="otherPartsAction" class="d-block font-weight-bold bg-light border border-dark rounded px-2 py-1 mt-1" aria-live="polite">#encodeForHtml(variables.otherPartsAction)#</span>
+								<!--- The prefix stays put; showOtherPartsAction replaces only the action. --->
+								<span class="d-block font-weight-bold bg-light border border-dark rounded px-2 py-1 mt-1" aria-live="polite">Other Parts: <span id="otherPartsAction">#encodeForHtml(variables.otherPartsAction)#</span></span>
 							</dd>
 						</cfif>
 						<dt class="col-sm-3">Accession</dt>
