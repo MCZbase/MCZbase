@@ -511,51 +511,39 @@ table##t th {
 				accn 
 			order by accn
 		</cfquery>
-		<!--- The collection of each accession, found as BULK_PKG finds it when loading: from a [MCZ:Mamm] or
-			Mamm- prefix on the number if there is one, otherwise from the record's collection, where an
-			accession of the museum as a whole (MCZ) also serves. --->
+		<!--- The collection code of the accession each accession number names; a number that names no
+			accession has no row, and is shown as not found. --->
 		<cfquery name="getAccnCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccnCollections_result">
 			SELECT DISTINCT
-				staged.accn,
-				collection.institution_acronym || ':' || collection.collection_cde AS accn_colln
-			FROM
-				(
-					SELECT DISTINCT
-						accn,
-						CASE
-							WHEN accn LIKE '[%]%' THEN regexp_replace(accn, '^\[[^]]*\]', '')
-							WHEN regexp_like(accn, '^[A-Za-z\-]*-[0-9]*$') THEN regexp_substr(accn, '^([A-Za-z\-]*)-([0-9]*)$', 1, 1, 'i', 2)
-							ELSE accn
-						END AS accn_number,
-						CASE
-							WHEN accn LIKE '[%]%' THEN regexp_substr(accn, '^\[([^:]*):', 1, 1, 'i', 1)
-							ELSE institution_acronym
-						END AS accn_institution,
-						CASE
-							WHEN accn LIKE '[%]%' THEN regexp_substr(accn, '^\[[^:]*:([^]]*)\]', 1, 1, 'i', 1)
-							WHEN regexp_like(accn, '^[A-Za-z\-]*-[0-9]*$') THEN regexp_substr(accn, '^([A-Za-z\-]*)-([0-9]*)$', 1, 1, 'i', 1)
-							ELSE collection_cde
-						END AS accn_collection_cde
+				accn.accn_number AS accn,
+				collection.institution_acronym,
+				collection.collection_cde
+			FROM accn
+				JOIN trans ON accn.transaction_id = trans.transaction_id
+				JOIN collection ON trans.collection_id = collection.collection_id
+			WHERE
+				accn.accn_number IN (
+					SELECT accn
 					FROM bulkloader
 					WHERE
 						enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
 						AND accn IS NOT NULL
-				) staged
-				JOIN accn ON accn.accn_number = staged.accn_number
-				JOIN trans ON accn.transaction_id = trans.transaction_id
-				JOIN collection ON trans.collection_id = collection.collection_id
-			WHERE
-				collection.institution_acronym = staged.accn_institution
-				AND (collection.collection_cde = staged.accn_collection_cde OR collection.collection_cde = 'MCZ')
-			ORDER BY staged.accn, accn_colln
+				)
+			ORDER BY accn.accn_number, collection.collection_cde
 		</cfquery>
+		<!--- An accession number found in one collection shows it, as MCZ:Mamm; one found in several shows
+			MCZ:multiple, or just multiple if they span institutions. --->
 		<cfset variables.accnCollections = {}>
 		<cfloop query="getAccnCollections">
+			<cfset variables.accnColln = "#getAccnCollections.institution_acronym#:#getAccnCollections.collection_cde#">
 			<cfif NOT structKeyExists(variables.accnCollections, getAccnCollections.accn)>
-				<cfset variables.accnCollections[getAccnCollections.accn] = "">
-			</cfif>
-			<cfif listFind(variables.accnCollections[getAccnCollections.accn], getAccnCollections.accn_colln) EQ 0>
-				<cfset variables.accnCollections[getAccnCollections.accn] = listAppend(variables.accnCollections[getAccnCollections.accn], getAccnCollections.accn_colln)>
+				<cfset variables.accnCollections[getAccnCollections.accn] = variables.accnColln>
+			<cfelseif variables.accnCollections[getAccnCollections.accn] NEQ variables.accnColln>
+				<cfif listFirst(variables.accnCollections[getAccnCollections.accn], ":") EQ getAccnCollections.institution_acronym>
+					<cfset variables.accnCollections[getAccnCollections.accn] = "#getAccnCollections.institution_acronym#:multiple">
+				<cfelse>
+					<cfset variables.accnCollections[getAccnCollections.accn] = "multiple">
+				</cfif>
 			</cfif>
 		</cfloop>
 		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -658,7 +646,7 @@ table##t th {
 											<cfloop query="ctAccn">
 												<cfset variables.accnLabel = "#ctAccn.accn# [not found]">
 												<cfif structKeyExists(variables.accnCollections, ctAccn.accn)>
-													<cfset variables.accnLabel = "#ctAccn.accn# [#replace(variables.accnCollections[ctAccn.accn], ',', ', ', 'all')#]">
+													<cfset variables.accnLabel = "#ctAccn.accn# [#variables.accnCollections[ctAccn.accn]#]">
 												</cfif>
 												<option value="#encodeForHtml(ctAccn.accn)#" data-match="#encodeForHtml(ctAccn.accn)#" data-label="#encodeForHtml(variables.accnLabel)#">#encodeForHtml(variables.accnLabel)# (#ctAccn.ct#)</option>
 											</cfloop>
