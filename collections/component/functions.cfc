@@ -591,6 +591,7 @@ limitations under the License.
 	<cfset var countCollections_result = "">
 	<cfset var account = "">
 	<cfset var otherVpdText = "">
+	<cfset var removableCount = 0>
 	<cfset requirePanelViewer()>
 	<cfif listFindNoCase(session.roles, "global_admin") GT 0>
 		<cfset showUnlinked = true>
@@ -713,6 +714,10 @@ limitations under the License.
 		<cfif holders.account_status EQ "OPEN">
 			<cfset openCount = openCount + 1>
 		</cfif>
+		<!--- As for the checkboxes below: MCZbase users with access to this collection alone. --->
+		<cfif groupOf[holders.grantee] EQ "specific" AND len(holders.mczbase_username) GT 0>
+			<cfset removableCount = removableCount + 1>
+		</cfif>
 		<cfset groupCounts[groupOf[holders.grantee]] = groupCounts[groupOf[holders.grantee]] + 1>
 	</cfloop>
 	<cfsavecontent variable="html">
@@ -825,7 +830,7 @@ limitations under the License.
 					</details>
 				</cfif>
 			</cfloop>
-			<cfif groupCounts.specific GT 0>
+			<cfif removableCount GT 0>
 				<fieldset class="border rounded px-2 pb-2 mt-3">
 					<legend class="h6 w-auto px-1 mb-1">Request removal</legend>
 					<p class="small mb-1">Tick accounts above, choose what to ask for, and draft a bug report to review and send.</p>
