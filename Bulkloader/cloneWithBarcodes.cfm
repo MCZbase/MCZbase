@@ -387,8 +387,8 @@ limitations under the License.
 						and nothing reserves it for the clone.
 					</li>
 					<li>
-						<strong>When the clone is checked</strong> before loading, the unique id must still belong to a container
-						that is not a label.  It is checked again because the container may have changed since the clone was made.
+						<strong>When the clone is checked</strong> before loading, the unique id must still belong to a container.
+						It is checked again because the container may have changed since the clone was made.
 						The placement rules shown by Check Containers are not checked again then.
 					</li>
 					<li>
@@ -402,7 +402,7 @@ limitations under the License.
 				<summary class="font-weight-bold">Which records and containers can be used</summary>
 				<ul class="mt-2">
 					<li>
-						A container unique id must belong to a container already in MCZbase, and that container must not be a label.
+						A container unique id must belong to a container already in MCZbase.
 						For a cryovial, use the cryovial's own unique id, the barcode on the vial.
 					</li>
 					<li>
