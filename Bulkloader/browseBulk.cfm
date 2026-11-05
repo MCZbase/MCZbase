@@ -17,6 +17,7 @@
 <cfparam name="colln" default="">
 
 <cfinclude template="/Bulkloader/bulkEditFilters.cfm">
+<cfinclude template="/Bulkloader/component/accessionFilter.cfc" runOnce="true">
 <style>
 .blTabDiv {
 	width: 100%;
@@ -36,15 +37,22 @@ table##t th {
 <cfif action is "loadAll">
 	<cfoutput>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="markForLoad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE bulkloader 
 			SET LOADED = NULL 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+			<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+				AND (
+					<cfif len(accessionNumbers(accn)) GT 0>
+						accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+						<cfif includesNoAccession(accn)>OR</cfif>
+					</cfif>
+					<cfif includesNoAccession(accn)>
+						accn IS NULL
+					</cfif>
+				)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -61,7 +69,6 @@ table##t th {
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 			<!--- optionally, leave unpopulated columns out of download --->
@@ -72,8 +79,16 @@ table##t th {
 					WHERE 
 						#aColumnName# is NOT NULL
 						AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-						<cfif len(accn) gt 0>
-							AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+						<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+							AND (
+								<cfif len(accessionNumbers(accn)) GT 0>
+									accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+									<cfif includesNoAccession(accn)>OR</cfif>
+								</cfif>
+								<cfif includesNoAccession(accn)>
+									accn IS NULL
+								</cfif>
+							)
 						</cfif>
 						<cfif isdefined("colln") and len(colln) gt 0>
 							AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -88,8 +103,16 @@ table##t th {
 			SELECT #ColNameList# from bulkloader 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-				<cfif len(accn) gt 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+					AND (
+						<cfif len(accessionNumbers(accn)) GT 0>
+							accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+							<cfif includesNoAccession(accn)>OR</cfif>
+						</cfif>
+						<cfif includesNoAccession(accn)>
+							accn IS NULL
+						</cfif>
+					)
 				</cfif>
 				<cfif isdefined("colln") and len(colln) gt 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -128,15 +151,22 @@ table##t th {
 </cfif>
 <cfif isDefined("action") AND action is "listUniqueProblems">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-	<cfset accnCleaned = replace(accn,"'","","All")>
 	<cfset collnCleaned = replace(colln,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
 			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+		<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+			AND (
+				<cfif len(accessionNumbers(accn)) GT 0>
+					accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+					<cfif includesNoAccession(accn)>OR</cfif>
+				</cfif>
+				<cfif includesNoAccession(accn)>
+					accn IS NULL
+				</cfif>
+			)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -161,8 +191,16 @@ table##t th {
 			AND loaded <> 'BULKLOADED RECORD'
 			AND loaded <> 'MARK FOR DELETION'
 			AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+		<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+			AND (
+				<cfif len(accessionNumbers(accn)) GT 0>
+					accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+					<cfif includesNoAccession(accn)>OR</cfif>
+				</cfif>
+				<cfif includesNoAccession(accn)>
+					accn IS NULL
+				</cfif>
+			)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -193,7 +231,7 @@ table##t th {
 				</cfif>
 				<p class="px-1">Issues with records in the bulkloader entered #entryList#
 					<cfif len(accn) gt 0>
-						with accession number(s) #encodeForHtml(accn)#
+						#encodeForHtml(describeAccessions(accn))#
 					</cfif>
 					<cfif isdefined("colln") and len(colln) gt 0>
 						in collection(s) #encodeForHtml(colln)#
@@ -235,8 +273,16 @@ table##t th {
 								WHERE 
 									loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
 									AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-									<cfif len(accn) gt 0>
-										AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+									<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+										AND (
+											<cfif len(accessionNumbers(accn)) GT 0>
+												accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+												<cfif includesNoAccession(accn)>OR</cfif>
+											</cfif>
+											<cfif includesNoAccession(accn)>
+												accn IS NULL
+											</cfif>
+										)
 									</cfif>
 									<cfif isdefined("colln") and len(colln) gt 0>
 										AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -272,8 +318,16 @@ table##t th {
 									WHERE 
 										loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#errorCase#%">
 										AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-										<cfif len(accn) gt 0>
-											AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+										<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+											AND (
+												<cfif len(accessionNumbers(accn)) GT 0>
+													accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+													<cfif includesNoAccession(accn)>OR</cfif>
+												</cfif>
+												<cfif includesNoAccession(accn)>
+													accn IS NULL
+												</cfif>
+											)
 										</cfif>
 										<cfif isdefined("colln") and len(colln) gt 0>
 											AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -287,8 +341,16 @@ table##t th {
 											loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
 											AND #columnInError# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getErrorCases.value_error#">
 											AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-											<cfif len(accn) gt 0>
-												AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+											<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+												AND (
+													<cfif len(accessionNumbers(accn)) GT 0>
+														accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+														<cfif includesNoAccession(accn)>OR</cfif>
+													</cfif>
+													<cfif includesNoAccession(accn)>
+														accn IS NULL
+													</cfif>
+												)
 											</cfif>
 											<cfif isdefined("colln") and len(colln) gt 0>
 												AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -334,15 +396,22 @@ table##t th {
 </cfif>
 <cfif action is "ajaxGrid">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-	<cfset accnCleaned = trim(replace(accn,"'","","All"))>
 	<cfset collnCleaned = replace(colln,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
 			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+		<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+			AND (
+				<cfif len(accessionNumbers(accn)) GT 0>
+					accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+					<cfif includesNoAccession(accn)>OR</cfif>
+				</cfif>
+				<cfif includesNoAccession(accn)>
+					accn IS NULL
+				</cfif>
+			)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -361,7 +430,7 @@ table##t th {
 				</cfif>
 				<p>Viewing records in the bulkloader entered #entryList#
 				<cfif len(accn) gt 0>
-					with accession number(s) #encodeForHtml(accn)#
+					#encodeForHtml(describeAccessions(accn))#
 				</cfif>
 				<cfif isdefined("colln") and len(colln) gt 0>
 					in collection(s) #encodeForHtml(colln)#
@@ -398,8 +467,16 @@ table##t th {
 						WHERE 
 							#aColumnName# is NOT NULL
 							AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-							<cfif len(accn) gt 0>
-								AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+							<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+								AND (
+									<cfif len(accessionNumbers(accn)) GT 0>
+										accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+										<cfif includesNoAccession(accn)>OR</cfif>
+									</cfif>
+									<cfif includesNoAccession(accn)>
+										accn IS NULL
+									</cfif>
+								)
 							</cfif>
 							<cfif isdefined("colln") and len(colln) gt 0>
 								AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -571,6 +648,13 @@ table##t th {
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
 			GROUP BY lower(enteredby), accn, institution_acronym || ':' || collection_cde
 		</cfquery>
+		<!--- Records with no accession number, offered as their own choice; in the counts their accession is empty. --->
+		<cfset variables.noAccessionCount = 0>
+		<cfloop query="getRecordGroups">
+			<cfif len(getRecordGroups.accn) EQ 0>
+				<cfset variables.noAccessionCount = variables.noAccessionCount + getRecordGroups.record_count>
+			</cfif>
+		</cfloop>
 		</cfif>
 		<div class="container-fluid">
 			<div class="row mx-0">
@@ -643,6 +727,7 @@ table##t th {
 										<label for="accn" class="data-entry-label font-weight-bold">Accession</label>
 										<select name="accn" multiple="multiple" size="12" id="accn" class="data-entry-select w-auto" onChange="selectAllOrSome(this); updateSelectionCounts(BROWSE_SELECTS, browseRecordGroups, 'browseCounts', BROWSE_BUTTONS);">
 											<option value="" data-all="true" selected="selected">All</option>
+											<option value="#encodeForHtml(noAccessionValue())#" data-match="" data-label="(no accession)">(no accession) (#variables.noAccessionCount#)</option>
 											<cfloop query="ctAccn">
 												<cfset variables.accnLabel = "#ctAccn.accn# [not found]">
 												<cfif structKeyExists(variables.accnCollections, ctAccn.accn)>
@@ -705,7 +790,6 @@ table##t th {
 			#encodeForHtml(variables.collected.problem)# <cfabort>
 		</cfif>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="data_result">
 			UPDATE bulkloader
@@ -717,8 +801,16 @@ table##t th {
 				</cfif>
 			WHERE
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-				<cfif len(accn) gt 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+					AND (
+						<cfif len(accessionNumbers(accn)) GT 0>
+							accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+							<cfif includesNoAccession(accn)>OR</cfif>
+						</cfif>
+						<cfif includesNoAccession(accn)>
+							accn IS NULL
+						</cfif>
+					)
 				</cfif>
 				<cfif len(colln) gt 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -768,15 +860,22 @@ table##t th {
 			<cfset colln = "">
 		</cfif>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT count(*) as ct
 			FROM bulkloader
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+			<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+				AND (
+					<cfif len(accessionNumbers(accn)) GT 0>
+						accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+						<cfif includesNoAccession(accn)>OR</cfif>
+					</cfif>
+					<cfif includesNoAccession(accn)>
+						accn IS NULL
+					</cfif>
+				)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -794,8 +893,16 @@ table##t th {
 			FROM bulkloader
 			WHERE
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-				<cfif len(accn) gt 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+					AND (
+						<cfif len(accessionNumbers(accn)) GT 0>
+							accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+							<cfif includesNoAccession(accn)>OR</cfif>
+						</cfif>
+						<cfif includesNoAccession(accn)>
+							accn IS NULL
+						</cfif>
+					)
 				</cfif>
 				<cfif len(colln) gt 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -848,7 +955,7 @@ table##t th {
 						<h2 class="h3">
 							Starting with #countData.ct# records in the bulkloader entered #entryList#
 							<cfif len(accn) gt 0>
-								with accession number(s) #encodeForHtml(accn)#
+								#encodeForHtml(describeAccessions(accn))#
 							</cfif>
 							<cfif isdefined("colln") and len(colln) gt 0>
 								in collection(s) #encodeForHtml(colln)#
@@ -1090,8 +1197,16 @@ table##t th {
 							WHERE 
 								#aColumnName# is NOT NULL
 								AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-								<cfif len(accn) gt 0>
-									AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+								<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+									AND (
+										<cfif len(accessionNumbers(accn)) GT 0>
+											accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+											<cfif includesNoAccession(accn)>OR</cfif>
+										</cfif>
+										<cfif includesNoAccession(accn)>
+											accn IS NULL
+										</cfif>
+									)
 								</cfif>
 								<cfif isdefined("colln") and len(colln) gt 0>
 									AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -1225,7 +1340,6 @@ table##t th {
 			The column to match is not one this form offers. <cfabort>
 		</cfif>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upBulk_result">
 			UPDATE bulkloader
@@ -1238,8 +1352,16 @@ table##t th {
 			WHERE
 				#ucase(column_name)# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tValue)#">
 				AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-				<cfif len(accn) gt 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+				<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+					AND (
+						<cfif len(accessionNumbers(accn)) GT 0>
+							accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+							<cfif includesNoAccession(accn)>OR</cfif>
+						</cfif>
+						<cfif includesNoAccession(accn)>
+							accn IS NULL
+						</cfif>
+					)
 				</cfif>
 				<cfif isdefined("colln") and len(colln) gt 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
@@ -1257,15 +1379,22 @@ table##t th {
 	<cfoutput>
 		<!--- strip off quotes from lists --->
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * 
 			FROM bulkloader
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accnCleaned#" list="yes">)
+			<cfif len(accessionNumbers(accn)) GT 0 OR includesNoAccession(accn)>
+				AND (
+					<cfif len(accessionNumbers(accn)) GT 0>
+						accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(accn)#" list="yes">)
+						<cfif includesNoAccession(accn)>OR</cfif>
+					</cfif>
+					<cfif includesNoAccession(accn)>
+						accn IS NULL
+					</cfif>
+				)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
 				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)

@@ -24,6 +24,7 @@ limitations under the License.
 <cfset pageHasContainers = "true">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
+<cfinclude template="/Bulkloader/component/accessionFilter.cfc" runOnce="true">
 <cfinclude template="/containers/component/public.cfc" runOnce="true"><!--- for validateContainerPlacement --->
 
 <!--- Bulkloader rows with ids up to this are the Data Entry templates, one per collection, as
@@ -482,6 +483,8 @@ limitations under the License.
 		</cfquery>
 		<cfset variables.userRecordCounts = {}>
 		<cfset variables.accnRecordCounts = {}>
+		<!--- Records with no accession number are their own choice; in the counts their accession is empty. --->
+		<cfset variables.noAccessionCount = 0>
 		<cfset variables.collnRecordCounts = {}>
 		<cfloop query="getRecordGroups">
 			<cfset variables.groupUser = lcase(getRecordGroups.enteredby)>
@@ -490,7 +493,9 @@ limitations under the License.
 				<cfset variables.userRecordCounts[variables.groupUser] = 0>
 			</cfif>
 			<cfset variables.userRecordCounts[variables.groupUser] = variables.userRecordCounts[variables.groupUser] + getRecordGroups.record_count>
-			<cfif len(getRecordGroups.accn) GT 0>
+			<cfif len(getRecordGroups.accn) EQ 0>
+				<cfset variables.noAccessionCount = variables.noAccessionCount + getRecordGroups.record_count>
+			<cfelse>
 				<cfif NOT structKeyExists(variables.accnRecordCounts, getRecordGroups.accn)>
 					<cfset variables.accnRecordCounts[getRecordGroups.accn] = 0>
 				</cfif>
@@ -513,6 +518,42 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 		<cfset variables.sortedAccns = listSort(structKeyList(variables.accnRecordCounts, chr(31)), "textnocase", "asc", chr(31))>
+		<!--- The collection of the accession each accession number names, as on /Bulkloader/browseBulk.cfm; a
+			number that names no accession has no row, and is shown as not found. --->
+		<cfquery name="getAccnCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAccnCollections_result">
+			SELECT DISTINCT
+				accn.accn_number AS accn,
+				collection.institution_acronym,
+				collection.collection_cde
+			FROM accn
+				JOIN trans ON accn.transaction_id = trans.transaction_id
+				JOIN collection ON trans.collection_id = collection.collection_id
+			WHERE
+				accn.accn_number IN (
+					SELECT accn
+					FROM bulkloader
+					WHERE
+						enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.permittedUsers#" list="yes">)
+						AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
+						AND accn IS NOT NULL
+				)
+			ORDER BY accn.accn_number, collection.collection_cde
+		</cfquery>
+		<!--- An accession number found in one collection shows it, as MCZ:Mamm; one found in several shows
+			MCZ:multiple, or just multiple if they span institutions. --->
+		<cfset variables.accnCollections = {}>
+		<cfloop query="getAccnCollections">
+			<cfset variables.accnColln = "#getAccnCollections.institution_acronym#:#getAccnCollections.collection_cde#">
+			<cfif NOT structKeyExists(variables.accnCollections, getAccnCollections.accn)>
+				<cfset variables.accnCollections[getAccnCollections.accn] = variables.accnColln>
+			<cfelseif variables.accnCollections[getAccnCollections.accn] NEQ variables.accnColln>
+				<cfif listFirst(variables.accnCollections[getAccnCollections.accn], ":") EQ getAccnCollections.institution_acronym>
+					<cfset variables.accnCollections[getAccnCollections.accn] = "#getAccnCollections.institution_acronym#:multiple">
+				<cfelse>
+					<cfset variables.accnCollections[getAccnCollections.accn] = "multiple">
+				</cfif>
+			</cfif>
+		</cfloop>
 		<cfset variables.sortedCollns = listSort(structKeyList(variables.collnRecordCounts, chr(31)), "textnocase", "asc", chr(31))>
 		<!--- Coming back from Change Search, the earlier choices are selected again. --->
 		<cfset variables.allUsersSelected = "">
@@ -560,12 +601,21 @@ limitations under the License.
 							<label for="accn" class="data-entry-label">Accession</label>
 							<select name="accn" id="accn" multiple size="10" class="data-entry-select" onChange="selectAllOrSome(this); updateSelectionCounts(FIND_SELECTS, findRecordGroups, 'findCounts', ['listRecordsButton']);">
 								<option value="" data-all="true" #variables.allAccnsSelected#>All</option>
+								<cfset variables.selected = "">
+								<cfif includesNoAccession(variables.accn)>
+									<cfset variables.selected = "selected">
+								</cfif>
+								<option value="#encodeForHtml(noAccessionValue())#" data-match="" data-label="(no accession)" #variables.selected#>(no accession) (#variables.noAccessionCount#)</option>
 								<cfloop list="#variables.sortedAccns#" index="variables.accnOption" delimiters="#chr(31)#">
 									<cfset variables.selected = "">
 									<cfif listFind(variables.accn, variables.accnOption) GT 0>
 										<cfset variables.selected = "selected">
 									</cfif>
-									<option value="#encodeForHtml(variables.accnOption)#" data-match="#encodeForHtml(variables.accnOption)#" data-label="#encodeForHtml(variables.accnOption)#" #variables.selected#>#encodeForHtml(variables.accnOption)# (#variables.accnRecordCounts[variables.accnOption]#)</option>
+									<cfset variables.accnLabel = "#variables.accnOption# [not found]">
+									<cfif structKeyExists(variables.accnCollections, variables.accnOption)>
+										<cfset variables.accnLabel = "#variables.accnOption# [#variables.accnCollections[variables.accnOption]#]">
+									</cfif>
+									<option value="#encodeForHtml(variables.accnOption)#" data-match="#encodeForHtml(variables.accnOption)#" data-label="#encodeForHtml(variables.accnLabel)#" #variables.selected#>#encodeForHtml(variables.accnLabel)# (#variables.accnRecordCounts[variables.accnOption]#)</option>
 								</cfloop>
 							</select>
 						</div>
@@ -617,8 +667,16 @@ limitations under the License.
 			WHERE
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.selectedUsers#" list="yes">)
 				AND collection_object_id > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAXTEMPLATE#">
-				<cfif len(variables.accn) GT 0>
-					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accn#" list="yes">)
+				<cfif len(accessionNumbers(variables.accn)) GT 0 OR includesNoAccession(variables.accn)>
+					AND (
+						<cfif len(accessionNumbers(variables.accn)) GT 0>
+							accn IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accessionNumbers(variables.accn)#" list="yes">)
+							<cfif includesNoAccession(variables.accn)>OR</cfif>
+						</cfif>
+						<cfif includesNoAccession(variables.accn)>
+							accn IS NULL
+						</cfif>
+					)
 				</cfif>
 				<cfif len(variables.colln) GT 0>
 					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.colln#" list="yes">)
