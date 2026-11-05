@@ -24,6 +24,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
+<cfinclude template="/Reports/component/reportPreferences.cfc" runOnce="true">
 <cfif NOT isDefined("lockedLogins")>
 	<cfinclude template="/shared/component/loginThrottle.cfc" runOnce="true">
 </cfif>
@@ -335,6 +336,7 @@ limitations under the License.
 			cf_users.user_id,
 			cf_user_data.user_id cf_user_data_user_id,
 			cf_users.approved_to_request_loans,
+			cf_users.reportprefs,
 			FIRST_NAME,
 			MIDDLE_NAME,
 			LAST_NAME,
@@ -748,6 +750,38 @@ limitations under the License.
 			</div>
 		</cfif>
 	</section>
+	<cfset variables.reportCodes = reportCollectionCodes()>
+	<section class="row mx-0 mb-2">
+		<div class="col-12 px-0">
+			<div class="card mb-2 bg-light">
+				<div class="card-header py-0">
+					<h3 class="h4 my-1 mx-2 px-2">Label Report Collections</h3>
+				</div>
+				<div class="card-body py-2">
+					<form name="reportPrefsForm" id="reportPrefsForm" method="post" action="/Admin/AdminUsers.cfm">
+						<input type="hidden" name="action" value="setReportPrefs">
+						#csrfTokenInput()#
+						<input type="hidden" name="username" value="#encodeForHtmlAttribute(getUsers.username)#">
+						<fieldset class="mb-2" aria-describedby="reportPrefsHelp">
+							<legend class="data-entry-label mb-0">Collections whose label reports are listed by default when this user prints labels</legend>
+							<small id="reportPrefsHelp" class="d-block text-secondary mb-1">Reports for all collections are always listed.  The number is how many label reports each has.</small>
+							<cfloop query="variables.reportCodes">
+								<cfset variables.checked = "">
+								<cfif listFindNoCase(getUsers.reportprefs, variables.reportCodes.code) GT 0>
+									<cfset variables.checked = "checked">
+								</cfif>
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" name="reportprefs" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked#>
+									<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
+								</div>
+							</cfloop>
+						</fieldset>
+						<button type="submit" class="btn btn-xs btn-primary">Save</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
 	<cfquery name="getDownloadsByPurpose" datasource="cf_dbuser" result="getDownloadsByPurpose_result">
 		SELECT
 			download_purpose,
@@ -880,6 +914,21 @@ limitations under the License.
 	</cfif>
 	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="no">
 	</cfoutput>
+</cfif>
+<!---------------------------------------------------->
+<cfif variables.action EQ "setReportPrefs">
+	<cfparam name="form.username" default="">
+	<cfparam name="form.reportprefs" default="">
+	<cfif NOT isPostWithCsrfToken()>
+		<cfthrow message="Changing a user's label report collections requires a post from the edit form.">
+	</cfif>
+	<cfset variables.reportprefs = validReportPrefs(form.reportprefs)>
+	<cfquery name="setReportPrefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setReportPrefs_result">
+		UPDATE cf_users
+		SET reportprefs = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.reportprefs#" null="#len(variables.reportprefs) EQ 0#">
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.username#">
+	</cfquery>
+	<cflocation url="/Admin/AdminUsers.cfm?action=edit&username=#encodeForUrl(form.username)#" addtoken="false">
 </cfif>
 <!---------------------------------------------------->
 <cfif variables.action EQ "adminSet">

@@ -21,6 +21,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/shared/component/requestForgery.cfc" runOnce="true">
 <cfinclude template="/shared/component/databaseAccounts.cfc" runOnce="true">
+<cfinclude template="/Reports/component/reportPreferences.cfc" runOnce="true">
 
 <cfparam name="action" default="nothing">
 
@@ -315,7 +316,8 @@ limitations under the License.
 								last_name,
 								affiliation,
 								email,
-								specimens_download_profile
+								specimens_download_profile,
+								reportprefs
 							FROM
 								cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
 							WHERE
@@ -539,6 +541,26 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<!--- Saved on each change, as the settings above are. --->
+										<cfset variables.reportCodes = reportCollectionCodes()>
+										<div class="form-row">
+											<fieldset class="col-12 mb-2" id="reportPrefsFieldset" aria-describedby="reportPrefsHelp">
+												<legend class="data-entry-label mb-0">Collections whose label reports are listed by default when printing labels</legend>
+												<small id="reportPrefsHelp" class="d-block text-secondary mb-1">Reports for all collections are always listed; the others stay one tick away under Include reports for other collections.  The number is how many label reports each has.</small>
+												<cfloop query="variables.reportCodes">
+													<cfset variables.checked = "">
+													<cfif listFindNoCase(getUserData.reportprefs, variables.reportCodes.code) GT 0>
+														<cfset variables.checked = "checked">
+													</cfif>
+													<div class="form-check form-check-inline">
+														<input type="checkbox" class="form-check-input" id="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#" value="#encodeForHtmlAttribute(variables.reportCodes.code)#" #variables.checked# onChange="changeReportPrefs('reportPrefsFieldset', 'changeFeedback');">
+														<label class="form-check-label" for="reportpref_#encodeForHtmlAttribute(variables.reportCodes.code)#">#encodeForHtml(variables.reportCodes.code)# (#variables.reportCodes.report_count#)</label>
+													</div>
+												</cfloop>
+											</fieldset>
+										</div>
+									</cfif>
 								</form>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
