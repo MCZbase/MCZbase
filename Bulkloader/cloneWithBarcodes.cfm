@@ -565,7 +565,7 @@ limitations under the License.
 						<form name="createClones" id="createClonesForm" method="post" action="/Bulkloader/cloneWithBarcodes.cfm" class="mb-3">
 							<input type="hidden" name="action" value="createClones">
 							<input type="hidden" name="collection_object_id" value="#variables.record.collection_object_id#">
-							<input type="hidden" name="unique_ids" value="#encodeForHtmlAttribute(arrayToList(variables.uniqueIds, chr(10)))#">
+							<input type="hidden" name="unique_ids" value="#encodeForHtmlAttribute(arrayToList(variables.uniqueIds, ', '))#">
 							<input type="hidden" name="enteredby" value="#encodeForHtmlAttribute(variables.enteredby)#">
 							<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
 							<button type="submit" class="btn btn-xs btn-primary">Create #arrayLen(variables.uniqueIds)# Clones</button>
@@ -581,7 +581,7 @@ limitations under the License.
 					<input type="hidden" name="enteredby" value="#encodeForHtmlAttribute(variables.enteredby)#">
 					<input type="hidden" name="accn" value="#encodeForHtmlAttribute(variables.accn)#">
 					<label for="unique_ids" class="data-entry-label">Container Unique IDs, one for each clone</label>
-					<textarea name="unique_ids" id="unique_ids" rows="8" class="data-entry-textarea w-100 mb-1" aria-describedby="uniqueIdsHelp" required>#encodeForHtml(form.unique_ids)#</textarea>
+					<textarea name="unique_ids" id="unique_ids" rows="2" class="data-entry-textarea autogrow w-100 mb-1" aria-describedby="uniqueIdsHelp" required>#encodeForHtml(form.unique_ids)#</textarea>
 					<small id="uniqueIdsHelp" class="form-text text-secondary mt-0 mb-2">Type or scan the ids, separated by commas, spaces or line breaks, or add them with Pick a Container.  Nothing is changed until Create Clones.</small>
 					<button type="button" class="btn btn-xs btn-secondary mb-2" onClick="addPickedContainer('unique_ids', 'pickContainerFeedback');">Pick a Container</button>
 					<button type="submit" class="btn btn-xs btn-primary mb-2">Check Containers</button>
@@ -592,8 +592,14 @@ limitations under the License.
 	</cfif>
 </main>
 <script>
+	$(document).ready(function() {
+		// The list grows to show every id, whether typed, scanned, picked or brought back from a check.
+		$("textarea.autogrow").keyup(autogrow);
+		$("textarea.autogrow").each(function() { autogrow.call(this); });
+	});
+
 	/** Opens the container picker and adds the unique id of the container chosen to the end of a
-	 * list of container unique ids, on a line of its own, unless the list already has it.
+	 * comma separated list of container unique ids, unless the list already has it.
 	 *
 	 * @param listControlId the id of the textarea holding the list, without a leading ##.
 	 * @param feedbackId the id of an element for messages, without a leading ##.
@@ -615,8 +621,9 @@ limitations under the License.
 					if (entered.indexOf(uniqueId) >= 0) {
 						feedback.text(uniqueId + ' is already in the list.');
 					} else {
-						var text = list.val().replace(/\s+$/, '');
-						list.val(text === '' ? uniqueId : text + '\n' + uniqueId);
+						var text = list.val().replace(/[,\s]+$/, '');
+						list.val(text === '' ? uniqueId : text + ', ' + uniqueId);
+						autogrow.call(list[0]);
 						feedback.text('Added ' + uniqueId + '.');
 					}
 				}
