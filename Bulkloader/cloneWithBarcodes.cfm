@@ -863,6 +863,8 @@ limitations under the License.
 		// The list grows to show every id, whether typed, scanned, picked or brought back from a check.
 		$("textarea.autogrow").keyup(autogrow);
 		$("textarea.autogrow").each(function() { autogrow.call(this); });
+		// The container type roles from the code table, for the picker's check of a picked container.
+		loadContainerTypeMetadata();
 	});
 
 	/** Opens the container picker and adds the unique id of the container chosen to the end of a
@@ -880,8 +882,13 @@ limitations under the License.
 			onSelect: function(selectedId, selectedLabel, wrapper, controls, selectedItem) {
 				wrapper.dialog('close');
 				var uniqueId = (selectedItem && selectedItem.barcode) ? $.trim(selectedItem.barcode) : '';
+				var containerType = (selectedItem && selectedItem.type) ? selectedItem.type : '';
+				// The roles from the code table once loaded, otherwise the copy in containers.js.
+				var role = CONTAINER_TYPE_META ? getContainerTypeMeta(containerType).role : getContainerRole(containerType);
 				var list = $('##' + listControlId);
-				if (uniqueId === '') {
+				if ((role || '').toLowerCase() === 'leaf') {
+					feedback.text('The container picked, ' + selectedLabel + ', is a ' + containerType + ', the container of a part of a cataloged item, which cannot hold another part.  Pick the container it is in instead.');
+				} else if (uniqueId === '') {
 					feedback.text('The container picked, ' + selectedLabel + ', has no unique id, so a part cannot be placed in it by the bulkloader.');
 				} else {
 					// Commas and line breaks separate the ids; a unique id can contain spaces.
