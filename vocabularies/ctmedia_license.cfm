@@ -69,7 +69,7 @@ limitations under the License.
 <cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT media_license_id, display, description, uri
 	FROM ctmedia_license
-	ORDER BY display
+	ORDER BY media_license_id
 </cfquery>
 
 <cfinclude template="/shared/_header.cfm">
