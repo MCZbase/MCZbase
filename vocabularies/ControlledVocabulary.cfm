@@ -150,7 +150,7 @@
 					<th>
 						License
 					</th>
-					<th>Description</td>
+					<th>Description</th>
 					<th>
 						URI
 					</th>
@@ -160,9 +160,16 @@
 				<cfloop query="licenses">
 					<tr>
 						<td>#media_license_id#</td>
-						<td>#display#</td>
-						<td>#description#</td>
-						<td><a href="#uri#" target="_blank" class="external">#uri#</a></td>
+						<td>#encodeForHtml(display)#</td>
+						<td>#encodeForHtml(description)#</td>
+						<td>
+							<!--- only web addresses become links, so a stored javascript: or other scheme can't run --->
+							<cfif REFindNoCase("^https?://", uri) GT 0>
+								<a href="#encodeForHtmlAttribute(uri)#" target="_blank" rel="noopener noreferrer" class="external">#encodeForHtml(uri)#</a>
+							<cfelse>
+								#encodeForHtml(uri)#
+							</cfif>
+						</td>
 					</tr>
 				</cfloop>
 				</tbody>

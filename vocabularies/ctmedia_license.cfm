@@ -147,7 +147,7 @@ limitations under the License.
 										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
 											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';document.getElementById('#variables.fid#').submit();">
 										<input type="button" class="btn btn-xs btn-danger" value="Delete"
-											onclick="deleteLicense('#variables.fid#','#JSStringFormat(display)#')">
+											onclick="deleteLicense('#variables.fid#','#encodeForJavaScript(display)#')">
 									</div>
 								</form>
 							</cfloop>
