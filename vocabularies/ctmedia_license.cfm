@@ -69,7 +69,7 @@ limitations under the License.
 <cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT media_license_id, display, description, uri
 	FROM ctmedia_license
-	ORDER BY display
+	ORDER BY media_license_id
 </cfquery>
 
 <cfinclude template="/shared/_header.cfm">
@@ -147,7 +147,7 @@ limitations under the License.
 										<input type="button" class="btn btn-xs btn-primary mr-1" value="Save"
 											onclick="document.getElementById('#variables.fid#').elements['action'].value='save';document.getElementById('#variables.fid#').submit();">
 										<input type="button" class="btn btn-xs btn-danger" value="Delete"
-											onclick="deleteLicense('#variables.fid#','#JSStringFormat(display)#')">
+											onclick="deleteLicense('#variables.fid#','#encodeForJavaScript(display)#')">
 									</div>
 								</form>
 							</cfloop>

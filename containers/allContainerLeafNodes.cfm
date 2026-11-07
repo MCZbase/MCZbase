@@ -236,7 +236,7 @@ limitations under the License.
 									cat_num,
 									cataloged_item.collection_cde,
 									institution_acronym,
-									get_storedas_by_contid(#variables.container_id#) storedAs
+									get_storedas_by_contid(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">) storedAs
 								FROM
 									coll_obj_cont_hist
 									left join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id

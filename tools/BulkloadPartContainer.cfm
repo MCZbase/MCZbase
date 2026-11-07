@@ -256,24 +256,28 @@ limitations under the License.
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+						<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+						<cfset preparedValues = []>
+						<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+							<cfset val = "">
+							<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+								<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+								<cfset val=trim(collValuesArray[fieldPos])>
+								<cfset val=rereplace(val,"^'+",'')>
+								<cfset val=rereplace(val,"'+$",'')>
+							</cfif>
+							<cfset arrayAppend(preparedValues, val)>
+						</cfloop>
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into CF_TEMP_BARCODE_PARTS
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(collValuesArray[fieldPos])>
-										<cfset val=rereplace(val,"^'+",'')>
-										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ ""> 
-											#separator#NULL
-										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-										</cfif>
-									<cfelse>
+									<cfif len(preparedValues[col]) EQ 0>
 										#separator#NULL
+									<cfelse>
+										#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 									</cfif>
 									<cfset separator = ",">
 								</cfloop>
@@ -400,7 +404,7 @@ limitations under the License.
 			<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'#requiredField# missing')
+					status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#requiredField# missing">)
 				WHERE #requiredField# is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -451,7 +455,7 @@ limitations under the License.
 					<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'institution:collection:cat_num [#dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#] not found')
+							status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="institution:collection:cat_num [#dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#] not found">)
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
@@ -474,7 +478,7 @@ limitations under the License.
 						<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),'no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#">)
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
@@ -512,7 +516,7 @@ limitations under the License.
 							<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number# with remarks [#dataParts.current_remarks#]')
+									status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number# with remarks [#dataParts.current_remarks#]">)
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
@@ -571,7 +575,7 @@ limitations under the License.
 						<cfquery name="noMatchInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),' institution_acronym [#dataParts.institution_acronym#] does not match [#checkData.institution_acronym#] for part_collection_object_id ')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" institution_acronym [#dataParts.institution_acronym#] does not match [#checkData.institution_acronym#] for part_collection_object_id ">)
 							WHERE 
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -581,7 +585,7 @@ limitations under the License.
 						<cfquery name="notMatchCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),' collection_cde [#dataParts.collection_cde#] does not match [#checkData.collection_cde#] for part_collection_object_id ')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" collection_cde [#dataParts.collection_cde#] does not match [#checkData.collection_cde#] for part_collection_object_id ">)
 							WHERE 
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -591,7 +595,7 @@ limitations under the License.
 						<cfquery name="noMatchNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),' other_id_number [#dataParts.other_id_number#] does not match cat_num [#checkData.cat_num#] for part_collection_object_id ')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" other_id_number [#dataParts.other_id_number#] does not match cat_num [#checkData.cat_num#] for part_collection_object_id ">)
 							WHERE 
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -601,7 +605,7 @@ limitations under the License.
 						<cfquery name="noMatchPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),' part_name [#dataParts.part_name#] does not match [#checkData.part_name#] for part_collection_object_id ')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" part_name [#dataParts.part_name#] does not match [#checkData.part_name#] for part_collection_object_id ">)
 							WHERE 
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -611,7 +615,7 @@ limitations under the License.
 						<cfquery name="noMatchInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
 							SET
-								status = concat(nvl2(status, status || '; ', ''),' preserve_method [#dataParts.preserve_method#] does not match [#checkData.preserve_method#] for part_collection_object_id ')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" preserve_method [#dataParts.preserve_method#] does not match [#checkData.preserve_method#] for part_collection_object_id ">)
 							WHERE 
 								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -630,7 +634,7 @@ limitations under the License.
 			<!--- confirm that part is actually in the current container --->
 			<cfquery name="checkPartContainerCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
-				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#]')
+				SET status = concat(nvl2(status, status || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Part is not currently in container_barcode [#getTempTableQC1.container_barcode#]">)
 				WHERE 
 					container_barcode not in (
 						select p.barcode 

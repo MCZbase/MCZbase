@@ -437,6 +437,25 @@ function autogrow (event) {
 	$(this).css('overflow-y','auto');
 };
 
+/** Show or hide the options of a select whose data-record-count is below a minimum, as for the
+ * Entered By lists of the bulkloader pages, where most users have no records staged.  A hidden
+ * option is also deselected, so nothing out of sight is submitted.
+ *
+ * @param selectId the id of the select, without a leading #.
+ * @param showAll true to show every option, false to hide those with fewer records than minRecords.
+ * @param minRecords the fewest records an option needs to be shown when showAll is false.
+ */
+function showOptionsByRecordCount(selectId, showAll, minRecords) {
+	$("#" + selectId + " option[data-record-count]").each(function() {
+		var hide = !showAll && Number($(this).attr("data-record-count")) < minRecords;
+		$(this).prop("hidden", hide);
+		$(this).prop("disabled", hide);
+		if (hide) {
+			$(this).prop("selected", false);
+		}
+	});
+}
+
 // function noenter prevents form submission when a user presses enter from a specific field.
 // example:
 //<input type="text" name="idBy" class="reqdClr" size="50" 

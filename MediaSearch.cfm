@@ -159,7 +159,7 @@
      	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
           <div style="float:left;width: 150px;">
            <span>
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
+               <label for="unlinked">Limit to Media not yet linked to any record.</label>
                <input type="checkbox" name="unlinked" id="unlinked" value="true">
            </span>
            </div>

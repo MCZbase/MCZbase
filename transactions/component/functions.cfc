@@ -3213,7 +3213,7 @@ limitations under the License.
 					,contact_agent_id
 				</cfif>)
 			VALUES (
-				#nextPermit.nextPermit#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">
 				, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
 				<cfif len(#ISSUED_DATE#) gt 0>
 					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">

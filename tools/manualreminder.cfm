@@ -461,11 +461,11 @@
 			</cfquery>
 			<cfloop query="permitExpOneYear">
 				<cfquery name="permitExpOneYearnames" dbtype="query">
-					select ADDRESS from permitExpOneYear where CONTACT_AGENT_ID=#permitExpOneYear.CONTACT_AGENT_ID#
+					select ADDRESS from permitExpOneYear where CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permitExpOneYear.CONTACT_AGENT_ID#">
 					group by ADDRESS
 				</cfquery>
 				<cfquery name="permitExpOneYearIndiv" dbtype="query">
-					select * from permitExpOneYear where CONTACT_AGENT_ID=#CONTACT_AGENT_ID# order by expires_in_days
+					select * from permitExpOneYear where CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#"> order by expires_in_days
 				</cfquery>
 				<cfmail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.

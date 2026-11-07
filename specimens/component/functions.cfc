@@ -15,6 +15,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/codeTables.cfc" runOnce="true">
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
@@ -10963,6 +10964,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		
 		<cfif arguments.u_or_v EQ "v">
 			<cfif len(k.VALUE_code_table) GT 0>
+				<cfset requireCodeTable(k.VALUE_code_table)>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM #k.VALUE_code_table#
 				</cfquery>
@@ -11001,6 +11003,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfif>
 		<cfelseif arguments.u_or_v EQ "u">
 			<cfif len(k.unit_code_table) GT 0>
+				<cfset requireCodeTable(k.unit_code_table)>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * FROM #k.unit_code_table#
 				</cfquery>

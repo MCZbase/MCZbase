@@ -110,8 +110,8 @@ limitations under the License.
 			AND sourceId.accepted_id_fg = 1
 			AND relatedId.accepted_id_fg = 1
 			AND sourceId.scientific_name <> relatedId.scientific_name
-			AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
-			AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(sourceId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(relatedId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 			<cfif len(variables.collectionObjectIdFilter) GT 0>
 				AND bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collectionObjectIdFilter#">
 			</cfif>
@@ -257,8 +257,8 @@ limitations under the License.
 							AND sourceId.accepted_id_fg = 1
 							AND relatedId.accepted_id_fg = 1
 							AND sourceId.scientific_name <> relatedId.scientific_name
-							AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
-							AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+							AND nvl(sourceId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+							AND nvl(relatedId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 							AND EXISTS (
 								SELECT
 									1
@@ -421,8 +421,8 @@ limitations under the License.
 			AND sourceId.accepted_id_fg = 1
 			AND relatedId.accepted_id_fg = 1
 			AND sourceId.scientific_name <> relatedId.scientific_name
-			AND nvl(sourceId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
-			AND nvl(relatedId.taxa_formula,'#variables.NON_HYBRID_DEFAULT_FORMULA#') <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(sourceId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
+			AND nvl(relatedId.taxa_formula,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.NON_HYBRID_DEFAULT_FORMULA#">) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.HYBRID_TAXA_FORMULA#">
 			<cfif len(variables.collectionObjectIdFilter) GT 0>
 				AND bir.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collectionObjectIdFilter#">
 			</cfif>
