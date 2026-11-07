@@ -652,6 +652,43 @@ limitations under the License.
 </cffunction>
 
 <!---
+	scheduledTaskIntervalText the interval of a scheduled task in words, as cfschedule lists a repeating
+	interval as a bare number of seconds.
+
+	@param interval the task's interval as cfschedule lists it: daily, weekly, monthly, once, or seconds.
+	@return the interval in words, e.g. Every 30 minutes, Daily.
+--->
+<cffunction name="scheduledTaskIntervalText" access="private" returntype="string" output="false">
+	<cfargument name="interval" type="string" required="yes">
+	<cfset var value = trim(arguments.interval)>
+	<cfset var count = 0>
+	<cfset var unit = "">
+	<cfif isNumeric(value) AND value GT 0 AND value EQ int(value)>
+		<cfif value MOD 86400 EQ 0>
+			<cfset count = value / 86400>
+			<cfset unit = "day">
+		<cfelseif value MOD 3600 EQ 0>
+			<cfset count = value / 3600>
+			<cfset unit = "hour">
+		<cfelseif value MOD 60 EQ 0>
+			<cfset count = value / 60>
+			<cfset unit = "minute">
+		<cfelse>
+			<cfset count = value>
+			<cfset unit = "second">
+		</cfif>
+		<cfif count EQ 1>
+			<cfreturn "Every #unit#">
+		</cfif>
+		<cfreturn "Every #count# #unit#s">
+	</cfif>
+	<cfif len(value) EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfreturn uCase(left(value, 1)) & mid(value, 2, len(value))>
+</cffunction>
+
+<!---
 	getScheduledTasksHtml the Admin Panel widget listing this server's ColdFusion scheduled tasks, with
 	whether each task's runs in the last week succeeded, from the HTTP status of the scheduler's request
 	in the http log, and each task's latest scheduler log entry.
@@ -686,6 +723,7 @@ limitations under the License.
 	<cfset var rows = arrayNew(1)>
 	<cfset var taskHost = "">
 	<cfset var taskPath = "">
+	<cfset var statusClass = "">
 	<cfset requireGlobalAdmin()>
 	<cftry>
 		<cfschedule action="list" result="tasks">
@@ -804,9 +842,19 @@ limitations under the License.
 									<div class="text-muted text-break">#encodeForHtml(taskHost)#</div>
 									<div class="text-muted text-break">#encodeForHtml(taskPath)#</div>
 								</td>
+								<!--- a running task whose last run failed gets only a green outline, so the badge does not read as all well --->
+								<cfset statusClass = "badge-secondary">
+								<cfif findNoCase("pause", row.status) GT 0>
+									<cfset statusClass = "badge-warning">
+								<cfelseif row.active>
+									<cfset statusClass = "badge-success">
+									<cfif isStruct(row.lastRun) AND REFind("^2\d\d$", row.lastRun.status) EQ 0>
+										<cfset statusClass = "border border-success text-success">
+									</cfif>
+								</cfif>
 								<td>
-									#encodeForHtml(row.interval)#
-									<div class="text-muted">#encodeForHtml(row.status)#</div>
+									<span class="text-nowrap">#encodeForHtml(scheduledTaskIntervalText(row.interval))#</span>
+									<div><span class="badge #statusClass#">#encodeForHtml(row.status)#</span></div>
 								</td>
 								<td>
 									<cfif isStruct(row.lastRun)>
