@@ -145,6 +145,9 @@
 				<thead class="thead-light">
 				<tr>
 					<th>
+						media_license_id
+					</th>
+					<th>
 						License
 					</th>
 					<th>Description</th>
@@ -156,6 +159,7 @@
 				<tbody>
 				<cfloop query="licenses">
 					<tr>
+						<td>#media_license_id#</td>
 						<td>#encodeForHtml(display)#</td>
 						<td>#encodeForHtml(description)#</td>
 						<td>
