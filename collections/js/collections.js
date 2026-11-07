@@ -22,3 +22,26 @@ function loadCollectionWidget(targetId, method, collectionId, params) {
 		}
 	});
 }
+
+/** Open the bug report form, in a new tab, with a request to remove the accounts ticked in the
+ * Collection Access widget, either from the collection or as MCZbase users, to review and send.
+ *
+ * @param collectionId the collection_id of the collection shown.
+ * @param containerId the id of the element holding the ticked accounts and the removal choice, without a leading #.
+ * @param feedbackId the id of the element for a message when no account is ticked, without a leading #.
+ */
+function draftAccessRemovalRequest(collectionId, containerId, feedbackId) {
+	var accounts = $('#' + containerId + ' input.removalAccount:checked').map(function() {
+		return $(this).val();
+	}).get();
+	if (accounts.length == 0) {
+		$('#' + feedbackId).text('Tick one or more accounts first.');
+		return;
+	}
+	$('#' + feedbackId).text('');
+	var kind = $('#' + containerId + ' input[name="removalKind"]:checked').val();
+	window.open('/info/bugs.cfm?action=bugReportForm'
+		+ '&access_removal=' + encodeURIComponent(kind)
+		+ '&collection_id=' + encodeURIComponent(collectionId)
+		+ '&accounts=' + encodeURIComponent(accounts.join(',')), '_blank');
+}

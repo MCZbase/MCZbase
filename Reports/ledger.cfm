@@ -48,33 +48,12 @@ Based on:
 		<cfset attList = "#attList#,#ctAtt.attribute_type#">
 	</cfif>
 </cfloop>
-<!--- seleAttributes determines which additional attributes to select in the
-following SQL query. Includes age, sex, etc. takes the concatentation, and
-returns it as the attribute_type.--->
-<cfset seleAttributes = "">
-<cfloop query="ctAtt">
-	<cfset thisName = #ctAtt.attribute_type#>
-	<cfset thisName = #replace(thisName," ","_","all")#>
-	<cfset thisName = #replace(thisName,"-","_","all")#>
-	<cfset thisName = #left(thisName,20)#>
-	<cfif #thisName# is not "sex"><!--- already got it --->
-		<cfset seleAttributes = "#seleAttributes#,ConcatAttributeValue(cataloged_item.collection_object_id,'#ctAtt.attribute_type#')
-				as #thisName#">
-	</cfif>
-</cfloop>
-<!--- Determines how the data are ordered. --->
-<cfif isdefined('order_by')>
-	<cfif len(order_by) gt 0>
-		<cfif order_by is "location">
-			<cfset order_by = "country, state_prov, county, island, spec_locality">
-		</cfif>
-		<cfset order_by="ORDER BY #order_by#">
-	</cfif>
-<cfelse>
-	<cfset order_by = "">
+<!--- Ordering is one of the options the form offers. --->
+<cfset variables.orderBy = "">
+<cfif isdefined("order_by") AND listFind("cat_num,scientific_name,location", order_by) GT 0>
+	<cfset variables.orderBy = order_by>
 </cfif>
-<!--- Ends determining how the data are ordered. --->
-<cfset sql="
+<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="data_result">
 	select
 		distinct cataloged_item.collection_object_id,
 		collection_cde,
@@ -112,7 +91,13 @@ returns it as the attribute_type.--->
 
 		coll_object_remarks
 
-		#seleAttributes#
+		<cfloop query="ctAtt">
+			<!--- the column alias comes from the attribute type; skip any that isn't a plain name --->
+			<cfset thisName = left(replace(replace(ctAtt.attribute_type," ","_","all"),"-","_","all"),20)>
+			<cfif thisName IS NOT "sex" AND REFind("^[A-Za-z][A-Za-z0-9_]*$", thisName) GT 0>
+				,ConcatAttributeValue(cataloged_item.collection_object_id, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ctAtt.attribute_type#">) as #thisName#
+			</cfif>
+		</cfloop>
 	FROM
 		cataloged_item
 		INNER JOIN identification ON (cataloged_item.collection_object_id = identification.collection_object_id)
@@ -124,11 +109,14 @@ returns it as the attribute_type.--->
 		LEFT OUTER JOIN coll_object_remark ON (coll_object_remark.collection_object_id = cataloged_item.collection_object_id)
 	WHERE
 		accepted_id_fg=1 AND
-		cataloged_item.collection_object_id IN (#collection_object_id#)
-		#order_by#
-">
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	#preservesinglequotes(sql)#
+		cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+		<cfif variables.orderBy IS "cat_num">
+			ORDER BY cat_num
+		<cfelseif variables.orderBy IS "scientific_name">
+			ORDER BY scientific_name
+		<cfelseif variables.orderBy IS "location">
+			ORDER BY country, state_prov, county, island, spec_locality
+		</cfif>
 </cfquery>
 
 <!----------------------------------------------------------------->

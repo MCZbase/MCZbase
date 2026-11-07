@@ -274,6 +274,18 @@ limitations under the License.
 					<cftry>
 						<!---Construct insert for rows if column header is in fieldlist, otherwise use null--->
 						<!---We cannot use csvFormat.withHeader() or match columns by name, so we are forced to match by number, use arrays--->
+						<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+						<cfset preparedValues = []>
+						<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+							<cfset val = "">
+							<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+								<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+								<cfset val=trim(collValuesArray[fieldPos])>
+								<cfset val=rereplace(val,"^'+",'')>
+								<cfset val=rereplace(val,"'+$",'')>
+							</cfif>
+							<cfset arrayAppend(preparedValues, val)>
+						</cfloop>
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							INSERT INTO cf_temp_edit_parts (
 								#fieldlist#,
@@ -281,18 +293,10 @@ limitations under the License.
 							) VALUES (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(collValuesArray[fieldPos])>
-										<cfset val=rereplace(val,"^'+",'')>
-										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ ""> 
-											#separator#NULL
-										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-										</cfif>
-									<cfelse>
+									<cfif len(preparedValues[col]) EQ 0>
 										#separator#NULL
+									<cfelse>
+										#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 									</cfif>
 									<cfset separator = ",">
 								</cfloop>
@@ -547,7 +551,7 @@ limitations under the License.
 						SET 
 							status = concat(
 								nvl2(status, status || '; ', ''),
-							'	#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="	#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.">
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
@@ -805,7 +809,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd "'||PART_ATT_MADEDATE_#i#||'"')
+					SET status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Invalid PART_ATT_MADEDATE_#i# must be yyyy-mm-dd """>||PART_ATT_MADEDATE_#i#||'"')
 					WHERE 
 						PART_ATT_NAME_#i# is not null 
 						AND PART_ATT_VAL_#i# <> 'DELETE'
@@ -872,7 +876,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
-					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
+					SET status = concat(nvl2(status,status ||  '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="PART_ATT_UNITS_#i# is not valid for attribute """>||PART_ATT_NAME_#i#||'"')
 					WHERE 
 						PART_ATT_VAL_#i# <> 'DELETE'
 						AND MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0

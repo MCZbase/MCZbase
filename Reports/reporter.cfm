@@ -149,7 +149,7 @@
 <!-------------------------------------------------------------->
 <cfif #action# is "clone">
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-        select * from cf_report_sql where report_id='#report_id#'
+        select * from cf_report_sql where report_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_id#">
     </cfquery>
     <cfset tc=getTickCount()>
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -159,8 +159,8 @@
             description,
             sql_text)
         values (
-            substr('Clone_Of_#e.report_name#_#tc#',38),
-            '#e.report_template#',
+            substr(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Clone_Of_#e.report_name#_#tc#">,38),
+            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#e.report_template#">,
             <CFQUERYPARAM VALUE="#e.description#" CFSQLTYPE="CF_SQL_CLOB">,
             <CFQUERYPARAM VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
     </cfquery>
@@ -176,7 +176,7 @@
     </cfif>
 
          <cfset sql=replace(test_sql,"##collection_object_id##",12)>
-		<cfset sql=replace(test_sql,"##container_id##",12)>
+		<cfset sql=replace(sql,"##container_id##",12)>
          <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
              #preservesinglequotes(sql)#
          </cfquery>

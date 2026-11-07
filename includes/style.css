@@ -1302,18 +1302,6 @@ td.lbl {
 	background-color: white;
 	overflow: auto;
 }
-/** This may be obsolete, invoked only from js get_AgentName() **/
-.pickDiv {
-	border: 3px solid green;
-	z-index: 9999;
-	position: relative;
-	top: 5%;
-	left: 5%;
-	width: 65%;
-	height: 450px;
-	background-color: white;
-	overflow: auto;
-}
 .popDiv {
 	border: 3px solid green;
 	z-index: 9999;
@@ -4463,13 +4451,6 @@ table.navtabs {
 .copyright a:visited {
 	color: #000;
 	font-weight: normal;
-}
-#authTab {
-	display: table-row;
-	vertical-align: inherit;
-}
-#authTab {
-    font-size: smaller;
 }
 .welcomeback {
 	margin-left: .5em;
