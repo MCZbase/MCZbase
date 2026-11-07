@@ -781,22 +781,27 @@ limitations under the License.
 				<p class="mb-2">
 					#arrayLen(taskList)# scheduled tasks on this server.
 					Results are the HTTP status of each run's request, from the http log<cfif isDate(runs.since)> since #dateTimeFormat(runs.since, "yyyy-mm-dd HH:nn")#<cfelse>, which has no scheduler requests from the last week</cfif>;
-					the latest scheduler log entry for each task is from the last week.
+					a scheduler log entry is shown when it is an error.
 				</p>
-				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+				<table class="table table-sm table-striped small mb-1">
 					<thead class="thead-light">
-						<tr><th scope="col">Task</th><th scope="col">URL</th><th scope="col">Interval</th><th scope="col">Status</th><th scope="col">Last run</th><th scope="col">Last 7 days</th><th scope="col">Latest log entry</th></tr>
+						<tr><th scope="col">Task</th><th scope="col">Schedule</th><th scope="col">Last run</th><th scope="col">Last 7 days</th></tr>
 					</thead>
 					<tbody>
 						<cfloop array="#rows#" index="row">
 							<tr>
-								<td>#encodeForHtml(row.name)#</td>
-								<td class="text-break">#encodeForHtml(row.url)#</td>
-								<td>#encodeForHtml(row.interval)#</td>
-								<td>#encodeForHtml(row.status)#</td>
+								<td>
+									#encodeForHtml(row.name)#
+									<!--- the path only, as the host is the same for every task --->
+									<div class="text-muted text-break" title="#encodeForHtmlAttribute(row.url)#">#encodeForHtml(REReplace(row.url, "^https?://[^/]+", ""))#</div>
+								</td>
+								<td>
+									#encodeForHtml(row.interval)#
+									<div class="text-muted">#encodeForHtml(row.status)#</div>
+								</td>
 								<td>
 									<cfif isStruct(row.lastRun)>
-										#dateTimeFormat(row.lastRun.logged, "yyyy-mm-dd HH:nn")#
+										<span class="text-nowrap">#dateTimeFormat(row.lastRun.logged, "yyyy-mm-dd HH:nn")#</span>
 										<cfif REFind("^2\d\d$", row.lastRun.status) GT 0>
 											<span class="badge badge-success">#encodeForHtml(row.lastRun.status)# OK</span>
 										<cfelse>
@@ -808,17 +813,11 @@ limitations under the License.
 									<cfif row.overdue>
 										<span class="badge badge-warning">overdue</span>
 									</cfif>
-								</td>
-								<td><cfif row.succeeded + row.failed GT 0>#row.succeeded# succeeded, #row.failed# failed</cfif></td>
-								<td>
-									<cfif isStruct(row.lastEntry)>
-										#dateTimeFormat(row.lastEntry.logged, "yyyy-mm-dd HH:nn")#:
-										<cfif row.lastEntry.severity NEQ "Information"><span class="badge badge-danger">#encodeForHtml(row.lastEntry.severity)#</span></cfif>
-										#encodeForHtml(left(row.lastEntry.message, 200))#
-									<cfelse>
-										none
+									<cfif isStruct(row.lastEntry) AND row.lastEntry.severity NEQ "Information">
+										<div class="text-danger">#dateTimeFormat(row.lastEntry.logged, "yyyy-mm-dd HH:nn")# #encodeForHtml(row.lastEntry.severity)#: #encodeForHtml(left(row.lastEntry.message, 200))#</div>
 									</cfif>
 								</td>
+								<td class="text-nowrap"><cfif row.succeeded + row.failed GT 0>#row.succeeded# OK, #row.failed# failed</cfif></td>
 							</tr>
 						</cfloop>
 					</tbody>
