@@ -365,10 +365,11 @@
 			<!--- Special case handling for reserved words --->
 			<cfif ucase(tableName) EQ "CLASS"><cfset theColumnName = "phylclass"></cfif>
 			
+			<!--- the code column in brackets, as it may be a query of queries reserved word (ctkey.key) --->
 			<cfif len(field) GT 0>
 				<!---- check if the value provided in field for theColumnName is valid ---->
 				<cfquery name="chosenOne" dbtype="query">
-					select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
+					select * from docs where [#theColumnName#] = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
 					<cfif #docs.columnlist# contains "collection_cde">
 						order by collection_cde
 					</cfif>
@@ -384,9 +385,9 @@
 				<cfif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# EQ 0 >
 					order by collection_cde
 				<cfelseif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# GT 0 >
-					order by collection_cde, #theColumnName#
+					order by collection_cde, [#theColumnName#]
 				<cfelseif #len(theColumnName)# GT 0 >
-					order by #theColumnName#
+					order by [#theColumnName#]
 				</cfif>
 			</cfquery>
 			
