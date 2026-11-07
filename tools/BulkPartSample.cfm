@@ -65,13 +65,25 @@ CREATE OR REPLACE TRIGGER cf_temp_part_sample_key
 /
 sho err
 ---->
-<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+<cfparam name="url.action" default="">
+<cfparam name="form.action" default="">
+<cfset variables.action = "">
+<cfif len(url.action) GT 0><cfset variables.action = url.action></cfif>
+<cfif len(form.action) GT 0><cfset variables.action = form.action></cfif>
 <cfif len(variables.action) EQ 0>
 	<cfset variables.action = "entryPoint">
 </cfif>
 
 <cfinclude template="/includes/_header.cfm">
+
+<!--- The part sample bulkloader is still being reworked; stop here until it is ready. --->
+<cfoutput>
+	<h1 class="h2">Bulk Part Sample is not yet ready for use.</h1>
+	<p>This tool for creating subsamples of parts in bulk is still being worked on and can't be used yet.</p>
+</cfoutput>
+<cfinclude template="/includes/_footer.cfm">
+<cfabort>
+
 <cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 
 <cfoutput>
