@@ -684,6 +684,8 @@ limitations under the License.
 	<cfset var isOverdue = false>
 	<cfset var problems = arrayNew(1)>
 	<cfset var rows = arrayNew(1)>
+	<cfset var taskHost = "">
+	<cfset var taskPath = "">
 	<cfset requireGlobalAdmin()>
 	<cftry>
 		<cfschedule action="list" result="tasks">
@@ -792,8 +794,15 @@ limitations under the License.
 							<tr>
 								<td>
 									#encodeForHtml(row.name)#
-									<!--- the path only, as the host is the same for every task --->
-									<div class="text-muted text-break" title="#encodeForHtmlAttribute(row.url)#">#encodeForHtml(REReplace(row.url, "^https?://[^/]+", ""))#</div>
+									<!--- protocol and host on their own line, as which host was requested (localhost, the site's name, an address) matters when a run fails --->
+									<cfset taskHost = "">
+									<cfset taskPath = row.url>
+									<cfif REFind("^[A-Za-z][A-Za-z0-9+.-]*://[^/]+", row.url) GT 0>
+										<cfset taskHost = REReplace(row.url, "^([A-Za-z][A-Za-z0-9+.-]*://[^/]+).*$", "\1/")>
+										<cfset taskPath = REReplace(row.url, "^[A-Za-z][A-Za-z0-9+.-]*://[^/]+/?", "")>
+									</cfif>
+									<div class="text-muted text-break">#encodeForHtml(taskHost)#</div>
+									<div class="text-muted text-break">#encodeForHtml(taskPath)#</div>
 								</td>
 								<td>
 									#encodeForHtml(row.interval)#
