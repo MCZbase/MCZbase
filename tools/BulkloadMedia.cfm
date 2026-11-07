@@ -512,6 +512,9 @@ limitations under the License.
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
 					<!--- Iterate through the remaining rows inserting the data into the temp table. --->
+					<!--- TEMPORARY DIAGNOSTIC: where an apostrophe is doubled on upload; remove when found. --->
+					<cfset apostropheDiagnostics = []>
+					<cfset showApostropheDiagnostics = isDefined("session.roles") AND listFindNoCase(session.roles, "global_admin") GT 0>
 					<cfset row = 0>
 					<cfset errorMessage = "">
 					<cfloop condition="#iterator.hasNext()#">
@@ -574,6 +577,14 @@ limitations under the License.
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
+							<!--- TEMPORARY DIAGNOSTIC --->
+							<cfif showApostropheDiagnostics AND find("'", arrayToList(collValuesArray, chr(31))) GT 0>
+								<cfset arrayAppend(apostropheDiagnostics, {
+									row = row,
+									cells = duplicate(collValuesArray),
+									boundValues = (structKeyExists(insert_result, "sqlParameters") ? duplicate(insert_result.sqlParameters) : [])
+								})>
+							</cfif>
 						<cfcatch>
 							<!--- identify the problematic row --->
 							<cfset error_summary = "">
@@ -590,6 +601,41 @@ limitations under the License.
 						</cfcatch>
 						</cftry>
 					</cfloop>
+					<!--- TEMPORARY DIAGNOSTIC: each step a value with an apostrophe passed through on upload --->
+					<cfif showApostropheDiagnostics AND arrayLen(apostropheDiagnostics) GT 0>
+						<cfquery name="storedForDiagnostic" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT key, subject, description
+							FROM cf_temp_media
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							ORDER BY key
+						</cfquery>
+						<div class="border border-warning p-2 my-2">
+							<h3 class="h4">Apostrophe diagnostic (temporary, global_admin only)</h3>
+							<cfloop array="#apostropheDiagnostics#" index="diagnostic">
+								<p class="mb-1"><strong>Row #diagnostic.row#</strong></p>
+								<ul class="mb-1">
+									<cfloop array="#diagnostic.cells#" index="diagnosticCell">
+										<cfif find("'", diagnosticCell) GT 0>
+											<li>Read from the file: #encodeForHtml(diagnosticCell)# (apostrophes: #len(diagnosticCell) - len(replace(diagnosticCell, "'", "", "all"))#)</li>
+										</cfif>
+									</cfloop>
+									<cfloop array="#diagnostic.boundValues#" index="diagnosticBound">
+										<cfif isSimpleValue(diagnosticBound) AND find("'", diagnosticBound) GT 0>
+											<li>Bound in the insert: #encodeForHtml(diagnosticBound)# (apostrophes: #len(diagnosticBound) - len(replace(diagnosticBound, "'", "", "all"))#)</li>
+										</cfif>
+									</cfloop>
+								</ul>
+							</cfloop>
+							<p class="mb-1"><strong>Stored in cf_temp_media</strong></p>
+							<ul class="mb-1">
+								<cfloop query="storedForDiagnostic">
+									<cfif find("'", storedForDiagnostic.description) GT 0>
+										<li>key #storedForDiagnostic.key#: #encodeForHtml(storedForDiagnostic.description)# (apostrophes: #len(storedForDiagnostic.description) - len(replace(storedForDiagnostic.description, "'", "", "all"))#)</li>
+									</cfif>
+								</cfloop>
+							</ul>
+						</div>
+					</cfif>
 					<cfif foundHighCount GT 0>
 						<cfif foundHighCount GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
