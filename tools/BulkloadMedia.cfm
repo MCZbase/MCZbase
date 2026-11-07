@@ -552,24 +552,28 @@ limitations under the License.
 							</cfif>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+							<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+							<cfset preparedValues = []>
+							<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+								<cfset val = "">
+								<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+									<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+									<cfset val=trim(collValuesArray[fieldPos])>
+									<cfset val=rereplace(val,"^'+",'')>
+									<cfset val=rereplace(val,"'+$",'')>
+								</cfif>
+								<cfset arrayAppend(preparedValues, val)>
+							</cfloop>
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 								INSERT INTO cf_temp_media
 									(#fieldlist#,username)
 								VALUES (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(collValuesArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
-											<cfif val EQ ""> 
-												#separator#NULL
-											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-											</cfif>
-										<cfelse>
+										<cfif len(preparedValues[col]) EQ 0>
 											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 										</cfif>
 										<cfset separator = ",">
 									</cfloop>
