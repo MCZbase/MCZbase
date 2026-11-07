@@ -1,4 +1,13 @@
 <cfinclude template="/includes/_header.cfm">
+
+<!--- The data loan bulkloader is still being reworked; stop here until it is ready. --->
+<cfoutput>
+	<h1 class="h2">Bulkload Data Loans is not yet ready for use.</h1>
+	<p>This tool for adding cataloged items to data loans in bulk is still being worked on and can't be used yet.</p>
+</cfoutput>
+<cfinclude template="/includes/_footer.cfm">
+<cfabort>
+
 <cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 <!---
 create table cf_temp_data_loan_item (
