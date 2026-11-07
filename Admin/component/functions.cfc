@@ -364,16 +364,18 @@ limitations under the License.
 	recentLogEntries the entries of a ColdFusion log written within a period, read from the end of
 	the file so a large log is not read whole.
 
-	@param logName one of MCZbase, mail, mailsent, scheduler, exception, application.
+	@param logName one of MCZbase, mail, mailsent, scheduler, exception, application, http.
 	@param sinceHours how far back to go.
-	@param contains if given, only entries whose message contains this text.
-	@return an array of structures with severity, logged (a date) and message, oldest first; empty if
-		the log can't be read.
+	@param contains if given, only entries whose line contains this text.
+	@param tailBytes how much of the end of the file to read.
+	@return an array of structures with severity, thread, logged (a date) and message, oldest first;
+		empty if the log can't be read.
 --->
 <cffunction name="recentLogEntries" access="private" returntype="array" output="false">
 	<cfargument name="logName" type="string" required="yes">
 	<cfargument name="sinceHours" type="numeric" required="yes">
 	<cfargument name="contains" type="string" required="no" default="">
+	<cfargument name="tailBytes" type="numeric" required="no" default="2000000">
 	<cfset var entries = arrayNew(1)>
 	<cfset var logFile = "">
 	<cfset var path = "">
@@ -381,8 +383,7 @@ limitations under the License.
 	<cfset var parts = "">
 	<cfset var logged = "">
 	<cfset var since = dateAdd("h", -arguments.sinceHours, now())>
-	<cfset var TAIL_BYTES = 2000000>
-	<cfif NOT listFindNoCase("MCZbase,mail,mailsent,scheduler,exception,application", arguments.logName)>
+	<cfif NOT listFindNoCase("MCZbase,mail,mailsent,scheduler,exception,application,http", arguments.logName)>
 		<cfreturn entries>
 	</cfif>
 	<cfset path = server.coldfusion.rootdir & "/logs/" & arguments.logName & ".log">
@@ -391,23 +392,24 @@ limitations under the License.
 			<cfreturn entries>
 		</cfif>
 		<cfset logFile = fileOpen(path, "read", "utf-8", true)>
-		<cfif getFileInfo(path).size GT TAIL_BYTES>
-			<cfset fileSeek(logFile, getFileInfo(path).size - TAIL_BYTES)>
+		<cfif getFileInfo(path).size GT arguments.tailBytes>
+			<cfset fileSeek(logFile, getFileInfo(path).size - arguments.tailBytes)>
 			<!--- the first line read after seeking is partial --->
 			<cfset fileReadLine(logFile)>
 		</cfif>
 		<cfloop condition="NOT fileIsEOF(logFile)">
 			<cfset line = fileReadLine(logFile)>
 			<!--- "Severity","ThreadID","Date","Time","Application","Message"; other lines continue a message --->
-			<cfset parts = REFind('^"([^"]*)","[^"]*","(\d\d)/(\d\d)/(\d\d)","(\d\d):(\d\d):(\d\d)","[^"]*","(.*)$', line, 1, true)>
+			<cfset parts = REFind('^"([^"]*)","([^"]*)","(\d\d)/(\d\d)/(\d\d)","(\d\d):(\d\d):(\d\d)","[^"]*","(.*)$', line, 1, true)>
 			<cfif parts.pos[1] GT 0>
-				<cfset logged = createDateTime(2000 + mid(line, parts.pos[5], 2), mid(line, parts.pos[3], 2), mid(line, parts.pos[4], 2),
-					mid(line, parts.pos[6], 2), mid(line, parts.pos[7], 2), mid(line, parts.pos[8], 2))>
+				<cfset logged = createDateTime(2000 + mid(line, parts.pos[6], 2), mid(line, parts.pos[4], 2), mid(line, parts.pos[5], 2),
+					mid(line, parts.pos[7], 2), mid(line, parts.pos[8], 2), mid(line, parts.pos[9], 2))>
 				<cfif logged GE since AND (len(arguments.contains) EQ 0 OR findNoCase(arguments.contains, line) GT 0)>
 					<cfset arrayAppend(entries, {
 						severity = mid(line, parts.pos[2], parts.len[2]),
+						thread = mid(line, parts.pos[3], parts.len[3]),
 						logged = logged,
-						message = REReplace(mid(line, parts.pos[9], parts.len[9]), '"$', '')
+						message = REReplace(mid(line, parts.pos[10], parts.len[10]), '"$', '')
 					})>
 				</cfif>
 			</cfif>
@@ -570,8 +572,126 @@ limitations under the License.
 </cffunction>
 
 <!---
+	scheduledTaskRuns the scheduler's requests in the last week, from the http log, where ColdFusion
+	logs each scheduled task's request and its HTTP status on the scheduler's worker thread, but not
+	the task's name.
+
+	@return a structure with byUrl, a structure keyed by the lowercased URL holding an array of runs
+		(structures with logged and status, oldest first), and since, the time of the oldest scheduler
+		entry read, or "" if there was none.
+--->
+<cffunction name="scheduledTaskRuns" access="private" returntype="struct" output="false">
+	<cfset var result = { byUrl = structNew(), since = "" }>
+	<cfset var entries = recentLogEntries("http", 24 * 7, "DefaultQuartzScheduler", 8000000)>
+	<cfset var pending = structNew()>
+	<cfset var entry = "">
+	<cfset var match = "">
+	<cfset var status = "">
+	<cfif arrayLen(entries) GT 0>
+		<cfset result.since = entries[1].logged>
+	</cfif>
+	<cfloop array="#entries#" index="entry">
+		<cfif findNoCase("Starting HTTP request", entry.message) GT 0>
+			<cfset match = REFind("URL='([^']*)'", entry.message, 1, true)>
+			<cfif match.pos[1] GT 0>
+				<!--- a request that never logged its completion counts as failed --->
+				<cfif structKeyExists(pending, entry.thread)>
+					<cfset recordScheduledTaskRun(result.byUrl, pending[entry.thread], "no response")>
+				</cfif>
+				<cfset pending[entry.thread] = { url = mid(entry.message, match.pos[2], match.len[2]), logged = entry.logged }>
+			</cfif>
+		<cfelseif findNoCase("HTTP request completed", entry.message) GT 0 AND structKeyExists(pending, entry.thread)>
+			<cfset match = REFind("Status Code=(\d+)", entry.message, 1, true)>
+			<cfset status = "unknown">
+			<cfif match.pos[1] GT 0>
+				<cfset status = mid(entry.message, match.pos[2], match.len[2])>
+			</cfif>
+			<cfset recordScheduledTaskRun(result.byUrl, pending[entry.thread], status)>
+			<cfset structDelete(pending, entry.thread)>
+		</cfif>
+	</cfloop>
+	<cfreturn result>
+</cffunction>
+
+<!---
+	recordScheduledTaskRun add one run of a scheduled task to the runs collected by scheduledTaskRuns.
+
+	@param byUrl the structure of runs keyed by lowercased URL.
+	@param started a structure with the url and the time the request was logged.
+	@param status the HTTP status code, or a word saying why there is none.
+--->
+<cffunction name="recordScheduledTaskRun" access="private" returntype="void" output="false">
+	<cfargument name="byUrl" type="struct" required="yes">
+	<cfargument name="started" type="struct" required="yes">
+	<cfargument name="status" type="string" required="yes">
+	<cfset var key = lcase(arguments.started.url)>
+	<cfif NOT structKeyExists(arguments.byUrl, key)>
+		<cfset arguments.byUrl[key] = arrayNew(1)>
+	</cfif>
+	<cfset arrayAppend(arguments.byUrl[key], { logged = arguments.started.logged, status = arguments.status })>
+</cffunction>
+
+<!---
+	scheduledTaskOverdueHours how long an active scheduled task may go without running before the
+	Admin Panel says so.
+
+	@param interval the task's interval as cfschedule lists it: daily, weekly, monthly, once, or seconds.
+	@return hours, or 0 if no limit applies (a task run once or monthly, or an interval not understood).
+--->
+<cffunction name="scheduledTaskOverdueHours" access="private" returntype="numeric" output="false">
+	<cfargument name="interval" type="string" required="yes">
+	<cfset var value = trim(arguments.interval)>
+	<cfif value EQ "daily">
+		<cfreturn 26>
+	<cfelseif value EQ "weekly">
+		<cfreturn 24 * 7 + 2>
+	<cfelseif isNumeric(value) AND value GT 0>
+		<cfreturn max(1, 2 * value / 3600)>
+	</cfif>
+	<cfreturn 0>
+</cffunction>
+
+<!---
+	scheduledTaskIntervalText the interval of a scheduled task in words, as cfschedule lists a repeating
+	interval as a bare number of seconds.
+
+	@param interval the task's interval as cfschedule lists it: daily, weekly, monthly, once, or seconds.
+	@return the interval in words, e.g. Every 30 minutes, Daily.
+--->
+<cffunction name="scheduledTaskIntervalText" access="private" returntype="string" output="false">
+	<cfargument name="interval" type="string" required="yes">
+	<cfset var value = trim(arguments.interval)>
+	<cfset var count = 0>
+	<cfset var unit = "">
+	<cfif isNumeric(value) AND value GT 0 AND value EQ int(value)>
+		<cfif value MOD 86400 EQ 0>
+			<cfset count = value / 86400>
+			<cfset unit = "day">
+		<cfelseif value MOD 3600 EQ 0>
+			<cfset count = value / 3600>
+			<cfset unit = "hour">
+		<cfelseif value MOD 60 EQ 0>
+			<cfset count = value / 60>
+			<cfset unit = "minute">
+		<cfelse>
+			<cfset count = value>
+			<cfset unit = "second">
+		</cfif>
+		<cfif count EQ 1>
+			<cfreturn "Every #unit#">
+		</cfif>
+		<cfreturn "Every #count# #unit#s">
+	</cfif>
+	<cfif len(value) EQ 0>
+		<cfreturn "">
+	</cfif>
+	<cfreturn uCase(left(value, 1)) & mid(value, 2, len(value))>
+</cffunction>
+
+<!---
 	getScheduledTasksHtml the Admin Panel widget listing this server's ColdFusion scheduled tasks, with
-	each task's latest scheduler log entry from the last week.
+	whether each task's runs in the last week succeeded, from the HTTP status of the scheduler's request
+	in the http log, and each task's latest scheduler log entry.
 
 	@return HTML for the widget body.
 --->
@@ -587,6 +707,23 @@ limitations under the License.
 	<cfset var entry = "">
 	<cfset var listError = "">
 	<cfset var taskName = "">
+	<cfset var taskUrl = "">
+	<cfset var taskInterval = "">
+	<cfset var taskStatus = "">
+	<cfset var isActive = true>
+	<cfset var runs = "">
+	<cfset var taskRuns = "">
+	<cfset var run = "">
+	<cfset var lastRun = "">
+	<cfset var succeeded = 0>
+	<cfset var failed = 0>
+	<cfset var overdueHours = 0>
+	<cfset var isOverdue = false>
+	<cfset var problems = arrayNew(1)>
+	<cfset var rows = arrayNew(1)>
+	<cfset var taskHost = "">
+	<cfset var taskPath = "">
+	<cfset var statusClass = "">
 	<cfset requireGlobalAdmin()>
 	<cftry>
 		<cfschedule action="list" result="tasks">
@@ -607,6 +744,61 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfset logEntries = recentLogEntries("scheduler", 24 * 7)>
+	<cfset runs = scheduledTaskRuns()>
+	<!--- work out each task's results first, so problems can be summarised above the table --->
+	<cfloop array="#taskList#" index="task">
+		<cfset taskName = "">
+		<cfif structKeyExists(task, "task")><cfset taskName = task.task><cfelseif structKeyExists(task, "name")><cfset taskName = task.name></cfif>
+		<cfset taskUrl = "">
+		<cfif structKeyExists(task, "url")><cfset taskUrl = task.url></cfif>
+		<cfset taskInterval = "">
+		<cfif structKeyExists(task, "interval")><cfset taskInterval = task.interval></cfif>
+		<cfset taskStatus = "">
+		<cfset isActive = true>
+		<cfif structKeyExists(task, "status")>
+			<cfset taskStatus = task.status>
+			<cfif findNoCase("pause", task.status) GT 0><cfset isActive = false></cfif>
+		<cfelseif structKeyExists(task, "paused") AND isBoolean(task.paused) AND task.paused>
+			<cfset taskStatus = "paused">
+			<cfset isActive = false>
+		</cfif>
+		<cfset lastEntry = "">
+		<cfloop array="#logEntries#" index="entry">
+			<cfif len(taskName) GT 0 AND (findNoCase(".#taskName# ", entry.message & " ") GT 0 OR findNoCase(" #taskName# ", " " & entry.message & " ") GT 0)>
+				<cfset lastEntry = entry>
+			</cfif>
+		</cfloop>
+		<cfset taskRuns = arrayNew(1)>
+		<cfif len(taskUrl) GT 0 AND structKeyExists(runs.byUrl, lcase(taskUrl))>
+			<cfset taskRuns = runs.byUrl[lcase(taskUrl)]>
+		</cfif>
+		<cfset succeeded = 0>
+		<cfset failed = 0>
+		<cfloop array="#taskRuns#" index="run">
+			<cfif REFind("^2\d\d$", run.status) GT 0><cfset succeeded = succeeded + 1><cfelse><cfset failed = failed + 1></cfif>
+		</cfloop>
+		<cfset lastRun = "">
+		<cfif arrayLen(taskRuns) GT 0>
+			<cfset lastRun = taskRuns[arrayLen(taskRuns)]>
+		</cfif>
+		<!--- only judge a task overdue when the log reaches back further than the task may go unrun --->
+		<cfset isOverdue = false>
+		<cfset overdueHours = scheduledTaskOverdueHours(taskInterval)>
+		<cfif isActive AND overdueHours GT 0 AND isDate(runs.since) AND dateDiff("n", runs.since, now()) GT overdueHours * 60>
+			<cfif NOT isStruct(lastRun) OR dateDiff("n", lastRun.logged, now()) GT overdueHours * 60>
+				<cfset isOverdue = true>
+			</cfif>
+		</cfif>
+		<cfif isActive AND isStruct(lastRun) AND REFind("^2\d\d$", lastRun.status) EQ 0>
+			<cfset arrayAppend(problems, "#taskName#: last run failed (#lastRun.status#)")>
+		<cfelseif isOverdue>
+			<cfset arrayAppend(problems, "#taskName#: has not run when expected")>
+		</cfif>
+		<cfset arrayAppend(rows, {
+			name = taskName, url = taskUrl, interval = taskInterval, status = taskStatus, active = isActive,
+			lastRun = lastRun, succeeded = succeeded, failed = failed, overdue = isOverdue, lastEntry = lastEntry
+		})>
+	</cfloop>
 	<cfsavecontent variable="html">
 		<cfoutput>
 			<cfif len(listError) GT 0>
@@ -616,35 +808,73 @@ limitations under the License.
 					<p class="mb-2">The scheduled tasks could not be listed, as expected on a #encodeForHtml(Application.serverrole)# server: #encodeForHtml(listError)#</p>
 				</cfif>
 			<cfelse>
-				<p class="mb-2">#arrayLen(taskList)# scheduled tasks on this server. The latest scheduler log entry for each is from the last week.</p>
-				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
+				<cfif arrayLen(problems) GT 0>
+					<div class="text-danger font-weight-bold mb-2">
+						Active scheduled tasks needing attention (#arrayLen(problems)#):
+						<ul class="mb-0">
+							<cfloop array="#problems#" index="entry">
+								<li>#encodeForHtml(entry)#</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfif>
+				<p class="mb-2">
+					#arrayLen(taskList)# scheduled tasks on this server.
+					Results are the HTTP status of each run's request, from the http log<cfif isDate(runs.since)> since #dateTimeFormat(runs.since, "yyyy-mm-dd HH:nn")#<cfelse>, which has no scheduler requests from the last week</cfif>;
+					a scheduler log entry is shown when it is an error.
+				</p>
+				<table class="table table-sm table-striped small mb-1">
 					<thead class="thead-light">
-						<tr><th scope="col">Task</th><th scope="col">URL</th><th scope="col">Interval</th><th scope="col">Status</th><th scope="col">Latest log entry</th></tr>
+						<tr><th scope="col">Task</th><th scope="col">Schedule</th><th scope="col">Last run</th><th scope="col">Last 7 days</th></tr>
 					</thead>
 					<tbody>
-						<cfloop array="#taskList#" index="task">
-							<cfset taskName = "">
-							<cfif structKeyExists(task, "task")><cfset taskName = task.task><cfelseif structKeyExists(task, "name")><cfset taskName = task.name></cfif>
-							<cfset lastEntry = "">
-							<cfloop array="#logEntries#" index="entry">
-								<cfif len(taskName) GT 0 AND (findNoCase(".#taskName# ", entry.message & " ") GT 0 OR findNoCase(" #taskName# ", " " & entry.message & " ") GT 0)>
-									<cfset lastEntry = entry>
-								</cfif>
-							</cfloop>
+						<cfloop array="#rows#" index="row">
 							<tr>
-								<td>#encodeForHtml(taskName)#</td>
-								<td class="text-break"><cfif structKeyExists(task, "url")>#encodeForHtml(task.url)#</cfif></td>
-								<td><cfif structKeyExists(task, "interval")>#encodeForHtml(task.interval)#</cfif></td>
-								<td><cfif structKeyExists(task, "status")>#encodeForHtml(task.status)#<cfelseif structKeyExists(task, "paused") AND task.paused>paused</cfif></td>
 								<td>
-									<cfif isStruct(lastEntry)>
-										#dateTimeFormat(lastEntry.logged, "yyyy-mm-dd HH:nn")#:
-										<cfif lastEntry.severity NEQ "Information"><span class="badge badge-danger">#encodeForHtml(lastEntry.severity)#</span></cfif>
-										#encodeForHtml(left(lastEntry.message, 200))#
+									#encodeForHtml(row.name)#
+									<!--- protocol and host on their own line, as which host was requested (localhost, the site's name, an address) matters when a run fails --->
+									<cfset taskHost = "">
+									<cfset taskPath = row.url>
+									<cfif REFind("^[A-Za-z][A-Za-z0-9+.-]*://[^/]+", row.url) GT 0>
+										<cfset taskHost = REReplace(row.url, "^([A-Za-z][A-Za-z0-9+.-]*://[^/]+).*$", "\1/")>
+										<cfset taskPath = REReplace(row.url, "^[A-Za-z][A-Za-z0-9+.-]*://[^/]+/?", "")>
+									</cfif>
+									<div class="text-muted text-break">#encodeForHtml(taskHost)#</div>
+									<div class="text-muted text-break">#encodeForHtml(taskPath)#</div>
+								</td>
+								<!--- a running task whose last run failed gets only a green outline, so the badge does not read as all well --->
+								<cfset statusClass = "badge-secondary">
+								<cfif findNoCase("pause", row.status) GT 0>
+									<cfset statusClass = "badge-warning">
+								<cfelseif row.active>
+									<cfset statusClass = "badge-success">
+									<cfif isStruct(row.lastRun) AND REFind("^2\d\d$", row.lastRun.status) EQ 0>
+										<cfset statusClass = "border border-success text-success">
+									</cfif>
+								</cfif>
+								<td>
+									<span class="text-nowrap">#encodeForHtml(scheduledTaskIntervalText(row.interval))#</span>
+									<div><span class="badge #statusClass#">#encodeForHtml(row.status)#</span></div>
+								</td>
+								<td>
+									<cfif isStruct(row.lastRun)>
+										<span class="text-nowrap">#dateTimeFormat(row.lastRun.logged, "yyyy-mm-dd HH:nn")#</span>
+										<cfif REFind("^2\d\d$", row.lastRun.status) GT 0>
+											<span class="badge badge-success">#encodeForHtml(row.lastRun.status)# OK</span>
+										<cfelse>
+											<span class="badge badge-danger">#encodeForHtml(row.lastRun.status)# failed</span>
+										</cfif>
 									<cfelse>
-										none
+										none logged
+									</cfif>
+									<cfif row.overdue>
+										<span class="badge badge-warning">overdue</span>
+									</cfif>
+									<cfif isStruct(row.lastEntry) AND row.lastEntry.severity NEQ "Information">
+										<div class="text-danger">#dateTimeFormat(row.lastEntry.logged, "yyyy-mm-dd HH:nn")# #encodeForHtml(row.lastEntry.severity)#: #encodeForHtml(left(row.lastEntry.message, 200))#</div>
 									</cfif>
 								</td>
+								<td class="text-nowrap"><cfif row.succeeded + row.failed GT 0>#row.succeeded# OK, #row.failed# failed</cfif></td>
 							</tr>
 						</cfloop>
 					</tbody>
