@@ -25,7 +25,7 @@
 			FROM
 				media
 			WHERE
-				UPPER(media_uri) LIKE '%#ucase(escapeQuotes(media_uri))#%' and 
+				UPPER(media_uri) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_uri)#%"> and 
                                 MCZBASE.is_media_encumbered(media.media_id) < 1
 			ORDER BY
 				media_uri

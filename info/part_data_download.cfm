@@ -7,7 +7,7 @@
 		flat.guid,
 		flat.collection,
 		flat.cat_num,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+		concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 		specimen_part.part_name,
 		specimen_part.collection_object_id partID,
 		p.barcode,
@@ -117,7 +117,7 @@
 					from
 						raw
 					where
-						partID=#partID# and
+						partID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> and
 						loan_number is not null
 					group by
 						loan_number,
@@ -162,7 +162,7 @@
 			from
 				raw
 			where
-				partID=#partID# and
+				partID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#"> and
 				loan_number is not null
 			group by
 				loan_number,

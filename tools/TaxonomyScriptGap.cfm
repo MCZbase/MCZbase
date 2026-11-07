@@ -487,8 +487,8 @@ end;
 					rownum r
 				from
 					taxupfail order by genus
-				) a where rownum <= #stop#
-			) where rnum >= #start#
+				) a where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#stop#">
+			) where rnum >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#start#">
 		</cfquery>
 		<table border>
 			<cfloop query="g">
@@ -499,7 +499,7 @@ end;
 					</td>
 					<td>
 						<cfquery name="f" datasource="uam_god">
-							select family from taxonomy where genus='#genus#' group by family order by family
+							select family from taxonomy where genus=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#genus#"> group by family order by family
 						</cfquery>
 						<cfloop query="f">
 							<div>

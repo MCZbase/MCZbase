@@ -1,6 +1,7 @@
 <cfcomponent>
 <cfinclude template = "../includes/functionLib.cfm">
 <cfinclude template="/shared/component/fileUtilities.cfc" runOnce="true">
+<cfinclude template="/shared/component/codeTables.cfc" runOnce="true">
 <!--- Columns of cf_users that setSrchVal is allowed to toggle: the NUMBER(1,0) search criteria
 	flags.  Deliberately excludes KILLROW and APPROVED_TO_REQUEST_LOANS, which are not search
 	preferences and carry privilege, and SHOWOBSERVATIONS, FANCYCOID and BLOCK_SUGGEST, which have
@@ -28,7 +29,7 @@
 			scientific_name,
 			concatEncumbrances(cataloged_item.collection_object_id) encumbrances,
 			specimen_part.collection_object_id as partID,
-			concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 			p1.barcode
 		 from
 			specimen_part,
@@ -956,10 +957,12 @@
 			<cfset controlBits = listToArray(res.control,'.')>
 			<cfif ArrayLen(controlBits) EQ 2>
 				<!--- support TABLE.FIELD structure for control as well as TABLE --->
+				<cfset requireCodeTable(controlBits[1], controlBits[2])>
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select #controlBits[2]# from #controlBits[1]#
 				</cfquery>
 			<cfelse>
+				<cfset requireCodeTable(res.control)>
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select * from #res.control#
 				</cfquery>
@@ -1709,6 +1712,17 @@
 <cffunction name="changecustomOtherIdentifier" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>
+			<!--- the type is written into report and search queries, so only a type from the code table is kept --->
+			<cfif len(arguments.tgt) GT 0>
+				<cfquery name="knownType" datasource="uam_god" result="knownType_result">
+					SELECT other_id_type
+					FROM ctcoll_other_id_type
+					WHERE other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.tgt#">
+				</cfquery>
+				<cfif knownType.recordcount EQ 0>
+					<cfreturn "Unknown other identifier type.">
+				</cfif>
+			</cfif>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
 					customOtherIdentifier =
@@ -1720,7 +1734,7 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset session.customOtherIdentifier = "#tgt#">
+			<cfset session.customOtherIdentifier = arguments.tgt>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
@@ -1937,15 +1951,15 @@
 					LOT_COUNT,
 					CONDITION)
 				VALUES
-					(#n.n#,
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 					'SS',
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					sysdate,
-					#session.myAgentId#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 					sysdate,
-					'#parentData.coll_obj_disposition#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.coll_obj_disposition#">,
 					1,
-					'#parentData.condition#')
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 			</cfquery>
 			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				INSERT INTO specimen_part (
@@ -1955,9 +1969,9 @@
 					,SAMPLED_FROM_OBJ_ID
 					,DERIVED_FROM_CAT_ITEM)
 				VALUES (
-					#n.n#
-					,'#parentData.part_name#'
-					,'#parentData.preserve_method#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.preserve_method#">
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 					,#parentData.derived_from_cat_item#)
 			</cfquery>
@@ -1980,12 +1994,12 @@
 			VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
-					#n.n#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 				<cfelse>
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
 				'in loan',
-				#session.myagentid#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">,
 				sysdate
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
@@ -2000,7 +2014,7 @@
 			UPDATE coll_object SET coll_obj_disposition = 'on loan'
 			where collection_object_id =
 		<cfif #subsample# is 1>
-				#n.n#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">
 			<cfelse>
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>
@@ -2034,7 +2048,7 @@
 			</cfif>
 			<cfloop list="#tableList#" index="tabl">
 				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select MCZBASE.getMediaBySpecimen('#tabl#',#cid#) midList from dual
+					select MCZBASE.getMediaBySpecimen(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tabl#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cid#">) midList from dual
 				</cfquery>
 				<cfif len(mid.midList) gt 0>
 					<cfset t = queryaddrow(theResult,1)>
@@ -2339,7 +2353,7 @@
 			 	,contact_agent_id
 			 </cfif>)
 		VALUES (
-			 #nextPermit.nextPermit#
+			 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">
 			 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
 			 <cfif len(#ISSUED_DATE#) gt 0>
 			 	,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">

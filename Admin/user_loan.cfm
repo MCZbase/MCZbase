@@ -43,7 +43,7 @@
 		cf_users.user_id = cf_user_data.user_id AND
 		cf_users.user_id = cf_project.user_id AND
 		cf_project.trans_id = cf_loan.trans_id AND
-		upper(username) like '%#ucase(username)#%'
+		upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 	ORDER BY
 		username
 </cfquery>
@@ -99,7 +99,7 @@
 		cf_users.user_id = cf_user_data.user_id AND
 		cf_users.user_id = cf_project.user_id AND
 		cf_project.trans_id = cf_loan.trans_id AND
-		upper(username) like '%#ucase(username)#%'
+		upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 	ORDER BY
 		username
 </cfquery>
@@ -211,7 +211,7 @@ starting 1<cfflush>
 					select
 						*
 					FROM proj
-						WHERE trans_id = #trans_id#
+						WHERE trans_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
 				</cfquery>
 				
 				<cfoutput>
@@ -236,7 +236,7 @@ starting 1<cfflush>
 
 			<cfquery name="getLoanNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select max(loan_num) + 1 as nextLoanNum from loan
-				where loan_num_prefix = '#thisYear#'
+				where loan_num_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisYear#">
 			</cfquery>
 			<cfif #getLoanNum.nextLoanNum# gt 0>
 			
@@ -375,7 +375,7 @@ starting 1<cfflush>
 							cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
 							cf_loan_item.loan_id = cf_loan.loan_id AND
 							specimen_part.collection_object_id = cf_loan_item.collection_object_id and
-							cf_loan_item.loan_id = #loan_id#
+							cf_loan_item.loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_id#">
 						</cfquery>
 						<tr><td>
 						<b> #specs.recordcount# Specimens: </b>
@@ -404,13 +404,13 @@ starting 1<cfflush>
 							<cfif len(#ArctosLoanId#) gt 0>
 							<cfquery name="thisItemInArctos" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select * from loan_item where
-								collection_object_id = #collection_object_id# and
-								transaction_id = #ArctosLoanId#
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+								transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ArctosLoanId#">
 							</cfquery>
 							<cfelse>
 								<cfquery name="thisItemInArctos" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select * from loan_item where
-								collection_object_id = #collection_object_id# and
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
 								transaction_id = 0
 							</cfquery>
 							</cfif>
@@ -490,7 +490,7 @@ starting 1<cfflush>
 			select max(transaction_id) + 1 as nextTransactionId from trans
 		</cfquery>
 		<cfquery name="TRANS_ENTERED_AGENT_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select agent_id from agent_name where agent_name = '#session.username#'
+			select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif len(#TRANS_ENTERED_AGENT_ID.agent_id#) is 0>
 			You are not logged in as a recognized agent. Your login ID (#session.username#)
@@ -539,16 +539,16 @@ starting 1<cfflush>
 						,trans_remarks
 					</cfif>)
 				VALUES (
-					#nextTransId.nextTransactionId#,
-					#auth_agent_id#,
-					'#initiating_date#',
-					#TRANS_ENTERED_AGENT_ID.agent_id#,
-					#REC_AGENT_ID#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextTransId.nextTransactionId#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#initiating_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANS_ENTERED_AGENT_ID.agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REC_AGENT_ID#">,
 					0,
 					'loan',
-					'#NATURE_OF_MATERIAL#'
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">
 					<cfif len(#trans_remarks#) gt 0>
-						,'#trans_remarks#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 					</cfif>
 					)
 					</cfquery> 
@@ -574,30 +574,30 @@ starting 1<cfflush>
 					</cfif>
 					 )
 				values (
-					#nextTransId.nextTransactionId#,
-					'#loan_type#',
-					'#loanPrefix#',
-					#loanNum#,
-					'#loan_num_suffix#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextTransId.nextTransactionId#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loanPrefix#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanNum#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_num_suffix#">
 					<cfif len(#loan_status#) gt 0>
-						,'#loan_status#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">
 					</cfif>
 					<cfif len(#return_due_date#) gt 0>
-						,'#dateformat(return_due_date,"dd-mmm-yyyy")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(return_due_date,"dd-mmm-yyyy")#">
 					</cfif>
 					<cfif len(#LOAN_INSTRUCTIONS#) gt 0>
-						,'#LOAN_INSTRUCTIONS#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">
 					</cfif>
 					<cfif len(#loan_description#) gt 0>
-						,'#loan_description#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">
 					</cfif>
 					)
 
 			
 			</cfquery>
 			<cfquery name="link" datasource="#Application.uam_dbo#">
-				UPDATE cf_loan SET transaction_id = #nextTransId.nextTransactionId#
-				WHERE loan_id = #loan_id#
+				UPDATE cf_loan SET transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextTransId.nextTransactionId#">
+				WHERE loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_id#">
 			</cfquery>
 		</cftransaction>
 	
@@ -633,25 +633,25 @@ starting 1<cfflush>
 			</cfif>
 			 )
 		VALUES ( 
-			#nextID.nextid#,
-			'#PROJECT_NAME#'
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextid#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
 			<cfif len(#START_DATE#) gt 0>
-				,'#dateformat(START_DATE,"dd-mmm-yyyy")#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(START_DATE,"dd-mmm-yyyy")#">
 			</cfif>
 			
 			<cfif len(#END_DATE#) gt 0>
-				,'#dateformat(END_DATE,"dd-mmm-yyyy")#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(END_DATE,"dd-mmm-yyyy")#">
 			</cfif>
 			<cfif len(#PROJECT_DESCRIPTION#) gt 0>
-				,'#PROJECT_DESCRIPTION#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_DESCRIPTION#">
 			</cfif>
 			<cfif len(#PROJECT_REMARKS#) gt 0>
-				,'#PROJECT_REMARKS#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_REMARKS#">
 			</cfif>
 			 )   
 	</cfquery>  
 	<cfquery name="link" datasource="#Application.uam_dbo#">
-		UPDATE cf_project SET project_id = #nextID.nextid# where trans_id = #cf_trans_id#
+		UPDATE cf_project SET project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextid#"> where trans_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_trans_id#">
 	</cfquery>
 	The project has been added to Arctos. You <i><b>must</b></i> now edit the project to add agents.
 	<p>

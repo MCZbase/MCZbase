@@ -235,7 +235,7 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 											current_timestamp,
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollObjId.item_descr#">,
-											'Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.'
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Added from #getLoanType.loan_type# loan #getLoanType.loan_number#.">
 										)
 									</cfquery>
 								</cfif>

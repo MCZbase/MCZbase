@@ -122,9 +122,9 @@ limitations under the License.
 			<cftry>
 				<cfloop list="#form.holdMerge#" index="i">
 					<cfquery name="upOnHold" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update agent_relations set on_hold = 1, held_by = '#session.dbuser#' where
-						agent_id = #ListGetAt(i, 1, '_')# and
-						related_agent_id = #ListGetAt(i, 2, '_')# and
+						update agent_relations set on_hold = 1, held_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> where
+						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ListGetAt(i, 1, '_')#"> and
+						related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ListGetAt(i, 2, '_')#"> and
 						agent_relationship = 'bad duplicate of'
 					</cfquery>
 				</cfloop>

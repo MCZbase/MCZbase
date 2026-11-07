@@ -18,7 +18,7 @@
 					mem.agent_id = group_member.member_agent_id and
 					mem.agent_name_type='login' and
 					group_member.group_agent_id = grp.agent_id and
-					grp.agent_name = '#institution_acronym# #collection_cde# Data Entry Group'
+					grp.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym# #collection_cde# Data Entry Group">
 			</cfquery>
 			<cfquery name="admins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
@@ -31,22 +31,16 @@
 					mem.agent_id = group_member.member_agent_id and
 					mem.agent_name_type='login' and
 					group_member.group_agent_id = grp.agent_id and
-					grp.agent_name = '#institution_acronym# #collection_cde# Data Admin Group'
+					grp.agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym# #collection_cde# Data Admin Group">
 			</cfquery>
+			<!--- a login name could hold a comma, so the names are listed with a separator none holds --->
+			<cfset USERSEPARATOR = chr(31)>
 			<cfset users = ''>
 			<cfloop query="members">
-				<cfif len(#users#) is 0>
-					<cfset users = "'#agent_name#'">
-				<cfelse>
-					<cfset users = "#users#,'#agent_name#'">
-				</cfif>
+				<cfset users = listAppend(users, members.agent_name, USERSEPARATOR)>
 			</cfloop>
 			<cfloop query="admins">
-				<cfif len(#users#) is 0>
-					<cfset users = "'#agent_name#'">
-				<cfelse>
-					<cfset users = "#users#,'#agent_name#'">
-				</cfif>
+				<cfset users = listAppend(users, admins.agent_name, USERSEPARATOR)>
 			</cfloop>
 			<cfif len(#users#) gt 0>
 				<cfquery name="bl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -56,7 +50,7 @@
 						enteredby
 					from bulkloader
 					where loaded is not null and loaded !='waiting approval' and
-					enteredby in (#preservesinglequotes(users)#)
+					enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#users#" list="yes" separator="#USERSEPARATOR#">)
 					order by enteredby, loaded, collection_object_id
 				</cfquery>
 				<cfquery name="addrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -65,13 +59,10 @@
 						electronic_address,
 						agent_name
 					<!--- TODO: Broken: ctelectronic_addr_type holds 'email', not 'e-mail', so this
-						matches no row: addrs comes back empty and no status mail is sent.
-						agent_name also needs a cfqueryparam, but users is assembled as a list of
-						already quoted names, so binding it means rebuilding that list unquoted and
-						deciding what to do with a name containing a comma; that is its own change. --->
+						matches no row: addrs comes back empty and no status mail is sent. --->
 					where address_type='e-mail' and
 					electronic_address.agent_id = agent_name.agent_id and
-					agent_name in (#preservesinglequotes(users)#)
+					agent_name in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#users#" list="yes" separator="#USERSEPARATOR#">)
 					group by address
 				</cfquery>
 				<hr>
