@@ -1,7 +1,7 @@
 <!--- tools/downloadParts.cfm obtain lists of parts for reports of bulkload roundtrip editing..
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2023 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,14 +16,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif isDefined("result_id") and len(result_id) GT 0>
-	<cfset table_name="user_search_table">
-</cfif>
 <cfif not isdefined("action")>
 	<cfset action="entryPoint">
 </cfif>
-
-<cfif not isdefined("table_name")>
+<!--- The table name cannot be bound, so the request only chooses between the two tables a search
+	leaves: user_search_table for a result_id, or the session's own search table, which the legacy
+	SpecimenResults.cfm passes as table_name.  The name written into the query is never the
+	request's. --->
+<cfparam name="url.table_name" default="">
+<cfparam name="form.table_name" default="">
+<cfset variables.requestedTable = url.table_name>
+<cfif len(form.table_name) GT 0>
+	<cfset variables.requestedTable = form.table_name>
+</cfif>
+<cfset variables.table_name = "">
+<cfif isDefined("result_id") and len(result_id) GT 0>
+	<cfset variables.table_name = "user_search_table">
+<cfelseif len(variables.requestedTable) GT 0 AND isDefined("session.SpecSrchTab") AND len(session.SpecSrchTab) GT 0>
+	<cfif compareNoCase(variables.requestedTable, session.SpecSrchTab) EQ 0>
+		<cfset variables.table_name = session.SpecSrchTab>
+	</cfif>
+</cfif>
+<cfif len(variables.table_name) EQ 0>
 	<cfthrow message="You need to do a search first before using the part downloader">
 </cfif>
 <cf_rolecheck>
@@ -154,7 +168,7 @@ limitations under the License.
 		container c, 
 		container pc, 
 		COLL_OBJECT co, 
-		#table_name# T, 
+		#variables.table_name# T, 
 		container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
 	where 
 		f.collection_object_id = SP.DERIVED_FROM_CAT_ITEM
@@ -272,7 +286,7 @@ limitations under the License.
 					<h1 class="h2 mt-2 mx-xl-2 px-1">
 						List/Download Parts from a Specimen Search
 						<cfif isDefined("result_id") and len(result_id) GT 0>
-							(manage result #result_id#)
+							(manage result #encodeForHtml(result_id)#)
 						</cfif>
 					</h1>
 					<p class= "col-12 mt-2">
@@ -280,7 +294,7 @@ limitations under the License.
 					</p>
 					<form name="filterResults">
 						<div class="form-row mt-2 mb-3 mx-0">
-							<input type="hidden" name="table_name" value="#table_name#">
+							<input type="hidden" name="table_name" value="#encodeForHtml(variables.table_name)#">
 							<input type="hidden" name="action" value="nothing" id="action">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
 								<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
@@ -315,12 +329,12 @@ limitations under the License.
 							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="searchRemarks">Search Remarks (substring):</label>
 								<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
-								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
+								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#encodeForHtml(searchremarks)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="filterBarcode">Part Container:</label>
 								<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
-								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
+								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#encodeForHtml(filterBARCODE)#">
 							</div>
 							<div class="col-12 col-md-12 col-xl-2">
 								

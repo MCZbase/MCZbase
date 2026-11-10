@@ -6111,6 +6111,7 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
 					<cfset variables.field=replace(getAttributeCodeTables.value_code_table,"CT","","one")>
 				</cfif>
+				<cfset requireCodeTable(variables.table, variables.field)>
 				<!--- check if the table has a collection_cde field --->
 				<cfquery name="getFieldMetadata" datasource="uam_god">
 					SELECT
@@ -6144,6 +6145,7 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 			<cfif len(getAttributeCodeTables.units_code_table) GT 0>
 				<cfset table=getAttributeCodeTables.units_code_table>
 				<cfset field=replace(getAttributeCodeTables.units_code_table,"CT","","one")>
+				<cfset requireCodeTable(table, field)>
 				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						#field# as value
@@ -6540,6 +6542,7 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 								<cfelse>
 									<cfset field=replace(valueCodeTable,"CT","","one")>
 								</cfif>
+								<cfset requireCodeTable(valueCodeTable, field)>
 								<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
 										#field# as value
@@ -6566,6 +6569,7 @@ ever need to change disposition and don't have (or want to re-fetch) the part's 
 							<label for="att_units" class="data-entry-label">Units</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
 								<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+								<cfset requireCodeTable(unitsCodeTable, replace(unitsCodeTable,"CT","","one"))>
 								<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
 										#replace(unitsCodeTable,"CT","","one")# as unit
@@ -10684,6 +10688,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cfset variables.table = getPartAttributeCodeTables.value_code_table>
 				<!--- Default field name is the table name with CT prefix removed --->
 				<cfset variables.field = replace(getPartAttributeCodeTables.value_code_table,"CT","","one")>
+				<cfset requireCodeTable(variables.table, variables.field)>
 				
 				<!--- check if the table has a collection_cde field --->
 				<cfquery name="getValueFieldMetadata" datasource="uam_god">
@@ -10721,6 +10726,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cfif len(getPartAttributeCodeTables.units_code_table) GT 0>
 				<cfset variables.unitsTable = getPartAttributeCodeTables.units_code_table>
 				<cfset variables.unitsField = replace(getPartAttributeCodeTables.units_code_table,"CT","","one")>
+				<cfset requireCodeTable(variables.unitsTable, variables.unitsField)>
 				
 				<!--- check if the units table has a collection_cde field --->
 				<cfquery name="getUnitsFieldMetadata" datasource="uam_god">
