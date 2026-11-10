@@ -575,11 +575,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 					</option>
 					--->
 					<!--- 
-					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
-						Parts (Report) [Warning: No Tabs]
-					</option>
-					--->
-					<!--- 
 					<option value="/findContainer.cfm?showControl=1"><!--- looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name --->
 						Parts (Locations)
 					</option>
