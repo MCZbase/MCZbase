@@ -1,7 +1,7 @@
 <!--- tools/downloadParts.cfm obtain lists of parts for reports of bulkload roundtrip editing..
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2023 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfif isDefined("result_id") and len(result_id) GT 0>
-	<cfset table_name="user_search_table">
-</cfif>
 <cfif not isdefined("action")>
 	<cfset action="entryPoint">
 </cfif>
-
-<cfif not isdefined("table_name")>
+<!--- Parts are listed for a result_id, which specimens/manageSpecimens.cfm, the one entry point,
+	passes.  Support for a table_name parameter is withdrawn: it named the table to select from, and
+	a table name cannot be bound. --->
+<cfparam name="url.result_id" default="">
+<cfset variables.result_id = url.result_id>
+<cfif len(variables.result_id) EQ 0>
 	<cfthrow message="You need to do a search first before using the part downloader">
 </cfif>
 <cf_rolecheck>
@@ -154,13 +155,11 @@ limitations under the License.
 		container c, 
 		container pc, 
 		COLL_OBJECT co, 
-		#table_name# T, 
+		user_search_table T, 
 		container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
 	where 
 		f.collection_object_id = SP.DERIVED_FROM_CAT_ITEM
-		<cfif isDefined("result_id") and len(result_id) GT 0>
-			and T.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		</cfif>
+		and T.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 		and SP.COLLECTION_OBJECT_ID = COR.COLLECTION_OBJECT_ID(+)
 		and SP.PART_NAME = PN.PART_NAME
 		and pn.collection_cde = F.COLLECTION_CDE
@@ -271,20 +270,15 @@ limitations under the License.
 				<div class="col-12">
 					<h1 class="h2 mt-2 mx-xl-2 px-1">
 						List/Download Parts from a Specimen Search
-						<cfif isDefined("result_id") and len(result_id) GT 0>
-							(manage result #result_id#)
-						</cfif>
+						(manage result #encodeForHtml(variables.result_id)#)
 					</h1>
 					<p class= "col-12 mt-2">
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> the <a href="/tools/BulkloadPartContainer.cfm" target="_blank">Bulkload Parts to Containers</a> and <a href="/tools/BulkloadLoanItems.cfm" target="_blank">Bulkload Loan Items</a> tools, and with more editing, the <a href="/tools/BulkloadContEditParent.cfm" target="_blank">Container Parent Edit Bulkloader</a>.  
 					</p>
 					<form name="filterResults">
 						<div class="form-row mt-2 mb-3 mx-0">
-							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="action" value="nothing" id="action">
-							<cfif isDefined("result_id") and len(result_id) GT 0>
-								<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
-							</cfif>
+							<input type="hidden" name="result_id" value="#encodeForHtml(variables.result_id)#" id="result_id">
 							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label" for="filterPartName">Part Name:</label>
 								<select name="filterPartName" id="filterPartName" class="data-entry-select">
@@ -315,12 +309,12 @@ limitations under the License.
 							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="searchRemarks">Search Remarks (substring):</label>
 								<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
-								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
+								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#encodeForHtml(searchremarks)#">
 							</div>
 							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="filterBarcode">Part Container:</label>
 								<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
-								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
+								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#encodeForHtml(filterBARCODE)#">
 							</div>
 							<div class="col-12 col-md-12 col-xl-2">
 								

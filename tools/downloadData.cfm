@@ -61,6 +61,7 @@
 	</cfquery>
 	<cfset variables.fileName="#Application.webDirectory#/download/agent_name.csv">
 	<cfset variables.encoding="US-ASCII">
+	<!--- load from component/FileWriter.cfc --->
 	<cfscript>
 		variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
 	</cfscript>		
