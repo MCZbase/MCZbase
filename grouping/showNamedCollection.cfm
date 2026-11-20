@@ -130,7 +130,7 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+		<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" timeout="#Application.query_timeout#" >
 			SELECT distinct media.media_id, 
 				media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -210,22 +210,25 @@ limitations under the License.
 			var currentSpecimenImage = 1;
 		</script>
 		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-			SELECT DISTINCT media.media_id, media.media_uri, 
+			<!--- media functions in the outer select run once per media record, not once per specimen-collector row --->
+			SELECT media.media_id, media.media_uri,
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media_type, mime_type, auto_host
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-				left join media_relations on collector.agent_id = media_relations.related_primary_key
-				left join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND collector.collector_role = 'c'
-				AND media_relations.media_relationship = 'shows agent'
-				AND flat.guid IS NOT NULL
+				media.media_type, media.mime_type, media.auto_host
+			FROM media
+			WHERE media.media_id IN (
+				SELECT media_relations.media_id
+				FROM
+					underscore_relation
+					join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					join collector on underscore_relation.collection_object_id = collector.collection_object_id
+					join media_relations on collector.agent_id = media_relations.related_primary_key
+				WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND collector.collector_role = 'c'
+					AND media_relations.media_relationship = 'shows agent'
+					AND flat.guid IS NOT NULL
+			)
 		</cfquery>
 		<cfquery name="agentImagesForCarousel" dbtype="query">
 			SELECT * 
@@ -869,48 +872,54 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
+									<!--- one pass over the group's flat rows, cached, from which the taxa, type, ocean, geography and island lists are taken --->
+									<cfquery name="summaryTerms_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="summaryTerms_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+										SELECT DISTINCT
+											flat.phylclass, flat.phylorder, flat.family,
+											flat.toptypestatus,
+											CASE
+												WHEN flat.toptypestatus IN ('Holotype','Lectotype','Neotype') THEN 1
+												WHEN flat.toptypestatus IN ('Paratype','Syntype') THEN 2
+												ELSE 3
+											END as typesort,
+											flat.continent_ocean, flat.country, flat.state_prov, flat.island
 										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											underscore_relation
+											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.PHYLCLASS is not null
-										ORDER BY flat.phylclass asc
 									</cfquery>
-									<cfset taxonQuery_time = taxonQuery_result.ExecutionTime>
-									<cfset taxonQuery2_time = "not run">
-									<cfset taxonQuery3_time = "not run">
+									<cfset taxonRank = "phylclass">
+									<cfset taxonParent = "">
+									<cfquery name="taxonQuery" dbtype="query">
+										SELECT DISTINCT phylclass
+										FROM summaryTerms_raw
+										WHERE phylclass IS NOT NULL
+										ORDER BY phylclass
+									</cfquery>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to orders instead if very few classes --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
-												flat.phylclass, flat.phylorder
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.phylorder is not null
-											ORDER BY flat.phylclass asc, flat.phylorder asc
+										<cfset taxonRank = "phylorder">
+										<cfset taxonParent = "phylclass">
+										<cfquery name="taxonQuery" dbtype="query">
+											SELECT DISTINCT phylclass, phylorder
+											FROM summaryTerms_raw
+											WHERE phylclass IS NOT NULL
+												AND phylorder IS NOT NULL
+											ORDER BY phylclass, phylorder
 										</cfquery>
-										<cfset taxonQuery2_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
-												flat.phylorder, flat.family
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.family is not null
-											ORDER BY flat.phylorder asc, flat.family asc
+										<cfset taxonRank = "family">
+										<cfset taxonParent = "phylorder">
+										<cfquery name="taxonQuery" dbtype="query">
+											SELECT DISTINCT phylorder, family
+											FROM summaryTerms_raw
+											WHERE phylclass IS NOT NULL
+												AND family IS NOT NULL
+											ORDER BY phylorder, family
 										</cfquery>
-										<cfset taxonQuery3_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -929,8 +938,13 @@ limitations under the License.
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+																		<cfset taxonLink = taxonQuery[taxonRank][taxonQuery.currentRow]>
+																		<cfset taxonLabel = taxonLink>
+																		<cfif len(taxonParent) GT 0>
+																			<cfset taxonLabel = "#taxonQuery[taxonParent][taxonQuery.currentRow]#: #taxonLink#">
+																		</cfif>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left">
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonRank)#=#encodeForUrl(taxonLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(taxonLabel)#</a>
 																		</li>
 																	</cfloop>
 																</ul>
@@ -941,32 +955,25 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+														<cfset taxonLink = taxonQuery[taxonRank][taxonQuery.currentRow]>
+														<cfset taxonLabel = taxonLink>
+														<cfif len(taxonParent) GT 0>
+															<cfset taxonLabel = "#taxonQuery[taxonParent][taxonQuery.currentRow]#: #taxonLink#">
+														</cfif>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left">
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonRank)#=#encodeForUrl(taxonLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(taxonLabel)#</a>
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.TOPTYPESTATUS 
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.TOPTYPESTATUS is not null
-										ORDER BY
-											CASE
-												-- Primary types
-												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype') THEN 1
-												-- Secondary types
-												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')            THEN 2
-												-- Everything else
-												ELSE 3
-											END,
-												flat.TOPTYPESTATUS
+									<!--- typesort, from summaryTerms_raw, puts primary types first, then secondary types, then everything else --->
+									<cfquery name="types" dbtype="query">
+										SELECT DISTINCT toptypestatus, typesort
+										FROM summaryTerms_raw
+										WHERE toptypestatus IS NOT NULL
+										ORDER BY typesort, toptypestatus
 									</cfquery>
 
 									<cfif types.recordcount GT 0>
@@ -1007,16 +1014,12 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.continent_ocean as ocean
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.continent_ocean like '%Ocean%'
-											and flat.continent_ocean NOT like '%Oceania%'
-										ORDER BY flat.continent_ocean asc
+									<cfquery name="marine" dbtype="query">
+										SELECT DISTINCT continent_ocean
+										FROM summaryTerms_raw
+										WHERE continent_ocean LIKE '%Ocean%'
+											AND continent_ocean NOT LIKE '%Oceania%'
+										ORDER BY continent_ocean
 									</cfquery>
 									<cfif marine.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1036,7 +1039,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.continent_ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.continent_ocean#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1048,39 +1051,31 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.continent_ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.continent_ocean#</a> 
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.country is not null
-										ORDER BY flat.country asc
+									<cfset geogRank = "Country">
+									<cfset geogParent = "">
+									<cfquery name="geogQuery" dbtype="query">
+										SELECT DISTINCT country
+										FROM summaryTerms_raw
+										WHERE country IS NOT NULL
+										ORDER BY country
 									</cfquery>
-									<cfset geogQuery_time = geogQuery_result.ExecutionTime>
-									<cfset geogQuery2_time = "not run">
 									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
 										<!--- try expanding to state province instead if very few countries --->
-										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-												flat.country, flat.state_prov
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.state_prov is not null
-											ORDER BY flat.country asc, flat.state_prov asc
+										<cfset geogRank = "state_prov">
+										<cfset geogParent = "country">
+										<cfquery name="geogQuery" dbtype="query">
+											SELECT DISTINCT country, state_prov
+											FROM summaryTerms_raw
+											WHERE state_prov IS NOT NULL
+											ORDER BY country, state_prov
 										</cfquery>
-										<cfset geogQuery2_time = geogQuery_result.ExecutionTime>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1099,8 +1094,13 @@ limitations under the License.
 															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
+																		<cfset geogLink = geogQuery[geogRank][geogQuery.currentRow]>
+																		<cfset geogLabel = geogLink>
+																		<cfif len(geogParent) GT 0>
+																			<cfset geogLabel = "#geogQuery[geogParent][geogQuery.currentRow]#: #geogLink#">
+																		</cfif>
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogRank)#=#encodeForUrl(geogLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(geogLabel)#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1111,23 +1111,24 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
+														<cfset geogLink = geogQuery[geogRank][geogQuery.currentRow]>
+														<cfset geogLabel = geogLink>
+														<cfif len(geogParent) GT 0>
+															<cfset geogLabel = "#geogQuery[geogParent][geogQuery.currentRow]#: #geogLink#">
+														</cfif>
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogRank)#=#encodeForUrl(geogLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(geogLabel)#</a> 
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="islandsQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.continent_ocean, flat.island as island
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.island is not null
-										ORDER BY flat.continent_ocean, flat.island asc
+									<cfquery name="islandsQuery" dbtype="query">
+										SELECT DISTINCT continent_ocean, island
+										FROM summaryTerms_raw
+										WHERE island IS NOT NULL
+										ORDER BY continent_ocean, island
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1166,7 +1167,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" timeout="#Application.query_timeout#">
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_relation 
@@ -1520,13 +1521,7 @@ limitations under the License.
 								<li>points=#points_result.ExecutionTime#</li>
 								<li>points2=#points2_result.ExecutionTime#</li>
 								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
-								<li>taxonQuery=#taxonQuery_time#</li>
-								<li>taxonQuery2=#taxonQuery2_time#</li>
-								<li>taxonQuery3=#taxonQuery3_time#</li>
-								<li>marine=#marine_result.ExecutionTime#</li>
-								<li>geogQuery=#geogQuery_time#</li>
-								<li>geogQuery2=#geogQuery2_time#</li>
-								<li>islands=#islandsQuery_result.ExecutionTime#</li>
+								<li>summaryTerms_raw=#summaryTerms_raw_result.ExecutionTime#</li>
 								<li>collectors=#collectors_result.ExecutionTime#</li>
 								<li>directCitations=#directCitations_result.ExecutionTime#</li>
 								<li>citations=#citations_result.ExecutionTime#</li>
