@@ -28,7 +28,7 @@
 		<cfquery name="thisQueryRow" dbtype="query">
 			SELECT * 
 			FROM data
-			WHERE collection_object_id = #collection_object_id#
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.collection_object_id#">
 		</cfquery>
 		<cfset thisRow = "">
 		<cfloop list="#colList#" index="i" delimiters="#chr(9)#">

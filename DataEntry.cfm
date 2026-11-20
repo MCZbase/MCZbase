@@ -115,9 +115,9 @@ Some Totally Random String Data .....
 						collection_cde,
 						loaded) VALUES (
 						#collection_id#,
-						'#institution_acronym#',
-						'#collection_cde#',
-						'#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE')
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">)
 				</cfquery>
 			<cfelseif isBL.loaded is not "#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">
 			    <!--- it is not our template --->
@@ -133,9 +133,9 @@ Some Totally Random String Data .....
 						collection_cde,
 						loaded) VALUES (
 						#collection_id#,
-						'#institution_acronym#',
-						'#collection_cde#',
-						'#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE')
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(institution_acronym)# #ucase(collection_cde)# TEMPLATE">)
 				</cfquery>
 			</cfif>
 		</cfloop>
@@ -146,7 +146,7 @@ Some Totally Random String Data .....
             <br/>
 		<ul>
 			<li><span style="color:##9cca4b">Green Screen</span>: You are entering data to a new record.</li>
-			<li><span style="color:##00CCCC">Teal Screen</span>: you are editing an unloaded record that you've previously entered.</li>
+			<li><span style="color:##00CCCC">Teal Screen</span>: you are editing an unloaded record that you have previously entered.</li>
 			<!---  TODO: Validate that the css sets this screen to red, not yellow --->
             <li><span style="color:##b58aa5">Mauve Screen</span>: A record has been saved but has errors that must be corrected. Fix and save to continue.</li>
 		</ul>
@@ -156,11 +156,11 @@ Some Totally Random String Data .....
 		<cfif isdefined("session.roles") AND listFindNoCase(session.roles,"manage_specimens")>
 			<p>To clone a cataloged item into the bulkloader, for example to split a lot or to make a related record such as of a parasite:</p>
 			<ol>
-				<li>Open the cataloged item's record (its /guid/ page).</li>
+				<li>Open the cataloged item&##39;s record (its /guid/ page).</li>
 				<li>Click <strong>Catalog/Clone</strong> in the row of edit buttons at the top of the record (on smaller screens, <strong>Edit/Clone</strong> in the Cataloged Item heading).</li>
 				<li>In the dialog, under <strong>Clone into Bulkloader</strong>, click <strong>Show Instructions</strong> and then <strong>Clone into Bulkloader</strong>.</li>
 				<li>When it finishes, follow the <strong>View Clone In Bulkloader</strong> link to the new record here, in Data Entry. It is linked to the original as a child record.</li>
-				<li>Check the new record's specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
+				<li>Check the new record&##39;s specimen remarks for anything the clone could not copy; agents, identifiers, attributes and parts are copied only in part. Edit the record further, or flag it to load, as with any other new record.</li>
 			</ol>
 		</cfif>
 		<cfquery name="theirLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -180,7 +180,7 @@ Some Totally Random String Data .....
 				<cfif #theirLast.recordcount# gt 0>
 					<cfloop query="theirLast">
 						<cfquery name="temp" dbtype="query">
-							select collection from c where institution_acronym='#instAc#' and collection_cde='#collnCde#'
+							select collection from c where institution_acronym=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instAc#"> and collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCde#">
 						</cfquery>
 						<option value="#theId#">Your Last #temp.collection#</option>
 					</cfloop>
@@ -333,7 +333,7 @@ Some Totally Random String Data .....
 			order by BIOL_INDIV_RELATIONSHIP
 	    </cfquery>
 	    <cfquery name="ctAge_class" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select age_class from ctAge_class where collection_cde = '#collection_cde#' order by age_class
+			select age_class from ctAge_class where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> order by age_class
 		</cfquery>
 		<cfquery name="ctLength_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select length_units from ctLength_Units order by length_units

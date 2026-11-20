@@ -138,6 +138,9 @@
 				</cfif>
 			</cfif>
 			<cfif table is "ctmedia_license">
+			<cfquery name="licenses" dbtype="query">
+				SELECT * FROM docs ORDER BY media_license_id
+			</cfquery>
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
@@ -147,19 +150,26 @@
 					<th>
 						License
 					</th>
-					<th>Description</td>
+					<th>Description</th>
 					<th>
 						URI
 					</th>
 				</tr>
 				</thead>
 				<tbody>
-				<cfloop query="docs">
+				<cfloop query="licenses">
 					<tr>
 						<td>#media_license_id#</td>
-						<td>#display#</td>
-						<td>#description#</td>
-						<td><a href="#uri#" target="_blank" class="external">#uri#</a></td>
+						<td>#encodeForHtml(display)#</td>
+						<td>#encodeForHtml(description)#</td>
+						<td>
+							<!--- only web addresses become links, so a stored javascript: or other scheme can't run --->
+							<cfif REFindNoCase("^https?://", uri) GT 0>
+								<a href="#encodeForHtmlAttribute(uri)#" target="_blank" rel="noopener noreferrer" class="external">#encodeForHtml(uri)#</a>
+							<cfelse>
+								#encodeForHtml(uri)#
+							</cfif>
+						</td>
 					</tr>
 				</cfloop>
 				</tbody>
@@ -332,25 +342,34 @@
 		<cfelse>
 
 			<cfset theColumnName = "">
-			<cfif ListContainsNoCase(docs.columnList,tableName)>
+			<cfif listFindNoCase(docs.columnList, tableName) GT 0>
 				<!--- expected form of code tables ct{name} has field {name}.  Applies in most cases --->
 				<cfset theColumnName = tableName>
 			<cfelse>
-				<cfloop list="#docs.columnlist#" index="colName">
-					<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
-						<cfif ucase(tableName) EQ ucase(colName)>
-							<cfset theColumnName = #colName#>
-						</cfif>
-					</cfif>
-				</cfloop>
+				<!--- otherwise the code value is the table's primary key, apart from any collection_cde
+					(e.g. ctcontinent.continent_ocean) --->
+				<cfquery name="getCodeColumn" datasource="uam_god" result="getCodeColumn_result">
+					SELECT cols.column_name
+					FROM sys.dba_constraints cons
+						JOIN sys.dba_cons_columns cols ON cols.owner = cons.owner AND cols.constraint_name = cons.constraint_name
+					WHERE cons.owner = 'MCZBASE'
+						AND cons.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#confirm.found_table#">
+						AND cons.constraint_type = 'P'
+						AND cols.column_name <> 'COLLECTION_CDE'
+					ORDER BY cols.position
+				</cfquery>
+				<cfif getCodeColumn.recordcount EQ 1>
+					<cfset theColumnName = getCodeColumn.column_name>
+				</cfif>
 			</cfif>
 			<!--- Special case handling for reserved words --->
 			<cfif ucase(tableName) EQ "CLASS"><cfset theColumnName = "phylclass"></cfif>
 			
+			<!--- the code column in brackets, as it may be a query of queries reserved word (ctkey.key) --->
 			<cfif len(field) GT 0>
 				<!---- check if the value provided in field for theColumnName is valid ---->
 				<cfquery name="chosenOne" dbtype="query">
-					select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
+					select * from docs where [#theColumnName#] = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
 					<cfif #docs.columnlist# contains "collection_cde">
 						order by collection_cde
 					</cfif>
@@ -366,9 +385,9 @@
 				<cfif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# EQ 0 >
 					order by collection_cde
 				<cfelseif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# GT 0 >
-					order by collection_cde, #theColumnName#
+					order by collection_cde, [#theColumnName#]
 				<cfelseif #len(theColumnName)# GT 0 >
-					order by #theColumnName#
+					order by [#theColumnName#]
 				</cfif>
 			</cfquery>
 			

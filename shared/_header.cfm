@@ -210,8 +210,26 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/publications/" >
 	<script type="text/javascript" src="/publications/js/publications.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/Reports/" >
+	<cfset variables.reportsScriptPath = expandPath("/Reports/js/reports.js")>
+	<cfset variables.reportsScriptVersion = "">
+	<cfif fileExists(variables.reportsScriptPath)>
+		<cfset variables.reportsScriptVersion = dateTimeFormat(getFileInfo(variables.reportsScriptPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<cfset variables.reportsStylePath = expandPath("/Reports/css/reports.css")>
+	<cfset variables.reportsStyleVersion = "">
+	<cfif fileExists(variables.reportsStylePath)>
+		<cfset variables.reportsStyleVersion = dateTimeFormat(getFileInfo(variables.reportsStylePath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/Reports/js/reports.js?v=#encodeForUrl(variables.reportsScriptVersion)#"></script>
+	<link rel="stylesheet" href="/Reports/css/reports.css?v=#encodeForUrl(variables.reportsStyleVersion)#">
+</cfif>
 <cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<!--- To enable transaction pickers on project search page for logged in users --->
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
+<cfif CGI.script_name IS "/Reports/MCZDrawerTags.cfm">
+	<!--- For the loan picker offered when no loan is given. --->
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/projects/Project.cfm">
@@ -237,6 +255,14 @@ limitations under the License.
 </cfif>
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
 	<script type="text/javascript" src="/containers/js/containers.js"></script>
+</cfif>
+<cfif CGI.script_name CONTAINS "/Bulkloader/">
+	<cfset variables.bulkloaderScriptsVersion = "">
+	<cfset variables.bulkloaderScriptsPath = expandPath("/Bulkloader/js/bulkloader.js")>
+	<cfif fileExists(variables.bulkloaderScriptsPath)>
+		<cfset variables.bulkloaderScriptsVersion = dateTimeFormat(getFileInfo(variables.bulkloaderScriptsPath).lastModified, "yyyymmddHHnnss")>
+	</cfif>
+	<script type="text/javascript" src="/Bulkloader/js/bulkloader.js?v=#encodeForUrl(variables.bulkloaderScriptsVersion)#"></script>
 </cfif>
 <cfif CGI.script_name IS "/containers/placePartInContainer.cfm">
 	<script type="text/javascript" src="/containers/js/placePartInContainer.js"></script>
@@ -650,6 +676,7 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
+										<a class="dropdown-item" href="/tools/findGap.cfm">Catalog Number Gaps</a>
 										<cfif isdefined("session.roles") and ( listfindnocase(session.roles,"collops") or listfindnocase(session.roles,"curatorial_associate") or listfindnocase(session.roles,"global_admin") )>
 											<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
 										</cfif>

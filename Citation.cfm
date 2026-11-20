@@ -81,7 +81,7 @@
 		publication_title,
 		doi,
 		cited_taxon_name_id,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+		concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID
 	FROM
 		citation,
 		cataloged_item,
@@ -135,8 +135,8 @@
 				</td>
 				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<td>
-						<label for="custom_id">#session.CustomOtherIdentifier#</label>
-						<input type="text" name="custom_id" id="custom_id" onchange="getCatalogedItemCitation(this.id,'#session.CustomOtherIdentifier#')">
+						<label for="custom_id">#encodeForHtml(session.CustomOtherIdentifier)#</label>
+						<input type="text" name="custom_id" id="custom_id" onchange="getCatalogedItemCitation(this.id,'#encodeForJavaScript(session.CustomOtherIdentifier)#')">
 					</td>
 				</cfif>
 			</tr>
@@ -198,7 +198,7 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th>Cat Num</th>
-				<cfif len(#session.CustomOtherIdentifier#) GT 0><th>#session.CustomOtherIdentifier#</th><cfelse><th></th></cfif>
+				<cfif len(#session.CustomOtherIdentifier#) GT 0><th>#encodeForHtml(session.CustomOtherIdentifier)#</th><cfelse><th></th></cfif>
 				<th>Cited As</th>
 				<th>Current ID</th>
 				<th>Citation Type</th>

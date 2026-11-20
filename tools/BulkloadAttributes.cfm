@@ -244,24 +244,28 @@ limitations under the License.
 						<cftry>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+							<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+							<cfset preparedValues = []>
+							<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+								<cfset val = "">
+								<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+									<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+									<cfset val=trim(collValuesArray[fieldPos])>
+									<cfset val=rereplace(val,"^'+",'')>
+									<cfset val=rereplace(val,"'+$",'')>
+								</cfif>
+								<cfset arrayAppend(preparedValues, val)>
+							</cfloop>
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 								insert into cf_temp_attributes
 									(#fieldlist#,username)
 								values (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(collValuesArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
-											<cfif val EQ ""> 
-												#separator#NULL
-											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-											</cfif>
-										<cfelse>
+										<cfif len(preparedValues[col]) EQ 0>
 											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 										</cfif>
 										<cfset separator = ",">
 									</cfloop>
@@ -517,7 +521,7 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute_units not in controlled vocabulary #ctAttribute_code_tables.units_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="attribute_units not in controlled vocabulary #ctAttribute_code_tables.units_code_table#">)
 							WHERE 
 								attribute_units not in (
 									<cfif ctAttribute_code_tables.units_code_table EQ "CTLENGTH_UNITS">
@@ -550,7 +554,7 @@ limitations under the License.
 						<cfquery name="flatWrongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_attributes
 							SET 
-								status = concat(nvl2(status, status || '; ', ''),'attribute_value not in controlled vocabulary #ctAttribute_code_tables.value_code_table#')
+								status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="attribute_value not in controlled vocabulary #ctAttribute_code_tables.value_code_table#">)
 							WHERE 
 								attribute_value not in (
 									<cfif ctAttribute_code_tables.value_code_table EQ "CTSEX_CDE">
@@ -580,7 +584,7 @@ limitations under the License.
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#requiredField# is missing">)
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>

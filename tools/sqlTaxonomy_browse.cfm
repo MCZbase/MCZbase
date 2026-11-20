@@ -79,58 +79,58 @@
 			select * from taxonomy where
 			1=1
 			<cfif isdefined("TAXON_NAME_ID") and len(#TAXON_NAME_ID#) gt 0>
-				and TAXON_NAME_ID IN ( #TAXON_NAME_ID# )
+				and TAXON_NAME_ID IN ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#replace(TAXON_NAME_ID, ' ', '', 'all')#" list="yes"> )
 			</cfif>
 			<cfif isdefined("PHYLCLASS") and len(#PHYLCLASS#) gt 0>
-				and upper(PHYLCLASS) like '%#ucase(PHYLCLASS)#%'
+				and upper(PHYLCLASS) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(PHYLCLASS)#%">
 			</cfif>
 			<cfif isdefined("PHYLORDER") and len(#PHYLORDER#) gt 0>
-				and upper(PHYLORDER) like '%#ucase(PHYLORDER)#%'
+				and upper(PHYLORDER) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(PHYLORDER)#%">
 			</cfif>
 			<cfif isdefined("SUBORDER") and len(#SUBORDER#) gt 0>
-				and upper(SUBORDER) like '%#ucase(SUBORDER)#%'
+				and upper(SUBORDER) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SUBORDER)#%">
 			</cfif>
 			<cfif isdefined("FAMILY") and len(#FAMILY#) gt 0>
-				and upper(FAMILY) like '%#ucase(FAMILY)#%'
+				and upper(FAMILY) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(FAMILY)#%">
 			</cfif>
 			<cfif isdefined("SUBFAMILY") and len(#SUBFAMILY#) gt 0>
-				and upper(SUBFAMILY) like '%#ucase(SUBFAMILY)#%'
+				and upper(SUBFAMILY) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SUBFAMILY)#%">
 			</cfif>
 			<cfif isdefined("GENUS") and len(#GENUS#) gt 0>
-				and upper(GENUS) like '%#ucase(GENUS)#%'
+				and upper(GENUS) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(GENUS)#%">
 			</cfif>
 			<cfif isdefined("SPECIES") and len(#SPECIES#) gt 0>
-				and upper(SPECIES) like '%#ucase(SPECIES)#%'
+				and upper(SPECIES) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SPECIES)#%">
 			</cfif>
 			<cfif isdefined("SUBGENUS") and len(#SUBGENUS#) gt 0>
-				and upper(SUBGENUS) like '%#ucase(SUBGENUS)#%'
+				and upper(SUBGENUS) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SUBGENUS)#%">
 			</cfif>
 			<cfif isdefined("SUBSPECIES") and len(#SUBSPECIES#) gt 0>
-				and upper(SUBSPECIES) like '%#ucase(SUBSPECIES)#%'
+				and upper(SUBSPECIES) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SUBSPECIES)#%">
 			</cfif>
 			<cfif isdefined("SOURCE_AUTHORITY") and len(#SOURCE_AUTHORITY#) gt 0>
-				and upper(SOURCE_AUTHORITY) like '%#ucase(SOURCE_AUTHORITY)#%'
+				and upper(SOURCE_AUTHORITY) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(SOURCE_AUTHORITY)#%">
 			</cfif>
 			<cfif isdefined("AUTHOR_TEXT") and len(#AUTHOR_TEXT#) gt 0>
-				and upper(AUTHOR_TEXT) like '%#ucase(AUTHOR_TEXT)#%'
+				and upper(AUTHOR_TEXT) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(AUTHOR_TEXT)#%">
 			</cfif>
 			<cfif isdefined("INFRASPECIFIC_RANK") and len(#INFRASPECIFIC_RANK#) gt 0>
-				and upper(INFRASPECIFIC_RANK) like '%#ucase(INFRASPECIFIC_RANK)#%'
+				and upper(INFRASPECIFIC_RANK) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(INFRASPECIFIC_RANK)#%">
 			</cfif>
 			<cfif isdefined("PHYLUM") and len(#PHYLUM#) gt 0>
-				and upper(PHYLUM) like '%#ucase(PHYLUM)#%'
+				and upper(PHYLUM) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(PHYLUM)#%">
 			</cfif>
 			<cfif isdefined("TRIBE") and len(#TRIBE#) gt 0>
-				and upper(TRIBE) like '%#ucase(TRIBE)#%'
+				and upper(TRIBE) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(TRIBE)#%">
 			</cfif>
 			<cfif isdefined("VALID_CATALOG_TERM_FG") and len(#VALID_CATALOG_TERM_FG#) gt 0>
-				and VALID_CATALOG_TERM_FG = #VALID_CATALOG_TERM_FG#
+				and VALID_CATALOG_TERM_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#VALID_CATALOG_TERM_FG#">
 			</cfif>
 			<cfif isdefined("FULL_TAXON_NAME") and len(#FULL_TAXON_NAME#) gt 0>
-				and upper(FULL_TAXON_NAME) like '%#ucase(FULL_TAXON_NAME)#%'
+				and upper(FULL_TAXON_NAME) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(FULL_TAXON_NAME)#%">
 			</cfif>
 			<cfif isdefined("nomenclatural_code") and len(#nomenclatural_code#) gt 0>
-				and upper(nomenclatural_code) like '%#ucase(nomenclatural_code)#%'
+				and upper(nomenclatural_code) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(nomenclatural_code)#%">
 			</cfif>
 			
 		</cfquery>

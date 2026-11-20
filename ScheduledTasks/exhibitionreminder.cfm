@@ -106,7 +106,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact', 'additional in-house contact') and
 					address is not null
 				group by
@@ -120,7 +120,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact') and
 					address is not null
 				group by
@@ -134,7 +134,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('additional outside contact', 'for use by', 'received by') and
 					address is not null
 				group by
@@ -148,7 +148,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					collection_email is not null
 				group by
 					collection_agent_name,
@@ -163,7 +163,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'received by'
 				group by
 					agent_id,
@@ -179,7 +179,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'for use by'
 				group by
 					last_name,
@@ -192,7 +192,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'recipient institution'
 				group by
 					agent_name
@@ -416,7 +416,7 @@
 			<!---cfif specialmail EQ "">
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'E', '#toaddresses#')
+						values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#receivedBy.agent_id#">, SYSDATE, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">, 'E', <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toaddresses#">)
 					</cfquery>
 			</cfif--->
 		</cfloop>

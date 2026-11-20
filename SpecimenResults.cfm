@@ -169,11 +169,14 @@ function removeHelpDiv() {
 	</cfif>
 </cfloop>
 <cfset basSelect = " SELECT distinct flatTableName.collection_object_id">
+<!--- this page builds its query as text; the type is one from ctcoll_other_id_type (checked when
+	set), with any apostrophe doubled for the string --->
+<cfset variables.customIdSql = replace(session.CustomOtherIdentifier, "'", "''", "all")>
 <cfif len(session.CustomOtherIdentifier) gt 0>
 	<cfset basSelect = "#basSelect#
-		,concatSingleOtherId(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-		'#session.CustomOtherIdentifier#' as myCustomIdType,
-		to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
+		,concatSingleOtherId(flatTableName.collection_object_id,'#variables.customIdSql#') AS CustomID,
+		'#variables.customIdSql#' as myCustomIdType,
+		to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#variables.customIdSql#')) AS CustomIDInt">
 </cfif>
 <cfloop query="r_d">
 	<cfif left(column_name,1) is not "_" and (
@@ -569,11 +572,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<!--- 
 					<option value="/specimens/changeQueryIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
-					</option>
-					--->
-					<!--- 
-					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
-						Parts (Report) [Warning: No Tabs]
 					</option>
 					--->
 					<!--- 

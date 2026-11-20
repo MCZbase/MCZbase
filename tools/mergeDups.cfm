@@ -11,7 +11,7 @@
 			cataloged_item.collection_object_id,
 			collection,
 			cat_num,
-			concatSingleOtherId(cataloged_item.collection_object_id,'#session.customotheridentifier#') AS CustomID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customotheridentifier#">) AS CustomID,
 			concatencumbrances(cataloged_item.collection_object_id) encumbrances,
 			scientific_name,
 			RELATED_COLL_OBJECT_ID,
@@ -58,7 +58,7 @@
 					cataloged_item.collection_object_id,
 					collection,
 					cat_num,
-					concatSingleOtherId(cataloged_item.collection_object_id,'#session.customOtherIdentifier#') AS CustomID,
+					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customOtherIdentifier#">) AS CustomID,
 					concatencumbrances(cataloged_item.collection_object_id) encumbrances,
 					scientific_name,
 					flags,
@@ -82,7 +82,7 @@
 			coll_obj_cont_hist.container_id=c.container_id (+) and
 			c.parent_container_id=p1.container_id (+) and
 			p1.parent_container_id=p2.container_id (+) and
-					cataloged_item.collection_object_id = #RELATED_COLL_OBJECT_ID#
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RELATED_COLL_OBJECT_ID#">
 			</cfquery>
 			<tr>
 				<td>
@@ -125,42 +125,65 @@
 <cfif #action# is "merge">
 	<cfoutput>
 	<cfset problems = "">
-		<cfset sql = "
-			select
-				cataloged_item.collection_object_id,
-				collection,
-				cat_num,
-				concatSingleOtherId(cataloged_item.collection_object_id,'#session.customOtherIdentifier#') AS CustomID,
-				concatencumbrances(cataloged_item.collection_object_id) encumbrances,
-				scientific_name,
-				accepted_id_fg,
-				nature_of_id,
-				verbatim_date,
-				spec_locality,
-				higher_geog,
-				concatcoll(cataloged_item.collection_object_id) collectors,
-				concatparts(cataloged_item.collection_object_id) parts
-			FROM
-				collection,
-				cataloged_item,
-				identification,
-				collecting_event,
-				locality,
-				geog_auth_rec
-			where
-				cataloged_item.collection_id = collection.collection_id and
-				cataloged_item.collection_object_id = identification.collection_object_id and
-				cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
-				collecting_event.locality_id = locality.locality_id and
-				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-		">
 		<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			 #preservesinglequotes(sql)# and
-				cataloged_item.collection_object_id = #id1#
+			select
+					cataloged_item.collection_object_id,
+					collection,
+					cat_num,
+					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customOtherIdentifier#">) AS CustomID,
+					concatencumbrances(cataloged_item.collection_object_id) encumbrances,
+					scientific_name,
+					accepted_id_fg,
+					nature_of_id,
+					verbatim_date,
+					spec_locality,
+					higher_geog,
+					concatcoll(cataloged_item.collection_object_id) collectors,
+					concatparts(cataloged_item.collection_object_id) parts
+				FROM
+					collection,
+					cataloged_item,
+					identification,
+					collecting_event,
+					locality,
+					geog_auth_rec
+				where
+					cataloged_item.collection_id = collection.collection_id and
+					cataloged_item.collection_object_id = identification.collection_object_id and
+					cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
+					collecting_event.locality_id = locality.locality_id and
+					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id1#">
 		</cfquery>
 		<cfquery name="two" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			#preservesinglequotes(sql)# and
-				cataloged_item.collection_object_id = #id2#
+			select
+					cataloged_item.collection_object_id,
+					collection,
+					cat_num,
+					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customOtherIdentifier#">) AS CustomID,
+					concatencumbrances(cataloged_item.collection_object_id) encumbrances,
+					scientific_name,
+					accepted_id_fg,
+					nature_of_id,
+					verbatim_date,
+					spec_locality,
+					higher_geog,
+					concatcoll(cataloged_item.collection_object_id) collectors,
+					concatparts(cataloged_item.collection_object_id) parts
+				FROM
+					collection,
+					cataloged_item,
+					identification,
+					collecting_event,
+					locality,
+					geog_auth_rec
+				where
+					cataloged_item.collection_id = collection.collection_id and
+					cataloged_item.collection_object_id = identification.collection_object_id and
+					cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
+					collecting_event.locality_id = locality.locality_id and
+					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id and
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id2#">
 		</cfquery>
 		<cfdump var="#one#" label="one">
 		<cfdump var="#two#" label="two">
@@ -213,7 +236,7 @@
 					specimen_part.collection_object_id= coll_object.collection_object_id and
 					specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id and
 					coll_obj_cont_hist.container_id = container.container_id and
-					specimen_part.derived_from_cat_item = #good.collection_object_id#
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#good.collection_object_id#">
 			</cfquery>
 			<cfif #part.parent_container_id# neq 0>
 				<cfset problems = "#problems#;good container has a location">
@@ -225,7 +248,7 @@
 		<cfquery name="goodID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select * from identification,identification_taxonomy where
 			identification.identification_id = identification_taxonomy.identification_id and
-			collection_object_id = #bad.collection_object_id#
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bad.collection_object_id#">
 		</cfquery>
 		<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select max(identification_id) + 1 id from identification
@@ -244,14 +267,14 @@
 				TAXA_FORMULA ,
 				SCIENTIFIC_NAME)
 			values (
-				#idid#,
-				#good.collection_object_id#,
-				'#dateformat(MADE_DATE,"dd-mmm-yyyy")#',
-				'#NATURE_OF_ID#',
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idid#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#good.collection_object_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(MADE_DATE,"dd-mmm-yyyy")#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_ID#">,
 				0,
-				'#IDENTIFICATION_REMARKS#',
-				'#TAXA_FORMULA#',
-				'#SCIENTIFIC_NAME#')
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#IDENTIFICATION_REMARKS#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXA_FORMULA#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SCIENTIFIC_NAME#">)
 			</cfquery>
 				<br>insert ID taxonomy
 			<cfquery name="newInsIdTax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -260,12 +283,12 @@
 					TAXON_NAME_ID,
 					VARIABLE)
 				values (
-					#idid#,
-					#TAXON_NAME_ID#,
-					'#VARIABLE#')
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idid#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VARIABLE#">)
 			</cfquery>
 			<cfquery name="IDAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select * from identification_agent where IDENTIFICATION_ID = #IDENTIFICATION_ID#
+				select * from identification_agent where IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#IDENTIFICATION_ID#">
 			</cfquery>
 			<cfloop query="IDAgnt">
 			<br>insert ID agent(s)
@@ -275,9 +298,9 @@
 					AGENT_ID,
 					IDENTIFIER_ORDER)
 				values (
-					#idid#,
-					#agent_id#,
-					#identifier_order#)
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idid#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identifier_order#">)
 				</cfquery>
 			</cfloop>
 			<cfset idid = idid + 1>
@@ -294,18 +317,18 @@
 				specimen_part.collection_object_id= coll_object.collection_object_id and
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id and
 				coll_obj_cont_hist.container_id = container.container_id and
-				specimen_part.derived_from_cat_item = #bad.collection_object_id#
+				specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bad.collection_object_id#">
 		</cfquery>
 		<br>Bring container position over
 		<cfquery name="upcont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			update container set parent_container_id = #badpart.parent_container_id#
-			where container_id = #part.container_id#
+			update container set parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#badpart.parent_container_id#">
+			where container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part.container_id#">
 		</cfquery>
 
 		<br>Encumber the bad record
 		<cfquery name="mkenc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			insert into  COLL_OBJECT_ENCUMBRANCE (ENCUMBRANCE_ID,COLLECTION_OBJECT_ID)
-			values (1000025,#bad.collection_object_id#)
+			values (1000025,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bad.collection_object_id#">)
 		</cfquery>
 		It's done:
 		</cftransaction>
@@ -318,7 +341,7 @@
 				<cfset thisOneToFlag = id1>
 			</cfif>
 			<cfquery name="flag" datasource="#Application.uam_dbo#">
-				update coll_object set flags='duplicate' where collection_object_id = #thisOneToFlag#
+				update coll_object set flags='duplicate' where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisOneToFlag#">
 			</cfquery>
 			<br>There are problems with these records. One has been flagged ("Missing") as "duplicate".
 			<br>#problems#

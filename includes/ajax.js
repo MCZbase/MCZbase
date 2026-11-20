@@ -853,14 +853,6 @@ function taxaPickOptional(taxonIdFld,taxonNameFld,formName,scientificName){
 	var popurl=url+"?keepValue=1&taxonIdFld="+taxonIdFld+"&taxonNameFld="+taxonNameFld+"&formName="+formName+"&scientific_name="+scientificName;
 	taxapick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
 }
-function findAgentName(agentIdFld,agentNameFld,agentNameString){
-	var url="/picks/findAgentName.cfm";
-	var agentIdFld;
-	var agentNameFld;
-	var agentNameString;
-	var popurl=url+"?agentIdFld="+agentIdFld+"&agentNameFld="+agentNameFld+"&agentName="+agentNameString;
-	agentpick=window.open(popurl,"","width=400,height=338, resizable,scrollbars");
-}
 function addrPick(addrIdFld,addrFld,formName){
 	var url="/picks/AddrPick.cfm";
 	var addrIdFld;
@@ -877,13 +869,6 @@ function LocalityPick(localityIdFld,speclocFld,formName,fireEvent){
 	var fireEvent;
 	var popurl=url+"?localityIdFld="+localityIdFld+"&speclocFld="+speclocFld+"&formName="+formName+"&fireEvent="+fireEvent;
 	localitypick=window.open(popurl,"","width=800,height=600,resizable,scrollbars,");
-}
-function deleteEncumbrance(encumbranceId,collectionObjectId){
-	var url="/picks/DeleteEncumbrance.cfm";
-	var encumbranceId;
-	var collectionObjectId;
-	var popurl=url+"?encumbrance_id="+encumbranceId+"&collection_object_id="+collectionObjectId;
-	deleteEncumbrance=window.open(popurl,"","width=400,height=338, toolbar,location,status,menubar,resizable,scrollbars,");
 }
 function getAllSheets() {
 	if( !window.ScriptEngine && navigator.__ice_version ) {

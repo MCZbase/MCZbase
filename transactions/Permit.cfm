@@ -1705,17 +1705,17 @@ limitations under the License.
 						,contact_agent_id
 					</cfif>)
 				VALUES (
-					#nextPermit.nextPermit#
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">
 					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
 					<cfif len(#ISSUED_DATE#) gt 0>
-						,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(ISSUED_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_to_agent_id#">
 					<cfif len(#RENEWED_DATE#) gt 0>
-						,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(RENEWED_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					<cfif len(#EXP_DATE#) gt 0>
-						,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(EXP_DATE,'yyyy-mm-dd')#">
 					</cfif>
 					<cfif len(#PERMIT_NUM#) gt 0>
 						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
@@ -1802,7 +1802,7 @@ limitations under the License.
 							<div class="col-12">
 								<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display/Download Detailed Report</button>
 								<a class="btn btn-xs btn-secondary ml-2" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
-								<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
+								<a class="btn btn-xs btn-info ml-2" href="/Reports/permit.cfm?permit_id=#encodeForUrl(permit_id)#">Permit Use Report PDF</a>
 							</div>
 						</div>
 					</cfloop>

@@ -106,7 +106,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('received by') and
 					address is not null
 				group by
@@ -120,7 +120,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact') and
 					address is not null
 				group by
@@ -134,7 +134,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role in ('in-house contact', 'for use by', 'additional in-house contact') and
 					address is not null
 				group by
@@ -148,7 +148,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					collection_email is not null
 				group by
 					collection_agent_name,
@@ -163,7 +163,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'received by'
 				group by
 					agent_id,
@@ -179,7 +179,7 @@
 				from
 					expLoan
 				where
-					transaction_id=#transaction_id# and
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
 					trans_agent_role = 'for use by'
 				group by
 					last_name,
@@ -291,18 +291,18 @@
 				WHERE
 					permit.CONTACT_AGENT_ID = electronic_address.agent_id AND
 					ADDRESS_TYPE='email' AND
-					round(EXP_DATE - sysdate) = #inDays#
+					round(EXP_DATE - sysdate) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inDays#">
 			</cfquery>
 			<cfquery name="expYearID" dbtype="query">
 				select CONTACT_AGENT_ID from permitExpOneYear group by CONTACT_AGENT_ID
 			</cfquery>
 			<cfloop query="permitExpOneYear">
 				<cfquery name="permitExpOneYearnames" dbtype="query">
-					select ADDRESS from permitExpOneYear where CONTACT_AGENT_ID=#permitExpOneYear.CONTACT_AGENT_ID#
+					select ADDRESS from permitExpOneYear where CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permitExpOneYear.CONTACT_AGENT_ID#">
 					group by ADDRESS
 				</cfquery>
 				<cfquery name="permitExpOneYearIndiv" dbtype="query">
-					select * from permitExpOneYear where CONTACT_AGENT_ID=#CONTACT_AGENT_ID# order by expires_in_days
+					select * from permitExpOneYear where CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#"> order by expires_in_days
 				</cfquery>
 				<cf_reminderMail to="#permitExpOneYearnames.ADDRESS#" subject="Expiring Permits" from="reminder@#Application.fromEmail#" type="html">
 					You are receiving this message because you are the contact person for the permits listed below, which are expiring.

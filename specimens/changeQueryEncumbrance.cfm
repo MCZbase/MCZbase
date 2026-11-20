@@ -175,7 +175,7 @@
 		 SELECT distinct
 			cataloged_item.collection_object_id as collection_object_id, 
 			cat_num, 
-			concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
   			MCZBASE.GET_SCIENTIFIC_NAME_AUTHS (cataloged_item.collection_object_id) scientific_name, 
 			country, 
 			state_prov, 

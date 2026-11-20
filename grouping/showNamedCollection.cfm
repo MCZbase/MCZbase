@@ -116,232 +116,8 @@ limitations under the License.
 			<!--- mask_fg = 1 = Hidden --->
 			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif>
-		<!---for specimen record grid--->
-		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimens_result" timeout="#Application.query_timeout#">
-			SELECT * FROM (
-				SELECT DISTINCT flat.guid, flat.scientific_name
-				FROM
-					underscore_relation 
-					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-						on underscore_relation.collection_object_id = flat.collection_object_id
-				WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-					and flat.guid is not null
-				ORDER BY flat.guid asc
-				) 
-		</cfquery>
-		<cfset otherimagetypes = 0>
-		<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
-			SELECT distinct media.media_id, 
-				media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media.media_type,
-				media.mime_type,
-				2 as topsort
-			FROM
-				underscore_collection
-				join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key 
-				join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND media_relations.media_relationship like '% underscore_collection'
-		</cfquery>
-		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
-			<cfif len(displayed_media_id) GT 0>
-			SELECT distinct media.media_id, 
-				media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media.media_type,
-				media.mime_type,
-				1 as topsort
-			FROM media
-			WHERE
-				media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
-			UNION
-			</cfif>
-			SELECT distinct media.media_id, 
-				media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media.media_type,
-				media.mime_type,
-				2 as topsort
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join media_relations
-					on media_relations.related_primary_key = underscore_relation.collection_object_id
-				left join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND media_relations.media_relationship = 'shows cataloged_item'
-				AND flat.guid is not null
-			<cfif len(displayed_media_id) GT 0>
-				AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
-			</cfif>
-		</cfquery>
-		<cfquery name="specimenImagesForCarousel" dbtype="query">
-			SELECT * 
-			FROM specimenMedia_raw 
-			WHERE encumb < 1
-				AND media_type = 'image'
-				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-			ORDER BY topsort asc, media_id
-		</cfquery>
-		<cfquery name="specimenNonImageMedia" dbtype="query">
-			SELECT * 
-			FROM specimenMedia_raw 
-			WHERE encumb < 1
-				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-			ORDER BY media_id
-		</cfquery>
-		<cfquery name="directMedia" dbtype="query">
-			SELECT * 
-			FROM directMedia_raw 
-			WHERE encumb < 1
-			ORDER BY media_id
-		</cfquery>
-		<cfif specimenImagesForCarousel.recordcount GT 0>
-			<cfset otherImageTypes = 0>
-		</cfif>
-		<script>
-			var specimenImageSetMetadata = JSON.parse('[]');
-			var currentSpecimenImage = 1;
-		</script>
-		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-			SELECT DISTINCT media.media_id, media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media_type, mime_type, auto_host
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-				left join media_relations on collector.agent_id = media_relations.related_primary_key
-				left join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND collector.collector_role = 'c'
-				AND media_relations.media_relationship = 'shows agent'
-				AND flat.guid IS NOT NULL
-		</cfquery>
-		<cfquery name="agentImagesForCarousel" dbtype="query">
-			SELECT * 
-			FROM agentImagesForCarousel_raw 
-			WHERE encumb < 1
-				AND media_type = 'image'
-				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-				AND auto_host = 'mczbase.mcz.harvard.edu'
-		</cfquery>
-		<cfquery name="agentNonImageMedia" dbtype="query">
-			SELECT * 
-			FROM agentImagesForCarousel_raw 
-			WHERE encumb < 1
-				AND (
-					media_type <> 'image' 
-					OR NOT (mime_type =  'image/jpeg' OR mime_type = 'image/png')
-					OR auto_host <> 'mczbase.mcz.harvard.edu'
-				)
-		</cfquery>
-		<cfset imageSetMetadata = "[]">
-		<cfif agentImagesForCarousel.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-			<cfset imageSetMetadata = "[">
-			<cfset comma = "">
-			<cfloop query="agentImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
-				<cfset comma = ",">
-			</cfloop>
-			<cfset imageSetMetadata = "#imageSetMetadata#]">
-		</cfif>
-		<script>
-			var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
-			var currentAgentImage = 1;
-		</script>
-		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectingImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-			SELECT DISTINCT media_uri, media.media_id,
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media_type, mime_type, auto_host
-			FROM
-				underscore_collection
-				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				join media_relations 
-					on flat.collecting_event_id = media_relations.related_primary_key 
-				join media on media_relations.media_id = media.media_id 
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND media_relations.media_relationship = 'shows collecting_event'
-			UNION
-			SELECT DISTINCT media_uri, media.media_id,
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-				media_type, mime_type, auto_host
-			FROM
-				underscore_collection
-				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				join media_relations 
-					on flat.locality_id = media_relations.related_primary_key 
-				join media on media_relations.media_id = media.media_id 
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND media_relations.media_relationship = 'shows locality'
-		</cfquery>
-		<cfquery name="collectingImagesForCarousel" dbtype="query">
-			SELECT * 
-			FROM collectingImagesForCarousel_raw 
-			WHERE encumb < 1
-				AND media_type = 'image'
-				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-				AND auto_host = 'mczbase.mcz.harvard.edu'
-		</cfquery>
-		<cfquery name="collectingNonImageMedia" dbtype="query">
-			SELECT * 
-			FROM collectingImagesForCarousel_raw 
-			WHERE encumb < 1
-				AND (
-					media_type <> 'image'
-					OR NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-					OR auto_host <> 'mczbase.mcz.harvard.edu'
-				)
-		</cfquery>
-		<cfset imageSetMetadata = "[]">
-		<cfif collectingImagesForCarousel.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-			<cfset imageSetMetadata = "[">
-			<cfset comma = "">
-			<cfloop query="collectingImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
-				<cfset comma = ",">
-			</cfloop>
-			<cfset imageSetMetadata = "#imageSetMetadata#]">
-		</cfif>
-		<script>
-			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
-			var currentCollectingImage = 1;
-		</script>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
-            SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
-            FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-                join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-                join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-            WHERE 
-                underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-                and flat.guid IS NOT NULL
-                and flat.dec_lat is not null
-                and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
-            GROUP BY 
-                flat.locality_id,
-                flat.dec_lat,
-                flat.dec_long
-		</cfquery>
-
+		<!--- Send the header so styles and scripts load while the queries run; this must follow the forbidden redirect above, which cannot come after a flush. --->
+		<cfflush>
 		<main class="py-3" id="content">
 			<div class="row mx-0">
 				<article class="col-12">
@@ -375,6 +151,238 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
+					<!--- Send the heading and description before running the slower queries below. --->
+					<cfflush>
+					<!---for specimen record grid--->
+					<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimens_result" timeout="#Application.query_timeout#">
+						SELECT * FROM (
+							SELECT DISTINCT flat.guid, flat.scientific_name
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.guid is not null
+							ORDER BY flat.guid asc
+							) 
+					</cfquery>
+					<cfset otherimagetypes = 0>
+					<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" timeout="#Application.query_timeout#" >
+						SELECT distinct media.media_id, 
+							media.media_uri, 
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media.media_type,
+							media.mime_type,
+							2 as topsort
+						FROM
+							underscore_collection
+							join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key 
+							join media on media_relations.media_id = media.media_id
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND media_relations.media_relationship like '% underscore_collection'
+					</cfquery>
+					<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+						<cfif len(displayed_media_id) GT 0>
+						SELECT distinct media.media_id, 
+							media.media_uri, 
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media.media_type,
+							media.mime_type,
+							1 as topsort
+						FROM media
+						WHERE
+							media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+						UNION
+						</cfif>
+						SELECT distinct media.media_id, 
+							media.media_uri, 
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media.media_type,
+							media.mime_type,
+							2 as topsort
+						FROM
+							underscore_collection
+							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								on underscore_relation.collection_object_id = flat.collection_object_id
+							left join media_relations
+								on media_relations.related_primary_key = underscore_relation.collection_object_id
+							left join media on media_relations.media_id = media.media_id
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND media_relations.media_relationship = 'shows cataloged_item'
+							AND flat.guid is not null
+						<cfif len(displayed_media_id) GT 0>
+							AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+						</cfif>
+					</cfquery>
+					<cfquery name="specimenImagesForCarousel" dbtype="query">
+						SELECT * 
+						FROM specimenMedia_raw 
+						WHERE encumb < 1
+							AND media_type = 'image'
+							AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+						ORDER BY topsort asc, media_id
+					</cfquery>
+					<cfquery name="specimenNonImageMedia" dbtype="query">
+						SELECT * 
+						FROM specimenMedia_raw 
+						WHERE encumb < 1
+							AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+						ORDER BY media_id
+					</cfquery>
+					<cfquery name="directMedia" dbtype="query">
+						SELECT * 
+						FROM directMedia_raw 
+						WHERE encumb < 1
+						ORDER BY media_id
+					</cfquery>
+					<cfif specimenImagesForCarousel.recordcount GT 0>
+						<cfset otherImageTypes = 0>
+					</cfif>
+					<script>
+						var specimenImageSetMetadata = JSON.parse('[]');
+						var currentSpecimenImage = 1;
+					</script>
+					<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+						<!--- media functions in the outer select run once per media record, not once per specimen-collector row --->
+						SELECT media.media_id, media.media_uri,
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media.media_type, media.mime_type, media.auto_host
+						FROM media
+						WHERE media.media_id IN (
+							SELECT media_relations.media_id
+							FROM
+								underscore_relation
+								join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on underscore_relation.collection_object_id = flat.collection_object_id
+								join collector on underscore_relation.collection_object_id = collector.collection_object_id
+								join media_relations on collector.agent_id = media_relations.related_primary_key
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								AND collector.collector_role = 'c'
+								AND media_relations.media_relationship = 'shows agent'
+								AND flat.guid IS NOT NULL
+						)
+					</cfquery>
+					<cfquery name="agentImagesForCarousel" dbtype="query">
+						SELECT * 
+						FROM agentImagesForCarousel_raw 
+						WHERE encumb < 1
+							AND media_type = 'image'
+							AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+							AND auto_host = 'mczbase.mcz.harvard.edu'
+					</cfquery>
+					<cfquery name="agentNonImageMedia" dbtype="query">
+						SELECT * 
+						FROM agentImagesForCarousel_raw 
+						WHERE encumb < 1
+							AND (
+								media_type <> 'image' 
+								OR NOT (mime_type =  'image/jpeg' OR mime_type = 'image/png')
+								OR auto_host <> 'mczbase.mcz.harvard.edu'
+							)
+					</cfquery>
+					<cfset imageSetMetadata = "[]">
+					<cfif agentImagesForCarousel.recordcount GT 0>
+						<cfset otherImageTypes = otherImageTypes + 1>
+						<cfset imageSetMetadata = "[">
+						<cfset comma = "">
+						<cfloop query="agentImagesForCarousel">
+							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+							<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
+							<cfset comma = ",">
+						</cfloop>
+						<cfset imageSetMetadata = "#imageSetMetadata#]">
+					</cfif>
+					<script>
+						var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
+						var currentAgentImage = 1;
+					</script>
+					<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectingImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+						SELECT DISTINCT media_uri, media.media_id,
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media_type, mime_type, auto_host
+						FROM
+							underscore_collection
+							join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								on underscore_relation.collection_object_id = flat.collection_object_id
+							join media_relations 
+								on flat.collecting_event_id = media_relations.related_primary_key 
+							join media on media_relations.media_id = media.media_id 
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND media_relations.media_relationship = 'shows collecting_event'
+						UNION
+						SELECT DISTINCT media_uri, media.media_id,
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+							media_type, mime_type, auto_host
+						FROM
+							underscore_collection
+							join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								on underscore_relation.collection_object_id = flat.collection_object_id
+							join media_relations 
+								on flat.locality_id = media_relations.related_primary_key 
+							join media on media_relations.media_id = media.media_id 
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND media_relations.media_relationship = 'shows locality'
+					</cfquery>
+					<cfquery name="collectingImagesForCarousel" dbtype="query">
+						SELECT * 
+						FROM collectingImagesForCarousel_raw 
+						WHERE encumb < 1
+							AND media_type = 'image'
+							AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+							AND auto_host = 'mczbase.mcz.harvard.edu'
+					</cfquery>
+					<cfquery name="collectingNonImageMedia" dbtype="query">
+						SELECT * 
+						FROM collectingImagesForCarousel_raw 
+						WHERE encumb < 1
+							AND (
+								media_type <> 'image'
+								OR NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+								OR auto_host <> 'mczbase.mcz.harvard.edu'
+							)
+					</cfquery>
+					<cfset imageSetMetadata = "[]">
+					<cfif collectingImagesForCarousel.recordcount GT 0>
+						<cfset otherImageTypes = otherImageTypes + 1>
+						<cfset imageSetMetadata = "[">
+						<cfset comma = "">
+						<cfloop query="collectingImagesForCarousel">
+							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+							<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
+							<cfset comma = ",">
+						</cfloop>
+						<cfset imageSetMetadata = "#imageSetMetadata#]">
+					</cfif>
+					<script>
+						var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
+						var currentCollectingImage = 1;
+					</script>
+					<!--- bounds and count of the georeferenced records the map shows; the map's points are loaded by ajax from getNamedGroupHeatmapPoints --->
+					<cfquery name="mapBounds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="mapBounds_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+						SELECT
+							count(*) as georeferenced_count,
+							min(flat.dec_lat) as minlat, min(flat.dec_long) as minlong,
+							max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
+						FROM
+							underscore_relation
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+								on underscore_relation.collection_object_id = flat.collection_object_id
+						WHERE
+							underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND flat.guid IS NOT NULL
+							AND flat.dec_lat IS NOT NULL
+							AND flat.dec_lat BETWEEN -90 AND 90
+							AND flat.dec_long BETWEEN -180 AND 180
+					</cfquery>
 					<section class="spec-table row mx-0">
 						<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
 						<script type="text/javascript">
@@ -488,7 +496,7 @@ limitations under the License.
 					</section>
 					<div class="row mx-0">
 
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR mapBounds.georeferenced_count GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
@@ -579,43 +587,48 @@ limitations under the License.
                                                 
                                                 
 								<!---  occurrence map --->
-								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
-									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
-									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
-									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									join underscore_relation u on u.collection_object_id = flat.collection_object_id
-									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								</cfquery>
 
-                                <cfif points.recordcount gt 0>
-                                  <section class="heatmap mt-2 w-100">
-                                    <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
-                                    <script>
-                                      window.MCZ_BOUNDS = {
-                                        minlat: #points2.minlat#,
-                                        minlong: #points2.minlong#,
-                                        maxlat: #points2.maxlat#,
-                                        maxlong: #points2.maxlong#
-                                      };
-
-                                      window.MCZ_HEATMAP_DATA = [
-                                        <cfloop query="points">
-                                          {
-                                            latitude: #points.Latitude#,
-                                            longitude: #points.Longitude#,
-                                            weight: #points.record_count#
-                                          }<cfif currentrow LT recordcount>,</cfif>
-                                        </cfloop>
-                                      ];
-
-                                      window.onload = function () {
-                                        if (typeof initMap === 'function') {
-                                          initMap();
-                                        } else {
-                                          console.error("window.onload: initMap is not defined");
-                                        }
-                                      };
-                                    </script>
+								<cfif mapBounds.georeferenced_count GT 0>
+									<section class="heatmap mt-2 w-100">
+										<!--- MCZ_BOUNDS and MCZ_HEATMAP_DATA are read by initMap() in /shared/js/mcz-heatmap-distMap.js --->
+										<script>
+											window.MCZ_BOUNDS = {
+												minlat: #mapBounds.minlat#,
+												minlong: #mapBounds.minlong#,
+												maxlat: #mapBounds.maxlat#,
+												maxlong: #mapBounds.maxlong#
+											};
+											/** Fetch the group's georeferenced localities, then draw the map with initMap() from mcz-heatmap-distMap.js.
+											 * @param underscore_collection_id the named group whose localities to map.
+											 * @param mapDivId the id of the map element, which shows a loading indicator until the map is drawn.
+											 */
+											function loadNamedGroupHeatmap(underscore_collection_id, mapDivId) {
+												$.ajax({
+													url: "/grouping/component/search.cfc",
+													data: {
+														method: "getNamedGroupHeatmapPoints",
+														underscore_collection_id: underscore_collection_id,
+														returnformat: "json"
+													},
+													dataType: "json",
+													success: function (result) {
+														window.MCZ_HEATMAP_DATA = result;
+														if (typeof initMap === 'function') {
+															initMap();
+														} else {
+															console.error("loadNamedGroupHeatmap: initMap is not defined");
+														}
+													},
+													error: function (jqXHR, textStatus, error) {
+														$("##" + mapDivId).html("Unable to load the map.");
+														handleFail(jqXHR, textStatus, error, "loading map localities for named group");
+													}
+												});
+											}
+											window.onload = function () {
+												loadNamedGroupHeatmap("#encodeForJavaScript(getNamedGroup.underscore_collection_id)#", "map");
+											};
+										</script>
 
                                     <div class="col-12 px-0">
                                       <div class="border float-left col-12 rounded px-2 pb-1">
@@ -628,6 +641,7 @@ limitations under the License.
                                              class="w-100 rounded"
                                              style="height: 600px;"
                                              aria-label="Map of georeferenced specimen locations">
+                                          <div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading map...</div>
                                         </div>
                                         <!-- Controls: use the same IDs the shared JS expects -->
                                         <div id="floating-panel" class="w-100 mx-auto pt-1">
@@ -869,48 +883,54 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
+									<!--- one pass over the group's flat rows, cached, from which the taxa, type, ocean, geography and island lists are taken --->
+									<cfquery name="summaryTerms_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="summaryTerms_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+										SELECT DISTINCT
+											flat.phylclass, flat.phylorder, flat.family,
+											flat.toptypestatus,
+											CASE
+												WHEN flat.toptypestatus IN ('Holotype','Lectotype','Neotype') THEN 1
+												WHEN flat.toptypestatus IN ('Paratype','Syntype') THEN 2
+												ELSE 3
+											END as typesort,
+											flat.continent_ocean, flat.country, flat.state_prov, flat.island
 										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											underscore_relation
+											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.PHYLCLASS is not null
-										ORDER BY flat.phylclass asc
 									</cfquery>
-									<cfset taxonQuery_time = taxonQuery_result.ExecutionTime>
-									<cfset taxonQuery2_time = "not run">
-									<cfset taxonQuery3_time = "not run">
+									<cfset taxonRank = "phylclass">
+									<cfset taxonParent = "">
+									<cfquery name="taxonQuery" dbtype="query">
+										SELECT DISTINCT phylclass
+										FROM summaryTerms_raw
+										WHERE phylclass IS NOT NULL
+										ORDER BY phylclass
+									</cfquery>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to orders instead if very few classes --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
-												flat.phylclass, flat.phylorder
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.phylorder is not null
-											ORDER BY flat.phylclass asc, flat.phylorder asc
+										<cfset taxonRank = "phylorder">
+										<cfset taxonParent = "phylclass">
+										<cfquery name="taxonQuery" dbtype="query">
+											SELECT DISTINCT phylclass, phylorder
+											FROM summaryTerms_raw
+											WHERE phylclass IS NOT NULL
+												AND phylorder IS NOT NULL
+											ORDER BY phylclass, phylorder
 										</cfquery>
-										<cfset taxonQuery2_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="taxonQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
-												flat.phylorder, flat.family
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.family is not null
-											ORDER BY flat.phylorder asc, flat.family asc
+										<cfset taxonRank = "family">
+										<cfset taxonParent = "phylorder">
+										<cfquery name="taxonQuery" dbtype="query">
+											SELECT DISTINCT phylorder, family
+											FROM summaryTerms_raw
+											WHERE phylclass IS NOT NULL
+												AND family IS NOT NULL
+											ORDER BY phylorder, family
 										</cfquery>
-										<cfset taxonQuery3_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -929,8 +949,13 @@ limitations under the License.
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+																		<cfset taxonLink = taxonQuery[taxonRank][taxonQuery.currentRow]>
+																		<cfset taxonLabel = taxonLink>
+																		<cfif len(taxonParent) GT 0>
+																			<cfset taxonLabel = "#taxonQuery[taxonParent][taxonQuery.currentRow]#: #taxonLink#">
+																		</cfif>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left">
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonRank)#=#encodeForUrl(taxonLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(taxonLabel)#</a>
 																		</li>
 																	</cfloop>
 																</ul>
@@ -941,32 +966,25 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+														<cfset taxonLink = taxonQuery[taxonRank][taxonQuery.currentRow]>
+														<cfset taxonLabel = taxonLink>
+														<cfif len(taxonParent) GT 0>
+															<cfset taxonLabel = "#taxonQuery[taxonParent][taxonQuery.currentRow]#: #taxonLink#">
+														</cfif>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left">
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonRank)#=#encodeForUrl(taxonLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(taxonLabel)#</a>
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="types_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.TOPTYPESTATUS 
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.TOPTYPESTATUS is not null
-										ORDER BY
-											CASE
-												-- Primary types
-												WHEN flat.TOPTYPESTATUS IN ('Holotype','Lectotype','Neotype') THEN 1
-												-- Secondary types
-												WHEN flat.TOPTYPESTATUS IN ('Paratype','Syntype')            THEN 2
-												-- Everything else
-												ELSE 3
-											END,
-												flat.TOPTYPESTATUS
+									<!--- typesort, from summaryTerms_raw, puts primary types first, then secondary types, then everything else --->
+									<cfquery name="types" dbtype="query">
+										SELECT DISTINCT toptypestatus, typesort
+										FROM summaryTerms_raw
+										WHERE toptypestatus IS NOT NULL
+										ORDER BY typesort, toptypestatus
 									</cfquery>
 
 									<cfif types.recordcount GT 0>
@@ -1007,16 +1025,12 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="marine_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.continent_ocean as ocean
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.continent_ocean like '%Ocean%'
-											and flat.continent_ocean NOT like '%Oceania%'
-										ORDER BY flat.continent_ocean asc
+									<cfquery name="marine" dbtype="query">
+										SELECT DISTINCT continent_ocean
+										FROM summaryTerms_raw
+										WHERE continent_ocean LIKE '%Ocean%'
+											AND continent_ocean NOT LIKE '%Oceania%'
+										ORDER BY continent_ocean
 									</cfquery>
 									<cfif marine.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1036,7 +1050,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.continent_ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.continent_ocean#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1048,39 +1062,31 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.ocean#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&continent_ocean=%3D#encodeForUrl(marine.continent_ocean)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#marine.continent_ocean#</a> 
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.country is not null
-										ORDER BY flat.country asc
+									<cfset geogRank = "Country">
+									<cfset geogParent = "">
+									<cfquery name="geogQuery" dbtype="query">
+										SELECT DISTINCT country
+										FROM summaryTerms_raw
+										WHERE country IS NOT NULL
+										ORDER BY country
 									</cfquery>
-									<cfset geogQuery_time = geogQuery_result.ExecutionTime>
-									<cfset geogQuery2_time = "not run">
 									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
 										<!--- try expanding to state province instead if very few countries --->
-										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="geogQuery_result" timeout="#Application.query_timeout#">
-											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-												flat.country, flat.state_prov
-											FROM
-												underscore_relation 
-												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.state_prov is not null
-											ORDER BY flat.country asc, flat.state_prov asc
+										<cfset geogRank = "state_prov">
+										<cfset geogParent = "country">
+										<cfquery name="geogQuery" dbtype="query">
+											SELECT DISTINCT country, state_prov
+											FROM summaryTerms_raw
+											WHERE state_prov IS NOT NULL
+											ORDER BY country, state_prov
 										</cfquery>
-										<cfset geogQuery2_time = geogQuery_result.ExecutionTime>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1099,8 +1105,13 @@ limitations under the License.
 															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
+																		<cfset geogLink = geogQuery[geogRank][geogQuery.currentRow]>
+																		<cfset geogLabel = geogLink>
+																		<cfif len(geogParent) GT 0>
+																			<cfset geogLabel = "#geogQuery[geogParent][geogQuery.currentRow]#: #geogLink#">
+																		</cfif>
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogRank)#=#encodeForUrl(geogLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(geogLabel)#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1111,23 +1122,24 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
+														<cfset geogLink = geogQuery[geogRank][geogQuery.currentRow]>
+														<cfset geogLabel = geogLink>
+														<cfif len(geogParent) GT 0>
+															<cfset geogLabel = "#geogQuery[geogParent][geogQuery.currentRow]#: #geogLink#">
+														</cfif>
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogRank)#=#encodeForUrl(geogLink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#encodeForHtml(geogLabel)#</a> 
 														</li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="islandsQuery_result" timeout="#Application.query_timeout#">
-										SELECT DISTINCT flat.continent_ocean, flat.island as island
-										FROM
-											underscore_relation 
-											join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.island is not null
-										ORDER BY flat.continent_ocean, flat.island asc
+									<cfquery name="islandsQuery" dbtype="query">
+										SELECT DISTINCT continent_ocean, island
+										FROM summaryTerms_raw
+										WHERE island IS NOT NULL
+										ORDER BY continent_ocean, island
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1166,7 +1178,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" timeout="#Application.query_timeout#">
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_relation 
@@ -1351,24 +1363,22 @@ limitations under the License.
 											ORDER BY
 												type, MCZBASE.getshortcitation(publication_id)
 										</cfquery>
-										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" timeout="#Application.query_timeout#">
-											SELECT
-												distinct 
-												formatted_publication.formatted_publication, 
+										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+											SELECT DISTINCT
+												formatted_publication.formatted_publication,
 												formatted_publication.publication_id
 											FROM
-												underscore_collection
-												join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-												join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-												join citation on citation.collection_object_id = cataloged_item.collection_object_id
-												join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
-												join formatted_publication on formatted_publication.publication_id =citation.publication_id
+												underscore_relation
+												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+													on underscore_relation.collection_object_id = flat.collection_object_id
+												join citation on citation.collection_object_id = flat.collection_object_id
+												join formatted_publication on formatted_publication.publication_id = citation.publication_id
 											WHERE
-												format_style='long' and
-												underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
-												and formatted_publication not like '%Author not listed%'
+												underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												AND formatted_publication.format_style = 'long'
+												AND formatted_publication.formatted_publication NOT LIKE '%Author not listed%'
 											ORDER BY
-												formatted_publication
+												formatted_publication.formatted_publication
 										</cfquery>
 										<cfif citations.recordcount GT 0 OR directCitations.recordcount GT 0>
 											<cfset totalCitations = citations.recordcount + directCitations.recordcount>
@@ -1517,16 +1527,9 @@ limitations under the License.
 								<li>specimenMedia_raw=#specimenMedia_raw_result.ExecutionTime#</li>
 								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
-								<li>points=#points_result.ExecutionTime#</li>
-								<li>points2=#points2_result.ExecutionTime#</li>
+								<li>mapBounds=#mapBounds_result.ExecutionTime#</li>
 								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
-								<li>taxonQuery=#taxonQuery_time#</li>
-								<li>taxonQuery2=#taxonQuery2_time#</li>
-								<li>taxonQuery3=#taxonQuery3_time#</li>
-								<li>marine=#marine_result.ExecutionTime#</li>
-								<li>geogQuery=#geogQuery_time#</li>
-								<li>geogQuery2=#geogQuery2_time#</li>
-								<li>islands=#islandsQuery_result.ExecutionTime#</li>
+								<li>summaryTerms_raw=#summaryTerms_raw_result.ExecutionTime#</li>
 								<li>collectors=#collectors_result.ExecutionTime#</li>
 								<li>directCitations=#directCitations_result.ExecutionTime#</li>
 								<li>citations=#citations_result.ExecutionTime#</li>

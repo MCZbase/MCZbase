@@ -497,48 +497,6 @@ function loadAgentRankSummary(targetId,agentId) {
       }
    );
 }
-function pickThis (fld,idfld,display,aid) {
-	document.getElementById(fld).value=display;
-	document.getElementById(idfld).value=aid;
-	document.getElementById(fld).className='goodPick';
-	removePick();
-}
-function removePick() {
-	if(document.getElementById('pickDiv')){
-		jQuery('#pickDiv').remove();
-	}
-	removeBgDiv();
-}
-function addBGDiv(f){
-	var bgDiv = document.createElement('div');
-	bgDiv.id = 'bgDiv';
-	bgDiv.className = 'bgDiv';
-	if(f==null || f.length==0){
-		f="removeBgDiv()";
-	}
-	bgDiv.setAttribute('onclick',f);
-	document.body.appendChild(bgDiv);
-	viewport.init("#bgDiv");
-}
-function removeBgDiv () {
-	if(document.getElementById('bgDiv')){
-		jQuery('#bgDiv').remove();
-	}
-}
-/** This may be obsolete, replaced by getTransAgent? **/
-function get_AgentName(name,fld,idfld){
-	addBGDiv('removePick()');
-	var theDiv = document.createElement('div');
-	theDiv.id = 'pickDiv';
-	theDiv.className = 'pickDiv';
-	theDiv.innerHTML='<br>Loading...';
-	document.body.appendChild(theDiv);
-	var ptl="/picks/getAgentName.cfm";
-	jQuery.get(ptl,{agentname: name, fld: fld, idfld: idfld},function(data){
-		document.getElementById('pickDiv').innerHTML=data;
-		viewport.init("#pickDiv");
-	});
-}
 function addLink (n) {
 	var lid = jQuery('#linkTab tr:last').attr("id");
 	var lastID=lid.replace('linkRow','');
@@ -558,44 +516,6 @@ function addLink (n) {
 	document.getElementById('numberLinks').value=thisID;
 }
 
-function addAgent (n) {
-	var lid = jQuery('#authTab tr:last').attr("id");
-	var lastID='';
-	if (typeof lid !== 'undefined') {
-	   lastID = lid.replace('authortr','');
-	}
-	if(lastID==''){
-		lastID=0;
-	}
-	var thisID=parseInt(lastID) + 1;
-	var newRow='<tr id="authortr' + thisID + '">';
-	newRow+='<td>';
-	newRow+='<select name="author_role_' + thisID + '" id="author_role_' + thisID + '1">';
-	newRow+='<option value="author">author</option>';
-	newRow+='<option value="editor">editor</option>';
-	newRow+='</select>';
-	newRow+='</td>';
-	newRow+='<td>';
-	newRow+='<input type="hidden" name="author_id_' + thisID + '" id="author_id_' + thisID + '">';
-	newRow+='<input type="text" name="author_name_' + thisID + '" id="author_name_' + thisID + '" class="reqdClr"  size="50" ';
-	newRow+='onchange="findAgentName(\'author_id_' + thisID + '\',this.name,this.value);"';
-	newRow+='onKeyPress="return noenter(event);">';
-	newRow+='</td>';
-	newRow+='</tr>';
-	jQuery('#authTab tr:last').after(newRow);
-	document.getElementById('numberAuthors').value=thisID;
-}
-function removeAgent() {
-	var lid = jQuery('#authTab tr:last').attr("id");
-	var lastID=lid.replace('authortr','');
-	var thisID=parseInt(lastID) - 1;
-	document.getElementById('numberAuthors').value=thisID;
-	if(thisID>=1){
-		jQuery('#authTab tr:last').remove();
-	} else {
-		alert('You must have at least one author');
-	}
-}
 function removeLastAttribute() {
 	var lid = jQuery('#attTab tr:last').attr("id");
 	if (lid===undefined || lid.length==0) {

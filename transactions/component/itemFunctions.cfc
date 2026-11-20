@@ -133,11 +133,11 @@ limitations under the License.
 			VALUES (
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
 				<cfif #subsample# is 1>
-					#n.n#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">,
 				<cfelse>
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">,
 				</cfif>
-				#session.myagentid#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">,
 				sysdate
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 				<cfif len(#instructions#) gt 0>
@@ -161,10 +161,10 @@ limitations under the License.
 
 		<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
          UPDATE coll_object 
-			SET coll_obj_disposition = 'deaccessioned - ' || '#partDisp#'
+			SET coll_obj_disposition = 'deaccessioned - ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#partDisp#">
 			WHERE collection_object_id =
 			<cfif #subsample# is 1>
-				#n.n#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n.n#">
 			<cfelse>
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 			</cfif>

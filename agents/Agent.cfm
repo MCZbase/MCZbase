@@ -911,14 +911,9 @@ limitations under the License.
 												maxlong: #points2.maxlong#
 											};
 
+											<!--- The loop body is kept on one line because everything inside cfloop, whitespace included, is written once per locality: with thousands of localities, indented multi-line points made most of the page (2.28 MB of 2.86 MB for one named group). --->
 											window.MCZ_HEATMAP_DATA = [
-												<cfloop query="points">
-												{
-													latitude: #points.Latitude#,
-													longitude: #points.Longitude#,
-													weight: #points.record_count#
-												}<cfif currentrow LT recordcount>,</cfif>
-												</cfloop>
+												<cfloop query="points">{latitude:#points.Latitude#,longitude:#points.Longitude#,weight:#points.record_count#}<cfif points.currentRow LT points.recordcount>,</cfif></cfloop>
 											];
 
 											window.onload = function () {

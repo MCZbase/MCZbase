@@ -277,24 +277,28 @@ limitations under the License.
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+						<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+						<cfset preparedValues = []>
+						<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+							<cfset val = "">
+							<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+								<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+								<cfset val=trim(collValuesArray[fieldPos])>
+								<cfset val=rereplace(val,"^'+",'')>
+								<cfset val=rereplace(val,"'+$",'')>
+							</cfif>
+							<cfset arrayAppend(preparedValues, val)>
+						</cfloop>
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into cf_temp_agents
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(collValuesArray[fieldPos])>
-										<cfset val=rereplace(val,"^'+",'')>
-										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ ""> 
-											#separator#NULL
-										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-										</cfif>
-									<cfelse>
+									<cfif len(preparedValues[col]) EQ 0>
 										#separator#NULL
+									<cfelse>
+										#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 									</cfif>
 									<cfset separator = ",">
 								</cfloop>
@@ -436,7 +440,7 @@ limitations under the License.
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#requiredField# is missing">)
 					WHERE 
 						(#requiredField# is null OR trim(#requiredField#) IS NULL) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -501,7 +505,7 @@ limitations under the License.
 				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'A *valid* OTHER_NAME_TYPE_#i# was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''), <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A *valid* OTHER_NAME_TYPE_#i# was not provided - check <a href=""/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE"">controlled vocabulary</a>">)
 					WHERE 
 						OTHER_NAME_TYPE_#i# not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
 						OTHER_NAME_TYPE_#i# IS NOT NULL AND 
@@ -510,7 +514,7 @@ limitations under the License.
 				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_TYPE_#i# was not provided for OTHER_NAME_#i#')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="An OTHER_NAME_TYPE_#i# was not provided for OTHER_NAME_#i#">)
 					WHERE 
 						OTHER_NAME_TYPE_#i# IS NULL AND 
 						OTHER_NAME_#i# IS NOT NULL AND 
@@ -519,7 +523,7 @@ limitations under the License.
 				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_agents
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_#i# was not provided with OTHER_NAME_TYPE_#i#')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="An OTHER_NAME_#i# was not provided with OTHER_NAME_TYPE_#i#">)
 					WHERE 
 						OTHER_NAME_TYPE_#i# IS NOT NULL AND 
 						OTHER_NAME_#i# IS NULL AND 
@@ -601,7 +605,7 @@ limitations under the License.
 							<cfquery name="invGuidType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_agents
 								SET 
-									status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || ' expected pattern is #getPattern.pattern_regex#')
+									status = concat(nvl2(status, status || '; ', ''),'AGENTGUID is not in the correct format for ' || agentguid_guid_type || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=" expected pattern is #getPattern.pattern_regex#">)
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -748,8 +752,8 @@ limitations under the License.
 								AGENT_NAME_TYPE, 
 								AGENT_NAME
 							) values (
-								#savePK.preferred_agent_name_id#,
-								#savePK.agent_ID#,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#savePK.preferred_agent_name_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#savePK.agent_ID#">,
 								'preferred',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preferred_name#">
 							)
@@ -767,7 +771,7 @@ limitations under the License.
 									BIRTH_DATE,
 									DEATH_DATE
 								) values (
-									#savePK.agent_id#,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#savePK.agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PREFIX#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAST_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">,

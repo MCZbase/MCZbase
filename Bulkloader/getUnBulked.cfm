@@ -40,7 +40,7 @@ General Access import guidelines:
 	<cffile action="write" file="#Application.webDirectory#/Bulkloader/bulkloader.txt" addnewline="no" output="#colList#">
 	<cfloop query="data">
 		<cfquery name="thisQueryRow" dbtype="query">
-			select * from data where collection_object_id = #collection_object_id#
+			select * from data where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.collection_object_id#">
 		</cfquery>
 		<cfset thisRow = "">
 		<cfloop list="#colList#" index="i" delimiters="#chr(9)#">

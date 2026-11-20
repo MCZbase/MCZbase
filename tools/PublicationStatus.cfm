@@ -1,4 +1,11 @@
 <cfinclude template="/includes/_header.cfm">
+<!--- order_by and order_order go into ORDER BY, so only the table's columns and a direction are accepted. --->
+<cfif NOT isDefined("order_by") OR listFindNoCase("gbi_id,citation,PubInArctos,CitationsInGenBank,CitationInPublication,CitationsInArctos,ArcticleAtUrl,comments,status", order_by) EQ 0>
+	<cfset order_by = "gbi_id">
+</cfif>
+<cfif NOT isDefined("order_order") OR listFindNoCase("asc,desc", order_order) EQ 0>
+	<cfset order_order = "DESC">
+</cfif>
 <cfif #action# is "nothing">
     <div style="width: 82.5em;margin: 0 auto;padding: 1em 0 3em 0;">
         <cfparam name="order_by" default="gbi_id">
@@ -202,30 +209,30 @@
 			,status
 		</cfif>
 		) VALUES (
-			#gbi_id#
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gbi_id#">
 			<cfif len(#citation#) gt 0>
-			,'#citation#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation#">
 		</cfif>
 		<cfif len(#PubInArctos#) gt 0>
-			,'#PubInArctos#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PubInArctos#">
 		</cfif>
 		<cfif len(#CitationsInGenBank#) gt 0>
-			,'#CitationsInGenBank#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationsInGenBank#">
 		</cfif>
 		<cfif len(#CitationInPublication#) gt 0>
-			,'#CitationInPublication#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationInPublication#">
 		</cfif>
 		<cfif len(#CitationsInArctos#) gt 0>
-			,'#CitationsInArctos#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationsInArctos#">
 		</cfif>
 		<cfif len(#ArcticleAtUrl#) gt 0>
-			,'#ArcticleAtUrl#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArcticleAtUrl#">
 		</cfif>
 		<cfif len(#comments#) gt 0>
-			,'#comments#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#comments#">
 		</cfif>
 		<cfif len(#status#) gt 0>
-			,'#status#'
+			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 		</cfif>
 		)
 </cfquery>
@@ -236,43 +243,43 @@
 <cfoutput>
 	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		update cf_genbank_info set 
-			citation = '#citation#'
+			citation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation#">
 		<cfif len(#PubInArctos#) gt 0>
-			,PubInArctos = '#PubInArctos#'
+			,PubInArctos = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PubInArctos#">
 		<cfelse>
 			,PubInArctos = NULL
 		</cfif>
 		<cfif len(#CitationsInGenBank#) gt 0>
-			,CitationsInGenBank = '#CitationsInGenBank#'
+			,CitationsInGenBank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationsInGenBank#">
 		<cfelse>
 			,CitationsInGenBank = NULL
 		</cfif>
 		<cfif len(#CitationInPublication#) gt 0>
-			,CitationInPublication = '#CitationInPublication#'
+			,CitationInPublication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationInPublication#">
 		<cfelse>
 			,CitationInPublication = NULL
 		</cfif>
 		<cfif len(#CitationsInArctos#) gt 0>
-			,CitationsInArctos = '#CitationsInArctos#'
+			,CitationsInArctos = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitationsInArctos#">
 		<cfelse>
 			,CitationsInArctos = NULL
 		</cfif>
 		<cfif len(#ArcticleAtUrl#) gt 0>
-			,ArcticleAtUrl = '#ArcticleAtUrl#'
+			,ArcticleAtUrl = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ArcticleAtUrl#">
 		<cfelse>
 			,ArcticleAtUrl = NULL
 		</cfif>
 		<cfif len(#comments#) gt 0>
-			,comments = '#comments#'
+			,comments = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#comments#">
 		<cfelse>
 			,comments = NULL
 		</cfif>
 		<cfif len(#status#) gt 0>
-			,status = '#status#'
+			,status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 		<cfelse>
 			,status = NULL
 		</cfif>
-		where gbi_id = #gbi_id#
+		where gbi_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gbi_id#">
 	</cfquery>
 	<cflocation url="PublicationStatus.cfm?action=nothing&order_by=#order_by#&order_order=#order_order#">
 	</cfoutput>
