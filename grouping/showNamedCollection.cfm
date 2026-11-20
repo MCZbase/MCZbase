@@ -1350,24 +1350,22 @@ limitations under the License.
 											ORDER BY
 												type, MCZBASE.getshortcitation(publication_id)
 										</cfquery>
-										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" timeout="#Application.query_timeout#">
-											SELECT
-												distinct 
-												formatted_publication.formatted_publication, 
+										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+											SELECT DISTINCT
+												formatted_publication.formatted_publication,
 												formatted_publication.publication_id
 											FROM
-												underscore_collection
-												join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-												join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-												join citation on citation.collection_object_id = cataloged_item.collection_object_id
-												join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
-												join formatted_publication on formatted_publication.publication_id =citation.publication_id
+												underscore_relation
+												join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+													on underscore_relation.collection_object_id = flat.collection_object_id
+												join citation on citation.collection_object_id = flat.collection_object_id
+												join formatted_publication on formatted_publication.publication_id = citation.publication_id
 											WHERE
-												format_style='long' and
-												underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
-												and formatted_publication not like '%Author not listed%'
+												underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												AND formatted_publication.format_style = 'long'
+												AND formatted_publication.formatted_publication NOT LIKE '%Author not listed%'
 											ORDER BY
-												formatted_publication
+												formatted_publication.formatted_publication
 										</cfquery>
 										<cfif citations.recordcount GT 0 OR directCitations.recordcount GT 0>
 											<cfset totalCitations = citations.recordcount + directCitations.recordcount>
