@@ -248,24 +248,28 @@ limitations under the License.
 						</cfloop>
 						<cftry>
 							<!---Construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null.--->
+							<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+							<cfset preparedValues = []>
+							<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+								<cfset val = "">
+								<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+									<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+									<cfset val=trim(collValuesArray[fieldPos])>
+									<cfset val=rereplace(val,"^'+",'')>
+									<cfset val=rereplace(val,"'+$",'')>
+								</cfif>
+								<cfset arrayAppend(preparedValues, val)>
+							</cfloop>
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 								insert into cf_temp_citation
 									(#fieldlist#,username)
 								values (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(collValuesArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
-											<cfif val EQ ""> 
-												#separator#NULL
-											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-											</cfif>
-										<cfelse>
+										<cfif len(preparedValues[col]) EQ 0>
 											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 										</cfif>
 										<cfset separator = ",">
 									</cfloop>
@@ -603,7 +607,7 @@ limitations under the License.
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Required field, #requiredField#, is missing')
+						status = concat(nvl2(status, status || '; ', ''),<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Required field, #requiredField#, is missing">)
 					WHERE #requiredField# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>

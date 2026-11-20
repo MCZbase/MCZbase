@@ -1,0 +1,40 @@
+/*
+/Reports/css/reports.css
+
+Copyright 2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+*/
+
+/* The list scrolls within itself, so picking a report never moves the list or the page. */
+.report-list {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+.report-list-item {
+	padding: 0.125rem 0.5rem;
+}
+.report-list-item:has(input:checked) {
+	background-color: #deebec;
+}
+/* Keep the picked report's details and Print button in view beside a long list. */
+@media (min-width: 768px) {
+	.report-detail {
+		position: sticky;
+		top: 1rem;
+	}
+}
+.permit-specimen-table tbody tr:has(input:checked) {
+	background-color: #deebec;
+}

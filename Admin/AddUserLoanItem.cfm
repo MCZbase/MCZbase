@@ -9,14 +9,14 @@
 			<cfset reason = "#default_rejection_reason#">
 		</cfif>
 		<cfquery name="nope" datasource="#Application.uam_dbo#">
-		UPDATE cf_loan_item SET rejection_reason = '#reason#'
-		WHERE loan_id = #loan_id# AND
-		collection_object_id=#collection_object_id#
+		UPDATE cf_loan_item SET rejection_reason = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reason#">
+		WHERE loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_id#"> AND
+		collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 	<cfelse><!--- loan item approved ---->
 	
 		<cfquery name="recBy" datasource="#Application.uam_dbo#">
-			select agent_id from agent_name where agent_name = '#session.username#'
+			select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif #recBy.recordcount# is not 1>
 			Something hinky happened with your username!
@@ -38,7 +38,7 @@
 					coll_object, specimen_part,cataloged_item,collection
 				WHERE 
 					coll_object.collection_object_id = specimen_part.collection_object_id AND
-					coll_object.collection_object_id = #collection_object_id# AND
+					coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> AND
 					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 					cataloged_item.collection_cde=collection.collection_cde
 			</cfquery>
@@ -55,8 +55,8 @@
 		<!--- reverse any previous rejections --->
 		<cfquery name="nomakeupmind" datasource="#Application.uam_dbo#">
 			UPDATE cf_loan_item SET rejection_reason = null
-			WHERE loan_id = #loan_id# AND
-			collection_object_id=#collection_object_id#
+			WHERE loan_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_id#"> AND
+			collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		
 		<cfif #use_type# is "subsample">
@@ -76,7 +76,7 @@
 				coll_object, specimen_part
 			WHERE 
 				coll_object.collection_object_id = specimen_part.collection_object_id AND
-				coll_object.collection_object_id = #collection_object_id#
+				coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfquery name="newCollObj" datasource="#Application.uam_dbo#">
 			INSERT INTO coll_object (
@@ -90,15 +90,15 @@
 				LOT_COUNT,
 				CONDITION)
 			VALUES
-				(#nextID.nextID#,
+				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">,
 				'SS',
-				#RECONCILED_BY_PERSON_ID.agent_id#,
-				'#RECONCILED_DATE#',
-				#RECONCILED_BY_PERSON_ID.agent_id#,
-				'#RECONCILED_DATE#',
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RECONCILED_BY_PERSON_ID.agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RECONCILED_DATE#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RECONCILED_BY_PERSON_ID.agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RECONCILED_DATE#">,
 				'on loan',
 				1,
-				'#parentData.condition#')
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
 		</cfquery>
 		<cfquery name="newPart" datasource="#Application.uam_dbo#">
 			INSERT INTO specimen_part (
@@ -113,16 +113,16 @@
 				</cfif>
 				,DERIVED_FROM_CAT_ITEM)
 			VALUES (
-				#nextID.nextID#
-				,'#parentData.part_name#'
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">
 				<cfif len(#parentData.PART_MODIFIER#) gt 0>
-					,'#parentData.PART_MODIFIER#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.PART_MODIFIER#">
 				</cfif>
-				,#collection_object_id#
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				<cfif len(#parentData.PRESERVE_METHOD#) gt 0>
-					,'#parentData.PRESERVE_METHOD#'
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.PRESERVE_METHOD#">
 				</cfif>
-				,'#parentData.DERIVED_FROM_CAT_ITEM#')				
+				,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.DERIVED_FROM_CAT_ITEM#">)				
 		</cfquery>
 		<cfquery name="yep" datasource="#Application.uam_dbo#">
 					INSERT INTO loan_item (
@@ -138,16 +138,16 @@
 								,loan_item_remarks
 							</cfif>    
 					) VALUES (
-						#transaction_id#,
-						#nextID.nextID#,
-						#recBy.agent_id#,
-						'#thisDate#',
-						'#ITEM_DESCR#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recBy.agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDate#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCR#">
 							<cfif len(#item_instructions#) gt 0>
-								,'#item_instructions#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 							</cfif>
 							<cfif len(#loan_item_remarks#) gt 0>
-								,'#loan_item_remarks#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 							</cfif>                            
 						)
 				</cfquery>
@@ -166,16 +166,16 @@
 								,loan_item_remarks
 							</cfif>    
 					) VALUES (
-						#transaction_id#,
-						#collection_object_id#,
-						#recBy.agent_id#,
-						'#thisDate#',
-						'#ITEM_DESCR#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recBy.agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDate#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ITEM_DESCR#">
 							<cfif len(#item_instructions#) gt 0>
-								,'#item_instructions#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
 							</cfif>
 							<cfif len(#loan_item_remarks#) gt 0>
-								,'#loan_item_remarks#'
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 							</cfif>                            
 						)
 				</cfquery>

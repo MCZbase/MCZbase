@@ -64,7 +64,7 @@
 			SELECT collection_object_id
 			FROM bulkloader_stage
 			WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND loaded like '%#loadedArray[i]#%'
+				AND loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
 		</cfquery>
 		<cfset rows ="">
 		<cfset separator="">
@@ -92,14 +92,14 @@
 				SELECT distinct #columnInError# value_error
 				FROM bulkloader_stage
 				WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND loaded like '%#errorCase#%'
+					AND loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#errorCase#%">
 			</cfquery>
 			<cfloop query="getErrorCases">
 				<cfquery name="getErrorCaseRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT collection_object_id
 					FROM bulkloader_stage
 					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND loaded like '%#loadedArray[i]#%'
+						AND loaded like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#loadedArray[i]#%">
 						AND #columnInError# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getErrorCases.value_error#">
 				</cfquery>
 				<cfset caseRows ="">
@@ -127,6 +127,7 @@
 
 <cfset pageTitle="Bulkload Specimens">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/stagingTables.cfc" runOnce="true">
 
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
@@ -186,93 +187,89 @@
 					</cfquery>
 					<!--- read file --->
 					<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-					<cfset fileContent=replace(fileContent,"'","''","all")>
 					<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-					<!--- TODO: Check required fields --->
-					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset header = arrResult[1][col]>
-						<!--- TODO: check --->
+					<!--- only headers that are columns of the staging table are loaded; spreadsheets often
+						carry other columns, and those are ignored --->
+					<cfset variables.usable = usableHeaders(arrResult[1], "bulkloader_stage", "STAGING_USER")>
+					<cfset colNameArray = []>
+					<cfloop array="#variables.usable.columns#" index="variables.usableColumn">
+						<cfset arrayAppend(colNameArray, variables.usableColumn.name)>
 					</cfloop>
+					<h3 class="h4">Found #arrayLen(arrResult[1])# columns in header of csv file, #arrayLen(colNameArray)# of them columns of the bulkloader.</h3>
+					<ul class="list-group list-group-horizontal flex-wrap">
+						<cfloop array="#colNameArray#" index="colName">
+							<li class="list-group-item float-left">#encodeForHtml(colName)#</li>
+						</cfloop>
+					</ul>
+					<cfif arrayLen(variables.usable.ignored) GT 0>
+						<h3 class="h4">Ignored columns (their values are not loaded):</h3>
+						<ul class="list-group list-group-horizontal flex-wrap">
+							<cfloop array="#variables.usable.ignored#" index="variables.ignoredHeader">
+								<li class="list-group-item float-left"><strong class="text-danger">#encodeForHtml(variables.ignoredHeader)#</strong></li>
+							</cfloop>
+						</ul>
+					</cfif>
+					<cfif arrayLen(colNameArray) EQ 0>
+						<cfthrow message="No column of the file matches a column of the bulkloader, so nothing was loaded.">
+					</cfif>
 					<!--- load --->
 					<cfset loadedRows = 0>
-					<cfset colNames="">
-					<cfset rowArray=ArrayNew(1)>
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
-						<cfset colVals="">
-						<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
-							<cfset thisBit=trim(arrResult[row][col])>
-							<cfif #row# is 1>
-								<cfset colNames="#colNames#,#thisBit#">
-							<cfelse>
-								<cfset colVals="#colVals#,'#thisBit#'">
-								<cfset ArrayAppend(rowArray,thisBit)>
-								<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-									<!--- high ASCII --->
-									<cfif foundHighCount LT 6>
-										<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-										<cfset foundHighCount = foundHighCount + 1>
-									</cfif>
-								<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-									<!--- multibyte --->
-									<cfif foundHighCount LT 6>
-										<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-										<cfset foundHighCount = foundHighCount + 1>
-									</cfif>
+					<cfloop from="2" to ="#ArrayLen(arrResult)#" index="row">
+						<cfif isBlankRow(arrResult[row])>
+							<cfcontinue>
+						</cfif>
+						<!--- this row's values for the loaded columns --->
+						<cfset rowArray = []>
+						<cfloop array="#variables.usable.columns#" index="variables.usableColumn">
+							<cfset thisBit = trim(cellValue(arrResult[row], variables.usableColumn.position))>
+							<cfset ArrayAppend(rowArray,thisBit)>
+							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+								<!--- high ASCII --->
+								<cfif foundHighCount LT 6>
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#encodeForHtml(thisBit)#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
+								</cfif>
+							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+								<!--- multibyte --->
+								<cfif foundHighCount LT 6>
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#encodeForHtml(thisBit)#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
 								</cfif>
 							</cfif>
 						</cfloop>
-						<cfif #row# is 1>
-							<cfset colNames=replace(colNames,",","","first")>
-							<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
-							<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
-							<cfset error="">
-							<ul class="list-group list-group-horizontal flex-wrap">
-								<cfloop list="#colNames#" index="colName">
-									<cfif REFind("[^0-9A-Z_]",trim(ucase(colName))) GT 0>
-										<cfset error = "#error# Column [#colName#] contains a space or other incorrect character.">
-										<li class="list-group-item float-left"><strong class="text-danger">#colName#</strong></li>
-									<cfelseif NOT ListContains(fieldList,ucase(colName))>
-										<cfset error = "#error# Column [#colName#] unknown.">
-										<li class="list-group-item float-left"><strong class="text-danger">#colName#</strong></li>
-									<cfelse>
-										<li class="list-group-item float-left">#colName#</li>
-									</cfif>
-								</cfloop>
-							</ul>
-							<cfif error NEQ "">
-								<h3 class="h4">Error(s) in the header row: #error#</h3>
+						<cftry>
+							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
+								INSERT INTO bulkloader_stage (#arrayToList(colNameArray)#, STAGING_USER)
+								VALUES (
+									<cfloop from="1" to="#arrayLen(rowArray)#" index="i">
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowArray[i]#">,
+									</cfloop>
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								)
+							</cfquery>
+							<cfset loadedRows = loadedRows + insert_result.recordcount>
+						<cfcatch>
+							<cfset cause="">
+							<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
+							<cfif find("unique constraint (MCZBASE.PK_BULKSTAGEID) violated",cause) GT 0>
+								<cfset cause = "Duplicate COLLECTION_OBJECT_ID value.  Each row must have a unique value for collection_object_id. (unique constraint (MCZBASE.PK_BULKSTAGEID) violated).">
 							</cfif>
-						</cfif>
-						<cfif len(#colVals#) gt 1>
-							<cftry>
-								<cfset colVals=replace(colVals,",","","first")>
-								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-									insert into bulkloader_stage (#colNames#,STAGING_USER) values (#preservesinglequotes(colVals)#,'#session.username#')
-								</cfquery>
-								<cfset loadedRows = loadedRows + insert_result.recordcount>
-							<cfcatch>
-								<cfset cause="">
-								<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
-								<cfif find("unique constraint (MCZBASE.PK_BULKSTAGEID) violated",cause) GT 0>
-									<cfset cause = "Duplicate COLLECTION_OBJECT_ID value.  Each row must have a unique value for collection_object_id. (unique constraint (MCZBASE.PK_BULKSTAGEID) violated).">
+							<cfset badRow = "">
+							<cfset separator="">
+							<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
+								<cfif find(colNameArray[i],cause) GT 0>
+									<cfset badRow = "#badRow##separator#<strong>#colNameArray[i]#:#encodeForHtml(rowArray[i])#</strong>"><!--- " --->
+								<cfelse>
+									<cfset badRow = "#badRow##separator##colNameArray[i]#:#encodeForHtml(rowArray[i])#">
 								</cfif>
-								<cfset badRow = "">
-								<cfset separator="">
-								<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
-									<cfif find(colNameArray[i],cause) GT 0>
-										<cfset badRow = "#badRow##separator#<strong>#colNameArray[i]#:#rowArray[i]#</strong>"><!--- " --->
-									<cfelse>
-										<cfset badRow = "#badRow##separator##colNameArray[i]#:#rowArray[i]#">
-									</cfif>
-									<cfset separator=", ">
-								</cfloop>
-								<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #cfcatch.message#</div><div class='mb-2'>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
-							</cfcatch>
-							</cftry>
-						</cfif>
+								<cfset separator=", ">
+							</cfloop>
+							<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #encodeForHtml(cfcatch.message)#</div><div class='mb-2'>#encodeForHtml(cause)#</div><div>Row:[#badRow#]</div> "><!--- " --->
+						</cfcatch>
+						</cftry>
 					</cfloop>
 					<cfif foundHighCount GT 0>
 						<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>

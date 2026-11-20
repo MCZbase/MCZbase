@@ -77,7 +77,7 @@
 			<!--- local queries to organize and flatten loan data --->
 			<cfquery name="agent_loans" dbtype="query">
 				select * from expLoan
-				where agent_id = #agent.agent_id# and trans_agent_role = 'received by'
+				where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#"> and trans_agent_role = 'received by'
 			</cfquery>
 			<cfquery name="loan" dbtype="query">
 			select
@@ -370,7 +370,7 @@
 						agent_loans, exploan
 					where
 						agent_loans.transaction_id = expLoan.transaction_id and
-						agent_loans.transaction_id = #loan.transaction_id# and
+						agent_loans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#"> and
 						expLoan.trans_agent_role = 'for use by'
 					group by
 						exploan.last_name,
@@ -528,7 +528,7 @@
 						agent_loans, exploan
 					where
 						agent_loans.transaction_id = expLoan.transaction_id and
-						agent_loans.transaction_id = #loanunderreview.transaction_id# and
+						agent_loans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanunderreview.transaction_id#"> and
 						expLoan.trans_agent_role = 'for use by'
 					group by
 						exploan.last_name,

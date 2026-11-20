@@ -76,48 +76,45 @@
 	<cfif len(oidNum) is 0>
 		<cfabort>
 	</cfif>
-	<cfset sql = "SELECT
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItems_result">
+		SELECT
 			cat_num, 
 			collection,
 			cataloged_item.collection_object_id,
 			scientific_name
-		 FROM 
+		FROM 
 			cataloged_item,
 			identification,
-	        collection">
-	<cfif isDefined("agent_name") and len(agent_name) gt 0>
-		<cfset sql=sql & ",collector,agent_name">
-	</cfif>
-	<cfif oidType is not "catalog_number">
-		<cfset sql = "#sql#	,coll_obj_other_id_num">
-	</cfif>
-	<cfset sql = "#sql#  WHERE 
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		cataloged_item.collection_id=collection.collection_id and
-		identification.accepted_id_fg = 1">
-	<cfif isDefined("agent_name") and len(agent_name) gt 0>
-		<cfset sql=sql & " and cataloged_item.collection_object_id=collector.collection_object_id and
-			collector.agent_id=agent_name.agent_id and
-			upper(agent_name) like '%#ucase(escapequotes(agent_name))#%'">
-	</cfif>
-	<cfset oidNumList=ListQualify(oidNum, "'")>
-	<cfif oidType is "catalog_number">
-		<cfset sql = "#sql#	AND cat_num IN ( #oidNumList# )">
-	<cfelse>
-		<cfset sql = "#sql#
-			AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
-			AND other_id_type = '#oidType#'
-			AND display_value IN ( #oidNumList# )">
-	</cfif>
-	<cfif len(collID) gt 0>
-        <cfset sql = "#sql# AND collection='#collID#'">
-    </cfif>
-	<cfset sql=sql & " group by cat_num, 
-		collection,
-		cataloged_item.collection_object_id,
-		scientific_name">
-	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		#preservesinglequotes(sql)#
+			collection
+			<cfif isDefined("agent_name") and len(agent_name) gt 0>
+				,collector,agent_name
+			</cfif>
+			<cfif oidType is not "catalog_number">
+				,coll_obj_other_id_num
+			</cfif>
+		WHERE 
+			cataloged_item.collection_object_id = identification.collection_object_id AND
+			cataloged_item.collection_id=collection.collection_id and
+			identification.accepted_id_fg = 1
+			<cfif isDefined("agent_name") and len(agent_name) gt 0>
+				and cataloged_item.collection_object_id=collector.collection_object_id and
+				collector.agent_id=agent_name.agent_id and
+				upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_name)#%">
+			</cfif>
+			<cfif oidType is "catalog_number">
+				AND cat_num IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidNum#" list="yes">)
+			<cfelse>
+				AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id
+				AND other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidType#">
+				AND display_value IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oidNum#" list="yes">)
+			</cfif>
+			<cfif len(collID) gt 0>
+				AND collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collID#">
+			</cfif>
+		GROUP BY cat_num, 
+			collection,
+			cataloged_item.collection_object_id,
+			scientific_name
 	</cfquery>
         <cfif getItems.recordcount is 0>
 			-foundNothing-

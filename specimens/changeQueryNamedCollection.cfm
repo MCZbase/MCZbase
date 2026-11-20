@@ -205,7 +205,7 @@ limitations under the License.
 				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
-					SELECT #idToAdd#, collection_object_id 
+					SELECT <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idToAdd#">, collection_object_id 
 						FROM user_search_table
 						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
@@ -243,7 +243,7 @@ limitations under the License.
 				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
 						into underscore_relation (underscore_collection_id, collection_object_id)
-					select #idToAdd#, collection_object_id 
+					select <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idToAdd#">, collection_object_id 
 						from cataloged item 
 						where 
 							<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>

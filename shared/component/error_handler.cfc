@@ -19,12 +19,25 @@ limitations under the License.
 <!--- Repeatedly used error handling code for presenting error messages with an http 500 status code --->
 <cfcomponent>
 
-<!--- Report an error condition with an http 500 status header --->
+<!---
+	reportError report an unexpected error with an http 500 status header and an error message, and log
+	it to the MCZbase log as Application.cfc's onError logs uncaught errors, so errors caught in component
+	methods show alongside them (e.g. on the Admin Panel).
+
+	@param function_called the name of the function in which the error was caught.
+	@param error_message the error's message.
+--->
 <cffunction name="reportError" access="public" returntype="any" returnformat="plain">
 	<cfargument name="function_called" type="string" required="yes">
 	<cfargument name="error_message" type="string" required="yes">
+	<cfset var message = trim("Error processing #arguments.function_called#: #arguments.error_message#") >
+	<cfset var logUser = "">
+	<cfset var logAddress = cgi.remote_addr>
 
-	<cfset message = trim("Error processing #function_called#: #error_message#") >
+	<cfif isDefined("session.username")><cfset logUser = session.username></cfif>
+	<cfif isDefined("clientAddress") AND isCustomFunction(clientAddress)><cfset logAddress = clientAddress()></cfif>
+	<!--- one line, as the log reader treats each line beginning with a quote as a new entry --->
+	<cflog file="MCZbase" type="error" text="Error caught on #cgi.script_name# in #arguments.function_called# for user [#logUser#] from #logAddress#: #REReplace(message, '[\r\n]+', ' ', 'all')#">
 	<cfheader statusCode="500" statusText="#message#">
 	<cfoutput>
 		<div class="container">

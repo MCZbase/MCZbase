@@ -283,3 +283,36 @@ function loadMyBugReports(targetDivId, showAll, recheckButtonId) {
 		}
 	});
 }
+
+/** Saves the collection codes whose label reports the report printer lists by default, from the
+ * checkboxes ticked in a fieldset, and reports the outcome.
+ *
+ * @param fieldsetId the id of the fieldset holding the checkboxes, without a leading #.
+ * @param feedbackId the id of the element for the outcome, without a leading #.
+ */
+function changeReportPrefs(fieldsetId, feedbackId) {
+	var codes = $("#" + fieldsetId + " input[type='checkbox']:checked").map(function() {
+		return $(this).val();
+	}).get().join(",");
+	jQuery.ajax({
+		dataType: "json",
+		url: "/users/component/functions.cfc",
+		type: "POST",
+		data: {
+			method : "changeReportPrefs",
+			reportprefs : codes,
+			returnformat : "json"
+		},
+		error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"saving your label report collections");
+		},
+		success: function (result) {
+			if (result.status == "success") {
+				var saved = result.reportprefs == "" ? "none" : result.reportprefs.split(",").join(", ");
+				$("#" + feedbackId).html("Label report collections saved: " + saved + ".");
+			} else {
+				$("#" + feedbackId).html(result.message);
+			}
+		}
+	});
+}

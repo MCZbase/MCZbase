@@ -16,6 +16,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/codeTables.cfc" runOnce="true">
 <cfinclude template="/media/component/public.cfc" runOnce="true"> <!--- getMediaBlockHtml --->
 <cf_rolecheck>
 
@@ -1571,11 +1572,13 @@ limitations under the License.
 				<cfset controlBits = listToArray(getAttControl.control,'.')>
 				<cfif ArrayLen(controlBits) EQ 2>
 					<!--- support TABLE.FIELD structure for control as well as TABLE --->
+					<cfset requireCodeTable(controlBits[1], controlBits[2])>
 					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getVocabulary_result">
 						SELECT #controlBits[2]# 
 						FROM #controlBits[1]#
 					</cfquery>
 				<cfelse>
+					<cfset requireCodeTable(getAttControl.control)>
 					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getVocabulary_result">
 						SELECT * 
 						FROM #getAttControl.control#

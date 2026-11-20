@@ -85,10 +85,13 @@
 		flatTableName.spec_locality,
 		flatTableName.verbatim_date
 		">
+	<!--- this page builds its query as text; the type is one from ctcoll_other_id_type (checked when
+		set), with any apostrophe doubled for the string --->
+	<cfset variables.customIdSql = replace(session.CustomOtherIdentifier, "'", "''", "all")>
 	<cfif len(#session.CustomOtherIdentifier#) gt 0>
 		<cfset basSelect = "#basSelect#
-			,concatSingleOtherId(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-			to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#session.CustomOtherIdentifier#')) AS CustomIDInt">
+			,concatSingleOtherId(flatTableName.collection_object_id,'#variables.customIdSql#') AS CustomID,
+			to_number(ConcatSingleOtherIdInt(flatTableName.collection_object_id,'#variables.customIdSql#')) AS CustomIDInt">
 	</cfif>
 	<cfset basFrom = " FROM #session.flatTableName# flatTableName">
 	<cfset basJoin = "INNER JOIN cataloged_item ON (flatTableName.collection_object_id =cataloged_item.collection_object_id)">

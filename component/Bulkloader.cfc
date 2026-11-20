@@ -1,4 +1,5 @@
 <cfcomponent>
+<cfinclude template="/Bulkloader/component/accessionFilter.cfc" runOnce="true">
 <!--- BULKLOADER.LOADED is VARCHAR2(255 CHAR). --->
 <cfset LOADED_MAX_LEN = 255>
 <!--- Every method here backs the bulkloader and the data entry screen, so the check is at
@@ -442,7 +443,7 @@
 @param pageSize rows per grid page.
 @param gridsortcolumn column to sort on, ignored unless it is a column of bulkloader.
 @param gridsortdirection asc or desc.
-@param accn list of accession numbers to filter on.
+@param accn list of accession numbers to filter on, in which [none] asks for records with no accession number.
 @param enteredby list of usernames to filter on.
 @param colln list of institution_acronym:collection_cde values to filter on.
 @return query converted for a cfgrid.
@@ -464,6 +465,7 @@
 	<cfset var sqlString = "">
 	<cfset var data = "">
 	<cfset var accnList = "">
+	<cfset var accnNumbers = "">
 	<cfset var enteredbyList = "">
 	<cfset var collnList = "">
 	<cfset var permittedUsers = "">
@@ -503,9 +505,16 @@
 	<cfif len(allowedUsers) EQ 0>
 		<cfset allowedUsers = session.username>
 	</cfif>
-	<cfif len(accnList) GT 0>
+	<!--- The accession list may also ask for records with no accession number. --->
+	<cfset accnNumbers = accessionNumbers(accnList)>
+	<cfif len(accnNumbers) GT 0 AND includesNoAccession(accnList)>
+		<cfset arrayAppend(whereClauses,"(accn IN (:accn) OR accn IS NULL)")>
+		<cfset sqlParams["accn"] = { value=accnNumbers, cfsqltype="CF_SQL_VARCHAR", list=true }>
+	<cfelseif len(accnNumbers) GT 0>
 		<cfset arrayAppend(whereClauses,"accn IN (:accn)")>
-		<cfset sqlParams["accn"] = { value=accnList, cfsqltype="CF_SQL_VARCHAR", list=true }>
+		<cfset sqlParams["accn"] = { value=accnNumbers, cfsqltype="CF_SQL_VARCHAR", list=true }>
+	<cfelseif includesNoAccession(accnList)>
+		<cfset arrayAppend(whereClauses,"accn IS NULL")>
 	</cfif>
 	<cfset arrayAppend(whereClauses,"enteredby IN (:enteredby)")>
 	<cfset sqlParams["enteredby"] = { value=allowedUsers, cfsqltype="CF_SQL_VARCHAR", list=true }>

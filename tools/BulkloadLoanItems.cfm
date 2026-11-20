@@ -294,24 +294,28 @@ limitations under the License.
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+						<!--- prepared before the query, as ColdFusion doubles single quotes in strings evaluated inside cfquery --->
+						<cfset preparedValues = []>
+						<cfloop from="1" to="#ArrayLen(fieldArray)#" index="col">
+							<cfset val = "">
+							<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+								<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+								<cfset val=trim(collValuesArray[fieldPos])>
+								<cfset val=rereplace(val,"^'+",'')>
+								<cfset val=rereplace(val,"'+$",'')>
+							</cfif>
+							<cfset arrayAppend(preparedValues, val)>
+						</cfloop>
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 							insert into cf_temp_loan_item
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(collValuesArray[fieldPos])>
-										<cfset val=rereplace(val,"^'+",'')>
-										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ ""> 
-											#separator#NULL
-										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#val#">
-										</cfif>
-									<cfelse>
+									<cfif len(preparedValues[col]) EQ 0>
 										#separator#NULL
+									<cfelse>
+										#separator#<cfqueryparam cfsqltype="#typeArray[col]#" value="#preparedValues[col]#">
 									</cfif>
 									<cfset separator = ",">
 								</cfloop>
@@ -605,7 +609,7 @@ limitations under the License.
 							where
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id and
-						specimen_part.collection_object_id = '#getTempDataQC.PART_COLLECTION_OBJECT_ID#'
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.PART_COLLECTION_OBJECT_ID#">
 						)
 					where 
 						ITEM_DESCRIPTION IS NULL 
@@ -799,9 +803,9 @@ limitations under the License.
 									FLAGS
 								) (
 									select
-										#thisPART_COLLECTION_OBJECT_ID#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
 										'SS',
-										#session.myAgentId#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 										sysdate,
 										NULL,
 										'on loan',
@@ -823,7 +827,7 @@ limitations under the License.
 									sampled_from_obj_id
 								) ( 
 									select
-										#thisPART_COLLECTION_OBJECT_ID#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
 										part_name,
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item,
@@ -840,7 +844,7 @@ limitations under the License.
 								update coll_object set 
 									coll_obj_disposition = 'on loan'
 								where
-									collection_object_id ='#thisPART_COLLECTION_OBJECT_ID#'
+									collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPART_COLLECTION_OBJECT_ID#">
 							</cfquery>
 						</cfif>
 						<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan_result">

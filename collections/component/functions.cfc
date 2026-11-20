@@ -547,7 +547,9 @@ limitations under the License.
 	collection's data through its VPD, and any roles it is granted to.  Global admins and curatorial
 	associates, who have access to every collection, are grouped separately from the accounts specific
 	to this one; an account holding both is grouped with the global admins.  Database accounts with
-	no MCZbase user are listed only for global admins.
+	no MCZbase user are listed only for global admins.  An account whose name matches a login agent
+	name, ignoring case, links to that agent; each account lists the other collections whose data it
+	can see.  Accounts can be ticked to draft a bug report asking for their removal.
 
 	@param collection_id the collection to report on.
 	@param show_roles true to list every role each account holds.
@@ -578,6 +580,18 @@ limitations under the License.
 	<cfset var group = "">
 	<cfset var name = "">
 	<cfset var role = "">
+	<cfset var loginAgents = "">
+	<cfset var loginAgents_result = "">
+	<cfset var agentOf = structNew()>
+	<cfset var otherVpds = "">
+	<cfset var otherVpds_result = "">
+	<cfset var otherVpdsOf = structNew()>
+	<cfset var otherCollectionCount = 0>
+	<cfset var countCollections = "">
+	<cfset var countCollections_result = "">
+	<cfset var account = "">
+	<cfset var otherVpdText = "">
+	<cfset var removableCount = 0>
 	<cfset requirePanelViewer()>
 	<cfif listFindNoCase(session.roles, "global_admin") GT 0>
 		<cfset showUnlinked = true>
@@ -606,6 +620,53 @@ limitations under the License.
 			</cfif>
 		ORDER BY CASE WHEN u.account_status = 'OPEN' THEN 0 ELSE 1 END, rp.grantee
 	</cfquery>
+	<!--- The agent whose login name is the account, ignoring case; the first if there are several. --->
+	<cfquery name="loginAgents" datasource="uam_god" result="loginAgents_result">
+		SELECT login_name, agent_id, MCZBASE.get_agentnameoftype(agent_id) AS agent_name
+		FROM (
+			SELECT upper(agent_name.agent_name) AS login_name, min(agent_name.agent_id) AS agent_id
+			FROM agent_name
+			WHERE
+				agent_name.agent_name_type = 'login'
+				AND upper(agent_name.agent_name) IN (
+					SELECT grantee
+					FROM dba_role_privs
+					WHERE granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+				)
+			GROUP BY upper(agent_name.agent_name)
+		)
+	</cfquery>
+	<cfloop query="loginAgents">
+		<cfset agentOf[loginAgents.login_name] = { agent_id = loginAgents.agent_id, agent_name = loginAgents.agent_name }>
+	</cfloop>
+	<!--- The other collections' roles each account holds, which give it their data. --->
+	<cfquery name="otherVpds" datasource="uam_god" result="otherVpds_result">
+		SELECT rp.grantee, lower(rp.granted_role) AS granted_role
+		FROM dba_role_privs rp
+		WHERE
+			rp.grantee IN (
+				SELECT grantee
+				FROM dba_role_privs
+				WHERE granted_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+			)
+			AND rp.granted_role IN (
+				SELECT upper(institution_acronym || '_' || collection_cde)
+				FROM collection
+			)
+			AND rp.granted_role <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionRole#">
+		ORDER BY rp.grantee, rp.granted_role
+	</cfquery>
+	<cfloop query="otherVpds">
+		<cfif NOT structKeyExists(otherVpdsOf, otherVpds.grantee)>
+			<cfset otherVpdsOf[otherVpds.grantee] = "">
+		</cfif>
+		<cfset otherVpdsOf[otherVpds.grantee] = listAppend(otherVpdsOf[otherVpds.grantee], otherVpds.granted_role)>
+	</cfloop>
+	<cfquery name="countCollections" datasource="uam_god" result="countCollections_result">
+		SELECT count(*) AS ct
+		FROM collection
+	</cfquery>
+	<cfset otherCollectionCount = countCollections.ct - 1>
 	<cfquery name="viaRoles" datasource="uam_god" result="viaRoles_result">
 		SELECT rp.grantee
 		FROM dba_role_privs rp
@@ -653,6 +714,10 @@ limitations under the License.
 		<cfif holders.account_status EQ "OPEN">
 			<cfset openCount = openCount + 1>
 		</cfif>
+		<!--- As for the checkboxes below: MCZbase users with access to this collection alone. --->
+		<cfif groupOf[holders.grantee] EQ "specific" AND len(holders.mczbase_username) GT 0>
+			<cfset removableCount = removableCount + 1>
+		</cfif>
 		<cfset groupCounts[groupOf[holders.grantee]] = groupCounts[groupOf[holders.grantee]] + 1>
 	</cfloop>
 	<cfsavecontent variable="html">
@@ -688,8 +753,10 @@ limitations under the License.
 				<table class="table table-sm table-striped table-responsive d-xl-table small mb-1">
 					<thead class="thead-light">
 						<tr>
+							<th scope="col"><span class="sr-only">Select for a removal request</span></th>
 							<th scope="col">Account</th>
 							<th scope="col">Name</th>
+							<th scope="col">Other Collections</th>
 							<th scope="col">Status</th>
 							<th scope="col">Last login</th>
 							<cfif arguments.show_roles><th scope="col">Roles</th></cfif>
@@ -699,18 +766,50 @@ limitations under the License.
 						<cfloop query="holders">
 							<cfif groupOf[holders.grantee] EQ group>
 								<cfset name = trim(holders.first_name & " " & holders.last_name)>
+								<cfset account = holders.grantee>
+								<cfif len(holders.mczbase_username) GT 0>
+									<cfset account = holders.mczbase_username>
+								</cfif>
+								<!--- Global admins and curatorial associates see every collection's data. --->
+								<cfif group NEQ "specific">
+									<cfset otherVpdText = "All">
+								<cfelseif NOT structKeyExists(otherVpdsOf, holders.grantee)>
+									<cfset otherVpdText = "">
+								<cfelseif listLen(otherVpdsOf[holders.grantee]) GTE otherCollectionCount>
+									<cfset otherVpdText = "All">
+								<cfelseif listLen(otherVpdsOf[holders.grantee]) GT 3>
+									<cfset otherVpdText = "Multiple (#listLen(otherVpdsOf[holders.grantee])#)">
+								<cfelse>
+									<cfset otherVpdText = replace(otherVpdsOf[holders.grantee], ",", ", ", "all")>
+								</cfif>
 								<tr>
+									<td>
+										<!--- Removal is asked for only for MCZbase users with access to this collection alone, not
+											global admins, curatorial associates or database accounts with no MCZbase user. --->
+										<cfif group EQ "specific" AND len(holders.mczbase_username) GT 0>
+											<input type="checkbox" class="removalAccount" id="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" value="#encodeForHtmlAttribute(account)#">
+											<label for="removalAccount_#encodeForHtmlAttribute(holders.grantee)#" class="sr-only">Select #encodeForHtml(account)# for a removal request</label>
+										</cfif>
+									</td>
 									<td>
 										#encodeForHtml(holders.grantee)#
 										<cfif holders.default_role NEQ "YES"><span class="badge badge-warning font-weight-normal" title="Granted, but not a default role, so the account does not use it">not default</span></cfif>
 									</td>
 									<td>
-										<cfif len(holders.mczbase_username) EQ 0>
+										<cfif structKeyExists(agentOf, holders.grantee)>
+											<!--- The agent's name stands in when the user has given none. --->
+											<cfif len(name) EQ 0>
+												<cfset name = agentOf[holders.grantee].agent_name>
+											</cfif>
+											<a href="/agents/Agent.cfm?agent_id=#encodeForUrl(agentOf[holders.grantee].agent_id)#" target="_blank">#encodeForHtml(name)#</a>
+											<cfif len(holders.mczbase_username) EQ 0><span class="text-secondary">(no MCZbase user)</span></cfif>
+										<cfelseif len(holders.mczbase_username) EQ 0>
 											<span class="text-secondary">no MCZbase user</span>
 										<cfelse>
 											#encodeForHtml(name)#
 										</cfif>
 									</td>
+									<td>#encodeForHtml(otherVpdText)#</td>
 									<td><cfif holders.account_status EQ "OPEN">open<cfelse><span class="text-secondary">#encodeForHtml(lcase(holders.account_status))#</span></cfif></td>
 									<td><cfif isDate(holders.last_login)>#dateFormat(holders.last_login, "yyyy-mm-dd")#<cfelseif len(holders.mczbase_username) GT 0>never</cfif></td>
 									<cfif arguments.show_roles>
@@ -731,6 +830,22 @@ limitations under the License.
 					</details>
 				</cfif>
 			</cfloop>
+			<cfif removableCount GT 0>
+				<fieldset class="border rounded px-2 pb-2 mt-3">
+					<legend class="h6 w-auto px-1 mb-1">Request removal</legend>
+					<p class="small mb-1">Tick accounts above, choose what to ask for, and draft a bug report to review and send.</p>
+					<div class="form-check">
+						<input type="radio" class="form-check-input" name="removalKind" id="removalKindCollection" value="collection" checked>
+						<label class="form-check-label" for="removalKindCollection">Remove their access to this collection's data (#encodeForHtml(lcase(collectionRole))#)</label>
+					</div>
+					<div class="form-check mb-1">
+						<input type="radio" class="form-check-input" name="removalKind" id="removalKindUser" value="user">
+						<label class="form-check-label" for="removalKindUser">Remove them as MCZbase users</label>
+					</div>
+					<button type="button" class="btn btn-xs btn-secondary" onClick="draftAccessRemovalRequest(#arguments.collection_id#, 'vpdUsersWidget', 'removalFeedback');">Draft Removal Request</button>
+					<output id="removalFeedback" class="d-block small text-danger" aria-live="polite"></output>
+				</fieldset>
+			</cfif>
 		</cfoutput>
 	</cfsavecontent>
 	<cfreturn html>

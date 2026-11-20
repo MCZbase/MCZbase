@@ -1,1513 +1,700 @@
-<cfinclude template="/includes/_pickHeader.cfm">
-<!------------------------------------------------------------------->
-
-<cfif #Action# is "itemLabels">
 <!---
-For this action:
-Author: Peter DeVore, based on work by Dusty
-Email: pdevore@berkeley.edu
-Extended by Paul J. Morris, mole@morris.net for MCZbase.
+Reports/MCZDrawerTags.cfm
 
-Description:
-	Used to make printable labels for specimens from Loan page.
-	Malacology format is for drawer tags to place in trays of specimens
-	that are on loan, and follows the MCZ Malacology small box size.
-Parameters:
-	transaction_id
-	format
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2026 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 --->
-<cfoutput>
-<p>
-	<a href="/temp/loaninvoice_#session.DownloadFileID#.pdf" target="_blank">Get the PDF</a>
-</p>
-<cfparam default="Bird/Mammal" name="format">
-<cfif format is "Malacology">
-   <cfset displayFormat = "MCZ 1x2 drawer tag">
-<cfelseif format is "Malacology2">
-   <cfset displayFormat = "Malacology 1x2 with container">
-<cfelse>
-   <cfset displayFormat = "#format#">
+<!--- Drawer tags, slips and freezer sheets for the parts in a loan, reached from MCZ Drawer Tags on the
+	loan page.  The page (action itemLabels) offers the formats and points out parts the chosen format
+	cannot place; action pdf streams the PDF.  Originally by Peter DeVore, extended by Paul J. Morris. --->
+
+<!--- The formats, in the order offered; Malacology is the general MCZ drawer tag. --->
+<cfset FORMAT_LIST = "Malacology,Malacology2,Mammalogy,Bird/Mammal,Herp,Storage,Cryo-Sheet,Cryo-Sheet-R">
+<cfset DEFAULT_FORMAT = "Malacology">
+<cfset FORMAT_LABELS = {
+	"Malacology" = "MCZ 1""x2"" drawer tag",
+	"Malacology2" = "Malacology 1""x2"" drawer tag with container",
+	"Mammalogy" = "Mammalogy 3""x2"" drawer tag",
+	"Bird/Mammal" = "Bird/Mammal slips",
+	"Herp" = "Herp slips",
+	"Storage" = "Storage locations",
+	"Cryo-Sheet" = "Cryogenic spreadsheet",
+	"Cryo-Sheet-R" = "Cryogenic spreadsheet with remarks"
+}>
+<cfset FORMAT_DESCRIPTIONS = {
+	"Malacology" = "Tags to cut out and place in the trays of loaned specimens: catalog number, higher taxa, name, type status, loan number and date. 14 to a page.",
+	"Malacology2" = "As the MCZ drawer tag, with the part's container, preparation and lot count, and the borrower. 14 to a page.",
+	"Mammalogy" = "Drawer tags with the collection, loan number and date, catalog number, name, part and borrower. 12 to a page.",
+	"Bird/Mammal" = "One line slips: catalog number, name, loan number, date and recipient. 30 to a landscape page.",
+	"Herp" = "Smaller one line slips with the same fields. 60 to a landscape page.",
+	"Storage" = "For each part, its storage location, with the loan number and recipient. 18 to a page.",
+	"Cryo-Sheet" = "A table of the cryovials in the loan by freezer rack, slot, box and position, for pulling them. 25 to a landscape page.",
+	"Cryo-Sheet-R" = "The cryogenic spreadsheet with the part's remarks and those of the part it was sampled from. 12 to a landscape page."
+}>
+<!--- Collection names for the Mammalogy tag, by the collection code at the end of the loan number (yyyy-n-Coll). --->
+<cfset LOAN_COLLECTION_NAMES = {
+	"Herp" = "Herpetology Collection",
+	"Mamm" = "Mammalogy Collection",
+	"IZ" = "Invertebrate Zoology Collection",
+	"Mala" = "Malacology Collection",
+	"VP" = "Vertebrate Paleontology Collection",
+	"SC" = "Special Collections",
+	"MCZ" = "MCZ Collections",
+	"IP" = "Invertebrate Paleontology Collection",
+	"Ich" = "Ichthyology Collection",
+	"Orn" = "Ornithology Collection",
+	"Cryo" = "Cryogenic Collection",
+	"Ent" = "Entomology Collection"
+}>
+<!--- Marks, in the cryogenic sheets, a loaned part that is the vial itself rather than a subsample of it. --->
+<cfset NOT_SUBSAMPLE = "The Vial, Not A Subsample">
+
+<cfparam name="url.action" default="">
+<cfparam name="url.transaction_id" default="">
+<cfparam name="url.format" default="">
+<cfset variables.action = "itemLabels">
+<cfif url.action EQ "pdf">
+	<cfset variables.action = "pdf">
 </cfif>
-Current format: #displayFormat#<br/>
-<form action='MCZDrawerTags.cfm' method="POST">
-	<input type='hidden' name='action' value='itemLabels'>
-	<input type='hidden' name='transaction_id' value='#transaction_id#'>
-Change to: <select name="format">
-		<option value="Bird/Mammal">Bird/Mammal</option>
-		<option value="Mammalogy">Mammalogy 3"x2" drawer tag</option>
-		<option value="Herp">Herp</option>
-		<option value="Malacology">MCZ 1"x2" drawer tag</option>
-		<option value="Malacology2">Malacology 1"x2" with container</option>
-		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
-		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
-		<option value="Cryo-Sheet-R">Cryogenic Spreadsheet with remarks</option>
-		<option value="Storage">Storage Locations</option>
-	</select>
-	<input type='submit' value='Change Format' />
-</form>
-</cfoutput>
-<cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
-	<cfset NOT_SUBSAMPLE = "The Vial, Not A Subsample">
-	<cftry>
-		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * 
-			FROM (
-				select
-				   cataloged_item.collection_cde,
-				   cataloged_item.cat_num,
-				   cataloged_item.collection_object_id,
-				   identification.scientific_name as sciName,
-				   MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
-				   c5.barcode as rack,
-				   c4.barcode as slot,
-				   c3.barcode as box,
-				   c2.label as position,
-				   c1.barcode as vial,
-				   corem.coll_object_remarks as part_remarks,
-				   pcorem.coll_object_remarks as sampled_from_part_remarks
-				from
-					loan_item
-					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-					left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
-					left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
-					left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
-					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-					left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-					left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
-					left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
-					left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
-					left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-					left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
-					left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
-				where identification.accepted_id_fg = 1 AND
-					coll_obj_cont_hist.current_container_fg = 1 AND
-					specimen_part.sampled_from_obj_id is not null AND
-					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-				UNION	  
-				select
-				   cataloged_item.collection_cde,
-				   cataloged_item.cat_num,
-				   cataloged_item.collection_object_id,
-				   identification.scientific_name as sciName,
-				   MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
-				   c5.barcode as rack,
-				   c4.barcode as slot,
-				   c3.barcode as box,
-				   c2.label as position,
-				   c1.barcode as vial,
-				   corem.coll_object_remarks as part_remarks,
-				   '#NOT_SUBSAMPLE#' sampled_from_part_remarks
-				from
-					loan_item
-					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-					left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
-					left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-					left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-					left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-					left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
-					left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
-					left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
-					left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-					left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
-					left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
-				where identification.accepted_id_fg = 1 AND
-					coll_obj_cont_hist.current_container_fg = 1 AND
-					specimen_part.sampled_from_obj_id is null AND
-					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-			)
-			ORDER BY 
-				rack, slot, box, 
-				decode(LENGTH(TRIM(TRANSLATE(position, '0123456789',' '))),null,to_number(position),position), 
-				vial, cat_num
-		</cfquery>
-	<cfcatch>
-		<cfoutput>
-			<h3>Query Error obtaining item/container records for spreadsheet.</h3>
-			<strong>#cfcatch.message#</strong>
-			<strong>#cfcatch.detail#</strong>
-			<cfif cfcatch.detail contains 'ORA-01722: invalid number'>
-				<h3>It is likely that a part is not placed correctly in the container heirarchy, or this report is not applicable to this material.  This report expects that all parts are vials in a position within a box, slot, and rack.</h3>
-				<!--- repeat the query, but without the decimal sort --->
-		     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-      		select
-		           cataloged_item.collection_cde,
-      		     cataloged_item.cat_num,
-		           cataloged_item.collection_object_id,
-      		     identification.scientific_name as sciName,
-		           MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
-		           c5.barcode as rack,
-      		     c4.barcode as slot,
-		           c3.barcode as box,
-      		     c2.label as position,
-		           c1.barcode as vial,
-      		     corem.coll_object_remarks as part_remarks,
-		           pcorem.coll_object_remarks as sampled_from_part_remarks
-		      from
-      		   loan_item
-		            left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-      		      left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
-		            left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
-      		      left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
-		            left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-      		      left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-		            left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
-      		      left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
-		            left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
-      		      left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-		            left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
-      		      left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
-		      where identification.accepted_id_fg = 1 AND
-      		      coll_obj_cont_hist.current_container_fg = 1 AND
-            		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		      ORDER BY c5.barcode, c4.barcode, c3.barcode, c1.barcode, cat_num
-		     </cfquery>
-				<p>Check for one or more non-numeric position values on the list of parts below</p>
-				<ul>
-						<li>cat_num rack:slot:box:<strong>position</strong>:vial part_remarks</li>
-					<cfloop query="getItems">
-						<li>#cat_num# #rack#:#slot#:#box#:<strong>#position#</strong>:#vial# #part_remarks#</li>
-					</cfloop>
-				</ul>
-			</cfif>
-		</cfoutput>
-	</cfcatch>
-	</cftry>
-    <cfset maxRow = 28>
-    <cfset maxCol = 1>
-    <cfset labelWidth = 'width: 1100px;'>
-    <cfset orientiation = 'landscape'>
-    <cfset textClass = "times12">
-    <cfset textHClass = "times12b">
-    <cfset dateStyle = "dd mmm<br>yyyy"><!--- " --->
-    <cfset dateWidth = "width: 60px;">
+<cfset variables.transaction_id = trim(url.transaction_id)>
+<cfset variables.format = DEFAULT_FORMAT>
+<cfif listFind(FORMAT_LIST, url.format) GT 0>
+	<cfset variables.format = url.format>
+</cfif>
+<cfset variables.isCryoSheet = (variables.format EQ "Cryo-Sheet" OR variables.format EQ "Cryo-Sheet-R")>
 
-	 <cfif format is "Cryo-Sheet-R">
-       <cfset numRecordsPerPage = 12>
-	 <cfelseif format is "Cryo-Sheet">
-       <cfset numRecordsPerPage = 25>
-    <cfelse>
-       <cfset numRecordsPerPage = maxCol * maxRow>
-    </cfif>
-    <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
-    <cfset curPage = 1>
-    <cfset curRecord = 1>
+<!---
+	getLoanForTags the loan whose parts are tagged.
 
+	@param transaction_id the loan's transaction_id.
+	@return a query with loan_number, trans_date and recipients (the received by agents), empty if
+		there is no such loan.
+--->
+<cffunction name="getLoanForTags" returntype="query" output="false">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset var getLoan = "">
+	<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLoan_result">
+		SELECT
+			loan.loan_number,
+			trans.trans_date,
+			(
+				SELECT listagg(preferred_agent_name.agent_name, '; ') WITHIN GROUP (ORDER BY preferred_agent_name.agent_name)
+				FROM trans_agent
+					JOIN preferred_agent_name ON trans_agent.agent_id = preferred_agent_name.agent_id
+				WHERE
+					trans_agent.transaction_id = loan.transaction_id
+					AND trans_agent.trans_agent_role = 'received by'
+			) AS recipients
+		FROM loan
+			JOIN trans ON loan.transaction_id = trans.transaction_id
+		WHERE
+			loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+	</cfquery>
+	<cfreturn getLoan>
+</cffunction>
 
-    <!--- Formatting parameters --->
-    <cfset labelBorder = 'border: 1px solid black;'>
-    <cfset labelStyle = 'height: 17px; #labelWidth# #labelBorder#'>
-    <cfset tableStyle = 'border-width: 1px 1px 1px 1px; border-spacing: 0px; border-style: solid solid solid solid; border-color: black black black black; border-collapse: collapse; '>
-    <cfset thStyle = 'style = "	border-width: 1px 1px 1px 1px; border-style: solid; border-color: gray;"'>
-    <cfset tdStyle = 'style = "	border-width: 1px 1px 1px 1px; border-style: solid; border-color: gray;"'>
-    <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="4" border="0"'>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="4" border="0"'>
-    <cfset pageHeader='
-    <div style="position:static; top:0; left:0; width:100%;">
-    	<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
-    	Page #curPage# of #maxPage#
-    	</span>
-    </div>
-    '>
-    <cfset pageFooter = '
-    </table>
-    '><!--- ' --->
+<!---
+	getTagItems the loaned parts for a tag or slip format, one row per part.  A part with no current
+	container is still listed, with no container.
 
-    <!--- Document tags --->
-    <cfdocument
-    	format="pdf"
-    	pagetype="letter"
-    	margintop=".25"
-    	marginbottom=".25"
-    	marginleft=".25"
-    	marginright=".25"
-    	orientation="#orientiation#"
-    	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
-    	overwrite="yes">
-    <cfoutput>
-    <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-    <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
-    #pageHeader#
-    <table #outerTableParams# style="#tableStyle#" >
-    		      <tr>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Catalog Number</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Other Numbers</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Rack</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Rack Slot</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
-						<cfif format is "Cryo-Sheet-R">
-    		            <th #thStyle#><span class="#textHClass#"><strong>Part Remarks</strong></span></th>
-    		            <th #thStyle#><span class="#textHClass#"><strong>Sampled From Part Remarks</strong></span></th>
-						</cfif>
-    	 	     </tr>
+	@param transaction_id the loan's transaction_id.
+	@return a query of the parts, by catalog number.
+--->
+<cffunction name="getTagItems" returntype="query" output="false">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset var getItems = "">
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItems_result">
+		SELECT DISTINCT
+			cataloged_item.collection_cde,
+			cataloged_item.cat_num,
+			cataloged_item.collection_object_id,
+			specimen_part.collection_object_id AS part_id,
+			identification.scientific_name,
+			MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) AS typestatus,
+			specimen_part.part_name,
+			MCZBASE.get_part_prep(specimen_part.collection_object_id) AS part_prep,
+			MCZBASE.get_parentcontainerlabel(specimen_part.collection_object_id) AS parentcontainer,
+			MCZBASE.get_part_count_mod_for_part(specimen_part.collection_object_id) AS lot_count_mod,
+			MCZBASE.get_storage_parentage(coll_obj_cont_hist.container_id) AS container,
+			get_taxonomy(cataloged_item.collection_object_id, 'family') AS family,
+			get_taxonomy(cataloged_item.collection_object_id, 'phylum') AS phylum
+		FROM loan_item
+			JOIN specimen_part ON loan_item.collection_object_id = specimen_part.collection_object_id
+			JOIN cataloged_item ON specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+			JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id
+				AND identification.accepted_id_fg = 1
+			LEFT JOIN coll_obj_cont_hist ON loan_item.collection_object_id = coll_obj_cont_hist.collection_object_id
+				AND coll_obj_cont_hist.current_container_fg = 1
+		WHERE
+			loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+		ORDER BY cataloged_item.cat_num
+	</cfquery>
+	<cfreturn getItems>
+</cffunction>
 
-    <!--- Main loop --->
-    <cfloop query="getItems">
-    <!--- Data manipulation --->
-    <!--- End data manipulation --->
+<!---
+	getCryoItems the loaned parts for the cryogenic sheets, with the freezer rack, rack slot, freezer
+	box, position and cryovial each is in.  A subsample is placed by the vial it was sampled from;
+	a loaned vial by itself.
 
-    	<!--- here is where I could insert a div tag so that I could limit the space
-    	allotted per item, but make sure that the div tag size is a function or which format is chosen--->
-    		      <tr>
-    		         <td #tdStyle#><span class="#textClass#">#collection_cde# #cat_num#</span></td>
-    		         <td #tdStyle#><span class="#textClass#">#otherids#</span></td>
-    		         <td #tdStyle#><span class="#textClass#"><strong>#rack#</strong></span></td>
-    		         <td #tdStyle#><span class="#textClass#"><strong>#slot#</strong></span></td>
-    		         <td #tdStyle#><span class="#textClass#">#box#</span></td>
-    		         <td #tdStyle#><span class="#textClass#"><strong>#position#</strong></span></td>
-    		         <td #tdStyle#><span class="#textClass#">
-							#vial#
-							<cfif sampled_from_part_remarks EQ NOT_SUBSAMPLE>
-								(Not a Subsample)
+	@param transaction_id the loan's transaction_id.
+	@return a query of the parts, by rack, slot, box, position (numerically where it is a number),
+		vial and catalog number.
+--->
+<cffunction name="getCryoItems" returntype="query" output="false">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset var getItems = "">
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getItems_result">
+		SELECT *
+		FROM (
+			SELECT
+				cataloged_item.collection_cde,
+				cataloged_item.cat_num,
+				cataloged_item.collection_object_id,
+				MCZBASE.concatotherid(cataloged_item.collection_object_id) AS otherids,
+				c5.barcode AS rack,
+				c4.barcode AS slot,
+				c3.barcode AS box,
+				c2.label AS position,
+				c1.barcode AS vial,
+				corem.coll_object_remarks AS part_remarks,
+				pcorem.coll_object_remarks AS sampled_from_part_remarks
+			FROM loan_item
+				LEFT JOIN specimen_part ON loan_item.collection_object_id = specimen_part.collection_object_id
+				LEFT JOIN coll_object_remark corem ON loan_item.collection_object_id = corem.collection_object_id
+				LEFT JOIN coll_object_remark pcorem ON specimen_part.sampled_from_obj_id = pcorem.collection_object_id
+				LEFT JOIN coll_obj_cont_hist ON specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
+				LEFT JOIN cataloged_item ON specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+				LEFT JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id
+				LEFT JOIN MCZBASE.container c ON coll_obj_cont_hist.container_id = c.container_id
+				LEFT JOIN MCZBASE.container c1 ON c.parent_container_id = c1.container_id
+				LEFT JOIN MCZBASE.container c2 ON c1.parent_container_id = c2.container_id
+				LEFT JOIN MCZBASE.container c3 ON c2.parent_container_id = c3.container_id
+				LEFT JOIN MCZBASE.container c4 ON c3.parent_container_id = c4.container_id
+				LEFT JOIN MCZBASE.container c5 ON c4.parent_container_id = c5.container_id
+			WHERE
+				identification.accepted_id_fg = 1
+				AND coll_obj_cont_hist.current_container_fg = 1
+				AND specimen_part.sampled_from_obj_id IS NOT NULL
+				AND loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+			UNION
+			SELECT
+				cataloged_item.collection_cde,
+				cataloged_item.cat_num,
+				cataloged_item.collection_object_id,
+				MCZBASE.concatotherid(cataloged_item.collection_object_id) AS otherids,
+				c5.barcode AS rack,
+				c4.barcode AS slot,
+				c3.barcode AS box,
+				c2.label AS position,
+				c1.barcode AS vial,
+				corem.coll_object_remarks AS part_remarks,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NOT_SUBSAMPLE#"> AS sampled_from_part_remarks
+			FROM loan_item
+				LEFT JOIN specimen_part ON loan_item.collection_object_id = specimen_part.collection_object_id
+				LEFT JOIN coll_object_remark corem ON loan_item.collection_object_id = corem.collection_object_id
+				LEFT JOIN coll_obj_cont_hist ON specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+				LEFT JOIN cataloged_item ON specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+				LEFT JOIN identification ON cataloged_item.collection_object_id = identification.collection_object_id
+				LEFT JOIN MCZBASE.container c ON coll_obj_cont_hist.container_id = c.container_id
+				LEFT JOIN MCZBASE.container c1 ON c.parent_container_id = c1.container_id
+				LEFT JOIN MCZBASE.container c2 ON c1.parent_container_id = c2.container_id
+				LEFT JOIN MCZBASE.container c3 ON c2.parent_container_id = c3.container_id
+				LEFT JOIN MCZBASE.container c4 ON c3.parent_container_id = c4.container_id
+				LEFT JOIN MCZBASE.container c5 ON c4.parent_container_id = c5.container_id
+			WHERE
+				identification.accepted_id_fg = 1
+				AND coll_obj_cont_hist.current_container_fg = 1
+				AND specimen_part.sampled_from_obj_id IS NULL
+				AND loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
+		)
+		<!--- A position that is not a number sorts after the numbered ones, rather than failing the sort. --->
+		ORDER BY
+			rack, slot, box,
+			CASE WHEN regexp_like(position, '^[0-9]+$') THEN to_number(position) END,
+			position, vial, cat_num
+	</cfquery>
+	<cfreturn getItems>
+</cffunction>
+
+<!---
+	nameNearMiddleBreak a scientific name for a two line slip, broken at the space nearest its middle,
+	with its other spaces kept from breaking.
+
+	@param name the scientific name.
+	@return the name as html, encoded.
+--->
+<cffunction name="nameNearMiddleBreak" returntype="string" output="false">
+	<cfargument name="name" type="string" required="yes">
+	<cfset var words = listToArray(arguments.name, " ")>
+	<cfset var bestSplit = 0>
+	<cfset var bestDistance = len(arguments.name)>
+	<cfset var firstLength = 0>
+	<cfset var i = 0>
+	<cfset var firstPart = []>
+	<cfset var secondPart = []>
+	<cfif arrayLen(words) LT 2>
+		<cfreturn encodeForHtml(arguments.name)>
+	</cfif>
+	<cfloop from="1" to="#arrayLen(words) - 1#" index="i">
+		<cfset firstLength = firstLength + len(words[i]) + 1>
+		<cfif abs(firstLength - len(arguments.name) / 2) LT bestDistance>
+			<cfset bestDistance = abs(firstLength - len(arguments.name) / 2)>
+			<cfset bestSplit = i>
+		</cfif>
+	</cfloop>
+	<cfloop from="1" to="#arrayLen(words)#" index="i">
+		<cfif i LTE bestSplit>
+			<cfset arrayAppend(firstPart, encodeForHtml(words[i]))>
+		<cfelse>
+			<cfset arrayAppend(secondPart, encodeForHtml(words[i]))>
+		</cfif>
+	</cfloop>
+	<cfreturn arrayToList(firstPart, "&nbsp;") & "<br>" & arrayToList(secondPart, "&nbsp;")>
+</cffunction>
+
+<!---
+	unbroken a value as html that does not break at its spaces.
+
+	@param value the text.
+	@return the text encoded, its spaces non-breaking.
+--->
+<cffunction name="unbroken" returntype="string" output="false">
+	<cfargument name="value" type="string" required="yes">
+	<cfreturn replace(encodeForHtml(arguments.value), " ", "&nbsp;", "all")>
+</cffunction>
+
+<!------------------------------------------------------------------------------------------>
+<cfif variables.action EQ "pdf">
+	<!--- The PDF streams before the shared header would run, so it needs its own role check. --->
+	<cf_rolecheck>
+	<cfif NOT isValid("integer", variables.transaction_id)>
+		<cfthrow message="No loan was given to print drawer tags for.">
+	</cfif>
+	<cfset variables.loan = getLoanForTags(variables.transaction_id)>
+	<cfif variables.loan.recordcount EQ 0>
+		<cfthrow message="There is no loan with transaction_id #encodeForHtml(variables.transaction_id)#.">
+	</cfif>
+	<cfset variables.loanNumber = variables.loan.loan_number>
+	<cfset variables.recipients = variables.loan.recipients>
+	<cfset variables.collectionName = "[Unable to identify collection from loan number] #listLast(variables.loanNumber, '-')#">
+	<cfif structKeyExists(LOAN_COLLECTION_NAMES, listLast(variables.loanNumber, "-"))>
+		<cfset variables.collectionName = LOAN_COLLECTION_NAMES[listLast(variables.loanNumber, "-")]>
+	</cfif>
+	<cfset variables.fileName = "MCZ_Drawer_Tags_#reReplace(variables.loanNumber, '[^A-Za-z0-9_-]', '_', 'all')#.pdf">
+	<cfif variables.isCryoSheet>
+		<!--- A table of the cryovials, a fixed number of rows to a page, each page with its own header row. --->
+		<cfset variables.items = getCryoItems(variables.transaction_id)>
+		<cfset variables.rowsPerPage = 25>
+		<cfset variables.withRemarks = false>
+		<cfif variables.format EQ "Cryo-Sheet-R">
+			<cfset variables.rowsPerPage = 12>
+			<cfset variables.withRemarks = true>
+		</cfif>
+		<cfset variables.pageCount = max(1, ceiling(variables.items.recordcount / variables.rowsPerPage))>
+		<cfset variables.cellStyle = "border: 1px solid gray;">
+		<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="landscape" fontembed="yes" saveAsName="#variables.fileName#">
+			<cfoutput>
+				<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
+				<cfloop from="1" to="#variables.pageCount#" index="variables.page">
+					<div style="font-size: 10px; font-weight: 600;">Page #variables.page# of #variables.pageCount#</div>
+					<table width="100%" cellspacing="0" cellpadding="4" style="border: 1px solid black; border-collapse: collapse;">
+						<tr>
+							<th style="#variables.cellStyle#"><span class="times12b">Catalog Number</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Other Numbers</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Freezer Rack</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Rack Slot</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Freezer Box</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Position</span></th>
+							<th style="#variables.cellStyle#"><span class="times12b">Cryovial</span></th>
+							<cfif variables.withRemarks>
+								<th style="#variables.cellStyle#"><span class="times12b">Part Remarks</span></th>
+								<th style="#variables.cellStyle#"><span class="times12b">Sampled From Part Remarks</span></th>
 							</cfif>
-						</span></td>
-						<cfif format is "Cryo-Sheet-R">
-    		         	<td #tdStyle#><span class="#textClass#">#part_remarks#</span></td>
-    		         	<td #tdStyle#><span class="#textClass#">#sampled_from_part_remarks#</span></td>
-						</cfif>
-    	 	     </tr>
-    	<!--- Page break --->
-    	<cfif curRecord mod numRecordsPerPage is 0 AND curRecord lt getItems.recordcount>
-    		<cfset curPage = curPage + 1>
-    		<!--- end the old table, pagebreak, and begin the new one--->
-    		</table><cfdocumentitem type="pagebreak"></cfdocumentitem>
-    		<cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
-    		#pageHeader#
-                <table #outerTableParams# style="#tableStyle#" >
-    		      <tr>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Catalog Number</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Other Numbers</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Rack</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Rack Slot</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
-    		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
-						<cfif format is "Cryo-Sheet-R">
-    		            <th #thStyle#><span class="#textHClass#"><strong>Part Remarks</strong></span></th>
-    		            <th #thStyle#><span class="#textHClass#"><strong>Sampled From Part Remarks</strong></span></th>
-						</cfif>
-    	 	     </tr>
-
-    	</cfif>
-    	<!--- and finish our current record --->
-    	<cfset curRecord=#curRecord#+1>
-    </cfloop>
-    </table>
-    </cfoutput>
-    </cfdocument>
-    <cfinclude template = "../includes/_footer.cfm">
-
-<cfelse>
-
-    <!-- Cases other than Cryo-Sheet -->
-    <cfif format is "Cryo">
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-          select
-               cataloged_item.collection_cde,
-               cataloged_item.cat_num,
-               cataloged_item.collection_object_id,
-               identification.scientific_name as sciName,
-               MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
-               c5.barcode || ' (' ||  c5.container_type || ')<BR>&nbsp;&nbsp;&nbsp;' ||
-               c4.barcode || ' (' ||  c4.container_type || ')<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ||
-               c3.barcode || ' (' || c3.container_type  || ')<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ||
-               c2.label || ' (' || c2.container_type  || ')<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ||
-               c1.barcode || ' (' || c1.container_type  || ')'
-               as container
-          from
-             loan_item
-                left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-                left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
-                left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-                left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-                left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
-                left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
-                left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
-                left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
-                left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
-                left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
-          where identification.accepted_id_fg = 1 AND
-                coll_obj_cont_hist.current_container_fg = 1 AND
-    	    		 loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-    	ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
-    </cfquery>
-    <cfelse>
-    <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-    	select distinct
-    	    cataloged_item.collection_cde,
-                MCZBASE.get_storage_parentage(container.container_id) as container,
-    		cataloged_item.cat_num,
-    		cataloged_item.collection_object_id,
-                MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as typestatus,
-    		identification.scientific_name,
-    		loan.loan_number,
-    		trans.trans_date,
-    		preferred_agent_name.agent_name,
-	        specimen_part.part_name,
-                MCZBASE.GET_PART_PREP(specimen_part.collection_object_id) as part_prep,
-                MCZBASE.GET_PARENTCONTAINERLABEL(specimen_part.collection_object_id) as parentcontainer,
-                MCZBASE.GET_PART_COUNT_MOD_FOR_PART(specimen_part.collection_object_id) as lot_count_mod,
-    		get_taxonomy(cataloged_item.collection_object_id,'family') as family,
-    		get_taxonomy(cataloged_item.collection_object_id,'phylum') as phylum,
-			Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),
-				'Herp', 'Herpetology Collection',
-				'Mamm', 'Mammalogy Collection',
-				'IZ', 'Invertebrate Zoology Collection',
-				'Mala', 'Malacology Collection',
-				'VP','Vertebrate Paleontology Collection',
-				'SC','Special Collections',
-				'MCZ','MCZ Collections',
-				'IP','Invertebrate Paleontology Collection',
-				'Ich','Ichthyology Collection',
-				'Orn','Ornithology Collection',
-				'Cryo','Cryogenic Collection',
-				'Ent','Entomology Collection',
-				'[Unable to identify collection from loan number]' || substr(loan_number, instr(loan_number, '-',1, 2)+1)
-				) as collection
-    	 from
-    		loan_item,
-    		loan,
-    		specimen_part,
-    		cataloged_item,
-    		identification,
-    		collecting_event,
-    		preferred_agent_name,
-    		trans,
-    		trans_agent,
-                coll_obj_cont_hist,
-                container
-    	WHERE
-    		loan_item.collection_object_id = specimen_part.collection_object_id AND
-                loan_item.collection_object_id = coll_obj_cont_hist.collection_object_id AND
-                coll_obj_cont_hist.container_id = container.container_id AND 
-    		loan.transaction_id = loan_item.transaction_id AND
-    		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-    		cataloged_item.collection_object_id = identification.collection_object_id AND
-    		identification.accepted_id_fg = 1 AND
-    		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-    		trans.transaction_id = loan_item.transaction_id AND
-    		trans.transaction_id = trans_agent.transaction_id and
-    		trans_agent.trans_agent_role = 'received by' and
-    		trans_agent.agent_id = preferred_agent_name.agent_id AND
-                coll_obj_cont_hist.current_container_fg = 1 and
-    	        loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-    	ORDER BY cat_num
-    </cfquery>
-    </cfif>
-
-    <!--- Set up the necessary variables --->
-
-    <!--- Layout parameters --->
-    <cfset maxCol = 2>
-    <cfset labelWidth = 'width: 368px;'>
-    <cfset orientiation = 'landscape'>
-    <cfif format is "Bird/Mammal">
-    	<cfset maxRow = 15>
-    </cfif>
-    <cfif format is "Herp">
-    	<cfset maxRow = 30>
-    </cfif>
-    <cfif format is "Malacology">
-    	<cfset maxRow = 7>
-    </cfif>
-    <cfif format is "Malacology2">
-    	<cfset maxRow = 7>
-    </cfif>
-    <cfif format is "Mammalogy">
-    	<cfset maxRow = 6>
-    </cfif>
-    <cfif format is "Cryo" or format is "Storage">
-    	<cfset maxRow = 9>
-            <cfset maxCol = 2>
-            <cfset labelWidth = 'width: 368px;'>
-    	<cfset orientiation = 'portrait'>
-    </cfif>
-    <cfset numRecordsPerPage = maxCol * maxRow>
-    <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
-    <cfset curPage = 1>
-    <cfset curRecord = 1>
-
-
-    <!--- Formatting parameters --->
-    <cfset labelBorder = 'border: 1px solid black;'>
-    <cfset outerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0"'>
-    <cfset innerTableParams = 'width="100%" cellspacing="0" cellpadding="0" border="0"'>
-    <cfset pageHeader='
-    <div style="position:static; top:0; left:0; width:100%;">
-    	<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
-    	Page #curPage# of #maxPage#
-    	</span>
-    </div>
-    <table #outerTableParams#>
-    <tr>
-    <td valign="top">
-    <table #innerTableParams#>
-    '>
-    <cfset pageFooter = '
-    </table>
-    </td>
-    </tr>
-    </table>
-    '>
-    <cfif format is "Cryo" or format is "Storage">
-    	<cfset textClass = "times10">
-    	<cfset dateStyle = "dd mmm<br>yyyy">
-    	<cfset labelStyle = 'height: 17px; #labelWidth# #labelBorder#'>
-    	<!--- This width is smaller because this date occupies two lines--->
-    	<cfset dateWidth = "width: 40px;">
-    </cfif>
-    <cfif format is "Bird/Mammal">
-    	<cfset textClass = "times10">
-    	<cfset dateStyle = "dd mmm<br>yyyy">
-    	<cfset labelStyle = 'height: 32px; #labelWidth# #labelBorder#'>
-    	<!--- This width is smaller because this date occupies two lines--->
-    	<cfset dateWidth = "width: 40px;">
-    </cfif>
-    <cfif format is "Herp">
-    	<cfset textClass = "times8">
-    	<cfset dateStyle = "dd mmm yyyy">
-    	<cfset labelStyle = 'height: 17px; #labelWidth# #labelBorder#'>
-    	<!--- This width is larger because this date occupies one line--->
-    	<cfset dateWidth = "width: 50px;">
-    </cfif>
-    <cfif format is "Malacology">
-    	<cfset labelWidth = 'width: 2.0in;'>
-        <cfset labelBorder = 'border: 0px;'>
-    	<cfset textClass = "times10">
-    	<cfset dateStyle = "dd mmm yyyy">
-    	<cfset labelStyle = 'height: 1.0in; #labelWidth# #labelBorder#'>
-    	<cfset dateWidth = "width: 60px;"><!--- unused --->
-        <cfset pageHeader='
-         <table #outerTableParams#>
-         <tr>
-         <td valign="top">
-         <table #innerTableParams#>
-        '>
-        <cfset orientiation = 'portrait'>
-    </cfif>
-    <cfif format is "Malacology2">
-    	<cfset labelWidth = 'width: 2.1in;'>
-        <cfset labelBorder = 'border: 0px;'>
-    	<cfset textClass = "times8">
-    	<cfset dateStyle = "dd mmm yyyy">
-    	<cfset labelStyle = 'height: 1.0in; #labelWidth# #labelBorder#'>
-    	<cfset dateWidth = "width: 60px;"><!--- unused --->
-        <cfset pageHeader='
-         <table #outerTableParams#>
-         <tr>
-         <td valign="top">
-         <table #innerTableParams#>
-        '>
-        <cfset orientiation = 'portrait'>
-    </cfif>
-    <cfif format is "Mammalogy">
-    	<cfset labelWidth = 'width: 3.3in;'>
-        <cfset labelBorder = 'border: 0px;'>
-    	<cfset textClass = "times12">
-    	<cfset dateStyle = "dd mmm yyyy">
-    	<cfset labelStyle = 'height: 1.4in; #labelWidth# #labelBorder#'>
-    	<cfset dateWidth = "width: 60px;"><!--- unused --->
-        <cfset pageHeader='
-         <table #outerTableParams#>
-         <tr>
-         <td valign="top">
-         <table #innerTableParams#>
-        '>
-        <cfset orientiation = 'portrait'>
-    </cfif>
-
-
-    <!--- Document tags --->
-    <!--- TODO: figure out WHY the pdf i download from the link above is not getting changed...
-    sent email to dusty about it.
-    update -- seems to work now, I have no idea what fixed it... --->
-    <cfdocument
-    	format="pdf"
-    	pagetype="letter"
-    	margintop=".25"
-    	marginbottom=".25"
-    	marginleft=".25"
-    	marginright=".25"
-    	orientation="#orientiation#"
-    	fontembed="yes"
-    	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
-    	overwrite="yes">
-    <cfoutput>
-    <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-    <cfif format is "Malacology" or format is "Mammalogy" or format is "Malacology2">
-    	<!--- omit page count in header for malacology format --->
-    <cfelse>
-        <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
-    </cfif>
-    #pageHeader#
-    <!--- Main loop --->
-    <cfloop query="getItems">
-
-    <!--- Data manipulation --->
-    <cfif format is "Bird/Mammal">
-    	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
-    	<!--- complicated and stupid, but it should work.
-    	The idea is to find all the spaces in the scientific name. Then find the
-    	one that is closest to the center of the string. Change that space to a
-    	newline.
-    	--Peter DeVore --->
-    	<!--- Find the space locations --->
-    	<cfset thingToReplace = "&nbsp;">
-    	<cfset curLoc = 0>
-    	<cfset spaceLocs = "">
-    	<cfset loopin = true>
-    	<cfloop condition="loopin">
-    		<cfif find(thingToReplace,sciName,curLoc+1) is 0>
-    			<cfset loopin = false>
-    		<cfelse>
-    			<cfset curLoc = find(thingToReplace,sciName,curLoc+1)>
-    			<cfset spaceLocs = ListAppend(spaceLocs,curLoc)>
-    		</cfif>
-    	</cfloop>
-
-    	<!--- If there are no spaces, then no need to do anything else! --->
-    	<cfif len(spaceLocs) gt 0>
-    		<!--- Convert the space locations into distances from center --->
-    		<cfset convertedSpaceLocs = "">
-    		<cfloop list="#spaceLocs#" index="loc">
-    			<cfset convertedSpaceLocs = abs(loc - (len(sciName)/2))>
-    		</cfloop>
-
-    		<!--- Sort those distances --->
-    		<cfset convertedSpaceLocs = ListSort(convertedSpaceLocs,"numeric")>
-
-    		<!--- Have not replaced a space yet --->
-    		<cfset replacedSpace = false>
-
-    		<!--- Try inserting newline if the closest space is after the center --->
-    		<cfset position = (len(sciName)/2) + ListFirst(convertedSpaceLocs)>
-    		<cfif find(thingToReplace, sciName, position) is position and not replacedSpace>
-    			<cfset sciName = insert("<br>", sciName, position-1)>
-    			<cfset replacedSpace = true>
-    		</cfif>
-
-    		<!--- Try inserting newline if the closest space is before the center --->
-    		<cfset position = (len(sciName)/2) - ListFirst(convertedSpaceLocs)>
-    		<cfif find(thingToReplace, sciName, position) is position and not replacedSpace>
-    			<cfset sciName = insert("<br>", sciName, position-1)>
-    			<cfset replacedSpace = true>
-    		</cfif>
-    	</cfif>
-    </cfif>
-    <cfif format is "Herp" or format is "Storage">
-    	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
-    </cfif>
-    <cfif format is "Malacology" or format is "Malacology2">
-    	<cfset sciName = #replace(scientific_name," ","&nbsp;","all")#>
-    	<cfset higherTaxa = "#phylum#&nbsp;#family#">
-        <cfif len(sciName) GT 26>
-    	   <cfset higherTaxa = left("#phylum#&nbsp;#family#",25) & "...">
-        </cfif>
-    </cfif>
-    <cfif format is "Mammalogy">
-    	<cfset sciName = #scientific_name#>
-    </cfif>
-    <!--- End data manipulation --->
-
-    	<tr><td>
-    	<!--- here is where I could insert a div tag so that I could limit the space
-    	allotted per item, but make sure that the div tag size is a function or which format is chosen--->
-    	<div style="#labelStyle#">
-    		<cfif format is "Cryo" >
-    		   <table>
-    		      <tr>
-    		         <td><span class="#textClass#"><i>#sciName#</i> <strong>#collection_cde# #cat_num#</strong></span></td>
-    		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#">#otherids#</span></td>
-    		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#">#container#</span></td>
-    	 	     </tr>
-    	          </table>
-                    <cfelse>
-    		<cfif format is "Storage" >
-    		   <table>
-    		      <tr>
-    		         <td colspan="2" align="center"><span class="#textClass#">
-    			      <strong>Loan Number:</strong> #getItems.loan_number# &nbsp;
-                              <strong>On Loan To:</strong> #agent_name#
-                         </span></td>
-    		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#"><i>#sciName#</i> <strong>#collection_cde# #cat_num#</strong></span></td>
-    		      </tr>
-    		      <tr>
-    		         <td><span class="#textClass#">#container#</span></td>
-    	 	     </tr>
-    	          </table>
-    		<cfelseif format is "Malacology">
-    		      <table>
-    		      <tr>
-    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde# #cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
-    			  </tr>
-    			  <tr>
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i> <span style="float: right;"><strong>#typestatus#</strong></span></div></td>
-    			  </tr>
-    			 <tr>
-    			 </tr>
-    			 <tr>
-    		        <td>
-    			      <span class="#textClass#"><strong>Loan Number:</strong> #getItems.loan_number#</span>
-    		        </td>
-    		        <td>
-    			       <div class="#textClass#">#dateformat(trans_date,dateStyle)#</div>
-    		        </td>
-    			</tr>
-    			  <tr>
-    		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
-    		      </tr>
-    	              </table>
-   		   <cfelseif format is "Malacology2">
-    		      <table style="font-size: smaller; line-height: 85%; padding: 0px;">
-    		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2"><span class="#textClass#"><strong>#collection_cde#&nbsp;#cat_num#</strong></span>&nbsp;<span align="right" class="#textClass#">#higherTaxa#</span></td>
-    			  </tr>
-    		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i> <span style="float: right;"><strong>#typestatus#</strong></span></div></td>
-    			  </tr>
-    		      <tr style="padding: 0px; margin: 0px;">
-                         <cfif parentcontainer eq "The Museum of Comparative Zoology">
-                            <cfset parentcontainer_c = ''>
-                         <cfelse>
-                            <cfset parentcontainer_c = parentcontainer>
-                         </cfif>
-    		         <td colspan="2"><span class="#textClass#">#parentcontainer_c# #part_prep# #lot_count_mod#</span></td>
-    			  </tr>
-    		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2" align="center"><span class="#textClass#"><strong>On Loan To:</strong> #agent_name#</span></td>
-    			 </tr>
-    		      <tr style="padding: 0px; margin: 0px;">
-    		        <td>
-    			      <span class="#textClass#"><strong>Loan Number:</strong> #getItems.loan_number#</span>
-    		        </td>
-    		        <td>
-    			       <div class="#textClass#" >#replace(dateformat(trans_date,dateStyle),' ','&nbsp;','all')#</div>
-    		        </td>
-    			</tr>
-    		      <tr style="padding: 0px; margin: 0px;">
-    		         <td colspan="2" align="center"><div class="#textClass#"><strong>Museum of Comparative Zoology</span></strong></td>
-    		      </tr>
-    	              </table>
-   		   <cfelse >
-    		      <cfif format is "Mammalogy">
-    			<table width="100%" style="border: 1px solid black; " class="labeltableclass">
-    			  <tr>
-    		         <td colspan="2" align="center"><div class="#textClass#"><strong>MCZ #collection#</span></strong></td>
-    		      </tr>
-    			 <tr>
-    		        <td>
-    			      <span class="#textClass#"><strong>Loan No.:</strong> #getItems.loan_number#</span>
-    		        </td>
-    		        <td>
-    			       <div class="#textClass#"><strong>Date:</strong>#dateformat(trans_date,dateStyle)#</div>
-    		        </td>
-    			</tr>
-    		      <tr>
-    		        <td colapan="2">
-				       <span class="#textClass#"><strong>MCZ #collection_cde# #cat_num#</strong></span>
-					 </td>
-    			  </tr>
-    			  <tr>
-    		         <td colspan="2"><div class="#textClass#"><i>#sciName#</i></span></td>
-    			  </tr>
-    			 <tr>
-    		         <td colspan="2"><span class="#textClass#"><strong>Nature:</strong> #part_name#</span></td>
-    			 </tr>
-    			 <tr>
-    		         <td colspan="2"><span class="#textClass#"><strong>Borrower:</strong> #agent_name#</span></td>
-    			 </tr>
-    	       </table>
-    		<cfelse >
-    	<table><tr>
-    		<td>
-    			<span class="#textClass#">#cat_num#</span>
-    		</td>
-    <!--- there is a sciname width problem (sample: transaction_id=11062560 in dev)
-    where it can be too big and force the slips onto the next line.
-    not much i can do about it: i tried limiting the width of it, but if you want
-    one line slips, then its going to take that much room and that's that.
-    --Peter DeVore--->
-    		<td>
-    			<div class="#textClass#"><i>#sciName#</i></span>
-    		</td>
-    		<td>
-    			<span class="#textClass#">#getItems.loan_number#</span>
-    		</td>
-    		<td>
-    		<!--- mmm is Aug, while mmmm is August (diff formats)--->
-    			<div class="#textClass#" style="#dateWidth#">#dateformat(trans_date,dateStyle)#</div>
-    		</td>
-    		<td>
-    			<span class="#textClass#">#agent_name#</span>
-    		</td>
-    	</tr></table>
-    		</cfif>
-	        </cfif>
-            </cfif>
-    	</div>
-    	</td></tr>
-    	<!--- End Column? Do it after every #maxRow# labels --->
-    	<cfif curRecord mod maxRow is 0>
-    		</table></td>
-    		<!--- But only add a new column if that wasn't the last record AND we aren't at a page break --->
-    		<cfif curRecord lt getItems.recordCount and curRecord mod numRecordsPerPage is not 0>
-    			<td valign='top'><table #innerTableParams#>
-    		</cfif>
-    	</cfif>
-    	<!--- Page break? --->
-    	<cfif curRecord mod numRecordsPerPage is 0 AND curRecord lt getItems.recordcount>
-    		<cfset curPage = curPage + 1>
-    		<!--- end the old table, pagebreak, and begin the new one--->
-    		#pageFooter#<cfdocumentitem type="pagebreak"></cfdocumentitem>
-    		<cfif format is "Malacology" or format is "Malacology2">
-    	       <!--- omit page header for malacology format --->
-            <cfelse>
-    		   <cfset pageHeader = replace(pageHeader,'Page #curPage-1# of','Page #curPage# of')>
-    		</cfif>
-    		#pageHeader#
-    	</cfif>
-    	<!--- and finish our current record --->
-    	<cfset curRecord=#curRecord#+1>
-    </cfloop>
-    #pageFooter#
-    </cfoutput>
-    </cfdocument>
-    <cfinclude template = "../includes/_footer.cfm">
-</cfif>  <!-- End not Cryo-Sheet  -->
-</cfif>  <!-- End Action -->
-
-
-<!---
-
-<!------------------------------------------------------------------->
-<cfif #Action# is "shippingLabel">
-<cfinclude template='../includes/_header.cfm'>
-<!---
-For this action:
-Author: Peter DeVore
-Email: pdevore@berkeley.edu
-
-Description:
-	Used to make printable shipping labels for specimens from Loan.cfm page.
-Parameters:
-	transaction_id
-Based on:
-	other actions in this page
---->
-
-	<cfparam name="shipped_to_addr" default = "">
-	<cfparam name="shipped_to_addr_id" default = "">
-	<cfparam name="shipped_from_addr" default = "">
-	<cfparam name="shipped_from_addr_id" default = "">
-	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * 
-		from shipment 
-		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	</cfquery>
-	<!--- Test to see if there are shipping addresses. --->
-	<cfif ship.recordcount gt 0>
-		<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select formatted_addr from addr where
-			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_to_addr_id#">
-		</cfquery>
-		<cfset shipped_to_addr = "#shipped_to_addr_id.formatted_addr#">
-		<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select formatted_addr from addr where
-			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_from_addr_id#">
-		</cfquery>
-		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
-		<cfoutput>
-			<p>
-				<a href="/temp/loaninvoice_#session.DownloadFileID#.pdf" target="_blank">Get the PDF</a>
-			</p>
-		</cfoutput>
-
-<!--- Define formatting params --->
-<cfset fromToClass = "times9b">
-<cfset fromAddrClass = "times10">
-<cfset toAddrClass = "times12b">
-<cfset addrStyle = "text-align: center;">
-<cfset checkboxTextClass = 'times10'>
-<cfset checkboxStyle = "border: 1px solid black; padding: -.25em 0em -.25em 0em;">
-<!--- End formatting params --->
-<cfdocument
-	format="pdf"
-	pagetype="letter"
-	margintop=".25"
-	marginbottom=".25"
-	marginleft=".25"
-	marginright=".25"
-	orientation="portrait"
-	fontembed="yes"
-	filename="#Application.webDirectory#/temp/loaninvoice_#session.DownloadFileID#.pdf"
-	overwrite="yes">
-<cfoutput>
-<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-<!--- we want two copies of the label, so we do a loop that runs twice --->
-<cfloop from="0" index="whatever" to="1">
-<div style="width: 300px; height: 195px; border: 1px black dashed; padding: 5px;">
-	<table><tr><td valign="top"><span class="#fromToClass#">From:</span></td>
-	<td><div class="#fromAddrClass#" style="#addrStyle#">
-		<blockquote>
-			#replace(shipped_from_addr,"#chr(10)#","<br>","all")#
-		</blockquote>
-	</div></td></tr></table>
-	<hr>
-	<table><tr><td valign="top"><span class="#fromToClass#">To:</span></td>
-	<td><div class="#toAddrClass#" style="#addrStyle#">
-		<blockquote>
-			#replace(shipped_to_addr,"#chr(10)#","<br>","all")#
-		</blockquote>
-	</div></td></tr></table>
-	<!--- It seems that, as of Coldfusion 7, cfdocument does not support Times
-	New Roman White Box character. From this, I assume that it cannot support
-	one other non keyboard characters.Thus to make a checkbox I put in spaces
-	and surround it with a black border. I then adjust the padding until it is
-	the right size/shape. Thankfully, this does not need be cross-browser
-	compatible because it is made ONLY at the Arctos server. Thus, this only
-	needs to be updated if the font of the text around it changes or if the
-	server changes its HTML formatting drastically.
-	--Peter DeVore, 2008-02-06 --->
-	<!--- previously tried any of the following (numbers were for spacing them to test)
-	<cfoutput>
-	-2 #charsetEncode(binaryDecode("e296a1","hex"),"utf-8")#
-	-1 &##9633;
-	0 &##x2610;
-	1 &##9744;
-	2 #charsetEncode(binaryDecode("feff25A1","hex"),"utf-16")#
-	3 &##x25a1;
-	These are the unicode characters for different boxes. See above comment as
-	to why I don't use them.
-	</cfoutput>--->
-	<span class="#checkboxTextClass#"><span style='#checkboxStyle#'>&nbsp;&nbsp;</span>
-	Printed Matter</span><br/>
-	<span class="#checkboxTextClass#"><span style='#checkboxStyle#'>&nbsp;&nbsp;</span>
-	Scientific Specimens/No endangered species/No commercial value</span><br/>
-	<span class="#checkboxTextClass#"><span style='#checkboxStyle#'>&nbsp;&nbsp;</span>
-	Insured</span><br/>
-	<div class="#checkboxTextClass#" style="text-align: center;">Value _____________</div>
-</div>
-</cfloop>
-</cfoutput>
-</cfdocument>
-<cfelse>
-No Addresses for this loan to make a shipping label from!
-</cfif>
-<cfinclude template = "../includes/_footer.cfm">
-</cfif>
-
-
-
-<!------------------------------------------------------------------->
-<cfif #Action# is "itemList">
-<cfoutput>
-Splitting pages up is tricky. There is no automatic wrap function, and the data vary widely between loans. 15 rows per page (17 on pages other than the first) works well most of the time. If there are problems with wrapping pages, select a new value in the form below, submit the query, and check the new PDF that will be generated.
-<p></p>
-Number of rows to print per page:
-<p></p>
-<form name="a" method="post" action="MCZDrawerTags.cfm">
-	<input type="hidden" name="action" value="itemList" />
-	<input type="hidden" name="transaction_id" value="#transaction_id#" />
-	Rows: <input type="text" name="numRowsFPage" value="15" />
-	<input type="submit" />
-
-
-</form>
-<p>
-	<a href="/temp/LoanInvoice.pdf" target="_blank">Get the PDF</a>
-</p>
-</cfoutput>
-<!----
-
-
-	---->
-	<cfdocument
-	format="pdf"
-	pagetype="letter"
-	margintop=".25"
-	marginbottom=".25"
-	marginleft=".25"
-	marginright=".25"
-	orientation="landscape"
-	fontembed="yes"
-	 filename="#Application.webDirectory#/temp/LoanInvoice.pdf"
-	 overwrite="yes" >
-
-<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-
-<cfoutput>
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select
-		cat_num,
-		cataloged_item.collection_object_id,
-		collection.collection,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-		concatattributevalue(cataloged_item.collection_object_id,'sex') as sex,
-		decode (sampled_from_obj_id,
-			null,part_name,
-			part_name || ' sample') part_name,
-		 part_modifier,
-		 preserve_method,
-		condition,
-		 item_instructions,
-		 loan_item_remarks,
-		 coll_obj_disposition,
-		 scientific_name,
-		 Encumbrance,
-		 agent_name,
-		 loan_number,
-		 spec_locality,
-		 higher_geog,
-		 orig_lat_long_units,
-		 lat_deg,
-		 lat_min,
-		 lat_sec,
-		 long_deg,
-		 long_min,
-		 long_sec,
-		 dec_lat_min,
-		 dec_long_min,
-		 lat_dir,
-		 long_dir,
-		 dec_lat,
-		 dec_long,
-		 max_error_distance,
-		 max_error_units,
-		 decode(orig_lat_long_units,
-				'decimal degrees',to_char(dec_lat) || '&deg; ',
-				'deg. min. sec.', to_char(lat_deg) || '&deg; ' || to_char(lat_min) || '&acute; ' || to_char(lat_sec) || '&acute;&acute; ' || lat_dir,
-				'degrees dec. minutes', to_char(lat_deg) || '&deg; ' || to_char(dec_lat_min) || '&acute; ' || lat_dir
-			)  VerbatimLatitude,
-			decode(orig_lat_long_units,
-				'decimal degrees',to_char(dec_long) || '&deg;',
-				'deg. min. sec.', to_char(long_deg) || '&deg; ' || to_char(long_min) || '&acute; ' || to_char(long_sec) || '&acute;&acute; ' || long_dir,
-				'degrees dec. minutes', to_char(long_deg) || '&deg; ' || to_char(dec_long_min) || '&acute; ' || long_dir
-			)  VerbatimLongitude
-	 from
-		loan_item,
-		loan,
-		specimen_part,
-		coll_object,
-		cataloged_item,
-		coll_object_encumbrance,
-		encumbrance,
-		agent_name,
-		identification,
-		collecting_event,
-		locality,
-		geog_auth_rec,
-		accepted_lat_long,
-		collection
-	WHERE
-		loan_item.collection_object_id = specimen_part.collection_object_id AND
-		loan.transaction_id = loan_item.transaction_id AND
-		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-		specimen_part.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-		coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-		encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		collecting_event.locality_id = locality.locality_id AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		locality.locality_id = accepted_lat_long.locality_id (+) AND
-		cataloged_item.collection_id = collection.collection_id AND
-	  loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	  ORDER BY cat_num
-</cfquery>
-<cfquery name="one" dbtype="query">
-	select
-		cat_num,
-		customid,
-		collection_object_id,
-		collection,
-		sex,
-		scientific_name,
-		Encumbrance,
-		agent_name,
-		loan_number,
-		spec_locality,
-		higher_geog,
-		orig_lat_long_units,
-		lat_deg,
-		lat_min,
-		lat_sec,
-		long_deg,
-		long_min,
-		long_sec,
-		dec_lat_min,
-		dec_long_min,
-		lat_dir,
-		long_dir,
-		dec_lat,
-		dec_long,
-		max_error_distance,
-		max_error_units,
-		VerbatimLatitude,
-		VerbatimLongitude
-	FROM
-		getItems
-	GROUP BY
-		cat_num,
-		customid,
-		collection_object_id,
-		collection,
-		sex,
-		scientific_name,
-		Encumbrance,
-		agent_name,
-		loan_number,
-		spec_locality,
-		higher_geog,
-		orig_lat_long_units,
-		lat_deg,
-		lat_min,
-		lat_sec,
-		long_deg,
-		long_min,
-		long_sec,
-		dec_lat_min,
-		dec_long_min,
-		lat_dir,
-		long_dir,
-		dec_lat,
-		dec_long,
-		max_error_distance,
-		max_error_units,
-		VerbatimLatitude,
-		VerbatimLongitude
-	ORDER BY cat_num
-</cfquery>
-<cfquery name="more" dbtype="query">
-	select
-		collection_object_id,
-		part_name,
-		part_modifier,
-		preserve_method,
-		condition,
-		item_instructions,
-		loan_item_remarks,
-		coll_obj_disposition
-	from
-		getItems
-	GROUP BY
-		collection_object_id,
-		part_name,
-		part_modifier,
-		preserve_method,
-		condition,
-		item_instructions,
-		loan_item_remarks,
-		coll_obj_disposition
-</cfquery>
-<!--- get number of pages we'll have
-	<cfset lChars = 0>
-	<cfset numberOfPages = 1>
-	<cfloop query="one">
-		<cfset lChars = #lChars# + len(#higher_geog#) + len(#spec_locality#)>
-		<cfif #numberOfPages# is 1>
-			<cfif #lChars# gte 1000>
-				<cfset numberOfPages = #numberOfPages# + 1>
-				<cfset lChars=0>
-			</cfif>
-		<cfelse>
-			<cfif #lChars# gte 1100>
-				<cfset numberOfPages = #numberOfPages# + 1>
-				<cfset lChars=0>
-			</cfif>
-		</cfif>
-	</cfloop>
-
-	--->
-	<cfif not isdefined("numRowsFPage")>
-		<cfset numRowsFPage = 15>
-	</cfif>
-	<cfif not isdefined("numRowsNPage")>
-		<cfset numRowsNPage = #numRowsFPage# + 2>
-	</cfif>
-	<!--- 12 rows on the first page --->
-	<cfif one.recordcount lte #numRowsFPage#>
-		<cfset numberOfPages = 1>
+						</tr>
+						<cfset variables.firstRow = (variables.page - 1) * variables.rowsPerPage + 1>
+						<cfloop query="variables.items" startrow="#variables.firstRow#" endrow="#variables.firstRow + variables.rowsPerPage - 1#">
+							<tr>
+								<td style="#variables.cellStyle#"><span class="times12">#encodeForHtml(variables.items.collection_cde)# #encodeForHtml(variables.items.cat_num)#</span></td>
+								<td style="#variables.cellStyle#"><span class="times12">#encodeForHtml(variables.items.otherids)#</span></td>
+								<td style="#variables.cellStyle#"><span class="times12"><strong>#encodeForHtml(variables.items.rack)#</strong></span></td>
+								<td style="#variables.cellStyle#"><span class="times12"><strong>#encodeForHtml(variables.items.slot)#</strong></span></td>
+								<td style="#variables.cellStyle#"><span class="times12">#encodeForHtml(variables.items.box)#</span></td>
+								<td style="#variables.cellStyle#"><span class="times12"><strong>#encodeForHtml(variables.items.position)#</strong></span></td>
+								<td style="#variables.cellStyle#">
+									<span class="times12">
+										#encodeForHtml(variables.items.vial)#
+										<cfif variables.items.sampled_from_part_remarks EQ NOT_SUBSAMPLE>(Not a Subsample)</cfif>
+									</span>
+								</td>
+								<cfif variables.withRemarks>
+									<td style="#variables.cellStyle#"><span class="times12">#encodeForHtml(variables.items.part_remarks)#</span></td>
+									<td style="#variables.cellStyle#"><span class="times12">#encodeForHtml(variables.items.sampled_from_part_remarks)#</span></td>
+								</cfif>
+							</tr>
+						</cfloop>
+					</table>
+					<cfif variables.page LT variables.pageCount>
+						<cfdocumentitem type="pagebreak"></cfdocumentitem>
+					</cfif>
+				</cfloop>
+			</cfoutput>
+		</cfdocument>
 	<cfelse>
-		<!--- 14 rows on other pages --->
-		<cfset numberOfPages = ceiling((one.recordcount + 1) / #numRowsFPage#)>
+		<!--- Labels in two columns, filled down each column then across, a fixed number to a column. --->
+		<cfset variables.items = getTagItems(variables.transaction_id)>
+		<cfset variables.columns = 2>
+		<cfset variables.showPageNumbers = true>
+		<cfset variables.orientation = "landscape">
+		<cfset variables.labelBorder = "border: 1px solid black;">
+		<cfset variables.labelWidth = "width: 368px;">
+		<cfswitch expression="#variables.format#">
+			<cfcase value="Bird/Mammal">
+				<cfset variables.rowsPerColumn = 15>
+				<cfset variables.textClass = "times10">
+				<cfset variables.labelHeight = "height: 32px;">
+			</cfcase>
+			<cfcase value="Herp">
+				<cfset variables.rowsPerColumn = 30>
+				<cfset variables.textClass = "times8">
+				<cfset variables.labelHeight = "height: 17px;">
+			</cfcase>
+			<cfcase value="Storage">
+				<cfset variables.rowsPerColumn = 9>
+				<cfset variables.textClass = "times10">
+				<cfset variables.labelHeight = "height: 17px;">
+				<cfset variables.orientation = "portrait">
+			</cfcase>
+			<cfcase value="Malacology">
+				<cfset variables.rowsPerColumn = 7>
+				<cfset variables.textClass = "times10">
+				<cfset variables.labelWidth = "width: 2.0in;">
+				<cfset variables.labelHeight = "height: 1.0in;">
+				<cfset variables.labelBorder = "border: 0px;">
+				<cfset variables.orientation = "portrait">
+				<cfset variables.showPageNumbers = false>
+			</cfcase>
+			<cfcase value="Malacology2">
+				<cfset variables.rowsPerColumn = 7>
+				<cfset variables.textClass = "times8">
+				<cfset variables.labelWidth = "width: 2.1in;">
+				<cfset variables.labelHeight = "height: 1.0in;">
+				<cfset variables.labelBorder = "border: 0px;">
+				<cfset variables.orientation = "portrait">
+				<cfset variables.showPageNumbers = false>
+			</cfcase>
+			<cfcase value="Mammalogy">
+				<cfset variables.rowsPerColumn = 6>
+				<cfset variables.textClass = "times12">
+				<cfset variables.labelWidth = "width: 3.3in;">
+				<cfset variables.labelHeight = "height: 1.4in;">
+				<cfset variables.labelBorder = "border: 0px;">
+				<cfset variables.orientation = "portrait">
+				<cfset variables.showPageNumbers = false>
+			</cfcase>
+		</cfswitch>
+		<cfset variables.labelStyle = "#variables.labelHeight# #variables.labelWidth# #variables.labelBorder#">
+		<cfset variables.perPage = variables.rowsPerColumn * variables.columns>
+		<cfset variables.pageCount = max(1, ceiling(variables.items.recordcount / variables.perPage))>
+		<cfset variables.loanDate = dateFormat(variables.loan.trans_date, "dd mmm yyyy")>
+		<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#variables.orientation#" fontembed="yes" saveAsName="#variables.fileName#">
+			<cfoutput>
+				<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
+				<cfloop from="1" to="#variables.pageCount#" index="variables.page">
+					<cfif variables.showPageNumbers>
+						<div style="font-size: 10px; font-weight: 600;">Page #variables.page# of #variables.pageCount#</div>
+					</cfif>
+					<table width="100%" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<cfloop from="1" to="#variables.columns#" index="variables.column">
+								<cfset variables.firstRow = (variables.page - 1) * variables.perPage + (variables.column - 1) * variables.rowsPerColumn + 1>
+								<cfif variables.firstRow LTE variables.items.recordcount>
+									<td valign="top">
+										<table width="100%" cellspacing="0" cellpadding="0" border="0">
+											<cfloop query="variables.items" startrow="#variables.firstRow#" endrow="#variables.firstRow + variables.rowsPerColumn - 1#">
+												<tr><td><div style="#variables.labelStyle#">
+													<cfswitch expression="#variables.format#">
+														<cfcase value="Storage">
+															<table>
+																<tr>
+																	<td colspan="2" align="center"><span class="#variables.textClass#"><strong>Loan Number:</strong> #encodeForHtml(variables.loanNumber)# &nbsp; <strong>On Loan To:</strong> #encodeForHtml(variables.recipients)#</span></td>
+																</tr>
+																<tr>
+																	<td><span class="#variables.textClass#"><i>#unbroken(variables.items.scientific_name)#</i> <strong>#encodeForHtml(variables.items.collection_cde)# #encodeForHtml(variables.items.cat_num)#</strong></span></td>
+																</tr>
+																<tr>
+																	<td><span class="#variables.textClass#">#encodeForHtml(variables.items.container)#</span></td>
+																</tr>
+															</table>
+														</cfcase>
+														<cfcase value="Malacology,Malacology2">
+															<!--- Higher taxa are cut short beside a long name. --->
+															<cfset variables.higherTaxa = trim("#variables.items.phylum# #variables.items.family#")>
+															<cfif len(variables.items.scientific_name) GT 22 AND len(variables.higherTaxa) GT 20>
+																<cfset variables.higherTaxa = left(variables.higherTaxa, 20) & "...">
+															</cfif>
+															<cfif variables.format EQ "Malacology">
+																<table>
+																	<tr>
+																		<td colspan="2"><span class="#variables.textClass#"><strong>#encodeForHtml(variables.items.collection_cde)# #encodeForHtml(variables.items.cat_num)#</strong></span>&nbsp;<span class="#variables.textClass#">#unbroken(variables.higherTaxa)#</span></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2"><div class="#variables.textClass#"><i>#unbroken(variables.items.scientific_name)#</i> <span style="float: right;"><strong>#encodeForHtml(variables.items.typestatus)#</strong></span></div></td>
+																	</tr>
+																	<tr>
+																		<td><span class="#variables.textClass#"><strong>Loan Number:</strong> #encodeForHtml(variables.loanNumber)#</span></td>
+																		<td><div class="#variables.textClass#">#variables.loanDate#</div></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2" align="center"><div class="#variables.textClass#"><strong>Museum of Comparative Zoology</strong></div></td>
+																	</tr>
+																</table>
+															<cfelse>
+																<!--- The museum itself as a part's container says nothing on a tag. --->
+																<cfset variables.partContainer = variables.items.parentcontainer>
+																<cfif variables.partContainer EQ "The Museum of Comparative Zoology">
+																	<cfset variables.partContainer = "">
+																</cfif>
+																<table style="font-size: smaller; line-height: 85%; padding: 0px;">
+																	<tr>
+																		<td colspan="2"><span class="#variables.textClass#"><strong>#unbroken("#variables.items.collection_cde# #variables.items.cat_num#")#</strong></span>&nbsp;<span class="#variables.textClass#">#unbroken(variables.higherTaxa)#</span></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2"><div class="#variables.textClass#"><i>#unbroken(variables.items.scientific_name)#</i> <span style="float: right;"><strong>#encodeForHtml(variables.items.typestatus)#</strong></span></div></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2"><span class="#variables.textClass#">#encodeForHtml(variables.partContainer)# #encodeForHtml(variables.items.part_prep)# #encodeForHtml(variables.items.lot_count_mod)#</span></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2" align="center"><span class="#variables.textClass#"><strong>On Loan To:</strong> #encodeForHtml(variables.recipients)#</span></td>
+																	</tr>
+																	<tr>
+																		<td><span class="#variables.textClass#"><strong>Loan Number:</strong> #encodeForHtml(variables.loanNumber)#</span></td>
+																		<td><div class="#variables.textClass#">#unbroken(variables.loanDate)#</div></td>
+																	</tr>
+																	<tr>
+																		<td colspan="2" align="center"><div class="#variables.textClass#"><strong>Museum of Comparative Zoology</strong></div></td>
+																	</tr>
+																</table>
+															</cfif>
+														</cfcase>
+														<cfcase value="Mammalogy">
+															<table width="100%" style="border: 1px solid black;">
+																<tr>
+																	<td colspan="2" align="center"><div class="#variables.textClass#"><strong>MCZ #encodeForHtml(variables.collectionName)#</strong></div></td>
+																</tr>
+																<tr>
+																	<td><span class="#variables.textClass#"><strong>Loan No.:</strong> #encodeForHtml(variables.loanNumber)#</span></td>
+																	<td><div class="#variables.textClass#"><strong>Date:</strong> #variables.loanDate#</div></td>
+																</tr>
+																<tr>
+																	<td colspan="2"><span class="#variables.textClass#"><strong>MCZ #encodeForHtml(variables.items.collection_cde)# #encodeForHtml(variables.items.cat_num)#</strong></span></td>
+																</tr>
+																<tr>
+																	<td colspan="2"><div class="#variables.textClass#"><i>#encodeForHtml(variables.items.scientific_name)#</i></div></td>
+																</tr>
+																<tr>
+																	<td colspan="2"><span class="#variables.textClass#"><strong>Nature:</strong> #encodeForHtml(variables.items.part_name)#</span></td>
+																</tr>
+																<tr>
+																	<td colspan="2"><span class="#variables.textClass#"><strong>Borrower:</strong> #encodeForHtml(variables.recipients)#</span></td>
+																</tr>
+															</table>
+														</cfcase>
+														<cfdefaultcase>
+															<!--- Bird/Mammal and Herp slips: one line, the Bird/Mammal name and date over two. --->
+															<cfif variables.format EQ "Bird/Mammal">
+																<cfset variables.nameHtml = nameNearMiddleBreak(variables.items.scientific_name)>
+																<cfset variables.dateHtml = "#dateFormat(variables.loan.trans_date, 'dd mmm')#<br>#dateFormat(variables.loan.trans_date, 'yyyy')#">
+																<cfset variables.dateWidth = "width: 40px;">
+															<cfelse>
+																<cfset variables.nameHtml = unbroken(variables.items.scientific_name)>
+																<cfset variables.dateHtml = variables.loanDate>
+																<cfset variables.dateWidth = "width: 50px;">
+															</cfif>
+															<table>
+																<tr>
+																	<td><span class="#variables.textClass#">#encodeForHtml(variables.items.cat_num)#</span></td>
+																	<td><div class="#variables.textClass#"><i>#variables.nameHtml#</i></div></td>
+																	<td><span class="#variables.textClass#">#encodeForHtml(variables.loanNumber)#</span></td>
+																	<td><div class="#variables.textClass#" style="#variables.dateWidth#">#variables.dateHtml#</div></td>
+																	<td><span class="#variables.textClass#">#encodeForHtml(variables.recipients)#</span></td>
+																</tr>
+															</table>
+														</cfdefaultcase>
+													</cfswitch>
+												</div></td></tr>
+											</cfloop>
+										</table>
+									</td>
+								</cfif>
+							</cfloop>
+						</tr>
+					</table>
+					<cfif variables.page LT variables.pageCount>
+						<cfdocumentitem type="pagebreak"></cfdocumentitem>
+					</cfif>
+				</cfloop>
+			</cfoutput>
+		</cfdocument>
 	</cfif>
+	<cfabort>
+</cfif>
 
-	<cfset i=1>
-	<cfset pageRow = 1>
-	<cfset page_num = 1>
-
-<div style="position:absolute; left:5px; top:5px;font-size:10px; font-weight:600;">
-	Page 1 of #numberOfPages#
-</div>
-<div style="position:absolute; right:5px; top:5px; font-size:10px; font-weight:600;">
-	Loan&nbsp;##&nbsp;#getItems.loan_number#
-</div>
-<div style=" width:100%; " align="center">
-         <b><font face="Arial, Helvetica, sans-serif">SPECIMEN&nbsp;&nbsp;INVOICE <br>
-
-	<font size="+2"> Museum of Vertebrate Zoology <br>
-    University of California, Berkeley</font></font></b> <br>
-        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                select shipped_date 
-					from shipment 
-					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transactioN_id#">
-        </cfquery>
-   <b> #dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
-   <br>
-      <font face="Courier New, Courier, mono"><b>Item List</b></font>
-</div>
-<table width="100%" cellspacing="0" cellpadding="0" id="goodborder">
-	<tr>
-		<td align="center">
-			<span class="times12b">CN</span>
-		</td>
-		<td align="center">
-			<span class="times12b">#session.CustomOtherIdentifier#</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Scientific Name</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Sex</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Locality</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Item</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Condition</span>
-		</td>
-
-		<td align="center">
-			<span class="times12b">More?</span>
-		</td>
-
-	</tr>
-
-	<cfloop query="one">
-	<cfquery name="items" dbtype="query">
-		select * 
-		from more 
-		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	</cfquery>
-	<cfset numItemsForThisSpec = #items.recordcount#>
-	<cfset isMore = "">
-
-
-	<tr	#iif(i MOD 2,DE("style='background-color:E5E5E5'"),DE("style='background-color:FFFFFF'"))#	>
-		<td rowspan="#numItemsForThisSpec#">
-			<span class="times10">#collection#&nbsp;#cat_num#</span>
-		</td>
-		<td rowspan="#numItemsForThisSpec#">
-			#CustomID#&nbsp;
-		</td>
-
-		<td rowspan="#numItemsForThisSpec#">
-			<span class="times10"><i>#replace(scientific_name," ","&nbsp;","all")#</i></span>
-		</td>
-		<td rowspan="#numItemsForThisSpec#">
-			<span class="times10">#sex#</span>
-		</td>
-		<td rowspan="#numItemsForThisSpec#">
-			<!---
-			<cfset p=#p# + len(#higher_geog#) + len(#spec_locality#)>
-			--->
-			<span class="times10">
-				#higher_geog#. <br>#spec_locality#<br />
-			<cfif len(#VerbatimLatitude#) gt 0 and len(#VerbatimLongitude#) gt 0>
-				#VerbatimLatitude#/#VerbatimLongitude# &##177; #max_error_distance# #max_error_units#
+<!------------------------------------------------------------------------------------------>
+<cfset pageTitle = "Loan Drawer Tags">
+<cfinclude template="/shared/_header.cfm">
+<cfoutput>
+	<!--- Offered when no loan, or no such loan, is given; picking a loan opens its drawer tags in the format asked for. --->
+	<cfsavecontent variable="variables.loanPicker">
+		<form name="pickLoan" id="pickLoan" method="get" action="/Reports/MCZDrawerTags.cfm" class="col-12 px-0" onSubmit="return loanIsPicked('pickedTransactionId');">
+			<input type="hidden" name="action" value="itemLabels">
+			<input type="hidden" name="format" value="#encodeForHtmlAttribute(variables.format)#">
+			<input type="hidden" name="transaction_id" id="pickedTransactionId" value="">
+			<!--- The help is below the row, so the button lines up with the input rather than the help. --->
+			<div class="form-row align-items-end">
+				<div class="col-12 col-md-6">
+					<label for="pickLoanNumber" class="data-entry-label">Loan Number</label>
+					<input type="text" id="pickLoanNumber" class="data-entry-input" aria-describedby="pickLoanHelp" required onInput="$('##pickedTransactionId').val('');">
+				</div>
+				<div class="col-12 col-md-6 mt-1 mt-md-0">
+					<button type="submit" class="btn btn-xs btn-primary">Show Drawer Tags</button>
+				</div>
+			</div>
+			<small id="pickLoanHelp" class="d-block text-secondary mb-2">Type at least three characters of the loan number, then pick the loan.</small>
+		</form>
+		<script>
+			$(document).ready(function() {
+				makeLoanPicker('pickLoanNumber', 'pickedTransactionId', function() { $('##pickLoan').submit(); });
+			});
+			/** Whether a loan has been picked from the list; typing after a pick clears it, so it must be picked again.
+			 * @param idControl the id of the hidden input for the picked transaction_id, without a leading ##.
+			 * @return true if a loan is picked, otherwise false, after saying to pick one.
+			 */
+			function loanIsPicked(idControl) {
+				if ($('##' + idControl).val() == '') {
+					messageDialog('Pick a loan from the list that appears as you type its number.', 'Pick a Loan');
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</cfsavecontent>
+	<main class="container py-3" id="content">
+		<cfif NOT isValid("integer", variables.transaction_id)>
+			<section class="row mx-0">
+				<h1 class="h2">Loan Drawer Tags</h1>
+				<p class="col-12 px-0">Pick the loan to print drawer tags for, or open MCZ Drawer Tags from the print menu of a loan.</p>
+				#variables.loanPicker#
+			</section>
+		<cfelse>
+			<cfset variables.loan = getLoanForTags(variables.transaction_id)>
+			<cfif variables.loan.recordcount EQ 0>
+				<section class="row mx-0">
+					<h1 class="h2">Loan Drawer Tags</h1>
+					<p class="col-12 px-0">There is no loan with transaction_id #encodeForHtml(variables.transaction_id)#.  Pick the loan to print drawer tags for.</p>
+					#variables.loanPicker#
+				</section>
 			<cfelse>
-				Not georeferenced.
-			</cfif>
-			</span>
-		</td>
-		<cfset thisItemRow = 1>
-		<cfloop query="items">
-		<cfif #thisItemRow# gt 1>
-			<tr	#iif(i MOD 2,DE("style='background-color:CCCCCC'"),DE("style='background-color:FFFFFF'"))#	>
-		</cfif>
-		<td >
-			<span class="times10">
-				#items.part_modifier# #items.part_name#
-				<cfif len(#items.preserve_method#) gt 0>
-					(#items.preserve_method#)&nbsp;
+				<cfif variables.isCryoSheet>
+					<cfset variables.items = getCryoItems(variables.transaction_id)>
+				<cfelse>
+					<cfset variables.items = getTagItems(variables.transaction_id)>
 				</cfif>
-			</span>
-
-
-		</td>
-		<td >
-			<span class="times10">
-				<cfif len(#items.Condition#) gt 15>
-				See attached.
-			  <cfelse>
-			  	#items.Condition#
-			</cfif>&nbsp;
-			</span>
-
-		</td>
-		<td >
-			<div class="times10" style="width:100%; text-align:center;">
-			<cfif len(#items.Condition#) gt 15 OR len(#one.Encumbrance#) gt 0>
-				X
-			</cfif>
-			</div>
-		</td>
-		<cfif #thisItemRow# gt 1>
-			</tr>
-		</cfif>
-		<cfset thisItemRow = #thisItemRow#+1>
-		</cfloop>
-	</tr>
-	<cfset i=#i#+1>
-	<cfset pageRow=#pageRow# + 1>
-	<!---
-	<cfif #page_num# is 199999 AND #pageRow# is #numRowsFPage#>
-		<cfset pageBreakNow = "true">
-	<cfelseif #page_num# gt 1 AND #pageRow# is #numRowsNPage#>
-		<cfset pageBreakNow = "true">
-	<cfelse>
-		<cfset pageBreakNow = "false">
-	</cfif>
-	--->
-	<cfif #page_num# is 1 AND #pageRow# is #numRowsFPage# AND #i# lte #one.recordcount#>
-		<cfset pageBreakNow = "true">
-	<cfelseif #page_num# gt 1 AND #pageRow# is #numRowsNPage# AND #i# lte #one.recordcount#>
-		<cfset pageBreakNow = "true">
-	<cfelse>
-		<cfset pageBreakNow = "false">
-	</cfif>
-
-
-
-	<cfif #pageBreakNow# is "true">
-		</table>
-		<!---
-
-		<hr />#i# - #pageRow# - #page_num# - first pagebreak<hr />
-
-		---->
-	&nbsp;
-
-
-		<cfdocumentitem type="pagebreak"></cfdocumentitem>
-		<cfset page_num = #page_num# + 1>
-		<cfset pageRow=0>
-		<!--- end the old table --->
-		<div style="position:static; top:0; left:0; width:100%;">
-			<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
-					Page #page_num# of #numberOfPages#
-				</span>
-				<span style="position:relative; right:0px; top:0px; float:right;  width:35%; text-align:right; font-size:10px; font-weight:600;">
-					Loan ## #getItems.loan_number#
-				</span>
-		</div>
-
-		<!--- start a new page and table
-		<div style="position:static; top:0; left:0; width:100%;">
-				<span style="position:relative; left:0px; top:0px;  width:35%; font-size:10px; font-weight:600;">
-					Page #page_num# of #numberOfPages#
-				</span>
-				<span style="position:relative; right:0px; top:0px; float:right;  width:35%; text-align:right; font-size:10px; font-weight:600;">
-					Loan ## #getItems.loan_num_prefix#.#getItems.loan_num# #getItems.loan_num_suffix#
-				</span>
-			</div>
- --->
-			<table width="100%" border="1" cellspacing="0" cellpadding="0"  id="goodborder">
-	<tr>
-		<td align="center">
-			<span class="times12b">CN</span>
-		</td>
-		<td align="center">
-			<span class="times12b">#session.CustomOtherIdentifier#</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Scientific Name</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Sex</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Locality</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Item</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Condition</span>
-		</td>
-
-		<td align="center">
-			<span class="times12b">More?</span>
-		</td>
-
-	</tr>
-
-	</cfif>
-</cfloop></table>
-
-</cfoutput>
-
-</cfdocument>
-<!---
-
---->
-
-</cfif>
-<!------------------------------------------------------------------->
-<!------------------------------------------------------------------->
-<cfif #Action# is "showCondition">
-<cfoutput>
-<cfdocument
-	format="pdf"
-	pagetype="letter"
-	margintop=".25"
-	marginbottom=".25"
-	marginleft=".25"
-	marginright=".25"
-	orientation="landscape"
-	fontembed="yes" >
-
-<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select
-		cat_num,
-		collection,
-		part_name,
-		 part_modifier,
-		 preserve_method,
-		condition,
-		loan_number,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-	 from
-		loan_item,
-		loan,
-		specimen_part,
-		coll_object,
-		cataloged_item,
-		collection
-	WHERE
-		loan_item.collection_object_id = specimen_part.collection_object_id AND
-		loan.transaction_id = loan_item.transaction_id AND
-		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-		cataloged_item.collection_id = collection.collection_id AND
-		specimen_part.collection_object_id = coll_object.collection_object_id AND
-		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	ORDER BY cat_num
-</cfquery>
-<!--- get number of pages we'll have --->
-	<cfset lChars = 0>
-	<cfset numberOfPages = 1>
-	<cfloop query="getItems">
-		<cfset lChars = #lChars# + len(#condition#)>
-		<cfif #numberOfPages# is 1>
-			<cfif #lChars# gte 1200>
-				<cfset numberOfPages = #numberOfPages# + 1>
-				<cfset lChars=0>
-			</cfif>
-		<cfelse>
-			<cfif #lChars# gte 1100>
-				<cfset numberOfPages = #numberOfPages# + 1>
-				<cfset lChars=0>
+				<section class="row mx-0 border rounded my-2 px-3 py-2" aria-labelledby="drawerTagsHeading">
+					<h1 class="h2 col-12 px-0" id="drawerTagsHeading">
+						Drawer Tags for Loan
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#encodeForUrl(variables.transaction_id)#">#encodeForHtml(variables.loan.loan_number)#</a>
+					</h1>
+					<p class="col-12 px-0 mb-2">
+						Loaned #dateFormat(variables.loan.trans_date, "d mmmm yyyy")#<cfif len(variables.loan.recipients) GT 0>, received by #encodeForHtml(variables.loan.recipients)#</cfif>.
+					</p>
+					<!--- Changing the format reloads this page, to check the parts against it, rather than printing at once. --->
+					<form name="drawerTagFormat" id="drawerTagFormat" method="get" action="/Reports/MCZDrawerTags.cfm" class="col-12 px-0">
+						<input type="hidden" name="action" value="itemLabels">
+						<input type="hidden" name="transaction_id" value="#encodeForHtmlAttribute(variables.transaction_id)#">
+						<div class="form-row align-items-end">
+							<div class="col-12 col-md-6 mb-2">
+								<label for="format" class="data-entry-label">Format</label>
+								<select name="format" id="format" class="data-entry-select" aria-describedby="formatDescription" onChange="this.form.submit();">
+									<cfloop list="#FORMAT_LIST#" index="variables.formatOption">
+										<cfset variables.selected = "">
+										<cfif variables.formatOption EQ variables.format>
+											<cfset variables.selected = "selected">
+										</cfif>
+										<option value="#encodeForHtmlAttribute(variables.formatOption)#" #variables.selected#>#encodeForHtml(FORMAT_LABELS[variables.formatOption])#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-6 mb-2">
+								<noscript><button type="submit" class="btn btn-xs btn-secondary">Change Format</button></noscript>
+							</div>
+						</div>
+						<p id="formatDescription" class="small text-secondary mb-2">#encodeForHtml(FORMAT_DESCRIPTIONS[variables.format])#</p>
+					</form>
+					<div class="col-12 px-0 mb-2">
+						<cfif variables.items.recordcount EQ 0>
+							<p>
+								<cfif variables.isCryoSheet>
+									No parts in this loan are in a cryovial in the freezers.
+								<cfelse>
+									This loan has no parts.
+								</cfif>
+							</p>
+						<cfelse>
+							<a href="/Reports/MCZDrawerTags.cfm?action=pdf&transaction_id=#encodeForUrl(variables.transaction_id)#&format=#encodeForUrl(variables.format)#" class="btn btn-xs btn-info" target="_blank">Print #variables.items.recordcount# #encodeForHtml(FORMAT_LABELS[variables.format])# (PDF)</a>
+						</cfif>
+					</div>
+				</section>
+				<cfif variables.isCryoSheet AND variables.items.recordcount GT 0>
+					<!--- A vial out of place in the freezers prints with blanks, or after the others when its position is not a number. --->
+					<cfset variables.misplaced = []>
+					<cfset variables.unnumbered = []>
+					<cfloop query="variables.items">
+						<cfset variables.partName = "#variables.items.collection_cde# #variables.items.cat_num#">
+						<cfif len(variables.items.rack) EQ 0 OR len(variables.items.slot) EQ 0 OR len(variables.items.box) EQ 0 OR len(variables.items.position) EQ 0 OR len(variables.items.vial) EQ 0>
+							<cfset arrayAppend(variables.misplaced, "#variables.partName#: rack #variables.items.rack#, slot #variables.items.slot#, box #variables.items.box#, position #variables.items.position#, vial #variables.items.vial#")>
+						<cfelseif NOT reFind("^[0-9]+$", variables.items.position)>
+							<cfset arrayAppend(variables.unnumbered, "#variables.partName#: position #variables.items.position# is not a number")>
+						</cfif>
+					</cfloop>
+					<cfif arrayLen(variables.misplaced) GT 0 OR arrayLen(variables.unnumbered) GT 0>
+						<section class="row mx-0 mb-4" aria-labelledby="misplacedHeading">
+							<div class="col-12 px-0">
+								<div class="alert alert-warning">
+									<h2 class="h4" id="misplacedHeading">Parts this sheet cannot place fully</h2>
+									<p class="mb-1">
+										The sheet expects each part to be a cryovial in a numbered position of a freezer box, in a rack slot of a freezer rack.
+										These parts will print with blanks, or after the others; check their placement.
+									</p>
+									<ul class="mb-0">
+										<cfloop array="#variables.misplaced#" index="variables.problem">
+											<li>#encodeForHtml(variables.problem)#</li>
+										</cfloop>
+										<cfloop array="#variables.unnumbered#" index="variables.problem">
+											<li>#encodeForHtml(variables.problem)#</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</section>
+					</cfif>
+				</cfif>
 			</cfif>
 		</cfif>
-	</cfloop>
-<div style="position:absolute; left:5px; top:5px; font-size:10px; font-weight:600;">
-	Page 1 of #numberOfPages#
-</div>
-<div style="position:absolute; right:5px; top:5px; font-size:10px; font-weight:600;" >
-	Loan&nbsp;##&nbsp;#getItems.loan_number#
-</div>
-
-<div style=" width:100%; " align="center">
-         <b><font face="Arial, Helvetica, sans-serif">SPECIMEN&nbsp;&nbsp;INVOICE <br>
-   <font size="+2"> Museum of Vertebrate Zoology <br>
-    University of California, Berkeley</font></font></b> <br>
-        <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-                select shipped_date 
-					from shipment 
-					where transaction_id = #transactioN_id#<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=">
-        </cfquery>
-   <b> #dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
-   <br>
-      <font face="Courier New, Courier, mono"><b>Condition Appendix</b></font>
-</div>
-
-
-<table width="100%"  border="1" cellspacing="0" cellpadding="0">
-	<tr>
-		<td align="center">
-			<span class="times12b">CN</span>
-		</td>
-		<td align="center">
-			<span class="times12b">#session.CustomOtherIdentifier#</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Item</span>
-		</td>
-		<td align="center">
-			<span class="times12b">Condition</span>
-		</td>
-
-	</tr>
-	<cfset i=1>
-	<cfset p = 1>
-	<cfloop query="getItems">
-
-<cfif len(#Condition#) gt 15>
-
-
-
-	<tr>
-		<td>
-			<span class="times10">
-			#collection# #cat_num#&nbsp;
-			</span>
-		</td>
-		<td>
-			<span class="times10">
-			#customID#&nbsp;
-			</span>
-		</td>
-
-		<td>
-			<span class="times10">
-			#part_modifier# #part_name#
-			<cfif len(#preserve_method#) gt 0>
-				(#preserve_method#)&nbsp;
-			</cfif>
-			</span>
-		</td>
-		<td>
-				<span class="times10">
-				#Condition#
-				</span>
-		</td>
-
-	</tr>
-	<cfset i=#i#+1>
-
-</cfif>
-</cfloop>
-</table>
-</cfdocument>
+	</main>
 </cfoutput>
-
-</cfif>
-
---->
-
-
-<cfinclude template="/includes/_pickFooter.cfm">
+<cfinclude template="/shared/_footer.cfm">

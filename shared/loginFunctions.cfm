@@ -299,7 +299,16 @@ limitations under the License.
 			<cfset session.result_sort = "">
 		</cfif>
 		<cfif len(getPrefs.CustomOtherIdentifier) gt 0>
-			<cfset session.customOtherIdentifier = getPrefs.CustomOtherIdentifier>
+			<!--- a stored type no longer in the code table, or set before types were checked, is dropped --->
+			<cfquery name="knownType" datasource="uam_god" result="knownType_result">
+				SELECT other_id_type
+				FROM ctcoll_other_id_type
+				WHERE other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPrefs.CustomOtherIdentifier#">
+			</cfquery>
+			<cfset session.customOtherIdentifier = "">
+			<cfif knownType.recordcount GT 0>
+				<cfset session.customOtherIdentifier = getPrefs.CustomOtherIdentifier>
+			</cfif>
 		<cfelse>
 			<cfset session.customOtherIdentifier = "">
 		</cfif>

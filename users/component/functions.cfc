@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/Reports/component/reportPreferences.cfc" runOnce="true">
 
 <!--- Bugzilla product that info/bugs.cfm files bug reports under. --->
 <cfset variables.BUGZILLA_PRODUCT = "MCZbase">
@@ -731,6 +732,41 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
+<!--- changeReportPrefs change the collection codes whose label reports Reports/report_printer.cfm lists
+ by default for the user; codes that are not collection codes of a collection or of a label report are dropped.
+ @param reportprefs a comma separated list of collection codes, empty for none.
+ @return a structure with status, success, and reportprefs, the codes saved.
+--->
+<cffunction name="changeReportPrefs" access="remote" returntype="any" returnformat="json">
+	<cfargument name="reportprefs" type="string" required="yes">
+	<cfset var result = {}>
+	<cfset var savedPrefs = "">
+	<!--- Only staff print labels, and the codes are looked up with the user's own database login. --->
+	<cfif NOT (isDefined("session.roles") AND listFindNoCase(session.roles, "coldfusion_user"))>
+		<cfset result["status"] = "error">
+		<cfset result["message"] = "Report preferences are for MCZbase staff accounts.">
+		<cfreturn result>
+	</cfif>
+	<cftry>
+		<cfset savedPrefs = validReportPrefs(arguments.reportprefs)>
+		<cfquery name="up" datasource="cf_dbuser">
+			UPDATE cf_users
+			SET
+				reportprefs = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#savedPrefs#" null="#len(savedPrefs) EQ 0#">
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfset result["status"] = "success">
+		<cfset result["reportprefs"] = savedPrefs>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 	<cfreturn result>
 </cffunction>
 

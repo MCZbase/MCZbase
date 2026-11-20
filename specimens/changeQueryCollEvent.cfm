@@ -42,7 +42,7 @@ limitations under the License.
 	 	cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		cataloged_item.collecting_event_id,
-		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
+		concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 		flat.scientific_name,
 		locality.locality_id,
 		locality.spec_locality,

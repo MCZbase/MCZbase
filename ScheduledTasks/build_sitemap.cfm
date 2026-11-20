@@ -82,16 +82,17 @@
 	<cfquery name="colls" datasource="uam_god">
 		select filename from cf_sitemaps
 	</cfquery>
-	<cfset smi='<?xml version="1.0" encoding="UTF-8"?>'>
+	<cfset smi='<?xml version="1.0" encoding="UTF-8"?>'><!--- ' --->
 	<cfset smi=smi & chr(10) & chr(9) & '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9	http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd">'>
-	<cfloop query="colls">
+	<cfloop query="colls"><!--- ' --->
 		<cfset smi=smi & chr(10) & chr(9) & chr(9) & '<sitemap>'>
 		<cfset smi=smi & chr(10) & chr(9) & chr(9) & chr(9) & "<loc>#application.serverRootUrl#/#filename#.gz</loc>">
 		<cfset smi=smi & chr(10) & chr(9) & chr(9) & chr(9) & "<lastmod>#dateformat(now(),'yyyy-mm-dd')#</lastmod>">
 		<cfset smi=smi & chr(10) & chr(9) & chr(9) & '</sitemap>'>					
-	</cfloop>
-	<cfset smi=smi & chr(10) & chr(9) & '</sitemapindex>'>
+	</cfloop><!--- ' --->
+	<cfset smi=smi & chr(10) & chr(9) & '</sitemapindex>'><!--- ' --->
 	<cffile action="write" file="#Application.webDirectory#/sitemapindex.xml" addnewline="no" output="#smi#">
+	<!--- load from component/Zip.cfc --->
 	<cfscript>
 		zip = CreateObject("component", "/component.Zip");
 		status = zip.gzipAddFile("#Application.webDirectory#", "#Application.webDirectory#/sitemapindex.xml"); 
