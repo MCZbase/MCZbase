@@ -33,20 +33,14 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 
-		<cfset deliver = "text/html">
-		<cfset done = false>
-		<cfloop list='#accept#' delimiters=',' index='a'>
-			<cfif NOT done>
-				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-					<cfset deliver = a>
-					<cfset done = true>
-				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-					<!--- use text/html for human readable delivery, actual is xhtml --->
-					<cfset deliver = 'text/html'>
-					<cfset done = true>
-				</cfif>
-			</cfif>
-		</cfloop>
+		<cfsilent><cfinclude template="/shared/component/contentNegotiation.cfc" runOnce="true"></cfsilent>
+		<!--- The xml types are served the human readable page, which is xhtml. --->
+		<cfset deliver = negotiateMediaType(accept, "text/html,application/xhtml+xml,application/xml,text/xml,text/turtle,application/rdf+xml,application/ld+json", "text/html")>
+		<cfif listFind("text/turtle,application/rdf+xml,application/ld+json", deliver) EQ 0>
+			<cfset deliver = "text/html">
+		</cfif>
+		<!--- So caches keep the html and rdf responses for one address apart. --->
+		<cfheader name="Vary" value="Accept">
 		<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
 		<cfif refind('/json$',rdurl) GT 0>
 			<cfset rdurl = rereplace(rdurl,"/json$","")>
@@ -267,14 +261,11 @@ limitations under the License.
 				<cfthrow message="Named group not found." errorcode="404">
 			</cfif>
 			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
-			<!--- if provided, get format from url, otherwise default to html --->
-			<cfset requestedformat = "html">
-			<cftry>
+			<!--- Format from the path if given; otherwise blank, for the Accept header to decide. --->
+			<cfset requestedformat = "">
+			<cfif listLen(rdurl,"/") GTE gPos+2>
 				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
-				<cfcatch>
-					<cfset requestedformat = "html">
-				</cfcatch>
-			</cftry>
+			</cfif>
 			<cfset variables.loadMapLibraries = true>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>

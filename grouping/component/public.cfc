@@ -17,6 +17,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/contentNegotiation.cfc" runOnce="true">
 
 <!--- resolveNamedGroupExportFormat determine supported named-group export format.
  @param format explicit requested format (jsonld|ttl|rdfxml).
@@ -28,7 +29,6 @@ limitations under the License.
 	<cfargument name="acceptHeader" type="string" required="no" default="">
 
 	<cfset local.formatToken = lcase(trim(arguments.format))>
-	<cfset local.acceptToken = lcase(arguments.acceptHeader)>
 
 	<cfif local.formatToken EQ "jsonld" OR local.formatToken EQ "json-ld" OR local.formatToken EQ "ldjson">
 		<cfreturn "jsonld">
@@ -38,13 +38,14 @@ limitations under the License.
 		<cfreturn "rdfxml">
 	</cfif>
 
-	<!--- low-risk fallback for requests with no explicit format ---> 
+	<!--- Without an explicit format, the Accept header decides; html, the page itself, is preferred on a tie. --->
 	<cfif len(trim(arguments.format)) EQ 0>
-		<cfif findNoCase("application/ld+json", local.acceptToken) GT 0>
+		<cfset local.negotiated = negotiateMediaType(arguments.acceptHeader, "text/html,application/ld+json,text/turtle,application/rdf+xml", "text/html")>
+		<cfif local.negotiated EQ "application/ld+json">
 			<cfreturn "jsonld">
-		<cfelseif findNoCase("text/turtle", local.acceptToken) GT 0>
+		<cfelseif local.negotiated EQ "text/turtle">
 			<cfreturn "ttl">
-		<cfelseif findNoCase("application/rdf+xml", local.acceptToken) GT 0>
+		<cfelseif local.negotiated EQ "application/rdf+xml">
 			<cfreturn "rdfxml">
 		</cfif>
 	</cfif>

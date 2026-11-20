@@ -52,8 +52,9 @@ limitations under the License.
 	<cfset underscore_collection_id = form.underscore_collection_id>
 </cfif>
 <cfinclude template="/grouping/component/public.cfc" runOnce="true">
+<!--- Blank lets the Accept header decide between the page and its linked data. --->
 <cfif NOT isDefined("requestedFormat")>
-	<cfset requestedFormat = "html">
+	<cfset requestedFormat = "">
 </cfif>
 <cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
 	<cfset requestedFormat = trim(url.format)>
@@ -67,6 +68,9 @@ limitations under the License.
 </cfcatch>
 </cftry>
 <cfset exportFormat = resolveNamedGroupExportFormat(format=requestedFormat, acceptHeader=acceptHeader)>
+<cfif len(trim(requestedFormat)) EQ 0>
+	<cfheader name="Vary" value="Accept">
+</cfif>
 <cfif len(exportFormat) GT 0>
 	<cfif NOT isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
