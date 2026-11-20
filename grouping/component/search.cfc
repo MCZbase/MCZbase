@@ -611,4 +611,64 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Function getNamedGroupHeatmapPoints
+	Obtain the georeferenced localities of the cataloged items in a named group, for the map on
+	grouping/showNamedCollection.cfm.
+	@param underscore_collection_id the named group whose localities to return.
+	@return json array of objects with latitude, longitude, and weight (the number of records at
+		that locality), empty if the group is hidden from the current user.
+--->
+<cffunction name="getNamedGroupHeatmapPoints" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfset var data = ArrayNew(1)>
+	<cfset var row = "">
+	<cftry>
+		<cfquery name="local.checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.checkGroup_result" timeout="#Application.short_timeout#">
+			SELECT underscore_collection_id
+			FROM underscore_collection
+			WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+				<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+					AND mask_fg = 0
+				</cfif>
+		</cfquery>
+		<cfif local.checkGroup.recordcount EQ 1>
+			<cfquery name="local.points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+				SELECT
+					flat.dec_lat as latitude,
+					flat.dec_long as longitude,
+					count(*) as record_count
+				FROM
+					underscore_relation
+					join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+						on underscore_relation.collection_object_id = flat.collection_object_id
+				WHERE
+					underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+					AND flat.guid IS NOT NULL
+					AND flat.dec_lat IS NOT NULL
+					AND flat.dec_lat BETWEEN -90 AND 90
+					AND flat.dec_long BETWEEN -180 AND 180
+				GROUP BY
+					flat.locality_id,
+					flat.dec_lat,
+					flat.dec_long
+			</cfquery>
+			<cfloop query="local.points">
+				<cfset row = StructNew()>
+				<cfset row["latitude"] = val(local.points.latitude)>
+				<cfset row["longitude"] = val(local.points.longitude)>
+				<cfset row["weight"] = val(local.points.record_count)>
+				<cfset ArrayAppend(data, row)>
+			</cfloop>
+		</cfif>
+	<cfcatch>
+		<cfset var error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset var function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 </cfcomponent>

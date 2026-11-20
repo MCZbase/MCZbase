@@ -366,20 +366,22 @@ limitations under the License.
 						var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
 						var currentCollectingImage = 1;
 					</script>
-					<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">          
-						SELECT flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude, count(*) as record_count
-						FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-							join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-							join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+					<!--- bounds and count of the georeferenced records the map shows; the map's points are loaded by ajax from getNamedGroupHeatmapPoints --->
+					<cfquery name="mapBounds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="mapBounds_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+						SELECT
+							count(*) as georeferenced_count,
+							min(flat.dec_lat) as minlat, min(flat.dec_long) as minlong,
+							max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
+						FROM
+							underscore_relation
+							join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+								on underscore_relation.collection_object_id = flat.collection_object_id
 						WHERE
-							underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							and flat.guid IS NOT NULL
-							and flat.dec_lat is not null
-							and flat.dec_lat between -90 and 90 and flat.dec_long between -180 and 180
-						GROUP BY
-							flat.locality_id,
-							flat.dec_lat,
-							flat.dec_long
+							underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND flat.guid IS NOT NULL
+							AND flat.dec_lat IS NOT NULL
+							AND flat.dec_lat BETWEEN -90 AND 90
+							AND flat.dec_long BETWEEN -180 AND 180
 					</cfquery>
 					<section class="spec-table row mx-0">
 						<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
@@ -494,7 +496,7 @@ limitations under the License.
 					</section>
 					<div class="row mx-0">
 
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR mapBounds.georeferenced_count GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
@@ -585,38 +587,48 @@ limitations under the License.
                                                 
                                                 
 								<!---  occurrence map --->
-								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="points2_result" timeout="#Application.query_timeout#" cachedwithin="#createtimespan(0,24,0,0)#">
-									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
-									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
-									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									join underscore_relation u on u.collection_object_id = flat.collection_object_id
-									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								</cfquery>
 
-                                <cfif points.recordcount gt 0>
-                                  <section class="heatmap mt-2 w-100">
-                                    <!-- Export data for shared mcz-heatmap.js (same pattern as Agent.cfm) -->
-                                    <script>
-                                      window.MCZ_BOUNDS = {
-                                        minlat: #points2.minlat#,
-                                        minlong: #points2.minlong#,
-                                        maxlat: #points2.maxlat#,
-                                        maxlong: #points2.maxlong#
-                                      };
-
-											<!--- The loop body is kept on one line because everything inside cfloop, whitespace included, is written once per locality: with thousands of localities, indented multi-line points made most of the page (2.28 MB of 2.86 MB for one named group). --->
-											window.MCZ_HEATMAP_DATA = [
-												<cfloop query="points">{latitude:#points.Latitude#,longitude:#points.Longitude#,weight:#points.record_count#}<cfif points.currentRow LT points.recordcount>,</cfif></cfloop>
-											];
-
-                                      window.onload = function () {
-                                        if (typeof initMap === 'function') {
-                                          initMap();
-                                        } else {
-                                          console.error("window.onload: initMap is not defined");
-                                        }
-                                      };
-                                    </script>
+								<cfif mapBounds.georeferenced_count GT 0>
+									<section class="heatmap mt-2 w-100">
+										<!--- MCZ_BOUNDS and MCZ_HEATMAP_DATA are read by initMap() in /shared/js/mcz-heatmap-distMap.js --->
+										<script>
+											window.MCZ_BOUNDS = {
+												minlat: #mapBounds.minlat#,
+												minlong: #mapBounds.minlong#,
+												maxlat: #mapBounds.maxlat#,
+												maxlong: #mapBounds.maxlong#
+											};
+											/** Fetch the group's georeferenced localities, then draw the map with initMap() from mcz-heatmap-distMap.js.
+											 * @param underscore_collection_id the named group whose localities to map.
+											 * @param mapDivId the id of the map element, which shows a loading indicator until the map is drawn.
+											 */
+											function loadNamedGroupHeatmap(underscore_collection_id, mapDivId) {
+												$.ajax({
+													url: "/grouping/component/search.cfc",
+													data: {
+														method: "getNamedGroupHeatmapPoints",
+														underscore_collection_id: underscore_collection_id,
+														returnformat: "json"
+													},
+													dataType: "json",
+													success: function (result) {
+														window.MCZ_HEATMAP_DATA = result;
+														if (typeof initMap === 'function') {
+															initMap();
+														} else {
+															console.error("loadNamedGroupHeatmap: initMap is not defined");
+														}
+													},
+													error: function (jqXHR, textStatus, error) {
+														$("##" + mapDivId).html("Unable to load the map.");
+														handleFail(jqXHR, textStatus, error, "loading map localities for named group");
+													}
+												});
+											}
+											window.onload = function () {
+												loadNamedGroupHeatmap("#encodeForJavaScript(getNamedGroup.underscore_collection_id)#", "map");
+											};
+										</script>
 
                                     <div class="col-12 px-0">
                                       <div class="border float-left col-12 rounded px-2 pb-1">
@@ -629,6 +641,7 @@ limitations under the License.
                                              class="w-100 rounded"
                                              style="height: 600px;"
                                              aria-label="Map of georeferenced specimen locations">
+                                          <div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading map...</div>
                                         </div>
                                         <!-- Controls: use the same IDs the shared JS expects -->
                                         <div id="floating-panel" class="w-100 mx-auto pt-1">
@@ -1514,8 +1527,7 @@ limitations under the License.
 								<li>specimenMedia_raw=#specimenMedia_raw_result.ExecutionTime#</li>
 								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
-								<li>points=#points_result.ExecutionTime#</li>
-								<li>points2=#points2_result.ExecutionTime#</li>
+								<li>mapBounds=#mapBounds_result.ExecutionTime#</li>
 								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
 								<li>summaryTerms_raw=#summaryTerms_raw_result.ExecutionTime#</li>
 								<li>collectors=#collectors_result.ExecutionTime#</li>
