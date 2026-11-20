@@ -911,14 +911,9 @@ limitations under the License.
 												maxlong: #points2.maxlong#
 											};
 
+											// no whitespace inside the loop: it is repeated for each of possibly thousands of localities
 											window.MCZ_HEATMAP_DATA = [
-												<cfloop query="points">
-												{
-													latitude: #points.Latitude#,
-													longitude: #points.Longitude#,
-													weight: #points.record_count#
-												}<cfif currentrow LT recordcount>,</cfif>
-												</cfloop>
+												<cfloop query="points">{latitude:#points.Latitude#,longitude:#points.Longitude#,weight:#points.record_count#}<cfif points.currentRow LT points.recordcount>,</cfif></cfloop>
 											];
 
 											window.onload = function () {
