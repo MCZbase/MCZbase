@@ -33,20 +33,14 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 
-		<cfset deliver = "text/html">
-		<cfset done = false>
-		<cfloop list='#accept#' delimiters=',' index='a'>
-			<cfif NOT done>
-				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-					<cfset deliver = a>
-					<cfset done = true>
-				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-					<!--- use text/html for human readable delivery, actual is xhtml --->
-					<cfset deliver = 'text/html'>
-					<cfset done = true>
-				</cfif>
-			</cfif>
-		</cfloop>
+		<cfsilent><cfinclude template="/shared/component/contentNegotiation.cfc" runOnce="true"></cfsilent>
+		<!--- The xml types are served the human readable page, which is xhtml. --->
+		<cfset deliver = negotiateMediaType(accept, "text/html,application/xhtml+xml,application/xml,text/xml,text/turtle,application/rdf+xml,application/ld+json", "text/html")>
+		<cfif listFind("text/turtle,application/rdf+xml,application/ld+json", deliver) EQ 0>
+			<cfset deliver = "text/html">
+		</cfif>
+		<!--- So caches keep the html and rdf responses for one address apart. --->
+		<cfheader name="Vary" value="Accept">
 		<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
 		<cfif refind('/json$',rdurl) GT 0>
 			<cfset rdurl = rereplace(rdurl,"/json$","")>
@@ -256,25 +250,34 @@ limitations under the License.
 				FROM underscore_collection
 				WHERE lower(link_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(rawLinkName)#">
 			</cfquery>
+			<!--- Format from the path if given; otherwise blank, for the Accept header to decide. --->
+			<cfset requestedformat = "">
+			<cfif listLen(rdurl,"/") GTE gPos+2>
+				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
+			</cfif>
 			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
-				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-					SELECT underscore_collection_id
+				<cfquery name="lookupById" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT underscore_collection_id, link_name, mask_fg
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
 				</cfquery>
+				<!--- The link_name permalink is the address of a group that has one.  Hidden groups
+					aren't redirected, so their link_name isn't disclosed. --->
+				<cfif lookupById.recordcount EQ 1 AND len(trim(lookupById.link_name)) GT 0 AND lookupById.mask_fg EQ 0>
+					<cfset redirectUrl = "/namedGroup/#encodeForURL(trim(lookupById.link_name))#">
+					<cfif len(requestedformat) GT 0>
+						<cfset redirectUrl = "#redirectUrl#/#encodeForURL(requestedformat)#">
+					</cfif>
+					<cfheader statuscode="301" statustext="Moved permanently">
+					<cfheader name="Location" value="#redirectUrl#">
+					<cfabort>
+				</cfif>
+				<cfset lookupByLinkName = lookupById>
 			</cfif>
 			<cfif lookupByLinkName.recordcount EQ 0>
 				<cfthrow message="Named group not found." errorcode="404">
 			</cfif>
 			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
-			<!--- if provided, get format from url, otherwise default to html --->
-			<cfset requestedformat = "html">
-			<cftry>
-				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
-				<cfcatch>
-					<cfset requestedformat = "html">
-				</cfcatch>
-			</cftry>
 			<cfset variables.loadMapLibraries = true>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>

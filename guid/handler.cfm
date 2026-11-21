@@ -2,7 +2,7 @@
 guid/handler.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2024 President and Fellows of Harvard College
+Copyright 2008-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -77,20 +77,14 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
 	<!--- default to human readable web page --->
 	<cfif NOT isDefined("deliver") OR len(deliver) EQ 0>
-		<cfset deliver = "text/html">
-		<cfset done = false>
-		<cfloop list='#accept#' delimiters=',' index='a'>
-			<cfif NOT done>
-				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-					<cfset deliver = a>
-					<cfset done = true>
-				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-					<!--- use text/html for human readable delivery, actual is xhtml --->
-					<cfset deliver = 'text/html'>
-					<cfset done = true>
-				</cfif>
-			</cfif>
-		</cfloop>
+		<cfsilent><cfinclude template="/shared/component/contentNegotiation.cfc" runOnce="true"></cfsilent>
+		<!--- The xml types are served the human readable page, which is xhtml. --->
+		<cfset deliver = negotiateMediaType(accept, "text/html,application/xhtml+xml,application/xml,text/xml,text/turtle,application/rdf+xml,application/ld+json", "text/html")>
+		<cfif listFind("text/turtle,application/rdf+xml,application/ld+json", deliver) EQ 0>
+			<cfset deliver = "text/html">
+		</cfif>
+		<!--- So caches keep the html and rdf responses for one address apart. --->
+		<cfheader name="Vary" value="Accept">
 	<cfelse>
 		<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
 		<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
