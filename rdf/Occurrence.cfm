@@ -24,6 +24,7 @@ limitations under the License.
 <cfset referencedRecordDeleted = false>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
+	<cfheader name="Vary" value="Accept">
 	<cftry>
 		<cfset accept = GetHttpRequestData().Headers['accept'] >
 	<cfcatch>
@@ -93,28 +94,8 @@ limitations under the License.
 <cfelse>
 	<cfthrow message="Unknown Lookup Type"> 
 </cfif>
-<cfset done = false>
-<cfloop list='#accept#' delimiters=',' index='a'>
-	<cfif NOT done>
-		<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-			<cfset deliver = a>
-			<cfset done = true>
-		</cfif>
-	</cfif>
-</cfloop>
-<cfif left(accept,11) IS 'text/turtle'>
-	<cfset deliver = "text/turtle">
-<cfelseif left(accept,19) IS 'application/rdf+xml'>
-	<cfset deliver = "application/rdf+xml">
-<cfelseif left(accept,19) IS 'application/ld+json'>
-	<cfset deliver = "application/ld+json">
-<cfelseif findNoCase("text/turtle", accept) >
-	<cfset deliver = "text/turtle">
-<cfelseif findNoCase("application/ld+json", accept) >
-	<cfset deliver = "application/ld+json">
-<cfelse>
-	<cfset deliver = 'application/rdf+xml'>
-</cfif>
+<cfsilent><cfinclude template="/shared/component/contentNegotiation.cfc" runOnce="true"></cfsilent>
+<cfset deliver = negotiateMediaType(accept, "application/rdf+xml,text/turtle,application/ld+json", "application/rdf+xml")>
 
 <cfheader name="Content-type" value=#deliver# >
 
