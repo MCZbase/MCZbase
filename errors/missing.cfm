@@ -250,22 +250,34 @@ limitations under the License.
 				FROM underscore_collection
 				WHERE lower(link_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(rawLinkName)#">
 			</cfquery>
-			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
-				<cfquery name="lookupByLinkName" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-					SELECT underscore_collection_id
-					FROM underscore_collection
-					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
-				</cfquery>
-			</cfif>
-			<cfif lookupByLinkName.recordcount EQ 0>
-				<cfthrow message="Named group not found." errorcode="404">
-			</cfif>
-			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
 			<!--- Format from the path if given; otherwise blank, for the Accept header to decide. --->
 			<cfset requestedformat = "">
 			<cfif listLen(rdurl,"/") GTE gPos+2>
 				<cfset requestedformat = listgetat(rdurl,gPos+2,"/")>
 			</cfif>
+			<cfif lookupByLinkName.recordcount EQ 0 AND isNumeric(trim(rawLinkName))>
+				<cfquery name="lookupById" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT underscore_collection_id, link_name, mask_fg
+					FROM underscore_collection
+					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(rawLinkName)#">
+				</cfquery>
+				<!--- The link_name permalink is the address of a group that has one.  Hidden groups
+					aren't redirected, so their link_name isn't disclosed. --->
+				<cfif lookupById.recordcount EQ 1 AND len(trim(lookupById.link_name)) GT 0 AND lookupById.mask_fg EQ 0>
+					<cfset redirectUrl = "/namedGroup/#encodeForURL(trim(lookupById.link_name))#">
+					<cfif len(requestedformat) GT 0>
+						<cfset redirectUrl = "#redirectUrl#/#encodeForURL(requestedformat)#">
+					</cfif>
+					<cfheader statuscode="301" statustext="Moved permanently">
+					<cfheader name="Location" value="#redirectUrl#">
+					<cfabort>
+				</cfif>
+				<cfset lookupByLinkName = lookupById>
+			</cfif>
+			<cfif lookupByLinkName.recordcount EQ 0>
+				<cfthrow message="Named group not found." errorcode="404">
+			</cfif>
+			<cfset target_underscore_collection_id = lookupByLinkName.underscore_collection_id>
 			<cfset variables.loadMapLibraries = true>
 			<cfinclude template="/grouping/showNamedCollection.cfm">
 			<cfcatch>

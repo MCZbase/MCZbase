@@ -22,10 +22,10 @@ limitations under the License.
 <cfif not isdefined("debug")>
 	<cfset debug ="">
 </cfif>
-<!--- if given url.underscore_collection_id redirect to /namedGroup/{target_underscore_collection_id} --->
+<!--- if given url.underscore_collection_id redirect to /namedGroup/{link_name}, or /namedGroup/{underscore_collection_id} for a group without a link_name --->
 <cfif isDefined("url.underscore_collection_id") AND len(url.underscore_collection_id) GT 0>
 	<cfquery name="checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkGroup_result" timeout="#Application.short_timeout#">
-		SELECT underscore_collection_id, collection_name
+		SELECT underscore_collection_id, collection_name, link_name, mask_fg
 		FROM underscore_collection
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#url.underscore_collection_id#">
 			<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
@@ -33,7 +33,12 @@ limitations under the License.
 			</cfif>
 	</cfquery>
 	<cfif checkGroup.recordcount is 1>
-		<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		<!--- As in errors/missing.cfm, a hidden group keeps its id address. --->
+		<cfif len(trim(checkGroup.link_name)) GT 0 AND checkGroup.mask_fg EQ 0>
+			<cfset redirectUrl = "/namedGroup/#EncodeForURL(trim(checkGroup.link_name))#">
+		<cfelse>
+			<cfset redirectUrl = "/namedGroup/#EncodeForURL(checkGroup.underscore_collection_id)#">
+		</cfif>
 		<cfif isDefined("url.format") AND len(trim(url.format)) GT 0>
 			<cfset redirectUrl = "#redirectUrl#/#EncodeForURL(trim(url.format))#">
 		</cfif>
