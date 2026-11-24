@@ -613,12 +613,13 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 <!--- Function getSpecimenMediaForGroup
 	Obtain the media shown with the cataloged items in a named group, with whether each is encumbered for
-	the current user, cached.  Media descriptors are not included, as computing them for every image of a
-	large group is slow; see getMediaDescriptors.  is_media_encumbered is in the select list, not the where
-	clause, so Oracle evaluates it only on the group's rows.
+	the current user, cached.  Only what is needed to choose and order the media is selected, as a large
+	group has tens of thousands of rows; media_uri and descriptors for the media shown come from
+	getCarouselMediaDetails.  is_media_encumbered is in the select list, not the where clause, so Oracle
+	evaluates it only on the group's rows.
 	@param underscore_collection_id the named group whose specimen media to return.
 	@param displayed_media_id the group's displayed_media_id, which is given topsort 1, may be blank.
-	@return query of media_id, media_uri, encumb, media_type, mime_type and topsort.
+	@return query of media_id, encumb, media_type, mime_type and topsort.
 --->
 <cffunction name="getSpecimenMediaForGroup" access="public" returntype="query">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
@@ -627,7 +628,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfquery name="local.specimenMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.specimenMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 		<cfif len(arguments.displayed_media_id) GT 0>
 		SELECT DISTINCT media.media_id,
-			media.media_uri,
 			MCZBASE.is_media_encumbered(media.media_id) AS encumb,
 			media.media_type,
 			media.mime_type,
@@ -638,7 +638,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		UNION
 		</cfif>
 		SELECT DISTINCT media.media_id,
-			media.media_uri,
 			MCZBASE.is_media_encumbered(media.media_id) AS encumb,
 			media.media_type,
 			media.mime_type,
@@ -667,7 +666,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	so they share one cached query, from getSpecimenMediaForGroup.
 	@param underscore_collection_id the named group whose specimen images to return.
 	@param displayed_media_id the group's displayed_media_id, which is placed first, may be blank.
-	@return query of media_id, media_uri and topsort, ordered by topsort then media_id.
+	@return query of media_id and topsort, ordered by topsort then media_id.
 --->
 <cffunction name="getSpecimenImagesForGroup" access="public" returntype="query">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
@@ -675,7 +674,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset local.specimenMedia = getSpecimenMediaForGroup(underscore_collection_id=arguments.underscore_collection_id, displayed_media_id=arguments.displayed_media_id)>
 	<cfquery name="local.specimenImages" dbtype="query">
-		SELECT media_id, media_uri, topsort
+		SELECT media_id, topsort
 		FROM local.specimenMedia
 		WHERE encumb < 1
 			AND media_type = 'image'
@@ -685,22 +684,23 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfreturn local.specimenImages>
 </cffunction>
 
-<!--- Function getMediaDescriptors
-	Obtain the textual descriptions used as alt text and captions for a few media records.  Not remote:
-	callers pass only media the current user may see.
+<!--- Function getCarouselMediaDetails
+	Obtain the media_uri and the textual description, used as alt text and caption, of a few media records
+	shown in a carousel.  Not remote: callers pass only media the current user may see.
 	@param media_ids comma separated list of media_id values.
-	@return query of media_id and alt.
+	@return query of media_id, media_uri and alt.
 --->
-<cffunction name="getMediaDescriptors" access="public" returntype="query">
+<cffunction name="getCarouselMediaDetails" access="public" returntype="query">
 	<cfargument name="media_ids" type="string" required="yes">
 
-	<cfquery name="local.descriptors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.descriptors_result" timeout="#Application.short_timeout#">
+	<cfquery name="local.details" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.details_result" timeout="#Application.short_timeout#">
 		SELECT media_id,
+			media_uri,
 			MCZBASE.get_media_descriptor(media_id) AS alt
 		FROM media
 		WHERE media_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_ids#" list="yes">)
 	</cfquery>
-	<cfreturn local.descriptors>
+	<cfreturn local.details>
 </cffunction>
 
 <!--- Function getSpecimenImagesAt
@@ -721,7 +721,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset var wantedPositions = ArrayNew(1)>
 	<cfset var position = "">
 	<cfset var mediaIds = "">
-	<cfset var altById = StructNew()>
+	<cfset var detailsById = StructNew()>
+	<cfset var mediaId = "">
 	<cfset var row = "">
 	<cfset data["count"] = 0>
 	<cfset data["images"] = ArrayNew(1)>
@@ -745,20 +746,22 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				</cfif>
 			</cfloop>
 			<cfif ArrayLen(wantedPositions) GT 0>
-				<cfset local.descriptors = getMediaDescriptors(media_ids=mediaIds)>
-				<cfloop query="local.descriptors">
-					<cfset altById[local.descriptors.media_id] = local.descriptors.alt>
+				<cfset local.details = getCarouselMediaDetails(media_ids=mediaIds)>
+				<cfloop query="local.details">
+					<cfset detailsById[local.details.media_id] = StructNew()>
+					<cfset detailsById[local.details.media_id]["media_uri"] = local.details.media_uri>
+					<cfset detailsById[local.details.media_id]["alt"] = local.details.alt>
 				</cfloop>
 				<cfloop array="#wantedPositions#" index="position">
-					<cfset row = StructNew()>
-					<cfset row["position"] = position>
-					<cfset row["media_id"] = "#local.images.media_id[position]#">
-					<cfset row["media_uri"] = "#local.images.media_uri[position]#">
-					<cfset row["alt"] = "">
-					<cfif structKeyExists(altById, local.images.media_id[position])>
-						<cfset row["alt"] = encodeForHtml(altById[local.images.media_id[position]])>
+					<cfset mediaId = local.images.media_id[position]>
+					<cfif structKeyExists(detailsById, mediaId)>
+						<cfset row = StructNew()>
+						<cfset row["position"] = position>
+						<cfset row["media_id"] = "#mediaId#">
+						<cfset row["media_uri"] = "#detailsById[mediaId].media_uri#">
+						<cfset row["alt"] = encodeForHtml(detailsById[mediaId].alt)>
+						<cfset ArrayAppend(data["images"], row)>
 					</cfif>
-					<cfset ArrayAppend(data["images"], row)>
 				</cfloop>
 			</cfif>
 		</cfif>

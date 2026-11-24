@@ -163,18 +163,18 @@ limitations under the License.
 					</section>
 					<!--- Send the heading and description before running the slower queries below. --->
 					<cfflush>
-					<!---for specimen record grid--->
-					<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimens_result" timeout="#Application.query_timeout#">
-						SELECT * FROM (
+					<!--- count of specimen records for the grid; the grid loads its rows by ajax --->
+					<cfquery name="specimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#CreateTimespan(0,24,0,0)#" result="specimenCount_result" timeout="#Application.query_timeout#">
+						SELECT count(*) AS specimen_count
+						FROM (
 							SELECT DISTINCT flat.guid, flat.scientific_name
 							FROM
-								underscore_relation 
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
+								underscore_relation
+								LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									ON underscore_relation.collection_object_id = flat.collection_object_id
 							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								and flat.guid is not null
-							ORDER BY flat.guid asc
-							) 
+								AND flat.guid IS NOT NULL
+						)
 					</cfquery>
 					<cfset otherimagetypes = 0>
 					<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" timeout="#Application.query_timeout#" >
@@ -207,12 +207,14 @@ limitations under the License.
 					</cfquery>
 					<cfset specimenNonImageMedia_ms = getTickCount() - specimenNonImageMediaStart>
 					<cfset firstSpecimenImageAlt = "">
-					<cfset firstSpecimenImageAltStart = getTickCount()>
+					<cfset firstSpecimenImageUri = "">
+					<cfset firstSpecimenImageDetailsStart = getTickCount()>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
-						<cfset firstSpecimenImageDescriptor = getMediaDescriptors(media_ids=specimenImagesForCarousel.media_id[1])>
-						<cfset firstSpecimenImageAlt = firstSpecimenImageDescriptor.alt>
+						<cfset firstSpecimenImageDetails = getCarouselMediaDetails(media_ids=specimenImagesForCarousel.media_id[1])>
+						<cfset firstSpecimenImageAlt = firstSpecimenImageDetails.alt>
+						<cfset firstSpecimenImageUri = firstSpecimenImageDetails.media_uri>
 					</cfif>
-					<cfset firstSpecimenImageAlt_ms = getTickCount() - firstSpecimenImageAltStart>
+					<cfset firstSpecimenImageDetails_ms = getTickCount() - firstSpecimenImageDetailsStart>
 					<cfquery name="directMedia" dbtype="query">
 						SELECT * 
 						FROM directMedia_raw 
@@ -397,7 +399,7 @@ limitations under the License.
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 									},
 									beforeprocessing: function (data) {
-										source.totalrecords = #specimens.recordcount#;
+										source.totalrecords = #specimenCount.specimen_count#;
 									},
 									sort: function () {
 										$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
@@ -458,7 +460,7 @@ limitations under the License.
 							<h2 class="float-left">Specimen Records 
 								<span class="small">
 									<a href="/Specimens.cfm?execute=true&action=fixedSearch&underscore_collection_id=#encodeForURL(underscore_collection_id)#
-&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#" target="_blank">#specimens.recordcount#</a>
+&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#" target="_blank">#specimenCount.specimen_count#</a>
 								</span>
 							</h2>
 							<div id="btnContainer" class="ml-3 float-left"></div>
@@ -487,7 +489,7 @@ limitations under the License.
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
 													<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
-														<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
+														<cfset specimen_media_uri = firstSpecimenImageUri>
 														<cfset specimen_media_id = specimenImagesForCarousel.media_id>
 														<cfset specimen_alt = firstSpecimenImageAlt>
 													</cfloop>
@@ -495,7 +497,7 @@ limitations under the License.
 														<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
 														<a id="specimen_detail_a" class="d-block pt-2" href="/media/#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=1000&height=1000'>
-														<a id="specimen_media_a" href="#specimen_media_uri#" class="d-block my-1 w-100 active" title="click to open full image">
+														<a id="specimen_media_a" href="#encodeForHtmlAttribute(specimen_media_uri)#" class="d-block my-1 w-100 active" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#encodeForHtmlAttribute(specimen_alt)#" height="100%" width="100%">
 														</a>
 														<p id="specimen_media_desc" class="mt-2 bg-light small caption-lg">#encodeForHtml(specimen_alt)#</p>
@@ -1480,9 +1482,9 @@ limitations under the License.
 								<ul>
 								<li>getTitleGroup=#getTitleGroup_result.ExecutionTime#</li>
 								<li>getNamedGroup=#getNamedGroup_result.ExecutionTime#</li>
-								<li>specimens=#specimens_result.ExecutionTime#</li>
+								<li>specimenCount=#specimenCount_result.ExecutionTime#</li>
 								<li>specimenImagesForCarousel=#specimenImagesForCarousel_ms#</li>
-								<li>firstSpecimenImageAlt=#firstSpecimenImageAlt_ms#</li>
+								<li>firstSpecimenImageDetails=#firstSpecimenImageDetails_ms#</li>
 								<li>specimenNonImageMedia=#specimenNonImageMedia_ms#</li>
 								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
