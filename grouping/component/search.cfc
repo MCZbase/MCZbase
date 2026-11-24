@@ -611,34 +611,37 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- Function getSpecimenImagesForGroup
-	Obtain the jpeg and png images of the cataloged items in a named group that the current user may see,
-	in carousel order.  grouping/showNamedCollection.cfm and getSpecimenImagesAt both call this function,
-	so they share one cached query.  Media descriptors are not included, as computing them for every image
-	of a large group is slow; see getMediaDescriptors.
-	@param underscore_collection_id the named group whose specimen images to return.
-	@param displayed_media_id the group's displayed_media_id, which is placed first, may be blank.
-	@return query of media_id, media_uri and topsort, ordered by topsort then media_id.
+<!--- Function getSpecimenMediaForGroup
+	Obtain the media shown with the cataloged items in a named group, with whether each is encumbered for
+	the current user, cached.  Media descriptors are not included, as computing them for every image of a
+	large group is slow; see getMediaDescriptors.  is_media_encumbered is in the select list, not the where
+	clause, so Oracle evaluates it only on the group's rows.
+	@param underscore_collection_id the named group whose specimen media to return.
+	@param displayed_media_id the group's displayed_media_id, which is given topsort 1, may be blank.
+	@return query of media_id, media_uri, encumb, media_type, mime_type and topsort.
 --->
-<cffunction name="getSpecimenImagesForGroup" access="public" returntype="query">
+<cffunction name="getSpecimenMediaForGroup" access="public" returntype="query">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="displayed_media_id" type="string" required="yes">
 
-	<cfquery name="local.specimenImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.specimenImages_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+	<cfquery name="local.specimenMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.specimenMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 		<cfif len(arguments.displayed_media_id) GT 0>
-		SELECT media.media_id,
+		SELECT DISTINCT media.media_id,
 			media.media_uri,
+			MCZBASE.is_media_encumbered(media.media_id) AS encumb,
+			media.media_type,
+			media.mime_type,
 			1 AS topsort
 		FROM media
 		WHERE
 			media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.displayed_media_id#">
-			AND media.media_type = 'image'
-			AND media.mime_type IN ('image/jpeg', 'image/png')
-			AND MCZBASE.is_media_encumbered(media.media_id) < 1
 		UNION
 		</cfif>
 		SELECT DISTINCT media.media_id,
 			media.media_uri,
+			MCZBASE.is_media_encumbered(media.media_id) AS encumb,
+			media.media_type,
+			media.mime_type,
 			2 AS topsort
 		FROM
 			underscore_collection
@@ -651,13 +654,33 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
 			AND media_relations.media_relationship = 'shows cataloged_item'
 			AND flat.guid IS NOT NULL
-			AND media.media_type = 'image'
-			AND media.mime_type IN ('image/jpeg', 'image/png')
-			AND MCZBASE.is_media_encumbered(media.media_id) < 1
 			<cfif len(arguments.displayed_media_id) GT 0>
 				AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.displayed_media_id#">
 			</cfif>
-		ORDER BY topsort, media_id
+	</cfquery>
+	<cfreturn local.specimenMedia>
+</cffunction>
+
+<!--- Function getSpecimenImagesForGroup
+	Obtain the jpeg and png images of the cataloged items in a named group that the current user may see,
+	in carousel order.  grouping/showNamedCollection.cfm and getSpecimenImagesAt both call this function,
+	so they share one cached query, from getSpecimenMediaForGroup.
+	@param underscore_collection_id the named group whose specimen images to return.
+	@param displayed_media_id the group's displayed_media_id, which is placed first, may be blank.
+	@return query of media_id, media_uri and topsort, ordered by topsort then media_id.
+--->
+<cffunction name="getSpecimenImagesForGroup" access="public" returntype="query">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="displayed_media_id" type="string" required="yes">
+
+	<cfset local.specimenMedia = getSpecimenMediaForGroup(underscore_collection_id=arguments.underscore_collection_id, displayed_media_id=arguments.displayed_media_id)>
+	<cfquery name="local.specimenImages" dbtype="query">
+		SELECT media_id, media_uri, topsort
+		FROM local.specimenMedia
+		WHERE encumb < 1
+			AND media_type = 'image'
+			AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+		ORDER BY topsort ASC, media_id
 	</cfquery>
 	<cfreturn local.specimenImages>
 </cffunction>

@@ -196,37 +196,16 @@ limitations under the License.
 					<cfset specimenImagesStart = getTickCount()>
 					<cfset specimenImagesForCarousel = getSpecimenImagesForGroup(underscore_collection_id=underscore_collection_id, displayed_media_id=getNamedGroup.displayed_media_id)>
 					<cfset specimenImagesForCarousel_ms = getTickCount() - specimenImagesStart>
-					<cfquery name="specimenNonImageMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenNonImageMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
-						<cfif len(getNamedGroup.displayed_media_id) GT 0>
-						SELECT media.media_id
-						FROM media
-						WHERE
-							media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.displayed_media_id#">
-							AND media.media_type <> 'image'
-							AND media.mime_type NOT IN ('image/jpeg', 'image/png')
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
-						UNION
-						</cfif>
-						SELECT DISTINCT media.media_id
-						FROM
-							underscore_collection
-							LEFT JOIN underscore_relation ON underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-								ON underscore_relation.collection_object_id = flat.collection_object_id
-							LEFT JOIN media_relations
-								ON media_relations.related_primary_key = underscore_relation.collection_object_id
-							LEFT JOIN media ON media_relations.media_id = media.media_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							AND media_relations.media_relationship = 'shows cataloged_item'
-							AND flat.guid IS NOT NULL
-							AND media.media_type <> 'image'
-							AND media.mime_type NOT IN ('image/jpeg', 'image/png')
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
-							<cfif len(getNamedGroup.displayed_media_id) GT 0>
-								AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.displayed_media_id#">
-							</cfif>
+					<cfset specimenNonImageMediaStart = getTickCount()>
+					<cfset specimenMedia = getSpecimenMediaForGroup(underscore_collection_id=underscore_collection_id, displayed_media_id=getNamedGroup.displayed_media_id)>
+					<cfquery name="specimenNonImageMedia" dbtype="query">
+						SELECT media_id
+						FROM specimenMedia
+						WHERE encumb < 1
+							AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 						ORDER BY media_id
 					</cfquery>
+					<cfset specimenNonImageMedia_ms = getTickCount() - specimenNonImageMediaStart>
 					<cfset firstSpecimenImageAlt = "">
 					<cfset firstSpecimenImageAltStart = getTickCount()>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -1504,7 +1483,7 @@ limitations under the License.
 								<li>specimens=#specimens_result.ExecutionTime#</li>
 								<li>specimenImagesForCarousel=#specimenImagesForCarousel_ms#</li>
 								<li>firstSpecimenImageAlt=#firstSpecimenImageAlt_ms#</li>
-								<li>specimenNonImageMedia=#specimenNonImageMedia_result.ExecutionTime#</li>
+								<li>specimenNonImageMedia=#specimenNonImageMedia_ms#</li>
 								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>mapBounds=#mapBounds_result.ExecutionTime#</li>
