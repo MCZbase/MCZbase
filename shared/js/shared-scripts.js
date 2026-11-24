@@ -2329,10 +2329,58 @@ function lookupColumnOrder (pageFilePath,label) {
 }
 
 
+/**
+ Display one image record in a set of image controls.
+ @param record object with media_id, media_uri and alt (alt as html, it is placed in the description element)
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+*/
+function showImageRecord(record, media_img, media_des, detail_a, media_a, sizeparams) {
+	$("#"+detail_a).attr("href","/media/" + record.media_id);
+	$("#"+media_a).attr("href",record.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+record.media_id+sizeparams);
+	// alt is html for the description; the alt attribute takes its text, decoded without parsing markup.
+	$("#"+media_img).attr("alt",$("<textarea>").html(record.alt).text());
+	$("#"+media_des).html(record.alt);
+}
+
+/**
+ Move a set of image controls to a position in a set of images.  The set is either an array of image
+ metadata records, or an image set object (see makeNamedGroupImageSet in /grouping/js/namedGroupImages.js)
+ with length and getImage(position, callback), which may supply the record later; then only the record
+ for the most recently requested position is displayed.
+ @param position one based position within the set of images to display
+ @param imageSet an array of media metadata objects containing media_id, media_uri, alt, or an image set object
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+*/
+function showImageAtPosition(position, imageSet, media_img, media_des, detail_a, media_a, image_counter, sizeparams) {
+	$("#"+image_counter).val(position);
+	if (typeof imageSet.getImage === "function") {
+		$("#"+media_img).data("requestedPosition", position);
+		imageSet.getImage(position, function (record) {
+			if ($("#"+media_img).data("requestedPosition") === position) {
+				showImageRecord(record, media_img, media_des, detail_a, media_a, sizeparams);
+			}
+		});
+	} else {
+		// array is zero based, position is one based (so display of zeroth element in array is 1 for first image)
+		showImageRecord(imageSet[position - 1], media_img, media_des, detail_a, media_a, sizeparams);
+	}
+}
+
 /** 
  Switch a set of image controls to display the previous image in a set.
- @param counter one based position within array of images represented by imageMetadataArray
- @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param counter one based position within the set of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media metadata objects containing media_id, media_uri, alt, or an image
+   set object, see showImageAtPosition
  @param media_img id of the img element in the page into which the image is to be placed, not including # selector
  @param media_des id of the element in the page containing the description of the image, not including # selector
  @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
@@ -2343,27 +2391,18 @@ function lookupColumnOrder (pageFilePath,label) {
 */ 
 function goPreviousImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
-	console.log( $('#'+media_img).attr('src'));
-	currentCounter = counter;
-	currentCounter = currentCounter - 1;
+	var currentCounter = counter - 1;
 	if (currentCounter < 1) { 
 		currentCounter = imageMetadataArray.length;
 	}
-	console.log(currentCounter);
-	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
-	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
-	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
-	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
-	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
-	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).html(currentImageMetadataRecord.alt);
+	showImageAtPosition(currentCounter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams);
 	return currentCounter;
 }
 /** 
  Switch a set of image controls to display the next image in a set.
- @param counter one based position within array of images represented by imageMetadataArray
- @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param counter one based position within the set of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media metadata objects containing media_id, media_uri, alt, or an image
+   set object, see showImageAtPosition
  @param media_img id of the img element in the page into which the image is to be placed, not including # selector
  @param media_des id of the element in the page containing the description of the image, not including # selector
  @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
@@ -2374,29 +2413,19 @@ function goPreviousImage(counter, imageMetadataArray, media_img, media_des, deta
 */ 
 function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
-	console.log( $('#'+media_img).attr('src'));
-	currentCounter = counter;
-	currentCounter = currentCounter + 1;
+	var currentCounter = counter + 1;
 	if (currentCounter > imageMetadataArray.length) { 
 		currentCounter = 1;
 	}
-	console.log(currentCounter);
-	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
-	console.log(currentImageMetadataRecord);
-	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
-	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
-	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
-	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
-	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).html(currentImageMetadataRecord.alt);
+	showImageAtPosition(currentCounter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams);
 	return currentCounter;
 }
 /** 
  Switch a set of image controls to display a specified image in a set, if a valid position is specfied in the value
  of image_counter, then that image is moved to, otherwise the image remains at the current counter value.
- @param counter one based current position within array of images represented by imageMetadataArray
- @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param counter one based current position within the set of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media metadata objects containing media_id, media_uri, alt, or an image
+   set object, see showImageAtPosition
  @param media_img id of the img element in the page into which the image is to be placed, not including # selector
  @param media_des id of the element in the page containing the description of the image, not including # selector
  @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
@@ -2407,9 +2436,7 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 */ 
 function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
-	console.log( $('#'+media_img).attr('src'));
-	currentCounter = counter;
-	var targetCounterValue = currentCounter;
+	var targetCounterValue = counter;
 	var inputVal = Number($("#"+image_counter).val());
 	if(Number.isInteger(inputVal)) {
 		targetCounterValue = inputVal;
@@ -2420,16 +2447,8 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	if (targetCounterValue < 1) { 
 		targetCounterValue = 1;
 	}
-	currentCounter = targetCounterValue;
-	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
-	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
-	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
-	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
-	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
-	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).html(currentImageMetadataRecord.alt);
-	return currentCounter;
+	showImageAtPosition(targetCounterValue, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams);
+	return targetCounterValue;
 }
 
 /** Ajax reload method to accompany getMediaBlockHtml backing method 

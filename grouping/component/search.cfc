@@ -1,7 +1,7 @@
 <!---
 grouping/component/search.cfc
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2026 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -609,6 +609,144 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- Function getSpecimenImagesForGroup
+	Obtain the jpeg and png images of the cataloged items in a named group that the current user may see,
+	in carousel order.  grouping/showNamedCollection.cfm and getSpecimenImagesAt both call this function,
+	so they share one cached query.  Media descriptors are not included, as computing them for every image
+	of a large group is slow; see getMediaDescriptors.
+	@param underscore_collection_id the named group whose specimen images to return.
+	@param displayed_media_id the group's displayed_media_id, which is placed first, may be blank.
+	@return query of media_id, media_uri and topsort, ordered by topsort then media_id.
+--->
+<cffunction name="getSpecimenImagesForGroup" access="public" returntype="query">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="displayed_media_id" type="string" required="yes">
+
+	<cfquery name="local.specimenImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.specimenImages_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		<cfif len(arguments.displayed_media_id) GT 0>
+		SELECT media.media_id,
+			media.media_uri,
+			1 AS topsort
+		FROM media
+		WHERE
+			media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.displayed_media_id#">
+			AND media.media_type = 'image'
+			AND media.mime_type IN ('image/jpeg', 'image/png')
+			AND MCZBASE.is_media_encumbered(media.media_id) < 1
+		UNION
+		</cfif>
+		SELECT DISTINCT media.media_id,
+			media.media_uri,
+			2 AS topsort
+		FROM
+			underscore_collection
+			LEFT JOIN underscore_relation ON underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+			LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				ON underscore_relation.collection_object_id = flat.collection_object_id
+			LEFT JOIN media_relations
+				ON media_relations.related_primary_key = underscore_relation.collection_object_id
+			LEFT JOIN media ON media_relations.media_id = media.media_id
+		WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+			AND media_relations.media_relationship = 'shows cataloged_item'
+			AND flat.guid IS NOT NULL
+			AND media.media_type = 'image'
+			AND media.mime_type IN ('image/jpeg', 'image/png')
+			AND MCZBASE.is_media_encumbered(media.media_id) < 1
+			<cfif len(arguments.displayed_media_id) GT 0>
+				AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.displayed_media_id#">
+			</cfif>
+		ORDER BY topsort, media_id
+	</cfquery>
+	<cfreturn local.specimenImages>
+</cffunction>
+
+<!--- Function getMediaDescriptors
+	Obtain the textual descriptions used as alt text and captions for a few media records.  Not remote:
+	callers pass only media the current user may see.
+	@param media_ids comma separated list of media_id values.
+	@return query of media_id and alt.
+--->
+<cffunction name="getMediaDescriptors" access="public" returntype="query">
+	<cfargument name="media_ids" type="string" required="yes">
+
+	<cfquery name="local.descriptors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.descriptors_result" timeout="#Application.short_timeout#">
+		SELECT media_id,
+			MCZBASE.get_media_descriptor(media_id) AS alt
+		FROM media
+		WHERE media_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_ids#" list="yes">)
+	</cfquery>
+	<cfreturn local.descriptors>
+</cffunction>
+
+<!--- Function getSpecimenImagesAt
+	Obtain the specimen images at given positions in a named group's specimen image carousel on
+	grouping/showNamedCollection.cfm, so the carousel loads only the images it shows or prefetches.
+	@param underscore_collection_id the named group whose specimen images to return.
+	@param positions comma separated list of one based carousel positions, at most MAX_POSITIONS are used.
+	@return json object with count, the number of images in the carousel, and images, an array of objects
+		with position, media_id, media_uri and alt (html encoded); empty if the group is hidden from the
+		current user.
+--->
+<cffunction name="getSpecimenImagesAt" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="positions" type="string" required="yes">
+
+	<cfset var MAX_POSITIONS = 10>
+	<cfset var data = StructNew()>
+	<cfset var wantedPositions = ArrayNew(1)>
+	<cfset var position = "">
+	<cfset var mediaIds = "">
+	<cfset var altById = StructNew()>
+	<cfset var row = "">
+	<cfset data["count"] = 0>
+	<cfset data["images"] = ArrayNew(1)>
+	<cftry>
+		<cfquery name="local.checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.checkGroup_result" timeout="#Application.short_timeout#">
+			SELECT underscore_collection_id, displayed_media_id
+			FROM underscore_collection
+			WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+				<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+					AND mask_fg = 0
+				</cfif>
+		</cfquery>
+		<cfif local.checkGroup.recordcount EQ 1>
+			<cfset local.images = getSpecimenImagesForGroup(underscore_collection_id=arguments.underscore_collection_id, displayed_media_id=local.checkGroup.displayed_media_id)>
+			<cfset data["count"] = local.images.recordcount>
+			<cfloop list="#arguments.positions#" index="position">
+				<cfset position = trim(position)>
+				<cfif isValid("integer", position) AND position GTE 1 AND position LTE local.images.recordcount AND NOT ArrayContains(wantedPositions, position) AND ArrayLen(wantedPositions) LT MAX_POSITIONS>
+					<cfset ArrayAppend(wantedPositions, position)>
+					<cfset mediaIds = ListAppend(mediaIds, local.images.media_id[position])>
+				</cfif>
+			</cfloop>
+			<cfif ArrayLen(wantedPositions) GT 0>
+				<cfset local.descriptors = getMediaDescriptors(media_ids=mediaIds)>
+				<cfloop query="local.descriptors">
+					<cfset altById[local.descriptors.media_id] = local.descriptors.alt>
+				</cfloop>
+				<cfloop array="#wantedPositions#" index="position">
+					<cfset row = StructNew()>
+					<cfset row["position"] = position>
+					<cfset row["media_id"] = "#local.images.media_id[position]#">
+					<cfset row["media_uri"] = "#local.images.media_uri[position]#">
+					<cfset row["alt"] = "">
+					<cfif structKeyExists(altById, local.images.media_id[position])>
+						<cfset row["alt"] = encodeForHtml(altById[local.images.media_id[position]])>
+					</cfif>
+					<cfset ArrayAppend(data["images"], row)>
+				</cfloop>
+			</cfif>
+		</cfif>
+	<cfcatch>
+		<cfset var error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset var function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(data)>
 </cffunction>
 
 <!--- Function getNamedGroupHeatmapPoints
