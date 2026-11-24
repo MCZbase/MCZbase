@@ -690,16 +690,23 @@ limitations under the License.
 					if (message.data.source == "loan" && message.data.transaction_id == "#transaction_id#") { 
 						reloadSummary();
 					}
-					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading item list and summary from addloanitems message");
+					if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") {
+						scheduleItemReload();
+					}
+					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") {
+						scheduleItemReload();
+					}
+				}
+				var itemReloadTimer = null;
+				/** scheduleItemReload reloads the item list and summary once, a second after the last of a run of
+				 * changes made on another page, as parts are often added to a loan in quick succession.
+				 */
+				function scheduleItemReload() {
+					clearTimeout(itemReloadTimer);
+					itemReloadTimer = setTimeout(function () {
 						reloadDataNoBroadcast();
 						reloadSummary();
-					}
-					if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-						console.log("reloading item list and summary from reviewitems message");
-						reloadDataNoBroadcast();
-						reloadSummary();
-					}
+					}, 1000);
 				}
 			</script>
 		</cfoutput>

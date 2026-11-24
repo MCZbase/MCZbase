@@ -447,15 +447,24 @@ limitations under the License.
 			function loanModifiedHere() { 
 				bc.postMessage({"source":"loan","transaction_id":"#transaction_id#"});
 			}
-			bc.onmessage = function (message) { 
+			bc.onmessage = function (message) {
 				console.log(message);
-				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") { 
-					doItemUpdate();
+				if (message.data.source == "addloanitems" && message.data.transaction_id == "#transaction_id#") {
+					scheduleItemUpdate();
 					// TODO: check if loan state has changed from open (in form) to open partially returned (in loan record), and change selection
 				}
-				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") { 
-					doItemUpdate();
+				if (message.data.source == "reviewitems" && message.data.transaction_id == "#transaction_id#") {
+					scheduleItemUpdate();
 				}
+			}
+			var itemUpdateTimer = null;
+			/** scheduleItemUpdate refreshes the loan item sections once, a second after the last of a run of
+			 * changes made on another page, as each refresh makes six requests and parts are often added to a
+			 * loan in quick succession.
+			 */
+			function scheduleItemUpdate() {
+				clearTimeout(itemUpdateTimer);
+				itemUpdateTimer = setTimeout(doItemUpdate, 1000);
 			}
 			function reloadLoanSummaryData(){ 
 				// reload dispositions of loan items
