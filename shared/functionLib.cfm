@@ -27,6 +27,23 @@ limitations under the License.
 		return isValid("regex", x, d);
 	}
 </cfscript>
+<!--- Function versionedUrl
+	Give the address of a local css or js file with its last-modified time appended as ?v=, so a
+	browser may cache the file for as long as the server allows, and fetches it again as soon as it
+	changes, since the changed file has a new address.  Defined here rather than in /shared/_header.cfm,
+	as an error page may include the header a second time in a request, and this file is included once.
+	@param path the file's path from the web root, beginning with /, e.g. /shared/js/shared-scripts.js.
+	@return path?v={yyyymmddHHnnss}, or path unchanged if the file does not exist.
+--->
+<cffunction name="versionedUrl" returntype="string" output="false">
+	<cfargument name="path" type="string" required="yes">
+
+	<cfset var filePath = expandPath(arguments.path)>
+	<cfif fileExists(filePath)>
+		<cfreturn arguments.path & "?v=" & encodeForUrl(dateTimeFormat(getFileInfo(filePath).lastModified, "yyyymmddHHnnss"))>
+	</cfif>
+	<cfreturn arguments.path>
+</cffunction>
 <cffunction name="jsescape">
 	<cfargument name="in" required="yes">
 	<cfset out=replace(in,"'","`","all")>

@@ -1267,6 +1267,18 @@ limitations under the License.
 												</div>
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="directMedia">
+														<!--- media directly linked to the named group --->
+														<cfif NOT ListContains(shownMedia,directMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,directMedia.media_id)>
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#directMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
+													</cfloop>
 													<cfloop query="specimenNonImageMedia">
 														<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
 															<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>

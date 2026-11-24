@@ -346,12 +346,16 @@ limitations under the License.
 			</cfquery>
 
 			<cfif qLatLongForStatic.recordcount GT 0>
-				<cfset mapUrl = getOrCreateStaticMapForLocality(
-					locality_id  = arguments.locality_id,
-					lat = qLatLongForStatic.dec_lat,
-					lng = qLatLongForStatic.dec_long,
-					forceRefresh = true
-				)>
+				<!--- specimen pages show the 2col or the 3col map, depending on their layout --->
+				<cfloop list="2col,3col" index="mapLayout">
+					<cfset mapUrl = getOrCreateStaticMapForLocality(
+						locality_id  = arguments.locality_id,
+						lat = qLatLongForStatic.dec_lat,
+						lng = qLatLongForStatic.dec_long,
+						layout = mapLayout,
+						forceRefresh = true
+					)>
+				</cfloop>
 			</cfif>
 
 
