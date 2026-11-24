@@ -60,7 +60,8 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<!--- Easy to overlook this shared function file; runOnce, as a page may include it ahead of the header --->
+<!--- ColdFusion functions reused across the application, including versionedUrl, used below for local css and js;
+	runOnce, as a page may include it ahead of the header. --->
 <cfinclude template="/shared/functionLib.cfm" runOnce="true">
 <!--- switch out version of library files to use --->
 <cfset jqwidgets_ver = "jqwidgets_ver20.0.0">
@@ -71,16 +72,13 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!--- NOTE, use either the fontawesome css implementation or the js implementation, not both.  CSS is substantially smaller, JS is minimum 1 MB --->
 
-<link rel="stylesheet" href="/shared/css/header_footer_styles.css">
+<!--- versionedUrl appends the file's last-modified time as ?v=, so a changed file gets a new address:
+	browsers may cache local css and js for long periods, yet fetch a new copy as soon as one changes.
+	Files under /lib/ change seldom and are not versioned. --->
+<link rel="stylesheet" href="#versionedUrl('/shared/css/header_footer_styles.css')#">
 <!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
-<!--- Versioned by last-modified time, as tabulator-common.js is below, so browsers fetch the new copy when it changes. --->
-<cfset variables.bootstrapOverrideVersion = "">
-<cfset variables.bootstrapOverridePath = expandPath("/shared/css/bootstrap_override.css")>
-<cfif fileExists(variables.bootstrapOverridePath)>
-	<cfset variables.bootstrapOverrideVersion = dateTimeFormat(getFileInfo(variables.bootstrapOverridePath).lastModified, "yyyymmddHHnnss")>
-</cfif>
-<link rel="stylesheet" href="/shared/css/bootstrap_override.css?v=#encodeForUrl(variables.bootstrapOverrideVersion)#">
-<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
+<link rel="stylesheet" href="#versionedUrl('/shared/css/bootstrap_override.css')#">
+<link rel="stylesheet" href="#versionedUrl('/shared/css/customstyles_jquery-ui.css')#">
 <script type="text/javascript" src="/lib/jquery/jquery-3.7.1.min.js"></script> 
 <script type="text/javascript" src="/lib/jquery-ui-1.14.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
 <!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>---> 
@@ -143,49 +141,26 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxnumberinput.js"></script>
 </cfif>
 
-<!--- Versioned by last-modified time, as tabulator-common.js is below; pages call functions such as mczMakeComboBoxAccessible that a stale cached copy lacks. --->
-<cfset variables.sharedScriptsVersion = "">
-<cfset variables.sharedScriptsPath = expandPath("/shared/js/shared-scripts.js")>
-<cfif fileExists(variables.sharedScriptsPath)>
-	<cfset variables.sharedScriptsVersion = dateTimeFormat(getFileInfo(variables.sharedScriptsPath).lastModified, "yyyymmddHHnnss")>
-</cfif>
-<script type="text/javascript" src="/shared/js/shared-scripts.js?v=#encodeForUrl(variables.sharedScriptsVersion)#"></script>
+<script type="text/javascript" src="#versionedUrl('/shared/js/shared-scripts.js')#"></script>
 <!--- Pages with a Tabulator grid; only these load tabulator-common.js. --->
 <cfset variables.TABULATOR_PAGES = "/Projects.cfm">
 <cfif listFindNoCase(variables.TABULATOR_PAGES, CGI.script_name) GT 0>
-	<!--- Version tabulator-common.js by its last-modified time so browsers fetch the new copy when it changes;
-		pages such as Projects.cfm call functions only present in the current file, and a stale cached copy breaks their grids. --->
-	<cfset variables.tabulatorCommonVersion = "">
-	<cfset variables.tabulatorCommonPath = expandPath("/shared/js/tabulator-common.js")>
-	<cfif fileExists(variables.tabulatorCommonPath)>
-		<cfset variables.tabulatorCommonVersion = dateTimeFormat(getFileInfo(variables.tabulatorCommonPath).lastModified, "yyyymmddHHnnss")>
-	</cfif>
-	<script type="text/javascript" src="/shared/js/tabulator-common.js?v=#encodeForUrl(variables.tabulatorCommonVersion)#"></script>
+	<script type="text/javascript" src="#versionedUrl('/shared/js/tabulator-common.js')#"></script>
 </cfif>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
-	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
-	<script type="text/javascript" src="/users/js/internal.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/shared/js/internal-scripts.js')#"></script> 
+	<script type="text/javascript" src="#versionedUrl('/shared/js/vocabulary_scripts.js')#"></script>
+	<script type="text/javascript" src="#versionedUrl('/users/js/internal.js')#"></script>
 </cfif>
 <cfif isdefined("session.username") AND len(session.username) gt 0>
 	<!--- anyone with a username can create annotations --->
-	<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/annotations/js/annotations.js')#"></script>
 </cfif>
 
 
 <!--- enlarged view of media images on hover or keyboard focus, wherever media blocks are shown --->
-<cfset variables.mediaZoomScriptVersion = "">
-<cfset variables.mediaZoomScriptPath = expandPath("/shared/js/media-zoom.js")>
-<cfif fileExists(variables.mediaZoomScriptPath)>
-	<cfset variables.mediaZoomScriptVersion = dateTimeFormat(getFileInfo(variables.mediaZoomScriptPath).lastModified, "yyyymmddHHnnss")>
-</cfif>
-<cfset variables.mediaZoomStyleVersion = "">
-<cfset variables.mediaZoomStylePath = expandPath("/shared/css/media_zoom.css")>
-<cfif fileExists(variables.mediaZoomStylePath)>
-	<cfset variables.mediaZoomStyleVersion = dateTimeFormat(getFileInfo(variables.mediaZoomStylePath).lastModified, "yyyymmddHHnnss")>
-</cfif>
-<script type="text/javascript" src="/shared/js/media-zoom.js?v=#encodeForUrl(variables.mediaZoomScriptVersion)#"></script>
-<link rel="stylesheet" href="/shared/css/media_zoom.css?v=#encodeForUrl(variables.mediaZoomStyleVersion)#">
+<script type="text/javascript" src="#versionedUrl('/shared/js/media-zoom.js')#"></script>
+<link rel="stylesheet" href="#versionedUrl('/shared/css/media_zoom.css')#">
 <!---Heatmap and Point distribution Map (deckgl and Google)--->
 <cfif CGI.script_name IS "/agents/Agent.cfm" OR CGI.script_name IS "/grouping/showNamedCollection.cfm" OR (isDefined("variables.loadMapLibraries") AND variables.loadMapLibraries) >
 	<!---
@@ -197,7 +172,7 @@ limitations under the License.
 	<script src="/lib/deckgl/deck.gl.min.js"></script>
 	<script src="/lib/deckgl/deckgl-aggregation-layers.min.js"></script>
 	<script src="/lib/deckgl/deckgl-google-maps.min.js"></script>
-	<script src="/shared/js/mcz-heatmap-distMap.js"></script>
+	<script src="#versionedUrl('/shared/js/mcz-heatmap-distMap.js')#"></script>
 </cfif>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
@@ -205,106 +180,91 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm" OR CGI.script_name CONTAINS "Accession" >
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/publications/" >
-	<script type="text/javascript" src="/publications/js/publications.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/publications/js/publications.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/Reports/" >
-	<cfset variables.reportsScriptPath = expandPath("/Reports/js/reports.js")>
-	<cfset variables.reportsScriptVersion = "">
-	<cfif fileExists(variables.reportsScriptPath)>
-		<cfset variables.reportsScriptVersion = dateTimeFormat(getFileInfo(variables.reportsScriptPath).lastModified, "yyyymmddHHnnss")>
-	</cfif>
-	<cfset variables.reportsStylePath = expandPath("/Reports/css/reports.css")>
-	<cfset variables.reportsStyleVersion = "">
-	<cfif fileExists(variables.reportsStylePath)>
-		<cfset variables.reportsStyleVersion = dateTimeFormat(getFileInfo(variables.reportsStylePath).lastModified, "yyyymmddHHnnss")>
-	</cfif>
-	<script type="text/javascript" src="/Reports/js/reports.js?v=#encodeForUrl(variables.reportsScriptVersion)#"></script>
-	<link rel="stylesheet" href="/Reports/css/reports.css?v=#encodeForUrl(variables.reportsStyleVersion)#">
+	<script type="text/javascript" src="#versionedUrl('/Reports/js/reports.js')#"></script>
+	<link rel="stylesheet" href="#versionedUrl('/Reports/css/reports.css')#">
 </cfif>
 <cfif CGI.script_name IS "/Projects.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<!--- To enable transaction pickers on project search page for logged in users --->
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/Reports/MCZDrawerTags.cfm">
 	<!--- For the loan picker offered when no loan is given. --->
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/projects/Project.cfm">
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/vocabularies/">
-	<script type="text/javascript" src="/vocabularies/js/geology.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/vocabularies/js/geology.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/media/" OR CGI.script_name IS "/Media.cfm">
-	<script type="text/javascript" src="/media/js/media.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/media/js/media.js')#"></script>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+		<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 	</cfif>
 </cfif>
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
-	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
-	<script type="text/javascript" src="/users/js/profile.js"></script> 
+	<script type="text/javascript" src="#versionedUrl('/shared/js/login_scripts.js')#"></script> 
+	<script type="text/javascript" src="#versionedUrl('/users/js/profile.js')#"></script> 
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm">
-	<script type="text/javascript" src="/specimens/js/search.js"></script> 
+	<script type="text/javascript" src="#versionedUrl('/specimens/js/search.js')#"></script> 
 	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcheckbox.js"></script>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/specimens/js/specimens.js')#"></script>
 </cfif>
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
-	<script type="text/javascript" src="/containers/js/containers.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/containers/js/containers.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/Bulkloader/">
-	<cfset variables.bulkloaderScriptsVersion = "">
-	<cfset variables.bulkloaderScriptsPath = expandPath("/Bulkloader/js/bulkloader.js")>
-	<cfif fileExists(variables.bulkloaderScriptsPath)>
-		<cfset variables.bulkloaderScriptsVersion = dateTimeFormat(getFileInfo(variables.bulkloaderScriptsPath).lastModified, "yyyymmddHHnnss")>
-	</cfif>
-	<script type="text/javascript" src="/Bulkloader/js/bulkloader.js?v=#encodeForUrl(variables.bulkloaderScriptsVersion)#"></script>
+	<script type="text/javascript" src="#versionedUrl('/Bulkloader/js/bulkloader.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/containers/placePartInContainer.cfm">
-	<script type="text/javascript" src="/containers/js/placePartInContainer.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/containers/js/placePartInContainer.js')#"></script>
 </cfif>
 <cfif isDefined("pageHasTabs") AND pageHasTabs EQ "true">
-	<script type="text/javascript" src="/shared/js/tabs.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/shared/js/tabs.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/transactions/js/transactions.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/specimens/adminSpecimenSearch.cfm" OR CGI.script_name IS "/specimens/viewSpecimenSearchMetadata.cfm">
-	<script type="text/javascript" src="/specimens/js/metadata.js"></script> 
+	<script type="text/javascript" src="#versionedUrl('/specimens/js/metadata.js')#"></script> 
 </cfif>
 <cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm" OR CGI.script_name is "/Specimens.cfm">
-	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/taxonomy/js/taxonomy.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/specimens/">
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/specimens/js/specimens.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/agents/">
-	<script type="text/javascript" src="/agents/js/agents.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/agents/js/agents.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/Admin/">
-	<script type="text/javascript" src="/Admin/js/admin.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/Admin/js/admin.js')#"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/collections/">
-	<script type="text/javascript" src="/collections/js/collections.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/collections/js/collections.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
-	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
+	<script type="text/javascript" src="#versionedUrl('/grouping/js/grouping.js')#"></script> 
 </cfif>
 <cfif CGI.script_name CONTAINS "/localities/">
-	<script type="text/javascript" src="/localities/js/localities.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/localities/js/localities.js')#"></script>
 	<!--- loadPolygonWKTFromFile isolated in wkt_tools --->
-	<script type="text/javascript" src="/localities/js/wkt_tools.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/localities/js/wkt_tools.js')#"></script>
 </cfif>
 <cfif CGI.script_name IS "/localities/HigherGeography.cfm">
-	<script type="text/javascript" src="/localities/js/highergeography.js"></script> 
+	<script type="text/javascript" src="#versionedUrl('/localities/js/highergeography.js')#"></script> 
 </cfif>
 <cfif CGI.script_name IS "/localities/CollectingEvent.cfm">
-	<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
-	<script type="text/javascript" src="/media/js/media.js"></script>
+	<script type="text/javascript" src="#versionedUrl('/localities/js/collectingevents.js')#"></script>
+	<script type="text/javascript" src="#versionedUrl('/media/js/media.js')#"></script>
 </cfif>
 
 <cfif not isdefined("session.header_color")>
