@@ -2,7 +2,7 @@
 grouping/showNamedCollection.cfm
 For read only public view of arbitrary groupings of collection objects and
 added value html describing them.
-Copyright 2021 President and Fellows of Harvard College
+Copyright 2021-2026 President and Fellows of Harvard College
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -107,6 +107,7 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true">
+<cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -191,57 +192,27 @@ limitations under the License.
 						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							AND media_relations.media_relationship like '% underscore_collection'
 					</cfquery>
-					<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
-						<cfif len(displayed_media_id) GT 0>
-						SELECT distinct media.media_id, 
-							media.media_uri, 
-							MCZBASE.get_media_descriptor(media.media_id) as alt,
-							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-							media.media_type,
-							media.mime_type,
-							1 as topsort
-						FROM media
-						WHERE
-							media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
-						UNION
-						</cfif>
-						SELECT distinct media.media_id, 
-							media.media_uri, 
-							MCZBASE.get_media_descriptor(media.media_id) as alt,
-							MCZBASE.is_media_encumbered(media.media_id)  as encumb,
-							media.media_type,
-							media.mime_type,
-							2 as topsort
-						FROM
-							underscore_collection
-							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-								on underscore_relation.collection_object_id = flat.collection_object_id
-							left join media_relations
-								on media_relations.related_primary_key = underscore_relation.collection_object_id
-							left join media on media_relations.media_id = media.media_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							AND media_relations.media_relationship = 'shows cataloged_item'
-							AND flat.guid is not null
-						<cfif len(displayed_media_id) GT 0>
-							AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
-						</cfif>
-					</cfquery>
-					<cfquery name="specimenImagesForCarousel" dbtype="query">
-						SELECT * 
-						FROM specimenMedia_raw 
-						WHERE encumb < 1
-							AND media_type = 'image'
-							AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
-						ORDER BY topsort asc, media_id
-					</cfquery>
+					<!--- shared with getSpecimenImagesAt, which loads the rest of the carousel by position --->
+					<cfset specimenImagesStart = getTickCount()>
+					<cfset specimenImagesForCarousel = getSpecimenImagesForGroup(underscore_collection_id=underscore_collection_id, displayed_media_id=getNamedGroup.displayed_media_id)>
+					<cfset specimenImagesForCarousel_ms = getTickCount() - specimenImagesStart>
+					<cfset specimenNonImageMediaStart = getTickCount()>
+					<cfset specimenMedia = getSpecimenMediaForGroup(underscore_collection_id=underscore_collection_id, displayed_media_id=getNamedGroup.displayed_media_id)>
 					<cfquery name="specimenNonImageMedia" dbtype="query">
-						SELECT * 
-						FROM specimenMedia_raw 
+						SELECT media_id
+						FROM specimenMedia
 						WHERE encumb < 1
 							AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 						ORDER BY media_id
 					</cfquery>
+					<cfset specimenNonImageMedia_ms = getTickCount() - specimenNonImageMediaStart>
+					<cfset firstSpecimenImageAlt = "">
+					<cfset firstSpecimenImageAltStart = getTickCount()>
+					<cfif specimenImagesForCarousel.recordcount GT 0>
+						<cfset firstSpecimenImageDescriptor = getMediaDescriptors(media_ids=specimenImagesForCarousel.media_id[1])>
+						<cfset firstSpecimenImageAlt = firstSpecimenImageDescriptor.alt>
+					</cfif>
+					<cfset firstSpecimenImageAlt_ms = getTickCount() - firstSpecimenImageAltStart>
 					<cfquery name="directMedia" dbtype="query">
 						SELECT * 
 						FROM directMedia_raw 
@@ -518,31 +489,43 @@ limitations under the License.
 													<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
 														<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
 														<cfset specimen_media_id = specimenImagesForCarousel.media_id>
-														<cfset specimen_alt = specimenImagesForCarousel.alt>
+														<cfset specimen_alt = firstSpecimenImageAlt>
 													</cfloop>
 													<div class="inner w-100 bg-light float-left px-3 h-auto">
 														<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
 														<a id="specimen_detail_a" class="d-block pt-2" href="/media/#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=1000&height=1000'>
 														<a id="specimen_media_a" href="#specimen_media_uri#" class="d-block my-1 w-100 active" title="click to open full image">
-															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
+															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#encodeForHtmlAttribute(specimen_alt)#" height="100%" width="100%">
 														</a>
-														<p id="specimen_media_desc" class="mt-2 bg-light small caption-lg">#specimen_alt#</p>
+														<p id="specimen_media_desc" class="mt-2 bg-light small caption-lg">#encodeForHtml(specimen_alt)#</p>
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-0 bg-white pt-0 pb-1">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" >&lt;&nbsp;prev </button>
-													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next&nbsp;&gt;</button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" onclick="goPreviousSpecimen();">&lt;&nbsp;prev </button>
+													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1" onchange="goSpecimen();">
+													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image" onclick="goNextSpecimen();"> next&nbsp;&gt;</button>
 												</div>
 												<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
 											</div>
 										</div>
+										<cfset namedGroupImagesVersion = "">
+										<cfset namedGroupImagesPath = expandPath("/grouping/js/namedGroupImages.js")>
+										<cfif fileExists(namedGroupImagesPath)>
+											<cfset namedGroupImagesVersion = dateTimeFormat(getFileInfo(namedGroupImagesPath).lastModified, "yyyymmddHHnnss")>
+										</cfif>
+										<script src="/grouping/js/namedGroupImages.js?v=#encodeForUrl(namedGroupImagesVersion)#"></script>
 										<script>
-											var $inputSpec = document.getElementById('specimen_image_number');
-											var $prevSpec = document.getElementById('previous_specimen_image');
-											var $nextSpec = document.getElementById('next_specimen_image');
-											var $scrollerSpec = document.getElementById('specimen_media_img');
+											specimenImageSetMetadata = makeNamedGroupImageSet(
+												"#encodeForJavaScript(underscore_collection_id)#",
+												#specimenImagesForCarousel.recordcount#,
+												{
+													media_id: "#encodeForJavaScript(specimen_media_id)#",
+													media_uri: "#encodeForJavaScript(specimen_media_uri)#",
+													alt: "#encodeForJavaScript(encodeForHtml(specimen_alt))#"
+												},
+												"#sizeType#"
+											);
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
@@ -553,42 +536,7 @@ limitations under the License.
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-												$('##previous_specimen_image').hide();
-												$('##next_specimen_image').hide();
-												$.getJSON("/grouping/component/search.cfc",
-	     											{
-     													method : "getSpecimenImageMetadata",
-														underscore_collection_id : "#underscore_collection_id#",
-														returnformat : "json"
-													},
-													function (result) {
-														specimenImageSetMetadata = result;
-														$inputSpec.addEventListener('change', function (e) {
-															goSpecimen()
-														}, false)
-														$prevSpec.addEventListener('click', function (e) {
-															goPreviousSpecimen()
-														}, false)
-														$nextSpec.addEventListener('click', function (e) {
-															goNextSpecimen()
-														}, false)
-														$('##previous_specimen_image').show();
-														$('##next_specimen_image').show();
-														$("##specimen_media_img").scrollTop(function (event) {
-															try {
-																event.preventDefault();
-															} catch { }
-															var ys = event.scrollTop;
-															if (ys > $nextSpec) { 
-																currentSpecimenImage = 0;
-															} else { 
-																goPreviousSpecimen();
-															}
-														});
-													}
-												).fail(function(jqXHR,textStatus,error){
-													handleFail(jqXHR,textStatus,error,"loading list of specimen images in group");
-												});
+												specimenImageSetMetadata.prefetchAround(1);
 											});
 										</script>
 									</section><!--- end specimen images --->
@@ -1533,7 +1481,9 @@ limitations under the License.
 								<li>getTitleGroup=#getTitleGroup_result.ExecutionTime#</li>
 								<li>getNamedGroup=#getNamedGroup_result.ExecutionTime#</li>
 								<li>specimens=#specimens_result.ExecutionTime#</li>
-								<li>specimenMedia_raw=#specimenMedia_raw_result.ExecutionTime#</li>
+								<li>specimenImagesForCarousel=#specimenImagesForCarousel_ms#</li>
+								<li>firstSpecimenImageAlt=#firstSpecimenImageAlt_ms#</li>
+								<li>specimenNonImageMedia=#specimenNonImageMedia_ms#</li>
 								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
 								<li>mapBounds=#mapBounds_result.ExecutionTime#</li>
