@@ -322,7 +322,7 @@ limitations under the License.
 					</section>
 					<!--- Send the heading and description before waiting for the queries started above. --->
 					<cfflush>
-					<cfthread action="join" name="#PARALLEL_QUERY_THREADS#">
+					<cfthread action="join" name="#PARALLEL_QUERY_THREADS#" />
 					<cfloop list="#PARALLEL_QUERY_THREADS#" index="threadName">
 						<cfif cfthread[threadName].status NEQ "COMPLETED">
 							<!--- an error in a thread is not raised in the page; raise it here, so onError reports it --->
