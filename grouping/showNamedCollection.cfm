@@ -538,7 +538,7 @@ limitations under the License.
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-												specimenImageSetMetadata.prefetchAround(1);
+												specimenImageSetMetadata.prefetchAroundAfterLoad(1, "specimen_media_img");
 											});
 										</script>
 									</section><!--- end specimen images --->
