@@ -109,6 +109,9 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfset otherImageTypes = 0>
+<!--- A group with more collectors than COLLECTOR_LIST_LIMIT shows the TOP_COLLECTOR_COUNT of the most specimens, and loads the rest on request. --->
+<cfset COLLECTOR_LIST_LIMIT = 200>
+<cfset TOP_COLLECTOR_COUNT = 100>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
 </cfif>
@@ -256,22 +259,10 @@ limitations under the License.
 			<cfset thread.summaryTerms_raw_result = summaryTerms_raw_result>
 		</cfthread>
 		<cfthread name="namedGroupCollectors" action="run" underscore_collection_id="#underscore_collection_id#">
-			<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collectors_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
-				SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
-				FROM
-					underscore_relation 
-					join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-						on underscore_relation.collection_object_id = flat.collection_object_id
-					join collector on underscore_relation.collection_object_id = collector.collection_object_id
-					join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-					left join person on preferred_agent_name.agent_id = person.person_id
-				WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.underscore_collection_id#">
-					and flat.collectors is not null
-					and collector.collector_role = 'c'
-				ORDER BY person.last_name, preferred_agent_name.agent_name asc
-			</cfquery>
-			<cfset thread.collectors = collectors>
-			<cfset thread.collectors_result = collectors_result>
+			<!--- shared with getCollectorsInGroupHtml, which loads the rest of a long list --->
+			<cfset collectorsStart = getTickCount()>
+			<cfset thread.collectors = getCollectorsForGroup(underscore_collection_id=attributes.underscore_collection_id)>
+			<cfset thread.collectors_ms = getTickCount() - collectorsStart>
 		</cfthread>
 		<cfthread name="namedGroupCitations" action="run" underscore_collection_id="#underscore_collection_id#">
 			<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="citations_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
@@ -362,7 +353,7 @@ limitations under the License.
 					<cfset summaryTerms_raw = cfthread.namedGroupSummaryTerms.summaryTerms_raw>
 					<cfset summaryTerms_raw_result = cfthread.namedGroupSummaryTerms.summaryTerms_raw_result>
 					<cfset collectors = cfthread.namedGroupCollectors.collectors>
-					<cfset collectors_result = cfthread.namedGroupCollectors.collectors_result>
+					<cfset collectors_ms = cfthread.namedGroupCollectors.collectors_ms>
 					<cfset citations = cfthread.namedGroupCitations.citations>
 					<cfset citations_result = cfthread.namedGroupCitations.citations_result>
 					<cfset otherimagetypes = 0>
@@ -1238,7 +1229,69 @@ limitations under the License.
 									<cfif collectors.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Collectors</h3>
-											<cfif collectors.recordcount gt 50>
+											<cfif collectors.recordcount GT COLLECTOR_LIST_LIMIT>
+												<cfset topCollectors = getTopCollectorsForGroup(collectors=collectors, top_count=TOP_COLLECTOR_COUNT)>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingCollectors">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
+																#collectors.recordcount# Collectors
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
+																<p class="small px-2 pt-2 mb-0">The #TOP_COLLECTOR_COUNT# collectors of the most specimens in this group, with their numbers of specimens.</p>
+																<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
+																	<cfloop query="topCollectors">
+																		<li>
+																			<a class="h4" href="/agents/Agent.cfm?agent_id=#encodeForUrl(topCollectors.agent_id)#">#encodeForHtml(topCollectors.agent_name)#</a>
+																			(#topCollectors.specimen_count#)
+																		</li>
+																	</cfloop>
+																</ul>
+																<div id="otherCollectors" tabindex="-1"></div>
+																<button type="button" id="otherCollectorsButton" class="btn btn-xs btn-secondary mb-2" onclick="loadOtherCollectors('#encodeForJavaScript(underscore_collection_id)#', #TOP_COLLECTOR_COUNT#, 'otherCollectors', 'otherCollectorsButton');">Show the other #collectors.recordcount - TOP_COLLECTOR_COUNT# collectors</button>
+																<script>
+																	/** Load the collectors of the group other than those already shown, by name, in place of the button.
+																	 * @param underscore_collection_id the named group shown.
+																	 * @param skipTop the number of collectors of the most specimens already shown.
+																	 * @param targetId the id of the element to fill with the list, without a leading ##.
+																	 * @param buttonId the id of the button that requested the list, without a leading ##.
+																	 */
+																	function loadOtherCollectors(underscore_collection_id, skipTop, targetId, buttonId) {
+																		$("##" + buttonId).prop("disabled", true);
+																		$("##" + targetId).html('<div class="my-2 text-center"><img src="/shared/images/indicator.gif" alt=""> Loading...</div>');
+																		$.ajax({
+																			url: "/grouping/component/search.cfc",
+																			type: "GET",
+																			dataType: "html",
+																			data: {
+																				method: "getCollectorsInGroupHtml",
+																				underscore_collection_id: underscore_collection_id,
+																				skip_top: skipTop,
+																				returnformat: "plain"
+																			},
+																			success: function (result) {
+																				$("##" + targetId).html(result);
+																				$("##" + buttonId).remove();
+																				// the button had focus; keep the keyboard user's place at the list that replaced it
+																				$("##" + targetId).focus();
+																			},
+																			error: function (jqXHR, textStatus, error) {
+																				$("##" + targetId).html("");
+																				$("##" + buttonId).prop("disabled", false);
+																				handleFail(jqXHR, textStatus, error, "loading the collectors in this group");
+																			}
+																		});
+																	}
+																</script>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelseif collectors.recordcount GT 50>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingCollectors">
@@ -1253,7 +1306,7 @@ limitations under the License.
 																<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
 																<cfloop query="collectors">
 																	<li class=""> 
-																		<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+																		<a class="h4" href="/agents/Agent.cfm?agent_id=#encodeForUrl(collectors.agent_id)#">#encodeForHtml(collectors.agent_name)# </a> 
 																	</li>
 																</cfloop>
 																</ul>
@@ -1265,7 +1318,7 @@ limitations under the License.
 												<ul class="list-unstyled py-2 rounded-0">
 													<cfloop query="collectors">
 														<li class=""> 
-															<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name#</a> 
+															<a class="h4" href="/agents/Agent.cfm?agent_id=#encodeForUrl(collectors.agent_id)#">#encodeForHtml(collectors.agent_name)#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -1571,7 +1624,7 @@ limitations under the License.
 								<li>mapBounds=#mapBounds_result.ExecutionTime#</li>
 								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
 								<li>summaryTerms_raw=#summaryTerms_raw_result.ExecutionTime#</li>
-								<li>collectors=#collectors_result.ExecutionTime#</li>
+								<li>collectors=#collectors_ms#</li>
 								<li>directCitations=#directCitations_result.ExecutionTime#</li>
 								<li>citations=#citations_result.ExecutionTime#</li>
 								</ul>

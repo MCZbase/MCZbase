@@ -611,6 +611,115 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Function getCollectorsForGroup
+	Obtain the collectors of the cataloged items in a named group, with the number of those cataloged items
+	each collected, cached.  grouping/showNamedCollection.cfm and getCollectorsInGroupHtml both call this
+	function, so they share one cached query.
+	@param underscore_collection_id the named group whose collectors to return.
+	@return query of agent_name, agent_id, last_name and specimen_count, ordered by last_name then agent_name.
+--->
+<cffunction name="getCollectorsForGroup" access="public" returntype="query">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfquery name="local.collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.collectors_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
+		SELECT preferred_agent_name.agent_name, collector.agent_id, person.last_name,
+			count(DISTINCT underscore_relation.collection_object_id) AS specimen_count
+		FROM
+			underscore_relation
+			JOIN <cfif ucase(session.flatTableName) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				ON underscore_relation.collection_object_id = flat.collection_object_id
+			JOIN collector ON underscore_relation.collection_object_id = collector.collection_object_id
+			JOIN preferred_agent_name ON collector.agent_id = preferred_agent_name.agent_id
+			LEFT JOIN person ON preferred_agent_name.agent_id = person.person_id
+		WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+			AND flat.collectors IS NOT NULL
+			AND collector.collector_role = 'c'
+		GROUP BY preferred_agent_name.agent_name, collector.agent_id, person.last_name
+		ORDER BY person.last_name, preferred_agent_name.agent_name ASC
+	</cfquery>
+	<cfreturn local.collectors>
+</cffunction>
+
+<!--- Function getTopCollectorsForGroup
+	Select the collectors of the most cataloged items from the result of getCollectorsForGroup, so that
+	grouping/showNamedCollection.cfm and getCollectorsInGroupHtml agree on which collectors are shown first.
+	@param collectors the query returned by getCollectorsForGroup.
+	@param top_count the number of collectors to select.
+	@return query of agent_name, agent_id, last_name and specimen_count, by specimen_count descending, ties by name.
+--->
+<cffunction name="getTopCollectorsForGroup" access="public" returntype="query">
+	<cfargument name="collectors" type="query" required="yes">
+	<cfargument name="top_count" type="numeric" required="yes">
+
+	<cfset local.allCollectors = arguments.collectors>
+	<cfquery name="local.topCollectors" dbtype="query" maxrows="#arguments.top_count#">
+		SELECT agent_name, agent_id, last_name, specimen_count
+		FROM local.allCollectors
+		ORDER BY specimen_count DESC, last_name, agent_name, agent_id
+	</cfquery>
+	<cfreturn local.topCollectors>
+</cffunction>
+
+<!--- Function getCollectorsInGroupHtml
+	Obtain the collectors of a named group other than those of the most cataloged items, which
+	grouping/showNamedCollection.cfm shows when a group has many collectors, as a list of links to the
+	collectors with the number of cataloged items each collected.
+	@param underscore_collection_id the named group whose collectors to return.
+	@param skip_top the number of collectors of the most cataloged items, already shown, to leave out.
+	@return html list of collectors, by name; empty if the group is hidden from the current user.
+--->
+<cffunction name="getCollectorsInGroupHtml" access="remote" returntype="any" returnformat="plain">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="skip_top" type="string" required="yes">
+
+	<cfset var output = "">
+	<cfset var topIds = "">
+	<cftry>
+		<cfquery name="local.checkGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="local.checkGroup_result" timeout="#Application.short_timeout#">
+			SELECT underscore_collection_id
+			FROM underscore_collection
+			WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.underscore_collection_id#">
+				<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+					AND mask_fg = 0
+				</cfif>
+		</cfquery>
+		<cfif local.checkGroup.recordcount EQ 1 AND isValid("integer", arguments.skip_top) AND arguments.skip_top GTE 0>
+			<cfset local.collectors = getCollectorsForGroup(underscore_collection_id=arguments.underscore_collection_id)>
+			<cfif arguments.skip_top GT 0>
+				<cfset local.topCollectors = getTopCollectorsForGroup(collectors=local.collectors, top_count=arguments.skip_top)>
+				<cfset topIds = ValueList(local.topCollectors.agent_id)>
+			</cfif>
+			<cfquery name="local.otherCollectors" dbtype="query">
+				SELECT agent_name, agent_id, last_name, specimen_count
+				FROM local.collectors
+				<cfif len(topIds) GT 0>
+					WHERE agent_id NOT IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#topIds#" list="yes">)
+				</cfif>
+				ORDER BY last_name, agent_name
+			</cfquery>
+			<cfsavecontent variable="output">
+				<cfoutput>
+					<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
+						<cfloop query="local.otherCollectors">
+							<li>
+								<a class="h4" href="/agents/Agent.cfm?agent_id=#encodeForUrl(local.otherCollectors.agent_id)#">#encodeForHtml(local.otherCollectors.agent_name)#</a>
+								(#local.otherCollectors.specimen_count#)
+							</li>
+						</cfloop>
+					</ul>
+				</cfoutput>
+			</cfsavecontent>
+		</cfif>
+	<cfcatch>
+		<cfset var error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset var function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn output>
+</cffunction>
+
 <!--- Function getSpecimenMediaForGroup
 	Obtain the media shown with the cataloged items in a named group, with whether each is encumbered for
 	the current user, cached.  Only what is needed to choose and order the media is selected, as a large
