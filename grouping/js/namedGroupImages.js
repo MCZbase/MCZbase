@@ -30,13 +30,15 @@ and prefetches the neighbours, first and last, as a group may have tens of thous
  * @param firstRecord the record shown at position 1 when the page loads, an object with
  *   media_id, media_uri and alt (html encoded).
  * @param sizeparams the size of the carousel image, in the form &width={x}&height={y}.
- * @return an image set object with length, getImage(position, callback) and prefetchAround(position).
+ * @return an image set object with length, getImage(position, callback), prefetchAround(position)
+ *   and prefetchAroundAfterLoad(position, imageElementId).
  */
 function makeNamedGroupImageSet(underscore_collection_id, count, firstRecord, sizeparams) {
 	var records = {};
 	var callbacks = {};
 	var requested = {};
 	var loadedImages = {};
+	var wantedImages = {};
 	records[1] = firstRecord;
 	// The page's img element already loads the first image.
 	loadedImages[1] = true;
@@ -55,10 +57,12 @@ function makeNamedGroupImageSet(underscore_collection_id, count, firstRecord, si
 		return position;
 	}
 
-	/** Load the carousel image for a position in the background, once, if its record is loaded.
+	/** Load the carousel image for a position in the background, once; if its record is not
+	 * loaded yet, the image loads when the record arrives.
 	 * @param position the one based position whose image to load.
 	 */
 	function loadImage(position) {
+		wantedImages[position] = true;
 		if (loadedImages[position] || !records[position]) {
 			return;
 		}
@@ -100,6 +104,9 @@ function makeNamedGroupImageSet(underscore_collection_id, count, firstRecord, si
 				for (var m = 0; m < result.images.length; m++) {
 					var position = Number(result.images[m].position);
 					records[position] = result.images[m];
+					if (wantedImages[position]) {
+						loadImage(position);
+					}
 					var waiting = callbacks[position] || [];
 					delete callbacks[position];
 					for (var n = 0; n < waiting.length; n++) {
@@ -108,9 +115,6 @@ function makeNamedGroupImageSet(underscore_collection_id, count, firstRecord, si
 				}
 				for (var p = 0; p < needed.length; p++) {
 					delete requested[needed[p]];
-				}
-				for (var q = 0; q < imagePositions.length; q++) {
-					loadImage(imagePositions[q]);
 				}
 			}
 		).fail(function (jqXHR, textStatus, error) {
@@ -167,6 +171,27 @@ function makeNamedGroupImageSet(underscore_collection_id, count, firstRecord, si
 		prefetchAround: function (position) {
 			var around = positionsAround(position);
 			fetchRecords(around, around);
+		},
+
+		/** As prefetchAround, but load the images only once the image shown at the position has
+		 * loaded (or failed), so that they don't compete with it on the server; the records are
+		 * fetched at once.  Bound here rather than with an onload attribute, as the shown image
+		 * may finish loading before this script runs, and its load event fires again each time
+		 * the carousel changes its src.
+		 * @param position the one based position shown in the carousel.
+		 * @param imageElementId the id of the img element showing that position, without a leading #.
+		 */
+		prefetchAroundAfterLoad: function (position, imageElementId) {
+			var around = positionsAround(position);
+			var shownImage = $("#" + imageElementId);
+			fetchRecords(around, []);
+			if (shownImage.length === 0 || shownImage[0].complete) {
+				fetchRecords(around, around);
+			} else {
+				shownImage.one("load error", function () {
+					fetchRecords(around, around);
+				});
+			}
 		}
 	};
 	return imageSet;
